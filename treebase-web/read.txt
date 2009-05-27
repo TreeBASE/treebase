@@ -1,0 +1,180 @@
+Running Treebase-Web in Eclipse (3.2) WTP (1.5):
+-------------------------------------------------------------------------------
+I. Eclise Environment Setup:
+
++ start eclipse; make sure the following are configured (Windows->Preferences):
+	+ Java->Installed JRES (jdk1.5+)
+	+ Java->Build Path->Classpath Variable->M2_REPO (.m2/repository)
+	+ Java->Compiler->Compiler compliance level: 5.0
+	+ Server->Installed Runtimes->Add ->Apache Tomcat 5.5
++ Add a Server:
+	+ Windows->Show View->Server; New->Server
+    
+II. Prepare Treebase-Web for Eclipse Development:
+
++  Generate .classpath, .project, .settings for Eclipse:
+   Start from the parent top-level directory:
+   + mvn eclipse:clean; mvn clean:clean
+     this cleans the .classpath, .project, .settings files
+   + mvn compile
+     this downloads the required dependencies to your local maven repository
+	 from the the remote repoistories, and it also copies cipres-dev resources;
+	 it also copies some of the resources files from cipres into src/main/resources
+   + mvn -Dwtpversion=1.0 -DdownloadSources=true eclipse:eclipse
+     this generates .classpath, .project, .settings/ for both 
+	 treebase-core and treebase-web
+   * if we check in .classpath and .project, no need to do the above
+
++ Import treebase-core and treebase-web source into Eclipse:
+	+ File->Import->General->Existing Projects into Workspace 
+
++ manually copy the following files to treebase's WTP directory, typically in:
+  + $HOME/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/webapps/treebase-web/WEB-INF/lib
+   + cp $CIPRES_ROOT/lib/*/jars/*.jar to treebase-web/webapps/WEB-INF/lib/*.jar
+   + cp $CIPRES_ROOT/lib/cipres/*.jar to treebase-web/webapps/WEB-INF/lib/*.jar
+   + cp $CIPRES_ROOT/resources/cipres_registry.xml & cipres_config.properties
+        to treebase-web/src/main/resources
+   * it's probably better to copy $CIPRES_ROOT files to the WTP's directory
+     workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/webapps/treebase-web)
+	 so we don't pollute our development environment.  But if you delete the
+	 server in Eclipse, you'll need to copy the files again because the
+	 directory will be deleted when the server is gone; 
+
+Building Treebase-Web using Maven on Linux:
+(This involves integrating treebase-core and cipres-binary)
+-------------------------------------------------------------------------------
+I. Prepare cipres-binary for Treebase-Web:
+   + download BigCIPRES_dev.tar from www.phylo.org 
+   + untar file
+   + run "sh makeCIPRES.sh 1.0.1 -b"
++  configure cipres-binary:
+   + set preferences for paup, raxml, python: (only need once after untar a new package)
+     + from $CIPRES_ROOT: java -jar lib/cipres/cipres.jar
+   + generate cipres_dist/resources/cipres_registry.xml + cipres_config.properties:
+     + from $CIPRES_ROOT: cd ../; "ant configure"
++  make sure the following environment variables are set:
+   + $CIPRES_ROOT: ${HOME}/../BigCIPRES_dev/CIPRES-1.0.1/cipres/cipres_dist/
+   + $M2_REPO: ${HOME}/.m2/repository
+   + $JDBC_HOME: (where you have a copy of jdbc.properties since it's not checked in) 
+
+II. Build and Deploy Treebase-Web
++  some files in cipres-binary (resources & jars files) need to be copied into 
+   treebase-web's WAR for packaging, and I've already taken all of them in pom.xml 
+   (see pomx.xml for files needed)
+
++ add to Tomcat the following entry in tomcat-users.xml
+  <user username="admin" password="" roles="manager"/>
+
++ build all the dependencies (including treebase-core), from top-level:
+  mvn clean; mvn -Dmaven.test.skip=true install
+  
++ make sure Tomcat has already started, if not:
+  tomcat_start
++ from /treebase-web directory, deply to localhost:8080 (default) 
+  mvn tomcat:deploy (or mvn tomcat:undeploy)
+
+Maven Remote Repository Server:
+-------------------------------------------------------------------------------
+servername: 8ball.sdsc.edu
+port:		9999
+file dir: 	/var/www/html/maven2
+url:		http://8ball.sdsc.edu:9999/maven2/
+start/stop: service httpd reload, servive httpd stop, service httpd start (must be root)
+
+Treebase Web Server:
+-------------------------------------------------------------------------------
+servername: marathon.sdsc.edu
+port:		8080
+file dir: 	${HOME}/projects/trunk/treebase-web
+url:		http://marathon.sdsc.edu/treebase-web
+start/stop: tomcat_start, tomcat_stop
+
+Integration of treebase-web with treebase-core in Eclipse with Tomcat Plugin: 
+(This is no longer needed by it's replaced by WTP, but I keep the notes for
+references only)
+-------------------------------------------------------------------------------
+1. Download and install the following:
+
+   + Eclipse 3.1
+   + Tomcat 5.0.28 (5.5 doesn't work on Windows, but OK on *nix)
+   + Sysdeo 3.1beta plugin
+
+2. In Eclipse, configure the following:
+
+   +. Windows->Preferences->Tomcat:
+      specific Tomcat home directory;
+
+   +. Windows->Preferences->Java->Compiler
+      specify Java compiler version: 5.0
+
+   +. Java Build Path -> Libraries -> Add Variable...
+      Add "M2_REPO" to your Maven library repository directory
+
+3. Configure DevLoader to allow dynamic reference to dependent Java projects:
+
+   After installing Sysdeo's plugin to Eclipse's plugins directory, copy
+   "DevLoader.zip" in Eclipse's plugins/com.sysdeo.eclipse.tomcat_xxx/DevLoader.zip
+   and unzip this file into Tomcat's server/classes/directory;
+
+4. check out treebase-core from subversion and build it.  Make sure the 
+   following is correct (you shouldn't have to do anything since this
+   is already done in .classpath and .project file):
+   
+   +. Java Build Path -> Source:
+      treebase-core/src/main/java
+      treebase-core/src/main/resources
+      treebase-core/src/test/java
+	  Default output folder: treebase-core/target/classes
+
+5. check out treebase-web from subversion and build it.  Make sure the 
+   following is correct (you shouldn't have to do anything since this
+   is already done in .classpath and .project file for you):
+
+   +. Java Build Path -> Source:
+      treebase-web/src/main/java
+      treebase-web/src/main/resources
+      treebase-web/src/test/java
+	  Default output folder: treebase-web/src/main/webapp/WEB-INF/classes
+
+   +. Java Build Path -> Source:
+      treebase-core
+
+   +. Java Build Path -> Order and Export:
+      The following directories are checked:
+	  treebase-web/src/main/java
+	  treebase-web/src/main/resources
+	  treebase-web/src/test/java
+	  treebase-core
+
+   +. To configure treebase-web as a Tomcat application and specify its
+      dependency on treebase-core:
+
+      Properties -> Tomcat ->General, 
+	  a) is a Tomcat Project
+	  b) Context name: /treebase (or whatever URL you like)
+	  c) Can update server.xml (optional)
+	  d) Mark this context as reloadable
+	  Subdirectory to set as web applicaiton root: src/main/webapp
+	  (directory leading up to WEB-INF/ directory)
+	  
+
+      Properties -> Tomcat ->DevLoader Classpath:
+	  a) Activate DevLoader;
+	  b) /treebase-core/target/classes (where core is compiled)
+	  c) /treebase-web/src/main/webapp/WEB-INF/classes (where web is compiled)
+
+6) Copy configuration file:
+
+   Copy the following files from treebase-core/src/main/resources to
+   treebase-web/src/main/resources:
+   a) applicationContext.xml
+   b) applicationContext-dao.xml
+   c) applicationContext-service.xml
+   d) hibernate.cfg.xml
+   e) jdbc.properties
+   f) log4j.xml
+   g) make sure messages.properties files also in treebase-web/src/main/resources
+      if you are using one
+
+  make sure your webapp/WEB-INF/lib contains all the required *.jar files; 
+

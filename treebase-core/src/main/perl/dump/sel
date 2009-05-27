@@ -1,0 +1,42 @@
+#!/usr/bin/perl                              
+#  -*- cperl -*-
+
+use CIPRES::TreeBase::DBIUtil;
+use Getopt::Std;
+
+my %opt = (n => '--');
+getopts('n:', \%opt) or usage();
+
+@ARGV || usage();
+my $query = join " ", @ARGV;
+
+$query =~ s/^/SELECT / unless $query =~ /^select\s+/i;
+
+my $dbh = CIPRES::TreeBase::DBIUtil->dbh
+  or die "Couldn't connect to database: " . DBI->errstr;
+my $sth = $dbh->prepare($query)
+  or die "Couldn't prepare statement: " . $dbh->errstr;
+my $rc = $sth->execute()
+  or die "Couldn't execute statement: " . $dbh->errstr;
+while (my $row = $sth->fetchrow_hashref) {
+    push @rows, {%$row};
+}
+
+
+$dbh->disconnect;
+if (@rows) {
+  if (@rows == 1 && keys %{$rows[0]} == 1) {
+    # Special case for a single selected value
+    my ($value) = values %{$rows[0]};
+    print "$value\n";
+  } else {
+    print_aoh(\@rows, $opt_n);
+  }
+} else {
+  print "Empty result.\n";
+}
+
+sub usage {
+    print "$0 [-n nullsymbol] '....'\n";
+    exit 1;
+}

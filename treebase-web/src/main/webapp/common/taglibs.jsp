@@ -1,0 +1,10 @@
+<%@ page language="java" errorPage="/error.jsp" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
+<%@ taglib uri="http://www.springmodules.org/tags/commons-validator" prefix="v" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
+<%@ taglib uri="http://struts-menu.sf.net/tag-el" prefix="menu" %>

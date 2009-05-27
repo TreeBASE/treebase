@@ -1,0 +1,526 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Verdana, sans-serif;
+	font-size: small;
+}
+
+/* Link Styles  
+*******************************************************************************************/
+
+#content a:link {
+	color: #003366;
+	text-decoration: none;
+	font-weight: bold
+}
+
+#content a:visited {
+	color: #3863a4;
+	text-decoration: none;
+	font-weight: bold
+}
+
+#content a:hover {
+	border-bottom: 2px solid orangered;
+	font-weight: bold
+}
+
+#content a:active {
+	text-decoration: underline;
+	font-weight: bold
+}
+
+/* Header Tag Styles 
+*******************************************************************************************/
+	
+h1, h2, h3 {
+	color: #003366;
+}
+
+#content h2 {
+	background: #BED1E5 url(../img/off_bg.gif) repeat-x left top;
+	padding: 5px !important
+}
+
+/* Page Structure/Layout 
+*******************************************************************************************/
+
+#wrap {
+	min-width: 500px;
+	max-width: 1800px;
+	}
+	
+/* Header/Banner  
+*******************************************************************************************/
+
+#header {
+	border-bottom: 1px solid #FFFFFF;
+	}
+#header h1 {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	background-color: #3863A4;
+	}
+	
+/* Begin 2column layout with Right Sidebar 
+*******************************************************************************************/
+	
+#content {
+	float: left;
+	width: 67%;
+	font-size: 90%;
+	color: #333;
+	line-height: 1.5em;	
+}
+
+/* This sidebar ID is also used for the 3column right sidebar */
+
+#sidebar {
+	float: right;
+	width: 32%;
+	border-left: 1px solid #CCC; 
+	border-bottom: 1px solid #CCC; 
+	padding-left: 5px;
+	padding-right:5px;
+	padding-top: 10px;
+	margin-bottom: 10px
+}
+
+#sidebar p {
+	color: #333;
+	font-size: 75%;
+}
+
+#sidebar h1,h2,h3 {
+	margin: 0;
+	padding-top:10px;
+}
+	
+/* Begin 2column layout with Left Sidebar 
+*******************************************************************************************/	
+	
+/* Begin Left Sidebar */	
+
+#sidebarLeft {
+	float: left;
+	width: 12%;
+	font-size: 80%;
+	color: #333;
+}
+	
+#sidebarLeft p {
+	color: #333;
+	font-size: 85%;
+}	
+	
+/* Begin Right Content */
+
+#contentRight {
+	float: right;
+	width: 80%;
+	line-height: 1.5em;
+	font-size: 85%;
+}
+	
+/* Begin 3column layout with Left Sidebar 
+*******************************************************************************************/
+
+/* mainbody includes the left and center column */
+
+#main-body {
+	float: left;
+	width: 80%;
+}
+
+
+/* center column */	
+#contentCenter {
+	float: right;
+	width: 70%;
+}
+
+
+
+#contentAll {
+
+	margin-left: 25px;
+
+	width: 95%;
+
+}
+
+/* left sidebar */
+#sidebarLeft-3column {
+	float: left;
+	width: 30%;
+}	
+
+/* Begin Footer 
+*******************************************************************************************/
+
+#footer {
+	clear: both;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	line-height: 1.5em;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: dashed;
+	border-top-color: #bbb;
+	border-bottom-color: #bbb;
+	margin-bottom: 15px;
+	background-image: url(../img/footer_bg.gif);
+	background-repeat: repeat-x;
+	background-color: #FFFFFF;
+}
+
+/* Gutters-these control the spacing between columns  
+*******************************************************************************************/
+
+#content .gutter {
+	padding: 25px;
+}
+
+#sidebar .gutter {
+	padding: 15px;
+}
+
+#contentRight .gutter {
+	padding: 25px;
+}
+
+#sidebarLeft .gutter {
+	padding: 15px;
+}
+
+/* Tabbed Navigation  
+*******************************************************************************************/	
+
+#nav, #s-nav {
+	float: left;
+	margin: 0;
+	padding-top: 13px;
+	padding-right: 0px; 
+	padding-bottom: 0px; 
+	padding-left: 3%;
+	list-style: none;
+	background: #003366 url(../img/nav_bg.gif) repeat-x left bottom;
+	width: 97%;
+}
+
+#nav li, #s-nav li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	font-family: "Lucida Grande", sans-serif;
+	font-size: 85%;
+}
+
+#nav a, #s-nav a {
+	float: left;
+	display: block;
+	margin: 0 1px 0 0;
+	padding: 4px 8px;
+	color: #333;
+	text-decoration: none;
+	border-bottom: 1px none #3863A4;
+	background: #BED1E5 url(../img/off_bg.gif) repeat-x left top;
+	border-top: 1px solid #3863A4;
+	border-right: 1px solid #3863A4;
+	border-left: 1px solid #3863A4;
+}
+	
+ul#nav a:hover, 
+body#info #t-info a,
+body#progress #t-progress a,
+body#ready #t-ready a,
+body#search #t-search a,
+body#submissions #t-submissions a,
+body#admin #t-admin a,
+ul#s-nav a:hover, 
+body#s-study #st-study a,
+body#s-matrix #st-matrix a,
+body#s-taxon #st-taxon a,
+body#s-taxonView #st-taxonView a,
+body#s-tree #st-tree a,
+body#s-analysis #st-analysis a,
+body#s-treeTop #st-treeTop a
+ {
+ 	color: #333;
+	padding-bottom: 5px;
+	border-color: #3863A4;
+	border-bottom: 1px none #3863A4;	
+	text-decoration: none;
+	background: #fff url(../img/on_bg.gif) repeat-x top left;
+}
+	
+	/* "#s-*": Tabbed navigation in search area 20081121 mjd@genomics.upenn.edu */
+	
+#s-clear { clear: both; padding-top: 5px; }
+
+#s-nav li#s-navlabel {
+    float: right;
+ 	font-family: "Lucida Grande", sans-serif;
+ 	font-style: italic;
+	font-size: 118%;
+	display: block;
+	margin: 0 1px 0 0;
+	height: inherit;
+	padding: 4px 8px;
+	color: #333;
+	text-decoration: none;
+	background: #ffffff url(../img/off_bg.gif) repeat-x center center;
+	border-top: 1px solid #3863A4;
+	border-right: 1px solid #3863A4;
+	border-left: 1px solid #3863A4;
+	border-bottom: 1px none #3863A4;
+}
+
+#s-nav img {
+	vertical-align: middle	
+}
+
+	
+/* Left Sidebar Navigation Menu 
+*******************************************************************************************/
+
+#navcontainer {
+	margin-top: 15px;
+}
+
+#navcontainer ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#navcontainer a {
+	display: block;
+	padding: 3px;
+	font-weight: bold;
+	background-color: #FFF;
+	border-bottom: 1px solid #CCC;
+}
+
+#navcontainer a:link, #navlist a:visited {
+	color: #333333;
+	text-decoration: none;
+}
+
+#navcontainer a.active, #navcontainer a:hover {
+	background-color: #DEE4FF;
+	text-decoration: none;
+	color: #3863A4;
+}
+
+/* Login Area Styles  
+*******************************************************************************************/
+
+#login {
+	position: absolute;
+	right: 15px;	
+	top: 117px;
+}
+
+#login a {
+	color: #FFF;
+}
+
+#login a:link, #login a:visited {
+	color: #FFF;
+}
+
+#login li {
+	font-size: 75%;
+	color: #FFF;
+/*	background-color: #3863A4;*/
+	display: inline;
+	list-style-type: none;
+	padding: 5px;
+}
+
+/* Content/ContentRight Styles  
+*******************************************************************************************/
+
+#content h2, #contentRight h2 {
+	margin: 0 0 1em 0;
+	padding: 0;
+}
+
+/* Form Styles  
+*******************************************************************************************/
+
+form {
+  color:#333333;
+}
+
+form p {
+	margin: 0.5em 0;
+	padding: 0;
+}
+
+
+/* fieldset styling */
+fieldset {
+  margin: 1em 0; /*  space out the fieldsets a little*/
+  padding: 1em;
+  border : 1px solid #ccc;
+}
+
+/* legend styling */
+legend {
+  font-weight: bold;
+}
+
+/* style for  labels */
+label {
+  display: block;
+  text-align: right;
+}
+
+/* style for required labels */
+label .required {
+  color: #FF0000;
+}
+
+
+input.radio, input.submit {
+  width: auto;
+}
+
+input.textCell, select.selectCell {
+	width: 98%
+}
+
+.textCell {
+	border: 1px solid silver
+}
+
+/* style for required labels outside-form*/
+.required {
+  color: #FF0000;
+}
+
+.sub-class {
+border-bottom: dotted 1px #999;
+padding-bottom: 1em;
+margin-bottom: 2.5em;
+}
+
+/* Submissions table */
+	#sub-table table {
+		border-top: 1px solid #ccc;
+		border-left: 1px solid #ccc;
+		border-collapse: collapse;
+		}
+		
+	#sub-table th, #sub-table td {
+		padding: 10px;
+		border-right: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+		}	
+	
+	#sub-table th {
+		font-family: Verdana, sans-serif;
+		font-size: 12px;
+		background: #eee;
+		}		
+
+/* Footer Styles  
+*******************************************************************************************/
+
+#footer p {
+	margin: 0;
+	padding: 15px 15px 18px 30px;
+	font-size: 85%;
+	color: #666666;
+	text-align: center;
+}
+			
+/*  IE hacks/fixes   
+*******************************************************************************************/
+
+#content, #sidebar {
+	height: 1%;
+}
+
+.feature { 
+	display: inline-table; 
+}
+	
+/* Hides from IE/Mac \*/
+
+* html .feature { 
+	height: 1%; 
+}
+
+.feature { 
+	display: block; 
+}
+
+#footer {
+	height: 1%;
+}
+
+/* I don't know how to categorize these
+ * MJD 20080723
+ *******************************************************************************************/
+ 
+ .abstract {
+   text-indent: 2em;
+ }
+ 
+  .noBreak {
+  	white-space: nowrap
+  }
+
+/* Debugging styles
+*******************************************************************************************/
+
+.bvnotice {
+	display: none;
+	color: red;
+	font-size: smaller;
+}
+
+/* Icon button styles
+*******************************************************************************************/
+img.iconButton {
+	border: none !important
+}
+
+.iconColumn {
+	width: 16px
+}
+
+/* Analysis step widget style
+*******************************************************************************************/
+label.software, input.software, select.software {
+	display: inline
+}
+div.software {
+	text-align: right
+}
+label.software {
+	font-weight: bold
+}
+input.disabled {
+	border: none;
+	color: black !important;
+	background-color: white;
+	font-size: 100%
+}
+input.enabled {
+	border: 1px solid silver	
+}
+input.software {
+	width: 100%;
+	overflow: scroll
+}
+select.software {
+	width: 100%
+}
+.analysisStep {
+	background-color:white
+}

@@ -1,0 +1,62 @@
+.expanded, .collapsed {
+	margin-right: 5px
+}
+a.standalone {	
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-top: 2px;
+	margin-bottom: 2px;	
+	padding-left: 21px !important;
+	min-height: 21px;	
+}
+li.menubar, #menuList, ul.menuList {
+	padding-left: 2px !important;
+	margin-left: 6px;	
+	margin-right: 6px;
+	margin-bottom: 2px;
+	margin-top: 2px;
+	padding-top: 2px
+}
+ul.menuList {
+	padding-left: 16px !important
+}
+li.menubar a.standalone, li.menubar { background: url('../images/blank.gif')              no-repeat 0px 0px !important }
+li.Home a.Home {                 background: url('../images/icons/house.png')             no-repeat 0px 0px !important }
+li.Notes a.Notes {               background: url('../images/icons/comment.png')           no-repeat 0px 0px !important }
+li.Citation a.Citation {         background: url('../images/icons/report.png')            no-repeat 0px 0px !important }
+li.Authors a.Authors {           background: url('../images/icons/group.png')             no-repeat 0px 0px !important }
+li.Upload a.Upload {             background: url('../images/icons/page_white_get.png')    no-repeat 0px 0px !important }
+li.Files a.Files {               background: url('../images/icons/folder_page_white.png') no-repeat 0px 0px !important }
+li.nexusFile a.nexusFile {       background: url('../images/icons/page_white_text_put.png') no-repeat 0px 0px !important }
+li.taxonLabel a.taxonLabel {     background: url('../images/icons/star.png')              no-repeat 0px 0px !important }
+li.matrix a.matrix {             background: url('../images/icons/table.png')             no-repeat 0px 0px !important }
+li.tree a.tree {                 background: url('../images/icons/tree.png')              no-repeat 0px 0px !important;
+font-size: 85% !important}
+li.analysisStep a.analysisStep { background: url('../images/icons/cog.png')               no-repeat 0px 0px !important }
+li.Analyses a.Analyses {         background: url('../images/icons/folder_brick.png')      no-repeat 0px 0px !important }
+li.analysis a.analysis {         background: url('../images/icons/brick.png')             no-repeat 0px 0px !important }
+li.Trees a.Trees {               background: url('../images/icons/tree_block.png')        no-repeat 0px 0px !important }
+li.treeBlock a.treeBlock {       background: url('../images/icons/tree_block.png')        no-repeat 0px 0px !important;
+font-size: 90% !important }
+li.Matrices a.Matrices {         background: url('../images/icons/folder_table.png')      no-repeat 0px 0px !important }
+li.Taxa a.Taxa {                 background: url('../images/icons/folder_star.png')       no-repeat 0px 0px !important }
+li.Submissions a.Submissions {   background: url('../images/icons/arrow_turn_left.png')   no-repeat 0px 0px !important }
+li.analyzed { background-color: white !important}
+li.notAnalyzed, span.notAnalyzed { 
+	background-color: #ffffcc !important;
+	border: 1px solid red
+}
+li.emptyList > a.standalone { color: silver !important }
+li.Submissions { 
+	border-top: 1px dotted silver;
+	margin-top: 5px;
+	padding-top: 5px 
+}
+.Analyses a.expander { display: none }
+/*
+.even {}
+.odd {}
+.analyzed {}
+.collapsed {} 
+.expanded {}
+*/

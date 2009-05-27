@@ -1,0 +1,56 @@
+<project name="TreeBase-Data-Fix" 
+ 		 default="copy-all" 
+		 basedir=".">
+
+    <property environment="env"/>
+
+	<target name="hibernate-jar">
+		<copy tofile="${env.M2_REPO}/org/hibernate/hibernate/3.1.1/hibernate-3.1.1.jar"
+			  file="hibernate320cr1.jar"
+			  failonerror="true" verbose="true" overwrite="true">
+		</copy>
+	</target>
+
+	<target name="hibernate-annotation">
+		<copy tofile="${env.M2_REPO}/org/hibernate/hibernate-annotations/3.1beta8/hibernate-annotations-3.1beta8.jar"
+			  file="hibernate-annotations.3.1beta9.jar"
+			  failonerror="true" verbose="true" overwrite="true">
+		</copy>
+	</target>
+
+	<target name="ejb-jar">
+		<copy tofile="${env.M2_REPO}/javax/persistence/ejb/3.0-public-draft-20060118/ejb-3.0-public-draft-20060118.jar"
+			  file="ejb-3.0-public-draft-20060118.jar"
+			  failonerror="true" verbose="true" overwrite="true">
+		</copy>
+	</target>
+
+	<target name="cipresapp-jar">
+	    <mkdir dir="${env.M2_REPO}/org/cipres/cipres-binary/cipresapp/1.0.1/" />
+		<copy tofile="${env.M2_REPO}/org.cipres/cipres-binary/cipresapp/1.0.1/cipresapp-1.0.1.jar"
+			  file="cipres_cipresapp.jar"
+			  failonerror="true" verbose="true" overwrite="true">
+		</copy>
+	</target>
+
+	<target name="framework-jar">
+	    <mkdir dir="${env.M2_REPO}/org/cipres/cipres-binary/framework/1.0.1/" />
+		<copy tofile="${env.M2_REPO}/org.cipres/cipres-binary/framework/1.0.1/framework-1.0.1.jar"
+			  file="cipres_framework.jar"
+			  failonerror="true" verbose="true" overwrite="true">
+		</copy>
+	</target>
+
+	<target name="classpath-jar">
+	    <mkdir dir="${env.M2_REPO}/org/cipres/cipres-binary/classpath/1.0.1/" />
+		<copy tofile="${env.M2_REPO}/org.cipres/cipres-binary/classpath/1.0.1/classpath-1.0.1.jar"
+			  file="classpath.jar"
+			  failonerror="true" verbose="true" overwrite="true">
+		</copy>
+	</target>
+
+
+	<target name="copy-all" depends="hibernate-jar, hibernate-annotation, ejb-jar, cipresapp-jar, framework-jar, classpath-jar">
+	</target>
+
+</project>

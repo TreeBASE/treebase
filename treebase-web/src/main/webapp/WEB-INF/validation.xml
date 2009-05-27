@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+     "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.3.0//EN"
+     "http://jakarta.apache.org/commons/dtds/validator_1_3_0.dtd">
+
+<form-validation>
+    <formset>
+        <form name="user">
+            <field property="username" depends="required">
+                <arg key="user.username"/>
+            </field>
+            <field property="password" depends="required">
+                <arg key="user.password"/>
+            </field>
+            <field property="lastName" depends="required">
+            	<arg key="user.lastname"/>
+            </field>
+            <field property="firstName" depends="required">
+            	<arg key="user.firstname"/>
+            </field>
+            <field property="emailAddressString" depends="required,email">
+            	<arg key="user.emailaddressstring"/>
+            </field>
+        </form>
+  <!--author and editor object have been changed to generic element person-->  
+		<!--form name="author">
+            <field property="lastName" depends="required">
+            	<arg key="user.lastname"/>
+            </field>
+            <field property="firstName" depends="required">
+            	<arg key="user.firstname"/>
+            </field>
+            <field property="emailAddressString" depends="required,email">
+            	<arg key="user.emailaddressstring"/>
+            </field>
+        </form-->
+        
+        <form name="person">
+            <field property="lastName" depends="required">
+            	<arg key="lastname"/>
+            </field>
+            <field property="firstName" depends="required">
+            	<arg key="firstname"/>
+            </field>
+            <field property="emailAddressString" depends="required,email">
+            	<arg key="emailaddressstring"/>
+            </field>
+        </form>
+  
+  		<form name="password">
+            <field property="username" depends="required">
+                <arg key="user.username"/>
+            </field>
+        </form>
+  
+  		<form name="edtTxnLbl">
+            <field property="taxonLabel" depends="required,minlength">
+                <arg key="taxonlabel.title"/>
+				<arg key="${var:minlength}" name="minlength" resource="false"/>
+                <var>
+            		<var-name>minlength</var-name>
+            		<var-value>5</var-value>
+          		</var>
+            </field>
+        </form>
+  
+    </formset>
+    
+</form-validation>

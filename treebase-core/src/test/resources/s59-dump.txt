@@ -1,0 +1,36 @@
+>STUDY [59]
+	study_id = 'S1x28x96c14c14c15'
+	citation = 'Anderberg, A. A., and P. Eldenas. 1991. A cladistic analysis of Anigozanthos and Macropidia (Haemodoraceae). Australian Systematic Botany 4:655-664.'
+	abstract = 'Using morphological data and a computerised parsimony program, the Australian genera Anigozanthos and Macropidia (Haemodoraceae) have been analysed cladistically in order to formulate a hypothesis of their phylogenetic relationship. The results are illustrated with two cladograms and indicate that Anigozanthos together with Macropidia form a monophyletic group diagnosed by a string of synapomorphies, with Macropidia fuliginosa being a derived relative of the species of Anigozanthos subgenus Anigozanthos. Consequently, Macropidia fuliginosa is here treated as a section Macropidia of Anigozanthos.'
+	>AUTHOR [1]
+		author_id = 'A5'
+		first_name = 'Arne A. '
+		last_name = 'Anderberg'
+		email = 'arne.anderberg@nrm.se'
+	>AUTHOR [2]
+		author_id = 'A89'
+		first_name = 'Pia'
+		last_name = 'Eldenäs'
+		email = 'Pia.Eldenas@nrm.se'
+	>HISTORY [1]
+		date = '1/28/96'
+		time = '14:14:16'
+		person = 'W. Piel'
+		event = 'New Study Added'
+	>MATRIX [1]
+		matrix_id = 'M62c1x28x96c14c23c23'
+		matrix_name = 'Table 1'
+		data_type = 'Morphological'
+		nchar = '23'
+	>ANALYSIS [1]
+		analysis_id = 'A64c1x28x96c14c17c27'
+		analysis_name = ''
+		software = 'Hennig86'
+		algorithm = 'Parsimony'
+		>INPUT_MATRIX [1]
+			matrix_id = 'M62c1x28x96c14c23c23'
+		>OUTPUT_TREE [1]
+			tree_id = 'T201c1x28x96c14c18c33'
+			tree_label = 'Fig. 1'
+			tree_title = 'Haemodoraceae'
+			tree_type = 'Single Tree'

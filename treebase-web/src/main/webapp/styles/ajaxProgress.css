@@ -1,0 +1,37 @@
+
+
+#progressBar {
+	padding-top: 5px;
+	padding-left: 45px;
+}
+
+#progressBarText {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	color: #969696;
+	padding-left: 5px;
+}
+
+#progressBarBox {
+	width: 400px;
+	height: 20px;
+	border: 1px;
+	border-style: solid;
+	background-color: white;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#progressBarBoxContent {
+	background-color: #7DCBDA;
+	height: 20px;
+}
+
+#progressBarSuccesful {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	color: #969696;
+	padding-left: 5px;
+}

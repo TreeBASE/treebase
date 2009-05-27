@@ -1,0 +1,3 @@
+09/16/08:
+Created treebase-phylowidget project to preserve treebase related changes to Phylowidget applet. 
+All treebase modified files are checked in here. While all the files are presented in the treebase-PhyloWidget.zip file. 

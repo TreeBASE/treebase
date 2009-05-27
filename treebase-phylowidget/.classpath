@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="data"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/opengl/opengl.jar"/>
+	<classpathentry kind="lib" path="lib/opengl/jogl.jar"/>
+	<classpathentry kind="lib" path="lib/core.jar" sourcepath="/processing-head/core/src"/>
+	<classpathentry kind="lib" path="lib/jgrapht-jdk1.5.jar"/>
+	<classpathentry kind="lib" path="lib/pdf.jar"/>
+	<classpathentry kind="lib" path="lib/itext.jar"/>
+	<classpathentry kind="con" path="org.eclipse.tptp.platform.instrumentation.ui.ContainerInitializer/Build to Manage Libraries"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>

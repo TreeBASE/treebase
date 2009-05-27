@@ -1,0 +1,51 @@
+#!/usr/bin/perl
+#  -*- cperl -*-
+
+use CIPRES::TreeBase::DBIUtil;
+use Getopt::Std;
+
+my %opt = (n => $ENV{NULLSYMBOL} || '--');
+getopts('n:', \%opt) or usage();
+my ($class, $id) = @ARGV;
+defined($class) && defined($id) && $id =~ /^\d+$/ or usage();
+my $query = "select * from $class where $class\_id = ?";
+
+my $dbh = CIPRES::TreeBase::DBIUtil->dbh
+  or die "Couldn't connect to database: " . DBI->errstr;
+my $sth = $dbh->prepare($query)
+  or die "Couldn't prepare statement: " . $dbh->errstr;
+my $rc = $sth->execute($id)
+  or die "Couldn't execute statement: " . $dbh->errstr;
+my $row;
+while (my $r = $sth->fetchrow_hashref) {
+  if (defined $row) {
+    die "Multiple matching rows!!\n";
+  }
+  $row = $r;
+}
+
+$dbh->disconnect;
+if (! defined $row) {  die "show: No such object\n"; }
+
+my $c1 = max(map length(), keys %$row);
+
+for my $k (sort keys %$row) {
+  if (! defined $row->{$k}) { $row->{$k} = $opt{n} }
+  print fill($c1, $k), " $row->{$k}\n";
+}
+
+sub usage {
+    print "$0 [-n nullsymbol] table id#\n";
+    exit 1;
+}
+
+sub max {
+  my $m = shift;
+  $m = $m > $_ ? $m : $_ for @_;
+  return $m;
+}
+
+sub fill {
+  my ($n, $s) = @_;
+  return length($s) > $n ? $s : $s . " " x ($n - length($s));
+}

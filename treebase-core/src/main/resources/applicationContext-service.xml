@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+   
+<beans default-autowire="no">
+    
+    
+	<!-- Service Objects -->
+	<!-- package: org.cipres.treebase.domain.admin -->
+	<bean id="personService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.admin.PersonService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.admin.PersonServiceImpl">
+                <property name="personHome" ref="personHome"/>
+                <property name="userHome" ref="userHome"/>
+                <property name="citationHome" ref="citationHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="helpService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.admin.HelpService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.admin.HelpServiceImpl">
+                <property name="helpHome" ref="helpHome"/>
+ 			</bean>
+		</property>
+	</bean>
+	
+	<bean id="userService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.admin.UserService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.admin.UserServiceImpl">
+                <property name="userHome" ref="userHome"/>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- package: org.cipres.treebase.domain.matrix -->
+	<bean id="characterService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.matrix.CharacterService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.matrix.CharacterServiceImpl">
+                <property name="characterHome" ref="characterHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="matrixService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.matrix.MatrixService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.matrix.MatrixServiceImpl">
+                <property name="matrixHome" ref="matrixHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="matrixColumnService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.matrix.MatrixColumnService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.matrix.MatrixColumnServiceImpl">
+                <property name="matrixColumnHome" ref="matrixColumnHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="matrixElementService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.matrix.MatrixElementService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.matrix.MatrixElementServiceImpl">
+                <property name="matrixElementHome" ref="matrixElementHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="matrixRowService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.matrix.MatrixRowService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.matrix.MatrixRowServiceImpl">
+                <property name="matrixRowHome" ref="matrixRowHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="rowSegmentService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.matrix.RowSegmentService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.matrix.RowSegmentServiceImpl">
+                <property name="rowSegmentHome" ref="rowSegmentHome"/>
+			    <property name="matrixElementHome" ref="matrixElementHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+
+	<!-- package: org.cipres.treebase.domain.nexus -->
+	<!-- TODO: use a factory bean for nexus parser implementation. Wait for Spring 2.0 
+	     classproperties holder feature -->
+	<!--bean id="nexusService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.nexus.NexusService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.nexus.${nexus.parser.impl}">
+                <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+			</bean>
+		</property>
+	</bean-->
+
+	<!--bean id="nexusService" class = "org.cipres.treebase.domain.nexus.NexusParserFinder">
+                <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+                <property name="nexusParserStr" ref="${nexus.parser.impl}"/>
+	</bean-->
+	
+	<!-- bean id="nexusService" class = "org.cipres.treebase.service.nexus.NexusServiceNCL">
+                <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+   </bean-->
+	
+	<bean id="nexusService" class = "org.cipres.treebase.service.nexus.NexusServiceMesquite">
+                <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+                <property name="itemDefinitionHome" ref="itemDefinitionHome"/>
+                <property name="mesquiteFolderDir" value="${mesquite.folder_dir}"/>
+  </bean>
+
+	<!-- package: org.cipres.treebase.domain.study -->	
+	<bean id="analysisService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.study.AnalysisService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.study.AnalysisServiceImpl">
+                <property name="analysisStepService" ref="analysisStepService"/>
+                <property name="userHome" ref="userHome"/>
+                <property name="analysisHome" ref="analysisHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="analysisStepService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.study.AnalysisStepService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.study.AnalysisStepServiceImpl">
+                <property name="analyzedDataService" ref="analyzedDataService"/>
+	           <property name="algorithmHome" ref="algorithmHome"/>
+	           <property name="analysisStepHome" ref="analysisStepHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="analyzedDataService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.study.AnalyzedDataService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.study.AnalyzedDataServiceImpl">
+                <property name="analyzedDataHome" ref="analyzedDataHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="citationService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.study.CitationService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.study.CitationServiceImpl">
+                <property name="citationHome" ref="citationHome"/>
+                <property name="citationStatusHome" ref="citationStatusHome"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="studyService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.study.StudyService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.study.StudyServiceImpl">
+                <property name="analysisService" ref="analysisService"/>
+                <property name="citationService" ref="citationService"/>
+                <property name="studyHome" ref="studyHome"/>
+                <property name="studyStatusHome" ref="studyStatusHome"/>
+                <property name="submissionHome" ref="submissionHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+                <property name="phyloTreeHome" ref="phyloTreeHome"/>
+                <!--property name="taxonHome" ref="taxonHome"/-->
+                <property name="matrixHome" ref="matrixHome"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="submissionService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.study.SubmissionService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.study.SubmissionServiceImpl">
+                <property name="analysisService" ref="analysisService"/>
+                <property name="citationService" ref="citationService"/>
+                <property name="nexusService" ref="nexusService"/>
+                <property name="studyService" ref="studyService"/>
+                <property name="matrixHome" ref="matrixHome"/>
+                <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
+                <property name="studyHome" ref="studyHome"/>
+                <property name="studyStatusHome" ref="studyStatusHome"/>
+                <property name="submissionHome" ref="submissionHome"/>
+                <property name="phyloTreeHome" ref="phyloTreeHome"/>
+                <property name="taxonHome" ref="taxonHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+                <property name="userHome" ref="userHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- package: org.cipres.treebase.domain.taxon -->
+	<bean id="taxonLabelService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.taxon.TaxonLabelService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.taxon.TaxonLabelServiceImpl">
+                <property name="phyloTreeHome" ref="phyloTreeHome"/>
+                <property name="taxonHome" ref="taxonHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<!-- package: org.cipres.treebase.domain.tree -->
+	<bean id="phyloTreeService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.tree.PhyloTreeService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.tree.PhyloTreeServiceImpl">
+                <property name="phyloTreeHome" ref="phyloTreeHome"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- package: org.cipres.treebase.domain.search -->
+	<bean id="searchService" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.search.SearchService</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.service.search.SearchServiceImpl">
+                <property name="phyloTreeService" ref="phyloTreeService"/>
+                <property name="matrixService" ref="matrixService"/>
+                <property name="studyService" ref="studyService"/>
+                <property name="taxonLabelService" ref="taxonLabelService"/>
+ 			</bean>
+		</property>
+	</bean>
+	
+	<!-- This is here to inject the searchService bean into the class member of SearchResults.
+	     The choice of StudySearchResults as the target class is arbitrary.  20090313 MJD -->
+	<bean id="searchResultsDummy" class="org.cipres.treebase.domain.search.StudySearchResults">
+	  <property name="searchService" ref="searchService"/>
+	</bean>
+	
+
+	
+</beans>

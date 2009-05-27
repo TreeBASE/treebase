@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans default-autowire="no">
+    <bean id="validatorFactory" class="org.springmodules.commons.validator.DefaultValidatorFactory">
+        <property name="validationConfigLocations">
+            <list>
+                <value>/WEB-INF/validation.xml</value>
+                <value>/WEB-INF/validator-rules.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="beanValidator" class="org.springmodules.commons.validator.DefaultBeanValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+    </bean>
+    
+</beans>

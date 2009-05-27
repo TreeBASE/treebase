@@ -1,0 +1,33 @@
+/* Labels for validation and label tag */
+@import url(displaytag.css);
+
+div.error {
+    border: 2px solid red;
+}
+span.fieldError {
+    color: maroon !important;
+}
+
+div.separator {
+    border-bottom: 2px solid green;
+    margin: 5px 0px;
+    /*margin: 10px 0px; */
+    /*width: 300px;*/
+}
+ol.glassList {
+	font-weight: bold;
+    list-style: url(../images/square.gif) disc outside;
+    vertical-align: top;
+    line-height: 1.6;
+    font-size: 13px;
+}
+/*
+ol a:link,a:visited {
+ 	color: green;
+}
+*/
+
+.trails{
+	font-weight: bold;
+	font-size: 13px;
+}

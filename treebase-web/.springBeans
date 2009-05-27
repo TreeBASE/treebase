@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<configExtensions>
+		<configExtension>xml</configExtension>
+	</configExtensions>
+	<configs>
+		<config>src/main/webapp/WEB-INF/treebase-validation.xml</config>
+		<config>src/main/webapp/WEB-INF/treebase-servlet.xml</config>
+		<config>src/main/webapp/WEB-INF/treebase-security.xml</config>
+		<config>src/main/webapp/WEB-INF/applicationContext.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[tbWebConfigSet]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>/treebase-core/src/main/resources/applicationContext-dao.xml</config>
+				<config>/treebase-core/src/main/resources/applicationContext-service.xml</config>
+				<config>/treebase-core/src/main/resources/applicationContext.xml</config>
+				<config>src/main/webapp/WEB-INF/treebase-security.xml</config>
+				<config>src/main/webapp/WEB-INF/treebase-servlet.xml</config>
+				<config>src/main/webapp/WEB-INF/treebase-validation.xml</config>
+				<config>src/main/webapp/WEB-INF/applicationContext.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

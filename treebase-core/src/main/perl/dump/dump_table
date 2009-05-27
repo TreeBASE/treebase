@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+
+use CIPRES::TreeBase::DBIUtil;
+use Getopt::Std;
+
+my %opt;
+getopts('1', \%opt) or usage();
+
+my $table = shift || usage();
+
+my $dbh = CIPRES::TreeBase::DBIUtil->dbh
+  or die "Couldn't connect to database: " . DBI->errstr;
+my $q = "SELECT * FROM $table";
+$q .= " where 1 = 0" if $opt{1};
+my $sth = $dbh->prepare($q)
+  or die "Couldn't prepare statement: " . $dbh->errstr;
+my $rc = $sth->execute()
+  or die "Couldn't execute statement: " . $dbh->errstr;
+while (my $row = $sth->fetchrow_hashref) {
+    push @rows, {%$row};
+}
+
+
+$dbh->disconnect;
+if ($opt{1}) {
+  print join "\n", @{$sth->{NAME}}, "";
+  exit;
+}
+
+if (@rows || $opt{1}) {
+  print_aoh(\@rows, "--");
+} else {
+  print "Empty table.\n";
+}
+
+sub usage {
+    print "$0 table-name\n";
+    exit 1;
+}

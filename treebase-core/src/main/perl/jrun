@@ -1,0 +1,176 @@
+#!/usr/bin/perl
+#
+# jrun - Gather eclipse classpath information and execute java class from the command line
+#
+# Author: Mark Jason Dominus (mjd@genomics.upenn.edu)
+#
+#
+
+
+use XML::Simple;
+use Cwd;
+use Getopt::Long;
+
+my (%defines, $default_classpath, $dir, $dry_run, $java);
+$java = "java";
+
+my %opt = ("define|D=s" => \%defines,
+	   "classpath|cp|c=s" => \$default_classpath,
+	   "directory|d=s" => \$dir,
+	   "just-print|dry-run|recon|n" => \$dry_run,
+	   "java|j=s" => \$java,
+	   );
+GetOptions(%opt) or usage();
+$dir ||= getcwd();
+@ARGV or usage();
+
+my ($classpath_dir, $classpath_file) = locate_classpath_file($dir);
+
+sub locate_classpath_file {
+  my $dir = shift;
+  my @components = split m{/}, $dir;
+  while (@components) {
+    my $f = join "/", @components, ".classpath";
+    return (join("/", @components), $f) if -e $f;
+    pop @components;		# Up one directory
+  }
+  die "Couldn't locate .classpath file\n";
+}
+
+@classpath_entries = get_classpath_entries($classpath_file);
+
+sub get_classpath_entries {
+  my $file = shift;
+  open my ($classpath_fh), "<", $file
+    or die "Couldn't open classpath file '$file': $!; aborting";
+
+  my $xml = XML::Simple::XMLin($classpath_fh);
+  my $classpathentry = $xml->{classpathentry} 
+    or do {
+      warn "Couldn't find <classpathentry> element in '$file'\n";
+      return;
+    };
+
+  my @entries;
+  for my $item (@$classpathentry) {
+    if ($item->{kind} eq "src") {
+      next;
+    } elsif ($item->{combineaccessrules}) {
+      push @entries, get_classpath_entries($item->{path});
+    } else {
+      my $path = $item->{path};
+      while (my($k) = each %defines) {
+	$path =~ s/$k/$defines{$k}/g;
+      }
+      $path = "$classpath_dir/$path" unless $path =~ m{^/};
+      push @entries, $path;
+    }
+  }
+  return @entries;
+}
+
+sub uniq {
+  my (%seen, @uniq);
+  $seen{$_}++ || push(@uniq, $_) for @_;
+  return @uniq;
+}
+
+my $classpath = join ":", uniq(@classpath_entries);
+$classpath .= ":$default_classpath" if $default_classpath;
+
+my @CMD = ($java,
+	   "-cp", $classpath,
+	   @ARGV);
+print "  @CMD\n" if $dry_run;
+system @CMD unless $dry_run;
+
+sub usage {
+  print STDERR "Usage: $0 [-n] [-D name=value] [-c classpath entries] [-j interpreter] class
+     Calculate classpath and run Java class
+          -D name=value: replace name with value in classpath entries
+          -c entries: append these entries to the calculated classpath
+          -j interpreter: use this interpreter instead of '$java'
+          -n: print what would be executed, but don't actually execute it\n";
+          exit 1;
+}
+
+
+=head1 NAME
+
+jrun - Execute java class with classpath derived from Eclipse settings
+
+=head1 SYNOPSIS
+
+	jrun options... classname args...
+	
+=head1 DESCRIPTION
+
+C<jrun> tries to run the specified java standalone program as if it had been run
+with the standard Java interpreter program (C<java>), but with classpath settings
+acquired from Eclipse.
+
+C<jrun> searches in the current directory and its parents until it finds a file
+named C<.classpath>.  It expects that this file will contain classpath settings placed there
+by Eclipse.  It then parses the file and extracts the appropriate classpath entries.
+
+Once the program has extracted all the necessary classpath entries, it executes the
+Java interpreter to execute the specified C<class.main> method.
+	
+=head1 OPTIONS
+
+=head2 C<-n>
+
+=head2 C<--dry-run>
+
+=head2 C<--just-print>
+
+=head2 C<--recon>
+
+Don't actually execute the class; instead, print the command that would have been executed.
+
+=head2 C<-d> I<directory>
+
+=head2 C<--dir> I<directory>
+
+The search for an Eclipse C<.classpath> file starts in the specified directory, instead
+of in the current directory.
+
+=head2 C<-D> I<NAME>=I<VALUE>
+
+=head2 C<--define> I<NAME>=I<VALUE>
+
+Any classpath entries that contain the string I<NAME> will have that string replaced with
+I<VALUE> before the Java interpreter is executed.  For example, Eclipse frequently stores
+paths of the form C<M2_REPO/...>, where C<M2_REPO> refers to the path to a Maven
+reposiory.
+
+=head2 C<-j> I<java-interpreter>
+
+=head2 C<--java> I<java-interpreter>
+
+Execute the specified Java interpreter program instead of "C<java>".
+
+=head2 C<-c> I<classpath-entries>
+
+=head2 C<--cp> I<classpath-entries>
+
+=head2 C<--classpath> I<classpath-entries>
+
+Append the specified items to the end of the generated classpath.
+
+=head1 AUTHOR
+
+Mark Jason Dominus (C<mjd@genomics.upenn.edu>)
+
+=head1 COPYRIGHT
+
+Copyright 2007 The Trustees of the University of Pennsylvania
+
+=head1 SEE ALSO
+
+C<java>(1)
+
+=cut
+
+
+

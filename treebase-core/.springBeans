@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<configExtensions>
+		<configExtension>xml</configExtension>
+	</configExtensions>
+	<configs>
+		<config>src/main/resources/applicationContext-service.xml</config>
+		<config>src/main/resources/applicationContext-dao.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[tbCoreConfigureSet]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>src/main/resources/applicationContext-dao.xml</config>
+				<config>src/main/resources/applicationContext-service.xml</config>
+				<config>src/main/resources/applicationContext.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

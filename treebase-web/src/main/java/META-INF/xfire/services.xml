@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://xfire.codehaus.org/config/1.0">
+  <service>
+    <serviceClass>localhost._8080.treebase_web.testservice.MyTestServiceImpl</serviceClass>
+    <wsdlURL>http://localhost:8080/treebase-web/services/MyTestService?wsdl</wsdlURL>
+    <serviceFactory>org.codehaus.xfire.jaxb2.JaxbServiceFactory</serviceFactory>
+  </service>
+</beans>
+
