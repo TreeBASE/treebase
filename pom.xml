@@ -1,0 +1,300 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0   http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>Treebase</name>
+  <groupId>org.cipres.treebase</groupId>
+  <artifactId>treebase</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <url>http://www.phylo.org/treebase/index.php</url>
+  <issueManagement>
+    <system>FogBugz</system>
+    <url>https://www.ngbw.org/ngbugz</url>
+  </issueManagement>
+  <inceptionYear>2005</inceptionYear>
+  <scm>
+    <connection>scm:svn:http://nladr-cvs.sdsc.edu/svn/CIPRES/treebase/trunk</connection>
+    <developerConnection>scm:svn:http://nladr-cvs.sdsc.edu/svn/CIPRES/treebase/trunk</developerConnection>
+    <url>http://nladr-cvs.sdsc.edu/svn/cipresdev/trunk</url>
+  </scm>
+  <!-- mailingLists>
+    <mailingList>
+      <name>cipres-dev</name>
+      <subscribe>https://lists.sdsc.edu/mailman/listinfo.cgi/cipres</subscribe>
+      <unsubscribe>https://lists.sdsc.edu/mailman/listinfo.cgi/cipres</unsubscribe>
+      <archive>https://lists.sdsc.edu/mailman/listinfo.cgi/cipres</archive>
+    </mailingList>
+  </mailingLists -->
+  <developers>
+    <developer>
+      <id>lcchan</id>
+      <name>Lucie Chan</name>
+      <email>lcchan@sdsc.edu</email>
+      <organization>SDSC</organization>
+      <organizationUrl>http://www.sdsc.edu</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-7</timezone>
+    </developer>
+    <developer>
+      <id>jin</id>
+      <name>Jin Ruan</name>
+      <email>jruan@sdsc.edu</email>
+      <organization>SDSC</organization>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>madhu</id>
+      <name>Madhusudan</name>
+      <email>madhu@sdsc.edu</email>
+      <organization>SDSC</organization>
+      <roles>
+         <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>mjd</id>
+      <name>Mark Jason Dominus</name>
+      <email>mjd@genomics.upenn.edu</email>
+      <organization>Penn Genome Frontiers Institute</organization>
+      <organizationUrl>http://www.genomics.upenn.edu</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-5</timezone>
+    </developer>
+    <developer>
+    	<id>rvosa</id>
+    	<name>Rutger Vos</name>
+    	<email>rutgeraldo@gmail.com</email>
+    	<organization>University of British Columbia</organization>
+    	<organizationUrl>http://www.ubc.ca</organizationUrl>
+    	<timezone>-7</timezone>
+    	<roles>
+    	  <role>developer</role>
+    	</roles>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>UCSD</name>
+      <url>LICENSE.txt</url>
+      <distribution>manual</distribution>
+      <comments/>
+    </license>
+  </licenses>
+  <modules>
+    <module>treebase-core</module>
+    <module>treebase-web</module>
+  </modules>
+ <dependencies>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring</artifactId>
+      <version>2.0.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-mock</artifactId>
+      <version>2.0.7</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.13</version>
+    </dependency>
+
+ </dependencies>
+
+ <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clover-plugin</artifactId>
+      </plugin>
+      <!-- plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+      </plugin -->
+      <!-- plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <links>
+            <link>http://java.sun.com/j2se/1.4.2/docs/api</link>
+            <link>http://plexus.codehaus.org/ref/1.0-alpha-9/apidocs</link>
+          </links>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin -->
+      <!-- plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+	  <targetjdk>1.5</targetjdk>
+          <rulesets>
+            <ruleset>/rulesets/basic.xml</ruleset>
+            <ruleset>/rulesets/imports.xml</ruleset>
+            <ruleset>/rulesets/unusedcode.xml</ruleset>
+            <ruleset>/rulesets/finalizers.xml</ruleset>
+          </rulesets>
+		  <format>xml</format>
+		  <linkXref>true</linkXref>
+		  <sourceEncoding>utf-8</sourceEncoding>
+		  <minimumTokens>100</minimumTokens>
+        </configuration>
+      </plugin -->
+      <!-- plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>config/maven_checks.xml</configLocation>
+        </configuration>
+      </plugin -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <configuration>
+          <tags>
+            <tag>TODO</tag>
+            <tag>@todo</tag>
+            <tag>FIXME</tag>
+            <tag>XXX</tag>
+          </tags>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+  <dependencyManagement>
+     <dependencies>
+     	<dependency>
+	  <groupId>org.cipres.treebase</groupId>
+        <artifactId>treebase-core</artifactId>
+        <version>${project.version}</version>
+     	</dependency>
+     	<dependency>
+	  <groupId>org.cipres.treebase</groupId>
+        <artifactId>treebase-web</artifactId>
+        <version>${project.version}</version>
+     	</dependency>
+     </dependencies>
+  </dependencyManagement>
+  <organization>
+    <name>SDSC</name>
+    <url>http://biology.sdsc.edu</url>
+  </organization>
+  <!-- order of repositories used to compile the project -->
+  <repositories>
+    <repository>
+      <id>m2.remote.repos</id>
+      <name>Maven 2 Remote Repository</name>
+      <url>http://8ball.sdsc.edu:9999/maven2</url>
+    </repository>
+    <repository>
+      <id>maven2</id>
+      <name>Default Maven2 Repository</name>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>repository.jboss.org</id>
+      <name>JBoss Maven Repository</name>
+      <url>http://repository.jboss.org/maven2</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
+  <!-- make sure java 1.5 is used for annotations support -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <distributionManagement>
+    <site>
+      <id>website</id>
+      <!-- url>file:///var/www/html/sites/treebase</url -->
+      <url>file:///var/www/html/sites/treebase</url>
+    </site>
+  </distributionManagement>
+<profiles>
+    <profile>
+      <id>ciProfile</id>
+      <activation>
+        <property>
+          <name>enableCiProfile</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions> 
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cobertura-maven-plugin</artifactId>
+            <configuration>
+              <check>
+                <totalLineRate>80</totalLineRate>
+                <totalBranchRate>100</totalBranchRate>
+              </check>
+            </configuration>
+            <executions>
+              <execution>
+                <id>clean</id>
+                <goals>
+                  <goal>clean</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>check</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
