@@ -39,7 +39,7 @@ public class UserTest extends AbstractDAOTest {
 	}
 
 	/**
-	 * 
+	 *  TODO: Too slow.  20090528 MJD
 	 */
 	public void testgetInProgressSubmissions() throws Exception {
 		String testName = "getInProgressSubmissions";
