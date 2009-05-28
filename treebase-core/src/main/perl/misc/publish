@@ -33,7 +33,7 @@ if $update_sources; then
   cd $HOME/treebase/trunk || die "cd treebase/trunk";
   rm -f $VERSIONFILE
   svn update || die
-  mvn clean || die
+  # mvn clean || die
   
   svnrevision=`svn info | perl -lne 'print $1 if /^Revision: (\d+)/'`
   svnrevision=${svnrevision:-'????'}
