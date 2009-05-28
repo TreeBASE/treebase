@@ -41,5 +41,9 @@ public class TreebaseUtilTest extends TestCase {
 	public TreebaseUtilTest() {
 		super();
 	}
+	
+	// Placeholder prevents warning until we actually add some tests
+	// 20090528 MJD
+	public void testNull() { }
 
 }
