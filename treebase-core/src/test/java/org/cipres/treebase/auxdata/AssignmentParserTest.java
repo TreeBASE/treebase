@@ -10,7 +10,7 @@ public class AssignmentParserTest extends TestCase {
 	}
 	
 	public void testParseComplete() {
-		RDParserResult res = ap.ParseString("name = Bill\n");
+		RDParserResult res = ap.ParseString("name = \'Bill\'\n");
 		assertTrue(res.success());
 		assertSame(ValueAssignment.class, res.value().getClass());
 		ValueAssignment va = (ValueAssignment) res.value();
@@ -51,7 +51,7 @@ public class AssignmentParserTest extends TestCase {
 		assertSame(ValueToken.class, va.val().getClass());
 		assertEquals("140.247.98.81", ((ValueToken) va.val()).sval());
 		
-		RDParserResult res2 = ap.ParseString("matrix_name = Fig._1\n");
+		RDParserResult res2 = ap.ParseString("matrix_name = \'Fig._1\'\n");
 		assertTrue(res2.success());
 		assertSame(ValueAssignment.class, res2.value().getClass());
 		ValueAssignment va2 = (ValueAssignment) res2.value();
