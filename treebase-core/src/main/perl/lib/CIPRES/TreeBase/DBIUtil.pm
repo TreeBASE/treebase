@@ -3,6 +3,7 @@ package CIPRES::TreeBase::DBIUtil;
 use base 'Exporter';
 use DBI;
 @EXPORT = qw(print_aoh quick_select);
+@EXPORT_OK = qw(get_colnames get_coltypes);
 
 sub dbh {
     my ($class) = shift;
@@ -16,7 +17,13 @@ sub dbh {
     my $pass = $opts{pass} || $login_info_class->pass;
     my $dsn  = $opts{dsn} ? sprintf $opts{dsn}, $user, $pass : $login_info_class->dsn($user, $pass);
 
-    return DBI->connect($dsn);
+    my $h = DBI->connect($dsn);
+    $h->{private_cipres_treebase_dbiutil_username} = $user if $h;
+    return $h;
+}
+
+sub get_user {
+    return $_[0]{private_cipres_treebase_dbiutil_username};
 }
 
 sub max {
@@ -83,6 +90,32 @@ sub quick_select {
     my @rec = $sth->fetchrow_array;
     $sth->fetchrow_array && return;   # multiple records == error
     return wantarray ? @rec : $rec[0];
+}
+
+# Maybe use new $dbh->table_info method instead.
+sub get_colnames {
+    my $dbh = shift();
+    my $table = uc(shift());
+    my $q = qq{SELECT name from sysibm.syscolumns 
+               where tbcreator = ? and tbname = ?
+               order by colno};
+    my $names = $dbh->selectcol_arrayref($q, {RaiseError => 1}, 
+					 # Bind values: 
+					 uc(get_user($dbh)), $table);
+    return wantarray() ? @$names : $names;
+}
+
+sub get_coltypes {
+    my $dbh = shift();
+    my $table = uc(shift());
+    my $q = qq{SELECT coltype from sysibm.syscolumns 
+               where tbcreator = ? and tbname = ?
+               order by colno};
+    my $names = $dbh->selectcol_arrayref($q, {RaiseError => 1}, 
+					 # Bind values: 
+					 uc(get_user($dbh)), $table);
+    s/\s+$// for @$names;
+    return wantarray() ? @$names : $names;
 }
 
 1;

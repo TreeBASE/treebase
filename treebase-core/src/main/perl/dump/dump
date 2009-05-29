@@ -1,0 +1,62 @@
+#!/usr/bin/perl
+
+use CIPRES::TreeBase::DBIUtil qw(get_colnames get_coltypes);
+use CIPRES::TreeBase::RecDumper;
+use Getopt::Std;
+
+my %opt = ('x' => 0);
+getopts('x', \%opt) or usage();
+
+my $table = shift || usage();
+my $ofh = \*STDOUT;
+if (@ARGV) {
+    my $ofile = shift;
+    open my($fh), ">", $ofile 
+	or die "Couldn't write output file '$ofile': $!; aborting";
+    $ofh = $fh;
+}
+
+my $dbh = CIPRES::TreeBase::DBIUtil->dbh
+  or die "Couldn't connect to database: " . DBI->errstr;
+$dbh->{RaiseError} = 1;
+
+{
+    my @names = get_colnames($dbh, $table);
+    my @types = get_coltypes($dbh, $table);
+    my $dumper = 
+	CIPRES::TreeBase::RecDumper->new(
+	    FIELDS => \@names,
+	    TYPES  => \@types,
+	    TABLE  => $table
+	) or die "??";
+    $dumper->set_output($ofh);
+    
+    {
+	my $q = qq{select * from $table};
+	my $sth = $dbh->prepare($q);
+	$sth->execute();
+	
+	my $row;
+	if ($opt{x}) {
+	    my $count = 0;
+	    while ($row = $sth->fetchrow_arrayref) {
+		++$count;
+		$dumper->rec(@$row);
+		print STDERR "\r$count" if $count % 1000 == 0;
+	    }
+	} else {
+	    $dumper->rec(@$row) while $row = $sth->fetchrow_arrayref;
+	}
+	
+	$sth->finish();
+	print STDERR "\n" if $opt{x};
+    }
+}
+
+$dbh->disconnect;
+exit 0;
+
+sub usage {
+    print "$0 table-name [output_filename]\n";
+    exit 1;
+}
