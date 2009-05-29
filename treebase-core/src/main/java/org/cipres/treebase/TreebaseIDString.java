@@ -261,7 +261,7 @@ public class TreebaseIDString {
 	public static String getPrefixOf(String idString) {
 		StringBuilder prefix = new StringBuilder("");
 		for (int i = 0; i < idString.length(); i++) {
-			if (Character.isDigit((idString.charAt(i))))
+			if (! Character.isDigit((idString.charAt(i))))
 				prefix.append(idString.charAt(i));
 			else
 				break;

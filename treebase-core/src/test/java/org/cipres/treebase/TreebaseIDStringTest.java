@@ -74,7 +74,7 @@ public class TreebaseIDStringTest extends TestCase {
 	private void assertMalformedTreebaseIDString1(String arg) {
 		boolean caught = false;
 		try {
-			TreebaseIDString tbs = new TreebaseIDString(arg);
+			new TreebaseIDString(arg);
 		} catch (MalformedTreebaseIDString t) {
 			caught = true;
 		}
@@ -127,6 +127,12 @@ public class TreebaseIDStringTest extends TestCase {
 		assertMalformedTreebaseIDString2("Tx", TaxonLabel.class);     // Missing ID
 		assertMalformedTreebaseIDString2("Tx123a", TaxonLabel.class); // Malformed ID
 		assertMalformedTreebaseIDString2("Tx0x123", TaxonLabel.class);// Malformed ID	
+	}
+	
+	public void testGetPrefixOf() {
+		assertEquals("Fn", TreebaseIDString.getPrefixOf("Fn567"));
+		assertEquals("M", TreebaseIDString.getPrefixOf("M1234"));
+		assertEquals("", TreebaseIDString.getPrefixOf("119"));
 	}
 
 	private void assertMalformedTreebaseIDString2(String string,
