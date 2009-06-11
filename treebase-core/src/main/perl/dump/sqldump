@@ -123,15 +123,13 @@ sub get_all_tables {
 	my $dbh = get_handle();
 	my $sth = $dbh->prepare('SELECT * FROM SYSCAT.TABLES');
 	my @fetched_tables;
-	use Data::Dumper;
 	$sth->execute();
 	while ( my $row = $sth->fetchrow_hashref ) {
 		if ( $row->{'DEFINER'} =~ /TBASE2/ ) {
 			push @fetched_tables, $row->{'TABNAME'};
 		}
 	}
-	warn Dumper(\@fetched_tables);
-	#return @fetched_tables;
+	return @fetched_tables;
 }
 
 sub get_handle {
