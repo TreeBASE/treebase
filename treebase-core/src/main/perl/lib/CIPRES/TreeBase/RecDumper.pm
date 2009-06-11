@@ -1,7 +1,7 @@
 package CIPRES::TreeBase::RecDumper;
 use Carp 'croak';
 
-# LOB fields should be removed from fieldlist and handled separately
+# XXX LOB fields should be removed from fieldlist and handled separately
 sub new {
     my $class = shift;
     my %arg = @_;
@@ -12,7 +12,7 @@ sub new {
     my $self = { 
     	'F' => \@fieldnames, 
     	'X' => $X, 
-    	'N' => '"'.$tn.'"', 
+    	'N' => $tn,
     	'T' => $ct 
     };
     bless $self => $class;
@@ -27,9 +27,8 @@ sub set_output {
 
 sub _initialize {
     my $self = shift;
-    my $fieldlist = join ", ", map { "\"$_\"" } @{$self->{F}}; 
-    # Need to escape certain field names here
-    $self->{'PREFIX'} = qq{INSERT INTO $self->{N} ($fieldlist) VALUES (};
+    my $fieldlist = join ", ", map qq{"$_"}, @{$self->{F}}; 
+    $self->{'PREFIX'} = qq{INSERT INTO "$self->{N}" ($fieldlist) VALUES (};
     $self->{'SUFFIX'} = qq{);\n}; # XXX added closing semicolon
     return;
 }
@@ -52,7 +51,7 @@ sub rec {
 
 # Format metadata into a create statement and return (or write) the result
 sub dump_create {
-	my $create = 'CREATE TABLE ' . $self->{'N'} . ";\n";
+	my $create = qq{CREATE TABLE "$self->{'N'}";\n};
 	return print {$self->{'OUT'}} $create if $self->{'OUT'};
 	return $create;		
 }
