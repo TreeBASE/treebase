@@ -113,7 +113,14 @@ $dbh->disconnect;
 exit 0;
 
 sub get_all_tables {
-	
+	my $dbh = get_handle();
+	my $sth = $dbh->preparse('show tables');
+	#my @fetched_tables;
+	use Data::Dumper;
+	$sth->execute();
+	while ( my $row = $sth->fetchrow_arrayref ) {
+		warn Dumper($row);
+	}	
 }
 
 sub get_handle {
