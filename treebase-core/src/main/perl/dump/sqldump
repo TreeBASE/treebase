@@ -126,15 +126,11 @@ sub get_all_tables {
 	use Data::Dumper;
 	$sth->execute();
 	while ( my $row = $sth->fetchrow_hashref ) {
-		if ( $row->{'DEFINER'} eq 'JRUAN' ) {
-			push @fetched_tables, $row->{'TABNAME'};
-		}
-		else {
-			warn $row->{'TABNAME'};
-		} 
+		push @fetched_tables, $row->{'TABNAME'};
+		print Dumper($row);
 	}
 	warn Dumper(\@fetched_tables);
-	return @fetched_tables;
+	#return @fetched_tables;
 }
 
 sub get_handle {
