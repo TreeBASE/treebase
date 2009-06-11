@@ -130,13 +130,7 @@ sub get_all_tables {
 	my @fetched_tables;
 	$sth->execute();
 	while ( my $row = $sth->fetchrow_hashref ) {
-		use Data::Dumper;		
-		if ( $row->{'DEFINER'} =~ /\Q$schema\E/ ) {
-			push @fetched_tables, $row->{'TABNAME'};			
-		}
-		else {
-			print Dumper($row);
-		}
+		push @fetched_tables, $row->{'TABNAME'};			
 	}
 	return @fetched_tables;
 }
