@@ -12,7 +12,7 @@ sub new {
     my $self = { 
     	'F' => \@fieldnames, 
     	'X' => $X, 
-    	'N' => $tn, 
+    	'N' => '"'.$tn.'"', 
     	'T' => $ct 
     };
     bless $self => $class;
@@ -27,7 +27,7 @@ sub set_output {
 
 sub _initialize {
     my $self = shift;
-    my $fieldlist = join ", ", @{$self->{F}}; 
+    my $fieldlist = join ", ", map { "\"$_\"" } @{$self->{F}}; 
     # Need to escape certain field names here
     $self->{'PREFIX'} = qq{INSERT INTO $self->{N} ($fieldlist) VALUES (};
     $self->{'SUFFIX'} = qq{);\n}; # XXX added closing semicolon
