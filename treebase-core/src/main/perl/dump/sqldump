@@ -118,7 +118,7 @@ sub get_all_tables {
 	#my @fetched_tables;
 	use Data::Dumper;
 	$sth->execute();
-	while ( my $row = $sth->fetchrow_arrayref ) {
+	while ( my $row = $sth->fetchrow_hashref ) {
 		warn Dumper($row);
 	}	
 }
