@@ -12,6 +12,7 @@ my $with_progress_meter = 0;  # switch to print a progress meter
 my $with_inserts = 1;         # write insert statements
 my $with_creates = 0;         # write create statements
 
+# get command line options, see Getopt::Long
 GetOptions(
 	'creates!'  => \$with_creates,
 	'inserts!'  => \$with_inserts,
@@ -20,14 +21,34 @@ GetOptions(
 	'pass=s'    => \$ENV{'TREEBASE_DB_PASS'},
 	'dsn=s'     => \$ENV{'TREEBASE_DB_DSN'},
 	'table=s'   => \@tables,
+	'help|?'    => sub { pod2usage( '-verbose' => 0 ) }, # see Pod::Usage
+	'man'       => sub { pod2usage( '-verbose' => 1 ) }, # see Pod::Usage
 	'all'       => sub { @tables = get_all_tables() },
 	'file=s'    => sub {
 		my $file = pop;
 		open my $fh, '>', $file 
-			or die "Couldn't write output file '$file': $!; aborting";
+			or pod2usage( 
+				'-msg'     => "Couldn't write output file '$file': $!; aborting",
+				'-verbose' => 0,
+				'-exitval' => 1 
+			); # see Pod::Usage
 		$outhandle = $fh;
 	},
-) || pod2usage();
+) || pod2usage( '-verbose' => 0, '-exitval' => 1 );
+
+# need at least one table, see Pod::Usage
+pod2usage( 
+	'-verbose' => 0, 
+	'-exitval' => 1, 
+	'-msg'     => 'Need at least one table to dump, aborting' 
+) unless @tables;
+
+# need at least one action, see Pod::Usage
+pod2usage(
+	'-verbose' => 0, 
+	'-exitval' => 1, 
+	'-msg'     => 'Need at least one operation to write out (--inserts and/or --creates), aborting'
+) unless $with_creates or $with_inserts;
 
 # create database handle
 my $dbh = get_handle();
@@ -90,11 +111,6 @@ for my $table ( @tables ) {
 # disconnect from database
 $dbh->disconnect;
 exit 0;
-
-sub usage {
-    print "$0 table-name [output_filename]\n";
-    exit 1;
-}
 
 sub get_all_tables {
 	
