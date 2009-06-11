@@ -126,8 +126,9 @@ sub get_all_tables {
 	use Data::Dumper;
 	$sth->execute();
 	while ( my $row = $sth->fetchrow_hashref ) {
-		push @fetched_tables, $row->{'TABNAME'};
-		print Dumper($row);
+		if ( $row->{'TABNAME'} !~ /SYSIBM/ ) {
+			push @fetched_tables, $row->{'TABNAME'};
+		}
 	}
 	warn Dumper(\@fetched_tables);
 	#return @fetched_tables;
