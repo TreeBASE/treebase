@@ -12,6 +12,7 @@ my $with_progress_meter = 0;   # switch to print a progress meter
 my $with_inserts = 1;          # write insert statements
 my $with_creates = 0;          # write create statements
 my $name_file_after_table = 0; # name output file after table
+my $schema = 'TBASE2';         # name of schema to analyze
 
 # get command line options, see Getopt::Long
 GetOptions(
@@ -23,9 +24,10 @@ GetOptions(
 	'pass=s'    => \$ENV{'TREEBASE_DB_PASS'},
 	'dsn=s'     => \$ENV{'TREEBASE_DB_DSN'},
 	'table=s'   => \@tables,
-	'help|?'    => sub { pod2usage( '-verbose' => 0 ) }, # see Pod::Usage
-	'man'       => sub { pod2usage( '-verbose' => 1 ) }, # see Pod::Usage
 	'all'       => sub { @tables = get_all_tables() },
+	'help|?'    => sub { pod2usage( '-verbose' => 0 )  }, # see Pod::Usage
+	'man'       => sub { pod2usage( '-verbose' => 1 )  }, # see Pod::Usage
+	'schema=s'  => sub { @tables = get_all_tables(pop) },
 	'file=s'    => sub {
 		my $file = pop;
 		open my $fh, '>', $file 
@@ -52,81 +54,88 @@ pod2usage(
 	'-msg'     => 'Need at least one operation to write out (--inserts and/or --creates), aborting'
 ) unless $with_creates or $with_inserts;
 
-# create database handle
-my $dbh = get_handle();
-
-for my $table ( @tables ) {
-	# only using these two functions once, so for clarity as to where they
-	# originate let's use the fully qualified names.
-    my @names = CIPRES::TreeBase::DBIUtil::get_colnames($dbh, $table); 
-    my @types = CIPRES::TreeBase::DBIUtil::get_coltypes($dbh, $table);
-    
-    # instantiate a RecDumper object, which will format a row-as-array
-    # into an insert statement
-    my $dumper = CIPRES::TreeBase::RecDumper->new(
-	    'FIELDS' => \@names,
-	    'TYPES'  => \@types,
-	    'TABLE'  => $table
-	) or die "Couldn't instantiate CIPRES::TreeBase::RecDumper";
+{
+	# create database handle
+	my $dbh = get_handle();
 	
-	# give dumper the output handle to write to, i.e. either STDOUT,
-	# or a file specified on the command line, or the table name
-	if ( $name_file_after_table ) {
-		close $outhandle;
-		open my $fh, '>', "${table}.sql" or die $!;
-		$outhandle = $fh;
-	}
-    $dumper->set_output($outhandle);
-    
-    if ( $with_creates ) {
-    	print $outhandle "CREATE TABLE $table;\n";    	
-    }
-    
-    if ( $with_inserts ) {
-    	# get all rows from $table
-		my $q = qq{select * from $table};
-		my $sth = $dbh->prepare($q);
-		$sth->execute();
+	for my $table ( @tables ) {
+		# only using these two functions once, so for clarity as to where they
+		# originate let's use the fully qualified names.
+	    my @names = CIPRES::TreeBase::DBIUtil::get_colnames($dbh, $table); 
+	    my @types = CIPRES::TreeBase::DBIUtil::get_coltypes($dbh, $table);
+	    
+	    # instantiate a RecDumper object, which will format a row-as-array
+	    # into an insert statement
+	    my $dumper = CIPRES::TreeBase::RecDumper->new(
+		    'FIELDS' => \@names,
+		    'TYPES'  => \@types,
+		    'TABLE'  => $table
+		) or die "Couldn't instantiate CIPRES::TreeBase::RecDumper";
 		
-		my $row;
-		
-		# if --progress is provided, print out progress counter
-		if ( $with_progress_meter ) {
-		    my $count = 0;
-		    while ( $row = $sth->fetchrow_arrayref ) {
-				++$count;
-				$dumper->rec(@$row);
-				print STDERR "\r$count" if $count % 1000 == 0;
-		    }
-		} 
-		
-		# if --noprogress or default, just dump the records
-		else {
-			while ( $row = $sth->fetchrow_arrayref ) {
-		    	$dumper->rec(@$row);
-			}
+		# give dumper the output handle to write to, i.e. either STDOUT,
+		# or a file specified on the command line, or the table name
+		if ( $name_file_after_table ) {
+			close $outhandle;
+			open my $fh, '>', "${table}.sql" or die $!;
+			$outhandle = $fh;
 		}
-		
-		# finish the statement handler
-		$sth->finish();
-		
-		# add line break if we're printing a progress counter
-		print STDERR "\n" if $with_progress_meter;
-    }
+	    $dumper->set_output($outhandle);
+	    
+	    if ( $with_creates ) {
+	    	print $outhandle "CREATE TABLE $table;\n";    	
+	    }
+	    
+	    if ( $with_inserts ) {
+	    	# get all rows from $table
+			my $q = qq{select * from $table};
+			my $sth = $dbh->prepare($q);
+			$sth->execute();
+			
+			my $row;
+			
+			# if --progress is provided, print out progress counter
+			if ( $with_progress_meter ) {
+			    my $count = 0;
+			    while ( $row = $sth->fetchrow_arrayref ) {
+					++$count;
+					$dumper->rec(@$row);
+					print STDERR "\r$count" if $count % 1000 == 0;
+			    }
+			} 
+			
+			# if --noprogress or default, just dump the records
+			else {
+				while ( $row = $sth->fetchrow_arrayref ) {
+			    	$dumper->rec(@$row);
+				}
+			}
+			
+			# finish the statement handler
+			$sth->finish();
+			
+			# add line break if we're printing a progress counter
+			print STDERR "\n" if $with_progress_meter;
+	    }
+	}
+	
+	# disconnect from database
+	$dbh->disconnect;
+	exit 0;
 }
 
-# disconnect from database
-$dbh->disconnect;
-exit 0;
-
 sub get_all_tables {
+	my $schema_to_analyze = shift || $schema;
 	my $dbh = get_handle();
-	my $sth = $dbh->prepare('SELECT * FROM SYSCAT.TABLES');
+	my $sth = $dbh->prepare(sprintf('list tables for schema %s', $schema_to_analyze));
 	my @fetched_tables;
 	$sth->execute();
 	while ( my $row = $sth->fetchrow_hashref ) {
-		if ( $row->{'DEFINER'} =~ /TBASE2/ ) {
-			push @fetched_tables, $row->{'TABNAME'};
+		use Data::Dumper;		
+		if ( $row->{'DEFINER'} =~ /\Q$schema\E/ ) {
+			push @fetched_tables, $row->{'TABNAME'};			
+		}
+		else {
+			print Dumper($row);
 		}
 	}
 	return @fetched_tables;
