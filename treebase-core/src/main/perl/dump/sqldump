@@ -7,13 +7,15 @@ use Pod::Usage;
 use strict;
 
 my @tables; # database table to dump out
-my $outhandle = \*STDOUT;     # handle to write dump to
-my $with_progress_meter = 0;  # switch to print a progress meter
-my $with_inserts = 1;         # write insert statements
-my $with_creates = 0;         # write create statements
+my $outhandle = \*STDOUT;      # handle to write dump to
+my $with_progress_meter = 0;   # switch to print a progress meter
+my $with_inserts = 1;          # write insert statements
+my $with_creates = 0;          # write create statements
+my $name_file_after_table = 0; # name output file after table
 
 # get command line options, see Getopt::Long
 GetOptions(
+	'name-after-table' => \$name_file_after_table,
 	'creates!'  => \$with_creates,
 	'inserts!'  => \$with_inserts,
 	'progress!' => \$with_progress_meter,
@@ -33,7 +35,7 @@ GetOptions(
 				'-exitval' => 1 
 			); # see Pod::Usage
 		$outhandle = $fh;
-	},
+	},	
 ) || pod2usage( '-verbose' => 0, '-exitval' => 1 );
 
 # need at least one table, see Pod::Usage
@@ -67,8 +69,13 @@ for my $table ( @tables ) {
 	    'TABLE'  => $table
 	) or die "Couldn't instantiate CIPRES::TreeBase::RecDumper";
 	
-	# give dumper the output handle to write to, i.e. either STDOUT
-	# or a file specified on the command line
+	# give dumper the output handle to write to, i.e. either STDOUT,
+	# or a file specified on the command line, or the table name
+	if ( $name_file_after_table ) {
+		close $outhandle;
+		open my $fh, '>', "${table}.sql" or die $!;
+		$outhandle = $fh;
+	}
     $dumper->set_output($outhandle);
     
     if ( $with_creates ) {
@@ -115,12 +122,11 @@ exit 0;
 sub get_all_tables {
 	my $dbh = get_handle();
 	my $sth = $dbh->prepare('SELECT * FROM SYSCAT.TABLES');
-	#my @fetched_tables;
+	my @fetched_tables;
 	use Data::Dumper;
 	$sth->execute();
-	while ( my $row = $sth->fetchrow_hashref ) {
-		warn Dumper($row);
-	}	
+	push @fetched_tables, $_->{'TABNAME'} while ( $sth->fetchrow_hashref );
+	warn Dumper(\@fetched_tables);
 }
 
 sub get_handle {
