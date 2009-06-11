@@ -50,6 +50,13 @@ sub rec {
 	return $insert;
 }
 
+# Format metadata into a create statement and return (or write) the result
+sub dump_create {
+	my $create = 'CREATE TABLE ' . $self->{'N'} . ";\n";
+	return print {$self->{'OUT'}} $create if $self->{'OUT'};
+	return $create;		
+}
+
 # XXX UNFINISHED !!!!
 sub quote_data {
     my $self = shift;

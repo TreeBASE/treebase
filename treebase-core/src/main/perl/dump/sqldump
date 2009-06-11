@@ -83,8 +83,7 @@ pod2usage(
 	    
 	    # write create table statements
 	    if ( $with_creates ) {
-	    	my $uc_table = uc $table;
-	    	print $outhandle "CREATE TABLE $uc_table;\n";    	
+	    	$dumper->dump_create;   	
 	    }
 	    
 	    # write insert statements
