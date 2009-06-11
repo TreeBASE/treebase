@@ -2,39 +2,37 @@
 
 use CIPRES::TreeBase::DBIUtil;
 use CIPRES::TreeBase::RecDumper;
-use Getopt::Std;
+use Getopt::Long;
+use Pod::Usage;
+use strict;
 
-# required environment variables:
-# TREEBASE_DB_USER=***
-# TREEBASE_DB_PASS=***
-# TREEBASE_DB_DSN=***
-my %opt = ( 'x' => 0 );
-getopts('x', \%opt) or usage();
+my @tables; # database table to dump out
+my $outhandle = \*STDOUT;     # handle to write dump to
+my $with_progress_meter = 0;  # switch to print a progress meter
+my $with_inserts = 1;         # write insert statements
+my $with_creates = 0;         # write create statements
 
-# database table to dump out, provided as command line argument
-my $table = shift || usage();
-
-# output file handle, by default to STDOUT, or...
-my $ofh = \*STDOUT;
-
-# ...second command line argument is file name...
-if ( @ARGV ) {
-    my $ofile = shift;
-    
-    # ...try to open a write handle to it...
-    open my($fh), ">", $ofile 
-	or die "Couldn't write output file '$ofile': $!; aborting";
-	
-	# ...and use that...
-    $ofh = $fh;
-}
+GetOptions(
+	'creates!'  => \$with_creates,
+	'inserts!'  => \$with_inserts,
+	'progress!' => \$with_progress_meter,
+	'user=s'    => \$ENV{'TREEBASE_DB_USER'},
+	'pass=s'    => \$ENV{'TREEBASE_DB_PASS'},
+	'dsn=s'     => \$ENV{'TREEBASE_DB_DSN'},
+	'table=s'   => \@tables,
+	'all'       => sub { @tables = get_all_tables() },
+	'file=s'    => sub {
+		my $file = pop;
+		open my $fh, '>', $file 
+			or die "Couldn't write output file '$file': $!; aborting";
+		$outhandle = $fh;
+	},
+) || pod2usage();
 
 # create database handle
-my $dbh = CIPRES::TreeBase::DBIUtil->dbh
-  or die "Couldn't connect to database: " . DBI->errstr;
-$dbh->{'RaiseError'} = 1;
+my $dbh = get_handle();
 
-{
+for my $table ( @tables ) {
 	# only using these two functions once, so for clarity as to where they
 	# originate let's use the fully qualified names.
     my @names = CIPRES::TreeBase::DBIUtil::get_colnames($dbh, $table); 
@@ -50,9 +48,13 @@ $dbh->{'RaiseError'} = 1;
 	
 	# give dumper the output handle to write to, i.e. either STDOUT
 	# or a file specified on the command line
-    $dumper->set_output($ofh);
+    $dumper->set_output($outhandle);
     
-    {
+    if ( $with_creates ) {
+    	
+    }
+    
+    if ( $with_inserts ) {
     	# get all rows from $table
 		my $q = qq{select * from $table};
 		my $sth = $dbh->prepare($q);
@@ -60,8 +62,8 @@ $dbh->{'RaiseError'} = 1;
 		
 		my $row;
 		
-		# if -x is provided, print out progress counter
-		if ( $opt{'x'} ) {
+		# if --progress is provided, print out progress counter
+		if ( $with_progress_meter ) {
 		    my $count = 0;
 		    while ( $row = $sth->fetchrow_arrayref ) {
 				++$count;
@@ -70,7 +72,7 @@ $dbh->{'RaiseError'} = 1;
 		    }
 		} 
 		
-		# without -x just dump the records
+		# if --noprogress or default, just dump the records
 		else {
 			while ( $row = $sth->fetchrow_arrayref ) {
 		    	$dumper->rec(@$row);
@@ -81,7 +83,7 @@ $dbh->{'RaiseError'} = 1;
 		$sth->finish();
 		
 		# add line break if we're printing a progress counter
-		print STDERR "\n" if $opt{'x'};
+		print STDERR "\n" if $with_progress_meter;
     }
 }
 
@@ -92,4 +94,15 @@ exit 0;
 sub usage {
     print "$0 table-name [output_filename]\n";
     exit 1;
+}
+
+sub get_all_tables {
+	
+}
+
+sub get_handle {
+	my $dbh = CIPRES::TreeBase::DBIUtil->dbh
+		or die "Couldn't connect to database: " . DBI->errstr;
+	$dbh->{'RaiseError'} = 1;	
+	return $dbh;
 }
