@@ -4,6 +4,10 @@ use CIPRES::TreeBase::DBIUtil;
 use CIPRES::TreeBase::RecDumper;
 use Getopt::Std;
 
+# required environment variables:
+# TREEBASE_DB_USER=***
+# TREEBASE_DB_PASS=***
+# TREEBASE_DB_DSN=***
 my %opt = ( 'x' => 0 );
 getopts('x', \%opt) or usage();
 
