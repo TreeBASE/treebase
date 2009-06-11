@@ -79,7 +79,7 @@ for my $table ( @tables ) {
     $dumper->set_output($outhandle);
     
     if ( $with_creates ) {
-    	
+    	print $outhandle "CREATE TABLE $table;\n";    	
     }
     
     if ( $with_inserts ) {
@@ -127,9 +127,10 @@ sub get_all_tables {
 	$sth->execute();
 	while ( my $row = $sth->fetchrow_hashref ) {
 		push @fetched_tables, $row->{'TABNAME'};
-		warn Dumper($row);
+		warn Dumper($row) if $row->{'TABNAME'} eq 'XMLOBJECTS'; 
 	}
-	warn Dumper(\@fetched_tables);
+	#warn Dumper(\@fetched_tables);
+	return @fetched_tables;
 }
 
 sub get_handle {
