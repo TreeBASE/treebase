@@ -126,7 +126,7 @@ pod2usage(
 sub get_all_tables {
 	my $schema_to_analyze = shift || $schema;
 	my $dbh = get_handle();
-	my $sth = $dbh->prepare(sprintf('list tables for schema %s', $schema_to_analyze));
+	my $sth = $dbh->prepare(sprintf(q{select tabname from syscat.tables where tabschema = '%s'}, $schema_to_analyze));
 	my @fetched_tables;
 	$sth->execute();
 	while ( my $row = $sth->fetchrow_hashref ) {
