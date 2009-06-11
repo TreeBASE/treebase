@@ -126,7 +126,7 @@ sub get_all_tables {
 	use Data::Dumper;
 	$sth->execute();
 	while ( my $row = $sth->fetchrow_hashref ) {
-		if ( $row->{'DEFINER'} !~ /SYSIBM/ ) {
+		if ( $row->{'DEFINER'} =~ /TBASE2/ ) {
 			push @fetched_tables, $row->{'TABNAME'};
 		}
 	}
