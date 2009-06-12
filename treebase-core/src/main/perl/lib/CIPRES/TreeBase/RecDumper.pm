@@ -72,6 +72,13 @@ sub quote_data {
 		elsif ($t =~ /^(BIG|SMALL|)INT$/ || $t eq 'INTEGER' || $t eq 'DOUBLE') {
 		    # do nothing
 		} 
+		elsif ($t eq 'TIMESTMP'){
+		    if ( m|(\d+)/(\d+)/(\d+)\s+(\d+{2}):(\d+{2}):(\d+{2})| ) {
+		        my ( $day, $month, $year, $hour, $minute, $second ) =
+		           ( $1,   $2,     $3,    $4,    $5,      $6      );
+		        $_ = "${year}-${month}-${day} ${hour}:${minute}:${second}";
+		    }
+		}
 		else {
 		    croak("Unknown field type '$t'; aborting");
 		}
