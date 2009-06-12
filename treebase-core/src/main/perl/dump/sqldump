@@ -14,6 +14,7 @@ my $with_creates = 0;          # write create statements
 my $name_file_after_table = 0; # name output file after table
 my $schema = 'TBASE2';         # name of schema to analyze
 my $zip = 0;                   # zip output
+my $test = 0;                  # test run: delete produced files
 
 # get command line options, see Getopt::Long
 GetOptions(
@@ -26,6 +27,7 @@ GetOptions(
     'dsn=s'     => \$ENV{'TREEBASE_DB_DSN'},
     'table=s'   => \@tables,
     'zip'       => \$zip,
+    'test'      => \$test,
     'all'       => sub { @tables = get_all_tables() },
     'help|?'    => sub { pod2usage( '-verbose' => 0 )  }, # see Pod::Usage
     'man'       => sub { pod2usage( '-verbose' => 1 )  }, # see Pod::Usage
@@ -97,10 +99,18 @@ pod2usage(
         # write insert statements
         if ( $with_inserts ) {
             eval {
-                print_insert_statements ($dumper, $dbh, $table)
+                print_insert_statements ($dumper, $dbh, $table);
+                if ( $test ) {
+                    for ( qw(gz sql) ) {
+                        if ( -e "${table}.${_}" ) {
+                            unlink "${table}.${_}";
+                        }
+                    }
+                }
             };
             if ( $@ ) {
                 print STDERR "Table ${table} failed: $@\n";
+		$dumper->dump_create;
             }
         }
     }
