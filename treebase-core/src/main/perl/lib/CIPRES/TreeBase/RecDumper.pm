@@ -65,7 +65,7 @@ sub quote_data {
 		local *_ = \$d[$i];
 		$_ = "NULL", next unless defined;
 	
-		if ($t eq "CHAR" || $t eq "VARCHAR") {
+		if ($t eq "CHAR" || $t eq "VARCHAR" || $t eq 'CLOB') {
 		    s/'/''/g;
 		    $_ = "'$_'";
 		} 
