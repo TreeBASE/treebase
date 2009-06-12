@@ -100,7 +100,7 @@ pod2usage(
                 print_insert_statements ($dumper, $dbh, $table)
             };
             if ( $@ ) {
-                print STDERR "Table ${table} failed?! Sorry...\n";
+                print STDERR "Table ${table} failed: $@\n";
             }
         }
     }
