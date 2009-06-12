@@ -13,6 +13,7 @@ my $with_inserts = 1;          # write insert statements
 my $with_creates = 0;          # write create statements
 my $name_file_after_table = 0; # name output file after table
 my $schema = 'TBASE2';         # name of schema to analyze
+my $zip = 0;                   # zip output
 
 # get command line options, see Getopt::Long
 GetOptions(
@@ -24,6 +25,7 @@ GetOptions(
     'pass=s'    => \$ENV{'TREEBASE_DB_PASS'},
     'dsn=s'     => \$ENV{'TREEBASE_DB_DSN'},
     'table=s'   => \@tables,
+    'zip'       => \$zip,
     'all'       => sub { @tables = get_all_tables() },
     'help|?'    => sub { pod2usage( '-verbose' => 0 )  }, # see Pod::Usage
     'man'       => sub { pod2usage( '-verbose' => 1 )  }, # see Pod::Usage
@@ -73,11 +75,17 @@ pod2usage(
         ) or die "Couldn't instantiate CIPRES::TreeBase::RecDumper";
         
         # give dumper the output handle to write to, i.e. either STDOUT,
-        # or a file specified on the command line, or the table name
+        # or a file specified on the command line, or the table name...
         if ( $name_file_after_table ) {
             close $outhandle;
             open my $fh, '>', "${table}.sql" or die $!;
             $outhandle = $fh;
+        }
+        # ...or a compressed file
+        elsif ( $zip ) {
+            close $outhandle;
+            open my $ziph, "| gzip -9 > ${table}.gz" or die $!;
+            $outhandle = $ziph;
         }
         $dumper->set_output($outhandle);
         
