@@ -76,14 +76,14 @@ sub quote_data {
 		    if ( m|(\d{1,2})/(\d{1,2})/(\d{4})\s+(\d{2}):(\d{2}):(\d{2})| ) {
 		        my ( $day, $month, $year, $hour, $minute, $second ) =
 		           ( $1,   $2,     $3,    $4,    $5,      $6      );
-		        $_ = "${year}-${month}-${day} ${hour}:${minute}:${second}";
+		        $_ = "'${year}-${month}-${day} ${hour}:${minute}:${second}'";
 		    }
 		}
 		elsif ($t eq 'DATE'){
 		    if ( m|(\d{1,2})/(\d{1,2})/(\d{4})| ) {
 		        my ( $day, $month, $year ) = 
 		           ( $1,   $2,     $3    );
-		        $_ = "${year}-${month}-${day}";
+		        $_ = "'${year}-${month}-${day}'";
 		    }
 		}
 		else {
