@@ -80,16 +80,14 @@ sub quote_data {
 		    }
 		}
 		elsif ($t eq 'DATE'){
-                    my ( $day, $month, $year );
+            my ( $day, $month, $year );
 		    if ( m|(\d{1,2})/(\d{1,2})/(\d{4})| ) {
-		        ( $day, $month, $year ) = 
-		        ( $1,   $2,     $3    );
+		        ( $day, $month, $year ) = ( $1, $2, $3 );
 		    }
-                    if ( m|(\d{4})-(\d{1,2})-(\d{1,2})| ) {
-                        ( $year, $month, $day ) =
-                        ( $1,    $2,     $3   );
-                    }
-                    $_ = "'${year}-${month}-${day}'";
+            if ( m|(\d{4})-(\d{1,2})-(\d{1,2})| ) {
+                ( $year, $month, $day ) = ( $1, $2, $3 );
+            }
+            $_ = "'${year}-${month}-${day}'";
 		}
 		else {
 		    croak("Unknown field type '$t'; aborting");
