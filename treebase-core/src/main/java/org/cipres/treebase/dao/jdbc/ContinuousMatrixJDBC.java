@@ -39,6 +39,7 @@ import org.cipres.treebase.domain.matrix.ContinuousChar;
 import org.cipres.treebase.domain.matrix.ContinuousMatrix;
 import org.cipres.treebase.domain.matrix.ItemDefinition;
 import org.cipres.treebase.domain.nexus.mesquite.MesquiteMatrixConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter;
 
 /**
  * Helper class for direct Matrix related SQL operations. Bypass the hibernate framework for high
@@ -83,6 +84,10 @@ public class ContinuousMatrixJDBC extends MatrixJDBC {
 
 	private Map<String, Long> mItemDefNameToIDMap;
 
+	private org.nexml.model.ContinuousMatrix mNexmlCharacterData;
+
+	private NexmlMatrixConverter mNexmlMatrixConverter;
+
 	// Note: currently we support only one set of item definitions for the entire matrix.
 	// It is modeled in continuousMatrix.itemDefinitions.
 	// The matrixColumn.itemDefinitions are not supported at this time since Mesquite (and Nexus)
@@ -115,6 +120,15 @@ public class ContinuousMatrixJDBC extends MatrixJDBC {
 		setMesquiteCharacterData(pMesquiteData);
 		setMesqMatrixConverter(pConverter);
 
+	}
+
+	public ContinuousMatrixJDBC(ContinuousMatrix tbMatrix,
+			org.nexml.model.ContinuousMatrix xmlMatrix,
+			NexmlMatrixConverter nexmlMatrixConverter) {
+		this();
+		setCharacterMatrix(tbMatrix);
+		setNexmlCharacterData(xmlMatrix);
+		setNexmlMatrixConverter(nexmlMatrixConverter);
 	}
 
 	// /**

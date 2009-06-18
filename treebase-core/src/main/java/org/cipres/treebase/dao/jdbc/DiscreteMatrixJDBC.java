@@ -38,9 +38,11 @@ import org.apache.log4j.Logger;
 import org.springframework.jdbc.UncategorizedSQLException;
 
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
+import org.cipres.treebase.domain.matrix.ContinuousMatrix;
 import org.cipres.treebase.domain.matrix.DiscreteChar;
 import org.cipres.treebase.domain.matrix.DiscreteCharState;
 import org.cipres.treebase.domain.nexus.mesquite.MesquiteMatrixConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter;
 
 /**
  * Helper class for direct Matrix related SQL operations. Bypass the hibernate framework for high
@@ -121,6 +123,15 @@ public class DiscreteMatrixJDBC extends MatrixJDBC {
 			mRowSymbolBufs.add(new StringBuffer());
 		}
 	}
+	
+	public DiscreteMatrixJDBC(CharacterMatrix tbMatrix,
+			org.nexml.model.CategoricalMatrix xmlMatrix,
+			NexmlMatrixConverter nexmlMatrixConverter) {
+		this();
+		setCharacterMatrix(tbMatrix);
+		setNexmlCharacterData(xmlMatrix);
+		setNexmlMatrixConverter(nexmlMatrixConverter);
+	}	
 
 	/**
 	 * Return the RowSymbolBufs field.

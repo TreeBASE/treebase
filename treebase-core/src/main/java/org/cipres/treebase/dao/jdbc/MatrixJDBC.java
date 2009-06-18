@@ -32,11 +32,13 @@ import mesquite.lib.characters.CharacterData;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.nexml.model.Matrix;
 import org.springframework.jdbc.UncategorizedSQLException;
 
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.ContinuousMatrix;
 import org.cipres.treebase.domain.nexus.mesquite.MesquiteMatrixConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter;
 
 /**
  * Helper class for direct Matrix related SQL operations. Bypass the hibernate framework for high
@@ -86,6 +88,8 @@ public abstract class MatrixJDBC {
 	private List<MatrixColumnJDBC> mMatrixColumnJDBCs;
 
 	private MesquiteMatrixConverter mMesqMatrixConverter;
+	private NexmlMatrixConverter mNexmlMatrixConverter;
+	private Matrix mNexmlCharacterData;
 
 	/**
 	 * Factory methods for creating a new MatrixJDBC instance based on the CharacterMatrix type.
@@ -287,6 +291,16 @@ public abstract class MatrixJDBC {
 		mMesquiteCharacterData = pNewMesquiteCharacterData;
 	}
 
+	protected void setNexmlMatrixConverter(
+			NexmlMatrixConverter nexmlMatrixConverter) {
+		mNexmlMatrixConverter = nexmlMatrixConverter;				
+	}
+
+	protected void setNexmlCharacterData(
+			org.nexml.model.Matrix xmlMatrix) {
+		mNexmlCharacterData = xmlMatrix;		
+	}	
+	
 	/**
 	 * Return the discriminator value for the sub classes in MatrixElement class hierarchy.
 	 * 
