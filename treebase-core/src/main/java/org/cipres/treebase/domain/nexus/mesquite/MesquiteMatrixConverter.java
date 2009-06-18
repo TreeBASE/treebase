@@ -156,7 +156,7 @@ public abstract class MesquiteMatrixConverter {
 
 	/**
 	 * First convert matrixElements for saving to database using direct JDBC, then batch insert the
-	 * elements to datbase.
+	 * elements to database.
 	 * 
 	 * For memory considerations, the large matrix elementJDBC list is returned, while the compound
 	 * elements are created and stored inside the MatrixJDBC.
