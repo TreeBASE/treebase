@@ -39,6 +39,8 @@ import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.TreeBlock;
+import org.nexml.model.Document;
+import org.nexml.model.OTUs;
 
 /**
  * Contains nexus data set after a nexus file is parsed.
@@ -54,9 +56,11 @@ public class NexusDataSet {
 	private List<TaxonLabel> mTaxonLabels;
 	private List<TaxonLabelSet> mTaxonLabelSets;
 	private Map<Taxa, TaxonLabelSet> mTaxonLabelSetMap;
+	private Map<OTUs, TaxonLabelSet> mTaxonLabelSetMapNexml;
 
 	private NexusDataSetJDBC mDataJDBC = new NexusDataSetJDBC();
 	private MesquiteProject mMesqProject;
+	private Document mNexmlDocument;
 
 
 	/**
@@ -126,6 +130,18 @@ public class NexusDataSet {
 		}
 		return mTaxonLabelSetMap;
 	}
+	
+	/**
+	 * Return the TaxonLabelSetMapNexml field. Uses lazy initialization.
+	 * 
+	 * @return Map<Taxa, TaxonLabelSet> mTaxonLabelSetMapNexml
+	 */
+	private Map<OTUs, TaxonLabelSet> getTaxonLabelSetMapNexml() {
+		if (mTaxonLabelSetMapNexml == null) {
+			mTaxonLabelSetMapNexml = new HashMap<OTUs, TaxonLabelSet>();
+		}
+		return mTaxonLabelSetMapNexml;
+	}	
 
 	/**
 	 * Add a Taxon label set.
@@ -140,6 +156,20 @@ public class NexusDataSet {
 			}
 		}
 	}
+	
+	/**
+	 * Add a Taxon label set.
+	 * 
+	 * @param pSet
+	 */
+	public void addTaxonLabelSet(OTUs pTaxa, TaxonLabelSet pSet) {
+		if (pSet != null) {
+			if (getTaxonLabelSetMapNexml().put(pTaxa, pSet) == null) {
+				// it is a new entry:
+				getTaxonLabelSets().add(pSet);
+			}
+		}
+	}	
 
 	/**
 	 * Find a taxon label set based on the taxa.
@@ -150,6 +180,16 @@ public class NexusDataSet {
 	public TaxonLabelSet getTaxonLabelSet(Taxa pTaxa) {
 		return getTaxonLabelSetMap().get(pTaxa);
 	}
+	
+	/**
+	 * Find a taxon label set based on the nexml OTUs.
+	 * 
+	 * @param xmlOTUs
+	 * @return
+	 */	
+	public TaxonLabelSet getTaxonLabelSet(OTUs xmlOTUs) {
+		return getTaxonLabelSetMapNexml().get(xmlOTUs);
+	}	
 
 	/**
 	 * Return the PhyloTrees field. Uses lazy initialization.
@@ -265,5 +305,14 @@ public class NexusDataSet {
 		}
 		return treeTaxonLabels;
 	}
+
+	/**
+	 * Set the NexmlProject field.
+	 */	
+	public void setNexmlProject(Document document) {
+		mNexmlDocument = document;
+		
+	}
+
 
 }
