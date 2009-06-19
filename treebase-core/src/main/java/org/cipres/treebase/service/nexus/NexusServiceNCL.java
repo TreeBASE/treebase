@@ -164,4 +164,14 @@ public class NexusServiceNCL extends AbstractServiceImpl implements NexusService
 		return null;
 	}
 
+	public String serialize(NexusDataSet nexusDataSet) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String serialize(Study study) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
