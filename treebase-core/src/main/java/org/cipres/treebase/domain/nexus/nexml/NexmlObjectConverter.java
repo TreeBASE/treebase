@@ -15,7 +15,9 @@ import org.nexml.model.Document;
 
 public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected static URI mDCURI;
+	protected static URI mPrismURI;
 	private static String mDCURIString = "http://purl.org/dc/elements/1.1/";
+	private static String mPrismURIString = "http://prismstandard.org/namespaces/1.2/basic/";
 	private static String mDCIdentifier = "dc:identifier";	
 	public static String TreeBASE2Prefix = "TreeBASE2";
 	private Document mDocument;
@@ -28,9 +30,10 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document) {
 		try {
 			mDCURI = new URI(mDCURIString);
+			mPrismURI = new URI(mPrismURIString);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
-		}	
+		}			
 		setTaxonLabelHome(taxonLabelHome);
 		setStudy(study);
 		setDocument(document);
@@ -57,7 +60,18 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @param tbPersistable
 	 */
 	protected void attachTreeBaseID(Annotatable annotatable,TBPersistable tbPersistable) {
-		annotatable.addAnnotationValue(mDCIdentifier, mDCURI, makeNamespacedID(tbPersistable));
+		attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable),mDCURI,annotatable);
+	}
+	
+	/**
+	 * 
+	 * @param key
+	 * @param value
+	 * @param namespace
+	 * @param annotatable
+	 */
+	protected void attachAnnotation(String key,String value,URI namespace,Annotatable annotatable) {
+		annotatable.addAnnotationValue(key, namespace, value);
 	}
 	
 	/**
