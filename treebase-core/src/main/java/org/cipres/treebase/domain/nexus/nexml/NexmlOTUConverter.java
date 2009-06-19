@@ -4,6 +4,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
+import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.nexml.model.Document;
 import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
@@ -74,6 +75,15 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 		OTU xmlOTU = xmlOTUs.createOTU();
 		xmlOTU.setLabel(taxonLabel.getTaxonLabel());
 		attachTreeBaseID(xmlOTU,taxonLabel);
+		if ( null != taxonLabel.getNcbiTaxID() ) {
+			attachAnnotation("dc:identifier", "NCBI:" + taxonLabel.getNcbiTaxID(), mDCURI, xmlOTU);
+		}
+		TaxonVariant tv = taxonLabel.getTaxonVariant();
+		if ( null != tv ) {
+			if ( null != tv.getNamebankID() ) {
+				attachAnnotation("dc:identifier", "uBio:" + tv.getNamebankID(), mDCURI, xmlOTU);
+			}
+		}
 		return xmlOTU;
 	}
 
