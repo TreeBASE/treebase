@@ -56,5 +56,25 @@ public interface NexusService {
 	 * @return
 	 */
 	NexusDataSet parseNexus(Study pStudy, File pNexusFile);
+	
+	/**
+	 * Write the NexusDataSet to a string that represents the object.
+	 * The exact output format is up to the implementing service, i.e.
+	 * this can either be nexus or nexml.
+	 * 
+	 * @param pNexusDataSet
+	 * @return a serialization of the supplied NexusDataSet
+	 */
+	String serialize(NexusDataSet pNexusDataSet);
+	
+	/**
+	 * Write the NexusDataSet to a string that represents the object.
+	 * The exact output format is up to the implementing service, i.e.
+	 * this can either be nexus or nexml.
+	 * 
+	 * @param pStudy
+	 * @return a serialization of the supplied Study
+	 */	
+	String serialize(Study pStudy);
 
 }
