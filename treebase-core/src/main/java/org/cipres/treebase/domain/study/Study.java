@@ -59,6 +59,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import org.cipres.treebase.domain.tree.TreeBlock;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -689,5 +690,21 @@ public class Study extends AbstractPersistedObject {
 			}
 		}
 		return trees;
+	}
+	
+	/**
+	 * @return all the treeblocks for all the trees from getTrees();
+	 * @author rvosa
+	 */
+	@Transient
+	public Set<TreeBlock> getTreeBlocks() {
+		Set<TreeBlock> treeBlocks = new HashSet<TreeBlock>();
+		for ( PhyloTree tree : getTrees() ) {
+			TreeBlock treeBlock = tree.getTreeBlock();
+			if ( ! treeBlocks.contains(treeBlock) ) {
+				treeBlocks.add(treeBlock);
+			}
+		}
+		return treeBlocks;
 	}
 }
