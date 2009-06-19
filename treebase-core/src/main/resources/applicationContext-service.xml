@@ -144,6 +144,11 @@
                 <property name="itemDefinitionHome" ref="itemDefinitionHome"/>
                 <property name="mesquiteFolderDir" value="${mesquite.folder_dir}"/>
   </bean>
+  
+  	<bean id="nexmlService" class = "org.cipres.treebase.service.nexus.NexusServiceNexml">
+                <property name="domainHome" ref="domainHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+  </bean>
 
 	<!-- package: org.cipres.treebase.domain.study -->	
 	<bean id="analysisService" parent="baseTransactionProxy">
