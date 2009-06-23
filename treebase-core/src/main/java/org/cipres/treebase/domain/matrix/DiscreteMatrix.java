@@ -103,7 +103,7 @@ public class DiscreteMatrix extends CharacterMatrix {
 	 * Store the statelabels. First outer list corresponding to columns. Inner list corresponding to
 	 * discreteStates.
 	 * 
-	 * The "STATELABELS" are used for generating neux file. It is a transient property to make sure
+	 * The "STATELABELS" are used for generating nexus file. It is a transient property to make sure
 	 * the same statelabels list is used for the entire matrix.
 	 * 
 	 * Return the StateLabels field.
