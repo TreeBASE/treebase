@@ -146,7 +146,7 @@
   </bean>
   
   	<bean id="nexmlService" class = "org.cipres.treebase.service.nexus.NexusServiceNexml">
-                <property name="domainHome" ref="domainHome"/>
+                <!-- property name="domainHome" ref="domainHome"/ -->
                 <property name="taxonLabelHome" ref="taxonLabelHome"/>
   </bean>
 
