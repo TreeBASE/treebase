@@ -103,20 +103,29 @@
 		<property name="studyService"><ref bean="studyService"></ref></property>
 	</bean>
 	
+	<!-- Download A Study -->	
+	<bean id="downloadAStudyController" class="org.cipres.treebase.web.controllers.DownloadAStudyController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
+	</bean>	
+	
 	<!-- Download A Tree -->	
 	<bean id="downloadATreeController" class="org.cipres.treebase.web.controllers.DownloadATreeController">
 		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
 	</bean>
 	
 	<bean id="downloadATreeBlockController" class="org.cipres.treebase.web.controllers.DownloadATreeBlockController">
 		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>		
 	</bean>
 	
 	<!-- Download A Matrix -->	
 	<bean id="downloadAMatrixController" class="org.cipres.treebase.web.controllers.DownloadAMatrixController">
 		<property name="matrixService"><ref bean="matrixService"></ref></property>
 		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>		
 	</bean>
 	
 	<!-- Download A NexusFile -->	
@@ -124,6 +133,7 @@
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
 		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="matrixService"><ref bean="matrixService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>		
 	</bean>
 	
 	<!-- Download An AnalysisStep's input and output as a NexusFile -->	
@@ -131,11 +141,13 @@
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
 		<property name="matrixService"><ref bean="matrixService"></ref></property>
 		<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>		
 	</bean>	
 	
 	<!-- Download A NexusFile -->	
 	<bean id="downloadANexusRCTFileController" class="org.cipres.treebase.web.controllers.DownloadANexusRCTFileController">		
 		<property name="studyService"><ref bean="studyService"></ref></property>	
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>		
 	</bean>
 	
 	<!-- View Taxa -->	
@@ -910,6 +922,7 @@
 			    <prop key="/search/study/rowSegments.html">searchSummaryController</prop>
 				<prop key="/search/matrixRowList.html">listMatrixRowController</prop>
 				<prop key="/search/taxonList.html">listTaxaSearchController</prop>
+				<prop key="/search/downloadAStudy.html">downloadAStudyController</prop>				
 				<prop key="/search/downloadATree.html">downloadATreeController</prop>
 				<prop key="/search/downloadATreeBlock.html">downloadATreeBlockController</prop>
 				<prop key="/search/downloadAMatrix.html">downloadAMatrixController</prop>
