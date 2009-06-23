@@ -17,6 +17,8 @@ my $zip = 0;                   # zip output
 my $test = 0;                  # test run: delete produced files
 my $nrecs;                     # max number of recs per table
 my $where = "";                # WHERE clause to select dumped records
+my $maxlen = 5 * 1024 * 1024;  # Maximum field length: 5 MB by default
+
 # get command line options, see Getopt::Long
 GetOptions(
     'name-after-table' => \$name_file_after_table,
@@ -28,6 +30,7 @@ GetOptions(
     'dsn=s'     => \$ENV{'TREEBASE_DB_DSN'},
     'table=s'   => \@tables,
     'zip'       => \$zip,
+    'maxlen=i'  => \$maxlen,
     'test'      => \$test,
     'nrecs=i'   => \$nrecs,
     'where=s'   => \$where,
@@ -68,6 +71,7 @@ $where = "WHERE $where" unless $where =~ /^\s*$/ || $where =~ /^\s*where\b/i;
 {
     # create database handle
     my $dbh = get_handle();
+    $dbh->{LongReadLen} = $maxlen;  # Handle LOBs up to $maxlen bytes
     
     for my $table ( @tables ) {
         # only using these two functions once, so for clarity as to where they
