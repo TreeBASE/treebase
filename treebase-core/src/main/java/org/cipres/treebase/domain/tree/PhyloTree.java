@@ -46,6 +46,7 @@ import javax.persistence.Transient;
 import mesquite.lib.MesquiteDouble;
 import mesquite.lib.StringUtil;
 
+import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
 import org.cipres.treebase.domain.TBPersistable;
@@ -224,8 +225,11 @@ public class PhyloTree extends AbstractPersistedObject {
 		if ( ! TreebaseUtil.isEmpty(mTitle) ) {
 			return mTitle;
 		}
+		else if ( null != getId() ){
+			return TreebaseIDString.getIDString(this);
+		}
 		else {
-			return "PhyloTree" + getId();
+			return null;
 		}
 	}
 
