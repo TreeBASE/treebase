@@ -73,8 +73,13 @@ public class PhyloWSController implements Controller {
             }
             String prefix = pathComponents[1];
             String fullyQualifiedId = pathComponents[2];
-            String id = fullyQualifiedId.replaceAll(".*:[a-zA-Z]*","");        	
-        	url = createUrl(prefix,id);
+            String id = fullyQualifiedId.replaceAll(".*:[a-zA-Z]*","");  
+            if ( TreebaseUtil.isEmpty(req.getParameter("format")) ) {
+            	url = createUrl(prefix,id);
+            }
+            else {
+            	url = createDownloadUrl(prefix,id,req.getParameter("format"));
+            }
         } catch ( NumberFormatException e ) {
         	res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad ID string: " + e.getMessage());
         } catch ( ObjectNotFoundException e ) {        	        	
@@ -89,6 +94,60 @@ public class PhyloWSController implements Controller {
         return null;
 	}
 	
+	private String createDownloadUrl(String prefix, String objectId, String format) throws Exception {
+    	String url = "";
+    	StringBuffer base = new StringBuffer("/treebase-web/search");
+    	if ( prefix.equalsIgnoreCase("study") ) {
+			Long studyId = Long.parseLong(objectId);
+			Study study = getStudyService().findByID(studyId);
+			if ( study == null ) {
+				throw new ObjectNotFoundException("Can't find study " + studyId);
+			}    			    		
+    		//return base + "/summary.html?id=" + objectId;
+    		return base
+				.append("/downloadAStudy.html?id=")
+				.append(objectId)
+				.append("&format=")
+				.append(format)
+				.toString();  			
+    	}   
+    	else if ( prefix.equalsIgnoreCase("matrix") ) {
+    		Long matrixId = Long.parseLong(objectId);
+    		Matrix matrix = getMatrixService().findByID(matrixId);
+    		if ( matrix == null ) {
+    			throw new ObjectNotFoundException("Can't find matrix " + matrixId);
+    		}
+    		Study study = matrix.getStudy();
+    		//http://localhost:8080/treebase-web/search/downloadAMatrix.html?id=830&matrixid=263
+    		return base
+				.append("/downloadAMatrix.html?id=")
+				.append(study.getId())
+				.append("&matrixid=")
+				.append(objectId)
+				.append("&format=")
+				.append(format)
+				.toString();    		
+    	}
+    	else if ( prefix.equalsIgnoreCase("tree") ) {
+    		Long treeId = Long.parseLong(objectId);
+    		PhyloTree phyloTree = getPhyloTreeService().findByID(treeId);
+    		if ( phyloTree == null ) {
+    			throw new ObjectNotFoundException("Can't find tree " + treeId);
+    		}
+    		Study study = phyloTree.getStudy();
+    		//http://localhost:8080/treebase-web/search/downloadATree.html?id=830&treeid=3983
+    		return base
+    			.append("/downloadATree.html?id=")
+    			.append(study.getId())
+    			.append("&treeid=")
+    			.append(objectId)
+    			.append("&format=")
+    			.append(format)
+    			.toString();
+    	}
+    	return url;
+	}
+
 	public MatrixService getMatrixService() {
 		return mMatrixService;
 	}
