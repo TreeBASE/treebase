@@ -257,31 +257,43 @@ public class WebUtil {
 
 	public static String downloadFile(HttpServletResponse response, String dirPath, String filename)
 		throws Exception {
+		return downloadFile(response,dirPath,filename,null);
+	}
+	
+	public static String downloadFile(HttpServletResponse response, String dirPath, String filename, String contentType)
+		throws Exception {
 		// to download the file outside of the webapp, we need to call a servlet
 		// that opens and read the file and display the output to the response object
-
+	
 		/**
 		 * allow a popup dialog to downlaod the result file
 		 */
 		byte[] bytes = WebUtil.getBytesFromFile(dirPath, filename);
-
+	
 		response.reset();
-		// response.setContentType("application/octet-stream"); // this forces to be downloaded as a
-		// binary file
-		response.setContentType("application/x-unknown"); // this forces to be downloaded as type
-		// of the extension (e.g NEX file for
-		// *.nex)
-		response.setHeader("Content-Disposition", "inline;filename=" + "\"" + filename + "\"");
-		response.setContentType("text/plain"); // offer users option to view or save the file
-		response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+		
+		if ( null == contentType ) {
+			// response.setContentType("application/octet-stream"); // this forces to be downloaded as a
+			// binary file
+			response.setContentType("application/x-unknown"); // this forces to be downloaded as type
+			// of the extension (e.g NEX file for
+			// *.nex)
+			response.setHeader("Content-Disposition", "inline;filename=" + "\"" + filename + "\"");
+			response.setContentType("text/plain"); // offer users option to view or save the file
+			response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+		}
+		else {
+			response.setContentType(contentType);
+		}
+		
 		response.setContentLength(bytes.length);
-
+	
 		OutputStream outputStream = response.getOutputStream();
 		outputStream.write(bytes, 0, bytes.length);
 		outputStream.flush();
 		outputStream.close();
-
+	
 		return null;
-	}
+	}	
 
 }
