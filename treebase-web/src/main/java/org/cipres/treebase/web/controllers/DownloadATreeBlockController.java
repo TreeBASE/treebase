@@ -20,19 +20,21 @@
 
 package org.cipres.treebase.web.controllers;
 
-import java.io.File;
-import java.io.FileWriter;
+//import java.io.File;
+//import java.io.FileWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+//import org.cipres.treebase.TreebaseUtil;
+import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.tree.PhyloTreeHome;
 import org.cipres.treebase.domain.tree.TreeBlock;
-import org.cipres.treebase.web.util.WebUtil;
+//import org.cipres.treebase.web.util.WebUtil;
 
 /**
  * 
@@ -40,8 +42,8 @@ import org.cipres.treebase.web.util.WebUtil;
  * 
  */
 
-public class DownloadATreeBlockController implements Controller {
-	private static final Logger LOGGER = Logger.getLogger(DownloadATreeBlockController.class);
+public class DownloadATreeBlockController extends AbstractDownloadController implements Controller {
+//	private static final Logger LOGGER = Logger.getLogger(DownloadATreeBlockController.class);
 
 	private PhyloTreeHome mPhyloTreeHome;
 
@@ -67,53 +69,66 @@ public class DownloadATreeBlockController implements Controller {
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		// TODO:
-		String sep = System.getProperty("file.separator");
+//		String sep = System.getProperty("file.separator");
 		if (request.getParameter("treeblockid") == null) {
 			return null;
 		}
 		long blockid = Long.parseLong(request.getParameter("treeblockid"));
-		String fileName = getFileName(blockid);
-
-		String downloadDir = request.getSession().getServletContext().getRealPath(
-			"/NexusFileDownload")
-			+ sep + request.getRemoteUser();
-
-		long start = System.currentTimeMillis();
-
-		TreeBlock element = getPhyloTreeHome().findTreeBlockById(blockid);
-
-		File dirPath = new File(downloadDir);
-		if (!dirPath.exists()) {
-			dirPath.mkdirs();
-		}
-		File file = new File(downloadDir + System.getProperty("file.separator")
-			+ getFileName(blockid));
-		FileWriter fwriter = new FileWriter(file);
-		StringBuilder bldr = new StringBuilder("#NEXUS\n\n");
-		element.generateAFileDynamically(bldr);
-		fwriter.write(bldr.toString());
-		fwriter.close();
-		WebUtil.downloadFile(response, downloadDir, fileName);
-
-		long end = System.currentTimeMillis();
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("TIME DIFFERENCE FOR A SINGAL FILE: " + (end - start));
-		}
-
+		generateAFileDynamically(request, response, blockid);
 		return null;
+		//String fileName = getFileName(blockid,request);
+
+//		String downloadDir = request.getSession().getServletContext().getRealPath(
+//			"/NexusFileDownload")
+//			+ sep + request.getRemoteUser();
+//		String downloadDir = getDownloadDir(request);
+//
+//		long start = System.currentTimeMillis();
+//
+//		TreeBlock treeBlock = getPhyloTreeHome().findTreeBlockById(blockid);
+//
+//		File dirPath = new File(downloadDir);
+//		if (!dirPath.exists()) {
+//			dirPath.mkdirs();
+//		}
+//		File file = new File(downloadDir + System.getProperty("file.separator")
+//			+ getFileName(blockid,request));
+//		FileWriter fwriter = new FileWriter(file);
+//		StringBuilder bldr = new StringBuilder("#NEXUS\n\n");
+//		treeBlock.generateAFileDynamically(bldr);
+//		fwriter.write(bldr.toString());
+//		fwriter.close();
+//		generateAFileDynamically(request, blockid);
+//		WebUtil.downloadFile(response, downloadDir, getFileName(blockid,request));
+//
+//		long end = System.currentTimeMillis();
+//
+//		if (LOGGER.isDebugEnabled()) {
+//			LOGGER.debug("TIME DIFFERENCE FOR A SINGAL FILE: " + (end - start));
+//		}
+//
+//		return null;
 	}
 
-	/**
-	 * This method adds "TB" as Prefix to the tree block ID and ".tre" as Suffix.
-	 * 
-	 * @param id (TreeBlock id)
-	 * @return returns the file name to be used for down loading
-	 */
-	private String getFileName(long id) {
+	@Override
+	protected String getFileNamePrefix() {
+		return "TB";
+	}
 
-		return "TB" + id + ".tre";
+	@Override
+	protected String getFileContent(long blockid, HttpServletRequest request) {
+		TreeBlock treeBlock = getPhyloTreeHome().findTreeBlockById(blockid);		
+		if ( getFormat(request) == FORMAT_NEXML ) {
+			NexusDataSet nexusDataSet = new NexusDataSet();
+			nexusDataSet.getTaxonLabelSets().add(treeBlock.getTaxonLabelSet());
+			nexusDataSet.getTreeBlocks().add(treeBlock);
+			return getNexmlService().serialize(nexusDataSet);
+		}
+		else {
+			StringBuilder bldr = new StringBuilder("#NEXUS\n\n");
+			treeBlock.generateAFileDynamically(bldr);
+			return bldr.toString();
+		}
 	}
 
 }

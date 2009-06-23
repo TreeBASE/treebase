@@ -20,25 +20,26 @@
 
 package org.cipres.treebase.web.controllers;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.File;
+//import java.io.FileWriter;
+//import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.matrix.MatrixService;
+import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.web.util.ControllerUtil;
-import org.cipres.treebase.web.util.WebUtil;
+//import org.cipres.treebase.web.util.WebUtil;
 
 /**
  * DownloadAMatrixController.java
@@ -52,8 +53,8 @@ import org.cipres.treebase.web.util.WebUtil;
  * 
  */
 
-public class DownloadAMatrixController implements Controller {
-	private static final Logger LOGGER = Logger.getLogger(DownloadAMatrixController.class);
+public class DownloadAMatrixController extends AbstractDownloadController implements Controller {
+	//private static final Logger LOGGER = Logger.getLogger(DownloadAMatrixController.class);
 
 	private MatrixService mMatrixService;
 	private StudyService mStudyService;
@@ -103,7 +104,6 @@ public class DownloadAMatrixController implements Controller {
 		// + request.getSession().getServletContext().getRealPath("/NexusFileDownload"));
 		// System.out.println("PATH INFO: " + request.getPathInfo());
 		//
-		// TODO:
 
 		if (request.getParameter("matrixid") == null) {
 			return null;
@@ -113,37 +113,26 @@ public class DownloadAMatrixController implements Controller {
 		//Study s = getStudyService().findByID(studyId);
 		
 		long matrixId = Long.parseLong(request.getParameter("matrixid"));
-		String fileName = getFileName(matrixId);
+//		String fileName = getFileName(matrixId,request);
 
-		String downloadDir = request.getSession().getServletContext().getRealPath(
-			TreebaseUtil.FILESEP + "NexusFileDownload")
-			+ TreebaseUtil.FILESEP + request.getRemoteUser();
+//		String downloadDir = request.getSession().getServletContext().getRealPath(
+//			TreebaseUtil.FILESEP + "NexusFileDownload")
+//			+ TreebaseUtil.FILESEP + request.getRemoteUser();
+//		String downloadDir = getDownloadDir(request);
 
-		long start = System.currentTimeMillis();
+//		long start = System.currentTimeMillis();
 
-		generateAFileDynamically(request, matrixId, downloadDir);
-		WebUtil.downloadFile(response, downloadDir, fileName);
+		generateAFileDynamically(request, response, matrixId);
+//		WebUtil.downloadFile(response, downloadDir, fileName);
 
-		long end = System.currentTimeMillis();
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("TIME DIFFERENCE FOR A SINGAL FILE IN DOWNLOAD A MATRIX CONTROLLER: "
-				+ (end - start));
-		}
+//		long end = System.currentTimeMillis();
+//
+//		if (LOGGER.isDebugEnabled()) {
+//			LOGGER.debug("TIME DIFFERENCE FOR A SINGAL FILE IN DOWNLOAD A MATRIX CONTROLLER: "
+//				+ (end - start));
+//		}
 
 		return null; // new ModelAndView("treeList", Constants.TREE_LIST, phyloTrees);
-	}
-
-	/**
-	 * This method adds "M" as Prefix to the matrix ID and ".nex" as Suffix.
-	 * 
-	 * @param id (Matrix id)
-	 * @return returns the file name to be used for down loading
-	 */
-
-	private String getFileName(long id) {
-
-		return "M" + id + ".nex";
 	}
 
 	/**
@@ -155,7 +144,7 @@ public class DownloadAMatrixController implements Controller {
 	 * @param pMatrixId It is Matrix id.
 	 * @param downloadDirName down load directory where files will be created
 	 */
-
+	/*
 	private void generateAFileDynamically(HttpServletRequest request, long pMatrixId, String downloadDirName) {
 
 		Study pStudy = ControllerUtil.findStudy(request, mStudyService);
@@ -183,7 +172,7 @@ public class DownloadAMatrixController implements Controller {
 		matrix.generateNexusBlock(matrixContent);
 		// matrixContent.append("END;\n"); // Not Needed
 
-		String tmp = getFileName(pMatrixId);
+		String tmp = getFileName(pMatrixId,request);
 
 		try {
 
@@ -202,6 +191,37 @@ public class DownloadAMatrixController implements Controller {
 			e.printStackTrace();
 		}
 
+	}
+	*/
+
+	@Override
+	protected String getFileNamePrefix() {
+		return "M";
+	}
+
+	@Override
+	protected String getFileContent(long objectId, HttpServletRequest request) {
+		Study pStudy = ControllerUtil.findStudy(request, getStudyService());
+		Matrix matrix = getMatrixService().findByID(objectId);
+		TaxonLabelSet taxa = matrix.getTaxa();
+		
+		if ( getFormat(request) == FORMAT_NEXML ) {
+			NexusDataSet pNexusDataSet = new NexusDataSet();
+			pNexusDataSet.getTaxonLabelSets().add(taxa);
+			pNexusDataSet.getMatrices().add(matrix);
+			return getNexmlService().serialize(pNexusDataSet);
+		}
+		else { // FORMAT_NEXUS or none
+			StringBuilder matrixContent = new StringBuilder();
+			matrixContent.append("#NEXUS\n");
+			TreebaseUtil.attachStudyHeader(pStudy, matrixContent);
+			if (taxa != null) {
+				//one taxon per line, no line number:
+				taxa.buildNexusBlockTaxa(matrixContent, true, false);
+			}
+			matrix.generateNexusBlock(matrixContent);		
+			return matrixContent.toString();			
+		}
 	}
 
 }

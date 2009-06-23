@@ -20,9 +20,9 @@
 
 package org.cipres.treebase.web.controllers;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.File;
+//import java.io.FileWriter;
+//import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +39,7 @@ import org.cipres.treebase.domain.study.AnalyzedData;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
-import org.cipres.treebase.web.util.WebUtil;
+//import org.cipres.treebase.web.util.WebUtil;
 
 /**
  * 
@@ -49,7 +49,7 @@ import org.cipres.treebase.web.util.WebUtil;
  * @author rvosa
  *
  */
-public class DownloadAnAnalysisStepController implements Controller {
+public class DownloadAnAnalysisStepController extends AbstractDownloadController implements Controller {
 	private MatrixService mMatrixService;
 	private PhyloTreeService mPhyloTreeService;
 	private AnalysisStepService mAnalysisStepService;
@@ -117,14 +117,15 @@ public class DownloadAnAnalysisStepController implements Controller {
 		}
 		
 		long analysisId = Long.parseLong(request.getParameter("analysisid"));
-		String fileName = getFileName(analysisId);
+//		String fileName = getFileName(analysisId,request);
 		
-		String downloadDir = request.getSession().getServletContext().getRealPath(
-			TreebaseUtil.FILESEP + "NexusFileDownload")
-			+ TreebaseUtil.FILESEP + request.getRemoteUser();		
+//		String downloadDir = request.getSession().getServletContext().getRealPath(
+//			TreebaseUtil.FILESEP + "NexusFileDownload")
+//			+ TreebaseUtil.FILESEP + request.getRemoteUser();	
+//		String downloadDir = getDownloadDir(request);
 		
-		generateAFileDynamically(request, analysisId, downloadDir);
-		WebUtil.downloadFile(response, downloadDir, fileName);		
+		generateAFileDynamically(request, response, analysisId);
+//		WebUtil.downloadFile(response, downloadDir, fileName);		
 		
 		return null;
 	}
@@ -136,6 +137,7 @@ public class DownloadAnAnalysisStepController implements Controller {
 	 * @param analysisId
 	 * @param downloadDirName
 	 */
+	/*
 	private void generateAFileDynamically(HttpServletRequest request, long analysisId, String downloadDirName) {
 
 		AnalysisStep step = getAnalysisStepService().findByID(analysisId);
@@ -187,7 +189,7 @@ public class DownloadAnAnalysisStepController implements Controller {
 			}
 		}		
 
-		String tmp = getFileName(analysisId);
+		String tmp = getFileName(analysisId,request);
 		try {
 			File file = new File(downloadDirName + TreebaseUtil.FILESEP + tmp);
 			FileWriter out = new FileWriter(file);
@@ -198,9 +200,57 @@ public class DownloadAnAnalysisStepController implements Controller {
 		}
 
 	}	
-	
-	private String getFileName(long id) {
-		return "AnalysisStep" + id + ".nex";
+	*/
+
+	@Override
+	protected String getFileNamePrefix() {
+		return "AnalysisStep";
+	}
+
+	@Override
+	protected String getFileContent(long analysisId, HttpServletRequest request) {
+		AnalysisStep step = getAnalysisStepService().findByID(analysisId);
+		StringBuilder stepContent = new StringBuilder();
+		stepContent.append("#NEXUS\n");
+		
+		//header:
+		TreebaseUtil.attachStudyHeader(step.getAnalysis().getStudy(), stepContent);
+		stepContent.append("[ The following blocks are input data for analysis step " + analysisId + " ]\n");
+		TaxonLabelSet inputLabelSet = step.getInputTaxonLabelSet();
+		inputLabelSet.buildNexusBlockTaxa(stepContent, true, false);
+		for ( AnalyzedData data : step.getDataSetReadOnly() ) {
+			if ( data.isInputData() ) {
+				PhyloTree tree = data.getTreeData();
+				Matrix matrix  = data.getMatrixData();
+				if ( tree != null ) {
+					tree.getTreeBlock().setTaxonLabelSet(inputLabelSet);
+					tree.buildNexusBlock(stepContent);
+				}
+				if ( matrix != null ) {
+					matrix.setTaxa(inputLabelSet);
+					matrix.generateNexusBlock(stepContent);
+				}				
+			}
+		}
+		
+		stepContent.append("[ The following blocks are output data for analysis step " + analysisId + " ]\n");
+		TaxonLabelSet outputLabelSet = step.getOutputTaxonLabelSet();
+		outputLabelSet.buildNexusBlockTaxa(stepContent, true, false);
+		for ( AnalyzedData data : step.getDataSetReadOnly() ) {
+			if ( ! data.isInputData() ) {
+				PhyloTree tree = data.getTreeData();
+				Matrix matrix  = data.getMatrixData();
+				if ( tree != null ) {
+					tree.getTreeBlock().setTaxonLabelSet(outputLabelSet);
+					tree.buildNexusBlock(stepContent);
+				}
+				if ( matrix != null ) {
+					matrix.setTaxa(outputLabelSet);
+					matrix.generateNexusBlock(stepContent);
+				}				
+			}
+		}		
+		return stepContent.toString();
 	}
 
 }

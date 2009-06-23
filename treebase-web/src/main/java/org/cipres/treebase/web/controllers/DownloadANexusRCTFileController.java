@@ -21,8 +21,8 @@
  */
 package org.cipres.treebase.web.controllers;
 
-import java.io.File;
-import java.io.FileWriter;
+//import java.io.File;
+//import java.io.FileWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +36,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.web.util.ControllerUtil;
-import org.cipres.treebase.web.util.WebUtil;
+//import org.cipres.treebase.web.util.WebUtil;
 
 /**
  * @author madhu
@@ -46,7 +46,7 @@ import org.cipres.treebase.web.util.WebUtil;
  * Modified on April 28, 2008
  * 
  */
-public class DownloadANexusRCTFileController implements Controller {
+public class DownloadANexusRCTFileController extends AbstractDownloadController implements Controller {
 
 	Logger LOGGER = Logger.getLogger(DownloadANexusRCTFileController.class);
 
@@ -78,52 +78,91 @@ public class DownloadANexusRCTFileController implements Controller {
 		Long study_id = ControllerUtil.getStudyId(pRequest);
 		Study study = mStudyService.findByID(study_id);
 		Submission submission = study.getSubmission();
+		generateAFileDynamically(pRequest, pResponse, submission.getId());
+		return null;
 
-		String fileName = pRequest.getParameter("nexusfile");
+//		String fileName = pRequest.getParameter("nexusfile");
+//		if (fileName == null) {
+//			return null;
+//		}
+//
+//		String nexFileName = (fileName + "rct").replaceAll(TreebaseUtil.ANEMPTYSPACE, "_");
+//
+//		if (LOGGER.isInfoEnabled()) {
+//			LOGGER.info("Submission id: " + submission.getId() + ", FileName: " + nexFileName);
+//		}
+
+//		String downloadDir = pRequest.getSession().getServletContext().getRealPath(
+//			TreebaseUtil.FILESEP + "NexusFileDownload")
+//			+ TreebaseUtil.FILESEP + pRequest.getRemoteUser();
+//		String downloadDir = getDownloadDir(pRequest);
+//
+//		long start = System.currentTimeMillis();
+//
+//		File dirPath = new File(downloadDir);
+//		if (!dirPath.exists()) {
+//			dirPath.mkdirs();
+//		}
+//
+//		String pathName = downloadDir + TreebaseUtil.FILESEP + nexFileName;
+//		File file = new File(pathName);
+//
+//		if (LOGGER.isDebugEnabled()) {
+//			LOGGER.debug("path=" + pathName);
+//		}
+//
+//		FileWriter fwriter = new FileWriter(file);
+//		StringBuilder bldr = new StringBuilder("#NEXUS");
+//		bldr.append(TreebaseUtil.getLineSeparators(2));
+//		bldr
+//			.append(getStudyService().generateReconstructedNexusFile(submission.getId(), fileName));
+//
+//		fwriter.write(bldr.toString());
+//		fwriter.close();
+//		WebUtil.downloadFile(pResponse, downloadDir, nexFileName);
+//
+//		if (LOGGER.isDebugEnabled()) {
+//			long end = System.currentTimeMillis();
+//			LOGGER.debug(" file download time=" + (end-start));
+//		}
+//
+//		return null;
+	}
+
+	@Override
+	protected String getFileName(long objectId,HttpServletRequest req) {
+		String fileName = req.getParameter("nexusfile");
 		if (fileName == null) {
 			return null;
 		}
+		return (fileName + "rct").replaceAll(TreebaseUtil.ANEMPTYSPACE, "_");		
+	}
 
-		String nexFileName = (fileName + "rct").replaceAll(TreebaseUtil.ANEMPTYSPACE, "_");
-
-		if (LOGGER.isInfoEnabled()) {
-			LOGGER.info("Submission id: " + submission.getId() + ", FileName: " + nexFileName);
-		}
-
-		String downloadDir = pRequest.getSession().getServletContext().getRealPath(
-			TreebaseUtil.FILESEP + "NexusFileDownload")
-			+ TreebaseUtil.FILESEP + pRequest.getRemoteUser();
-
-		long start = System.currentTimeMillis();
-
-		File dirPath = new File(downloadDir);
-		if (!dirPath.exists()) {
-			dirPath.mkdirs();
-		}
-
-		String pathName = downloadDir + TreebaseUtil.FILESEP + nexFileName;
-		File file = new File(pathName);
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("path=" + pathName);
-		}
-
-		FileWriter fwriter = new FileWriter(file);
-		StringBuilder bldr = new StringBuilder("#NEXUS");
-		bldr.append(TreebaseUtil.getLineSeparators(2));
-		bldr
-			.append(getStudyService().generateReconstructedNexusFile(submission.getId(), fileName));
-
-		fwriter.write(bldr.toString());
-		fwriter.close();
-		WebUtil.downloadFile(pResponse, downloadDir, nexFileName);
-
-		if (LOGGER.isDebugEnabled()) {
-			long end = System.currentTimeMillis();
-			LOGGER.debug(" file download time=" + (end-start));
-		}
-
+	@Override
+	protected String getFileNamePrefix() {
+		// Not necessary because we override getFileName
 		return null;
+	}
+
+	@Override
+	protected String getFileContent(long submisionId, HttpServletRequest request) {
+		if ( getFormat(request) == FORMAT_NEXML ) {
+			Long study_id = ControllerUtil.getStudyId(request);
+			Study study = mStudyService.findByID(study_id);
+			return getNexmlService().serialize(study);
+		}
+		else {
+			String fileName = request.getParameter("nexusfile");
+			if (fileName == null) {
+				return null;
+			}		
+			StringBuilder bldr = new StringBuilder("#NEXUS");
+			bldr
+				.append(TreebaseUtil.getLineSeparators(2))
+				.append(getStudyService()
+						.generateReconstructedNexusFile(submisionId, fileName));
+			return bldr.toString();
+		}
 	}
 
 }

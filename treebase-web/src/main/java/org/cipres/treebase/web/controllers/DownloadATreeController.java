@@ -20,24 +20,26 @@
 
 package org.cipres.treebase.web.controllers;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.File;
+//import java.io.FileWriter;
+//import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import org.cipres.treebase.TreebaseUtil;
+import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
+import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.web.util.ControllerUtil;
-import org.cipres.treebase.web.util.WebUtil;
+//import org.cipres.treebase.web.util.WebUtil;
 
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 
@@ -53,8 +55,8 @@ import org.cipres.treebase.domain.taxon.TaxonLabelSet;
  * 
  */
 
-public class DownloadATreeController implements Controller {
-	private static final Logger LOGGER = Logger.getLogger(DownloadATreeController.class);
+public class DownloadATreeController extends AbstractDownloadController implements Controller {
+//	private static final Logger LOGGER = Logger.getLogger(DownloadATreeController.class);
 
 	private PhyloTreeService mPhyloTreeService;
 	private StudyService mStudyService;
@@ -94,41 +96,32 @@ public class DownloadATreeController implements Controller {
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		// TODO:
-		String sep = System.getProperty("file.separator");
+//		String sep = System.getProperty("file.separator");
 		if (request.getParameter("treeid") == null) {
 			return null;
 		}
 		long treeid = Long.parseLong(request.getParameter("treeid"));
-		String fileName = getFileName(treeid);
-
-		String downloadDir = request.getSession().getServletContext().getRealPath(
-			"/NexusFileDownload")
-			+ sep + request.getRemoteUser();
-
-		long start = System.currentTimeMillis();
-
-		generateAFileDynamically(request, treeid, downloadDir);
-		WebUtil.downloadFile(response, downloadDir, fileName);
-
-		long end = System.currentTimeMillis();
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("TIME DIFFERENCE FOR A SINGAL FILE: " + (end - start));
-		}
-
-		return null; // new ModelAndView("treeList", Constants.TREE_LIST, phyloTrees);
-	}
-
-	/**
-	 * This method adds "T" as Prefix to the tree ID and ".tre" as Suffix.
-	 * 
-	 * @param id (Tree id)
-	 * @return returns the file name to be used for downloading
-	 */
-	private String getFileName(long id) {
-
-		return "T" + id + ".tre";
+		generateAFileDynamically(request, response, treeid);
+		return null;
+//		String fileName = getFileName(treeid,request);
+//
+//		String downloadDir = request.getSession().getServletContext().getRealPath(
+//			"/NexusFileDownload")
+//			+ sep + request.getRemoteUser();
+//		String downloadDir = getDownloadDir(request);
+//
+//		long start = System.currentTimeMillis();
+//
+//		generateAFileDynamically(request, treeid, downloadDir);
+//		WebUtil.downloadFile(response, downloadDir, fileName);
+//
+//		long end = System.currentTimeMillis();
+//
+//		if (LOGGER.isDebugEnabled()) {
+//			LOGGER.debug("TIME DIFFERENCE FOR A SINGAL FILE: " + (end - start));
+//		}
+//
+//		return null; // new ModelAndView("treeList", Constants.TREE_LIST, phyloTrees);
 	}
 
 	/**
@@ -138,6 +131,7 @@ public class DownloadATreeController implements Controller {
 	 * @param downloadDirName download directory where files will be created
 	 */
 
+	/*
 	private void generateAFileDynamically(
 		HttpServletRequest request,
 		long pTreeId,
@@ -145,15 +139,15 @@ public class DownloadATreeController implements Controller {
 
 		Study study = ControllerUtil.findStudy(request, mStudyService);
 
-		File dirPath = new File(downloadDirName);
-		if (!dirPath.exists()) {
-			dirPath.mkdirs();
-		}
+//		File dirPath = new File(downloadDirName);
+//		if (!dirPath.exists()) {
+//			dirPath.mkdirs();
+//		}
 
 		PhyloTree tree = getPhyloTreeService().findByID(pTreeId);
 		TaxonLabelSet tbnlblSet = tree.getTreeBlock().getTaxonLabelSet();
 
-		String tmp = getFileName(pTreeId);
+//		String tmp = getFileName(pTreeId,request);
 
 		StringBuilder builder = new StringBuilder();
 
@@ -168,18 +162,59 @@ public class DownloadATreeController implements Controller {
 		
 		//tree block:
 		tree.buildNexusBlock(builder);
+		
+		generateAFileDynamically(request, pTreeId);
 
-		try {
+//		try {
+//
+//			File file = new File(downloadDirName + TreebaseUtil.FILESEP + tmp);
+//			FileWriter out = new FileWriter(file);
+//
+//			out.write(builder.toString());
+//
+//			out.close();
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+	}
+*/
+	@Override
+	protected String getFileNamePrefix() {
+		return "T";
+	}
 
-			File file = new File(downloadDirName + TreebaseUtil.FILESEP + tmp);
-			FileWriter out = new FileWriter(file);
-
-			out.write(builder.toString());
-
-			out.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
+	@Override
+	protected String getFileContent(long pTreeId, HttpServletRequest request) {
+		Study study = ControllerUtil.findStudy(request, mStudyService);
+		PhyloTree tree = getPhyloTreeService().findByID(pTreeId);
+		tree = getPhyloTreeService().resurrect(tree);
+		TreeBlock enclosingTreeBlock = getPhyloTreeService().resurrect(tree.getTreeBlock());
+		TaxonLabelSet tls = getPhyloTreeService().resurrect(enclosingTreeBlock.getTaxonLabelSet());
+		if ( getFormat(request) == FORMAT_NEXML ) {
+			NexusDataSet nds = new NexusDataSet();
+			nds.getTaxonLabelSets().add(tls);
+			TreeBlock treeBlock = new TreeBlock();
+			treeBlock.setTaxonLabelSet(tls);
+			treeBlock.addPhyloTree(tree);
+			nds.getTreeBlocks().add(treeBlock);
+			return getNexmlService().serialize(nds);
+		}
+		else {
+			StringBuilder builder = new StringBuilder();
+			builder.append("#NEXUS\n\n");
+	
+			// header:
+			TreebaseUtil.attachStudyHeader(study, builder);
+	
+			// taxa:
+			// one taxon label per line, no line number. 
+			tls.buildNexusBlockTaxa(builder, true, false);
+			
+			//tree block:
+			tree.buildNexusBlock(builder);
+			
+			return builder.toString();
 		}
 	}
 

@@ -22,17 +22,17 @@
 
 package org.cipres.treebase.web.controllers;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.File;
+//import java.io.FileWriter;
+//import java.io.IOException;
 import java.sql.Clob;
-import java.sql.SQLException;
+//import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -42,7 +42,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.web.util.ControllerUtil;
-import org.cipres.treebase.web.util.WebUtil;
+//import org.cipres.treebase.web.util.WebUtil;
 
 /**
  * 
@@ -54,9 +54,9 @@ import org.cipres.treebase.web.util.WebUtil;
  * @author madhu
  * 
  */
-public class DownloadANexusFileController implements Controller {
+public class DownloadANexusFileController extends AbstractDownloadController implements Controller {
 
-	private static final Logger LOGGER = Logger.getLogger(DownloadANexusFileController.class);
+//	private static final Logger LOGGER = Logger.getLogger(DownloadANexusFileController.class);
 
 	private PhyloTreeService mPhyloTreeService;
 	private StudyService mStudyService;
@@ -109,38 +109,39 @@ public class DownloadANexusFileController implements Controller {
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
-		// TODO Auto-generated method stub
-		String sep = System.getProperty("file.separator");
-		String downloadDir = request.getSession().getServletContext().getRealPath(
-			"/NexusFileDownload")
-			+ sep + request.getRemoteUser();
+//		String sep = System.getProperty("file.separator");
+//		String downloadDir = request.getSession().getServletContext().getRealPath(
+//			"/NexusFileDownload")
+//			+ sep + request.getRemoteUser();
+//		String downloadDir = getDownloadDir(request);
+//
+//		String treeId = request.getParameter("treeid");
+//		String matrixId = request.getParameter("matrixid");
+//		String nexusFile = request.getParameter("nexusfile");
+//
+//		if (treeId == null && matrixId == null && nexusFile == null) {
+//			return null;
+//		}
+//		long clickedParameterId = 0L;
+//		String nexusFileName = null;
+//
+//		if (treeId != null) {
+//			clickedParameterId = Long.parseLong(treeId);
+//			nexusFileName = getPhyloTreeService().findByID(clickedParameterId).getNexusFileName();
+//		} else if (matrixId != null) {
+//			clickedParameterId = Long.parseLong(matrixId);
+//			nexusFileName = getMatrixService().findByID(clickedParameterId).getNexusFileName();
+//		} else if (nexusFile != null) {
+//			nexusFileName = (nexusFile).replaceAll("%20", "_");
+//		}
+//
+//		if (nexusFileName == null) {
+//			return null;
+//		}
 
-		String treeId = request.getParameter("treeid");
-		String matrixId = request.getParameter("matrixid");
-		String nexusFile = request.getParameter("nexusfile");
-
-		if (treeId == null && matrixId == null && nexusFile == null) {
-			return null;
-		}
-		long clickedParameterId = 0L;
-		String nexusFileName = null;
-
-		if (treeId != null) {
-			clickedParameterId = Long.parseLong(treeId);
-			nexusFileName = getPhyloTreeService().findByID(clickedParameterId).getNexusFileName();
-		} else if (matrixId != null) {
-			clickedParameterId = Long.parseLong(matrixId);
-			nexusFileName = getMatrixService().findByID(clickedParameterId).getNexusFileName();
-		} else if (nexusFile != null) {
-			nexusFileName = (nexusFile).replaceAll("%20", "_");
-		}
-
-		if (nexusFileName == null) {
-			return null;
-		}
-
-		generateAFileDynamically(request, downloadDir, nexusFileName);
-		WebUtil.downloadFile(response, downloadDir, nexusFileName + org);
+		generateAFileDynamically(request,response,0L);
+//		generateAFileDynamically(request, downloadDir, nexusFileName);
+//		WebUtil.downloadFile(response, downloadDir, nexusFileName + org);
 
 		return null;
 	}
@@ -150,6 +151,7 @@ public class DownloadANexusFileController implements Controller {
 	 * @param downloadDirName String Name of the directory where file(s) will be downloaded
 	 * @param fileName String name of the download file
 	 */
+	/*
 	private void generateAFileDynamically(
 		HttpServletRequest req,
 		String downloadDirName,
@@ -199,6 +201,72 @@ public class DownloadANexusFileController implements Controller {
 			sqle.printStackTrace();
 		}
 
+	}
+	*/
+
+	@Override
+	protected String getFileName(long objectId,HttpServletRequest req) {
+		String treeId = req.getParameter("treeid");
+		String matrixId = req.getParameter("matrixid");
+		String nexusFile = req.getParameter("nexusfile");
+
+		if (treeId == null && matrixId == null && nexusFile == null) {
+			return null;
+		}
+		long clickedParameterId = 0L;
+		String nexusFileName = null;
+		if (treeId != null) {
+			clickedParameterId = Long.parseLong(treeId);
+			nexusFileName = getPhyloTreeService().findByID(clickedParameterId).getNexusFileName();
+		} else if (matrixId != null) {
+			clickedParameterId = Long.parseLong(matrixId);
+			nexusFileName = getMatrixService().findByID(clickedParameterId).getNexusFileName();
+		} else if (nexusFile != null) {
+			nexusFileName = (nexusFile).replaceAll("%20", "_");
+		}
+		return ( nexusFileName + org ).replaceAll(TreebaseUtil.ANEMPTYSPACE, "_");
+	}
+
+	@Override
+	protected String getFileNamePrefix() {
+		// Not necessary because we override getFileName
+		return null;
+	}
+
+	@Override
+	protected String getFileContent(long objectId, HttpServletRequest req) {
+		String nexusFileName = null;
+		String treeId = req.getParameter("treeid");
+		String matrixId = req.getParameter("matrixid");
+		String nexusFile = req.getParameter("nexusfile");		
+		long clickedParameterId = 0L;
+		if (treeId != null) {
+			clickedParameterId = Long.parseLong(treeId);
+			nexusFileName = getPhyloTreeService().findByID(clickedParameterId).getNexusFileName();
+		} else if (matrixId != null) {
+			clickedParameterId = Long.parseLong(matrixId);
+			nexusFileName = getMatrixService().findByID(clickedParameterId).getNexusFileName();
+		} else if (nexusFile != null) {
+			nexusFileName = (nexusFile).replaceAll("%20", "_");
+		}
+		if (nexusFileName == null) {
+			return null;
+		}
+		Study study = ControllerUtil.findStudy(req, mStudyService);
+		Map<String, Clob> nexusMap = study.getNexusFiles();		
+		Clob clob = nexusMap.get(nexusFileName);
+		String clobStr = "File Not Found. File Name is: " + nexusFileName;
+		if (clob != null) {
+			try {
+				int clobLength = (int) clob.length();
+				char[] clobchars = new char[clobLength];
+				clob.getCharacterStream().read(clobchars);
+				clobStr = new String(clobchars);
+			} catch ( Exception e ) {
+				e.printStackTrace();
+			}
+		}
+		return clobStr;
 	}
 
 }
