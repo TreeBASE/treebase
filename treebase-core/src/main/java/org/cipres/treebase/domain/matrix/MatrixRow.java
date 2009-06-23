@@ -68,6 +68,8 @@ public class MatrixRow extends AbstractPersistedObject {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final int DISPLAY_STRING_LENGTH = 30;
+
 	private String mSymbolString;
 
 	private TaxonLabel mTaxonLabel;
@@ -373,7 +375,6 @@ public class MatrixRow extends AbstractPersistedObject {
 	public String getElementStringForDisplay() {
 		String syms = getSymbolString();
 		if (syms == null) { return "(no data)"; }
-		int max = 30; // XXX Totally arbitrary 30 here
-		return syms.length() >= 30 ? syms.substring(0, 30) : syms; 
+		return syms.length() >= DISPLAY_STRING_LENGTH ? syms.substring(0, DISPLAY_STRING_LENGTH) : syms; 
 	}
 }
