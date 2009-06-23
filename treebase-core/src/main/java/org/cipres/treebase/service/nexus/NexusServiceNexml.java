@@ -20,22 +20,24 @@ import org.nexml.model.DocumentFactory;
 
 public class NexusServiceNexml extends AbstractServiceImpl implements NexusService {
 	private static final Logger LOGGER = Logger.getLogger(NexusServiceNexml.class);
-	private DomainHome mDomainHome;
+//	private DomainHome mDomainHome;
 	private TaxonLabelHome mTaxonLabelHome;
 
 	@Override
-	public Class defaultResultClass() {
+	public Class<?> defaultResultClass() {
 		return null;
 	}
 
 	@Override
 	protected DomainHome getDomainHome() {
-		return mDomainHome;
+		return null; // do not need persistence service.
 	}
 	
+	/*
 	public void setDomainHome(DomainHome domainHome) {
 		mDomainHome = domainHome;
 	}
+	*/
 
 	public NexusDataSet parseNexus(Study study, Collection<File> nexusFiles,
 			ProgressionListener listener) {
