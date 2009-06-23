@@ -15,7 +15,8 @@ my $name_file_after_table = 0; # name output file after table
 my $schema = 'TBASE2';         # name of schema to analyze
 my $zip = 0;                   # zip output
 my $test = 0;                  # test run: delete produced files
-
+my $nrecs;                     # max number of recs per table
+my $where = "";                # WHERE clause to select dumped records
 # get command line options, see Getopt::Long
 GetOptions(
     'name-after-table' => \$name_file_after_table,
@@ -28,6 +29,8 @@ GetOptions(
     'table=s'   => \@tables,
     'zip'       => \$zip,
     'test'      => \$test,
+    'nrecs=i'   => \$nrecs,
+    'where=s'   => \$where,
     'all'       => sub { @tables = get_all_tables() },
     'help|?'    => sub { pod2usage( '-verbose' => 0 )  }, # see Pod::Usage
     'man'       => sub { pod2usage( '-verbose' => 1 )  }, # see Pod::Usage
@@ -57,6 +60,10 @@ pod2usage(
     '-exitval' => 1, 
     '-msg'     => 'Need at least one operation to write out (--inserts and/or --creates), aborting'
 ) unless $with_creates or $with_inserts;
+
+# prepend $where clause with WHERE unless it has that already,
+# or there was none.
+$where = "WHERE $where" unless $where =~ /^\s*$/ || $where =~ /^\s*where\b/i;
 
 {
     # create database handle
@@ -149,6 +156,7 @@ sub print_insert_statements {
 
     # get all rows from $table
     my $q   = qq{select * from $table};
+    $q .= "  " . $where if $where;
     my $sth = $dbh->prepare($q);
     $sth->execute();
 
@@ -168,6 +176,7 @@ sub print_insert_statements {
     else {
         while ( $row = $sth->fetchrow_arrayref ) {
             $dumper->rec(@$row);
+	    last if defined($nrecs) && (--$nrecs == 0);
         }
     }
 
