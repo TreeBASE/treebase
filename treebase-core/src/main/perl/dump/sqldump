@@ -74,11 +74,10 @@ $where = "WHERE $where" unless $where =~ /^\s*$/ || $where =~ /^\s*where\b/i;
     $dbh->{LongReadLen} = $maxlen;  # Handle LOBs up to $maxlen bytes
     
     for my $table ( @tables ) {
-        # only using these two functions once, so for clarity as to where they
-        # originate let's use the fully qualified names.
+
         my @names = CIPRES::TreeBase::DBIUtil::get_colnames($dbh, $table); 
         my @types = CIPRES::TreeBase::DBIUtil::get_coltypes($dbh, $table);
-        
+
         # instantiate a RecDumper object, which will format a row-as-array
         # into an insert statement
         my $dumper = CIPRES::TreeBase::RecDumper->new(
@@ -168,11 +167,17 @@ sub print_insert_statements {
 
     # if --progress is provided, print out progress counter
     if ($with_progress_meter) {
+	my ($total_records) = @{$dbh->selectcol_arrayref(qq{select count(*) from $table})};
+	$total_records = $nrecs if defined($nrecs) && $nrecs < $total_records;
         my $count = 0;
+	my $old_percent = "";
         while ( $row = $sth->fetchrow_arrayref ) {
             ++$count;
             $dumper->rec(@$row);
-            print STDERR "\r$count" if $count % 1000 == 0;
+	    my $percent = int(0.5 + $count / $total_records * 100);
+            print STDERR "\r$percent%" if $percent ne $old_percent;
+	    $old_percent = $percent;
+	    last if defined($nrecs) && (--$nrecs == 0);
         }
     }
 
