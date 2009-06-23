@@ -4,41 +4,56 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.cipres.treebase.domain.TBPersistable;
+import org.cipres.treebase.domain.matrix.DiscreteCharState;
+import org.cipres.treebase.domain.matrix.DiscreteMatrixElement;
 import org.cipres.treebase.domain.matrix.Matrix;
+import org.cipres.treebase.domain.matrix.PhyloChar;
 import org.cipres.treebase.domain.study.Analysis;
 import org.cipres.treebase.domain.study.AnalysisStep;
 import org.cipres.treebase.domain.study.AnalyzedData;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.Taxon;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
+import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeNode;
+import org.cipres.treebase.domain.tree.TreeBlock;
+import org.nexml.model.Annotatable;
 
 public class TreebaseIDString {
 	
 	public class MalformedTreebaseIDString extends Exception {
+		private static final long serialVersionUID = 1L;
 		public MalformedTreebaseIDString() {
 			super();
 		}
-
 		public MalformedTreebaseIDString(String message) {
 			super(message);
 		}	
 	}
 	
-	private static final Map<Class,String> prefixFor = initializePrefixForMap();
-	private static final Map<String,Class> classFor = initializeClassForMap();
 
+	
+	private static final Map<Class<?>,String> prefixFor = initializePrefixForMap();
+	private static final Map<String,Class<?>> classFor = initializeClassForMap();
+	private String mTypePrefix;
+	private Long mId;		
+	
 	// These are the canonical prefixes
-	private static Map<Class, String> initializePrefixForMap() {
-		Map<Class, String> val = new HashMap<Class, String> ();
+	private static Map<Class<?>, String> initializePrefixForMap() {
+		Map<Class<?>, String> val = new HashMap<Class<?>, String> ();
 		val.put(Study.class, "S");
 		val.put(Matrix.class, "M");
+		val.put(PhyloChar.class, "C");
+		val.put(DiscreteCharState.class, "Dcs");
+		val.put(DiscreteMatrixElement.class, "Dme");
 		val.put(PhyloTree.class, "Tr");
 		val.put(PhyloTreeNode.class, "Tn");
+		val.put(TreeBlock.class, "Tb");
 		val.put(Taxon.class, "Tx");
 		val.put(TaxonLabel.class, "Tl");
+		val.put(TaxonLabelSet.class, "Tls");
 		val.put(TaxonVariant.class, "Tv");
 		val.put(Analysis.class, "A");
 		val.put(AnalysisStep.class, "As");
@@ -50,31 +65,28 @@ public class TreebaseIDString {
 	// and also some aliases.  
 	// For example, the application will always use "Tr1000" as the ID string for PhyloTree 1000
 	// but it will accept "T1000" as an alias. 
-	private static Map<String, Class> initializeClassForMap() {
-		Map<String, Class> val = new HashMap<String, Class> ();
-		for (Map.Entry<Class, String> e : prefixFor.entrySet()) {
+	private static Map<String, Class<?>> initializeClassForMap() {
+		Map<String, Class<?>> val = new HashMap<String, Class<?>> ();
+		for (Map.Entry<Class<?>, String> e : prefixFor.entrySet()) {
 			val.put(e.getValue(), e.getKey());
 		}
 		val.put("T", PhyloTree.class);
 		return val;
 	}
 	
-	String typePrefix;
-	Long id;
-	
 	public TreebaseIDString(String typePrefix, Long id) {
-		this.typePrefix = typePrefix;
-		this.id = id;
+		mTypePrefix = typePrefix;
+		mId = id;
 	}
 	
-	public TreebaseIDString(Class typeClass, Long id) {
-		this.typePrefix = getPrefixForClass(typeClass);
-		this.id = id;
+	public TreebaseIDString(Class<?> typeClass, Long id) {
+		mTypePrefix = getPrefixForClass(typeClass);
+		mId = id;
 	}
 	
 	public TreebaseIDString(TBPersistable tbObj) {
-		this.typePrefix = getPrefixForClass(tbObj.getClass());
-		this.id = tbObj.getId();
+		mTypePrefix = getPrefixForClass(tbObj.getClass());
+		mId = tbObj.getId();
 	}
 	
 	/**
@@ -97,43 +109,44 @@ public class TreebaseIDString {
 	 * @param mustMatch - if set, an exception is thrown if the type prefix in ids does not match the defaultClass
 	 * @throws MalformedTreebaseIDString
 	 */
-	public TreebaseIDString(String ids, Class defaultClass, boolean mustMatch) throws MalformedTreebaseIDString {
+	public TreebaseIDString(String ids, Class<?> defaultClass, boolean mustMatch) throws MalformedTreebaseIDString {
 		try {
-			this.parseWithoutSemanticChecks(ids);
+			parseWithoutSemanticChecks(ids);
 		} catch (NumberFormatException e) {
 			throw new MalformedTreebaseIDString(ids);
 		}
-		if (this.getId() == null) throw new MalformedTreebaseIDString(ids);
+		if (getId() == null) throw new MalformedTreebaseIDString(ids);
 		
 		// If there was no prefix, try to infer one
-		if (this.getTypePrefix() == null || this.getTypePrefix().equals("")) {
-			this.typePrefix = getPrefixForClass(defaultClass);
-			if (this.getTypePrefix() == null)
+		if (getTypePrefix() == null || getTypePrefix().equals("")) {
+			mTypePrefix = getPrefixForClass(defaultClass);
+			if (getTypePrefix() == null)
 				throw new MalformedTreebaseIDString(ids);			
 		}
 		else {
 			// also validate as usual
-			this.validateTypePrefix();
+			validateTypePrefix();
 			// If requested, make sure the prefix matches the requested class
-			if (mustMatch) 
-				if (getClassForPrefix(this.getTypePrefix()) != defaultClass)
+			if ( mustMatch ) { 
+				if (getClassForPrefix(getTypePrefix()) != defaultClass) {
 					throw new MalformedTreebaseIDString(ids + " has wrong prefix; should be " + getPrefixForClass(defaultClass));
+				}
+			}
 		}
 	}
 	
-	public TreebaseIDString(String string, Class class1) throws MalformedTreebaseIDString {
+	public TreebaseIDString(String string, Class<?> class1) throws MalformedTreebaseIDString {
 		this(string, class1, false);
 	}
 
 	
 	public TreebaseIDString(String ids) throws MalformedTreebaseIDString {
 		try {
-			this.parseWithoutSemanticChecks(ids);
+			parseWithoutSemanticChecks(ids);
 		} catch (NumberFormatException e) {
 			throw new MalformedTreebaseIDString(ids);
-		}
-		
-		this.validateTypePrefix();
+		}		
+		validateTypePrefix();
 	}
 	
 
@@ -177,8 +190,8 @@ public class TreebaseIDString {
 		
 		if (i < ids.length()) throw new MalformedTreebaseIDString("..." + ids.substring(i));
 
-		this.id = Long.parseLong(digits.toString());
-		this.typePrefix = prefix.toString();
+		mId = Long.parseLong(digits.toString());
+		mTypePrefix = prefix.toString();
 	}
 
 	String getIDString() {
@@ -217,7 +230,7 @@ public class TreebaseIDString {
 	 * @param prefix
 	 * @return
 	 */
-	public static Class getClassForPrefix(String prefix) {
+	public static Class<?> getClassForPrefix(String prefix) {
 		return classFor.get(prefix);
 	}
 	
@@ -230,7 +243,7 @@ public class TreebaseIDString {
 	 * @param cl - the class
 	 * @return
 	 */
-	public static String getPrefixForClass(Class cl) {
+	public static String getPrefixForClass(Class<?> cl) {
 		return prefixFor.get(cl);
 	}
 	
@@ -279,19 +292,41 @@ public class TreebaseIDString {
 	 * @param idString
 	 * @return
 	 */
-	public static Class getClassForIDString(String idString) {
+	public static Class<?> getClassForIDString(String idString) {
 		return getClassForPrefix(getPrefixOf(idString));
 	}
 
 	public String getTypePrefix() {
-		return typePrefix;
+		return mTypePrefix;
 	}
 
 	public Long getId() {
-		return id;
+		return mId;
 	}
 	
-	public Class getTBClass() {
+	public Class<?> getTBClass() {
 		return getClassForPrefix(getTypePrefix());
 	}
+	
+	/**
+	 * This creates a GUID of the form TB2:${mTypePrefix}${mId}, which is the
+	 * minimal recommendation for, for example, dc:identifier annotations. 
+	 * Additional blogging by Rod Page and others about this suggests there 
+	 * should be a delimiter between mTypePrefix and mId so that we'd end up
+	 * with id's that look like TB2:Tr:2131, which could then be mapped onto
+	 * purls. But doing that would break our backward compatibility with older
+	 * records, files, etc.
+	 *   
+	 * @return
+	 */
+	public NamespacedGUID getNamespacedGUID() {
+		StringBuilder sb = new StringBuilder();
+		sb
+			.append(NamespacedGUID.getDefaultGUIDPrefix())
+			.append(getTypePrefix())
+			.append(getId());
+		return new NamespacedGUID(sb.toString());
+	}
+	
+
 }
