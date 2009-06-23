@@ -27,9 +27,11 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 	 */
 	public TaxonLabelSet fromXmlToTreeBase (OTUs xmlOTUs) {
 		TaxonLabelSet labelSet = new TaxonLabelSet();
-		attachTreeBaseID(xmlOTUs,labelSet);
+		attachTreeBaseID(xmlOTUs,labelSet,TaxonLabelSet.class);
 		labelSet.setStudy(getStudy());
-		labelSet.setTitle(xmlOTUs.getLabel());
+		if ( null != xmlOTUs.getLabel() ) {
+			labelSet.setTitle(xmlOTUs.getLabel());
+		}
 		labelSet.setTaxa(true);
 		for ( OTU xmlOTU : xmlOTUs.getAllOTUs() ) {
 			TaxonLabel taxonLabel = fromXmlToTreeBase(xmlOTU);
@@ -46,7 +48,7 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 	public OTUs fromTreeBaseToXml(TaxonLabelSet taxonLabelSet) {
 		OTUs xmlOTUs = getDocument().createOTUs();
 		xmlOTUs.setLabel(taxonLabelSet.getTitle());
-		attachTreeBaseID(xmlOTUs,taxonLabelSet);
+		attachTreeBaseID(xmlOTUs,taxonLabelSet,TaxonLabelSet.class);
 		for ( TaxonLabel taxonLabel : taxonLabelSet.getTaxonLabelsReadOnly() ) {
 			fromTreeBaseToXml(taxonLabel,xmlOTUs);
 		}
@@ -61,7 +63,7 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 	public TaxonLabel fromXmlToTreeBase(OTU xmlOTU) {
 		TaxonLabel taxonLabel = getTaxonLabelHome().getByDescriptionAndStudy(xmlOTU.getLabel(), getStudy());
 		taxonLabel.setStudy(getStudy());
-		attachTreeBaseID(xmlOTU,taxonLabel);
+		attachTreeBaseID(xmlOTU,taxonLabel,TaxonLabel.class);
 		return taxonLabel;		
 	}
 	
@@ -73,8 +75,10 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 	 */
 	public OTU fromTreeBaseToXml(TaxonLabel taxonLabel,OTUs xmlOTUs) {
 		OTU xmlOTU = xmlOTUs.createOTU();
-		xmlOTU.setLabel(taxonLabel.getTaxonLabel());
-		attachTreeBaseID(xmlOTU,taxonLabel);
+		if ( null != taxonLabel.getTaxonLabel() ) {
+			xmlOTU.setLabel(taxonLabel.getTaxonLabel());
+		}
+		attachTreeBaseID(xmlOTU,taxonLabel,TaxonLabel.class);
 		if ( null != taxonLabel.getNcbiTaxID() ) {
 			attachAnnotation("dc:identifier", "NCBI:" + taxonLabel.getNcbiTaxID(), mDCURI, xmlOTU);
 		}

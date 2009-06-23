@@ -17,6 +17,7 @@ import org.nexml.model.FloatEdge;
 import org.nexml.model.IntEdge;
 import org.nexml.model.Network;
 import org.nexml.model.Node;
+import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
 import org.nexml.model.Tree;
 
@@ -38,7 +39,7 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 	 */
 	public TreeBlock fromXmlToTreeBase(org.nexml.model.TreeBlock xmlTreeBlock) {
 		OTUs xmlOTUs = xmlTreeBlock.getOTUs();
-		Long tbTaxonLabelSetId = readTreeBaseID(xmlOTUs,TaxonLabelSet.class);
+		Long tbTaxonLabelSetId = readTreeBaseID(xmlOTUs);
 		TreeBlock tbTreeBlock = new TreeBlock();
 		tbTreeBlock.setTitle(xmlTreeBlock.getLabel());
 		if ( null != tbTaxonLabelSetId ) {
@@ -80,8 +81,10 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 	 */
 	public Tree<?> fromTreeBaseToXml(PhyloTree phyloTree,org.nexml.model.TreeBlock xmlTreeBlock) {
 		Tree<FloatEdge> xmlTree = xmlTreeBlock.createFloatTree();
-		xmlTree.setLabel(phyloTree.getLabel());
-		attachTreeBaseID(xmlTree, phyloTree);
+		if ( null != phyloTree.getLabel() ) {
+			xmlTree.setLabel(phyloTree.getLabel());
+		}
+		attachTreeBaseID(xmlTree, phyloTree,PhyloTree.class);
 		copyTreeBaseTree(phyloTree, xmlTree);
 		return xmlTree;
 	}
@@ -93,18 +96,12 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 	 */
 	public org.nexml.model.TreeBlock fromTreeBaseToXML(TreeBlock treeBlock) {
 		TaxonLabelSet taxonLabelSet = treeBlock.getTaxonLabelSet();
-		OTUs xmlOTUs = null;
-		Long taxonLabelSetId = taxonLabelSet.getId();
-		for ( OTUs otus : getDocument().getOTUsList() ) {
-			Long otusId = readTreeBaseID(otus, TaxonLabelSet.class);
-			if ( taxonLabelSetId == otusId ) {
-				xmlOTUs = otus;
-				break;
-			}
-		}
+		OTUs xmlOTUs = getOTUsById(taxonLabelSet.getId());
 		org.nexml.model.TreeBlock xmlTreeBlock = getDocument().createTreeBlock(xmlOTUs);
-		xmlTreeBlock.setLabel(treeBlock.getTitle());
-		attachTreeBaseID((Annotatable)xmlTreeBlock,treeBlock);
+		if ( null != treeBlock.getTitle() ) {
+			xmlTreeBlock.setLabel(treeBlock.getTitle());
+		}
+		attachTreeBaseID((Annotatable)xmlTreeBlock,treeBlock,TreeBlock.class);
 		for ( PhyloTree phyloTree : treeBlock.getTreeList() ) {
 			fromTreeBaseToXml(phyloTree,xmlTreeBlock);
 		}
@@ -128,25 +125,27 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 	 * @param xmlTree
 	 */
 	private void traverseTreeBaseTree(PhyloTree tbTree,PhyloTreeNode tbNode,Node xmlNode,Tree<FloatEdge> xmlTree) {
-		xmlNode.setLabel(tbNode.getName());
-		attachTreeBaseID(xmlNode, tbNode);	
+		if ( null != tbNode.getName() ) {
+			xmlNode.setLabel(tbNode.getName());
+		}
+		attachTreeBaseID(xmlNode, tbNode,PhyloTreeNode.class);	
 		TaxonLabel taxonLabel = tbNode.getTaxonLabel();
 		if ( null != taxonLabel ) {
 			Long taxonId = taxonLabel.getId();
 			for ( OTUs xmlOTUs : getDocument().getOTUsList() ) {
-				for ( org.nexml.model.OTU xmlOTU : xmlOTUs.getAllOTUs() ) {
-					Long currentTaxonId = readTreeBaseID(xmlOTU, TaxonLabel.class);
-					if ( taxonId == currentTaxonId ) {
-						xmlNode.setOTU(xmlOTU);
-						break;
-					}
+				OTU xmlOTU = getOTUById(xmlOTUs, taxonId);
+				if ( null != xmlOTU ) {
+					xmlNode.setOTU(xmlOTU);
+					break;
 				}
 			}
 		}
 		for ( PhyloTreeNode tbChildNode : tbNode.getChildNodes() ) {
 			Node xmlChildNode = xmlTree.createNode();
 			FloatEdge xmlEdge = xmlTree.createEdge(xmlNode, xmlChildNode);
-			xmlEdge.setLength(tbChildNode.getBranchLength());
+			if ( null != tbChildNode.getBranchLength() ) {
+				xmlEdge.setLength(tbChildNode.getBranchLength());
+			}
 			traverseTreeBaseTree(tbTree, tbChildNode, xmlChildNode, xmlTree);
 		}
 	}
@@ -176,7 +175,7 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 	private void traverseXmlTree(Tree<?> xmlTree, StringBuilder sb, Node xmlNode, PhyloTreeNode tbNode, PhyloTree tbTree) {
 		tbTree.addTreeNode(tbNode);
 		if ( null != xmlNode.getOTU() ) {
-			Long tbTaxonLabelId = readTreeBaseID(xmlNode.getOTU(),TaxonLabel.class);
+			Long tbTaxonLabelId = readTreeBaseID(xmlNode.getOTU());
 			if ( null != tbTaxonLabelId ) {
 				TaxonLabel tbTaxonLabel = getTaxonLabelHome()
 					.findPersistedObjectByID(TaxonLabel.class, tbTaxonLabelId);
