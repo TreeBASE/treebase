@@ -15,6 +15,7 @@ import org.cipres.treebase.domain.nexus.AbstractNexusConverter;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.nexml.model.Annotatable;
+import org.nexml.model.Annotation;
 import org.nexml.model.Document;
 import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
@@ -74,7 +75,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @param annotatable
 	 */
 	protected void attachAnnotation(String key,String value,URI namespace,Annotatable annotatable) {
-		annotatable.addAnnotationValue(key, namespace, value); // FIXME! Attaches meta element as last child
+		Annotation annotation = annotatable.addAnnotationValue(key, namespace, value); // FIXME! Attaches meta element as last child
 	}
 	
 	/**
