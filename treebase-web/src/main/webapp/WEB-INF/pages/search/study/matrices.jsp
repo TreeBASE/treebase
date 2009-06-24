@@ -64,23 +64,6 @@
 		</c:url>
 		<a href="${taxaURL}">View Taxa</a>
 	</display:column>
-
-	<display:column  
-		sortable="false"
-		class="iconColumn" 
-		headerClass="iconColumn">
-		<c:url value="/search/downloadANexusFile.html" var="originalMatrixURL">
-			<c:param name="id">${study.id}</c:param>
-			<c:param name="matrixid">${matrix.id}</c:param>		
-		</c:url>
-		<a href="${originalMatrixURL}">
-			<img 
-				class="iconButton" 
-				src="<fmt:message key="icons.download.original"/>" 
-				title="<fmt:message key="download.original"/>" 
-				alt="<fmt:message key="download.original"/>"/>			
-		</a>
-	</display:column>		
 	
 	<display:column  
 		sortable="false"
@@ -96,6 +79,23 @@
 				src="<fmt:message key="icons.download.reconstructed"/>" 
 				title="<fmt:message key="download.reconstructedfile"/>" 
 				alt="<fmt:message key="download.reconstructedfile"/>"/>			
+		</a>
+	</display:column>
+
+	<display:column  
+		sortable="false"
+		class="iconColumn" 
+		headerClass="iconColumn">
+		<c:url value="/search/downloadANexusFile.html" var="originalMatrixURL">
+			<c:param name="id">${study.id}</c:param>
+			<c:param name="matrixid">${matrix.id}</c:param>		
+		</c:url>
+		<a href="${originalMatrixURL}">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.download.original"/>" 
+				title="<fmt:message key="download.original"/>" 
+				alt="<fmt:message key="download.original"/>"/>			
 		</a>
 	</display:column>
 	
