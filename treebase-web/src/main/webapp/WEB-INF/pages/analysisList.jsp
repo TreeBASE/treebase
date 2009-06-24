@@ -28,7 +28,9 @@
 		</a>
 		Analysis ${status_analysis.count}
 	</h2>
-	<fieldset 
+	
+	<%-- the block below worked, but gave spurious error messages in eclipse --%>
+	<%--fieldset 
 		style="padding-left:20px;padding-right:20px;background-color:#E5E5E5;border:none" 
 		id="analysis<c:out value="${analysisCommand.id}"/>">
 		<c:if test="${editable}">
@@ -125,7 +127,137 @@
 		<c:if test="${editable}">
 			</fieldset>
 			</form>	
+		</c:if--%>	
+		
+	<fieldset 
+		style="padding-left:20px;padding-right:20px;background-color:#E5E5E5;border:none" 
+		id="analysis<c:out value="${analysisCommand.id}"/>">		
+		
+		<!--  EDITABLE -->				
+		<c:if test="${editable}">
+		<form 
+			onsubmit="return TreeBASE.analysisEditor.submitIfNotReady('${publicationState}')"
+			method="post" 
+			action="/treebase-web/user/analysisForm.html?id=<c:out value="${analysisCommand.id}"/>">
+			<fieldset style="background-color:white">
+				<legend>
+					Analysis details
+					<a 
+						href="#" 
+						class="openHelp" 
+						onclick="openHelp('analysisDetailsViewEdit')">
+						<img class="iconButton" alt="help" src="<fmt:message key="icons.help"/>" />
+					</a>					
+				</legend>
+				<table width="100%" cellpadding="2px" cellspacing="0">
+					<tr>
+						<td>
+							<label class="software" for="analysis${status_analysis.count}name">Name</label>
+						</td>
+						<td style="width:100%">
+							<input 
+								readonly="readonly"
+								type="text" 
+								class="disabled software textCell" 
+								style="width:100%" 							
+								name="name" 
+								id="analysis${status_analysis.count}name" 
+								value="<c:out value="${analysisCommand.name}"/>"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="software" for="analysis${status_analysis.count}notes">Notes</label>
+						</td>
+						<td>
+							<input 
+								readonly="readonly"
+								type="text" 
+								class="disabled software textCell" 
+								style="width:100%" 
+								name="notes" 
+								id="analysis${status_analysis.count}notes" 
+								value="<c:out value="${analysisCommand.notes}"/>"/>
+						</td>
+					</tr>	
+					<tr>
+						<td colspan="2" style="text-align:right">
+							<input type="hidden" name="redirect" value="${redirect}"/>
+							<input type="submit" name="Update" value="Update" style="display:none" />
+							<input type="submit" name="Delete" value="Delete" style="display:none" />	
+							<c:if test="${empty analysisCommand.notes && empty analysisCommand.name}">
+								Edit analysis details by clicking this button ->
+							</c:if>					
+							<a 
+								href="#" 
+								onclick="return TreeBASE.analysisEditor.editAnalysis(this,${status_analysis.count})" 
+								title="Edit analysis details">
+								<img 
+									src="<fmt:message 
+									key="icons.edit"/>" 
+									class="iconButton" 
+									width="16" 
+									height="16" 
+									alt="Edit" 
+									style="vertical-align:middle"/>
+							</a>
+						</td>
+					</tr>
+				</table>
+				</fieldset>										
+			</form>				
 		</c:if>	
+		<!-- EO EDITABLE -->
+		
+		<!--  NOT EDITABLE -->
+		<c:if test="${!editable}">
+			<fieldset 
+				style="padding-left:20px;padding-right:20px;background-color:#E5E5E5;border:none" 
+				id="analysis<c:out value="${analysisCommand.id}"/>">
+				<legend>
+					Analysis details
+				</legend>
+				<c:if test="${not empty analysisCommand.name || not empty analysisCommand.notes}">	
+					<table width="100%" cellpadding="2px" cellspacing="0">
+						<c:if test="${not empty analysisCommand.name}">					
+							<tr>
+								<td>
+									<label class="software" for="analysis${status_analysis.count}name">Name</label>
+								</td>
+								<td style="width:100%">
+									<input 
+										readonly="readonly"
+										type="text" 
+										class="disabled software textCell" 
+										style="width:100%;background-color:#E5E5E5" 	
+										name="name" 
+										id="analysis${status_analysis.count}name" 
+										value="<c:out value="${analysisCommand.name}"/>"/>
+								</td>
+							</tr>
+						</c:if>
+						<c:if test="${not empty analysisCommand.notes}">
+							<tr>
+								<td>
+									<label class="software" for="analysis${status_analysis.count}notes">Notes</label>
+								</td>
+								<td>
+									<input 
+										readonly="readonly"
+										type="text" 
+										class="disabled software textCell" 
+										style="width:100%;background-color:#E5E5E5" 
+										name="notes" 
+										id="analysis${status_analysis.count}notes" 
+										value="<c:out value="${analysisCommand.notes}"/>"/>
+								</td>
+							</tr>	
+						</c:if>
+					</table>
+				</c:if>
+			</fieldset>
+		</c:if>	
+		<!-- EO NOT EDITABLE -->		
 	
 		<div id="${AnalysisId}" style="display:block">
 		
@@ -170,9 +302,7 @@
 				</form>			
 			</div>
 		</c:if>
-		
 	</fieldset>
-		
 </c:forEach>
 
 <c:if test="${editable}">
@@ -200,4 +330,3 @@
 		</form>			
 	</div>
 </c:if>
-
