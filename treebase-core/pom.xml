@@ -62,7 +62,12 @@
 
 <!--  already defined in parent pom.xml -->
   <repositories>
-    <repository>
+  	<repository>
+      <id>m2.nexml.repos</id>
+      <name>NeXML Remote Repository</name>
+      <url>http://nexml-dev.nescent.org/.m2/repository/</url>  	
+  	</repository>
+    <repository>    
       <id>m2.remote.repos</id>
       <name>Maven 2 Remote Repository</name>
       <url>http://8ball.sdsc.edu:9999/maven2</url>
@@ -114,6 +119,12 @@
       <groupId>c3p0</groupId>
       <artifactId>c3p0</artifactId>
       <version>0.9.1.2</version>
+    </dependency>
+    
+    <dependency>
+		<groupId>org.nexml.model</groupId>
+		<artifactId>nexml</artifactId>
+		<version>1.0-SNAPSHOT</version>    
     </dependency>
 
     <dependency>
