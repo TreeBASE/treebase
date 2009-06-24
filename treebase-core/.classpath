@@ -78,4 +78,5 @@
   <classpathentry kind="var" path="M2_REPO/org/codehaus/woodstox/wstx-asl/3.2.4/wstx-asl-3.2.4.jar"/>
   <classpathentry kind="var" path="M2_REPO/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/ws/commons/schema/XmlSchema/1.4.2/XmlSchema-1.4.2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/nexml/model/nexml/1.0-SNAPSHOT/nexml-1.0-SNAPSHOT.jar"/>
 </classpath>
