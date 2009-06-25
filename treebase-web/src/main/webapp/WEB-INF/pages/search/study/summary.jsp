@@ -8,10 +8,12 @@
 </head>
 
 <body id="s-study"/>
+<c:set var="serverName" scope="request" value="<%= request.getServerName() %>"/>
+<c:set var="portNumber" scope="request" value="<%= request.getServerPort() %>"/>
+<c:set var="baseLink" scope="request" value='http://${serverName}:${portNumber}/treebase-web/PhyloWS/${study.namespacedGUID}'/>
 <c:set var="currentSection" scope="request" value="Citation"/>
 <c:set var="headerPrefix" scope="request" value="${currentSection} for"/>
 <jsp:include page="nav.jsp"/>
-
 <c:if test="${not empty cit.authors || true}">
 	<p><c:out value="${cit.authorsCitationStyleWithoutHtml}"/></p>
 	<c:if test="${not empty cit.authors}">
@@ -78,7 +80,33 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 	</c:if>
 	</ul>
 </c:if>
-
+<h3>About this resource</h3>
+<ul>
+	<li>Canonical resource URI: 
+		<a href="${baseLink}">
+			<img class="iconButton" src="<fmt:message key="icons.weblink"/>"/>	
+			${baseLink}
+		</a>
+	</li>
+	<li>Other versions:
+		<a href="${baseLink}.nex">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.download.reconstructed"/>" 
+				title="<fmt:message key="download.reconstructedfile"/>" 
+				alt="<fmt:message key="download.reconstructedfile"/>"/>	
+			Nexus			
+		</a>
+		<a href="${baseLink}.xml">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.xml"/>" 
+				title="<fmt:message key="download.nexml"/>" 
+				alt="<fmt:message key="download.nexml"/>"/>	
+			NeXML			
+		</a>		
+	</li>
+</ul>
 <h3>BibTeX reference</h3>
 <pre style="width:100%;overflow:scroll">
 <c:out value="${cit.bibtexReference}"/>
