@@ -20,21 +20,15 @@
 
 package org.cipres.treebase.web.controllers;
 
-//import java.io.File;
-//import java.io.FileWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-//import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.tree.PhyloTreeHome;
 import org.cipres.treebase.domain.tree.TreeBlock;
-//import org.cipres.treebase.web.util.WebUtil;
 
 /**
  * 
@@ -43,7 +37,6 @@ import org.cipres.treebase.domain.tree.TreeBlock;
  */
 
 public class DownloadATreeBlockController extends AbstractDownloadController implements Controller {
-//	private static final Logger LOGGER = Logger.getLogger(DownloadATreeBlockController.class);
 
 	private PhyloTreeHome mPhyloTreeHome;
 
@@ -68,46 +61,12 @@ public class DownloadATreeBlockController extends AbstractDownloadController imp
 	 */
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
-
-//		String sep = System.getProperty("file.separator");
 		if (request.getParameter("treeblockid") == null) {
 			return null;
 		}
 		long blockid = Long.parseLong(request.getParameter("treeblockid"));
 		generateAFileDynamically(request, response, blockid);
 		return null;
-		//String fileName = getFileName(blockid,request);
-
-//		String downloadDir = request.getSession().getServletContext().getRealPath(
-//			"/NexusFileDownload")
-//			+ sep + request.getRemoteUser();
-//		String downloadDir = getDownloadDir(request);
-//
-//		long start = System.currentTimeMillis();
-//
-//		TreeBlock treeBlock = getPhyloTreeHome().findTreeBlockById(blockid);
-//
-//		File dirPath = new File(downloadDir);
-//		if (!dirPath.exists()) {
-//			dirPath.mkdirs();
-//		}
-//		File file = new File(downloadDir + System.getProperty("file.separator")
-//			+ getFileName(blockid,request));
-//		FileWriter fwriter = new FileWriter(file);
-//		StringBuilder bldr = new StringBuilder("#NEXUS\n\n");
-//		treeBlock.generateAFileDynamically(bldr);
-//		fwriter.write(bldr.toString());
-//		fwriter.close();
-//		generateAFileDynamically(request, blockid);
-//		WebUtil.downloadFile(response, downloadDir, getFileName(blockid,request));
-//
-//		long end = System.currentTimeMillis();
-//
-//		if (LOGGER.isDebugEnabled()) {
-//			LOGGER.debug("TIME DIFFERENCE FOR A SINGAL FILE: " + (end - start));
-//		}
-//
-//		return null;
 	}
 
 	@Override
@@ -124,6 +83,12 @@ public class DownloadATreeBlockController extends AbstractDownloadController imp
 			nexusDataSet.getTreeBlocks().add(treeBlock);
 			return getNexmlService().serialize(nexusDataSet);
 		}
+		else if ( getFormat(request) == FORMAT_RDF ) {
+			NexusDataSet nexusDataSet = new NexusDataSet();
+			nexusDataSet.getTaxonLabelSets().add(treeBlock.getTaxonLabelSet());
+			nexusDataSet.getTreeBlocks().add(treeBlock);			
+			return getRdfaService().serialize(nexusDataSet);			
+		}		
 		else {
 			StringBuilder bldr = new StringBuilder("#NEXUS\n\n");
 			treeBlock.generateAFileDynamically(bldr);
