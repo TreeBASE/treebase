@@ -83,6 +83,20 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
+		<c:url value="/PhyloWS/${matrix.namespacedGUID}.rdf" var="newMatrixURL"/>
+		<a href="${newMatrixURL}">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.rdf"/>" 
+				title="<fmt:message key="download.rdf"/>" 
+				alt="<fmt:message key="download.rdf"/>"/>			
+		</a>
+	</display:column>	
+	
+	<display:column  
+		sortable="false"
+		class="iconColumn" 
+		headerClass="iconColumn">
 		<c:url value="/PhyloWS/${matrix.namespacedGUID}.nex" var="newMatrixURL"/>
 		<a href="${newMatrixURL}">
 			<img 

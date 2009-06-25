@@ -67,6 +67,20 @@
 				alt="<fmt:message key="download.nexml"/>"/>				
 		</a>
 	</display:column>	
+
+	<display:column 
+		sortable="false"
+		class="iconColumn" 
+		headerClass="iconColumn">
+		<c:url value="/PhyloWS/${tree.namespacedGUID}.rdf" var="newTreeURL"/>
+		<a href="${newTreeURL}">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.rdf"/>" 
+				title="<fmt:message key="download.rdf"/>" 
+				alt="<fmt:message key="download.rdf"/>"/>				
+		</a>
+	</display:column>	
 	
 	<display:column 
 		sortable="false"

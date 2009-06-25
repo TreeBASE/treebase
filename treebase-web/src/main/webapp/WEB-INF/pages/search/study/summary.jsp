@@ -104,7 +104,15 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 				title="<fmt:message key="download.nexml"/>" 
 				alt="<fmt:message key="download.nexml"/>"/>	
 			NeXML			
-		</a>		
+		</a>	
+		<a href="${baseLink}.rdf">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.rdf"/>" 
+				title="<fmt:message key="download.rdf"/>" 
+				alt="<fmt:message key="download.rdf"/>"/>	
+			RDF			
+		</a>
 	</li>
 </ul>
 <h3>BibTeX reference</h3>
