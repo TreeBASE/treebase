@@ -6,7 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import org.cipres.treebase.NamespacedGUID;
+import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
+import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.matrix.MatrixService;
 import org.cipres.treebase.domain.study.Study;
@@ -20,31 +23,28 @@ public class PhyloWSController implements Controller {
 	private PhyloTreeService mPhyloTreeService;
 	private StudyService mStudyService;
     
-    private String createUrl(String prefix, String objectId) throws Exception {
+    private String createUrl(String prefix, Long objectId) throws Exception {
     	String url = "";
     	String base = "/treebase-web/search/study";
-    	if ( prefix.equalsIgnoreCase("study") ) {
-			Long studyId = Long.parseLong(objectId);
-			Study study = getStudyService().findByID(studyId);
+    	if ( prefix.equals(TreebaseIDString.getPrefixForClass(Study.class)) ) {
+			Study study = getStudyService().findByID(objectId);
 			if ( study == null ) {
-				throw new ObjectNotFoundException("Can't find study " + studyId);
+				throw new ObjectNotFoundException("Can't find study " + objectId);
 			}    			    		
     		return base + "/summary.html?id=" + objectId;
     	}   
-    	else if ( prefix.equalsIgnoreCase("matrix") ) {
-    		Long matrixId = Long.parseLong(objectId);
-    		Matrix matrix = getMatrixService().findByID(matrixId);
+    	else if ( prefix.equals(TreebaseIDString.getPrefixForClass(Matrix.class)) ) {
+    		Matrix matrix = getMatrixService().findByID(objectId);
     		if ( matrix == null ) {
-    			throw new ObjectNotFoundException("Can't find matrix " + matrixId);
+    			throw new ObjectNotFoundException("Can't find matrix " + objectId);
     		}
     		Study study = matrix.getStudy();
     		return base + "/matrix.html?id=" + study.getId() + "&matrixid=" + objectId;
     	}
-    	else if ( prefix.equalsIgnoreCase("tree") ) {
-    		Long treeId = Long.parseLong(objectId);
-    		PhyloTree phyloTree = getPhyloTreeService().findByID(treeId);
+    	else if ( prefix.equals(TreebaseIDString.getPrefixForClass(PhyloTree.class)) ) {
+    		PhyloTree phyloTree = getPhyloTreeService().findByID(objectId);
     		if ( phyloTree == null ) {
-    			throw new ObjectNotFoundException("Can't find tree " + treeId);
+    			throw new ObjectNotFoundException("Can't find tree " + objectId);
     		}
     		Study study = phyloTree.getStudy();
     		return base + "/tree.html?id=" + study.getId() + "&treeid=" + objectId;
@@ -62,25 +62,28 @@ public class PhyloWSController implements Controller {
             	throw new InvalidRequestException(
             		"Invalid request '" 
             		+ pathInfo 
-            		+ "', should be /${class}/${id}");
+            		+ "', should be /${NamespacedGUID}");
             }
             String[] pathComponents = pathInfo.split("/");
-            if ( pathComponents.length != 3 ) {
+            if ( pathComponents.length != 2 ) {
             	throw new InvalidRequestException(
             		"Invalid request '" 
             		+ pathInfo 
-            		+ "', should be /${class}/${id}");
+            		+ "', should be /${NamespacedGUID}");
             }
-            String prefix = pathComponents[1];
-            String fullyQualifiedId = pathComponents[2];
-            String id = fullyQualifiedId.replaceAll(".*:[a-zA-Z]*","");  
-            if ( TreebaseUtil.isEmpty(req.getParameter("format")) ) {
-            	url = createUrl(prefix,id);
+            String[] idComponents = pathComponents[1].split("\\.");
+            NamespacedGUID namespacedGUID = new NamespacedGUID(idComponents[0]);
+            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
+            if ( idComponents.length >= 2 && idComponents[1].equals("html") ) {
+            	url = createUrl(tbID.getTypePrefix(),tbID.getId());
+            }
+            else if ( idComponents.length >= 2 ) {
+            	url = createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),idComponents[1]);
             }
             else {
-            	url = createDownloadUrl(prefix,id,req.getParameter("format"));
+            	url = "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
             }
-        } catch ( NumberFormatException e ) {
+        } catch ( MalformedTreebaseIDString e ) {
         	res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad ID string: " + e.getMessage());
         } catch ( ObjectNotFoundException e ) {        	        	
         	res.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
@@ -93,32 +96,31 @@ public class PhyloWSController implements Controller {
         }
         return null;
 	}
-	
-	private String createDownloadUrl(String prefix, String objectId, String format) throws Exception {
+
+	private String createDownloadUrl(String prefix, Long objectId, String format) throws Exception {
+		if ( format.equals("xml") ) {
+			format = "nexml";
+		}
     	String url = "";
     	StringBuffer base = new StringBuffer("/treebase-web/search");
-    	if ( prefix.equalsIgnoreCase("study") ) {
-			Long studyId = Long.parseLong(objectId);
-			Study study = getStudyService().findByID(studyId);
+    	if ( prefix.equals(TreebaseIDString.getPrefixForClass(Study.class)) ) {
+			Study study = getStudyService().findByID(objectId);
 			if ( study == null ) {
-				throw new ObjectNotFoundException("Can't find study " + studyId);
+				throw new ObjectNotFoundException("Can't find study " + objectId);
 			}    			    		
-    		//return base + "/summary.html?id=" + objectId;
     		return base
 				.append("/downloadAStudy.html?id=")
 				.append(objectId)
 				.append("&format=")
 				.append(format)
-				.toString();  			
+					.toString();  			
     	}   
-    	else if ( prefix.equalsIgnoreCase("matrix") ) {
-    		Long matrixId = Long.parseLong(objectId);
-    		Matrix matrix = getMatrixService().findByID(matrixId);
+    	else if ( prefix.equals(TreebaseIDString.getPrefixForClass(Matrix.class)) ) {
+    		Matrix matrix = getMatrixService().findByID(objectId);
     		if ( matrix == null ) {
-    			throw new ObjectNotFoundException("Can't find matrix " + matrixId);
+    			throw new ObjectNotFoundException("Can't find matrix " + objectId);
     		}
     		Study study = matrix.getStudy();
-    		//http://localhost:8080/treebase-web/search/downloadAMatrix.html?id=830&matrixid=263
     		return base
 				.append("/downloadAMatrix.html?id=")
 				.append(study.getId())
@@ -126,16 +128,14 @@ public class PhyloWSController implements Controller {
 				.append(objectId)
 				.append("&format=")
 				.append(format)
-				.toString();    		
+					.toString();    		
     	}
-    	else if ( prefix.equalsIgnoreCase("tree") ) {
-    		Long treeId = Long.parseLong(objectId);
-    		PhyloTree phyloTree = getPhyloTreeService().findByID(treeId);
+    	else if ( prefix.equals(TreebaseIDString.getPrefixForClass(PhyloTree.class)) ) {
+    		PhyloTree phyloTree = getPhyloTreeService().findByID(objectId);
     		if ( phyloTree == null ) {
-    			throw new ObjectNotFoundException("Can't find tree " + treeId);
+    			throw new ObjectNotFoundException("Can't find tree " + objectId);
     		}
     		Study study = phyloTree.getStudy();
-    		//http://localhost:8080/treebase-web/search/downloadATree.html?id=830&treeid=3983
     		return base
     			.append("/downloadATree.html?id=")
     			.append(study.getId())
@@ -143,7 +143,7 @@ public class PhyloWSController implements Controller {
     			.append(objectId)
     			.append("&format=")
     			.append(format)
-    			.toString();
+    				.toString();
     	}
     	return url;
 	}
