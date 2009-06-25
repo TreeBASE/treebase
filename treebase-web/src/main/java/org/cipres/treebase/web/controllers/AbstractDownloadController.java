@@ -15,8 +15,11 @@ public abstract class AbstractDownloadController implements Controller {
 	protected String mFormatParameter = "format";
 	protected static final int FORMAT_NEXUS = 1;
 	protected static final int FORMAT_NEXML = 2;
+	protected static final int FORMAT_RDF = 3;
 	private NexusService mNexmlService;	
+	private NexusService mRdfaService;	
 	private static String mNexmlContentType = "application/xml";
+	private static String mRdfContentType = "application/rdf+xml";
 	
 	/**
 	 * 
@@ -28,6 +31,9 @@ public abstract class AbstractDownloadController implements Controller {
 		if ( null != requestedFormat ) {
 			if ( requestedFormat.equalsIgnoreCase("nexml") ) {
 				return FORMAT_NEXML;
+			}
+			else if ( requestedFormat.equalsIgnoreCase("rdf") ) {
+				return FORMAT_RDF;
 			}
 			else {
 				return FORMAT_NEXUS; // default
@@ -92,6 +98,9 @@ public abstract class AbstractDownloadController implements Controller {
 			if ( getFormat(request) == FORMAT_NEXML ) {
 				WebUtil.downloadFile(response, downloadDirName, fileName, mNexmlContentType);
 			}
+			else if ( getFormat(request) == FORMAT_RDF ) {
+				WebUtil.downloadFile(response, downloadDirName, fileName, mRdfContentType);
+			}			
 			else {
 				WebUtil.downloadFile(response, downloadDirName, fileName);
 			}
@@ -114,6 +123,14 @@ public abstract class AbstractDownloadController implements Controller {
 	 */
 	public void setNexmlService(NexusService nexmlService) {
 		mNexmlService = nexmlService;
+	}
+
+	public NexusService getRdfaService() {
+		return mRdfaService;
+	}
+
+	public void setRdfaService(NexusService rdfaService) {
+		mRdfaService = rdfaService;
 	}
 
 }
