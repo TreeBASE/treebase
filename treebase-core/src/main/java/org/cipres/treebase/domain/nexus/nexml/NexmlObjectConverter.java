@@ -63,7 +63,13 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 */
 	protected void attachTreeBaseID(Annotatable annotatable,TBPersistable tbPersistable,Class<?> persistableClass) {
 		if ( null != tbPersistable.getId() ) {
-			attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);
+			attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);			
+			String uriString = "http://localhost:8080/treebase-web/PhyloWS/" + makeNamespacedID(tbPersistable,persistableClass);
+			try {
+				annotatable.addAnnotationValue("dc:relation",mDCURI, new URI(uriString));
+			} catch ( Exception e ) {
+				
+			}
 		}
 	}
 	
