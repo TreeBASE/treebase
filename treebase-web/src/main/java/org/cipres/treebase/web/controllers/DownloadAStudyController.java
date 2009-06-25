@@ -41,6 +41,9 @@ public class DownloadAStudyController extends AbstractDownloadController
 		if ( getFormat(request) == FORMAT_NEXML ) {
 			return getNexmlService().serialize(study);
 		}
+		else if ( getFormat(request) == FORMAT_RDF ) {
+			return getRdfaService().serialize(study);			
+		}		
 		else {
 			StringBuilder builder = new StringBuilder();
 			builder.append("#NEXUS\n\n");
