@@ -20,28 +20,20 @@
 
 package org.cipres.treebase.web.controllers;
 
-//import java.io.File;
-//import java.io.FileWriter;
-//import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-//import org.apache.log4j.Logger;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
+import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.web.util.ControllerUtil;
-//import org.cipres.treebase.web.util.WebUtil;
-
-import org.cipres.treebase.domain.taxon.TaxonLabelSet;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 
 /**
  * DownloadATreeController.java
@@ -56,7 +48,6 @@ import org.cipres.treebase.domain.taxon.TaxonLabelSet;
  */
 
 public class DownloadATreeController extends AbstractDownloadController implements Controller {
-//	private static final Logger LOGGER = Logger.getLogger(DownloadATreeController.class);
 
 	private PhyloTreeService mPhyloTreeService;
 	private StudyService mStudyService;
@@ -95,90 +86,14 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 	 */
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
-
-//		String sep = System.getProperty("file.separator");
 		if (request.getParameter("treeid") == null) {
 			return null;
 		}
 		long treeid = Long.parseLong(request.getParameter("treeid"));
 		generateAFileDynamically(request, response, treeid);
 		return null;
-//		String fileName = getFileName(treeid,request);
-//
-//		String downloadDir = request.getSession().getServletContext().getRealPath(
-//			"/NexusFileDownload")
-//			+ sep + request.getRemoteUser();
-//		String downloadDir = getDownloadDir(request);
-//
-//		long start = System.currentTimeMillis();
-//
-//		generateAFileDynamically(request, treeid, downloadDir);
-//		WebUtil.downloadFile(response, downloadDir, fileName);
-//
-//		long end = System.currentTimeMillis();
-//
-//		if (LOGGER.isDebugEnabled()) {
-//			LOGGER.debug("TIME DIFFERENCE FOR A SINGAL FILE: " + (end - start));
-//		}
-//
-//		return null; // new ModelAndView("treeList", Constants.TREE_LIST, phyloTrees);
 	}
 
-	/**
-	 * 
-	 * @param request
-	 * @param pTreeId It is tree id.
-	 * @param downloadDirName download directory where files will be created
-	 */
-
-	/*
-	private void generateAFileDynamically(
-		HttpServletRequest request,
-		long pTreeId,
-		String downloadDirName) {
-
-		Study study = ControllerUtil.findStudy(request, mStudyService);
-
-//		File dirPath = new File(downloadDirName);
-//		if (!dirPath.exists()) {
-//			dirPath.mkdirs();
-//		}
-
-		PhyloTree tree = getPhyloTreeService().findByID(pTreeId);
-		TaxonLabelSet tbnlblSet = tree.getTreeBlock().getTaxonLabelSet();
-
-//		String tmp = getFileName(pTreeId,request);
-
-		StringBuilder builder = new StringBuilder();
-
-		builder.append("#NEXUS\n\n");
-
-		// header:
-		TreebaseUtil.attachStudyHeader(study, builder);
-
-		// taxa:
-		// one taxon label per line, no line number. 
-		tbnlblSet.buildNexusBlockTaxa(builder, true, false);
-		
-		//tree block:
-		tree.buildNexusBlock(builder);
-		
-		generateAFileDynamically(request, pTreeId);
-
-//		try {
-//
-//			File file = new File(downloadDirName + TreebaseUtil.FILESEP + tmp);
-//			FileWriter out = new FileWriter(file);
-//
-//			out.write(builder.toString());
-//
-//			out.close();
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-	}
-*/
 	@Override
 	protected String getFileNamePrefix() {
 		return "T";
@@ -200,6 +115,15 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 			nds.getTreeBlocks().add(treeBlock);
 			return getNexmlService().serialize(nds);
 		}
+		else if ( getFormat(request) == FORMAT_RDF ) {
+			NexusDataSet nds = new NexusDataSet();
+			nds.getTaxonLabelSets().add(tls);
+			TreeBlock treeBlock = new TreeBlock();
+			treeBlock.setTaxonLabelSet(tls);
+			treeBlock.addPhyloTree(tree);
+			nds.getTreeBlocks().add(treeBlock);			
+			return getRdfaService().serialize(nds);			
+		}		
 		else {
 			StringBuilder builder = new StringBuilder();
 			builder.append("#NEXUS\n\n");
