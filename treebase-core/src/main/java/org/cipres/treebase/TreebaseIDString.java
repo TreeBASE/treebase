@@ -135,6 +135,10 @@ public class TreebaseIDString {
 		}
 	}
 	
+	public String toString() {
+		return mTypePrefix + mId;
+	}
+	
 	public TreebaseIDString(String string, Class<?> class1) throws MalformedTreebaseIDString {
 		this(string, class1, false);
 	}
@@ -244,7 +248,17 @@ public class TreebaseIDString {
 	 * @return
 	 */
 	public static String getPrefixForClass(Class<?> cl) {
-		return prefixFor.get(cl);
+		if ( prefixFor.containsKey(cl) ) {
+			return prefixFor.get(cl);
+		}
+		else {
+			for ( Class<?> knownClass : prefixFor.keySet() ) {
+				if ( knownClass.isAssignableFrom(cl) ) {
+					return prefixFor.get(knownClass);
+				}
+			}
+			return null;
+		}
 	}
 	
 	/**
