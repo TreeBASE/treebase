@@ -58,10 +58,21 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url value="/search/downloadATree.html" var="newTreeURL">
-			<c:param name="id">${study.id}</c:param>
-			<c:param name="treeid">${tree.id}</c:param>
-		</c:url>
+		<c:url value="/PhyloWS/${tree.namespacedGUID}.xml" var="newTreeURL"/>
+		<a href="${newTreeURL}">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.xml"/>" 
+				title="<fmt:message key="download.nexml"/>" 
+				alt="<fmt:message key="download.nexml"/>"/>				
+		</a>
+	</display:column>	
+	
+	<display:column 
+		sortable="false"
+		class="iconColumn" 
+		headerClass="iconColumn">
+		<c:url value="/PhyloWS/${tree.namespacedGUID}.nex" var="newTreeURL"/>
 		<a href="${newTreeURL}">
 			<img 
 				class="iconButton" 
