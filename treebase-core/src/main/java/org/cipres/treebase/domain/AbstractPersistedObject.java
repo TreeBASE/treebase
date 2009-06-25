@@ -28,7 +28,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.persistence.Version;
+
+import org.cipres.treebase.NamespacedGUID;
+import org.cipres.treebase.TreebaseIDString;
 
 /**
  * The abstract super class for all persisted domain objects.
@@ -96,6 +100,16 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 	@SuppressWarnings("unused")
 	private void setVersion(int pNewVersion) {
 		mVersion = pNewVersion;
+	}
+	
+	@Transient
+	public TreebaseIDString getTreebaseIDString () {
+		return new TreebaseIDString(this);
+	}
+	
+	@Transient
+	public NamespacedGUID getNamespacedGUID () {
+		return getTreebaseIDString().getNamespacedGUID();
 	}
 
 }
