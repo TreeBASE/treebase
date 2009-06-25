@@ -149,6 +149,11 @@
                 <!-- property name="domainHome" ref="domainHome"/ -->
                 <property name="taxonLabelHome" ref="taxonLabelHome"/>
   </bean>
+  
+  	<bean id="rdfaService" class = "org.cipres.treebase.service.nexus.NexusServiceRDFa">
+                <!-- property name="domainHome" ref="domainHome"/ -->
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+  </bean>  
 
 	<!-- package: org.cipres.treebase.domain.study -->	
 	<bean id="analysisService" parent="baseTransactionProxy">
