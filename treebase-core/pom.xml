@@ -124,7 +124,7 @@
     <dependency>
 		<groupId>org.nexml.model</groupId>
 		<artifactId>nexml</artifactId>
-		<version>1.0-SNAPSHOT</version>    
+		<version>1.4-SNAPSHOT</version>    
     </dependency>
 
     <dependency>
