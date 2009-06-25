@@ -69,10 +69,21 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url value="/search/downloadAMatrix.html" var="newMatrixURL">
-			<c:param name="id">${study.id}</c:param>
-			<c:param name="matrixid">${matrix.id}</c:param>
-		</c:url>
+		<c:url value="/PhyloWS/${matrix.namespacedGUID}.xml" var="newMatrixURL"/>
+		<a href="${newMatrixURL}">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.xml"/>" 
+				title="<fmt:message key="download.nexml"/>" 
+				alt="<fmt:message key="download.nexml"/>"/>			
+		</a>
+	</display:column>	
+	
+	<display:column  
+		sortable="false"
+		class="iconColumn" 
+		headerClass="iconColumn">
+		<c:url value="/PhyloWS/${matrix.namespacedGUID}.nex" var="newMatrixURL"/>
 		<a href="${newMatrixURL}">
 			<img 
 				class="iconButton" 
@@ -103,10 +114,7 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="matrix.html">
-			<c:param name="matrixid" value="${matrix.id}" />
-			<c:param name="id" value="${matrix.study.id}" />
-		</c:url>
+		<c:url var="url" value="/PhyloWS/${matrix.namespacedGUID}.html"/>
 		<a href="${url}">		
 			<img 
 				class="iconButton" 
