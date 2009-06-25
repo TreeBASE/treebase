@@ -19,7 +19,6 @@ import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeNode;
 import org.cipres.treebase.domain.tree.TreeBlock;
-import org.nexml.model.Annotatable;
 
 public class TreebaseIDString {
 	
