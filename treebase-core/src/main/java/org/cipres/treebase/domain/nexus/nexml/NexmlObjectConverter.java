@@ -23,8 +23,10 @@ import org.nexml.model.OTUs;
 public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected static URI mDCURI;
 	protected static URI mPrismURI;
+	protected URI mBaseURI;
 	private static String mDCURIString = "http://purl.org/dc/elements/1.1/";
 	private static String mPrismURIString = "http://prismstandard.org/namespaces/1.2/basic/";
+	private static String mBaseURIString = "http://purl.org/PHYLO/TREEBASE/PHYLOWS/";
 	private static String mDCIdentifier = "dc:identifier";	
 	public static String TreeBASE2Prefix = "TreeBASE2";
 	private Document mDocument;
@@ -34,17 +36,29 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @param study
 	 * @param taxonLabelHome
 	 */
-	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document) {
+	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document, String baseURI) {
 		try {
 			mDCURI = new URI(mDCURIString);
 			mPrismURI = new URI(mPrismURIString);
+			if ( null != baseURI ) {
+				mBaseURI = new URI(baseURI);
+			}
+			else {
+				mBaseURI = new URI(mBaseURIString);
+			}
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
-		}			
+		}
+		document.setBaseURI(mBaseURI);
 		setTaxonLabelHome(taxonLabelHome);
 		setStudy(study);
 		setDocument(document);
-	}	
+	}
+	
+	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document) {
+		this(study,taxonLabelHome,document,null);
+	}
+
 	
 	/**
 	 * 
@@ -64,11 +78,12 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected void attachTreeBaseID(Annotatable annotatable,TBPersistable tbPersistable,Class<?> persistableClass) {
 		if ( null != tbPersistable.getId() ) {
 			attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);			
-			String uriString = "http://localhost:8080/treebase-web/PhyloWS/" + makeNamespacedID(tbPersistable,persistableClass);
+			String uriString = mBaseURI.toString() + makeNamespacedID(tbPersistable,persistableClass);
 			try {
 				annotatable.addAnnotationValue("dc:relation",mDCURI, new URI(uriString));
-			} catch ( Exception e ) {
-				
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -165,5 +180,13 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 			character = iterator.next();
 		}
 		return result.toString();
+	}
+
+	public URI getBaseURI() {
+		return mBaseURI;
+	}
+
+	public void setBaseURI(URI baseURI) {
+		mBaseURI = baseURI;
 	}	
 }

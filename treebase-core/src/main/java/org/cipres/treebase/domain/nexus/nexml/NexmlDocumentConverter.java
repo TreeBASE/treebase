@@ -26,6 +26,11 @@ public class NexmlDocumentConverter extends NexmlObjectConverter {
 		super(study, taxonLabelHome, document);
 	}
 	
+	public NexmlDocumentConverter(Study study, TaxonLabelHome taxonLabelHome,
+			Document document,String baseURI) {
+		super(study, taxonLabelHome, document,baseURI);
+	}	
+	
 	/**
 	 * 
 	 * @param pDocument

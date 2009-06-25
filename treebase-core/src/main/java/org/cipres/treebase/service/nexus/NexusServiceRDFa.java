@@ -4,6 +4,7 @@
 package org.cipres.treebase.service.nexus;
 
 import java.io.ByteArrayInputStream;
+import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -28,7 +29,12 @@ import javax.xml.transform.stream.StreamSource;
  *
  */
 public class NexusServiceRDFa extends NexusServiceNexml {
+	public String serialize(NexusDataSet nexusDataSet,Properties properties) {
+		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, properties);
+		return transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());
+	}
 	public String serialize(NexusDataSet nexusDataSet) {
+		/*
 		Document document = null;
 		try {
 			document = DocumentFactory.createDocument();
@@ -38,9 +44,17 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 		NexmlDocumentConverter ndc = new NexmlDocumentConverter(null,getTaxonLabelHome(),document);
 		String NeXML = ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
 		return transform(NeXML);
+		*/
+		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, null);
+		return transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());		
 	}
 
+	public String serialize(Study study,Properties properties) {
+		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
+		return transform(ndc.fromTreeBaseToXml(study).getXmlString());
+	}
 	public String serialize(Study study) {
+		/*
 		Document document = null;
 		try {
 			document = DocumentFactory.createDocument();
@@ -50,6 +64,9 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),document);
 		String NeXML = ndc.fromTreeBaseToXml(study).getXmlString();
 		return transform(NeXML);
+		*/
+		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, null);
+		return transform(ndc.fromTreeBaseToXml(study).getXmlString());		
 	}
 	
 	private String transform(String input) {

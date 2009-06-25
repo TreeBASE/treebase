@@ -23,6 +23,7 @@ package org.cipres.treebase.domain.nexus;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Properties;
 
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.event.ProgressionListener;
@@ -66,6 +67,7 @@ public interface NexusService {
 	 * @return a serialization of the supplied NexusDataSet
 	 */
 	String serialize(NexusDataSet pNexusDataSet);
+	String serialize(NexusDataSet pNexusDataSet, Properties pProperties);
 	
 	/**
 	 * Write the NexusDataSet to a string that represents the object.
@@ -76,5 +78,7 @@ public interface NexusService {
 	 * @return a serialization of the supplied Study
 	 */	
 	String serialize(Study pStudy);
+	String serialize(Study pStudy, Properties pProperties);
+	
 
 }

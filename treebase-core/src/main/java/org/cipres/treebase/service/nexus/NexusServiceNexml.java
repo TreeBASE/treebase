@@ -1,7 +1,10 @@
 package org.cipres.treebase.service.nexus;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -63,6 +66,7 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 	}
 
 	public String serialize(NexusDataSet nexusDataSet) {
+		/*
 		Document document = null;
 		try {
 			document = DocumentFactory.createDocument();
@@ -71,9 +75,12 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 		}
 		NexmlDocumentConverter ndc = new NexmlDocumentConverter(null,getTaxonLabelHome(),document);
 		return ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
+		*/
+		return serialize(nexusDataSet,null);
 	}
 
 	public String serialize(Study study) {
+		/*
 		Document document = null;
 		try {
 			document = DocumentFactory.createDocument();
@@ -82,6 +89,8 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 		}
 		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),document);
 		return ndc.fromTreeBaseToXml(study).getXmlString();
+		*/
+		return serialize(study,null);
 	}
 
 	public TaxonLabelHome getTaxonLabelHome() {
@@ -90,6 +99,60 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 
 	public void setTaxonLabelHome(TaxonLabelHome taxonLabelHome) {
 		mTaxonLabelHome = taxonLabelHome;
+	}
+	
+	protected NexmlDocumentConverter getNexmlDocumentConverter(Study study,Properties properties) {
+		String baseURI = null;
+		if ( null != properties ) {
+			baseURI = properties.getProperty("nexml.uri.base");
+		}
+		Document document = null;
+		try {
+			document = DocumentFactory.createDocument();
+			document.setBaseURI(new URI(baseURI));//NPE
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),document,baseURI);
+		return ndc;
+	}
+
+	public String serialize(NexusDataSet nexusDataSet, Properties properties) {
+		/*
+		String baseURI = null;
+		if ( null != properties ) {
+			baseURI = properties.getProperty("nexml.uri.base");
+		}
+		Document document = null;
+		try {
+			document = DocumentFactory.createDocument();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}		
+		NexmlDocumentConverter ndc = new NexmlDocumentConverter(null,getTaxonLabelHome(),document,baseURI);
+		*/
+		NexmlDocumentConverter ndc = this.getNexmlDocumentConverter(null, properties);
+		return ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
+	}
+
+	public String serialize(Study study, Properties properties) {
+		/*
+		String baseURI = null;
+		if ( null != properties ) {
+			baseURI = properties.getProperty("nexml.uri.base");
+		}		
+		Document document = null;
+		try {
+			document = DocumentFactory.createDocument();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),document,baseURI);
+		*/
+		NexmlDocumentConverter ndc = this.getNexmlDocumentConverter(study, properties);
+		return ndc.fromTreeBaseToXml(study).getXmlString();
 	}
 
 }

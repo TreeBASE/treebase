@@ -22,6 +22,7 @@ package org.cipres.treebase.service.nexus;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -170,6 +171,16 @@ public class NexusServiceNCL extends AbstractServiceImpl implements NexusService
 	}
 
 	public String serialize(Study study) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String serialize(NexusDataSet nexusDataSet, Properties properties) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String serialize(Study study, Properties properties) {
 		// TODO Auto-generated method stub
 		return null;
 	}
