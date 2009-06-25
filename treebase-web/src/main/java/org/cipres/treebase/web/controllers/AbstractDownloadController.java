@@ -2,6 +2,7 @@ package org.cipres.treebase.web.controllers;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,18 @@ public abstract class AbstractDownloadController implements Controller {
 	private NexusService mRdfaService;	
 	private static String mNexmlContentType = "application/xml";
 	private static String mRdfContentType = "application/rdf+xml";
+	
+	protected Properties getDefaultProperties(HttpServletRequest request) {
+		Properties properties = new Properties();
+		StringBuffer baseURI = new StringBuffer("http://");
+		baseURI
+			.append(request.getServerName())
+			.append(':')
+			.append(request.getServerPort())
+			.append("/treebase-web/PhyloWS/");
+		properties.setProperty("nexml.uri.base", baseURI.toString());
+		return properties;
+	}
 	
 	/**
 	 * 
@@ -54,6 +67,9 @@ public abstract class AbstractDownloadController implements Controller {
 		if ( getFormat(request) == FORMAT_NEXML ) {
 			return getFileNamePrefix() + id + ".xml";
 		}
+		if ( getFormat(request) == FORMAT_RDF ) {
+			return getFileNamePrefix() + id + ".rdf";
+		}		
 		return getFileNamePrefix() + id + ".nex";
 	}	
 	

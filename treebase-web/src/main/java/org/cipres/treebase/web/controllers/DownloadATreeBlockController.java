@@ -81,13 +81,13 @@ public class DownloadATreeBlockController extends AbstractDownloadController imp
 			NexusDataSet nexusDataSet = new NexusDataSet();
 			nexusDataSet.getTaxonLabelSets().add(treeBlock.getTaxonLabelSet());
 			nexusDataSet.getTreeBlocks().add(treeBlock);
-			return getNexmlService().serialize(nexusDataSet);
+			return getNexmlService().serialize(nexusDataSet,getDefaultProperties(request));
 		}
 		else if ( getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet nexusDataSet = new NexusDataSet();
 			nexusDataSet.getTaxonLabelSets().add(treeBlock.getTaxonLabelSet());
 			nexusDataSet.getTreeBlocks().add(treeBlock);			
-			return getRdfaService().serialize(nexusDataSet);			
+			return getRdfaService().serialize(nexusDataSet,getDefaultProperties(request));			
 		}		
 		else {
 			StringBuilder bldr = new StringBuilder("#NEXUS\n\n");

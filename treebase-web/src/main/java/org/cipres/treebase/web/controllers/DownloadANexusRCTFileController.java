@@ -98,12 +98,12 @@ public class DownloadANexusRCTFileController extends AbstractDownloadController 
 		if ( getFormat(request) == FORMAT_NEXML ) {
 			Long study_id = ControllerUtil.getStudyId(request);
 			Study study = mStudyService.findByID(study_id);
-			return getNexmlService().serialize(study);
+			return getNexmlService().serialize(study,getDefaultProperties(request));
 		}
 		else if ( getFormat(request) == FORMAT_RDF ) {
 			Long study_id = ControllerUtil.getStudyId(request);
 			Study study = mStudyService.findByID(study_id);		
-			return getRdfaService().serialize(study);			
+			return getRdfaService().serialize(study,getDefaultProperties(request));			
 		}		
 		else {
 			String fileName = request.getParameter("nexusfile");

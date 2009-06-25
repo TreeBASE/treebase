@@ -20,6 +20,8 @@
 
 package org.cipres.treebase.web.controllers;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -113,7 +115,7 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 			treeBlock.setTaxonLabelSet(tls);
 			treeBlock.addPhyloTree(tree);
 			nds.getTreeBlocks().add(treeBlock);
-			return getNexmlService().serialize(nds);
+			return getNexmlService().serialize(nds,getDefaultProperties(request));
 		}
 		else if ( getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet nds = new NexusDataSet();
@@ -122,7 +124,7 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 			treeBlock.setTaxonLabelSet(tls);
 			treeBlock.addPhyloTree(tree);
 			nds.getTreeBlocks().add(treeBlock);			
-			return getRdfaService().serialize(nds);			
+			return getRdfaService().serialize(nds,getDefaultProperties(request));			
 		}		
 		else {
 			StringBuilder builder = new StringBuilder();
