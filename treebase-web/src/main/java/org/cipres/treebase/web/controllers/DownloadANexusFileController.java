@@ -22,17 +22,12 @@
 
 package org.cipres.treebase.web.controllers;
 
-//import java.io.File;
-//import java.io.FileWriter;
-//import java.io.IOException;
 import java.sql.Clob;
-//import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -42,7 +37,6 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.web.util.ControllerUtil;
-//import org.cipres.treebase.web.util.WebUtil;
 
 /**
  * 
@@ -55,8 +49,6 @@ import org.cipres.treebase.web.util.ControllerUtil;
  * 
  */
 public class DownloadANexusFileController extends AbstractDownloadController implements Controller {
-
-//	private static final Logger LOGGER = Logger.getLogger(DownloadANexusFileController.class);
 
 	private PhyloTreeService mPhyloTreeService;
 	private StudyService mStudyService;
@@ -109,100 +101,9 @@ public class DownloadANexusFileController extends AbstractDownloadController imp
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
-//		String sep = System.getProperty("file.separator");
-//		String downloadDir = request.getSession().getServletContext().getRealPath(
-//			"/NexusFileDownload")
-//			+ sep + request.getRemoteUser();
-//		String downloadDir = getDownloadDir(request);
-//
-//		String treeId = request.getParameter("treeid");
-//		String matrixId = request.getParameter("matrixid");
-//		String nexusFile = request.getParameter("nexusfile");
-//
-//		if (treeId == null && matrixId == null && nexusFile == null) {
-//			return null;
-//		}
-//		long clickedParameterId = 0L;
-//		String nexusFileName = null;
-//
-//		if (treeId != null) {
-//			clickedParameterId = Long.parseLong(treeId);
-//			nexusFileName = getPhyloTreeService().findByID(clickedParameterId).getNexusFileName();
-//		} else if (matrixId != null) {
-//			clickedParameterId = Long.parseLong(matrixId);
-//			nexusFileName = getMatrixService().findByID(clickedParameterId).getNexusFileName();
-//		} else if (nexusFile != null) {
-//			nexusFileName = (nexusFile).replaceAll("%20", "_");
-//		}
-//
-//		if (nexusFileName == null) {
-//			return null;
-//		}
-
 		generateAFileDynamically(request,response,0L);
-//		generateAFileDynamically(request, downloadDir, nexusFileName);
-//		WebUtil.downloadFile(response, downloadDir, nexusFileName + org);
-
 		return null;
 	}
-
-	/**
-	 * @param req HttpServletRequest
-	 * @param downloadDirName String Name of the directory where file(s) will be downloaded
-	 * @param fileName String name of the download file
-	 */
-	/*
-	private void generateAFileDynamically(
-		HttpServletRequest req,
-		String downloadDirName,
-		String fileName) {
-
-		Study study = ControllerUtil.findStudy(req, mStudyService);
-		Map<String, Clob> nexusMap = study.getNexusFiles();
-
-		File dirPath = new File(downloadDirName);
-		if (!dirPath.exists()) {
-			dirPath.mkdirs();
-		}
-
-		// long start = System.currentTimeMillis();
-		// long end = System.currentTimeMillis();
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("IN DOWNLOAD A NEXUS FILE CONTROLLER for file:  " + fileName);
-		}
-
-		try {
-
-			File file = new File(downloadDirName + TreebaseUtil.FILESEP
-				+ (fileName + org).replaceAll(TreebaseUtil.ANEMPTYSPACE, "_"));
-			FileWriter out = new FileWriter(file);
-
-			// Contents of the file will be overwritten if file already exists
-			String clobStr = "File Not Found. File Name is: " + fileName;
-			Clob clob = nexusMap.get(fileName);
-
-			if (clob != null) {
-				int clobLength = (int) clob.length();
-				char[] clobchars = new char[clobLength];
-				clob.getCharacterStream().read(clobchars);
-				clobStr = new String(clobchars);
-			}
-			out.write(clobStr);
-
-			out.close();
-			// File did not exist and was created
-			// } else {
-			// File already exists
-			// }
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
-
-	}
-	*/
 
 	@Override
 	protected String getFileName(long objectId,HttpServletRequest req) {
