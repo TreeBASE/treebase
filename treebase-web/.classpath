@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/org/acegisecurity/acegi-security/1.0.1/acegi-security-1.0.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/antlr/antlr/2.7.6/antlr-2.7.6.jar"/>
@@ -104,6 +103,9 @@
 	<classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.0.b2/xml-apis-1.0.b2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/ws/commons/schema/XmlSchema/1.4.2/XmlSchema-1.4.2.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/nexml/model/nexml/1.4-SNAPSHOT/nexml-1.4-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/nexml/model/nexml/1.5-SNAPSHOT/nexml-1.5-SNAPSHOT.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v5.5"/>
+	<!-- classpathentry combineaccessrules="false" exported="true" kind="src" path="/nexml"/ -->
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
