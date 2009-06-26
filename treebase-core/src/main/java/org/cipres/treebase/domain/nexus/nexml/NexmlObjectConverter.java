@@ -49,7 +49,9 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		document.setBaseURI(mBaseURI);
+		if ( null != baseURI ) {
+			document.setBaseURI(mBaseURI);
+		}
 		setTaxonLabelHome(taxonLabelHome);
 		setStudy(study);
 		setDocument(document);
