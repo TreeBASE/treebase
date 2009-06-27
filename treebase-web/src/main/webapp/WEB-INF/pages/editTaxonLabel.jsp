@@ -71,17 +71,25 @@
 			<c:set var="counter" value="${counter+1}"/>
 		</c:forEach>
 		<div>
-			<input type="radio" name="taxonvariantid" value="-1" 
-				<c:if test="${counter==0}">checked="checked"</c:if> /><em>no association</em>
+			<input type="radio" name="taxonvariantid" id="textBoxRadio" value="-1"/>
+			I did a uBio lookup for 
+			<spring:bind path="txnlabel.taxonLabel">
+				<a href="http://www.ubio.org/browser/search.php?search_all=<c:out value="${status.value}"/>" title="uBio taxonomy" target="_new">
+					<img src="<fmt:message key="icons.weblink"/>" class="iconButton"/><c:out value="${status.value}"/></a>
+			</spring:bind>		
+			and here is the namebank id:
+			<script type="text/javascript">
+				function selectRadio(textBoxRadio) {
+					alert($(textBoxRadio));
+					$(textBoxRadio).checked = true;
+				}
+			</script>
+			<input style="width:100px" class="textCell" type="text" name="manualid" onchange="selectRadio('textBoxRadio')" value=""/> 
 		</div>
-		or enter taxon id by hand:
-		<input style="width:100px" class="textCell" type="text" name="manualid" value=""/> 
-		from
-		<spring:bind path="txnlabel.taxonLabel">
-			<a href="http://www.ubio.org/browser/search.php?search_all=<c:out value="${status.value}"/>" title="uBio taxonomy" target="_new">
-				<img src="<fmt:message key="icons.weblink"/>" class="iconButton"/> uBio
-			</a>
-		</spring:bind>
+		<div>
+			<input type="radio" name="taxonvariantid" value="-1" 
+				<c:if test="${counter==0}">checked="checked"</c:if> /> <em>no association</em>
+		</div>		
 	</fieldset>    	
 	<input type="submit" name="Update" value="<fmt:message key="button.update"/>" />
 	<input type="submit" name="_cancel" value="<fmt:message key="button.cancel"/>" />	    

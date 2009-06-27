@@ -225,12 +225,23 @@ public class EditTaxonLabelController extends BaseFormController {
 			}
 			else {
 				// 2b
-				Integer ncbiId = getTaxonLabelService().findNcbiTaxIdByUBIOTaxId(manualId);
-				String ncbiPreferredName = getTaxonLabelService().getNCBIPreferredName(ncbiId.toString());
-				Taxon newTaxon = new Taxon(ncbiPreferredName,manualId,ncbiId);
-				getTaxonHome().store(newTaxon);
-				TaxonVariant newVariant = new TaxonVariant(manualId,taxonLabel.getTaxonLabel(),ncbiPreferredName,"canonical form");
+				TaxonLabelService taxonLabelService = getTaxonLabelService();
+				Integer ncbiId = taxonLabelService.findNcbiTaxIdByUBIOTaxId(manualId);	
+				Taxon newTaxon = null;
+				TaxonVariant newVariant = null;
+				if ( null != ncbiId ) {
+					String ncbiPreferredName = taxonLabelService.getNCBIPreferredName(ncbiId.toString());
+					newTaxon = new Taxon(ncbiPreferredName,manualId,ncbiId);
+					newVariant = new TaxonVariant(manualId,taxonLabel.getTaxonLabel(),ncbiPreferredName,"canonical form");					
+				}				
+				else {
+					newTaxon = new Taxon();
+					newTaxon.setName(taxonLabel.getTaxonLabel());
+					newTaxon.setUBioNamebankId(manualId);					
+					newVariant = new TaxonVariant(manualId,taxonLabel.getTaxonLabel(),taxonLabel.getTaxonLabel(),"canonical form");
+				}
 				newVariant.setTaxon(newTaxon);
+				getTaxonHome().store(newTaxon);
 				getTaxonHome().store(newVariant);
 				variant = newVariant;
 			}
