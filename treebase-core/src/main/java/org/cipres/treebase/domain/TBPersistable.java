@@ -22,6 +22,12 @@
 
 package org.cipres.treebase.domain;
 
+import javax.persistence.Transient;
+
+import org.cipres.treebase.NamespacedGUID;
+import org.cipres.treebase.PhyloWSPath;
+import org.cipres.treebase.TreebaseIDString;
+
 /**
  * A tagging interface for all persisted treebase objects.
  * 
@@ -54,5 +60,11 @@ public interface TBPersistable {
 	 * @return
 	 */
 	public Long getId();
+	
+	public TreebaseIDString getTreebaseIDString ();
+	
+	public NamespacedGUID getNamespacedGUID ();
+	
+	public PhyloWSPath getPhyloWSPath ();
 
 }
