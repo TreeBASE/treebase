@@ -54,12 +54,14 @@
 		<a href="${taxaURL}">View Taxa</a>
 	</display:column>
 	
+	<c:set var="baseURL" scope="request" value="/phylows/${tree.phyloWSPath}"/>	
+	
 	<display:column 
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url value="/PhyloWS/${tree.namespacedGUID}.xml" var="newTreeURL"/>
-		<a href="${newTreeURL}">
+		<c:url var="url" value="${baseURL}"><c:param name="format">nexml</c:param></c:url>
+		<a href="${url}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.xml"/>" 
@@ -72,8 +74,8 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url value="/PhyloWS/${tree.namespacedGUID}.rdf" var="newTreeURL"/>
-		<a href="${newTreeURL}">
+		<c:url var="url" value="${baseURL}"><c:param name="format">rdf</c:param></c:url>
+		<a href="${url}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.rdf"/>" 
@@ -86,8 +88,8 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url value="/PhyloWS/${tree.namespacedGUID}.nex" var="newTreeURL"/>
-		<a href="${newTreeURL}">
+		<c:url var="url" value="${baseURL}"><c:param name="format">nexus</c:param></c:url>
+		<a href="${url}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.download.reconstructed"/>" 
