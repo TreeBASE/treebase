@@ -18,10 +18,14 @@ import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 
 public class PhyloWSController implements Controller {
+	private static String ncbiBaseUrl = "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=";
+	private static String uBioBaseUrl = "http://www.ubio.org/browser/details.php?namebankID=";
 	private static final long serialVersionUID = 1L;
 	private MatrixService mMatrixService;
 	private PhyloTreeService mPhyloTreeService;
 	private StudyService mStudyService;
+	private static String format = "format";
+	private static String[] classesWithPages = { "tree", "study", "matrix" };
     
     private String createUrl(String prefix, Long objectId) throws Exception {
     	String url = "";
@@ -62,26 +66,33 @@ public class PhyloWSController implements Controller {
             	throw new InvalidRequestException(
             		"Invalid request '" 
             		+ pathInfo 
-            		+ "', should be /${NamespacedGUID}");
+            		+ "', should be /${class}/${NamespacedGUID}");
             }
             String[] pathComponents = pathInfo.split("/");
-            if ( pathComponents.length != 2 ) {
-            	throw new InvalidRequestException(
-            		"Invalid request '" 
-            		+ pathInfo 
-            		+ "', should be /${NamespacedGUID}");
+            String rawNamespacedGUID = pathComponents[pathComponents.length-1];
+            if ( rawNamespacedGUID.startsWith("uBio:") ) {
+            	url = uBioBaseUrl + rawNamespacedGUID.substring("uBio:".length());
             }
-            String[] idComponents = pathComponents[1].split("\\.");
-            NamespacedGUID namespacedGUID = new NamespacedGUID(idComponents[0]);
-            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
-            if ( idComponents.length >= 2 && idComponents[1].equals("html") ) {
-            	url = createUrl(tbID.getTypePrefix(),tbID.getId());
-            }
-            else if ( idComponents.length >= 2 ) {
-            	url = createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),idComponents[1]);
-            }
+            else if ( rawNamespacedGUID.startsWith("NCBI:") ) {
+            	url = ncbiBaseUrl + rawNamespacedGUID.substring("NCBI:".length());
+            }            
             else {
-            	url = "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+	            NamespacedGUID namespacedGUID = new NamespacedGUID(rawNamespacedGUID);
+	            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
+	            if ( hasWebPage(pathComponents) ) {
+	            	if ( TreebaseUtil.isEmpty(req.getParameter(format)) ) {
+	            		url = "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+	            	}
+	            	else if ( req.getParameter(format).equals("html") ) {
+	            		url = createUrl(tbID.getTypePrefix(),tbID.getId());
+	            	}
+	            	else {
+	            		url = createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),req.getParameter(format));
+	            	}
+	            }
+	            else {
+	            	url = "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+	            }
             }
         } catch ( MalformedTreebaseIDString e ) {
         	res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad ID string: " + e.getMessage());
@@ -91,10 +102,21 @@ public class PhyloWSController implements Controller {
         	res.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
         if ( ! TreebaseUtil.isEmpty(url) ) {
-        	res.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);        
+        	res.setStatus(HttpServletResponse.SC_FOUND);        
         	res.setHeader("Location", url);        
         }
         return null;
+	}
+	
+	private boolean hasWebPage(String[] pathComponents) {
+		for ( int i = ( pathComponents.length - 1 ); i >= 0; i-- ) {
+			for ( int j = 0; j < classesWithPages.length; j++ ) {
+				if ( pathComponents[i].equals(classesWithPages[j]) ) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private String createDownloadUrl(String prefix, Long objectId, String format) throws Exception {
