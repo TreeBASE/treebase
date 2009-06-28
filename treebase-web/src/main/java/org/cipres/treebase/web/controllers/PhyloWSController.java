@@ -103,7 +103,7 @@ public class PhyloWSController implements Controller {
         	res.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
         if ( ! TreebaseUtil.isEmpty(url) ) {
-        	res.setStatus(HttpServletResponse.SC_FOUND);        
+        	res.setStatus(HttpServletResponse.SC_SEE_OTHER);        
         	res.setHeader("Location", url);        
         }
         return null;
