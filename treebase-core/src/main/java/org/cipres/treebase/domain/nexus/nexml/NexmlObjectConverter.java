@@ -79,14 +79,9 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 */
 	protected void attachTreeBaseID(Annotatable annotatable,TBPersistable tbPersistable,Class<?> persistableClass) {
 		if ( null != tbPersistable.getId() ) {
-			attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);			
-			String uriString = mBaseURI.toString() + makeNamespacedID(tbPersistable,persistableClass);
-			try {
-				annotatable.addAnnotationValue("dc:relation",mDCURI, new URI(uriString));
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			//attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);			
+			String uriString = getDocument().getBaseURI().toString() + tbPersistable.getPhyloWSPath().toString();
+			annotatable.addAnnotationValue("dc:relation",mDCURI, URI.create(uriString));
 		}
 	}
 	
@@ -98,7 +93,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @param annotatable
 	 */
 	protected void attachAnnotation(String key,String value,URI namespace,Annotatable annotatable) {
-		Annotation annotation = annotatable.addAnnotationValue(key, namespace, value); // FIXME! Attaches meta element as last child
+		Annotation annotation = annotatable.addAnnotationValue(key, namespace, value);
 	}
 	
 	/**
@@ -113,19 +108,19 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		// dc:identifier predicate in a nexml meta annotation,
 		// e.g. <meta property="dc:identifier" content="TB2:Tr231"/>
 		// this will return something that stringifies to TB2:Tr231
-		Set<Object> dublinCoreIdentifierObjects = annotatable.getAnnotationValues(mDCIdentifier);
-		Iterator<Object> objectIterator = dublinCoreIdentifierObjects.iterator();
+		Set<Object> dublinCoreRelationObjects = annotatable.getRelValues("dc:relation");
+		Iterator<Object> objectIterator = dublinCoreRelationObjects.iterator();
 		while ( objectIterator.hasNext() ) {
-			TreebaseIDString treebaseIDString = null;
-			NamespacedGUID namespacedGUID = null;
-			try {
-				namespacedGUID = new NamespacedGUID(objectIterator.next().toString());
-				treebaseIDString = namespacedGUID.getTreebaseIDString();
-				return treebaseIDString.getId();
-			} catch ( MalformedTreebaseIDString e ) {
-				// XXX do nothing, it's OK, it means we're 
-				// parsing an id from a different naming
-				// authority, e.g. uBio or NCBI
+			URI relationURI = (URI)objectIterator.next();
+			String urlFragment = getDocument().getBaseURI().toString() + "taxon/TB2:";
+			if ( relationURI.toString().startsWith(urlFragment) ) {
+				String rawTreebaseIDString = relationURI.toString().substring(urlFragment.length());
+				try {
+					TreebaseIDString treebaseIDString = new TreebaseIDString(rawTreebaseIDString);
+					return treebaseIDString.getId();
+				} catch ( MalformedTreebaseIDString e ) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return null;
