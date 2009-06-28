@@ -1,5 +1,7 @@
 package org.cipres.treebase.domain.nexus.nexml;
 
+import java.net.URI;
+
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -80,12 +82,16 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 		}
 		attachTreeBaseID(xmlOTU,taxonLabel,TaxonLabel.class);
 		if ( null != taxonLabel.getNcbiTaxID() ) {
-			attachAnnotation("dc:identifier", "NCBI:" + taxonLabel.getNcbiTaxID(), mDCURI, xmlOTU);
+			StringBuilder urlString = new StringBuilder(getDocument().getBaseURI().toString());
+			taxonLabel.getPhyloWSPath().getPath(urlString).append("NCBI:").append(taxonLabel.getNcbiTaxID());									
+			xmlOTU.addAnnotationValue("dc:relation", mDCURI, URI.create(urlString.toString()));
 		}
 		TaxonVariant tv = taxonLabel.getTaxonVariant();
 		if ( null != tv ) {
 			if ( null != tv.getNamebankID() ) {
-				attachAnnotation("dc:identifier", "uBio:" + tv.getNamebankID(), mDCURI, xmlOTU);
+				StringBuilder urlString = new StringBuilder(getDocument().getBaseURI().toString());
+				taxonLabel.getPhyloWSPath().getPath(urlString).append("uBio:").append(tv.getNamebankID());					
+				xmlOTU.addAnnotationValue("dc:relation", mDCURI, URI.create(urlString.toString()));
 			}
 		}
 		return xmlOTU;
