@@ -12,11 +12,14 @@ import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
 import org.cipres.treebase.domain.study.Study;
 import org.dom4j.DocumentException;
+import org.dom4j.QName;
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
 import org.dom4j.io.SAXReader;
+import org.jdom.Namespace;
 import org.nexml.model.Document;
 import org.nexml.model.DocumentFactory;
+
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -95,6 +98,9 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 			e.printStackTrace();
 		}
 		org.dom4j.Document transformedDoc = result.getDocument();
+		QName qName = QName.get("base", "xml", "http://www.w3.org/XML/1998/namespace");
+		String sourceBase = jDomDocument.getRootElement().attributeValue(qName);
+		transformedDoc.getRootElement().setAttributeValue(qName, sourceBase);
 		return transformedDoc.asXML();		
 	}
 }
