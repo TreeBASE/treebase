@@ -841,7 +841,7 @@
 		<property name="alwaysUseFullPath" value="true"/>
 			<property name="mappings">
 			<props>
-				<prop key="/PhyloWS/**">phyloWSController</prop>
+				<prop key="/phylows/**">phyloWSController</prop>
 				<prop key="/home.html">filenameController</prop>
 				<prop key="/login.html">filenameController</prop>
 				<prop key="/user/viewXML.html">filenameController</prop>
