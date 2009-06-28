@@ -60,6 +60,7 @@ public class PhyloWSController implements Controller {
 		throws Exception {
         res.setContentType("text/plain");
         String url = null;
+        String domain = "http://" + req.getServerName() + ":" + req.getServerPort();
         try { 
             String pathInfo = req.getPathInfo();
             if ( TreebaseUtil.isEmpty(pathInfo) ) {
@@ -81,17 +82,17 @@ public class PhyloWSController implements Controller {
 	            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
 	            if ( hasWebPage(pathComponents) ) {
 	            	if ( TreebaseUtil.isEmpty(req.getParameter(format)) ) {
-	            		url = "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+	            		url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
 	            	}
 	            	else if ( req.getParameter(format).equals("html") ) {
-	            		url = createUrl(tbID.getTypePrefix(),tbID.getId());
+	            		url = domain + createUrl(tbID.getTypePrefix(),tbID.getId());
 	            	}
 	            	else {
-	            		url = createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),req.getParameter(format));
+	            		url = domain + createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),req.getParameter(format));
 	            	}
 	            }
 	            else {
-	            	url = "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+	            	url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
 	            }
             }
         } catch ( MalformedTreebaseIDString e ) {

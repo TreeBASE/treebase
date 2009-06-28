@@ -7,7 +7,7 @@
   xmlns="http://purl.org/rss/1.0/">
   <channel rdf:about="${baseURL}/${phyloWSPath}">
     <title>${phyloWSPath}</title>
-    <link>${baseURL}/${phyloWSPath}</link>
+    <link>${baseURL}</link>
     <description>Serializations for ${phyloWSPath}</description>
     <image rdf:resource="${domainAddress}<fmt:message key="icons.treebase.16px"/>"/>
     <items>
@@ -21,7 +21,7 @@
   </channel>
   <image rdf:about="${domainAddress}<fmt:message key="icons.treebase.16px"/>">
     <title>${phyloWSPath}</title>
-    <link>${baseURL}/${phyloWSPath}</link>
+    <link>${baseURL}</link>
     <url>${domainAddress}<fmt:message key="icons.treebase.16px"/></url>
   </image>
   <c:if test="${hasWebPage}">
@@ -29,7 +29,7 @@
     <title>Web page</title>
     <link>${baseURL}/${phyloWSPath}?format=html</link>
     <description>A human-readable version of the resource</description>
-    <!--dcterms:format>text/html</dcterms:format-->
+    <dc:format>text/html</dc:format>
     <dc:language>EN-US</dc:language>
   </item>
   </c:if>
@@ -38,7 +38,7 @@
     <title>NeXML file</title>
     <link>${baseURL}/${phyloWSPath}?format=nexml</link>
     <description>A NeXML serialization of the resource</description>
-    <!--dcterms:format>application/xml</dcterms:format-->
+    <dc:format>application/xml</dc:format>
   </item>
   </c:if>  
   <c:if test="${hasNexus}">
@@ -46,7 +46,7 @@
     <title>Nexus file</title>
     <link>${baseURL}/${phyloWSPath}?format=nexus</link>
     <description>A Nexus serialization of the resource</description>
-    <!--dcterms:format>text/plain</dcterms:format-->
+    <dc:format>text/plain</dc:format>
   </item>
   </c:if>   
   <c:if test="${hasRdf}">
@@ -54,7 +54,7 @@
     <title>RDF file</title>
     <link>${baseURL}/${phyloWSPath}?format=rdf</link>
     <description>An RDF/XML serialization of the resource</description>
-    <!--dcterms:format>application/rdf+xml</dcterms:format-->
+    <dc:format>application/rdf+xml</dc:format>
   </item>
   </c:if>   
 </rdf:RDF>
