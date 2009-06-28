@@ -32,6 +32,7 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.cipres.treebase.NamespacedGUID;
+import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
 
 /**
@@ -110,6 +111,11 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 	@Transient
 	public NamespacedGUID getNamespacedGUID () {
 		return getTreebaseIDString().getNamespacedGUID();
+	}
+	
+	@Transient
+	public PhyloWSPath getPhyloWSPath() {
+		return new PhyloWSPath(this);
 	}
 
 }
