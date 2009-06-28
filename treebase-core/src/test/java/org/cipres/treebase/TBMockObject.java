@@ -60,4 +60,19 @@ public class TBMockObject extends Object implements TBPersistable {
 		return getId().hashCode();
 	}
 
+	public NamespacedGUID getNamespacedGUID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public TreebaseIDString getTreebaseIDString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public PhyloWSPath getPhyloWSPath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
