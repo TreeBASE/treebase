@@ -10,7 +10,7 @@
 <body id="s-study"/>
 <c:set var="serverName" scope="request" value="<%= request.getServerName() %>"/>
 <c:set var="portNumber" scope="request" value="<%= request.getServerPort() %>"/>
-<c:set var="baseLink" scope="request" value='http://${serverName}:${portNumber}/treebase-web/PhyloWS/${study.namespacedGUID}'/>
+<c:set var="baseLink" scope="request" value='http://${serverName}:${portNumber}/treebase-web/phylows/${study.phyloWSPath}'/>
 <c:set var="currentSection" scope="request" value="Citation"/>
 <c:set var="headerPrefix" scope="request" value="${currentSection} for"/>
 <jsp:include page="nav.jsp"/>
@@ -89,7 +89,7 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 		</a>
 	</li>
 	<li>Other versions:
-		<a href="${baseLink}.nex">
+		<a href="${baseLink}?format=nexus">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.download.reconstructed"/>" 
@@ -97,7 +97,7 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 				alt="<fmt:message key="download.reconstructedfile"/>"/>	
 			Nexus			
 		</a>
-		<a href="${baseLink}.xml">
+		<a href="${baseLink}?format=nexml">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.xml"/>" 
@@ -105,7 +105,7 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 				alt="<fmt:message key="download.nexml"/>"/>	
 			NeXML			
 		</a>	
-		<a href="${baseLink}.rdf">
+		<a href="${baseLink}?format=rdf">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.rdf"/>" 
