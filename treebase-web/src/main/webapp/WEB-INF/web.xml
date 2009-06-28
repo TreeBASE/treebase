@@ -159,7 +159,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>treebase</servlet-name>
-		<url-pattern>/PhyloWS/*</url-pattern>
+		<url-pattern>/phylows/*</url-pattern>
 	</servlet-mapping>
 	
 	<!-- ========================================================== -->
