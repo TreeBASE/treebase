@@ -29,7 +29,7 @@ public abstract class AbstractDownloadController implements Controller {
 			.append(request.getServerName())
 			.append(':')
 			.append(request.getServerPort())
-			.append("/treebase-web/PhyloWS/");
+			.append("/treebase-web/phylows/");
 		properties.setProperty("nexml.uri.base", baseURI.toString());
 		return properties;
 	}
