@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cipres.treebase.NamespacedGUID;
+import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Study;
@@ -24,6 +25,7 @@ public class AnyObjectAsRDFController implements Controller {
 			HttpServletResponse response) throws Exception {
 		NamespacedGUID namespacedGUID = new NamespacedGUID(request.getParameter("namespacedGUID"));
 		TreebaseIDString treebaseIDString = null;
+		PhyloWSPath phyloWSPath = null;
 		request.setAttribute("hasWebPage", false);
 		request.setAttribute("hasNexus", false);
 		request.setAttribute("hasNeXML", false);
@@ -45,18 +47,22 @@ public class AnyObjectAsRDFController implements Controller {
 						request.setAttribute("hasNeXML", true);
 						request.setAttribute("hasRdf", true);
 					}
+					phyloWSPath = new PhyloWSPath(theClass.getPackage(),namespacedGUID);
 				}
 			}
 		}
 		request.getSession().setAttribute("namespacedGUID", namespacedGUID.toString());
 		// <c:set var="baseURL" value="http://localhost:8080/treebase-web/PhyloWS"/>
-		StringBuffer url = new StringBuffer("http://");
-		url
+		StringBuffer domainAddress = new StringBuffer("http://");
+		domainAddress
 			.append(request.getServerName())
 			.append(':')
-			.append(request.getServerPort())
-			.append("/treebase-web/PhyloWS");
-		request.getSession().setAttribute("baseURL", url.toString());
+			.append(request.getServerPort());
+		StringBuffer baseURL = new StringBuffer(domainAddress);
+		baseURL.append("/treebase-web/phylows");
+		request.getSession().setAttribute("baseURL", baseURL.toString());
+		request.getSession().setAttribute("domainAddress", domainAddress.toString());
+		request.getSession().setAttribute("phyloWSPath", phyloWSPath);
 		return new ModelAndView("anyObjectAsRDF");
 	}
 
