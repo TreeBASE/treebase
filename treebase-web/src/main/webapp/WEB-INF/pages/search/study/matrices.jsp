@@ -5,6 +5,11 @@
 
 <c:set var="currentSection" scope="request" value="Matrices"/>
 <c:set var="headerPrefix" scope="request" value="${currentSection} for "/>
+
+<c:set var="serverName" scope="request" value="<%= request.getServerName() %>"/>
+<c:set var="portNumber" scope="request" value="<%= request.getServerPort() %>"/>
+<c:set var="baseURL" scope="request" value='http://${serverName}:${portNumber}/treebase-web/phylows/'/>
+
 <jsp:include page="nav.jsp"/>
 
 <c:url var="studyURL" value="summary.html">
@@ -21,11 +26,8 @@
 			   cellpadding="3">
 
 	<display:column title="ID">
-		<c:url value="matrix.html" var="matrixURL">
-			<c:param name="id">${study.id}</c:param>
-			<c:param name="matrixid">${matrix.id}</c:param>
-		</c:url>
-		<a href="${matrixURL}">M${matrix.id }</a>
+		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">html</c:param></c:url>
+		<a href="${url}">${matrix.treebaseIDString}</a>
 	</display:column>
 	
 	<display:column  
@@ -69,8 +71,8 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url value="/PhyloWS/${matrix.namespacedGUID}.xml" var="newMatrixURL"/>
-		<a href="${newMatrixURL}">
+		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">nexml</c:param></c:url>		
+		<a href="${url}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.xml"/>" 
@@ -83,8 +85,8 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url value="/PhyloWS/${matrix.namespacedGUID}.rdf" var="newMatrixURL"/>
-		<a href="${newMatrixURL}">
+		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">rdf</c:param></c:url>
+		<a href="${url}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.rdf"/>" 
@@ -97,8 +99,8 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url value="/PhyloWS/${matrix.namespacedGUID}.nex" var="newMatrixURL"/>
-		<a href="${newMatrixURL}">
+		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">nexus</c:param></c:url>
+		<a href="${url}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.download.reconstructed"/>" 
@@ -128,7 +130,7 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="/PhyloWS/${matrix.namespacedGUID}.html"/>
+		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">html</c:param></c:url>
 		<a href="${url}">		
 			<img 
 				class="iconButton" 
