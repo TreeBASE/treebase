@@ -178,7 +178,8 @@ sub print_insert_statements {
 	    my $percent = int(0.5 + $count / $total_records * 100);
             print STDERR "\r$percent%" if $percent ne $old_percent;
 	    $old_percent = $percent;
-	    last if defined($nrecs) && ++$rows_printed >= $nrecs;
+	    ++$rows_printed;
+	    last if defined($nrecs) && $rows_printed >= $nrecs;
         }
     }
 
@@ -186,7 +187,8 @@ sub print_insert_statements {
     else {
         while ( $row = $sth->fetchrow_arrayref ) {
             $dumper->rec(@$row);
-	    last if defined($nrecs) && ++$rows_printed >= $nrecs;
+	    ++$rows_printed;
+	    last if defined($nrecs) && $rows_printed >= $nrecs;
         }
     }
 
