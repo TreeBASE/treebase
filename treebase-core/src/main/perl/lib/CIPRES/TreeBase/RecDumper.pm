@@ -33,6 +33,12 @@ sub _initialize {
     return;
 }
 
+# Print some text literally
+sub print {
+    my $self = shift;
+    return print {$self->{'OUT'}} @_;
+}
+
 # Format data into an insert statement and return (or write) the result
 sub rec {
 	my $self = shift;
@@ -56,7 +62,6 @@ sub dump_create {
 	return $create;		
 }
 
-# XXX UNFINISHED !!!!
 sub quote_data {
     my $self = shift;
     my @d = @_;
