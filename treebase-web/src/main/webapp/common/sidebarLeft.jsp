@@ -10,7 +10,7 @@
 			<li><a href="<c:url value="/user/processUser.html"/>"><fmt:message key="nav.submit"/></a></li>
 			<li><a href="#"><fmt:message key="nav.stats"/></a></li>
 			<li><a href="#"><fmt:message key="nav.referee"/></a></li>
-			<li><a href="#"><fmt:message key="nav.urlapi"/></a></li>
+			<li><a href="/treebase-web/help/urlAPI.jsp"><fmt:message key="nav.urlapi"/></a></li>
 		</ul>
 	</div>
 </div>
