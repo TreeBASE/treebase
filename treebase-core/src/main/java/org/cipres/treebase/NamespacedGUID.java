@@ -12,6 +12,8 @@ public class NamespacedGUID {
 	private String mMamespacedIDString;
 	public static final String NAMING_AUTHORITY_PREFIX_TB1 = "TB1";
 	public static final String NAMING_AUTHORITY_PREFIX_TB2 = "TB2";
+	public static final String NAMING_AUTHORITY_PREFIX_NCBI = "NCBI";
+	public static final String NAMING_AUTHORITY_PREFIX_UBIO = "uBio";
 	public static final String GUID_DELIMITER = ":";
 	
 	/**
