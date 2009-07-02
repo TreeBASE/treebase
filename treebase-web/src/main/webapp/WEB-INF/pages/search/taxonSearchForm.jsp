@@ -24,25 +24,29 @@
 		else {
 			$('searchTermLegend').textContent = 'Enter names (one per line)';
 		}
-		$('searchTerm').disabled = true;
 	}
-	function toggleTextArea(button) {
-		var noneChecked = true;
-		var siblings = $(button.parentNode).getElementsByClassName('selectionNeeded');
-		for ( var i = 0; i < siblings.length; i++ ) {
-			if ( siblings[i].checked ) {
-				noneChecked = false;
+	function validateForm() {
+		if ( $('searchTerm').value != "" ) {
+			if ( $('IdentifiersRadio').checked ) {
+				if ( $('TreeBASERadio').checked || $('NCBIRadio').checked || $('uBioRadio').checked ) {
+					return $('searchByTaxonLabel').submit();
+				}	
+				alert("Please select either TreeBASE, NCBI or uBio");		
+			}
+			else if ( $('TextSearchRadio').checked ) {
+				if ( $('taxonLabelRadio').checked || $('taxonVariantRadio').checked || $('taxonRadio').checked ) {
+					return $('searchByTaxonLabel').submit();
+				}		
+				alert("Please select at least one of Taxon label, Taxon variant or Taxon");		
+			}
+			else {
+				alert("Please select what to search on (identifiers or text)");
 			}
 		}
-		$('searchTerm').disabled = noneChecked;
-	}
-	function toggleSubmit(textarea) {
-		if ( textarea.value != "" ) {
-			$('submitSearch').disabled = false;
-		}		
 		else {
-			$('submitSearch').disabled = true;
+			alert("Please enter search terms in the text area");
 		}
+		return false;
 	}
 </script>
 
@@ -53,25 +57,25 @@
 	  <input type="hidden" name="searchType" value="${searchType }"/>
 	  <fieldset id="Identifiers">
 	  	<legend>
-	  		<input onclick="toggleFieldSet('TextSearch','Identifiers')" type="radio" name="searchOn" value="Identifiers"/>Identifiers
+	  		<input onclick="toggleFieldSet('TextSearch','Identifiers')" type="radio" id="IdentifiersRadio" name="searchOn" value="Identifiers"/>Identifiers
 	  		<a href="#" class="openHelp" onclick="openHelp('taxonSearchIdentifiers')">
 	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
 	  		</a>
 	  	</legend>
-	  	<input type="radio" name="objectIdentifier" class="selectionNeeded" onchange="toggleTextArea(this)" value="TreeBASE" disabled="disabled"/>TreeBASE taxon ID
-	  	<input type="radio" name="objectIdentifier" class="selectionNeeded" onchange="toggleTextArea(this)" value="NCBI" disabled="disabled"/> NCBI taxon ID
-	  	<input type="radio" name="objectIdentifier" class="selectionNeeded" onchange="toggleTextArea(this)" value="uBio" disabled="disabled"/> uBio nameBankID
+	  	<input type="radio" name="objectIdentifier" class="selectionNeeded" id="TreeBASERadio" value="TreeBASE" disabled="disabled"/>TreeBASE taxon ID
+	  	<input type="radio" name="objectIdentifier" class="selectionNeeded" id="NCBIRadio" value="NCBI" disabled="disabled"/> NCBI taxon ID
+	  	<input type="radio" name="objectIdentifier" class="selectionNeeded" id="uBioRadio" value="uBio" disabled="disabled"/> uBio nameBankID
 	  </fieldset>
 	  <fieldset id="TextSearch">
 	  	<legend>
-	  		<input onclick="toggleFieldSet('Identifiers','TextSearch')" type="radio" name="searchOn" value="TextSearch"/>Text search
+	  		<input onclick="toggleFieldSet('Identifiers','TextSearch')" type="radio" name="searchOn" id="TextSearchRadio" value="TextSearch"/>Text search
 	  		<a href="#" class="openHelp" onclick="openHelp('taxonSearchTextSearch')">
 	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
 	  		</a>	  		
 	  	</legend>
-	  	<input type="checkbox" name="stringProperty" class="selectionNeeded" onchange="toggleTextArea(this)" value="taxonLabel" disabled="disabled"/> Taxon label
-	  	<input type="checkbox" name="stringProperty" class="selectionNeeded" onchange="toggleTextArea(this)" value="taxonVariant" disabled="disabled"/> Taxon variant
-	  	<input type="checkbox" name="stringProperty" class="selectionNeeded" onchange="toggleTextArea(this)" value="taxon" disabled="disabled"/> Taxon
+	  	<input type="checkbox" name="stringProperty" class="selectionNeeded" id="taxonLabelRadio" value="taxonLabel" disabled="disabled"/> Taxon label
+	  	<input type="checkbox" name="stringProperty" class="selectionNeeded" id="taxonVariantRadio" value="taxonVariant" disabled="disabled"/> Taxon variant
+	  	<input type="checkbox" name="stringProperty" class="selectionNeeded" id="taxonRadio" value="taxon" disabled="disabled"/> Taxon
 	  	<hr style="border: 1px solid #cccccc" />
 	  	<input type="checkbox" name="stringModifier" value="caseSensitive" disabled="disabled"/> Case sensitive
 	  	<input type="checkbox" name="stringModifier" value="exactMatch" disabled="disabled"/> Exact match
@@ -83,9 +87,12 @@
 	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
 	  		</a>	  	
 	  	</legend>
-	  	<textarea name="searchTerm" id="searchTerm" style="width:100%" onchange="toggleSubmit(this)" disabled="disabled">${searchTerm}</textarea>	  	
+	  	<textarea name="searchTerm" id="searchTerm" style="width:100%">${searchTerm}</textarea>	  	
 	  </fieldset>
-	  <input type=submit name="Action" id="submitSearch" value="Search" disabled="disabled"/>
+	  <input type="hidden" name="Action" value="Search"/>
+	  <input type="button" name="Action" id="submitSearch" onclick="validateForm()" value="Search"/>
+	  
+	  <jsp:include page="querySearchBox.jsp"/>
   </fieldset>
   </form>
 </div>

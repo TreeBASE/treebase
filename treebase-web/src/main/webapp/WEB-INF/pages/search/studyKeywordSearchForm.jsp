@@ -19,4 +19,5 @@
 	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
 	  		</a>     
     </fieldset>
+    <jsp:include page="querySearchBox.jsp"/>  
   </form>
