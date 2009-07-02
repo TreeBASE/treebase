@@ -16,7 +16,7 @@
 	<bean id="processUserController" class="org.cipres.treebase.web.controllers.ProcessUserController"/>
 		
 	<bean id="anyObjectAsRDFController" class="org.cipres.treebase.web.controllers.AnyObjectAsRDFController"/>
-	
+	<bean id="searchResultsAsRDFController" class="org.cipres.treebase.web.controllers.SearchResultsAsRDFController"/>	
 	
 	<bean id="appletInteractionController" class="org.cipres.treebase.web.controllers.AppletInteractionController">
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
@@ -930,6 +930,7 @@
 			    <prop key="/search/study/taxa.html">searchSummaryController</prop>
 			    <prop key="/search/study/rowSegments.html">searchSummaryController</prop>
 			    <prop key="/search/study/anyObjectAsRDF.html">anyObjectAsRDFController</prop>
+			    <prop key="/search/searchResultsAsRDF.html">searchResultsAsRDFController</prop>
 				<prop key="/search/matrixRowList.html">listMatrixRowController</prop>
 				<prop key="/search/taxonList.html">listTaxaSearchController</prop>
 				<prop key="/search/downloadAStudy.html">downloadAStudyController</prop>				
