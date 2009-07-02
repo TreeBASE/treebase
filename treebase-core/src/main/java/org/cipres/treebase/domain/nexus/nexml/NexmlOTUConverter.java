@@ -85,6 +85,10 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 			StringBuilder urlString = new StringBuilder(getDocument().getBaseURI().toString());
 			taxonLabel.getPhyloWSPath().getPath(urlString).append("NCBI:").append(taxonLabel.getNcbiTaxID());									
 			xmlOTU.addAnnotationValue("dc:relation", mDCURI, URI.create(urlString.toString()));
+			xmlOTU.addAnnotationValue("tb:identifier.ncbi", mTBTermsURI, "NCBI:" + taxonLabel.getNcbiTaxID());
+			xmlOTU.addAnnotationValue("tb:identifier.taxon", mTBTermsURI, taxonLabel.getTaxonVariant().getTaxon().getId());
+			xmlOTU.addAnnotationValue("tb:identifier.taxonLabel", mTBTermsURI, taxonLabel.getId());
+			xmlOTU.addAnnotationValue("tb:title.taxon", mTBTermsURI, taxonLabel.getTaxonVariant().getTaxon().getName());
 		}
 		TaxonVariant tv = taxonLabel.getTaxonVariant();
 		if ( null != tv ) {
@@ -92,6 +96,9 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 				StringBuilder urlString = new StringBuilder(getDocument().getBaseURI().toString());
 				taxonLabel.getPhyloWSPath().getPath(urlString).append("uBio:").append(tv.getNamebankID());					
 				xmlOTU.addAnnotationValue("dc:relation", mDCURI, URI.create(urlString.toString()));
+				xmlOTU.addAnnotationValue("tb:identifier.ubio", mTBTermsURI, "uBio:" + tv.getNamebankID());
+				xmlOTU.addAnnotationValue("tb:identifier.taxonVariant", mTBTermsURI, tv.getId());
+				xmlOTU.addAnnotationValue("tb:title.taxonVariant", mTBTermsURI, tv.getFullName());
 			}
 		}
 		return xmlOTU;

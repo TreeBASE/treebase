@@ -178,7 +178,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 					xmlState.setLabel(tbState.getDescription());
 				}	
 				if ( null != tbState.getNotes() ) {
-					((Annotatable)xmlState).addAnnotationValue("dc:description", mDCURI, tbState.getNotes());
+					((Annotatable)xmlState).addAnnotationValue("dcterms:description", mDCURI, tbState.getNotes());
 				}
 				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
 			}			
@@ -220,7 +220,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
 			PhyloChar tbCharacter = tbColumn.getCharacter();
 			if ( null != tbCharacter.getDescription() && ! tbCharacter.getDescription().equals(tbDataType) ) {
-				((Annotatable)xmlCharacter).addAnnotationValue("dc:description", mDCURI, tbCharacter.getDescription());
+				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", mDCURI, tbCharacter.getDescription());
 			}			
 			if ( null != tbCharacter.getId() && tbCharacter.getId() != 2 ) { // XXX is PhyloChar.id 2 some sort of magic number?
 				attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);
@@ -243,7 +243,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter();
 			PhyloChar tbCharacter = tbColumn.getCharacter();
 			if ( null != tbCharacter.getDescription() ) {
-				((Annotatable)xmlCharacter).addAnnotationValue("dc:description", mDCURI, tbCharacter.getDescription());
+				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", mDCURI, tbCharacter.getDescription());
 			}			
 			attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);			
 		}		
@@ -273,6 +273,10 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		}
 		xmlMatrix.setLabel(tbMatrix.getTitle());
 		attachTreeBaseID((Annotatable)xmlMatrix, tbMatrix,Matrix.class);
+		((Annotatable)xmlMatrix).addAnnotationValue("tb:type.matrix", mTBTermsURI, tbMatrix.getDataType().getDescription());
+		((Annotatable)xmlMatrix).addAnnotationValue("tb:ntax.matrix", mTBTermsURI, tbMatrix.getnTax());
+		((Annotatable)xmlMatrix).addAnnotationValue("tb:nchar.matrix", mTBTermsURI, tbMatrix.getnChar());
+		((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix", mTBTermsURI, tbMatrix.getId());
 		return xmlMatrix;
 	}
 

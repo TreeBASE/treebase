@@ -95,8 +95,9 @@ public class NexmlDocumentConverter extends NexmlObjectConverter {
 	 * @param document
 	 */
 	private void copyCitationMetadata(Citation citation,Document document) {
+		attachAnnotation("dcterms.bibliographicCitation",citation.getAuthorsCitationStyleWithoutHtml(),mDCURI,document);
 		if ( null != citation.getTitle() ) {
-			attachAnnotation("dc:title",citation.getTitle(),mPrismURI,document);
+			attachAnnotation("tb:title.study",citation.getTitle(),mTBTermsURI,document);
 		}
 		if ( null != citation.getPublishYear() ) {
 			attachAnnotation("prism:publicationDate",citation.getPublishYear().toString(),mPrismURI,document);
@@ -115,7 +116,7 @@ public class NexmlDocumentConverter extends NexmlObjectConverter {
 		if ( null != citation.getKeywords() ) {
 			String[] keywords = citation.getKeywords().split(", ");
 			for ( int i = 0; i < keywords.length; i++ ) {
-				attachAnnotation("prism:keyword",keywords[i],mPrismURI,document);
+				attachAnnotation("dcterms:subject",keywords[i],mDCURI,document);
 			}		
 		}
 		if ( citation instanceof ArticleCitation ) {
@@ -162,12 +163,14 @@ public class NexmlDocumentConverter extends NexmlObjectConverter {
 
 	private void copyMetadata(Study pStudy) {
 		attachTreeBaseID(getDocument(), pStudy,Study.class);
+		attachAnnotation("tb:identifier.study",pStudy.getId().toString(), mTBTermsURI, getDocument());
+		attachAnnotation("tb:identifier.study.tb1",pStudy.getTB1StudyID(), mTBTermsURI, getDocument());
 		if ( null != pStudy.getName() ) {
-			attachAnnotation("dc:title", pStudy.getName(), mDCURI, getDocument());
+			attachAnnotation("tb:title.study", pStudy.getName(), mTBTermsURI, getDocument());
 		}		
 		for ( Person person : pStudy.getAuthors() ) {
 			String personName = person.getFullNameCitationStyle();
-			attachAnnotation("dc:contributor",personName,mDCURI,getDocument());
+			attachAnnotation("dcterms:contributor",personName,mDCURI,getDocument());
 		}
 		if ( null != pStudy.getReleaseDate() ) {
 			attachAnnotation("prism:embargoDate",pStudy.getReleaseDate().toString(),mPrismURI,getDocument());
@@ -175,7 +178,7 @@ public class NexmlDocumentConverter extends NexmlObjectConverter {
 		if ( null != pStudy.getSubmission() ) {
 			if ( null != pStudy.getSubmission().getSubmitter() ) {
 				attachAnnotation(
-						"dc:creator",
+						"dcterms:creator",
 						pStudy.getSubmission().getSubmitter().getPerson().getFullNameCitationStyle(),
 						mDCURI,
 						getDocument()

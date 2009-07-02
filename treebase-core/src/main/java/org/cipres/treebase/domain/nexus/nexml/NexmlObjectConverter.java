@@ -23,11 +23,13 @@ import org.nexml.model.OTUs;
 public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected static URI mDCURI;
 	protected static URI mPrismURI;
+	protected static URI mTBTermsURI;
 	protected URI mBaseURI;
-	private static String mDCURIString = "http://purl.org/dc/elements/1.1/";
+	private static String mTBTermsString = "http://treebase.org/terms#";
+	private static String mDCURIString = "http://purl.org/dc/terms/";
 	private static String mPrismURIString = "http://prismstandard.org/namespaces/1.2/basic/";
 	private static String mBaseURIString = "http://purl.org/PHYLO/TREEBASE/PHYLOWS/";
-	private static String mDCIdentifier = "dc:identifier";	
+	private static String mDCIdentifier = "dcterms:identifier";	
 	public static String TreeBASE2Prefix = "TreeBASE2";
 	private Document mDocument;
 		
@@ -40,6 +42,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		try {
 			mDCURI = new URI(mDCURIString);
 			mPrismURI = new URI(mPrismURIString);
+			mTBTermsURI = new URI(mTBTermsString);
 			if ( null != baseURI ) {
 				mBaseURI = new URI(baseURI);
 			}
@@ -81,7 +84,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		if ( null != tbPersistable.getId() ) {
 			//attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);			
 			String uriString = getDocument().getBaseURI().toString() + tbPersistable.getPhyloWSPath().toString();
-			annotatable.addAnnotationValue("dc:relation",mDCURI, URI.create(uriString));
+			annotatable.addAnnotationValue("dcterms:relation",mDCURI, URI.create(uriString));
 		}
 	}
 	
@@ -108,7 +111,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		// dc:identifier predicate in a nexml meta annotation,
 		// e.g. <meta property="dc:identifier" content="TB2:Tr231"/>
 		// this will return something that stringifies to TB2:Tr231
-		Set<Object> dublinCoreRelationObjects = annotatable.getRelValues("dc:relation");
+		Set<Object> dublinCoreRelationObjects = annotatable.getRelValues("dcterms:relation");
 		Iterator<Object> objectIterator = dublinCoreRelationObjects.iterator();
 		while ( objectIterator.hasNext() ) {
 			URI relationURI = (URI)objectIterator.next();
