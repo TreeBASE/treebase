@@ -20,25 +20,35 @@
 
 package org.cipres.treebase.web.controllers;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
-import org.cipres.treebase.domain.search.StudySearchResults;
 import org.cipres.treebase.domain.search.TreeSearchResults;
-import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.util.RequestMessageSetter;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.z3950.zing.cql.CQLAndNode;
+import org.z3950.zing.cql.CQLBooleanNode;
+import org.z3950.zing.cql.CQLNode;
+import org.z3950.zing.cql.CQLNotNode;
+import org.z3950.zing.cql.CQLOrNode;
+import org.z3950.zing.cql.CQLParseException;
+import org.z3950.zing.cql.CQLParser;
+import org.z3950.zing.cql.CQLRelation;
+import org.z3950.zing.cql.CQLTermNode;
 
 /**
  * TreeSearchController.java
@@ -73,50 +83,161 @@ public class TreeSearchController extends SearchController {
 
 		clearMessages(request);
 		String formName = request.getParameter("formName");
+		String query = request.getParameter("query");
 		
 		LOGGER.info("formName is '" + formName + "'");
-
+		
+		if ( ! TreebaseUtil.isEmpty(query) ) {
+			/*
+			CQLParser parser = new CQLParser();
+			CQLNode root = parser.parse(query);
+			root = normalizeParseTree(root);
+			Set<PhyloTree> queryResults = doCQLQuery(root, new HashSet<PhyloTree>(),request, response, errors);
+			TreeSearchResults tsr = new TreeSearchResults(queryResults);
+			saveSearchResults(request, tsr);
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
+				return new ModelAndView("search/treeSearch", Constants.RESULT_SET, tsr);
+			}
+			else {
+				return this.searchResultsAsRDF(tsr, request, root);
+			}
+			*/
+			return this.handleQueryRequest(request, response, errors);
+		}
 		
 		if (formName.equals("treeSimple")) {
 			String buttonName = request.getParameter("searchButton");
-
+			String searchTerm = convertStars(request.getParameter("searchTerm"));
+			Collection<PhyloTree> matches = null;
+			TreeSearchResults oldRes;	
+			{
+				SearchResults<?> sr = searchResults(request);
+				if (sr != null) {
+					oldRes = (TreeSearchResults) sr.convertToTrees();
+				} else {
+					oldRes = new TreeSearchResults ();   // TODO: Convert existing search results to new type	
+				}
+			}			
 			if (buttonName.equals("treeID")) {
-				return doSearch(request, response, SearchType.byID, errors);
+				matches = doSearch(request, response, SearchType.byID, errors, searchTerm);
 			} else if  (buttonName.equals("treeTitle")) {
-				return doSearch(request, response, SearchType.byTitle, errors);
+				matches =  doSearch(request, response, SearchType.byTitle, errors, searchTerm);
 			} else if  (buttonName.equals("treeType")) {
-				return doSearch(request, response, SearchType.byType, errors);
+				matches = doSearch(request, response, SearchType.byType, errors, searchTerm);
 			} else if  (buttonName.equals("treeKind")) {
-				return doSearch(request, response, SearchType.byKind, errors);
+				matches = doSearch(request, response, SearchType.byKind, errors, searchTerm);
 			} else if  (buttonName.equals("treeQuality")) {
-				return doSearch(request, response, SearchType.byQuality, errors);
+				matches = doSearch(request, response, SearchType.byQuality, errors, searchTerm);
 			} else if  (buttonName.equals("treeNTAX")) {
-				return doSearch(request, response, SearchType.byNTAX, errors);
+				matches = doSearch(request, response, SearchType.byNTAX, errors, searchTerm);
 			} else {
 				throw new Error("Unknown search button name '" + buttonName + "'");
+			}
+			SearchResults<PhyloTree> newRes = intersectSearchResults(oldRes, new TreeSearchResults(matches), 
+			new RequestMessageSetter(request), "No matching trees found");	
+			saveSearchResults(request, newRes);	
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
+				return new ModelAndView("search/treeSearch", Constants.RESULT_SET, newRes); 			
+			}
+			else {
+				return this.searchResultsAsRDF(newRes, request, null,"tree","tree");
 			}
 		} else { 
 			return super.onSubmit(request, response, command, errors);
 		}
 	}
 
-	private ModelAndView doSearch(
+	private Set<PhyloTree> doCQLQuery(
+			CQLNode node, 
+			Set<PhyloTree> results, 
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			BindException errors
+		) throws InstantiationException {
+		if ( node instanceof CQLBooleanNode ) {
+			Set<PhyloTree> resultsLeft = doCQLQuery(((CQLBooleanNode)node).left,results, request, response, errors);
+			Set<PhyloTree> resultsRight = doCQLQuery(((CQLBooleanNode)node).right,results, request, response, errors);
+			if ( node instanceof CQLNotNode ) {
+				for ( PhyloTree rightTree : resultsRight ) {
+					if ( resultsLeft.contains(rightTree) )
+						resultsLeft.remove(rightTree);
+				}
+			}
+			else if ( node instanceof CQLOrNode ) {
+				resultsLeft.addAll(resultsRight);
+			}
+			else if ( node instanceof CQLAndNode ) {
+				Set<PhyloTree> resultsUnion = new HashSet<PhyloTree>();
+				for ( PhyloTree leftTree : resultsLeft ) {
+					if ( resultsRight.contains(leftTree) )
+						resultsUnion.add(leftTree);
+				}				
+				resultsLeft = resultsUnion;
+			}
+			results = resultsLeft;
+		}		
+		else if ( node instanceof CQLTermNode ) {
+			CQLTermNode term = (CQLTermNode)node;
+			String index = term.getIndex();
+			if ( index.startsWith("tb.title") ) {
+				results.addAll(doSearch(request, response, SearchType.byTitle, errors, term.getTerm()));
+			} else if ( index.startsWith("tb.identifier") ) {
+				results.addAll(doSearch(request, response, SearchType.byID, errors, term.getTerm()));
+			} else if ( index.startsWith("tb.type") ) {
+				results.addAll(doSearch(request, response, SearchType.byType, errors, term.getTerm()));
+			} else if ( index.startsWith("tb.kind") ) {
+				results.addAll(doSearch(request, response, SearchType.byKind, errors, term.getTerm()));
+			} else if ( index.startsWith("tb.quality") ) {
+				results.addAll(doSearch(request, response, SearchType.byQuality, errors, term.getTerm()));
+			} else if ( index.startsWith("tb.ntax") ) {
+				results.addAll(doSearch(request, response, SearchType.byNTAX, errors, term.getTerm()));
+			} else {
+				// issue warnings
+				addMessage(request, "Unsupported index: " + index);
+			}
+		}
+		logger.debug(node);
+		return results;		
+	}	
+	
+	private CQLNode normalizeParseTree(CQLNode node) {
+		if ( node instanceof CQLBooleanNode ) {
+			((CQLBooleanNode)node).left = normalizeParseTree(((CQLBooleanNode)node).left);
+			((CQLBooleanNode)node).right = normalizeParseTree(((CQLBooleanNode)node).right);
+			return node;
+		}
+		else if ( node instanceof CQLTermNode ) {
+			String index = ((CQLTermNode)node).getIndex();
+			String term = ((CQLTermNode)node).getTerm();
+			CQLRelation relation = ((CQLTermNode)node).getRelation();
+			index = index.replaceAll("dcterms.title", "tb.title.tree");
+			index = index.replaceAll("dcterms.identifier", "tb.identifier.tree");
+			index = index.replaceAll("dcterms.extent", "tb.ntax.tree");
+			return new CQLTermNode(index,relation,term);
+		}
+		logger.debug(node);
+		return node;
+	}	
+
+	@SuppressWarnings("unchecked")
+	private Collection<PhyloTree> doSearch(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			SearchType searchType,
-			BindException errors) throws InstantiationException {
+			BindException errors,
+			String searchTerm) throws InstantiationException {
 
-		String searchTerm = convertStars(request.getParameter("searchTerm"));
-		String keywordSearchTerm = "%" + searchTerm + "%";
-		TreeSearchResults oldRes;	
-		{
-			SearchResults<?> sr = searchResults(request);
-			if (sr != null) {
-				oldRes = (TreeSearchResults) sr.convertToTrees();
-			} else {
-				oldRes = new TreeSearchResults ();   // TODO: Convert existing search results to new type	
-			}
-		}
+//		String searchTerm = convertStars(request.getParameter("searchTerm"));
+//		String keywordSearchTerm = "%" + searchTerm + "%";
+//		TreeSearchResults oldRes;	
+//		{
+//			SearchResults<?> sr = searchResults(request);
+//			if (sr != null) {
+//				oldRes = (TreeSearchResults) sr.convertToTrees();
+//			} else {
+//				oldRes = new TreeSearchResults ();   // TODO: Convert existing search results to new type	
+//			}
+//		}
 
 		Collection<PhyloTree> matches = null;
 		PhyloTreeService phyloTreeService = getSearchService().getPhyloTreeService();	
@@ -156,12 +277,13 @@ public class TreeSearchController extends SearchController {
 				}
 		}
 	
-		SearchResults<PhyloTree> newRes = intersectSearchResults(oldRes, new TreeSearchResults(matches), 
-				new RequestMessageSetter(request), "No matching trees found");
-		
-		saveSearchResults(request, newRes);
-		
-		return new ModelAndView("search/treeSearch", Constants.RESULT_SET, newRes); 
+		return matches;
+//		SearchResults<PhyloTree> newRes = intersectSearchResults(oldRes, new TreeSearchResults(matches), 
+//				new RequestMessageSetter(request), "No matching trees found");
+//		
+//		saveSearchResults(request, newRes);
+//		
+//		return new ModelAndView("search/treeSearch", Constants.RESULT_SET, newRes); 
 
 	}
 
@@ -172,6 +294,40 @@ public class TreeSearchController extends SearchController {
 	@Override
 	public String getDefaultViewURL() {
 		return "treeSearch.html";
+	}
+
+	@Override
+	protected ModelAndView handleQueryRequest(HttpServletRequest request,
+			HttpServletResponse response, BindException errors)
+			throws CQLParseException, IOException, InstantiationException {
+		String query = request.getParameter("query");
+		CQLParser parser = new CQLParser();
+		CQLNode root = parser.parse(query);
+		root = normalizeParseTree(root);
+		Set<PhyloTree> queryResults = doCQLQuery(root, new HashSet<PhyloTree>(),request, response, errors);
+		TreeSearchResults tsr = new TreeSearchResults(queryResults);
+		saveSearchResults(request, tsr);
+		if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
+			return new ModelAndView("search/treeSearch", Constants.RESULT_SET, tsr);
+		}
+		else {
+			SearchResults<?> res = tsr;
+			String schema = null;
+			if ( ! TreebaseUtil.isEmpty(request.getParameter("recordSchema")) ) {
+				schema = request.getParameter("recordSchema");
+				if ( schema.equals("matrix") ) {
+					res = tsr.convertToMatrices();
+				}
+				else if ( schema.equals("taxon") ) {
+					res = tsr.convertToTaxa();
+				}
+				else if ( schema.equals("study") ) {
+					res = tsr.convertToStudies();
+				}
+			}
+			this.saveSearchResults(request, res);
+			return this.searchResultsAsRDF(res, request, root,schema,"tree");
+		}
 	}
 
 }

@@ -1,17 +1,20 @@
 package org.cipres.treebase.web.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseIDString;
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
+import org.cipres.treebase.domain.search.MatrixSearchResults;
+import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.SearchService;
 import org.cipres.treebase.domain.search.TaxonSearchResults;
@@ -19,16 +22,29 @@ import org.cipres.treebase.domain.taxon.Taxon;
 import org.cipres.treebase.domain.taxon.TaxonHome;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
+import org.cipres.treebase.domain.taxon.TaxonLabelService;
 import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.web.model.SearchCommand;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.z3950.zing.cql.CQLAndNode;
+import org.z3950.zing.cql.CQLBooleanNode;
+import org.z3950.zing.cql.CQLNode;
+import org.z3950.zing.cql.CQLNotNode;
+import org.z3950.zing.cql.CQLOrNode;
+import org.z3950.zing.cql.CQLParseException;
+import org.z3950.zing.cql.CQLParser;
+import org.z3950.zing.cql.CQLRelation;
+import org.z3950.zing.cql.CQLTermNode;
 
 public class TaxonSearchController extends SearchController {
-	static final Logger LOGGER = Logger.getLogger(TreeSearchController.class);
+	static final Logger LOGGER = Logger.getLogger(TaxonSearchController.class);
 	
 	private TaxonHome mTaxonHome;
 	private TaxonLabelHome mTaxonLabelHome;
+	private enum SearchIndex { LABEL, ID };
+	private enum SearchTable { TAXON, TAXONLABEL, TAXONVARIANT };
+	private enum NamingAuthority { TREEBASE, UBIO, NCBI };
 	
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest request,
@@ -36,15 +52,147 @@ public class TaxonSearchController extends SearchController {
 	throws Exception {
 		clearMessages(request);
 		String formName = request.getParameter("formName");
+		String query = request.getParameter("query");
+		if ( ! TreebaseUtil.isEmpty(query) ) {
+			/*
+			CQLParser parser = new CQLParser();
+			CQLNode root = parser.parse(query);
+			root = normalizeParseTree(root);
+			Set<Taxon> queryResults = doCQLQuery(root, new HashSet<Taxon>(),request);
+			TaxonSearchResults tsr = new TaxonSearchResults(queryResults);
+			saveSearchResults(request, tsr);
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
+				return samePage(request);
+			}
+			else {
+				return this.searchResultsAsRDF(tsr, request, root);
+			}
+			*/
+			return this.handleQueryRequest(request, response, errors);
+		}
 		if (formName.equals("searchByTaxonLabel")) {
 			SearchCommand newSearchCommand = (SearchCommand)searchCommand;
-			ModelAndView modelAndView = doTaxonSearch(request, response, newSearchCommand, errors);			
-			return modelAndView;	
+			String searchOn = request.getParameter("searchOn");
+			String searchTerm = convertStars(request.getParameter("searchTerm"));
+			String[] searchTerms = searchTerm.split("\\r\\n");	
+			Collection<Taxon> taxa = new HashSet<Taxon>();
+			for ( int i = 0; i < searchTerms.length; i++ ) {
+				if ( searchOn.equals("TextSearch") ) {
+					taxa.addAll(doTaxonSearch(request, newSearchCommand, searchTerms[i], SearchIndex.LABEL, null));
+				}
+				else if ( searchOn.equals("Identifiers") ) {
+					String objectIdentifier = request.getParameter("objectIdentifier");
+					if ( objectIdentifier.equals("TreeBASE") ) {
+						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.TREEBASE));
+					}
+					else if ( objectIdentifier.equals("NCBI") ) {
+						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.NCBI));
+					}
+					else if ( objectIdentifier.equals("uBio") ) {
+						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.UBIO));
+					}								
+				}	
+			}
+			TaxonSearchResults tsr = new TaxonSearchResults(taxa);
+			saveSearchResults(request, tsr);
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
+				return samePage(request);
+			}
+			else {
+				return this.searchResultsAsRDF(tsr, request, null,"taxon","taxon");
+			}			
+			
 		} else if (formName.equals("taxonResultsAction")) {
 			return modifySearchResults(request, response, errors);
 		} else {
 			return super.onSubmit(request, response, (SearchCommand) searchCommand, errors);
 		}
+	}
+	
+	private CQLNode normalizeParseTree(CQLNode node) {
+		if ( node instanceof CQLBooleanNode ) {
+			((CQLBooleanNode)node).left = normalizeParseTree(((CQLBooleanNode)node).left);
+			((CQLBooleanNode)node).right = normalizeParseTree(((CQLBooleanNode)node).right);
+			return node;
+		}
+		else if ( node instanceof CQLTermNode ) {
+			String index = ((CQLTermNode)node).getIndex();
+			String term = ((CQLTermNode)node).getTerm();
+			CQLRelation relation = ((CQLTermNode)node).getRelation();
+			index = index.replaceAll("dcterms.title", "tb.title.taxon");
+			index = index.replaceAll("dcterms.identifier", "tb.identifier.taxon");
+			return new CQLTermNode(index,relation,term);
+		}
+		logger.debug(node);
+		return node;
+	}
+	
+	private Set<Taxon> doCQLQuery(CQLNode node, Set<Taxon> results, HttpServletRequest request) {
+		if ( node instanceof CQLBooleanNode ) {
+			Set<Taxon> resultsLeft = doCQLQuery(((CQLBooleanNode)node).left,results, request);
+			Set<Taxon> resultsRight = doCQLQuery(((CQLBooleanNode)node).right,results, request);
+			if ( node instanceof CQLNotNode ) {
+				for ( Taxon rightTaxon : resultsRight ) {
+					if ( resultsLeft.contains(rightTaxon) ) {
+						resultsLeft.remove(rightTaxon);
+					}
+				}
+			}
+			else if ( node instanceof CQLOrNode ) {
+				resultsLeft.addAll(resultsRight);
+			}
+			else if ( node instanceof CQLAndNode ) {
+				Set<Taxon> resultsUnion = new HashSet<Taxon>();
+				for ( Taxon leftTaxon : resultsLeft ) {
+					if ( resultsRight.contains(leftTaxon) ) {
+						resultsUnion.add(leftTaxon);
+					}
+				}				
+				resultsLeft = resultsUnion;
+			}
+			results = resultsLeft;
+		}
+		else if ( node instanceof CQLTermNode ) {
+			CQLTermNode term = (CQLTermNode)node;
+			String index = term.getIndex();
+			if ( index.startsWith("tb.title") ) {
+				boolean exactMatch = term.getRelation().getBase().equals("==");
+				SearchTable searchTable = null;
+				if ( index.endsWith("taxonLabel") ) {
+					searchTable = SearchTable.TAXONLABEL;
+				}
+				else if ( index.endsWith("taxonVariant") ) {
+					searchTable = SearchTable.TAXONVARIANT;
+				}
+				else if ( index.endsWith("taxon") ) {
+					searchTable = SearchTable.TAXON;
+				}
+				boolean caseSensitive = true;
+				if ( ! term.getRelation().getModifiers().isEmpty() ) {
+					caseSensitive = ! term.getRelation().getModifiers().firstElement().getType().equalsIgnoreCase("ignoreCase");
+				}
+				results.addAll(doTextSearch(term.getTerm(), caseSensitive, exactMatch, searchTable));
+			}
+			else if ( index.startsWith("tb.identifier") ) {
+				NamingAuthority namingAuthority = null;
+				if ( index.endsWith("ncbi") ) {
+					namingAuthority = NamingAuthority.NCBI;
+				}
+				else if ( index.endsWith("ubio") ) {
+					namingAuthority = NamingAuthority.UBIO;
+				}
+				else {
+					namingAuthority = NamingAuthority.TREEBASE;
+				}
+				results.addAll(doIdentifierSearch(request, term.getTerm(), namingAuthority));
+			} else {
+				// issue warnings
+				addMessage(request, "Unsupported index: " + index);
+			}
+			
+		}
+		logger.debug(node);
+		return results;		
 	}
 	
 	private ModelAndView modifySearchResults(HttpServletRequest request,
@@ -53,7 +201,7 @@ public class TaxonSearchController extends SearchController {
 		
 		String buttonName = request.getParameter("taxonResultsaction");
 		if (buttonName.equals("addCheckedToResults")) {
-			Map<String,String> parameterMap = request.getParameterMap();
+//			Map<String,String> parameterMap = request.getParameterMap();
 			Collection<Taxon> newTaxa = new HashSet<Taxon> ();
 			for (String taxonIdString : request.getParameterValues("selection")) {
 				Taxon tx;
@@ -72,36 +220,40 @@ public class TaxonSearchController extends SearchController {
 		return samePage(request);
 	}
 
-	protected ModelAndView doTaxonSearch(HttpServletRequest request,
-			HttpServletResponse response,
-			SearchCommand searchCommand, BindException errors) throws Exception {
-		String searchTerm = convertStars(request.getParameter("searchTerm"));
-		String[] searchTerms = searchTerm.split("\\r\\n");
-		String searchOn = request.getParameter("searchOn");
-		//Collection<TaxonVariant> tvs = new ArrayList<TaxonVariant>();
-		Collection<Taxon> taxa = new HashSet<Taxon> ();
-		if ( searchOn.equals("TextSearch") ) {
-			taxa = doTextSearch(request,searchTerms);
-		}
-		else if ( searchOn.equals("Identifiers") ) {
-			taxa = doIdentifierSearch(request,searchTerms);			
-		}
+	protected Collection<Taxon> doTaxonSearch(HttpServletRequest request,
+			SearchCommand searchCommand, String searchTerm, SearchIndex searchIndex, NamingAuthority namingAuthority) throws Exception {
 		
-		/*
-		tvs = getTaxonLabelService().findTaxonVariantByFullName(searchTerm);
-		LOGGER.debug("Found " + tvs.size() + " tvs");
-		for (TaxonVariant tv : tvs) {
-			if (tv.getTaxon() != null) taxa.add(tv.getTaxon());
+		Collection<Taxon> taxa = new HashSet<Taxon> ();
+		switch(searchIndex) {
+			case LABEL:
+				String[] stringModifiers = request.getParameterValues("stringModifier");
+				boolean caseSensitive = false;
+				boolean exactMatch = false;
+				if ( stringModifiers != null ) {
+					for ( int i = 0; i < stringModifiers.length; i++ ) {
+						if ( stringModifiers[i].equals("caseSensitive") ) {
+							caseSensitive = true;
+						}
+						if ( stringModifiers[i].equals("exactMatch") ) {
+							exactMatch = true;
+						}
+					}
+				}			
+				for ( SearchTable searchTable : createSearchTableEnum(request) ) {
+					taxa.addAll(doTextSearch(searchTerm, caseSensitive, exactMatch, searchTable));
+				}
+				break;
+			case ID:
+				taxa.addAll(doIdentifierSearch(request,searchTerm, namingAuthority));
+				break;
 		}
-		*/
 		
 		getTaxonLabelService().resurrectAll(taxa);
 		LOGGER.debug("Found " + taxa.size() + " taxa");
-
-		TaxonSearchResults tsr = new TaxonSearchResults(taxa);
-		//saveTempSearchResults(request, tsr);
-		saveSearchResults(request, tsr);
-		return samePage(request);	
+		return taxa;
+//		TaxonSearchResults tsr = new TaxonSearchResults(taxa);
+//		saveSearchResults(request, tsr);
+//		return samePage(request);	
 	}
 	
 	/**
@@ -110,44 +262,60 @@ public class TaxonSearchController extends SearchController {
 	 * @param request
 	 * @param results
 	 */
-	private Collection<Taxon> doIdentifierSearch(HttpServletRequest request,String[] identifiers) {
-		String objectIdentifier = request.getParameter("objectIdentifier");
+	private Collection<Taxon> doIdentifierSearch(HttpServletRequest request, String identifier, NamingAuthority namingAuthority) {		
 		Collection<Taxon> taxaFound = new ArrayList<Taxon>();
-		if ( objectIdentifier.equals("TreeBASE") ) {
-			LOGGER.debug("Going to search for TreeBASE IDs");	
-			for ( int i = 0; i < identifiers.length; i++ ) {
+		switch(namingAuthority) {
+			case TREEBASE :
+				LOGGER.debug("Going to search for TreeBASE IDs");	
 				TreebaseIDString idstr;
 				try {
-					idstr = new TreebaseIDString(identifiers[i], Taxon.class, true);
+					idstr = new TreebaseIDString(identifier, Taxon.class, true);
+					Taxon match = getTaxonHome().findPersistedObjectByID(idstr.getTBClass(), idstr.getId());
+					if ( match != null ) {
+						taxaFound.add(match);
+					}					
 				} catch (MalformedTreebaseIDString e) {
-					addMessage(request, "Ignoring malformed taxon ID string '" + identifiers[i] + "'; try 'Tx####' or just a number");
-					continue;
+					addMessage(request, "Ignoring malformed taxon ID string '" + identifier + "'; try 'Tx####' or just a number");
 				}
-				Taxon match = getTaxonHome().findPersistedObjectByID(idstr.getTBClass(), idstr.getId());
+				break;
+			case NCBI :
+				LOGGER.debug("Going to search for NCBI taxon ids");	
+				Taxon match = getTaxonHome().findByNcbiTaxId(Integer.parseInt(identifier));
 				if ( match != null ) {
 					taxaFound.add(match);
 				}
-			}			
-		}
-		else if ( objectIdentifier.equals("NCBI") ) {
-			LOGGER.debug("Going to search for NCBI taxon ids");	
-			for ( int i = 0; i < identifiers.length; i++ ) {
-				Taxon match = getTaxonHome().findByNcbiTaxId(Integer.parseInt(identifiers[i]));
-				if ( match != null ) {
-					taxaFound.add(match);
+				break;
+			case UBIO :
+				LOGGER.debug("Going to search for uBio nameBankIDs");
+				Taxon match1 = getTaxonHome().findByUBIOTaxId(Long.parseLong(identifier));
+				if ( match1 != null ) {
+					taxaFound.add(match1);
 				}
-			}
-		}
-		else if ( objectIdentifier.equals("uBio") ) {
-			LOGGER.debug("Going to search for uBio nameBankIDs");
-			for ( int i = 0; i < identifiers.length; i++ ) {
-				Taxon match = getTaxonHome().findByUBIOTaxId(Long.parseLong(identifiers[i]));
-				if ( match != null ) {
-					taxaFound.add(match);
-				}
-			}			
+				break;
 		}
 		return taxaFound;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private Set<SearchTable> createSearchTableEnum(HttpServletRequest request) {
+		Set<SearchTable> results = new HashSet<SearchTable>();
+		String[] stringProperties = request.getParameterValues("stringProperty");	
+		for ( int i = 0; i < stringProperties.length; i++ ) {
+			if ( stringProperties[i].equals("taxonLabel") ) {
+				results.add(SearchTable.TAXONLABEL);
+			}
+			else if ( stringProperties[i].equals("taxonVariant") ) {
+				results.add(SearchTable.TAXONVARIANT);
+			}
+			else if ( stringProperties[i].equals("taxon") ) {
+				results.add(SearchTable.TAXON);
+			}			
+		}
+		return results;
 	}
 	
 	/**
@@ -156,88 +324,50 @@ public class TaxonSearchController extends SearchController {
 	 * @param request
 	 * @param results
 	 */
-	private Collection<Taxon> doTextSearch(HttpServletRequest request, String[] stringPatterns) {
+	private Collection<Taxon> doTextSearch(String pattern, boolean caseSensitive, boolean exactMatch, SearchTable searchTable) {
 		LOGGER.debug("Going to search for strings");
-		Collection<Taxon> taxaFound = new ArrayList<Taxon>();
-		String[] stringProperties = request.getParameterValues("stringProperty");	
-		String[] stringModifiers = request.getParameterValues("stringModifier");
-		boolean caseSensitive = false;
-		boolean exactMatch = false;
-		if ( stringModifiers != null ) {
-			for ( int i = 0; i < stringModifiers.length; i++ ) {
-				if ( stringModifiers[i].equals("caseSensitive") ) {
-					caseSensitive = true;
-				}
-				if ( stringModifiers[i].equals("exactMatch") ) {
-					exactMatch = true;
-				}
-			}
-		}
 		LOGGER.debug("Case sensitive? " + caseSensitive);
-		LOGGER.debug("Exact match? " + exactMatch);
-		if ( stringProperties != null ) {
-			for ( int i = 0; i < stringProperties.length; i++ ) {
-				for ( int j = 0; j < stringPatterns.length; j++ ) {
-					if ( stringProperties[i].equals("taxonLabel") ) {
-						LOGGER.debug("Will search taxon labels");
-						Collection<TaxonLabel> labelsFound = new ArrayList<TaxonLabel>();
-						if ( exactMatch ) {
-							labelsFound = getTaxonLabelService().findByExactString(stringPatterns[j]);
-						}
-						else {
-							labelsFound = getTaxonLabelService().findBySubstring(stringPatterns[j], caseSensitive);							
-						}
-						Iterator<TaxonLabel> labelsIterator = labelsFound.iterator();
-						while ( labelsIterator.hasNext() ) {
-							TaxonLabel label = labelsIterator.next();
-							TaxonVariant variant = label.getTaxonVariant();
-							if ( variant != null ) {
-								Taxon taxon = variant.getTaxon();
-								if ( taxon != null ) {
-									taxaFound.add(taxon);
-								}
-							}
-						}
-					}
-					if ( stringProperties[i].equals("taxonVariant") ) {
-						LOGGER.debug("Will search taxon variants");
-						Collection<TaxonVariant> variantsFound = new ArrayList<TaxonVariant>();
-						if ( exactMatch ) {
-							variantsFound = getTaxonLabelService().findTaxonVariantByFullName(stringPatterns[j]);
-						}
-						else {
-							variantsFound = getTaxonLabelService().findTaxonVariantWithSubstring(stringPatterns[j], caseSensitive);
-						}		
-						Iterator<TaxonVariant> variantsIterator = variantsFound.iterator();
-						while ( variantsIterator.hasNext() ) {
-							TaxonVariant variant = variantsIterator.next();
-							Taxon taxon = variant.getTaxon();
-							if ( taxon != null ) {
-								taxaFound.add(taxon);
-							}
-						}
-					}
-					if ( stringProperties[i].equals("taxon") ) {
-						LOGGER.debug("Will search taxa");
-						Collection<Taxon> tmpTaxaFound = new ArrayList<Taxon>();
-						if ( exactMatch ) {
-							tmpTaxaFound = getTaxonLabelService().findTaxaByName(stringPatterns[j]);
-						}
-						else {
-							tmpTaxaFound = getTaxonLabelService().findTaxaBySubstring(stringPatterns[j], caseSensitive);
-						}
-						taxaFound.addAll(tmpTaxaFound);
+		LOGGER.debug("Exact match? " + exactMatch);		
+		TaxonLabelService tls = getTaxonLabelService();
+		Collection<Taxon> taxaFound = new ArrayList<Taxon>();
+		switch(searchTable) {
+			case TAXONLABEL :
+				LOGGER.debug("Will search taxon labels");
+				Collection<TaxonLabel> labelsFound = exactMatch 
+					? tls.findByExactString(pattern) 
+					: tls.findBySubstring(pattern, caseSensitive);
+				for ( TaxonLabel label : labelsFound ) {
+					if ( label.getTaxonVariant() != null && label.getTaxonVariant().getTaxon() != null ) {
+						taxaFound.add(label.getTaxonVariant().getTaxon());
 					}
 				}
-			}
+				break;
+			case TAXONVARIANT :
+				LOGGER.debug("Will search taxon variants");
+				Collection<TaxonVariant> variantsFound = exactMatch 
+					? tls.findTaxonVariantByFullName(pattern) 
+					: tls.findTaxonVariantWithSubstring(pattern, caseSensitive);
+				for ( TaxonVariant variant : variantsFound ) {
+					if ( variant.getTaxon() != null ) {
+						taxaFound.add(variant.getTaxon());
+					}
+				}
+				break;
+			case TAXON :
+				LOGGER.debug("Will search taxa");
+				Collection<Taxon> tmpTaxaFound = exactMatch 
+					? tls.findTaxaByName(pattern) 
+					: tls.findTaxaBySubstring(pattern, caseSensitive);
+				taxaFound.addAll(tmpTaxaFound);
+				break;
 		}
 		return taxaFound;
 	}
 
-	private void saveTempSearchResults(HttpServletRequest request,
-			TaxonSearchResults taxonSearchResults) {
-		request.getSession().setAttribute("taxonSearchResults", taxonSearchResults);
-	}
+//	private void saveTempSearchResults(HttpServletRequest request,
+//			TaxonSearchResults taxonSearchResults) {
+//		request.getSession().setAttribute("taxonSearchResults", taxonSearchResults);
+//	}
 
 	public void setSearchService(SearchService searchService) {
 		this.searchService = searchService;
@@ -267,5 +397,39 @@ public class TaxonSearchController extends SearchController {
 
 	public void setTaxonLabelHome(TaxonLabelHome taxonLabelHome) {
 		mTaxonLabelHome = taxonLabelHome;
+	}
+
+	@Override
+	protected ModelAndView handleQueryRequest(HttpServletRequest request,
+			HttpServletResponse response, BindException errors)
+			throws CQLParseException, IOException, InstantiationException {
+		String query = request.getParameter("query");
+		CQLParser parser = new CQLParser();
+		CQLNode root = parser.parse(query);
+		root = normalizeParseTree(root);
+		Set<Taxon> queryResults = doCQLQuery(root, new HashSet<Taxon>(),request);
+		TaxonSearchResults tsr = new TaxonSearchResults(queryResults);
+		saveSearchResults(request, tsr);
+		if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
+			return samePage(request);
+		}
+		else {
+			SearchResults<?> res = tsr;
+			String schema = null;
+			if ( ! TreebaseUtil.isEmpty(request.getParameter("recordSchema")) ) {
+				schema = request.getParameter("recordSchema");
+				if ( schema.equals("tree" ) ) {
+					res = tsr.convertToTrees();
+				}
+				else if ( schema.equals("matrix") ) {
+					res = tsr.convertToMatrices();
+				}
+				else if ( schema.equals("study") ) {
+					res = tsr.convertToStudies();
+				}
+			}
+			this.saveSearchResults(request, res);
+			return this.searchResultsAsRDF(res, request, root,schema,"taxon");
+		}
 	}
 }

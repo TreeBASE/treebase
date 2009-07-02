@@ -70,29 +70,33 @@ public class PhyloWSController implements Controller {
             		+ "', should be /${class}/${NamespacedGUID}");
             }
             String[] pathComponents = pathInfo.split("/");
-            String rawNamespacedGUID = pathComponents[pathComponents.length-1];
-            if ( rawNamespacedGUID.startsWith("uBio:") ) {
-            	url = uBioBaseUrl + rawNamespacedGUID.substring("uBio:".length());
-            }
-            else if ( rawNamespacedGUID.startsWith("NCBI:") ) {
-            	url = ncbiBaseUrl + rawNamespacedGUID.substring("NCBI:".length());
-            }            
-            else {
-	            NamespacedGUID namespacedGUID = new NamespacedGUID(rawNamespacedGUID);
-	            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
-	            if ( hasWebPage(pathComponents) ) {
-	            	if ( TreebaseUtil.isEmpty(req.getParameter(format)) ) {
-	            		url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
-	            	}
-	            	else if ( req.getParameter(format).equals("html") ) {
-	            		url = domain + createUrl(tbID.getTypePrefix(),tbID.getId());
-	            	}
-	            	else {
-	            		url = domain + createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),req.getParameter(format));
-	            	}
+            if ( pathComponents[pathComponents.length-1].equals("find") ) {
+            	url = domain + createSearchUrl(pathComponents[pathComponents.length-2],req);
+            } else {
+	            String rawNamespacedGUID = pathComponents[pathComponents.length-1];
+	            if ( rawNamespacedGUID.startsWith("uBio:") ) {
+	            	url = uBioBaseUrl + rawNamespacedGUID.substring("uBio:".length());
 	            }
+	            else if ( rawNamespacedGUID.startsWith("NCBI:") ) {
+	            	url = ncbiBaseUrl + rawNamespacedGUID.substring("NCBI:".length());
+	            }            
 	            else {
-	            	url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+		            NamespacedGUID namespacedGUID = new NamespacedGUID(rawNamespacedGUID);
+		            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
+		            if ( hasWebPage(pathComponents) ) {
+		            	if ( TreebaseUtil.isEmpty(req.getParameter(format)) ) {
+		            		url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+		            	}
+		            	else if ( req.getParameter(format).equals("html") ) {
+		            		url = domain + createUrl(tbID.getTypePrefix(),tbID.getId());
+		            	}
+		            	else {
+		            		url = domain + createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),req.getParameter(format));
+		            	}
+		            }
+		            else {
+		            	url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+		            }
 	            }
             }
         } catch ( MalformedTreebaseIDString e ) {
@@ -109,6 +113,20 @@ public class PhyloWSController implements Controller {
         return null;
 	}
 	
+	private String createSearchUrl(String path,HttpServletRequest request) {
+		StringBuilder sb = new StringBuilder();
+		sb
+			.append("/treebase-web/search/")
+			.append(path)
+			.append("Search.html?query=")
+			.append(request.getParameter("query"))
+			.append("&format=")
+			.append(request.getParameter("format"))
+			.append("&recordSchema=")
+			.append(request.getParameter("recordSchema"));
+		return sb.toString();
+	}
+
 	private boolean hasWebPage(String[] pathComponents) {
 		for ( int i = ( pathComponents.length - 1 ); i >= 0; i-- ) {
 			for ( int j = 0; j < classesWithPages.length; j++ ) {

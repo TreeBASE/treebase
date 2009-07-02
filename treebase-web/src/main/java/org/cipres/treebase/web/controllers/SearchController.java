@@ -22,6 +22,9 @@
 
 package org.cipres.treebase.web.controllers;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -50,6 +53,8 @@ import org.cipres.treebase.web.util.SearchMessageSetter;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.z3950.zing.cql.CQLNode;
+import org.z3950.zing.cql.CQLParseException;
 
 
 /**
@@ -65,6 +70,8 @@ public abstract class SearchController extends BaseFormController {
 	protected String formView;
 
 	private TaxonLabelService mTaxonLabelService;
+	
+	protected abstract ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors) throws CQLParseException, IOException, InstantiationException;	
 
 	protected ModelAndView onSubmit(
 			HttpServletRequest request,
@@ -108,6 +115,33 @@ public abstract class SearchController extends BaseFormController {
 		
 		LOGGER.debug("using selectResultsView to determine view");
 		return selectResultsView(request);
+	}
+	
+	protected ModelAndView searchResultsAsRDF (SearchResults<?> searchResults,HttpServletRequest request,CQLNode root, String schema, String original) throws UnsupportedEncodingException {
+		//${baseURL}
+		//${phyloWSPath}
+		//${normalizedCQLQuery}
+		//${searchResults}
+		//${domainAddress}
+		String phyloWSPath = "find/" + original;
+		request.getSession().setAttribute("searchResultsThawed", searchResults);		
+		StringBuffer domainAddress = new StringBuffer("http://");
+		domainAddress
+			.append(request.getServerName())
+			.append(':')
+			.append(request.getServerPort());
+		StringBuffer baseURL = new StringBuffer(domainAddress);
+		baseURL.append("/treebase-web/phylows");
+		request.getSession().setAttribute("recordSchema", schema);
+		request.getSession().setAttribute("format", request.getParameter("format"));
+		request.getSession().setAttribute("baseURL", baseURL.toString());
+		request.getSession().setAttribute("domainAddress", domainAddress.toString());
+		request.getSession().setAttribute("phyloWSPath", phyloWSPath);
+		request.getSession().setAttribute("originalSection", original);
+		if ( null != root ) {			
+			request.getSession().setAttribute("normalizedCQLQuery", URLEncoder.encode(root.toCQL(),"UTF-8"));
+		}
+		return new ModelAndView(new RedirectView("searchResultsAsRDF.html"));
 	}
 	
 	protected <E extends TBPersistable> SearchResults<E> intersectSearchResults(
@@ -380,6 +414,10 @@ public abstract class SearchController extends BaseFormController {
 	protected ModelAndView showForm(HttpServletRequest request,
 			HttpServletResponse response, BindException bindException, Map model)
 			throws Exception {
+		String query = request.getParameter("query");
+		if ( query != null ) {
+			return this.handleQueryRequest(request, response, bindException);
+		}
 		String action = request.getParameter("action");
 		if (action != null && action.equals("discard") && request.getMethod().equals("GET")) {
 			discardSearchResults(request);

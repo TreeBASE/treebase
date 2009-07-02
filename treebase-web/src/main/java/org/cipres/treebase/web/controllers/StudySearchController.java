@@ -20,27 +20,36 @@
 
 package org.cipres.treebase.web.controllers;
 
+import java.io.IOException;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseIDString;
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.StudySearchResults;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
-import org.cipres.treebase.domain.taxon.TaxonLabel;
-import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.util.RequestMessageSetter;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.z3950.zing.cql.CQLAndNode;
+import org.z3950.zing.cql.CQLBooleanNode;
+import org.z3950.zing.cql.CQLNode;
+import org.z3950.zing.cql.CQLNotNode;
+import org.z3950.zing.cql.CQLOrNode;
+import org.z3950.zing.cql.CQLParseException;
+import org.z3950.zing.cql.CQLParser;
+import org.z3950.zing.cql.CQLRelation;
+import org.z3950.zing.cql.CQLTermNode;
 
 /**
  * StudySearchController.java
@@ -99,13 +108,41 @@ public class StudySearchController extends SearchController {
 
 		clearMessages(request);
 		String formName = request.getParameter("formName");
+		String query = request.getParameter("query");
 		
 		LOGGER.info("formName is '" + formName + "'");
+		
+		if ( ! TreebaseUtil.isEmpty(query) ) {
+			/*
+			CQLParser parser = new CQLParser();
+			CQLNode root = parser.parse(query);
+			root = normalizeParseTree(root);
+			Set<Study> queryResults = doCQLQuery(root, new HashSet<Study>(),request, response, errors);
+			StudySearchResults tsr = new StudySearchResults(queryResults);
+			saveSearchResults(request, tsr);
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
+				return new ModelAndView("search/studySearch", Constants.RESULT_SET, tsr);
+			}
+			else {
+				return this.searchResultsAsRDF(tsr, request, root);
+			}
+			*/
+			return this.handleQueryRequest(request, response, errors);
+		}		
 		
 		if (formName.equals("searchKeyword")) {
 			SearchType searchType;
 			String buttonName = request.getParameter("searchButton");
-			
+			String searchTerm = convertStars(request.getParameter("searchTerm"));
+			StudySearchResults oldRes;
+			{
+				SearchResults<?> sr = searchResults(request);
+				if (sr != null) {
+					oldRes = (StudySearchResults) sr.convertToStudies();
+				} else {
+					oldRes = new StudySearchResults ();   // TODO: Convert existing search results to new type	
+				}
+			}			
 			if (buttonName.equals("authorKeyword")) {
 				searchType = SearchType.byAuthorName;
 			} else if (buttonName.equals("studyID")) {
@@ -123,84 +160,171 @@ public class StudySearchController extends SearchController {
 			} else {
 				throw new Error("Unknown search button name '" + buttonName + "'");
 			}
-
-			return doSearch(request, response, searchType, errors);	
+			Collection<Study> matches = doSearch(request, response, searchType, errors,searchTerm);	
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {				
+				SearchResults<Study> newRes = intersectSearchResults(oldRes, new StudySearchResults(matches), 
+				new RequestMessageSetter(request), "No matching studies found");	
+				saveSearchResults(request, newRes);
+				return new ModelAndView("search/studySearch", Constants.RESULT_SET, newRes); 		
+			}
+			else {
+				return this.searchResultsAsRDF(new StudySearchResults(matches), request, null,"study","study");
+			}
 		} else {
 			return super.onSubmit(request, response, command, errors);
 		}
 	}
 	
-	protected ModelAndView doSearch(
+	private Set<Study> doCQLQuery(
+			CQLNode node, 
+			Set<Study> results, 
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			BindException errors
+		) throws InstantiationException {
+		if ( node instanceof CQLBooleanNode ) {
+			Set<Study> resultsLeft = doCQLQuery(((CQLBooleanNode)node).left,results, request, response, errors);
+			Set<Study> resultsRight = doCQLQuery(((CQLBooleanNode)node).right,results, request, response, errors);
+			if ( node instanceof CQLNotNode ) {
+				Set<Study> resultsDifference = new HashSet<Study>();
+				for ( Study leftStudy : resultsLeft ) {
+					if ( ! resultsRight.contains(leftStudy) )
+						resultsDifference.add(leftStudy);
+				}
+				resultsLeft = resultsDifference;
+			}
+			else if ( node instanceof CQLOrNode ) {
+				resultsLeft.addAll(resultsRight);
+			}
+			else if ( node instanceof CQLAndNode ) {
+				Set<Study> resultsUnion = new HashSet<Study>();
+				for ( Study leftStudy : resultsLeft ) {
+					if ( resultsRight.contains(leftStudy) )
+						resultsUnion.add(leftStudy);
+				}				
+				resultsLeft = resultsUnion;
+			}
+			results = resultsLeft;
+		}		
+		else if ( node instanceof CQLTermNode ) {
+			CQLTermNode term = (CQLTermNode)node;
+			String index = term.getIndex();
+			if ( index.startsWith("tb.title") ) {
+				results.addAll(doSearch(request, response, SearchType.byTitle, errors, term.getTerm()));
+			} else if ( index.equals("tb.identifier.study") ) {
+				results.addAll(doSearch(request, response, SearchType.byID, errors, term.getTerm()));
+			} else if ( index.startsWith("dcterms.contributor") ) {
+				results.addAll(doSearch(request, response, SearchType.byAuthorName, errors, term.getTerm()));
+			} else if ( index.startsWith("dcterms.abstract") ) {
+				results.addAll(doSearch(request, response, SearchType.inAbstract, errors, term.getTerm()));
+			} else if ( index.startsWith("dcterms.subject") ) {
+				results.addAll(doSearch(request, response, SearchType.byKeyword, errors, term.getTerm()));
+			} else if ( index.startsWith("dcterms.bibliographicCitation") ) {
+				results.addAll(doSearch(request, response, SearchType.inCitation, errors, term.getTerm()));				
+			} else if ( index.equals("tb.identifier.study.tb1") ) {
+				results.addAll(doSearch(request, response, SearchType.byLegacyID, errors, term.getTerm()));
+			} else {
+				// issue warnings
+				addMessage(request, "Unsupported index: " + index);
+			}		
+		}
+		logger.debug(node);
+		return results;		
+	}		
+	
+	private CQLNode normalizeParseTree(CQLNode node) {
+		if ( node instanceof CQLBooleanNode ) {
+			((CQLBooleanNode)node).left = normalizeParseTree(((CQLBooleanNode)node).left);
+			((CQLBooleanNode)node).right = normalizeParseTree(((CQLBooleanNode)node).right);
+			return node;
+		}
+		else if ( node instanceof CQLTermNode ) {
+			String index = ((CQLTermNode)node).getIndex();
+			String term = ((CQLTermNode)node).getTerm();
+			CQLRelation relation = ((CQLTermNode)node).getRelation();
+			index = index.replaceAll("dcterms.title", "tb.title.study");
+			index = index.replaceAll("dcterms.identifier", "tb.identifier.study");
+			return new CQLTermNode(index,relation,term);
+		}
+		logger.debug(node);
+		return node;
+	}		
+	
+	@SuppressWarnings("unchecked")
+	protected Collection<Study> doSearch(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			SearchType searchType,
-			BindException errors) throws InstantiationException {
+			BindException errors,
+			String searchTerm) throws InstantiationException {
 		
-		String searchTerm = convertStars(request.getParameter("searchTerm"));
+//		String searchTerm = convertStars(request.getParameter("searchTerm"));
 		String keywordSearchTerm = "%" + searchTerm + "%";
-		StudySearchResults oldRes;	
-
-		{
-			SearchResults<?> sr = searchResults(request);
-			if (sr != null) {
-				oldRes = (StudySearchResults) sr.convertToStudies();
-			} else {
-				oldRes = new StudySearchResults ();   // TODO: Convert existing search results to new type	
-			}
-		}
-		
-		LOGGER.info("doSearch old results contained " + oldRes.size() + " item(s)");
+//		StudySearchResults oldRes;	
+//
+//		{
+//			SearchResults<?> sr = searchResults(request);
+//			if (sr != null) {
+//				oldRes = (StudySearchResults) sr.convertToStudies();
+//			} else {
+//				oldRes = new StudySearchResults ();   // TODO: Convert existing search results to new type	
+//			}
+//		}
+//		
+//		LOGGER.info("doSearch old results contained " + oldRes.size() + " item(s)");
 		Collection<Study> matches;
 		StudyService studyService = getSearchService().getStudyService();	
 				
 		switch (searchType) {
-		case byID:
-			matches = (Collection<Study>) doSearchByIDString(request, studyService, Study.class, searchTerm);
-			break;
-		case byLegacyID:
-		{
-			TreebaseIDString legacyID = null;
-			boolean malformed = false;
-			try {
-				legacyID = new TreebaseIDString(searchTerm, Study.class);
-			} catch (MalformedTreebaseIDString e) {
-				malformed = true;
-			}
-			if (malformed || legacyID.getTBClass() != Study.class) {
-				addMessage(request, "Legacy ID number '" + searchTerm + "' is not valid; try S#### or just ####");
-				matches = null;
+			case byID:
+				matches = (Collection<Study>) doSearchByIDString(request, studyService, Study.class, searchTerm);
+				break;
+			case byLegacyID:
+			{
+				TreebaseIDString legacyID = null;
+				boolean malformed = false;
+				try {
+					legacyID = new TreebaseIDString(searchTerm, Study.class);
+				} catch (MalformedTreebaseIDString e) {
+					malformed = true;
+				}
+				if (malformed || legacyID.getTBClass() != Study.class) {
+					addMessage(request, "Legacy ID number '" + searchTerm + "' is not valid; try S#### or just ####");
+					matches = null;
+					break;
+				}
+				matches = (Collection<Study>) studyService.findByTBStudyID("S" + legacyID.getId().toString());
 				break;
 			}
-			matches = (Collection<Study>) studyService.findByTBStudyID("S" + legacyID.getId().toString());
-			break;
-		}
-		case inAbstract:
-			matches = studyService.findByAbstract(keywordSearchTerm);
-			break;
-		case inCitation:
-			matches = studyService.findByCitation(keywordSearchTerm);
-			break;
-		case byAuthorName:
-			matches = studyService.findByAuthor(searchTerm);
-			break;
-		case byTitle:
-			matches = studyService.findByTitle(keywordSearchTerm);
-			break;
-		case byKeyword:
-			matches = studyService.findByKeyword(keywordSearchTerm);
-			break;
-		default:
-			throw new Error ("Unknown search type '" + searchType + "'");
+			case inAbstract:
+				matches = studyService.findByAbstract(keywordSearchTerm);
+				break;
+			case inCitation:
+				matches = studyService.findByCitation(keywordSearchTerm);
+				break;
+			case byAuthorName:
+				matches = studyService.findByAuthor(searchTerm);
+				break;
+			case byTitle:
+				matches = studyService.findByTitle(keywordSearchTerm);
+				break;
+			case byKeyword:
+				matches = studyService.findByKeyword(keywordSearchTerm);
+				break;
+			default:
+				throw new Error ("Unknown search type '" + searchType + "'");
 		}
 		
-		SearchResults<Study> newRes = intersectSearchResults(oldRes, new StudySearchResults(matches), 
-				new RequestMessageSetter(request), "No matching studies found");
-		
-		saveSearchResults(request, newRes);
-
-		return new ModelAndView("search/studySearch", Constants.RESULT_SET, newRes); 
+		return matches;
+//		SearchResults<Study> newRes = intersectSearchResults(oldRes, new StudySearchResults(matches), 
+//				new RequestMessageSetter(request), "No matching studies found");
+//		
+//		saveSearchResults(request, newRes);
+//
+//		return new ModelAndView("search/studySearch", Constants.RESULT_SET, newRes); 
 	}
 
+	/*
 	private void validateTaxonSet(HttpServletRequest request,
 			HttpServletResponse response, String searchTerm,
 			BindException errors) {
@@ -256,6 +380,7 @@ public class StudySearchController extends SearchController {
 	private String titleCase(String s) {
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
+	*/
 
 	@Override
 	SearchResultsType currentSearchType() {
@@ -265,5 +390,39 @@ public class StudySearchController extends SearchController {
 	@Override
 	public String getDefaultViewURL() {
 		return "studySearch.html";
+	}
+
+	@Override
+	protected ModelAndView handleQueryRequest(HttpServletRequest request,
+			HttpServletResponse response, BindException errors)
+			throws CQLParseException, IOException, InstantiationException {
+		String query = request.getParameter("query");						
+		CQLParser parser = new CQLParser();
+		CQLNode root = parser.parse(query);
+		root = normalizeParseTree(root);
+		Set<Study> queryResults = doCQLQuery(root, new HashSet<Study>(),request, response, errors);
+		StudySearchResults tsr = new StudySearchResults(queryResults);
+		saveSearchResults(request, tsr);
+		if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
+			return new ModelAndView("search/studySearch", Constants.RESULT_SET, tsr);
+		}
+		else {
+			SearchResults<?> res = tsr;
+			String schema = null;
+			if ( ! TreebaseUtil.isEmpty(request.getParameter("recordSchema")) ) {
+				schema = request.getParameter("recordSchema");
+				if ( schema.equals("tree") ) {
+					res = tsr.convertToTrees();
+				}
+				else if ( schema.equals("matrix") ) {
+					res = tsr.convertToMatrices();
+				}
+				else if ( schema.equals("taxon") ) {
+					res = tsr.convertToTaxa();
+				}
+			}
+			this.saveSearchResults(request, res);
+			return this.searchResultsAsRDF(res, request, root, schema, "study");
+		}		
 	}
 }
