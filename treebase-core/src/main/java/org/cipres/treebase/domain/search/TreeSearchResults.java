@@ -77,33 +77,36 @@ public class TreeSearchResults extends SearchResults<PhyloTree> {
 				
 				// need to resurrect the study, otherwise we get a LazyInitializationException
 				Study resurrectedStudy = getStudyService().resurrect(study);
-				Collection<AnalysisStep> analysisStepCollection = resurrectedStudy.getAnalysisSteps();
 				
-				// for the study we need to iterate over all analysis steps
-				for ( AnalysisStep analysisStep : analysisStepCollection ) {
-					Collection<AnalyzedData> analyzedDataCollection = analysisStep.getDataSetReadOnly();
-					boolean treeIsOutput = false;
-						
-					// now we have to check any trees in the analyzedData...
-					for ( AnalyzedData analyzedData : analyzedDataCollection ) {
-						PhyloTree analyzedTree = analyzedData.getTreeData();
-						String inputOutput = analyzedData.getInputOutput();						
-						
-						// if the datum is a tree, and it's an output, and it's our focal tree...
-						if ( inputOutput.equals("output") && analyzedTree != null && analyzedTree.getId() == phyloTree.getId() ) {
-							treeIsOutput = true;
-						}					
-					}
-					// ...then...
-					if ( treeIsOutput ) {
-						for ( AnalyzedData analyzedData : analyzedDataCollection ) {
-							Matrix analyzedMatrix = analyzedData.getMatrixData();
-							String inputOutput = analyzedData.getInputOutput();
+				if ( resurrectedStudy != null ) {
+					Collection<AnalysisStep> analysisStepCollection = resurrectedStudy.getAnalysisSteps();
+					
+					// for the study we need to iterate over all analysis steps
+					for ( AnalysisStep analysisStep : analysisStepCollection ) {
+						Collection<AnalyzedData> analyzedDataCollection = analysisStep.getDataSetReadOnly();
+						boolean treeIsOutput = false;
 							
-							// collect all input matrices
-							if ( inputOutput.equals("input") && analyzedMatrix != null ) {
-								pResults.add(analyzedMatrix);
-							}									
+						// now we have to check any trees in the analyzedData...
+						for ( AnalyzedData analyzedData : analyzedDataCollection ) {
+							PhyloTree analyzedTree = analyzedData.getTreeData();
+							String inputOutput = analyzedData.getInputOutput();						
+							
+							// if the datum is a tree, and it's an output, and it's our focal tree...
+							if ( inputOutput.equals("output") && analyzedTree != null && analyzedTree.getId() == phyloTree.getId() ) {
+								treeIsOutput = true;
+							}					
+						}
+						// ...then...
+						if ( treeIsOutput ) {
+							for ( AnalyzedData analyzedData : analyzedDataCollection ) {
+								Matrix analyzedMatrix = analyzedData.getMatrixData();
+								String inputOutput = analyzedData.getInputOutput();
+								
+								// collect all input matrices
+								if ( inputOutput.equals("input") && analyzedMatrix != null ) {
+									pResults.add(analyzedMatrix);
+								}									
+							}
 						}
 					}
 				}
