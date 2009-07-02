@@ -20,6 +20,7 @@
 
 package org.cipres.treebase.web.controllers;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.web.Constants;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.z3950.zing.cql.CQLParseException;
 
 /**
  * TreeTopSearchController.java
@@ -202,6 +204,14 @@ public class TreeTopSearchController extends SearchController {
 	@Override
 	public String getDefaultViewURL() {
 		return "treeTopSearch.html";
+	}
+
+	@Override
+	protected ModelAndView handleQueryRequest(HttpServletRequest request,
+			HttpServletResponse response, BindException errors)
+			throws CQLParseException, IOException, InstantiationException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
