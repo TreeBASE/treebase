@@ -78,11 +78,11 @@
 	an asterisk</a> can be used in statements in the site section they apply to, such that, for example
 	a taxon can be retrieved by its ncbi ID like so:
 	<div style="background-color:;padding:10px">
-		<strong>taxon/find?query=tb:identifier.ncbi=<em>&lt;ncbi taxon id&gt;</em></strong>
+		<strong>taxon/find?query=tb.identifier.ncbi=<em>&lt;ncbi taxon id&gt;</em></strong>
 	</div>
 	or by its name like so:
 	<div style="background-color:;padding:10px">
-		<strong>taxon/find?query=tb:title.taxon=<em>&lt;name&gt;</em></strong>
+		<strong>taxon/find?query=tb.title.taxon=<em>&lt;name&gt;</em></strong>
 	</div>
 	or using an exact match 
 	(<strong>==</strong>) or a case-insensitive one (<strong>=/ignoreCase</strong>). These statements
@@ -103,7 +103,7 @@
 	By default, all these queries return a web page, but with a <strong>format=rss1</strong> argument
 	the search results are listed in an RDF compatible RSS1.0 file, i.e.:
 	<div style="background-color:;padding:10px">
-		<strong>taxon/find?query=tb:title.taxon=<em>&lt;name&gt;</em>&amp;format=rss1</strong>
+		<strong>taxon/find?query=tb.title.taxon=<em>&lt;name&gt;</em>&amp;format=rss1</strong>
 	</div>	
 	The returned results in RSS1.0 use the short urls of the form <strong>&lt;section&gt;/&lt;id&gt;</strong>, whose
 	returned resource descriptions (like <a href="/treebase-web/phylows/tree/TB2:Tr2227">
