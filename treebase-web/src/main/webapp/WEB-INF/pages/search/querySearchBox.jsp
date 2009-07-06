@@ -20,7 +20,7 @@
 		<a href="/treebase-web/help/urlAPI.jsp">TreeBASE help page about searching</a>.
 	</p>
 	<div>
-		<textarea name="query" style="width:100%">Try CQL query here</textarea><br/>
+		<textarea name="query" style="width:100%"></textarea><br/>
 		<input type="submit" style="width:100%" value="Evaluate query"/>
 	</div>
 </fieldset>
