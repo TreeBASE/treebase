@@ -39,14 +39,14 @@ names in <a href="http://www.ubio.org">uBIO</a> and <a href="http://www.ncbi.nlm
 				
 	<display:column sortable="true" property="taxonVariant.fullName" titleKey="taxon.name" />
 				
-	<display:column titleKey="taxon.ncbiTaxID">
+	<display:column titleKey="taxon.ncbiTaxID" sortable="true">
 		<c:if test="${userList.taxonVariant!=null}">
 			<c:set var="ncbiTaxoURL" value="${ncbiTaxonomyURL}${userList.ncbiTaxID}"/>
 			<a href="${ncbiTaxoURL}" target="_blank">${userList.ncbiTaxID}</a>
 		</c:if>
 	</display:column>
 	
-	<display:column titleKey="taxon.uBioTaxID">
+	<display:column titleKey="taxon.uBioTaxID" sortable="true">
 		<c:if test="${userList.taxonVariant!=null}">
 			<c:set var="ubioTaxoURL" value="${uBioTaxonomyURL}${userList.taxonVariant.namebankID}"/>
 			<a href="${ubioTaxoURL}" target="_blank">${userList.taxonVariant.namebankID}</a>
