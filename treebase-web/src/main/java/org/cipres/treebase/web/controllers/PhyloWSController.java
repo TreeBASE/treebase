@@ -162,6 +162,9 @@ public class PhyloWSController implements Controller {
     			throw new ObjectNotFoundException("Can't find matrix " + objectId);
     		}
     		Study study = matrix.getStudy();
+			if ( study == null ) {
+				throw new ObjectNotFoundException("Can't find study for matrix "+objectId);
+			}    		
     		return base
 				.append("/downloadAMatrix.html?id=")
 				.append(study.getId())
@@ -177,6 +180,9 @@ public class PhyloWSController implements Controller {
     			throw new ObjectNotFoundException("Can't find tree " + objectId);
     		}
     		Study study = phyloTree.getStudy();
+			if ( study == null ) {
+				throw new ObjectNotFoundException("Can't find study for tree "+objectId);
+			}     		
     		return base
     			.append("/downloadATree.html?id=")
     			.append(study.getId())
