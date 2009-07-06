@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <%@ include file="/common/taglibs.jsp"%>
 <% response.setContentType("application/rdf+xml"); %>
 <rdf:RDF
