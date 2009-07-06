@@ -80,7 +80,6 @@
 			and here is the namebank id:
 			<script type="text/javascript">
 				function selectRadio(textBoxRadio) {
-					alert($(textBoxRadio));
 					$(textBoxRadio).checked = true;
 				}
 			</script>
