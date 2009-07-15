@@ -106,6 +106,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/nexml/model/nexml/1.5-SNAPSHOT/nexml-1.5-SNAPSHOT.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v5.5"/>
-	<!-- classpathentry combineaccessrules="false" exported="true" kind="src" path="/nexml"/ -->
+	<classpathentry kind="var" path="M2_REPO/zing/z3950/org/cql-java/1.0/cql-java-1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
