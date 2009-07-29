@@ -55,7 +55,7 @@ import org.cipres.treebase.domain.study.Submission;
  * 
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "`user`")
 @AttributeOverride(name = "id", column = @Column(name = "USER_ID"))
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "adminCache")
 public class User extends AbstractPersistedObject implements UserDetails {
