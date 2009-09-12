@@ -121,7 +121,7 @@
     <repository>
       <id>m2.remote.repos</id>
       <name>Maven 2 Remote Repository</name>
-      <url>http://8ball.sdsc.edu:9999/maven2</url>
+      <url>http://treebase.sourceforge.net/maven2/</url>
     </repository>
     <repository>
       <id>maven2</id>
