@@ -16,7 +16,6 @@ sub dbh {
     my $user = $opts{user} || $login_info_class->user;
     my $pass = $opts{pass} || $login_info_class->pass;
     my $dsn  = $opts{dsn} ? sprintf $opts{dsn}, $user, $pass : $login_info_class->dsn($user, $pass);
-
     my $h = DBI->connect($dsn);
     $h->{private_cipres_treebase_dbiutil_username} = $user if $h;
     return $h;
