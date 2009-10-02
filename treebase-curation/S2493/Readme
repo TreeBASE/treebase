@@ -1,0 +1,21 @@
+This is a new submission added to TreeBASE1, which will eventually 
+migrate to TreeBASE2. The S2493 is the legacy study accession number. 
+The original submission contained two files that were too big for a 
+TreeBASE1 submission, hence they were each subdivided into two parts 
+(A and B). Once in TreeBASE2, we should delete the subdivided matrices 
+and upload 2 undivided matrices. Also, I am including the appendix of 
+the paper which indicates which species names go with which genes 
+(= row segments) as well as Genbank accession numbers.
+
+
+Study reference:
+Tank, D. C. and M. J. Donoghue. 2009. Phylogeny and phylogenetic 
+nomenclature of the Campanulidae based on an expanded set of genes and 
+taxa. Systmatic Botany, in press.
+
+Study accession number = S2493
+Matrix accession number = M4746
+Matrix accession number = M4747
+Matrix accession number = M4748
+Matrix accession number = M4749
+
