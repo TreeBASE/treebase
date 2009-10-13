@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <parent>
+    <artifactId>data_provider</artifactId>
+    <groupId>org.treebase.oai</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.treebase.oai</groupId>
+  <artifactId>data_provider_core</artifactId>
+  <packaging>jar</packaging>
+  <name>data_provider_core</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <url>http://maven.apache.org</url>
+  
+  <build>
+    <defaultGoal>install</defaultGoal> 
+  </build>
+  
+  <dependencies>
+    
+    <dependency>
+    	<groupId>postgresql</groupId>
+    	<artifactId>postgresql</artifactId>
+    	<version>8.3-603.jdbc3</version>
+    </dependency>
+  
+  
+    <dependency>
+     <groupId>org.acegisecurity</groupId>
+            <artifactId>acegi-security</artifactId>
+            <version>1.0.1</version>
+            <exclusions>
+                <!-- Maven thinks 2.0 is newer than 2.1-->
+                <exclusion>
+                    <groupId>commons-lang</groupId>
+                    <artifactId>commons-lang</artifactId>
+                </exclusion>
+                <!-- exclude older versions of Spring -->
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-remoting</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jdbc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-support</artifactId>
+                </exclusion>
+            </exclusions>
+    </dependency>
+
+   <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>0.9.1.2</version>
+    </dependency>
+   
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+      <version>3.3.1.GA</version>
+      		<exclusions>
+      		        <exclusion>
+      		           <groupId>asm</groupId>
+      	      		   <artifactId>asm</artifactId>
+      		        </exclusion>
+      		        <exclusion>
+			    <groupId>asm</groupId>
+			    <artifactId>asm-attrs</artifactId>
+      		        </exclusion>
+      		        <exclusion>
+			    <groupId>cglib</groupId>
+			    <artifactId>cglib</artifactId>
+      		        </exclusion>
+      		</exclusions>
+    </dependency>
+    
+    <dependency>
+        <groupId>cglib</groupId>
+	<artifactId>cglib-nodep</artifactId>
+	<version>2.1_3</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ibm</groupId>
+      <artifactId>db2jcc</artifactId>
+      <version>2.6.80</version>
+    </dependency>
+
+
+    
+    <dependency>
+   	<groupId>jdom</groupId>
+   	<artifactId>jdom</artifactId>
+   	<version>1.1</version>
+   </dependency>
+   
+   <dependency>
+  	<groupId>org.apache.cxf</groupId>
+   	<artifactId>cxf-rt-frontend-jaxws</artifactId>
+   	<version>2.1.1</version>
+   	       <exclusions>
+		        <exclusion>
+		           <groupId>asm</groupId>
+	      		    <artifactId>asm</artifactId>
+		        </exclusion>
+		        
+		        <exclusion>
+		     	    <groupId>org.slf4j</groupId>
+  			    <artifactId>slf4j-jdk14</artifactId>
+   			</exclusion>
+	      </exclusions>
+   </dependency>
+   
+   <dependency>
+   	<groupId>org.apache.cxf</groupId>
+   	<artifactId>cxf-rt-transports-http</artifactId>
+   	<version>2.1.1</version>
+   	       <exclusions>
+		        <exclusion>
+		           <groupId>asm</groupId>
+	      		    <artifactId>asm</artifactId>
+		        </exclusion>
+	     
+	      		<exclusion>
+	      	    	  <groupId>org.slf4j</groupId>
+  			  <artifactId>slf4j-jdk14</artifactId>
+   		  	</exclusion>
+   	 	</exclusions>
+   </dependency>
+   
+   <dependency>
+   	<groupId>org.apache.cxf</groupId>
+   	<artifactId>cxf-rt-transports-http-jetty</artifactId>
+   	<version>2.1.1</version>
+   	  <exclusions>
+		<exclusion>
+		     <groupId>asm</groupId>
+		     <artifactId>asm</artifactId>
+		</exclusion>
+		<exclusion>
+	      	   <groupId>org.slf4j</groupId>
+  		   <artifactId>slf4j-jdk14</artifactId>
+   		 </exclusion>
+	  </exclusions>
+   </dependency>
+   <dependency>
+   	<groupId>dom4j</groupId>
+   	<artifactId>dom4j</artifactId>
+   	<version>1.6.1</version>
+   </dependency>
+     
+  </dependencies>
+
+</project>
