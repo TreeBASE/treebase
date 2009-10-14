@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><project>
   <parent>
-    <artifactId>data_provider</artifactId>
+    <artifactId>oai-pmh_data_provider</artifactId>
     <groupId>org.treebase.oai</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
