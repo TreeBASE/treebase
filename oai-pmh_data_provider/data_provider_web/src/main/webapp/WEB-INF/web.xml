@@ -1,7 +1,199 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	
+	<display-name>Treebase OAI-PMH Provider</display-name>
+	
+	<context-param>
+ 		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath*:applicationContext-dao.xml,
+			classpath*:applicationContext-service.xml,
+			/WEB-INF/applicationContext.xml,
+			<!-- top is short for Treebase OAI-PMH Provider -->
+			/WEB-INF/top-security.xml,
+			/WEB-INF/cxf-servlet.xml,
+			/WEB-INF/top-validation.xml
+		</param-value>
+ 	</context-param>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <!-- ========================================================== -->
+	<!-- define the listener, one of the 3 ways to start spring    				                    -->
+	<!-- ========================================================== -->
+	<!-- listener initial the spring container while webapp start -->
+	<listener>
+  		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>	
+	<!-- extends customize and replaces ContextLoaderListener -->
+	<!--listener>
+		<listener-class>org.cipres.treebase.web.listeners.StartupListener</listener-class>
+	</listener-->
+	
+	
+	<!-- ========================================================== -->
+	<!-- List of Filters											-->
+	<!-- ========================================================== -->
+	<filter>
+    	<filter-name>sitemesh</filter-name>
+    	<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>securityFilter</filter-name>
+		<filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
+		<init-param>
+			<param-name>targetClass</param-name>
+			<param-value>org.acegisecurity.util.FilterChainProxy</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>hibernateFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		 <init-param>
+		 	<param-name>singleSession</param-name>
+         	<param-value>true</param-value>
+         </init-param>
+	</filter>
+	
+	<filter>
+    	<filter-name>ResponseOverrideFilter</filter-name>
+    	<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+  	</filter>
+  	
+  
+  
+	
+ 	<!-- ========================================================== -->
+ 	<!-- Mappings for Filters defined aboved						-->
+ 	<!-- ========================================================== -->
+ 	 <filter-mapping>
+ 		<filter-name>securityFilter</filter-name>
+ 		<url-pattern>/*</url-pattern>
+ 	</filter-mapping>
+ 	<filter-mapping>
+ 		<filter-name>sitemesh</filter-name>
+ 		<url-pattern>/*</url-pattern>
+ 		<dispatcher>REQUEST</dispatcher>
+ 		<dispatcher>FORWARD</dispatcher>
+ 	</filter-mapping>	
+ 	<filter-mapping>
+ 		<filter-name>hibernateFilter</filter-name>
+ 		<url-pattern>*.html</url-pattern>
+ 	</filter-mapping>
+ 	
+ 	<filter-mapping>
+    	<filter-name>ResponseOverrideFilter</filter-name>
+    	<url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+    	<filter-name>ResponseOverrideFilter</filter-name>
+    	<url-pattern>*.html</url-pattern>
+    </filter-mapping>
+	
+	
+	<!-- ========================================================== -->
+	<!-- Name of our servlet processed by Spring's front controller -->
+	<!-- DispatcherServlet                                          -->
+	<!-- ========================================================== -->
+	<servlet>
+		<servlet-name>treebase</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- ========================================================== -->
+	<!-- Processed by XFireSpringServlet -->                
+	<!-- ========================================================== -->
+	<!--servlet>
+    	<servlet-name>XFireServlet</servlet-name>
+    	<servlet-class>
+        	org.codehaus.xfire.spring.XFireSpringServlet
+    	</servlet-class>
+  	</servlet-->
+  	
+  	<!-- ========================================================== -->
+	<!-- Processed by CXFServlet -->                
+	<!-- ========================================================== -->
+  	<servlet>
+    	<servlet-name>CXFServlet</servlet-name>
+    	<servlet-class>
+        	org.apache.cxf.transport.servlet.CXFServlet
+    	</servlet-class>    
+  	</servlet>
+  	
+	
+
+	<!-- ========================================================== -->
+	<!-- url pattern that will be processed by DispatcherServlet    -->
+	<!-- ========================================================== -->
+	<servlet-mapping>
+		<servlet-name>treebase</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>treebase</servlet-name>
+		<url-pattern>/phylows/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- ========================================================== -->
+	<!-- url pattern that will be processed by XFireSpringServlet    -->
+	<!-- ========================================================== -->
+	
+  	<!--servlet-mapping>
+   	 	<servlet-name>XFireServlet</servlet-name>
+    	<url-pattern>/servlet/XFireServlet/*</url-pattern>
+  	</servlet-mapping-->
+
+  	<!--servlet-mapping>
+    	<servlet-name>XFireServlet</servlet-name>
+    	<url-pattern>/services/*</url-pattern>
+  	</servlet-mapping-->
+  	
+ 	<!-- ========================================================== -->
+	<!-- url pattern that will be processed by CXFServlet    -->
+	<!-- ========================================================== --> 	
+  	<servlet-mapping>
+    	<servlet-name>CXFServlet</servlet-name>
+    	<url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+	
+	<!-- ========================================================== -->
+	<!-- DWR Sruff    -->
+	<!-- ========================================================== -->
+	
+	<servlet>
+		<servlet-name>dwr</servlet-name>
+		<servlet-class>org.directwebremoting.spring.DwrSpringServlet</servlet-class>
+		<init-param>
+    		<param-name>allowGetForSafariButMakeForgeryEasier</param-name>
+    		<param-value>true</param-value>
+  		</init-param>
+		<init-param>
+            <param-name>debug</param-name>
+            <param-value>true</param-value>
+        </init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>dwr</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- ========================================================== -->
+	<!-- define some default pages			                        -->
+	<!-- ========================================================== -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- ========================================================== -->
+	<!-- Error Pages											 	-->
+	<!-- ========================================================== -->
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/WEB-INF/pages/errors/uncaughtException.jsp</location>
+	</error-page>
+	<!--  Internal Server Error -->
+	<error-page>
+		<error-code>500</error-code>	
+		<location>/error-500.jsp</location>
+	</error-page>
+
 </web-app>

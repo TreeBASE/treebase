@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+    http://www.directwebremoting.org/schema/spring-dwr  
+    http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+	
+	<!-- ========================================================== -->
+	<!-- LIST OF CONTROLLERS FOR WEB-TIER							-->
+	<!-- ========================================================== -->
+	
+	<bean id="processUserController" class="org.cipres.treebase.web.controllers.ProcessUserController"/>
+		
+	<bean id="anyObjectAsRDFController" class="org.cipres.treebase.web.controllers.AnyObjectAsRDFController"/>
+	<bean id="searchResultsAsRDFController" class="org.cipres.treebase.web.controllers.SearchResultsAsRDFController"/>	
+	
+	<bean id="appletInteractionController" class="org.cipres.treebase.web.controllers.AppletInteractionController">
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+	</bean>
+	
+	<bean id="readyStateStudiesController" class="org.cipres.treebase.web.controllers.ReadyStateStudiesController">
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean>
+	
+	<bean id="nexusFilesController" class="org.cipres.treebase.web.controllers.NexusFilesController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+	</bean>
+	
+	<bean id="phyloWSController" class="org.cipres.treebase.web.controllers.PhyloWSController">
+		<property name="matrixService"><ref bean="matrixService"></ref></property>	
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>		 
+	</bean>
+	
+	<bean id="filenameController" class="org.cipres.treebase.web.controllers.ShortPathUrlFilenameViewController"/>
+	<!--bean id="filenameController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/ -->
+	
+	<!-- for parsing file uploads. Implementation for Commons FileUpload -->
+	<!--bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"-->
+	<bean id="multipartResolver" class="org.cipres.treebase.web.controllers.AjaxMultipartResolver">
+		<!--property name="uploadTempDir"><value></value></property-->
+		<property name="maxUploadSize"><value>250000000</value></property>		
+	</bean>
+		
+	<!--  bean to register a new user -->
+	<bean id="registerUserController" class="org.cipres.treebase.web.controllers.RegisterUserController">
+		<property name="commandName"><value>user</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.admin.User</value></property>
+		<property name="formView"><value>userForm</value></property>
+		<property name="successView"><value>redirect:login.jsp</value></property>
+		<property name="cancelView"><value>redirect:login.jsp</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="userHome"><ref bean="userHome"></ref></property>
+		<property name="validators">
+        	<list>
+            	<ref bean="beanValidator"/>      <!--Commons Server-side validation -->
+        	</list>
+        </property>
+		
+	</bean>
+	<!-- bean to update a user -->
+	<bean id="userFormController" class="org.cipres.treebase.web.controllers.UserFormController">
+		<property name="commandName"><value>user</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.admin.User</value></property>
+		<property name="formView"><value>userForm</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="userHome"><ref bean="userHome"></ref></property>
+		<property name="validators">
+        	<list>
+            	<ref bean="beanValidator"/>      <!--Commons Server-side validation -->
+        	</list>
+        </property>
+	</bean>
+	
+	<!-- bean to update a user -->
+	<bean id="passwordFormController" class="org.cipres.treebase.web.controllers.PasswordFormController">
+		<property name="commandName"><value>user</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.admin.User</value></property>
+		<property name="formView"><value>passwordForm</value></property>
+		<!-- property name="successView"><value>redirect:home.html</value></property -->
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="mailSender"><ref bean="mailSender"></ref></property>
+	</bean>
+	
+	<!-- Delete Study Controller to delete a particular study -->	
+	<bean id="deleteStudyController" class="org.cipres.treebase.web.controllers.DeleteStudyController">
+		<property name="commandName"><value>submissionid</value></property>
+		<property name="commandClass"><value>java.lang.Long</value></property>
+		<property name="successView"><value>redirect:/user/submissionList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/submissionList.html</value></property>
+		<property name="formView"><value>deleteStudy</value></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean>
+	
+	<!-- Change the status of the Study Controller to delete a particular study -->	
+	<bean id="readyStateController" class="org.cipres.treebase.web.controllers.ReadyStateController">
+		<property name="successView"><value>redirect:/user/submissionList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/submissionList.html</value></property>
+		<property name="formView"><value>readyState</value></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+	</bean>
+	
+	<!-- Download A Study -->	
+	<bean id="downloadAStudyController" class="org.cipres.treebase.web.controllers.DownloadAStudyController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>
+	</bean>	
+	
+	<!-- Download A Tree -->	
+	<bean id="downloadATreeController" class="org.cipres.treebase.web.controllers.DownloadATreeController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>		
+	</bean>
+	
+	<bean id="downloadATreeBlockController" class="org.cipres.treebase.web.controllers.DownloadATreeBlockController">
+		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+	</bean>
+	
+	<!-- Download A Matrix -->	
+	<bean id="downloadAMatrixController" class="org.cipres.treebase.web.controllers.DownloadAMatrixController">
+		<property name="matrixService"><ref bean="matrixService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+	</bean>
+	
+	<!-- Download A NexusFile -->	
+	<bean id="downloadANexusFileController" class="org.cipres.treebase.web.controllers.DownloadANexusFileController">
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="matrixService"><ref bean="matrixService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+	</bean>
+	
+	<!-- Download An AnalysisStep's input and output as a NexusFile -->	
+	<bean id="downloadAnAnalysisStepController" class="org.cipres.treebase.web.controllers.DownloadAnAnalysisStepController">
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="matrixService"><ref bean="matrixService"></ref></property>
+		<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+	</bean>	
+	
+	<!-- Download A NexusFile -->	
+	<bean id="downloadANexusRCTFileController" class="org.cipres.treebase.web.controllers.DownloadANexusRCTFileController">		
+		<property name="studyService"><ref bean="studyService"></ref></property>	
+		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+	</bean>
+	
+	<!-- View Taxa -->	
+	<bean id="listTaxaController" class="org.cipres.treebase.web.controllers.ListTaxaController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="taxonLabelService"><ref bean="taxonLabelService"></ref></property>
+		<property name="taxonLabelHome"><ref bean="taxonLabelHome"></ref></property>
+		<property name="commandName"><value>txnlabelset</value></property>
+		<!--property name="commandClass"><value>org.cipres.treebase.web.model.ATaxonLabelSet</value></property-->
+		<property name="commandClass"><value>java.util.ArrayList</value></property>
+		<property name="successView"><value>redirect:/user/editSetTaxonLabel.html</value></property>
+		<property name="formView"><value>taxonLabels</value></property>
+	</bean>
+	<bean id="listTaxaSearchController"  class="org.cipres.treebase.web.controllers.ListTaxaSearchController">
+			<property name="formView"><value>search/taxonList</value></property>
+		    <property name="commandName"><value>taxonLabelStatus</value></property>
+	</bean>
+	
+	<!-- Edit Taxon Label -->	
+	<bean id="editTaxonLabelController" class="org.cipres.treebase.web.controllers.EditTaxonLabelController">
+		<property name="commandName"><value>txnlabel</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.taxon.TaxonLabel</value></property>
+		<property name="taxonLabelService"><ref bean="taxonLabelService"></ref></property>
+		<property name="taxonHome"><ref bean="taxonHome"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="successView"><value>redirect:/user/taxaList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/taxaList.html</value></property>
+		<property name="formView"><value>editTaxonLabel</value></property>
+		<!--property name="validator"><ref bean="taxonLabelValidator"></ref></property-->
+		<property name="validator">
+			<bean class="org.cipres.treebase.web.validators.TaxonLabelValidator"/>
+		</property>	
+	</bean>
+	
+	<!-- Edit A Set of Taxon Labels -->	
+	<bean id="editSetTaxonLabelController" class="org.cipres.treebase.web.controllers.EditSetTaxonLabelController">
+		<property name="commandName"><value>atxnlabellist</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.AGenericList</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="taxonLabelService"><ref bean="taxonLabelService"></ref></property>
+		<property name="successView"><value>redirect:/user/taxaList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/taxaList.html</value></property>
+		<property name="formView"><value>editSetTaxonLabel</value></property>
+		<property name="sessionForm"><value>true</value></property>
+	</bean>
+	
+	<!-- View study -->	
+	<bean id="summaryController" class="org.cipres.treebase.web.controllers.SummaryController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="commandName"><value>citationsummary</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.study.Citation</value></property>
+		<property name="formView"><value>submissionSummaryView</value></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean>
+	
+	<bean id="searchSummaryController" class="org.cipres.treebase.web.controllers.SearchSummaryController">
+		<property name="sessionForm"><value>true</value></property>
+		<property name="commandName"><value>study</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.study.Study</value></property>
+		<property name="defaultPage"><value>search/summary</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="matrixService"><ref bean="matrixService"></ref></property>
+		<property name="matrixRowService"><ref bean="matrixRowService"></ref></property>
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="analysisService"><ref bean="analysisService"></ref></property>
+		<property name="taxonLabelService"><ref bean="taxonLabelService"></ref></property>
+	</bean>
+	
+	<!--  MultiActionController to display sumbissions by different criteria -->
+	<bean id="listSubmissionController" class="org.cipres.treebase.web.controllers.ListSubmissionController">
+		<property name="methodNameResolver"><ref bean="methodNameResolver"/></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean>
+	
+	<bean id="methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName"><value>method</value></property>
+		<property name="defaultMethodName"><value>submissionsByUser</value></property>
+	</bean>
+	
+	<bean id="citationFormController" class="org.cipres.treebase.web.controllers.CitationFormController">
+		<property name="commandName"><value>citation</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.study.Citation</value></property>
+		<!-- property name="commandClass"><value>org.cipres.treebase.web.model.CitationCommand</value></property-->
+		<property name="formView"><value>citationForm</value></property>
+		<!--property name="successView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="successView"><value>redirect:/user/summary.html</value></property>
+		<!--property name="cancelView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="cancelView"><value>redirect:/user/summary.html</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="citationService"><ref bean="citationService"></ref></property>
+	</bean>
+	
+	<bean id="studyFormController" class="org.cipres.treebase.web.controllers.StudyFormController">
+		<property name="commandName"><value>study</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.study.Study</value></property>
+		<property name="formView"><value>studyForm</value></property>
+		<!--property name="successView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="successView"><value>redirect:/user/summary.html</value></property>
+		<property name="cancelView"><value>redirect:/user/submissionList.html</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+	</bean>
+	
+	<bean id="displaySubmissionMenuController" class="org.cipres.treebase.web.controllers.DisplaySubmissionMenuController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+	</bean>
+	
+	<bean id="submissionToJsonController" class="org.cipres.treebase.web.controllers.SubmissionToJsonController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+	</bean>
+	
+	<!-- bean id="displaySubmissionController" class="org.cipres.treebase.web.controllers.DisplaySubmissionController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean-->
+	
+	<bean id="listSearchStudyController" class="org.cipres.treebase.web.controllers.ListSearchStudyController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+	</bean> 
+	
+	<!-- authorFormController IS REDUNDAND FOR NOW -->
+	<bean id="authorFormController" class="org.cipres.treebase.web.controllers.AuthorFormController">
+		<property name="commandName"><value>person</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.admin.Person</value></property>
+		<property name="formView"><value>peopleForm</value></property>
+		<!--property name="successView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="successView"><value>redirect:/user/summary.html</value></property>
+		<!--property name="cancelView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="cancelView"><value>redirect:/user/summary.html</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="citationService"><ref bean="citationService"></ref></property>
+		<property name="personService"><ref bean="personService"></ref></property>
+		<property name="validators">
+        	<list>
+            	<ref bean="beanValidator"/>      
+        	</list>
+        </property>	
+        <property name="sessionForm">        
+    		<value>true</value>
+		</property>
+		<property name="synchronizeOnSession">
+    		<value>true</value>
+		</property>			
+	</bean>
+	
+	<bean id="authorSearchFormController" class="org.cipres.treebase.web.controllers.AuthorFormController">
+		<property name="commandName"><value>person</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.admin.Person</value></property>
+		<property name="formView"><value>peopleSearchForm</value></property>
+		<!--property name="successView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="successView"><value>redirect:/user/addAuthor.html</value></property>
+		<!--property name="cancelView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="cancelView"><value>redirect:/user/summary.html</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="citationService"><ref bean="citationService"></ref></property>
+		<property name="personService"><ref bean="personService"></ref></property>	
+	</bean>
+	
+	<bean id="addAuthorController" class="org.cipres.treebase.web.controllers.AddAuthorController">
+		<property name="commandName"><value>person</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.admin.Person</value></property>
+		<property name="formView"><value>addPersonForm</value></property>
+		<!--property name="successView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="successView"><value>redirect:/user/authorSearchForm.html</value></property>
+		<!--property name="cancelView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="cancelView"><value>redirect:/user/summary.html</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="citationService"><ref bean="citationService"></ref></property>
+		<property name="personService"><ref bean="personService"></ref></property>
+		<property name="personHome"><ref bean="personHome"></ref></property>
+		<property name="validators">
+        	<list>
+            	<ref bean="beanValidator"/>      
+        	</list>
+        </property>	
+        <!--property name="sessionForm">        
+    		<value>true</value>
+		</property-->
+		<!--property name="synchronizeOnSession">
+    		<value>true</value>
+		</property-->			
+	</bean>
+	
+	<bean id="editorFormController" class="org.cipres.treebase.web.controllers.EditorFormController">
+		<property name="commandName"><value>person</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.admin.Person</value></property>
+		<property name="formView"><value>peopleForm</value></property>
+		<!--property name="successView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="successView"><value>redirect:/user/summary.html</value></property>
+		<!--property name="cancelView"><value>redirect:/user/submissionMain.html</value></property-->
+		<property name="cancelView"><value>redirect:/user/summary.html</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="citationService"><ref bean="citationService"></ref></property>
+		<property name="personService"><ref bean="personService"></ref></property>
+		<property name="validators">
+        	<list>
+            	<ref bean="beanValidator"/>      <!--Commons Server-side validation -->
+        	</list>
+        </property>
+	</bean>
+	
+	<bean id="uploadFileController" class="org.cipres.treebase.web.controllers.UploadFileController">
+		<property name="commandClass"><value>org.cipres.treebase.web.model.MultiFileBean</value></property>
+		<property name="formView"><value>uploadFile</value></property>
+		<property name="successView"><value>redirect:/user/uploadFileSummary.html</value></property>
+		<property name="cancelView"><value>redirect:/user/summary.html</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="nexusService"><ref bean="nexusService"></ref></property>
+	</bean>
+	
+	<bean id="uploadFileSummaryController" class="org.cipres.treebase.web.controllers.UploadFileSummaryController">
+		<!--property name="commandClass">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<!--property name="commandName">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<property name="commandClass"><value>java.lang.String</value></property>
+		<property name="formView"><value>uploadFileSummary</value></property>
+		<property name="successView"><value>redirect:/user/summary.html</value></property>
+		<property name="cancelView"><value>redirect:/user/summary.html</value></property>
+	</bean>   
+	   
+
+	<bean id="listAnalysisController" class="org.cipres.treebase.web.controllers.ListAnalysisController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+	</bean>
+	
+	<bean id="displayAnalysisController" class="org.cipres.treebase.web.controllers.DisplayAnalysisController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+	</bean>
+	
+	<bean id="analysisFormController" class="org.cipres.treebase.web.controllers.AnalysisFormController">
+		<property name="commandName"><value>analysis</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.study.Analysis</value></property>
+		<property name="formView"><value>analysisForm</value></property>
+		<property name="successView"><value>redirect:/user/analysisDisplay.html</value></property>
+		<property name="cancelView"><value>redirect:/user/analysisDisplay.html</value></property>
+		<property name="sessionForm"><value>true</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="analysisService"><ref bean="analysisService"></ref></property>
+	</bean>
+	
+	<bean id="listAnalysisStepController" class="org.cipres.treebase.web.controllers.ListAnalysisStepController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="analysisService"><ref bean="analysisService"></ref></property>
+	</bean>
+	
+	<bean id="analysisStepFormController" class="org.cipres.treebase.web.controllers.AnalysisStepFormController">
+		<property name="commandName"><value>step</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.AnalysisStepCommand</value></property>
+		<property name="formView"><value>analysisStepForm</value></property>
+		<property name="sessionForm"><value>true</value></property>
+		<!-- property name="successView"><value>redirect:/user/analysisStepList.html</value></property -->
+		<property name="successView"><value>redirect:/user/analysisDisplay.html</value></property>
+		<property name="cancelView"><value>redirect:/user/analysisDisplay.html</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="analysisService"><ref bean="analysisService"></ref></property>
+		<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
+		<property name="analysisStepHome"><ref bean="analysisStepHome"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean>
+	    
+	<bean id="searchFormController" class="org.cipres.treebase.web.controllers.SearchFormController">
+		<property name="commandName"><value>search</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.SearchCommand</value></property>
+		<property name="formView"><value>searchForm</value></property>
+		<property name="successView"><value>redirect:/searchResult.html</value></property>
+	</bean>    
+	<bean id="updateStudyQueryController" class="org.cipres.treebase.web.controllers.UpdateStudyQueryController">
+		<property name="commandName"><value>search</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.SearchCommand</value></property>
+		<property name="formView"><value>study-query</value></property>
+		<property name="successView"><value>redirect:/searchResult.html</value></property>
+	</bean>    
+	<bean id="searchStudyController" class="org.cipres.treebase.web.controllers.SearchStudyController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+	</bean> 
+	<bean id="listAnalyzedDataController" class="org.cipres.treebase.web.controllers.ListAnalyzedDataController">
+		<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
+	</bean> 
+	
+	 <bean id="analyzedDataFormController" class="org.cipres.treebase.web.controllers.AnalyzedDataFormController">
+		<property name="commandName"><value>data</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.AnalyzedDataCommand</value></property>
+		<property name="analysisService"><ref bean="analysisService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
+		<property name="matrixService"><ref bean="matrixService"></ref></property>
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="analyzedDataService"><ref bean="analyzedDataService"></ref></property>
+		<property name="pages">
+			<list>
+				<value>analyzedDataForm</value>
+				<value>analyzedDataForm-matrixSelection</value>
+				<value>analyzedDataForm-treeSelection</value>
+				<value>analyzedDataForm-treeBlockSelection</value>
+			</list>
+		</property>
+	</bean> 
+	 
+	 <bean id="updateAnalyzedDataListController" class="org.cipres.treebase.web.controllers.UpdateAnalyzedDataListController">
+	 	<property name="analyzedDataService"><ref bean="analyzedDataService"></ref></property>
+	 	<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
+	</bean>  
+	
+	 <bean id="addAnalyzedDataController" class="org.cipres.treebase.web.controllers.AddAnalyzedDataController">
+	 	<property name="analyzedDataService"><ref bean="analyzedDataService"></ref></property>
+	 	<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
+	 	<property name="analysisService"><ref bean="analysisService"></ref></property>
+	 	<property name="studyService"><ref bean="studyService"></ref></property>
+	 	<property name="matrixService"><ref bean="matrixService"></ref></property>
+	 	<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+	 	<property name="submissionService"><ref bean="submissionService"></ref></property>	 	
+	</bean>	
+	
+	<bean id="listMatrixController" class="org.cipres.treebase.web.controllers.ListMatrixController">
+		<property name="commandName"><value>amatrixcollection</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.AGenericList</value></property>
+	 	<property name="studyService"><ref bean="studyService"></ref></property>
+	 	<property name="matrixService"><ref bean="matrixService"></ref></property>
+	 	<property name="matrixHome"><ref bean="matrixHome"></ref></property>
+	 	<property name="formView"><value>matrixList</value></property>
+	 	<property name="successView"><value>redirect:/user/matrixList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/matrixList.html</value></property>	
+	</bean> 
+	
+	<bean id="listMatrixRowController" class="org.cipres.treebase.web.controllers.ListMatrixRowController">
+	 	<property name="matrixService"><ref bean="matrixService"></ref></property>
+	</bean>
+	       
+	<bean id="listMatrixRowSegmentController" class="org.cipres.treebase.web.controllers.ListMatrixRowSegmentController">
+		<property name="rowSegmentService"><ref bean="rowSegmentService"></ref></property>
+		<property name="matrixRowService"><ref bean="matrixRowService"></ref></property>
+	</bean>
+	
+	<bean id="matrixRowSegmentFormController" class="org.cipres.treebase.web.controllers.SingleRowSegmentController">
+		<property name="commandName"><value>arowsegment</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.matrix.RowSegment</value></property>
+		<property name="formView"><value>matrixRowSegmentForm</value></property>
+		<property name="successView"><value>redirect:/user/matrixRowSegmentList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/matrixRowSegmentList.html</value></property>
+		<property name="rowSegmentService"><ref bean="rowSegmentService"></ref></property>
+		<property name="matrixRowService"><ref bean="matrixRowService"></ref></property>
+	</bean>
+	
+	<bean id="deleteAMatrixController" class="org.cipres.treebase.web.controllers.DeleteAMatrixController">
+		<!--property name="commandName">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<!--property name="commandClass">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<property name="matrixService"><ref bean="matrixService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>	
+		<property name="submissionHome"><ref bean="submissionHome"></ref></property>
+		<property name="formView"><value>generalDeletePage</value></property>
+		<property name="successView"><value>redirect:/user/matrixList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/matrixList.html</value></property>						
+	</bean>   
+	   
+	   
+	 <bean id="deleteARowSegmentController" class="org.cipres.treebase.web.controllers.DeleteARowSegmentController">
+		<!--property name="commandName">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<!--property name="commandClass">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<property name="rowSegmentService"><ref bean="rowSegmentService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>	
+		<property name="submissionHome"><ref bean="submissionHome"></ref></property>
+		<property name="formView"><value>generalDeletePage</value></property>
+		<property name="successView"><value>redirect:/user/viewAllRowSegmentData.html</value></property>
+		<property name="cancelView"><value>redirect:/user/viewAllRowSegmentData.html</value></property>						
+	</bean>
+	     
+	<bean id="listTreeController" class="org.cipres.treebase.web.controllers.ListTreeController">
+		<property name="commandName"><value>atreecollection</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.AGenericList</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>	
+		<property name="submissionHome"><ref bean="submissionHome"></ref></property>
+		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>
+		<property name="formView"><value>treeList</value></property>
+		<property name="successView"><value>redirect:/user/treeList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/treeList.html</value></property>
+		<property name="sessionForm">        
+    		<value>true</value>
+		</property>
+		<property name="synchronizeOnSession">
+    		<value>true</value>
+		</property>		
+	</bean> 
+	
+	<bean id="deleteATreeController" class="org.cipres.treebase.web.controllers.DeleteATreeController">
+		<!--property name="commandName">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<!--property name="commandClass">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>	
+		<property name="submissionHome"><ref bean="submissionHome"></ref></property>
+		<property name="formView"><value>generalDeletePage</value></property>
+		<property name="successView"><value>redirect:/user/treeList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/treeList.html</value></property>						
+	</bean>
+	 
+	<bean id="directToPhyloWidgetController" class="org.cipres.treebase.web.controllers.DirectToPhyloWidgetController">
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>				
+		<property name="defaultView"><value>redirect:/test/newPhylowidget.html</value></property>
+	</bean> 
+	
+	<bean id="directMapToPhyloWidgetController" class="org.cipres.treebase.web.controllers.DirectMapToPhyloWidgetController">
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>				
+		<property name="defaultView"><value>redirect:/test/newPhylowidget.html</value></property>
+	</bean> 
+	
+	<bean id="searchMapToPhyloWidgetController" class="org.cipres.treebase.web.controllers.SearchMapToPhyloWidgetController"
+	  parent="directMapToPhyloWidgetController">
+		<property name="defaultView"><value>redirect:/test/newPhylowidget.html</value></property>
+	</bean>
+	
+	<bean id="deleteATreeBlockController" class="org.cipres.treebase.web.controllers.DeleteATreeBlockController">
+		<!--property name="commandName">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<!--property name="commandClass">NOT NEEDED, as we have no form and spring binding<value>dummy</value></property-->
+		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>	
+		<property name="submissionHome"><ref bean="submissionHome"></ref></property>
+		<property name="formView"><value>generalDeletePage</value></property>
+		<property name="successView"><value>redirect:/user/treeBlockList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/treeBlockList.html</value></property>				
+	</bean> 
+	
+	<bean id="listTreeBlockController" class="org.cipres.treebase.web.controllers.ListTreeBlockController">
+		<property name="commandName"><value>atreeblocklist</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.AGenericList</value></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="formView"><value>treeBlockList</value></property>
+		<property name="successView"><value>redirect:/user/treeBlockList.html</value></property>
+		<property name="cancelView"><value>redirect:/user/treeBlockList.html</value></property>		
+	</bean> 
+	
+	<bean id="readOnlyListTreeController" class="org.cipres.treebase.web.controllers.ReadOnlyListTreeController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>		
+	</bean> 
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.ucsd.edu"></property>
+	</bean>
+	
+	<bean id="treeParserController" class="org.cipres.treebase.web.controllers.TreeParserController">
+		<property name="commandClass"><value>org.cipres.treebase.web.model.MultiFileBean</value></property>
+		<property name="formView"><value>treeParser</value></property>
+		<property name="successView"><value>redirect:/user/treeParserResult.html</value></property>
+		<property name="cancelView"><value>redirect:/user/treeParser.html</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="nexusService"><ref bean="nexusService"></ref></property>
+	</bean>
+	
+	<bean id="treeParserResultController" class="org.cipres.treebase.web.controllers.TreeParserResultController">
+		<property name="commandName"><value>study</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.study.Study</value></property>
+		<property name="formView"><value>viewXML</value></property>
+		<property name="successView"><value>redirect:/user/treeParser.html</value></property>
+		<property name="cancelView"><value>redirect:/user/treeParser.html</value></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+	</bean>
+	
+	<bean id="uploadRowSegmentDataController" class="org.cipres.treebase.web.controllers.UploadRowSegmentDataController">
+		
+		<property name="formView"><value>uploadRowSegmentData</value></property>
+		<property name="successView"><value>redirect:/user/rowSegmentDataTable.html</value></property>
+		<property name="cancelView"><value>redirect:/user/matrixList.html</value></property>
+		
+	</bean>
+	
+	<bean id="rowSegmentDataTableController" class="org.cipres.treebase.web.controllers.RowSegmentDataTableController">		
+		<property name="formView"><value>rowSegmentDataTable</value></property>
+		<property name="successView"><value>redirect:/user/viewAllRowSegmentData.html</value></property>
+		<property name="cancelView"><value>redirect:/user/matrixList.html</value></property>
+		<property name ="rowSegmentService"><ref bean="rowSegmentService"/></property>
+		<property name="matrixService"><ref bean="matrixService"/></property>
+		<property name="studyService"><ref bean="studyService"/></property>		
+	</bean>
+	
+	<bean id="viewAllRowSegmentDataController" class="org.cipres.treebase.web.controllers.ViewAllRowSegmentDataController">		
+		<property name="commandName"><value>arowsegmentlist</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.AGenericList</value></property>
+		<property name="formView"><value>viewAllRowSegmentData</value></property>
+		<property name="cancelView"><value>redirect:/user/matrixList.html</value></property>
+		<property name ="rowSegmentService"><ref bean="rowSegmentService"/></property>		
+	</bean>
+	
+	<bean id="exportRowSegmentDataController" class="org.cipres.treebase.web.controllers.ExportRowSegmentDataController">
+		<property name="rowSegmentService"><ref bean="rowSegmentService"></ref></property>				
+	</bean> 
+	
+	<bean id="exportRowSegmentTemplateController" class="org.cipres.treebase.web.controllers.ExportRowSegmentTemplateController">
+		<property name="rowSegmentService"><ref bean="rowSegmentService"></ref></property>				
+	</bean> 
+		
+	<bean id="userManagementController" class="org.cipres.treebase.web.controllers.UserManagementController">
+		<property name="successView"><value>redirect:/admin/changeStudyStatus.html</value></property>
+		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+		<property name="formView"><value>simpleUserManagement</value></property>
+		<property name="userHome"><ref bean="userHome"></ref></property>
+		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
+	</bean>
+	
+	<bean id="selectStudiesController" class="org.cipres.treebase.web.controllers.SelectStudiesController">
+		<property name="successView"><value>redirect:/admin/changeStudyStatus.html</value></property>
+		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+		<property name="formView"><value>selectStudies</value></property>
+		
+		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
+	</bean>
+	
+	<bean id="adminSelectUsersController" class="org.cipres.treebase.web.controllers.AdminSelectUsersController">
+		<property name="successView"><value>redirect:/admin/userList.html</value></property>
+		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+		<property name="formView"><value>adminSelectUsers</value></property>
+		<property name="userHome"><ref bean="userHome"></ref></property>
+		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
+	</bean>
+	
+	<bean id="adminSelectPersonsController" class="org.cipres.treebase.web.controllers.AdminSelectPersonsController">
+		<property name="successView"><value>redirect:/admin/personList.html</value></property>
+		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+		<property name="formView"><value>adminSelectPersons</value></property>
+		<property name="personHome"><ref bean="personHome"></ref></property>
+		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
+	</bean>
+	
+ 	<bean id="changeStudyStatusController" class="org.cipres.treebase.web.controllers.ChangeStudyStatusController">
+ 		<property name="commandName"><value>asubmissionlist</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.web.model.AGenericList</value></property>
+		<property name="successView"><value>redirect:/admin/changeStudyStatus.html</value></property>
+		<property name="cancelView"><value>redirect:/admin/changeStudyStatus.html</value></property>
+		<property name="formView"><value>changeStudyStatus</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean>
+	
+	<bean id="searchController" abstract="true" >
+        <property name="commandName"><value>search</value></property>
+        <property name="commandClass"><value>org.cipres.treebase.web.model.SearchCommand</value></property>
+        <property name="taxonLabelService"><ref bean="taxonLabelService"></ref></property>
+        <property name="searchService"><ref bean="searchService"></ref></property>
+  	</bean>
+ 
+	<bean id="studySearchController" parent="searchController" class="org.cipres.treebase.web.controllers.StudySearchController">
+        <property name="formView"><value>search/studySearch</value></property>
+        <property name="successView"><value>search/studySearch</value></property>
+        
+    </bean>
+    
+    <bean id="treeSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.TreeSearchController">
+        <property name="formView"><value>search/treeSearch</value></property>
+        <property name="successView"><value>search/treeSearch</value></property>
+    </bean>
+    
+    <bean id="treeTopSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.TreeTopSearchController">
+        <property name="formView"><value>search/treeTopSearch</value></property>
+        <property name="successView"><value>search/treeTopSearch</value></property>
+    </bean>
+    
+       <bean id="matrixSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.MatrixSearchController">
+        <property name="formView"><value>search/matrixSearch</value></property>
+        <property name="successView"><value>search/matrixSearch</value></property>
+    </bean>
+    
+    <bean id="taxonSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.TaxonSearchController">
+        <property name="formView"><value>search/taxonSearch</value></property>
+        <property name="successView"><value>search/taxonSearch</value></property>   
+        <property name="taxonHome"><ref bean="taxonHome"></ref></property>
+        <property name="taxonLabelHome"><ref bean="taxonLabelHome"></ref></property>	
+   	</bean>
+      
+    <bean id="searchBySubmissionIDController" class="org.cipres.treebase.web.controllers.SearchBySubmissionIDController">
+        <property name="formView"><value>searchBySubmissionID</value></property>
+        <property name="successView"><value>redirect:/admin/changeStudyStatus.html</value></property>
+        <property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+        <property name="submissionHome"><ref bean="submissionHome"></ref></property>
+    </bean>
+    
+    <bean id="adminUpdatingUserInfoController" class="org.cipres.treebase.web.controllers.AdminUpdatingUserInfoController">
+		<property name="successView"><value>redirect:/admin/overrideUserProfile.html</value></property>
+		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+		<property name="formView"><value>adminUpdatingUserInfo</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+	</bean>
+	
+	<bean id="adminOverridingUserFormController" class="org.cipres.treebase.web.controllers.AdminOverridingUserFormController">
+		<property name="commandName"><value>user</value></property>
+		<property name="commandClass"><value>org.cipres.treebase.domain.admin.User</value></property>
+		<property name="formView"><value>overrideUserProfile</value></property>
+		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="userHome"><ref bean="userHome"></ref></property>
+		<property name="validators">
+        	<list>
+            	<ref bean="beanValidator"/>      <!--Commons Server-side validation -->
+        	</list>
+        </property>
+	</bean>
+	
+	<bean id="adminDeletingUserStepOneController" class="org.cipres.treebase.web.controllers.AdminDeletingUserStepOneController">
+		<property name="successView"><value>redirect:/admin/adminDeletingUserStepTwo.html</value></property>
+		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+		<property name="formView"><value>adminDeletingUserStepOne</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+	</bean>
+	
+	<bean id="adminDeletingUserStepTwoController" class="org.cipres.treebase.web.controllers.AdminDeletingUserStepTwoController">
+		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
+		<property name="formView"><value>adminDeletingUserStepTwo</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="userHome"><ref bean="userHome"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean>
+ 
+ 	<bean id="adminMergingUsersController" class="org.cipres.treebase.web.controllers.AdminMergingUsersController">
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="pages">
+			<list>
+				<value>adminMergingUsers</value>
+				<value>StepTwo</value>
+			</list>
+		</property>
+		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
+	</bean>
+ 
+ 	<bean id="adminMergingPersonsController" class="org.cipres.treebase.web.controllers.AdminMergingPersonsController">
+		<property name="personService"><ref bean="personService"></ref></property>
+		<property name="pages">
+			<list>
+				<value>adminMergingPersons</value>
+				<value>adminMergingPersonsStepTwo</value>
+			</list>
+		</property>
+		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
+	</bean>
+	
+		<!--  bean to supply help texts -->
+	<bean id="helpController" class="org.cipres.treebase.web.controllers.HelpController">
+		<property name="commandClass"><value>org.cipres.treebase.web.model.HelpControllerAction</value></property>
+		<property name="formView"><value>help</value></property>
+		<property name="successView"><value>help</value></property>
+		<property name="failureView"><value>FAILfailFAIL</value></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="helpService"><ref bean="helpService"></ref></property>
+	</bean>
+ 
+	<!-- ========================================================== -->
+	<!-- LIST OF VALIDATORS FOR CONTROLLER							-->
+	<!-- ========================================================== -->
+	<!-- ========================================================== -->
+	<!-- MESSAGE SOURCE DEFINITION									-->
+	<!-- ========================================================== -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename"><value>ApplicationResources</value></property>
+	</bean>
+	
+	<!-- ========================================================== -->
+	<!-- Spring View Resolvers for JSPs								-->
+	<!-- ========================================================== -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="requestContextAttribute" value="rc"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    
+	<!-- ========================================================== -->
+	<!-- URL MAPPING												-->
+	<!-- ========================================================== -->
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	
+		<property name="alwaysUseFullPath" value="true"/>
+			<property name="mappings">
+			<props>
+				<prop key="/phylows/**">phyloWSController</prop>
+				<prop key="/home.html">filenameController</prop>
+				<prop key="/login.html">filenameController</prop>
+				<prop key="/user/viewXML.html">filenameController</prop>
+				<prop key="/test/phylowidget.html">filenameController</prop>
+				<prop key="/test/newPhylowidget.html">filenameController</prop>
+				<prop key="/user/processUser.html">processUserController</prop>					
+				<prop key="/accessviolation.html">filenameController</prop>
+				
+				<prop key="/user/deleteStudy.html">deleteStudyController</prop>
+				<prop key="/user/readyState.html">readyStateController</prop>
+				<prop key="/user/downloadATree.html">downloadATreeController</prop>
+				<prop key="/user/downloadATreeBlock.html">downloadATreeBlockController</prop>
+				<prop key="/user/downloadAMatrix.html">downloadAMatrixController</prop>
+				<prop key="/user/downloadANexusFile.html">downloadANexusFileController</prop>
+				<prop key="/user/downloadANexusRCTFile.html">downloadANexusRCTFileController</prop>
+				<prop key="/user/taxaList.html">listTaxaController</prop>
+				<prop key="/user/editTaxonLabel.html">editTaxonLabelController</prop>
+				<prop key="/user/editSetTaxonLabel.html">editSetTaxonLabelController</prop>
+				<prop key="/user/summary.html">summaryController</prop>
+				<prop key="/user/analyses.html">summaryController</prop>
+				
+				<prop key="/search/summary.html">summaryController</prop>
+				
+				<prop key="/user/deleteATree.html">deleteATreeController</prop>
+				<prop key="/user/deleteATreeBlock.html">deleteATreeBlockController</prop>
+				<prop key="/user/deleteAMatrix.html">deleteAMatrixController</prop>
+				<prop key="/user/deleteARowSegment.html">deleteARowSegmentController</prop>
+				<prop key="/user/readOnlyListTree.html">readOnlyListTreeController</prop>
+				<prop key="/user/directToPhyloWidget.html">directToPhyloWidgetController</prop>
+				<prop key="/user/directMapToPhyloWidget.html">directMapToPhyloWidgetController</prop>
+				<prop key="/user/nexusFiles.html">nexusFilesController</prop>
+				<prop key="/user/uploadRowSegmentData.html">uploadRowSegmentDataController</prop>
+				<prop key="/user/rowSegmentDataTable.html">rowSegmentDataTableController</prop>
+				<prop key="/user/viewAllRowSegmentData.html">viewAllRowSegmentDataController</prop>
+				<prop key="/user/exportRowSegmentData.html">exportRowSegmentDataController</prop>
+				<prop key="/user/exportRowSegmentTemplate.html">exportRowSegmentTemplateController</prop>
+				
+				<prop key="/appletInteraction.html">appletInteractionController</prop>
+				
+				<prop key="/test/testParser.html">treeParserController</prop>
+				
+				<prop key="/admin/userManagement.html">userManagementController</prop>
+				<prop key="/admin/selectStudies.html">selectStudiesController</prop>
+				<prop key="/admin/changeStudyStatus.html">changeStudyStatusController</prop>
+				<prop key="/admin/readyStateStudies.html">changeStudyStatusController</prop>
+				<!--prop key="/admin/readyStateStudies.html">readyStateStudiesController</prop-->
+				<prop key="/admin/searchBySubmissionID.html">searchBySubmissionIDController</prop>
+				<prop key="/admin/adminSelectUsers.html">adminSelectUsersController</prop>
+				<prop key="/admin/adminUpdatingUserInfo.html">adminUpdatingUserInfoController</prop>
+				<prop key="/admin/adminDeletingUserStepOne.html">adminDeletingUserStepOneController</prop>
+				<prop key="/admin/adminDeletingUserStepTwo.html">adminDeletingUserStepTwoController</prop>
+				<prop key="/admin/overrideUserProfile.html">adminOverridingUserFormController</prop>
+				<prop key="/admin/adminMergingUsers.html">adminMergingUsersController</prop>
+				<prop key="/admin/administrationPage.html">filenameController</prop>
+				<prop key="/admin/messageToAdminAfterAction.html">filenameController</prop>
+				<prop key="/admin/userList.html">filenameController</prop>
+				<prop key="/admin/personList.html">filenameController</prop>
+				<prop key="/admin/adminSelectPersons.html">adminSelectPersonsController</prop>
+				<prop key="/admin/adminMergingPersons.html">adminMergingPersonsController</prop>
+				
+				
+				<prop key="/register.html">registerUserController</prop>
+				<prop key="/passwordForm.html">passwordFormController</prop>
+                <prop key="/help.html">helpController</prop>
+				
+				<prop key="/searchForm.html">searchFormController</prop>
+				<prop key="/searchResult.html">filenameController</prop>
+				<prop key="/searchStudyList.html">listSearchStudyController</prop>
+				<prop key="/searchStudy.html">searchStudyController</prop>
+				<prop key="/study-query.html">updateStudyQueryController</prop>
+				<prop key="/search/">studySearchController</prop>
+				<prop key="/search/studySearch.html">studySearchController</prop>
+				<prop key="/search/treeSearch.html">treeSearchController</prop>
+				<prop key="/search/treeTopSearch.html">treeTopSearchController</prop>
+				<prop key="/search/matrixSearch.html">matrixSearchController</prop>	
+				<prop key="/search/taxonSearch.html">taxonSearchController</prop>
+			    <prop key="/search/study/summary.html">searchSummaryController</prop>
+			    <prop key="/search/study/analyses.html">searchSummaryController</prop>
+			    <prop key="/search/study/matrices.html">searchSummaryController</prop>
+			    <prop key="/search/study/trees.html">searchSummaryController</prop>
+			    <prop key="/search/study/treeBlocks.html">searchSummaryController</prop>
+			    <prop key="/search/study/treeBlock.html">searchMapToPhyloWidgetController</prop>
+			    <prop key="/search/study/tree.html">searchMapToPhyloWidgetController</prop>
+			    <prop key="/search/study/matrix.html">searchSummaryController</prop>
+			    <prop key="/search/study/analysis.html">searchSummaryController</prop>
+			    <prop key="/search/study/taxa.html">searchSummaryController</prop>
+			    <prop key="/search/study/rowSegments.html">searchSummaryController</prop>
+			    <prop key="/search/study/anyObjectAsRDF.html">anyObjectAsRDFController</prop>
+			    <prop key="/search/searchResultsAsRDF.html">searchResultsAsRDFController</prop>
+				<prop key="/search/matrixRowList.html">listMatrixRowController</prop>
+				<prop key="/search/taxonList.html">listTaxaSearchController</prop>
+				<prop key="/search/downloadAStudy.html">downloadAStudyController</prop>				
+				<prop key="/search/downloadATree.html">downloadATreeController</prop>
+				<prop key="/search/downloadATreeBlock.html">downloadATreeBlockController</prop>
+				<prop key="/search/downloadAMatrix.html">downloadAMatrixController</prop>
+				<prop key="/search/downloadAnAnalysisStep.html">downloadAnAnalysisStepController</prop>
+				<prop key="/search/downloadANexusFile.html">downloadANexusFileController</prop>
+				<prop key="/search/downloadANexusRCTFile.html">downloadANexusRCTFileController</prop>
+				       
+				<prop key="/user/updateProfile.html">userFormController</prop>
+				<prop key="/user/submissionList.html">listSubmissionController</prop>
+				<prop key="/user/studyForm.html">studyFormController</prop>
+				
+				<!--  prop key="/user/submissionMain.html">displaySubmissionController</prop-->
+				<prop key="/user/submissionMain.html">filenameController</prop>
+				<prop key="/user/displaySubmissionMenu.html">displaySubmissionMenuController</prop>
+				<prop key="/user/citationForm.html">citationFormController</prop>
+				
+				<prop key="/user/authorForm.html">authorFormController</prop>
+				<prop key="/user/authorSearchForm.html">authorSearchFormController</prop>
+				<prop key="/user/addAuthor.html">addAuthorController</prop>
+				<prop key="/user/authorList.html">authorFormController</prop>
+				
+				<prop key="/user/editorForm.html">editorFormController</prop>
+				
+				<prop key="/user/analysisList.html">listAnalysisController</prop>
+				<prop key="/user/analysisForm.html">analysisFormController</prop>
+				<prop key="/user/analysisStepList.html">listAnalysisStepController</prop>
+				<prop key="/user/analysisStepForm.html">analysisStepFormController</prop>
+				<!--prop key="/analysisDisplay.html">displayAnalysisController</prop-->
+				<prop key="/user/analysisDisplay.html">displayAnalysisController</prop>
+				
+				<prop key="/user/uploadFile.html">uploadFileController</prop>
+				<prop key="/user/uploadFileSummary.html">uploadFileSummaryController</prop>
+				<!-- prop key="/user/treeList.html">filenameController</prop -->
+				
+				<prop key="/user/analyzedDataList.html">listAnalyzedDataController</prop>
+				<prop key="/user/analyzedDataForm.html">analyzedDataFormController</prop>
+				<prop key="/user/analyzedDataForm.html">analyzedDataFormController</prop>
+				<prop key="/user/addAnalyzedData.html">addAnalyzedDataController</prop>
+				
+				<prop key="/user/matrixList.html">listMatrixController</prop>
+				<prop key="/user/matrixRowList.html">listMatrixRowController</prop>
+				<prop key="/user/matrixRowSegmentList.html">listMatrixRowSegmentController</prop>
+				<prop key="/user/matrixRowSegmentForm.html">matrixRowSegmentFormController</prop>
+								
+				<prop key="/user/treeList.html">listTreeController</prop>
+				<prop key="/user/treeBlockList.html">listTreeBlockController</prop>
+				
+				<prop key="/user/treeParser.html">treeParserController</prop>
+				<prop key="/user/treeParserResult.html">treeParserResultController</prop>
+				<prop key="/json/submissionIsland.html">submissionToJsonController</prop>			       		
+			</props>
+		</property>
+	</bean>
+	<!-- ==================================================================================================== -->
+	<!-- Exception Mappings											                                          -->
+	<!-- This bean resolves specific types of exception to corresponding error views                          -->
+	<!-- The default behavior of DispatcherServlet is to propagate all exceptions to the servlet container    -->
+	<!-- This will happen here with all other types of exception                                              -->
+	<!-- ==================================================================================================== -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.dao.DataAccessException">/errors/dataAccessFailure</prop>
+				<prop key="org.springframework.transaction.TransactionException">/errors/dataAccessFailure</prop>
+				<prop key="org.cipres.treebase.web.exceptions.EmptyStudyException">/errors/studyAccessFailure</prop>
+			</props>
+		</property>
+	</bean>
+	
+</beans>
