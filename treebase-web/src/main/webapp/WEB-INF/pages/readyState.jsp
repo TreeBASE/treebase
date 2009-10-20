@@ -7,15 +7,22 @@
 
 <form method="post">
 <c:if test="${AnalysesStatus eq false}"> 
-	<p style="color: red;"><b>You cannot change the Status of the study because Taxon Labels for analyzed data in Analysis Step cannot be validated.</b></p>
+	<p style="color:red;font-weight:bold">
+		We notice that some of your taxon labels have failed to be validated against an external taxonomy. 
+		Unless it is impossible to validate these labels, TreeBASE may refuse or delay the acceptance of your data.
+	</p>
 </c:if>
-<h3><strong>Are you sure that you want to change the status of this  particular study to 'Ready State'?<br/>
- It means, you are ready for the review process. If yes, then press the Submit button,<br/> 
- else, choose the Cancel button. </strong></h3> 
- <p>
- Please note, pressing the Submit button will <strong>disallow you</strong> to make any further changes to this study.<br/>
-However, it will be available in 'READ ONLY' mode.</p>
+<p style="font-weight:bold">
+	Are you sure that you want to change the status of this study to 'Ready State'?
+	This means that you are ready for the review process. If yes, press Submit,
+	else, choose the Cancel button.
+</p> 
+<p style="font-weight:bold">
+	Please note, pressing the Submit button will <strong>disallow you</strong> to make any further changes to this study.
+	The study will be available in 'READ ONLY' mode.
+</p>
  
-<c:if test="${AnalysesStatus eq true}"> <input type="submit" name="Submit" value="Submit"></c:if>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="_cancel" value = "Cancel">
+<input type="submit" name="Submit" value="Submit"/>&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="submit" name="_cancel" value = "Cancel"/>
 
 </form>
