@@ -35,9 +35,9 @@
 	<!-- ========================================================== -->
 	<!-- MESSAGE SOURCE DEFINITION									-->
 	<!-- ========================================================== -->
-	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	<!--bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename"><value>ApplicationResources</value></property>
-	</bean>
+	</bean-->
 	
 	<!-- ========================================================== -->
 	<!-- Spring View Resolvers for Templates								-->
@@ -72,7 +72,7 @@
 	<!-- The default behavior of DispatcherServlet is to propagate all exceptions to the servlet container    -->
 	<!-- This will happen here with all other types of exception                                              -->
 	<!-- ==================================================================================================== -->
-	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<!--bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
 				<prop key="org.springframework.dao.DataAccessException">/errors/dataAccessFailure</prop>
@@ -80,6 +80,6 @@
 				<prop key="org.cipres.treebase.web.exceptions.EmptyStudyException">/errors/studyAccessFailure</prop>
 			</props>
 		</property>
-	</bean>
+	</bean-->
 	
 </beans>
