@@ -24,17 +24,17 @@
         </Menu>
         
         <!-- ====================   User Menu   =========================== -->
-        <Menu name="SubmissionHome" title="nav.submission.home" description="SubmissionHome" page="/user/summary.html" roles="Admin,User"/>
-    	<Menu name="SubmissionNotes" title="nav.submission.notes" description="SubmissionNotes" page="/user/studyForm.html"  roles="Admin,User"/>
-    	<Menu name="SubmissionCitation" title="nav.submission.citation" description="SubmissionCitation" page="/user/citationForm.html"  roles="Admin,User"/>
-    	<Menu name="SubmissionAuthors" title="nav.submission.authors" description="SubmissionAuthors" page="/user/authorSearchForm.html"  roles="Admin,User"/>
-    	<Menu name="SubmissionUploadFile" title="nav.submission.upload" description="SubmissionUploadFile" page="/user/uploadFile.html"  roles="Admin,User"/>
-        <Menu name="SubmissionNexusFiles" title="nav.submission.files" description="SubmissionNexusFiles" page="/user/nexusFiles.html"  roles="Admin,User"/>    
-	    <Menu name="SubmissionTaxa" title="nav.submission.taxa" description="SubmissionTaxa" page="/user/taxaList.html"  roles="Admin,User"/>                
-    	<Menu name="SubmissionMatrices" title="nav.submission.matrices" description="SubmissionMatrices" page="/user/matrixList.html" roles="Admin,User"/>
-        <Menu name="SubmissionTrees" title="nav.submission.trees" description="SubmissionTrees" page="/user/treeBlockList.html" roles="Admin,User"/>    
-        <Menu name="SubmissionAnalyses" title="nav.submission.analyses" description="SubmissionAnalyses" page="/user/analyses.html" roles="Admin,User"/>
-        <Menu name="SubmissionSubmissions" title="nav.submission.submissions" description="SubmissionSubmissions" page="/user/submissionList.html" roles="Admin,User"/>    	
+        <Menu name="SubmissionHome" title="nav.submission.home" description="SubmissionHome" page="/user/summary.html" roles="Admin,User,Associate Editor"/>
+    	<Menu name="SubmissionNotes" title="nav.submission.notes" description="SubmissionNotes" page="/user/studyForm.html"  roles="Admin,User,Associate Editor"/>
+    	<Menu name="SubmissionCitation" title="nav.submission.citation" description="SubmissionCitation" page="/user/citationForm.html"  roles="Admin,User,Associate Editor"/>
+    	<Menu name="SubmissionAuthors" title="nav.submission.authors" description="SubmissionAuthors" page="/user/authorSearchForm.html"  roles="Admin,User,Associate Editor"/>
+    	<Menu name="SubmissionUploadFile" title="nav.submission.upload" description="SubmissionUploadFile" page="/user/uploadFile.html"  roles="Admin,User,Associate Editor"/>
+        <Menu name="SubmissionNexusFiles" title="nav.submission.files" description="SubmissionNexusFiles" page="/user/nexusFiles.html"  roles="Admin,User,Associate Editor"/>    
+	    <Menu name="SubmissionTaxa" title="nav.submission.taxa" description="SubmissionTaxa" page="/user/taxaList.html"  roles="Admin,User,Associate Editor"/>                
+    	<Menu name="SubmissionMatrices" title="nav.submission.matrices" description="SubmissionMatrices" page="/user/matrixList.html" roles="Admin,User,Associate Editor"/>
+        <Menu name="SubmissionTrees" title="nav.submission.trees" description="SubmissionTrees" page="/user/treeBlockList.html" roles="Admin,User,Associate Editor"/>    
+        <Menu name="SubmissionAnalyses" title="nav.submission.analyses" description="SubmissionAnalyses" page="/user/analyses.html" roles="Admin,User,Associate Editor"/>
+        <Menu name="SubmissionSubmissions" title="nav.submission.submissions" description="SubmissionSubmissions" page="/user/submissionList.html" roles="Admin,User,Associate Editor"/>    	
         
         <!-- ====================   Submission metadata   =========================== -->        
         <Menu name="AboutSubmission" title="nav.submission.about" description="About the submission">             	
