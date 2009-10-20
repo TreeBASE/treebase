@@ -14,15 +14,15 @@
 </c:if>
 <p style="font-weight:bold">
 	Are you sure that you want to change the status of this study to 'Ready State'?
-	This means that you are ready for the review process. If yes, press Submit,
-	else, choose the Cancel button.
+	This means that you are ready for the review process. If yes press Submit,
+	else choose the Cancel button.
 </p> 
-<p style="font-weight:bold">
-	Please note, pressing the Submit button will <strong>disallow you</strong> to make any further changes to this study.
+<p>
+	Please note: after you press the Submit button you will no longer be able to make any further changes to this study.
 	The study will be available in 'READ ONLY' mode.
 </p>
  
-<input type="submit" name="Submit" value="Submit"/>&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="submit" name="Submit" value="Submit"/>
 <input type="submit" name="_cancel" value = "Cancel"/>
 
 </form>
