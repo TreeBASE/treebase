@@ -82,7 +82,7 @@
 	<!-- ========================================================== -->
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
-		<location>/WEB-INF/pages/errors/uncaughtException.jsp</location>
+		<location>/uncaughtException.jsp</location>
 	</error-page>
 	<!--  Internal Server Error -->
 	<error-page>
