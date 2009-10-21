@@ -9,47 +9,5 @@
     http://www.directwebremoting.org/schema/spring-dwr  
     http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
 
-	
-	<!-- ========================================================== -->
-	<!-- LIST OF DWR beans/methods -->
-	<!-- ========================================================== -->
-	
-	
-	<bean id="remoteSoftwareNameService" class="org.cipres.treebase.dao.study.AnalysisStepDAO">
-   		<dwr:remote javascript="RemoteSoftwareNameService">
-      		<dwr:include method="findCompleteSoftwareName" />
-   		</dwr:remote>
-   		<property name="sessionFactory"><ref bean="sessionFactory"></ref></property>
-	</bean>
-	
-	<bean id="remotePersonService" class="org.cipres.treebase.dao.admin.PersonDAO">
-   		<dwr:remote javascript="RemotePersonService">
-      		<dwr:include method="findCompleteEmailAddress" />
-   		</dwr:remote>
-   		<property name="sessionFactory"><ref bean="sessionFactory"></ref></property>
-	</bean>
-
-	<bean id="remoteJournalNameService" class="org.cipres.treebase.dao.study.CitationDAO">
-   		<dwr:remote javascript="RemoteJournalNameService">
-      		<dwr:include method="findCompleteJournalName" />
-   		</dwr:remote>
-   		<property name="sessionFactory"><ref bean="sessionFactory"></ref></property>
-	</bean>
-	
-	<bean id="remoteUniqueOtherAlgorithmService" class="org.cipres.treebase.dao.study.AlgorithmDAO">
-   		<dwr:remote javascript="RemoteUniqueOtherAlgorithmService">
-      		<dwr:include method="findAllUniqueOtherAlgorithmDescriptions" />
-   		</dwr:remote>
-   		<property name="sessionFactory"><ref bean="sessionFactory"></ref></property>
-	</bean>
-	
-	<bean id="remoteAjaxProgressListener" class="org.cipres.treebase.web.controllers.AjaxProgressListener">		
-		<dwr:remote javascript="RemoteAjaxProgressListener">
-			<dwr:include method="getStatus"/>
-		</dwr:remote>
-	</bean>
-	<dwr:configuration>
-		<dwr:convert type="bean" class="org.cipres.treebase.web.model.UploadInfoBean"/>
-	</dwr:configuration>
  
 </beans>
