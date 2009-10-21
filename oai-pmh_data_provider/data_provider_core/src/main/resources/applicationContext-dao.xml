@@ -17,7 +17,7 @@
 		<property name="locations">
 		<list>
 		 	<value>classpath:jdbc.properties</value>
-			<value>classpath:treebase.properties</value>
+			<value>classpath:top.properties</value>
 		</list>
 		</property>
 	</bean>
