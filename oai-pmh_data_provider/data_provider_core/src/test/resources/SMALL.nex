@@ -1,0 +1,29 @@
+#NEXUS
+[File created by TreeBASE:  7/26/07  20:59:24]
+[Matrix accession#: MSMALL]
+
+BEGIN TAXA;
+	TITLE MSMALL;
+	DIMENSIONS  NTAX=8;
+	TAXLABELS
+		Diplolepis_rosae	Andricus_kollari	Andricus_curvator	Plagiotrochus_quercusilicis	Panteliella_bicolor	Periclistus_brandti	Synergus_gallaepomiformis	Barbotinia_oraniensis
+	;
+END;
+
+BEGIN CHARACTERS;
+	TITLE M1003;
+	DIMENSIONS NCHAR=2;
+	FORMAT MISSING = ? GAP = - DATATYPE = DNA ;
+	MATRIX
+		Diplolepis_rosae                  AA
+		Andricus_kollari                  AG
+		Andricus_curvator                 TA
+		Plagiotrochus_quercusilicis       TC
+		Panteliella_bicolor               GT
+		Periclistus_brandti               GG
+		Synergus_gallaepomiformis         CG
+		Barbotinia_oraniensis             CT
+	;
+END;
+
+

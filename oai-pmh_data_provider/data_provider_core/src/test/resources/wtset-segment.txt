@@ -1,0 +1,14 @@
+Ceratocystis perneri	23.343	-103.2345	USA	Idaho	whatever 23.343	2005-12-2	3	54	432432	COMP	225.143
+Ceratocystis viscainoi	23.643	-103.1345	USA	Illinois	whatever 23.643	2005-12-2	4	43	4333	YOYO	225.443
+Protocystites menevensis	23.943	-103.0345	USA	Indiana	whatever 23.943		5	43	3334	MERCK	25.743
+Nevadaecystis americana	24.243	-102.9345	USA	Iowa	whatever 24.243	2005-12-2	6	22	7764	LINUX	26.043
+Cothurnocystis primaeva	24.543	-102.8345	USA	Kansas	whatever 24.543	2005-12-2	4	33	56577	HP	26.343
+Cothurnocystis fellensis	24.843	-102.7345	USA	Kentucky	whatever 24.843	2005-12-2	3	22	76765	CISCO	26.643
+Procothurnocystis owensi	25.143	-102.6345	USA	Louisiana	whatever 25.143	2005-12-2	4	33	543534	IBM	126.943
+Cothurnocystis couressolei	25.443	-102.5345	USA	Maine	whatever 25.443	12/9/2005	3	4	4543534	UCSD	227.243
+Cothurnocystis elizae	25.743	-102.4345	USA	Maryland	whatever 25.743	12/10/2005	6	44	54444	ACT	327.543
+Cothurnocystis bifida	26.043	-102.3345	USA	Massachusetts	whatever 26.043	12/11/2005	4	32	543534	SDSC	227.843
+Thoralicystis melchiori	26.343	-102.2345	USA	Michigan	whatever 26.343	12/12/2005	2	5	54344		128.143
+Thoralicystis zagoraensis	26.643	-102.1345	USA	Minnesota	whatever 26.643	2005-12-2	33	43	65553	BCHEM	128.443
+Thoralicystis griffei	26.943	-102.0345	USA	Mississippi	whatever 26.943	12/14/2005	54	432	45443	BIO	128.743
+Phyllocystis blayaci	27.243	-101.9345	USA	Missouri	whatever 27.243	2005-12-2	34	43	54354	PhY	29.043

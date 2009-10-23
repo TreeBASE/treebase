@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!--
+/*
+ * Copyright 2008 CIPRES project. http://www.phylo.org/ All Rights Reserved.
+ * 
+ * Permission to use, copy, modify, and distribute this software and its documentation for
+ * educational, research and non-profit purposes, without fee, and without a written agreement is
+ * hereby granted, provided that the above copyright notice, this paragraph and the following two
+ * paragraphs appear in all copies.
+ * 
+ * Permission to incorporate this software into commercial products may be obtained by contacting
+ * us: http://www.phylo.org/contactUs.html
+ * 
+ * The software program and documentation are supplied "as is". In no event shall the CIPRES project
+ * be liable to any party for direct, indirect, special, incidental, or consequential damages,
+ * including lost profits, arising out of the use of this software and its documentation, even if
+ * the CIPRES project has been advised of the possibility of such damage. The CIPRES project
+ * specifically disclaims any warranties, including, but not limited to, the implied warranties of
+ * merchantability and fitness for a particular purpose. The CIPRES project has no obligations to
+ * provide maintenance, support, updates, enhancements, or modifications.
+ */
+
+-->
+</head>
+<body bgcolor="white">
+
+Utility programs, run standalone or from the command line, typically for importing 
+data into the database or for modifying the data that is already there.
+
+<h2>Package Specification</h2>
+c
+<p>The principal class in this package is {@see AuxiliaryDataImporter}.  
+It contains a <code>main</code> method which will read the <tt>Dump.txt</tt> file 
+supplied by Bill Piel and try to create the studies described therein. </p>
+
+<p>Other classes in this package include the various "Repatriate*" classes, which
+find orphaned data in the database and link it back to the objects to which it belongs, 
+{@see DestroySubmission}, which completely destroys the submission specified on the command
+line, and {@see AnnotateTree}, which adds left-right labels to the nodes in a specified tree object.</p>
+
+<p>Many of these classes are based on {@see Standalone}, which contains utility methods
+that set up a Hibernate environment, retrieve required Spring beans, and initiate database
+transactions.</p>
+
+<h2>Related Documentation</h2>
+
+<h2>Author</h2>
+@author Mark Jason Dominus
+
+</body>
+</html>

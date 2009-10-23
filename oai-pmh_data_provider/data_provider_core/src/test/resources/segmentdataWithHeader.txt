@@ -1,0 +1,29 @@
+Row Taxon Label	Latitude	Longitude	Country	State	Locality	Sample Date	Start Index	End Index	GenBank Accession	Inst. Acronym	Elevation
+Austrofilius	23.343	-103.2345	USA	Idaho	whatever 23.343	12/2/2005	3	54	432432	COMP	225.143
+Santia	23.643	-103.1345	USA	Illinois	whatever 23.643	12/3/2005	4	43	4333	YOYO	225.443
+Xenosella	23.943	-103.0345	USA	Indiana	whatever 23.943		5	43	3334	MERCK	25.743
+glaciale	24.243	-102.9345	USA	Iowa	whatever 24.243	12/5/2005	6	22	7764	LINUX	26.043
+dentatum	24.543	-102.8345	USA	Kansas	whatever 24.543	12/6/2005	4	33	56577	HP	26.343
+escandella	24.843	-102.7345	USA	Kentucky	whatever 24.843	12/7/2005	3	22	76765	CISCO	26.643
+fuegiae	25.143	-102.6345	USA	Louisiana	whatever 25.143	12/8/2005	4	33	543534	IBM	126.943
+spinosum	25.443	-102.5345	USA	Maine	whatever 25.443	12/9/2005	3	4	4543534	UCSD	227.243
+lunatum	25.743	-102.4345	USA	Maryland	whatever 25.743	12/10/2005	6	44	54444	ACT	327.543
+incisa	26.043	-102.3345	USA	Massachusetts	whatever 26.043	12/11/2005	4	32	543534	SDSC	227.843
+latifrons	26.343	-102.2345	USA	Michigan	whatever 26.343	12/12/2005	2	5	54344		128.143
+maltinii	26.643	-102.1345	USA	Minnesota	whatever 26.643	12/13/2005	33	43	65553	BCHEM	128.443
+Munnogonium_affinis	26.943	-102.0345	USA	Mississippi	whatever 26.943	12/14/2005	54	432	45443	BIO	128.743
+orientale	27.243	-101.9345	USA	Missouri	whatever 27.243	12/15/2005	34	43	54354	PhY	29.043
+Munnogonium_polynesiensis	27.543	-101.8345	USA	Montana	whatever 27.543	12/16/2005	89	123	5454	MATH	29.343
+Munnogonium_somersensis	27.843	-101.7345	USA	Nebraska	whatever 27.843	12/17/2005	43	355	55543	ENG	29.643
+Munnogonium_wilsoni	28.143	-101.6345	USA	Nevada	whatever 28.143	12/18/2005	32	43	54355	SCI	329.943
+kerguelensis	28.443	-101.5345	USA	New Hampshire	whatever 28.443	12/19/2005	32	243	543534	SCIPHI	
+menziesi	28.743	-101.4345	USA	New Jersey	whatever 28.743	12/20/2005	43	423	54345	KY	30.543
+minidenticulatum	29.043	-101.3345	USA	New Mexico	whatever 29.043	12/21/2005	23	122	6643	CHI	113
+subtilis	29.343	-101.2345	USA	New York	whatever 29.343	12/22/2005	66	111	234324	PIE	31.143
+waldronense	29.643	-101.1345	USA	North Carolina	whatever 29.643	12/23/2005	66	111	423434	THETA	31.443
+falklandicum	29.943	-101.0345	USA	North Dakota	whatever 29.943	12/24/2005	44	112	432333	ZETA	31.743
+Munnogonium_tillerae	30.243	-100.9345	USA	Ohio	whatever 30.243	12/25/2005	44	132	432	ALPHA	32.043
+Munnogonium_nsp_slope1	30.543	-100.8345	USA	Oklahoma	whatever 30.543	12/26/2005	75	32	44324	BETA	32.343
+Munnogonium_adenensis	30.843	-100.7345	USA	Oregon	whatever 30.843	12/27/2005	43	443	43243	GAMA	32.643
+Munnogonium_armigerum	31.143	-100.6345	USA	Pennsylvania	whatever 31.143	12/28/2005	23	33	4324	DELTA	332.943
+variabile	31.443	-100.5345	USA	Rhode Island	whatever 31.443	12/29/2005	69	222	423423	EPSILON	333

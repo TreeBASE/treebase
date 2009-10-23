@@ -1,0 +1,28 @@
+Austrofilius	23.343	-103.2345	USA	Idaho	whatever 23.343	12/2/05
+Santia	23.643	-103.1345	USA	Illinois	whatever 23.643	12/3/05
+Xenosella	23.943	-103.0345	USA	Indiana	whatever 23.943	12/4/05
+glaciale	24.243	-102.9345	USA	Iowa	whatever 24.243	12/5/05
+dentatum	24.543	-102.8345	USA	Kansas	whatever 24.543	12/6/05
+escandella	24.843	-102.7345	USA	Kentucky	whatever 24.843	12/7/05
+fuegiae	25.143	-102.6345	USA	Louisiana	whatever 25.143	12/8/05
+spinosum	25.443	-102.5345	USA	Maine	whatever 25.443	12/9/05
+lunatum	25.743	-102.4345	USA	Maryland	whatever 25.743	12/10/05
+incisa	26.043	-102.3345	USA	Massachusetts	whatever 26.043	12/11/05
+latifrons	26.343	-102.2345	USA	Michigan	whatever 26.343	12/12/05
+maltinii	26.643	-102.1345	USA	Minnesota	whatever 26.643	12/13/05
+Munnogonium_affinis	26.943	-102.0345	USA	Mississippi	whatever 26.943	12/14/05
+orientale	27.243	-101.9345	USA	Missouri	whatever 27.243	12/15/05
+Munnogonium_polynesiensis	27.543	-101.8345	USA	Montana	whatever 27.543	12/16/05
+Munnogonium_somersensis	27.843	-101.7345	USA	Nebraska	whatever 27.843	12/17/05
+Munnogonium_wilsoni	28.143	-101.6345	USA	Nevada	whatever 28.143	12/18/05
+kerguelensis	28.443	-101.5345	USA	New Hampshire	whatever 28.443	12/19/05
+menziesi	28.743	-101.4345	USA	New Jersey	whatever 28.743	12/20/05
+minidenticulatum	29.043	-101.3345	USA	New Mexico	whatever 29.043	12/21/05
+subtilis	29.343	-101.2345	USA	New York	whatever 29.343	12/22/05
+waldronense	29.643	-101.1345	USA	North Carolina	whatever 29.643	12/23/05
+falklandicum	29.943	-101.0345	USA	North Dakota	whatever 29.943	12/24/05
+Munnogonium_tillerae	30.243	-100.9345	USA	Ohio	whatever 30.243	12/25/05
+Munnogonium_nsp_slope1	30.543	-100.8345	USA	Oklahoma	whatever 30.543	12/26/05
+Munnogonium_adenensis	30.843	-100.7345	USA	Oregon	whatever 30.843	12/27/05
+Munnogonium_armigerum	31.143	-100.6345	USA	Pennsylvania	whatever 31.143	12/28/05
+variabile	31.443	-100.5345	USA	Rhode Island	whatever 31.443	12/29/05
