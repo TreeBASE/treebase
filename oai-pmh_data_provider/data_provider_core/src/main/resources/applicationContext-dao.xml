@@ -9,7 +9,7 @@
     http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" 
     default-autowire="no">
 
-	
+	<!-- point to property files location allow ${} operator to use properties value -->
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -59,13 +59,14 @@
 		</property>
 	</bean>
 
+    <!-- needed for transaction set up -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<!-- A parent bean definition which is a base definition for transaction proxies.
-		- The attributes can still be overridden in child bean definitions.
+		- The attributes can still be overridden in child bean definitions. 
 	-->
 	<bean id="baseTransactionProxy"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
