@@ -9,5 +9,21 @@
     http://www.directwebremoting.org/schema/spring-dwr  
     http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
 
+ 	<!-- ========================================================== -->
+	<!-- LIST OF DWR beans/methods -->
+	<!-- ========================================================== -->
+	
+	
+	
+	<!-- bean id="remoteAjaxProgressListener" class="org.cipres.treebase.web.controllers.AjaxProgressListener">		
+		<dwr:remote javascript="RemoteAjaxProgressListener">
+			<dwr:include method="getStatus"/>
+		</dwr:remote>
+	</bean -->
+	<!-- dwr:configuration>
+		<dwr:convert type="bean" class="org.cipres.treebase.web.model.UploadInfoBean"/>
+	</dwr:configuration -->
+ 
+ 
  
 </beans>
