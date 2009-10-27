@@ -10,8 +10,10 @@
 			classpath*:applicationContext-service.xml,
 			/WEB-INF/applicationContext.xml,
 			<!-- top is short for Treebase OAI-PMH Provider -->
-			/WEB-INF/top-security.xml,
-			/WEB-INF/top-validation.xml
+			<!-- /WEB-INF/top-security.xml,-->
+			<!-- /WEB-INF/top-validation.xml-->
+			<!-- validation will be done on server side --> 
+			<!-- errors will be return as oai-pmh exception with vm -->
 		</param-value>
  	</context-param>
 
@@ -23,9 +25,9 @@
   		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>	
 	<!-- extends customize and replaces ContextLoaderListener -->
-	<!--listener>
+	<!-- listener>
 		<listener-class>org.cipres.treebase.web.listeners.StartupListener</listener-class>
-	</listener-->
+	</listener -->
 	
 	
 	<!-- ========================================================== -->
@@ -68,25 +70,9 @@
     </servlet-mapping-->
 	
 	
-
-	<!-- ========================================================== -->
-	<!-- define some default pages			                        -->
-	<!-- ========================================================== -->
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	
 	<!-- ========================================================== -->
 	<!-- Error Pages											 	-->
 	<!-- ========================================================== -->
-	<error-page>
-		<exception-type>java.lang.Exception</exception-type>
-		<location>/uncaughtException.jsp</location>
-	</error-page>
-	<!--  Internal Server Error -->
-	<error-page>
-		<error-code>500</error-code>	
-		<location>/error-500.jsp</location>
-	</error-page>
+	<!-- or errors will return as oai-pmh exception based on .vm files -->
 
 </web-app>
