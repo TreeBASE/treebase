@@ -1,6 +1,8 @@
 package org.treebase.oai.web.controller;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,14 +25,20 @@ public class OAIPMHController extends AbstractCommandController{
 		// TODO Auto-generated method stub
 		
 		 OAIPMHCommand params = (OAIPMHCommand) command;
+		 
+		 Map  model=new  HashMap();
+		 model.put("params", params);
+		 
 		 Method method=null;
+		 
+		 
 		 try{
-			 method=this.getClass().getMethod(params.getVerb(), new Class[]{HttpServletRequest.class, HttpServletResponse.class, OAIPMHCommand.class});
+			 method=this.getClass().getMethod(params.getVerb(), new Class[]{HttpServletRequest.class, HttpServletResponse.class, Map.class});
 		 }catch(NoSuchMethodException e){
-			 return new ModelAndView("bad verb: "+ params.getVerb());
+			 return new ModelAndView("badVerb.vm",model);
 		 }
 		 
-		 return (ModelAndView) method.invoke(this, request, response, params);
+		 return (ModelAndView) method.invoke(this, request, response, model);
 	}
 
 }
