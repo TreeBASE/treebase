@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><project>
-  <parent>
+  <!--  parent>
     <artifactId>oai-pmh_data_provider</artifactId>
     <groupId>org.treebase.oai</groupId>
     <version>0.0.1-SNAPSHOT</version>
-  </parent>
+  </parent-->
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.treebase.oai</groupId>
   <artifactId>data_provider_core</artifactId>

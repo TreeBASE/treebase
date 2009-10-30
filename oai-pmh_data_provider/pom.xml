@@ -47,7 +47,7 @@
     </license>
   </licenses>
   <modules>
-  	<module>data_provider_core</module>
+  	<!-- module>data_provider_core</module -->
   	<module>data_provider_web</module>
   </modules>
 <pluginRepositories>
@@ -154,11 +154,11 @@
   
   <dependencyManagement>
      <dependencies>
-     	<dependency>
+     	<!--  dependency>
 	  <groupId>org.treebase.oai</groupId>
         <artifactId>data_provider_core</artifactId>
         <version>${project.version}</version>
-     	</dependency>
+     	</dependency -->
      	<dependency>
 	  <groupId>org.treebase.oai</groupId>
         <artifactId>data_provider_web</artifactId>

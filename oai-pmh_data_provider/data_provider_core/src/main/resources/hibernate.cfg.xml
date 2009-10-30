@@ -26,7 +26,7 @@
 		<property name="hibernate.connection.release_mode">auto</property>
 		<property name="hibernate.query.substitutions">true 'T', false 'F'</property>
 
-		<!-- Mapping files -->
+		<!-- Mapping files use annotation -->
 		<!-- mapping package="org.cipres.treebase.domain" /-->
 		<mapping class="org.cipres.treebase.domain.AbstractPersistedObject" />
 
