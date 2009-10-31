@@ -35,10 +35,46 @@ public class OAIPMHController extends AbstractCommandController{
 		 try{
 			 method=this.getClass().getMethod(params.getVerb(), new Class[]{HttpServletRequest.class, HttpServletResponse.class, Map.class});
 		 }catch(NoSuchMethodException e){
-			 return new ModelAndView("badVerb.vm",model);
+			 
+			return new ModelAndView("badVerb.vm",model);
 		 }
 		 
-		 return (ModelAndView) method.invoke(this, request, response, model);
-	}
+		 	return (ModelAndView) method.invoke(this, request, response, model);
+		}
 
+		ModelAndView ListRecoed(HttpServletRequest request, HttpServletResponse response, Map model){
+		
+			return null;
+		
+		}
+    
+		ModelAndView ListMetadataFormats(HttpServletRequest request, HttpServletResponse response, Map model){
+		
+			return null;
+		
+		}
+
+		ModelAndView ListIdentifiers(HttpServletRequest request, HttpServletResponse response, Map model){
+	
+			return null;
+	
+		}
+
+		ModelAndView GetRecord(HttpServletRequest request, HttpServletResponse response, Map model){
+	
+			return null;
+	
+		}
+
+		ModelAndView Identify(HttpServletRequest request, HttpServletResponse response, Map model){
+	
+			return null;
+	
+		}
+		
+		ModelAndView ListSet(HttpServletRequest request, HttpServletResponse response, Map model){
+			
+			 return null;
+			
+		}
 }
