@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+
+use CIPRES::TreeBase::DBIUtil;
+use Getopt::Std;
+
+my %opt;
+getopts('1w:', \%opt) or usage();
+if ($opt{1} && $opt{w}) { usage(); }
+
+my $table = shift || usage();
+
+my $dbh = CIPRES::TreeBase::DBIUtil->dbh
+  or die "Couldn't connect to database: " . DBI->errstr;
+my $q = "SELECT * FROM $table";
+$q .= " where 1 = 0" if $opt{1};
+$q .= " where $opt{w}" if $opt{w};
+my $sth = $dbh->prepare($q)
+  or die "Couldn't prepare statement: " . $dbh->errstr;
+my $rc = $sth->execute()
+  or die "Couldn't execute statement: " . $dbh->errstr;
+while (my $row = $sth->fetchrow_hashref) {
+    push @rows, {%$row};
+}
+
+
+$dbh->disconnect;
+if ($opt{1}) {
+  print join "\n", @{$sth->{NAME}}, "";
+  exit;
+}
+
+if (@rows) {
+  print_aoh(\@rows, "--");
+} else {
+  print $opt{w} ? "No rows selected.\n" : "Empty table.\n";
+}
+
+sub usage {
+    print "$0 [-1] [-w where-clause] table-name\n";
+    print "\t-1: only print column names, in order\n";
+    print "\t-w: dump rows satisfying specified condition\n";
+    exit 1;
+}

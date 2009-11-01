@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+# preprocess DB2 dump files for importation into pg via psql command
+# 
+
+use Getopt::Std;
+my $commit_batch_size;
+my @pending; # records read but not written out
+getopts('xdn:', \%opt) or usage();
+$commit_batch_size ||= $opt{n};
+
+my $BEGIN = "BEGIN TRANSACTION;\n";
+$BEGIN .= "SET CONSTAINTS ALL DEFERRED;\n" if $opt{d};
+
+my $OK = 1;
+
+TABLE:
+for my $table (@ARGV) {
+    if (-e $table) {
+	my $FH;
+	unless (open($FH, "<", $table) ) {
+	    warn "Couldn't open file '$table': $!; skipping\n";
+	    $OK = 0;
+	    next TABLE;
+	}
+	do_table($table, $FH);
+    } elsif (-e "$table.gz") {
+	my $fh  = IO::Zlib->new;
+	unless ($fh->open("$table.gz", "rb")) {
+	    warn "Couldn't open file '$table.gz': $!; skipping\n";
+	    $OK = 0;
+	    next TABLE;
+	}
+	do_table($table, $fh);
+    } else {
+	warn "Couldn't find dump file for table '$table'; skipping\n";
+	$OK = 0;
+    }
+}
+
+sub do_table {
+    my ($table, $fh) = @_;
+    my ($start, $length);
+    local *_;
+    local *.;
+
+    while (<$fh>) {
+	if ($. == 1) {
+	    /INSERT INTO \"/ or die "unparseable";
+	    $start = $+[0] - 1;
+	    substr($_, $start) =~ /(.*\)) VALUES \(/ or die "unparseable";
+	    $length = $+[1];
+	    die unless defined($start) && defined($length);
+	}
+
+
+	substr($_, $start, $length) =~ s/"(\w+?)"/"\L$1\E"/g;
+
+	if (defined($commit_batch_size)) {
+	    push @pending, $_;
+	    if (@pending >= $commit_batch_size) {
+		print "BEGIN TRANSACTION;\n", @pending, "COMMIT;\n";
+		@pending = ();
+	    } 
+	} else {
+	    print;
+	}
+	if ($opt{x}) {
+	    warn "$.\n" if $. % 10_000 == 0;
+	}
+    }
+
+# possibly a final partial batch
+    if (@pending) {
+	print "BEGIN TRANSACTION;\n", @pending, "COMMIT;\n";
+	@pending = ();
+    }
+
+    close $fh;
+}
+
+################################################################
+
+sub usage {
+    print STDERR qq{Usage: $0 [-dx] [-n batchsize] TABLE...
+    -d            defer constraint checking to the end of each transaction
+    -x            print progress information to stderr
+    -n batchsize  commit records in batches of /batchsize/
+
+    records for TABLE are read from file TABLE or from TABLE.gz
+};
+    exit 1;
+}
