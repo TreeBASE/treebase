@@ -8,12 +8,15 @@ sub new {
     my $fn = $arg{'FIELDS'}   or croak("$class->new: FIELDS required");
     my $ct = $arg{'TYPES'}    or croak("$class->new: TYPES required");
     my $tn = uc $arg{'TABLE'} or croak("$class->new: TABLE required");
-    my $X  = my @fieldnames = map uc, @$fn;    
+    my $X  = my @fieldnames = map uc, @$fn; 
+    my $dir = $arg{'DIR'};
+    mkdir $dir if not -d $dir;   
     my $self = { 
     	'F' => \@fieldnames, 
     	'X' => $X, 
     	'N' => $tn,
-    	'T' => $ct 
+    	'T' => $ct,
+    	'D' => $dir,
     };
     bless $self => $class;
     $self->_initialize();
@@ -48,8 +51,29 @@ sub rec {
 		and croak("rec: too few items (expected $self->{X})");
 	
 	@_ = $self->quote_data(@_);
-	
-	my $values = join ", ", @_;
+	my @values;
+	if ( $self->{'N'} ne 'STUDY_NEXUSFILE' ) {
+		@values = @_;		
+	}
+	else {		
+		my @fields = @{$self->{F}};
+		my ( $dir, $path ) = ( $self->{'D'} );
+		for my $i ( 0 .. $#fields ) {
+			if ( uc $fields[$i] eq 'ID' ) {
+				$path = "$dir/".$_[$i];
+			}
+			if ( uc $fields[$i] ne 'NEXUS' ) {
+				push @values, $_[$i];
+			}
+			else {
+				open my $nexfh, '>', $path or croak $!;
+				print $nexfh $_[$i];
+				close $nexfh;
+				push @values, "lo_import('$path')";
+			}
+		}
+	}
+	my $values = join ", ", @values;
 	my $insert = $self->{'PREFIX'} . $values . $self->{'SUFFIX'};
 	return print {$self->{'OUT'}} $insert if $self->{'OUT'};
 	return $insert;

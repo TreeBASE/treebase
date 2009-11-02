@@ -18,6 +18,7 @@ my $test = 0;                  # test run: delete produced files
 my $nrecs;                     # max number of recs per table
 my $where = "";                # WHERE clause to select dumped records
 my $maxlen = 5 * 1024 * 1024;  # Maximum field length: 5 MB by default
+my $dir = 'STUDY_NEXUSFILE';   # Location to write dumped nexus files
 
 # get command line options, see Getopt::Long
 GetOptions(
@@ -28,6 +29,7 @@ GetOptions(
     'user=s'    => \$ENV{'TREEBASE_DB_USER'},
     'pass=s'    => \$ENV{'TREEBASE_DB_PASS'},
     'dsn=s'     => \$ENV{'TREEBASE_DB_DSN'},
+    'dir=s'     => \$dir,
     'table=s'   => \@tables,
     'zip'       => \$zip,
     'maxlen=i'  => \$maxlen,
@@ -83,7 +85,8 @@ $where = "WHERE $where" unless $where =~ /^\s*$/ || $where =~ /^\s*where\b/i;
         my $dumper = CIPRES::TreeBase::RecDumper->new(
             'FIELDS' => \@names,
             'TYPES'  => \@types,
-            'TABLE'  => $table
+            'TABLE'  => $table,
+            'DIR'    => $dir,
         ) or die "Couldn't instantiate CIPRES::TreeBase::RecDumper";
         
         # give dumper the output handle to write to, i.e. either STDOUT,
