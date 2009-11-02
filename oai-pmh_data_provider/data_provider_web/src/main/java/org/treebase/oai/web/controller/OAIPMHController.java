@@ -11,11 +11,17 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 import org.treebase.oai.web.command.OAIPMHCommand;
+import org.cipres.treebase.domain.study.SubmissionService;
+import org.cipres.treebase.domain.study.StudyService;
 
 public class OAIPMHController extends AbstractCommandController{
-
-	 public OAIPMHController(){
+   
+	private SubmissionService submissionService;
+	private StudyService studyService;
+	
+	public OAIPMHController(){
 		  setCommandClass(OAIPMHCommand.class);
+		  setCommandName("params");
 		 }
 	
 	@Override
@@ -26,7 +32,7 @@ public class OAIPMHController extends AbstractCommandController{
 		
 		 OAIPMHCommand params = (OAIPMHCommand) command;
 		 
-		 Map  model=new  HashMap();
+		 Map  model=errors.getModel();
 		 model.put("params", params);
 		 
 		 Method method=null;
@@ -43,38 +49,40 @@ public class OAIPMHController extends AbstractCommandController{
 		}
 
 		ModelAndView ListRecoed(HttpServletRequest request, HttpServletResponse response, Map model){
-		
-			return null;
+			
+			return (new ModelAndView(metadataPrefix+"_ListRecoed.vm",model));
 		
 		}
     
-		ModelAndView ListMetadataFormats(HttpServletRequest request, HttpServletResponse response, Map model){
 		
-			return null;
-		
-		}
 
 		ModelAndView ListIdentifiers(HttpServletRequest request, HttpServletResponse response, Map model){
-	
-			return null;
+			metadataPrefix
+			return (new ModelAndView(metadataPrefix+"_ListIdentifiers.vm",model));
 	
 		}
 
 		ModelAndView GetRecord(HttpServletRequest request, HttpServletResponse response, Map model){
-	
-			return null;
+			metadataPrefix
+			return (new ModelAndView(metadataPrefix+"_GetRecord.vm",model));
 	
 		}
 
 		ModelAndView Identify(HttpServletRequest request, HttpServletResponse response, Map model){
 	
-			return null;
+			return (new ModelAndView("Identify.vm",model));
 	
 		}
 		
 		ModelAndView ListSet(HttpServletRequest request, HttpServletResponse response, Map model){
 			
-			 return null;
+			 return (new ModelAndView("ListSet.vm",model));
 			
+		}
+		
+		ModelAndView ListMetadataFormats(HttpServletRequest request, HttpServletResponse response, Map model){
+		
+			return (new ModelAndView("ListMetadataFormats.vm",model));
+		
 		}
 }

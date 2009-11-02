@@ -19,12 +19,13 @@
     </bean>
 	
 	<!-- ========================================================== -->
-	<!-- LIST OF CONTROLLERS FOR VERBS AND FORMATS							-->
+	<!-- LIST OF CONTROLLERS FOR OAI-PMH							-->
 	<!-- ========================================================== -->
 	
-	 <!--bean id="appletInteractionController" class="org.cipres.treebase.web.controllers.AppletInteractionController">
-		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
-	</bean-->
+	 <bean id="OAIPMHController" class="org.treebase.oai.web.controller.OAIPMHController">
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="studyService"><ref bean="studyphyloTreeService"></ref></property>
+	</bean>
 	
  
 	<!-- ========================================================== -->
@@ -62,7 +63,7 @@
 		<property name="alwaysUseFullPath" value="true"/>
 			<property name="mappings">
 			<props>	
-				<!--prop key="/oai-pmh verbs/metadata formats/paramaters</prop-->			       		
+				<prop key="/top/**">OAIPMHController</prop>			       		
 			</props>
 		</property>
 	</bean>
