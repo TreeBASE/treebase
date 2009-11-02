@@ -182,7 +182,7 @@ we no longer use db2
     <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>8.3-603.jdbc4</version>
+      <version>8.3-603.jdbc3</version>
     </dependency>
 
     <dependency>
@@ -257,6 +257,22 @@ we no longer use db2
    	<groupId>dom4j</groupId>
    	<artifactId>dom4j</artifactId>
    	<version>1.6.1</version>
+   </dependency>
+
+   <dependency>
+        <groupId>javax.sql</groupId>
+        <artifactId>jdbc-stdext</artifactId>
+        <version>2.0</version>
+   </dependency>
+   <dependency>
+        <groupId>ibm</groupId>
+        <artifactId>db2jcc_license_cu</artifactId>
+        <version>2.6.80</version>
+   </dependency>
+   <dependency>
+        <groupId>ibm</groupId>
+        <artifactId>db2jcc</artifactId>
+        <version>2.6.80</version>
    </dependency>
    
    <!--dependency>
