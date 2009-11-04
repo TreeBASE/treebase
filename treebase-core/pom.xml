@@ -1,323 +1,222 @@
-<project>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.cipres.treebase</groupId>
-  <artifactId>treebase-core</artifactId>
-  <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>Cipres-treebase-core</name>
-  <url>http://www.phylo.org</url>
-  <parent>
-    <groupId>org.cipres.treebase</groupId>
-    <artifactId>treebase</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0   http://maven.apache.org/maven-v4_0_0.xsd">	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.cipres.treebase</groupId>
+	<artifactId>treebase-core</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>treebase-core</name>
+	<url>https://sourceforge.net/projects/treebase/</url>
+	<parent>
+		<groupId>org.cipres.treebase</groupId>
+		<artifactId>treebase</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
-  <build>
-    <defaultGoal>install</defaultGoal> 
+	<build>
+		<defaultGoal>install</defaultGoal>
+	</build>
 
- <!-- the following doesn't work due to a bug in maven-install-plugin 
-       in the latest maven 2.0.4: Cannot override read-only parameter
-	   You'll need to install the following 2 cipres-dev jar files
-	   from the command line so treebase-core can compile.
-	   Refer to read.txt for more information.  I leave the code
-	   here in case maven fixes its bug in a future realease -->
+	<repositories>
 
-<!--
-	<plugins>
+		<repository>
+			<id>repository.jboss.org</id>
+			<name>JBoss Maven Repository</name>
+			<url>http://repository.jboss.org/maven2</url>
+			<layout>default</layout>
+		</repository>
 
-      <plugin>
-	  	<artifactId>maven-install-plugin</artifactId>
-		   <executions>
+		<repository>
+			<id>maven2</id>
+			<name>Default Maven2 Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
 
-		   	<execution>
-			   <id>copy-cipres-framework-jar</id>
-			   <phase>install</phase>
-			   <configuration>
-			   	  <file>${env.CIPRES_ROOT}/lib/cipres/cipres_framework.jar</file>
-			   	  <groupId>org.cipres</groupId>
-			   	  <artifactId>framework</artifactId>
-			   	  <version>1.0.1</version>
-			   	  <packaging>jar</packaging>
-			   </configuration>
-			   <goals><goal>install</goal></goals>
-		   	</execution>
+		<repository>
+			<id>m2.remote.repos</id>
+			<name>Maven 2 Remote Repository</name>
+			<url>http://treebase.sourceforge.net/maven2/</url>
+		</repository>
 
-		   	<execution>
-			   <id>copy-cipres-cipresapp-jar</id>
-			   <phase>compile</phase>
-			   <configuration>
-			   	  <file>${env.CIPRES_ROOT}/lib/cipres/cipres_cipresapp.jar</file>
-			   	  <groupId>org.cipres</groupId>
-			   	  <artifactId>cipresapp</artifactId>
-			   	  <version>1.0.1</version>
-			   	  <packaging>jar</packaging>
-			   </configuration>
-			   <goals><goal>install</goal></goals>
-		   	</execution>
-		   </executions>
-      </plugin>
-	</plugins>
--->
-  </build>
+		<repository>
+			<id>m2.nexml.repos</id>
+			<name>NeXML Remote Repository</name>
+			<url>http://nexml-dev.nescent.org/.m2/repository/</url>
+		</repository>
 
-<!--  already defined in parent pom.xml -->
-  <repositories>
-  	<repository>
-      <id>m2.nexml.repos</id>
-      <name>NeXML Remote Repository</name>
-      <url>http://nexml-dev.nescent.org/.m2/repository/</url>  	
-  	</repository>
-    <repository>    
-      <id>m2.remote.repos</id>
-      <name>Maven 2 Remote Repository</name>
-      <url>http://treebase.sourceforge.net/maven2/</url>
-    </repository>
-    <repository>
-      <id>maven2</id>
-      <name>Default Maven2 Repository</name>
-      <url>http://repo1.maven.org/maven2</url>
-    </repository>
-    <repository>
-      <id>repository.jboss.org</id>
-      <name>JBoss Maven Repository</name>
-      <url>http://repository.jboss.org/maven2</url>
-      <layout>default</layout>
-    </repository>    
-       
-  </repositories>
-  
+	</repositories>
 
+	<dependencies>
 
-  <dependencies>
-    <dependency>
-     <groupId>org.acegisecurity</groupId>
-            <artifactId>acegi-security</artifactId>
-            <version>1.0.1</version>
-            <exclusions>
-                <!-- Maven thinks 2.0 is newer than 2.1-->
-                <exclusion>
-                    <groupId>commons-lang</groupId>
-                    <artifactId>commons-lang</artifactId>
-                </exclusion>
-                <!-- exclude older versions of Spring -->
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-remoting</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-jdbc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-support</artifactId>
-                </exclusion>
-            </exclusions>
-    </dependency>
+		<dependency>
+			<groupId>org.acegisecurity</groupId>
+			<artifactId>acegi-security</artifactId>
+			<version>1.0.1</version>
+			<exclusions>
+				<!-- Maven thinks 2.0 is newer than 2.1-->
+				<exclusion>
+					<groupId>commons-lang</groupId>
+					<artifactId>commons-lang</artifactId>
+				</exclusion>
+				<!-- exclude older versions of Spring -->
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-remoting</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jdbc</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-support</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-   <dependency>
-      <groupId>c3p0</groupId>
-      <artifactId>c3p0</artifactId>
-      <version>0.9.1.2</version>
-    </dependency>
-    
-    <dependency>
-		<groupId>org.nexml.model</groupId>
-		<artifactId>nexml</artifactId>
-		<version>1.5-SNAPSHOT</version>    
-    </dependency>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
 
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-annotations</artifactId>
-      <version>3.3.1.GA</version>
-      		<exclusions>
-      		        <exclusion>
-      		           <groupId>asm</groupId>
-      	      		   <artifactId>asm</artifactId>
-      		        </exclusion>
-      		        <exclusion>
-			    <groupId>asm</groupId>
-			    <artifactId>asm-attrs</artifactId>
-      		        </exclusion>
-      		        <exclusion>
-			    <groupId>cglib</groupId>
-			    <artifactId>cglib</artifactId>
-      		        </exclusion>
-      		</exclusions>
-    </dependency>
-    
-    <dependency>
-        <groupId>cglib</groupId>
-	<artifactId>cglib-nodep</artifactId>
-	<version>2.1_3</version>
-    </dependency>
+		<dependency>
+			<groupId>org.nexml.model</groupId>
+			<artifactId>nexml</artifactId>
+			<version>1.5-SNAPSHOT</version>
+		</dependency>
 
-    <!--dependency> // defined in hibernate
-      <groupId>javax.security</groupId>
-      <artifactId>jacc</artifactId>
-      <version>1.0</version>
-    </dependency-->
-    
-    <!-- dependency>
-      <groupId>javax.persistence</groupId>
-      <artifactId>ejb</artifactId>
-      <version>3.0-public-draft-20060327</version>
-    </dependency-->
-    
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.1</version>
-    </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.3.1.GA</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm-attrs</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-<!--
-we no longer use db2
-    <dependency>
-      <groupId>ibm</groupId>
-      <artifactId>db2jcc</artifactId>
-      <version>2.6.80</version>
-    </dependency>
--->
-    <dependency>
-      <groupId>postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>8.3-603.jdbc3</version>
-    </dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.1_3</version>
+		</dependency>
 
-    <dependency>
-      <groupId>mesquite</groupId>
-      <artifactId>mesquite</artifactId>
-      <version>2.01.tb</version>
-    </dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.1</version>
+		</dependency>
 
-    <dependency>
-	<groupId>org.cipres</groupId>
-	<artifactId>framework</artifactId>
-	<version>1.0.1</version>
-	<scope>compile</scope>
-    </dependency>
-    
-    <dependency>
-   	<groupId>jdom</groupId>
-   	<artifactId>jdom</artifactId>
-   	<version>1.1</version>
-   </dependency>
-   
-   <dependency>
-  	<groupId>org.apache.cxf</groupId>
-   	<artifactId>cxf-rt-frontend-jaxws</artifactId>
-   	<version>2.1.1</version>
-   	       <exclusions>
-		        <exclusion>
-		           <groupId>asm</groupId>
-	      		    <artifactId>asm</artifactId>
-		        </exclusion>
-		        
-		        <exclusion>
-		     	    <groupId>org.slf4j</groupId>
-  			    <artifactId>slf4j-jdk14</artifactId>
-   			</exclusion>
-	      </exclusions>
-   </dependency>
-   
-   <dependency>
-   	<groupId>org.apache.cxf</groupId>
-   	<artifactId>cxf-rt-transports-http</artifactId>
-   	<version>2.1.1</version>
-   	       <exclusions>
-		        <exclusion>
-		           <groupId>asm</groupId>
-	      		    <artifactId>asm</artifactId>
-		        </exclusion>
-	     
-	      		<exclusion>
-	      	    	  <groupId>org.slf4j</groupId>
-  			  <artifactId>slf4j-jdk14</artifactId>
-   		  	</exclusion>
-   	 	</exclusions>
-   </dependency>
-   
-   <dependency>
-   	<groupId>org.apache.cxf</groupId>
-   	<artifactId>cxf-rt-transports-http-jetty</artifactId>
-   	<version>2.1.1</version>
-   	  <exclusions>
-		<exclusion>
-		     <groupId>asm</groupId>
-		     <artifactId>asm</artifactId>
-		</exclusion>
-		<exclusion>
-	      	   <groupId>org.slf4j</groupId>
-  		   <artifactId>slf4j-jdk14</artifactId>
-   		 </exclusion>
-	  </exclusions>
-   </dependency>
-   <dependency>
-   	<groupId>dom4j</groupId>
-   	<artifactId>dom4j</artifactId>
-   	<version>1.6.1</version>
-   </dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>8.3-603.jdbc3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>mesquite</groupId>
+			<artifactId>mesquite</artifactId>
+			<version>2.01.tb</version>
+		</dependency>
 
-   <dependency>
-        <groupId>javax.sql</groupId>
-        <artifactId>jdbc-stdext</artifactId>
-        <version>2.0</version>
-   </dependency>
-   <dependency>
-        <groupId>ibm</groupId>
-        <artifactId>db2jcc_license_cu</artifactId>
-        <version>2.6.80</version>
-   </dependency>
-   <dependency>
-        <groupId>ibm</groupId>
-        <artifactId>db2jcc</artifactId>
-        <version>2.6.80</version>
-   </dependency>
-   
-   <!--dependency>
-   	<groupId>asm</groupId>
-   	<artifactId>asm-all</artifactId>
-   	<version>2.2.3</version>
-   </dependency-->	
-   
-   <!--dependency>
-       	<groupId>org.codehaus.xfire</groupId>
-    	<artifactId>xfire-spring</artifactId>
-      	<version>1.2.6</version>
-    </dependency-->
-       
-    <!--dependency>
-        <groupId>org.codehaus.xfire</groupId>
-       	<artifactId>xfire-jaxws</artifactId>
-        <version>1.2.6</version>
-        <This exclusions was inserted on April 23, 2008 Madhu>
-        <Just to make sure that there is no XML parsing problem when was war file is created with maven>
-        <exclusions>
-	        <exclusion>
-	           <groupId>com.sun.xml.bind</groupId>
-      		    <artifactId>jaxb-xjc</artifactId>
-	        </exclusion>
-	        <exclusion>
-	           <groupId>xml-apis</groupId>
-      		    <artifactId>xml-apis</artifactId>
-	        </exclusion>
-	        <exclusion>
-	           <groupId>xerces</groupId>
-      		    <artifactId>xercesImpl</artifactId>
-	        </exclusion>
-      </exclusions>
-    </dependency-->
-   
-    <!-- dependency>
-    <stax should be refered by xfire-core, but it does not work for some reason >
-        <groupId>stax</groupId>
-       	<artifactId>stax</artifactId>
-        <version>1.2.0</version>
-    </dependency--> 
-    
-   
-    
-  </dependencies>
+		<dependency>
+			<groupId>org.cipres</groupId>
+			<artifactId>framework</artifactId>
+			<version>1.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>2.1.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-jdk14</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>2.1.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-jdk14</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>2.1.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-jdk14</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.sql</groupId>
+			<artifactId>jdbc-stdext</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ibm</groupId>
+			<artifactId>db2jcc_license_cu</artifactId>
+			<version>2.6.80</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ibm</groupId>
+			<artifactId>db2jcc</artifactId>
+			<version>2.6.80</version>
+		</dependency>
+
+	</dependencies>
 
 </project>
