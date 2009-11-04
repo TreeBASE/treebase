@@ -39,6 +39,6 @@ package org.cipres.treebase;
  *
  */
 public class Version {
-	public static final String VCSID = "##VCSID##";
-	public static final String VCSDateString = "##VCSDATESTRING##";
+	public static final String VCSID = "245";
+	public static final String VCSDateString = "2009-11-04 15:03:06 +0000 (Wed, 04 Nov 2009)";
 }

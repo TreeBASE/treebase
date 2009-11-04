@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.cipres.treebase.service.nexus;
 
 import java.io.ByteArrayInputStream;
