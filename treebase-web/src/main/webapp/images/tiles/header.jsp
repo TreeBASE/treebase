@@ -1,5 +1,11 @@
+<%--
+This threw an error in the new eclipse, but the file never
+existed in the first place. Perhaps we didn't validate as
+stringently before? Let's see how this works if we just 
+leave it out.
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
-
+ --%>
+ 
 <tiles:importAttribute/>
 
 <table bgcolor="lightblue" cellspacing="2" cellpadding="2" border="0" width="100%">
