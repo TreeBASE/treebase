@@ -4,7 +4,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/treebase-core/treebase-core">
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/treebase/treebase">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="data_provider_web"/>

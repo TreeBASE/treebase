@@ -25,6 +25,7 @@
 	 <bean id="OAIPMHController" class="org.treebase.oai.web.controller.OAIPMHController">
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
 		<property name="studyService"><ref bean="studyphyloTreeService"></ref></property>
+	    <property name="identify"><ref bean="top.identify"></ref></property>
 	</bean>
 	
  

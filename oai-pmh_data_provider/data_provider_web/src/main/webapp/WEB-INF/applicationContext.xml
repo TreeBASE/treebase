@@ -9,6 +9,28 @@
     http://www.directwebremoting.org/schema/spring-dwr  
     http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
 
+ 	<bean id="top.propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+		<list>
+		 	<value>/WEB-INF/identify.properties</value>			
+		</list>
+		</property>
+	</bean>
+	
+	<bean id="top.identify" class="org.treebase.oai.web.command.Identify">
+		<property name="baseRUL" value="${identify.baseRUL}" />
+		<property name="repositoryName" value="${identify.repositoryName}" />
+		<property name="protocolVersion" value="${identify.protocolVersion}" />
+		<property name="adminEmail" value="${identify.adminEmail}" />	
+		<property name="earliestDatestamp" value="${identify.earliestDatestamp}" />
+		<property name="deletedRecord" value="${identify.deletedRecord}" />
+		<property name="granularity" value="${identify.granularity}" />	
+		<property name="granularityPattern" value="${identify.granularityPattern}" />	
+				
+	</bean>
+ 	 	
  	<!-- ========================================================== -->
 	<!-- LIST OF DWR beans/methods -->
 	<!-- ========================================================== -->

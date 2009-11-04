@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+    http://www.directwebremoting.org/schema/spring-dwr  
+    http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+    <!-- ========================================================== -->
+	<!-- velocity configure							                -->
+	<!-- ========================================================== -->
+
+   <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+    <property name="resourceLoaderPath">
+      <value>WEB-INF/vmFiles/</value>
+    </property>
+    </bean>
+	
+	<!-- ========================================================== -->
+	<!-- LIST OF CONTROLLERS FOR VERBS AND FORMATS							-->
+	<!-- ========================================================== -->
+	
+	 <!--bean id="appletInteractionController" class="org.cipres.treebase.web.controllers.AppletInteractionController">
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+	</bean-->
+	
+ 
+	<!-- ========================================================== -->
+	<!-- LIST OF VALIDATORS FOR CONTROLLER							-->
+	<!-- ========================================================== -->
+	
+	
+	<!-- ========================================================== -->
+	<!-- MESSAGE SOURCE DEFINITION									-->
+	<!-- ========================================================== -->
+	<!--bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename"><value>ApplicationResources</value></property>
+	</bean-->
+	
+	<!-- ========================================================== -->
+	<!-- Spring View Resolvers for Templates								-->
+	<!-- ========================================================== -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="suffix">
+            <value>.vm</value>
+        </property>
+        <property name="exposeRequestAttributes">
+            <value>true</value>
+        </property>
+        <property name="exposeSessionAttributes">
+            <value>true</value>
+         </property>
+    </bean>
+    
+	<!-- ========================================================== -->
+	<!-- URL MAPPING												-->
+	<!-- ========================================================== -->
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	
+		<property name="alwaysUseFullPath" value="true"/>
+			<property name="mappings">
+			<props>	
+				<!--prop key="/oai-pmh verbs/metadata formats/paramaters</prop-->			       		
+			</props>
+		</property>
+	</bean>
+	<!-- ==================================================================================================== -->
+	<!-- Exception Mappings											                                          -->
+	<!-- This bean resolves specific types of exception to corresponding error views                          -->
+	<!-- The default behavior of DispatcherServlet is to propagate all exceptions to the servlet container    -->
+	<!-- This will happen here with all other types of exception                                              -->
+	<!-- ==================================================================================================== -->
+	<!--bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.dao.DataAccessException">/errors/dataAccessFailure</prop>
+				<prop key="org.springframework.transaction.TransactionException">/errors/dataAccessFailure</prop>
+				<prop key="org.cipres.treebase.web.exceptions.EmptyStudyException">/errors/studyAccessFailure</prop>
+			</props>
+		</property>
+	</bean-->
+	
+</beans>
