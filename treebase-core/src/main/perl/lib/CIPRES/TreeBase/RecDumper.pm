@@ -1,5 +1,7 @@
 package CIPRES::TreeBase::RecDumper;
 use Carp 'croak';
+use File::Temp qw(tempfile);
+use strict;
 
 # XXX LOB fields should be removed from fieldlist and handled separately
 sub new {
@@ -49,29 +51,26 @@ sub rec {
 		and croak("rec: too many items (expected $self->{X})");
 	@_ < @{$self->{F}}
 		and croak("rec: too few items (expected $self->{X})");
-	
-	@_ = $self->quote_data(@_);
 	my @values;
 	if ( $self->{'N'} ne 'STUDY_NEXUSFILE' ) {
-		@values = @_;		
+		@values = $self->quote_data(@_);
 	}
 	else {		
+		my ( %record, $dir, $path );
+		eval {
 		my @fields = @{$self->{F}};
-		my ( $dir, $path ) = ( $self->{'D'} );
-		for my $i ( 0 .. $#fields ) {
-			if ( uc $fields[$i] eq 'ID' ) {
-				$path = "$dir/".$_[$i];
-			}
-			if ( uc $fields[$i] ne 'NEXUS' ) {
-				push @values, $_[$i];
-			}
-			else {
-				open my $nexfh, '>', $path or croak $!;
-				print $nexfh $_[$i];
-				close $nexfh;
-				push @values, "lo_import('$path')";
-			}
-		}
+		%record = map { $fields[$_] => $_[$_] } ( 0 .. $#fields );
+#		$dir = $self->{'D'} . '/' . $record{STUDY_ID};
+#		mkdir $dir if not -d $dir;
+#		$path = $dir . '/' . $record{FILENAME};
+		my ( $fh, $filename ) = tempfile( DIR => $self->{'D'} );
+		@values = ( $self->quote_data($record{STUDY_ID}), "lo_import('$filename')", $self->quote_data($record{FILENAME}) );
+#		open my $nexfh, '>', $path or croak $!;		
+		print $fh substr( $record{NEXUS}, 1, length($record{NEXUS}) - 2 );
+		close $fh;
+		system('gzip','-9',$filename);
+		};
+		warn 'dir: ', $dir, ' path: ', $path, ' file: ', $record{FILENAME}, ' id: ', $record{STUDY_ID}, ' msg: ', $@ if $@;
 	}
 	my $values = join ", ", @values;
 	my $insert = $self->{'PREFIX'} . $values . $self->{'SUFFIX'};
@@ -81,6 +80,7 @@ sub rec {
 
 # Format metadata into a create statement and return (or write) the result
 sub dump_create {
+	my $self = shift;
 	my $create = qq{CREATE TABLE "$self->{'N'}";\n};
 	return print {$self->{'OUT'}} $create if $self->{'OUT'};
 	return $create;		
