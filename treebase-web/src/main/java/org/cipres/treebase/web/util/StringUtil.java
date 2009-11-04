@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.cipres.treebase.web.util;
 
 import java.security.MessageDigest;

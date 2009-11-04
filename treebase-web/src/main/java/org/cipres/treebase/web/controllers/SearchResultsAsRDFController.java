@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.cipres.treebase.web.controllers;
 
 import java.net.URLEncoder;
