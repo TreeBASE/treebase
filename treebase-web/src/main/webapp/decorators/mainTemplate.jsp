@@ -7,7 +7,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><%@ include file="/common/meta.jsp" %>
-<title>TreeBase Web<decorator:title/></title>
+<title>TreeBASE Web<decorator:title/></title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/styles.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/menuExpandable2.css'/>" />
 <script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
