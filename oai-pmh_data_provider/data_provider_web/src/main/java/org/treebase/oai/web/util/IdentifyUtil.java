@@ -2,7 +2,7 @@ package org.treebase.oai.web.util;
 
 import org.treebase.oai.web.command.OAIPMHCommand;
 
-public class ParamsUtil {
+public class IdentifyUtil {
 
 	public static boolean badMetadataPrefix(OAIPMHCommand params){
 		if (params.getMetadataPrefix().toLowerCase()=="dc") 
