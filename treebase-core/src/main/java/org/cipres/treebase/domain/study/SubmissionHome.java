@@ -1,6 +1,7 @@
 
 package org.cipres.treebase.domain.study;
 
+import java.util.Date;
 import java.util.Collection;
 
 import org.cipres.treebase.domain.DomainHome;
@@ -70,4 +71,5 @@ public interface SubmissionHome extends DomainHome {
 	Collection<Submission> findByPublishedState();
 
 	Collection<Submission> findByInProgressState();
+	Collection<Submission> findByCreateDateRange(Date from, Date util);
 }

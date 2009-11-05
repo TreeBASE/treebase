@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.study;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 
 import org.cipres.treebase.dao.jdbc.NexusDataSetJDBC;
 import org.cipres.treebase.domain.admin.User;
@@ -40,6 +41,7 @@ public interface SubmissionService extends AbstractService {
 
 	Collection<Submission> findPublishedSubmissions();
 
+	Collection<Submission> findSubmissionByCreateDateRange(Date from, Date util);
 	/**
 	 * Create a submission, which associates with a new study. A submitter is required.
 	 * 

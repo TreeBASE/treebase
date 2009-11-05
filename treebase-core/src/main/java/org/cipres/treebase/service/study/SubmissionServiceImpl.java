@@ -928,8 +928,18 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 		return getSubmissionHome().findByMatrix(pMatrix);
 	}
 
+	
+	public Collection<Submission> findSubmissionByCreateTimeRange(Date from, Date util) {
+		
+
+		return getSubmissionHome().findByCreateDateRange(from, util);
+	}
+
+	
+	
 	@Override
 	public Class defaultResultClass() {
 		return Submission.class;
 	}
+	
 }

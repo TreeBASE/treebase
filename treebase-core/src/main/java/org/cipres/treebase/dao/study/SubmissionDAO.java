@@ -2,6 +2,7 @@
 package org.cipres.treebase.dao.study;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -139,6 +140,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 		return q.list();
 	}
 
+	
 	/**
 	 * 
 	 * @see org.cipres.treebase.domain.study.SubmissionHome#findByReadyState()
@@ -180,6 +182,15 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 		q.setString("accNumber", pAccNumber.toLowerCase());
 
 		return (Submission) q.uniqueResult();
+	}
+	
+	public Collection<Submission> findByCreateDateRange(Date from, Date util) {
+		Query q = getSession().createQuery(
+			"from Submission as sub where sub.createDate between :begin and :end");
+
+		q.setDate("begin", from);
+		q.setDate("end", util);
+		return q.list();
 	}
 
 }
