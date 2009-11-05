@@ -929,7 +929,7 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 	}
 
 	
-	public Collection<Submission> findSubmissionByCreateTimeRange(Date from, Date util) {
+	public Collection<Submission> findSubmissionByCreateDateRange(Date from, Date util) {
 		
 
 		return getSubmissionHome().findByCreateDateRange(from, util);
