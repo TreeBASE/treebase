@@ -1,6 +1,7 @@
 package org.treebase.oai.web.controller;
 
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 import org.treebase.oai.web.command.Identify;
 import org.treebase.oai.web.command.OAIPMHCommand;
-import org.treebase.oai.web.util.ParamsUtil;
+import org.treebase.oai.web.util.IdentifyUtil;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.domain.study.StudyService;
@@ -76,7 +77,7 @@ public class OAIPMHController extends AbstractCommandController{
 		 
 		 Method method=null;
 		 
-		 if(ParamsUtil.badMetadataPrefix(params))
+		 if(IdentifyUtil.badMetadataPrefix(params))
 			 
 			 return new ModelAndView("cannotDisseminateFormat.vm",model);
 		 
@@ -96,7 +97,14 @@ public class OAIPMHController extends AbstractCommandController{
 		ModelAndView ListRecoed(HttpServletRequest request, HttpServletResponse response, OAIPMHCommand params, Map model){
 			
 			List<Submission> list=null;
-			model.put("recodeList", list);;
+			try {
+				list = (List)submissionService.findSubmissionByCreateDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getFrom()), 
+						IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getUntil()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				return (new ModelAndView("badArgument.vm",model));
+			}
+			model.put("recodeList", list);
 			return (new ModelAndView(params.getMetadataPrefix()+"_ListRecoed.vm",model));
 		
 		}
@@ -105,6 +113,13 @@ public class OAIPMHController extends AbstractCommandController{
 		ModelAndView ListIdentifiers(HttpServletRequest request, HttpServletResponse response, OAIPMHCommand params, Map model){
 			
 			List<Submission> list=null;
+			try {
+				list = (List)submissionService.findSubmissionByCreateDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getFrom()), 
+						IdentifyUtil.parseGranularity(identify.getGranularityPattern(), params.getUntil()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				return (new ModelAndView("badArgument.vm",model));
+			}
 			model.put("recodeList", list);
 			return (new ModelAndView(params.getMetadataPrefix()+"_ListIdentifiers.vm",model));
 	
@@ -115,7 +130,7 @@ public class OAIPMHController extends AbstractCommandController{
 			Submission submission = null;  
 			
 			try{
-				 long id = ParamsUtil.parseID(params);
+				 long id = IdentifyUtil.parseID(params);
 			     submission = studyService.findByID(id).getSubmission();
 			}catch(NumberFormatException nfe){
 				return (new ModelAndView("badArgument.vm",model));
@@ -149,7 +164,7 @@ public class OAIPMHController extends AbstractCommandController{
 			Submission submission = null;  
 			
 			try{
-				 long id = ParamsUtil.parseID(params);
+				 long id = IdentifyUtil.parseID(params);
 			     submission = studyService.findByID(id).getSubmission();
 			}catch(NumberFormatException nfe){
 				return (new ModelAndView("badArgument.vm",model));

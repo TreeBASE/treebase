@@ -10,6 +10,13 @@ import java.util.TimeZone;
 
 public class Identify {
 
+	public String getGranularityPattern() {
+		return granularityPattern;
+	}
+	public void setGranularityPattern(String granularityPattern) {
+		this.granularityPattern = granularityPattern;
+	}
+
 	private String baseRUL;
 	private String repositoryName;
 	private String protocolVersion;
