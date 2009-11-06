@@ -41,7 +41,7 @@ public interface SubmissionService extends AbstractService {
 
 	Collection<Submission> findPublishedSubmissions();
 
-	Collection<Submission> findSubmissionByCreateDateRange(Date from, Date util);
+	Collection<Submission> findSubmissionByCreateDateRange(Date from, Date until);
 	/**
 	 * Create a submission, which associates with a new study. A submitter is required.
 	 * 

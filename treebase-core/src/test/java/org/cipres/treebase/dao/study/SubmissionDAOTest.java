@@ -1,6 +1,8 @@
 package org.cipres.treebase.dao.study;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -165,6 +167,23 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 			logger.info(testName + " verified. submission size = " + count);
 		}
 	}
+	
+	public void testFindByCreateDateRange() {
+		String testName = "testFindByCreateDateRange";
+		if (logger.isInfoEnabled()) {
+			logger.info("\n\t\tRunning Test: " + testName);
+		}
+		
+		Date from = (new GregorianCalendar(2006,1,1)).getTime();
+		Date until = (new GregorianCalendar(2007,1,1)).getTime();
+		
+		Collection<Submission> s = getFixture().findByCreateDateRange(from, until);
+		assertTrue(s.size() > 0);
+		if (logger.isInfoEnabled()) {
+			logger.info("\n\t\tRunning Test: found " + s.size());
+		}
+	}
+	
 	
 }
 

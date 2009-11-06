@@ -184,12 +184,12 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 		return (Submission) q.uniqueResult();
 	}
 	
-	public Collection<Submission> findByCreateDateRange(Date from, Date util) {
+	public Collection<Submission> findByCreateDateRange(Date from, Date until) {
 		Query q = getSession().createQuery(
-			"from Submission as sub where sub.createDate between :begin and :end");
+			"from Submission where createdate between :begin and :end");
 
 		q.setDate("begin", from);
-		q.setDate("end", util);
+		q.setDate("end", until);
 		return q.list();
 	}
 
