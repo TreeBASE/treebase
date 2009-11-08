@@ -14,10 +14,7 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 		super();
 	}
 
-	/**
-	 * 
-	 * @see org.springframework.test.AbstractDependencyInjectionSpringContextTests#getConfigLocations()
-	 */
+	
 	@Override
 	protected String[] getConfigLocations() {
 		return CoreServiceLauncher.getSpringConfigurations();

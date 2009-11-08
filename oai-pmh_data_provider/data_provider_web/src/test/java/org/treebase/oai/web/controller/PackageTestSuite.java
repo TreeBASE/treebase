@@ -7,10 +7,10 @@ public class PackageTestSuite {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for org.cipres.treebase.auxdata");
-		//$JUnit-BEGIN$
+	
 		suite.addTestSuite(OAIPMHControllerTest.class);
 		
-		//$JUnit-END$
+	
 		return suite;
 	}
 
