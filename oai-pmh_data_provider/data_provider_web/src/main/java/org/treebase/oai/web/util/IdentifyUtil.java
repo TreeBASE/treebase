@@ -9,9 +9,15 @@ import java.util.TimeZone;
 
 import org.treebase.oai.web.command.Identify;
 import org.treebase.oai.web.command.OAIPMHCommand;
-
+/*
+ * 
+ * @author youjun
+ *
+ */
 public class IdentifyUtil {
 
+	// check if the MetadataPrefix in the params is supported by the service
+	
 	public static boolean badMetadataPrefix(OAIPMHCommand params){
 		if (params.getMetadataPrefix().toLowerCase()=="dc") 
 			return false;
@@ -20,11 +26,17 @@ public class IdentifyUtil {
 		return true;
 	}
 	
+	// return a studyID by parsing params.identifier
+	
 	public static long parseID(OAIPMHCommand params)
 	{
-		String [] ids = params.getIdentifier().split("/");
-		return Long.parseLong(ids[ids.length-1]);		 
+		String [] ids = params.getIdentifier().split("[/:.]");
+		
+		return Long.parseLong(ids[ids.length-1].replaceAll("[a-zA-Z]",""));		 
 	}
+	
+	
+	// convert a time String to date object based on granularity
 	
 	public static Date parseGranularity(String granularity, String time ) throws ParseException
 	{
@@ -35,6 +47,8 @@ public class IdentifyUtil {
 		
 		  
 	}
+	
+	//convert a date object from utc to local 
 	
 	protected static Date utcToLocal(Date utcDate)
 	{

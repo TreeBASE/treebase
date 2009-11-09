@@ -9,7 +9,7 @@ public class PackageTestSuite {
 		TestSuite suite = new TestSuite("Test for org.cipres.treebase.auxdata");
 		
 		suite.addTestSuite(IdentifyTest.class);
-		suite.addTestSuite(OAIPMHCommandTest.class);
+	
 	
 		
 		return suite;

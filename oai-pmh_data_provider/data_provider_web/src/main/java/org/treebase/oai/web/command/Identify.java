@@ -6,7 +6,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
-
+/**
+ * 
+ * @author youjun
+ * class hold identify data about the service
+ */
 
 public class Identify {
 
@@ -69,6 +73,7 @@ public class Identify {
 		this.granularity = granularity;
 	}
 	
+	// return a current date object in UTC 
 	public String getResponseDate(Date date){				         
 	     SimpleDateFormat format = new SimpleDateFormat(granularityPattern);
 	     Calendar cal = Calendar.getInstance(new SimpleTimeZone(0, "GMT"));

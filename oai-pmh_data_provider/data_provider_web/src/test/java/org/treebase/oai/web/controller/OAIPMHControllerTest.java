@@ -10,10 +10,11 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 	/**
 	 * constructor.
 	 */
-	public OAIPMHControllerTest () {
-		super();
-	}
+	
 
+	public void testXXXX() {
+		
+	}
 	
 	@Override
 	protected String[] getConfigLocations() {
