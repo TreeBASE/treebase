@@ -12,9 +12,22 @@
           <string>META-INF/MANIFEST.MF</string>
           <string>uncaughtException.jsp</string>
           <string>WEB-INF/applicationContext.xml</string>
+          <string>WEB-INF/identify.properties</string>
           <string>WEB-INF/top-security.xml</string>
           <string>WEB-INF/top-servlet.xml</string>
+          <string>WEB-INF/vmFiles/badArgument.vm</string>
+          <string>WEB-INF/vmFiles/badVerb.vm</string>
+          <string>WEB-INF/vmFiles/cannotDisseminateFormat.vm</string>
+          <string>WEB-INF/vmFiles/GetRecord.vm</string>
+          <string>WEB-INF/vmFiles/idDoesNotExist.vm</string>
+          <string>WEB-INF/vmFiles/Identify.vm</string>
+          <string>WEB-INF/vmFiles/ListMetadataFormats.vm</string>
+          <string>WEB-INF/vmFiles/ListSet.vm</string>
           <string>WEB-INF/web.xml</string>
+          <string>WEB-INF/classes/org/treebase/oai/web/command/Identify.class</string>
+          <string>WEB-INF/classes/org/treebase/oai/web/command/OAIPMHCommand.class</string>
+          <string>WEB-INF/classes/org/treebase/oai/web/controller/OAIPMHController.class</string>
+          <string>WEB-INF/classes/org/treebase/oai/web/util/IdentifyUtil.class</string>
           <string>WEB-INF/lib/spring-2.0.7.jar</string>
           <string>WEB-INF/lib/commons-logging-1.1.jar</string>
           <string>WEB-INF/lib/log4j-1.2.13.jar</string>

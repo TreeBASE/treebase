@@ -11,14 +11,12 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 	 * constructor.
 	 */
 	
-
-	public void testXXXX() {
-		
-	}
-	
 	@Override
 	protected String[] getConfigLocations() {
-		return CoreServiceLauncher.getSpringConfigurations();
+		return new String[]{"applicationContext.xml"};
 	}
 
+	public void testHandle() {
+		this.assertEquals(true, true);
+	}
 }
