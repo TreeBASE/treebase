@@ -82,7 +82,7 @@ public class OAIPMHController extends AbstractCommandController{
 			 return new ModelAndView("cannotDisseminateFormat.vm",model);
 		 
 		 try{
-			 method=this.getClass().getMethod(params.getVerb(), new Class[]{HttpServletRequest.class, HttpServletResponse.class, OAIPMHCommand.class, Map.class});
+			 method=this.getClass().getMethod(params.getVerb(), new Class[]{OAIPMHCommand.class, Map.class});
 		 }catch(NoSuchMethodException nsme){
 			 
 			return new ModelAndView("badVerb.vm",model);
@@ -90,11 +90,11 @@ public class OAIPMHController extends AbstractCommandController{
 			 return (new ModelAndView("badArgument.vm",model));
 		 }
 		 
-		 return (ModelAndView) method.invoke(this, request, response, params, model);
+		 return (ModelAndView) method.invoke(this, params, model);
 	
 	    }
 
-		ModelAndView ListRecoed(HttpServletRequest request, HttpServletResponse response, OAIPMHCommand params, Map model){
+		ModelAndView ListRecoed(OAIPMHCommand params, Map model){
 			
 			List<Submission> list=null;
 			try {
@@ -110,7 +110,7 @@ public class OAIPMHController extends AbstractCommandController{
 		}
     		
 
-		ModelAndView ListIdentifiers(HttpServletRequest request, HttpServletResponse response, OAIPMHCommand params, Map model){
+		ModelAndView ListIdentifiers( OAIPMHCommand params, Map model){
 			
 			List<Submission> list=null;
 			try {
@@ -125,7 +125,7 @@ public class OAIPMHController extends AbstractCommandController{
 	
 		}
 
-		ModelAndView GetRecord(HttpServletRequest request, HttpServletResponse response, OAIPMHCommand params, Map model){
+		ModelAndView GetRecord( OAIPMHCommand params, Map model){
 			
 			Submission submission = null;  
 			
@@ -145,20 +145,20 @@ public class OAIPMHController extends AbstractCommandController{
 	
 		}
 
-		ModelAndView Identify(HttpServletRequest request, HttpServletResponse response, OAIPMHCommand params, Map model){
+		ModelAndView Identify(OAIPMHCommand params, Map model){
 	
 			
 			return (new ModelAndView("Identify.vm",model));
 	
 		}
 		
-		ModelAndView ListSet(HttpServletRequest request, HttpServletResponse response, OAIPMHCommand params, Map model){
+		ModelAndView ListSet(OAIPMHCommand params, Map model){
 			
 			 return (new ModelAndView("ListSet.vm",model));
 			
 		}
 		
-		ModelAndView ListMetadataFormats(HttpServletRequest request, HttpServletResponse response, OAIPMHCommand params, Map model){
+		ModelAndView ListMetadataFormats(OAIPMHCommand params, Map model){
 		
    
 			Submission submission = null;  
