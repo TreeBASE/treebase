@@ -18,7 +18,7 @@
     <property name="user.name" value="youjun"/>
     <property name="user.language" value="en"/>
     <property name="sun.boot.library.path" value="C:\Java\sdk\jdk\jre\bin"/>
-    <property name="classworlds.conf" value="C:\eclipse\workspace\.metadata\.plugins\org.maven.ide.eclipse\launches\m2conf6482424883845288848.tmp"/>
+    <property name="classworlds.conf" value="C:\eclipse\workspace\.metadata\.plugins\org.maven.ide.eclipse\launches\m2conf3142349244246216166.tmp"/>
     <property name="java.version" value="1.6.0_16"/>
     <property name="env.PROCESSOR_IDENTIFIER" value="x86 Family 15 Model 3 Stepping 4, GenuineIntel"/>
     <property name="user.timezone" value="America/New_York"/>
@@ -48,6 +48,7 @@
     <property name="user.variant" value=""/>
     <property name="env.USERPROFILE" value="C:\Documents and Settings\youjun"/>
     <property name="env.LIB" value="C:\Program Files\Microsoft Visual Studio .NET 2003\SDK\v1.1\Lib\;C:\Program Files\Microsoft Visual Studio\VC98\mfc\lib;C:\Program Files\Microsoft Visual Studio\VC98\lib"/>
+    <property name="mesquite.folder_dir" value="/home/mjd/Mesquite_Folder/"/>
     <property name="env.JAVA_HOME" value="C:\Java\sdk\jdk\jre\bin"/>
     <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
     <property name="env.TMP" value="C:\DOCUME~1\youjun\LOCALS~1\Temp"/>

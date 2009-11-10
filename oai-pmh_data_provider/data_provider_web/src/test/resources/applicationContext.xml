@@ -28,7 +28,8 @@
 		<property name="deletedRecord" value="${identify.deletedRecord}" />
 		<property name="granularity" value="${identify.granularity}" />	
 		<property name="granularityPattern" value="${identify.granularityPattern}" />	
-				
+		<property name="repositoryIdentifier" value="${identify.repositoryIdentifier}" />	
+		<property name="sampleIdentifier" value="${identify.sampleIdentifier}" />		
 	</bean>
  	 	
  	<!-- ========================================================== -->

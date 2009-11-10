@@ -29,7 +29,23 @@ public class Identify {
 	private String deletedRecord;
 	private String granularity;
 	private String granularityPattern;
+	private String repositoryIdentifier;
+	private String sampleIdentifier;
 	
+	
+	public String getRepositoryIdentifier() {
+		return repositoryIdentifier;
+	}
+	public void setRepositoryIdentifier(String repositoryIdentifier) {
+		this.repositoryIdentifier = repositoryIdentifier;
+	}
+	public String getSampleIdentifier() {
+		return sampleIdentifier;
+	}
+	public void setSampleIdentifier(String sampleIdentifier) {
+		this.sampleIdentifier = sampleIdentifier;
+	}
+
 	public String getBaseRUL() {
 		return baseRUL;
 	}
@@ -74,11 +90,11 @@ public class Identify {
 	}
 	
 	// return a current date object in UTC 
-	public String getResponseDate(Date date){				         
+	public String getResponseDate(){				         
 	     SimpleDateFormat format = new SimpleDateFormat(granularityPattern);
 	     Calendar cal = Calendar.getInstance(new SimpleTimeZone(0, "GMT"));
 	     format.setCalendar(cal);
-	     return format.format(date);
+	     return format.format(new Date());
 	         
 	} 
 	

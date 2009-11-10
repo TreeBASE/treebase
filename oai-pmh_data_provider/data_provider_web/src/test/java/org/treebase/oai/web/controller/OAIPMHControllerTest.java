@@ -1,26 +1,30 @@
 package org.treebase.oai.web.controller;
 
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 import org.springframework.web.servlet.ModelAndView;
 import org.treebase.oai.web.command.Identify;
+import org.treebase.oai.web.command.OAIPMHCommand;
 
 
 
 public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringContextTests {
 
-	/**
-	 * constructor.
-	 * 
-	 */ 
 	
-	VelocityUtil vu;
+	
+	VelocityUtil vu= new VelocityUtil();; 
+	
+	//OAIPMHCommand command;
 	 
 	private OAIPMHController controller;		
 	
@@ -34,15 +38,20 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 		this.identify = identify;
 	}
 	
-	
+	// velocity utils for test only 
 	class VelocityUtil{
 	   VelocityEngine ve;
 	   
 	   VelocityUtil(){
 		   ve = new VelocityEngine();
+		   Properties p = new Properties();  
+		   p.setProperty(Velocity.INPUT_ENCODING, "UTF-8");  
+		   p.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");  
+		   p.setProperty("file.resource.loader.class", 
+				   "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");  
 
 		   try {
-			        ve.init();
+			        ve.init(p);
 		       } catch (Exception e) {
 			// TODO Auto-generated catch block
 			   logger.info(e.getMessage());
@@ -53,7 +62,7 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 		   StringWriter writer=null;
 		   Template t=null;
 		try {
-			t = ve.getTemplate(mav.getViewName());
+			t = ve.getTemplate("\\"+mav.getViewName());
 		
 		   VelocityContext context = new VelocityContext();
    		   context.put("model", mav.getModel());
@@ -80,11 +89,17 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 				"classpath*:applicationContext-dao.xml","classpath*:applicationContext-service.xml"};
 	}
 
-	public void setup(){
-		vu= new VelocityUtil();
-	}
 	
-	public void testHandle() {
-		this.assertEquals(true, true);
+	public void testIdentify() {
+		
+		OAIPMHCommand params=new OAIPMHCommand();
+		params.setVerb("Identify");
+		Map model=new HashMap();
+		model.put("identify",identify );		
+		ModelAndView mav=controller.Identify(params, model);
+		String result=vu.runTemplate(mav);		
+		this.assertNotNull(result);
+		System.out.print(result);
+		
 	}
 }
