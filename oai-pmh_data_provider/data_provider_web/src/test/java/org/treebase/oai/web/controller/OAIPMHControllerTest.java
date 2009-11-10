@@ -76,7 +76,8 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 
 	@Override
 	protected String[] getConfigLocations() {
-		return new String[]{"applicationContext.xml","top-servlet.xml"};
+		return new String[]{"applicationContext.xml","top-servlet.xml",
+				"classpath*:applicationContext-dao.xml","classpath*:applicationContext-service.xml"};
 	}
 
 	public void setup(){
