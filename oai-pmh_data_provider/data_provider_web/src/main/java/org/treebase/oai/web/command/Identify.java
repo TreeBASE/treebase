@@ -14,14 +14,8 @@ import java.util.TimeZone;
 
 public class Identify {
 
-	public String getGranularityPattern() {
-		return granularityPattern;
-	}
-	public void setGranularityPattern(String granularityPattern) {
-		this.granularityPattern = granularityPattern;
-	}
 
-	private String baseRUL;
+	private String baseURL;
 	private String repositoryName;
 	private String protocolVersion;
 	private String adminEmail;
@@ -31,7 +25,37 @@ public class Identify {
 	private String granularityPattern;
 	private String repositoryIdentifier;
 	private String sampleIdentifier;
+	private String dryadPerfix;
+	private String identifierDelimiter;
+	private String dublinPerfix;
 	
+	
+	public String getGranularityPattern() {
+		return granularityPattern;
+	}
+	public void setGranularityPattern(String granularityPattern) {
+		this.granularityPattern = granularityPattern;
+	}
+
+	
+	public String getIdentifierDelimiter() {
+		return identifierDelimiter;
+	}
+	public void setIdentifierDelimiter(String identifierDelimiter) {
+		this.identifierDelimiter = identifierDelimiter;
+	}
+	public String getDublinPerfix() {
+		return dublinPerfix;
+	}
+	public void setDublinPerfix(String dublinPerfix) {
+		this.dublinPerfix = dublinPerfix;
+	}
+	public String getDryadPerfix() {
+		return dryadPerfix;
+	}
+	public void setDryadPerfix(String dryadPerfix) {
+		this.dryadPerfix = dryadPerfix;
+	}	
 	
 	public String getRepositoryIdentifier() {
 		return repositoryIdentifier;
@@ -46,11 +70,11 @@ public class Identify {
 		this.sampleIdentifier = sampleIdentifier;
 	}
 
-	public String getBaseRUL() {
-		return baseRUL;
+	public String getBaseURL() {
+		return baseURL;
 	}
-	public void setBaseRUL(String baseRUL) {
-		this.baseRUL = baseRUL;
+	public void setBaseURL(String baseRUL) {
+		this.baseURL = baseRUL;
 	}
 	public String getRepositoryName() {
 		return repositoryName;

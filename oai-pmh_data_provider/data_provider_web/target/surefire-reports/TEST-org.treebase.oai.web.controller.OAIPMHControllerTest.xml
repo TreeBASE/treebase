@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="17.875" errors="0" skipped="0" tests="1" name="org.treebase.oai.web.controller.OAIPMHControllerTest">
+<testsuite failures="0" time="14.375" errors="0" skipped="0" tests="3" name="org.treebase.oai.web.controller.OAIPMHControllerTest">
   <properties>
     <property name="java.vendor" value="Sun Microsystems Inc."/>
     <property name="localRepository" value="C:\Documents and Settings\youjun/.m2/repository"/>
@@ -18,7 +18,7 @@
     <property name="user.name" value="youjun"/>
     <property name="user.language" value="en"/>
     <property name="sun.boot.library.path" value="C:\Java\sdk\jdk\jre\bin"/>
-    <property name="classworlds.conf" value="C:\eclipse\workspace\.metadata\.plugins\org.maven.ide.eclipse\launches\m2conf3142349244246216166.tmp"/>
+    <property name="classworlds.conf" value="C:\eclipse\workspace\.metadata\.plugins\org.maven.ide.eclipse\launches\m2conf5561131778124697519.tmp"/>
     <property name="java.version" value="1.6.0_16"/>
     <property name="env.PROCESSOR_IDENTIFIER" value="x86 Family 15 Model 3 Stepping 4, GenuineIntel"/>
     <property name="user.timezone" value="America/New_York"/>
@@ -101,5 +101,7 @@
     <property name="java.specification.version" value="1.6"/>
     <property name="env.PROCESSOR_LEVEL" value="15"/>
   </properties>
-  <testcase time="16.86" classname="org.treebase.oai.web.controller.OAIPMHControllerTest" name="testIdentify"/>
+  <testcase time="12.391" classname="org.treebase.oai.web.controller.OAIPMHControllerTest" name="testIdentify"/>
+  <testcase time="0.031" classname="org.treebase.oai.web.controller.OAIPMHControllerTest" name="testListSet"/>
+  <testcase time="0.984" classname="org.treebase.oai.web.controller.OAIPMHControllerTest" name="testListMetadataFormats"/>
 </testsuite>

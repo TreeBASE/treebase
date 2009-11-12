@@ -19,7 +19,7 @@ public class IdentifyUtil {
 	// check if the MetadataPrefix in the params is supported by the service
 	
 	public static boolean badMetadataPrefix(OAIPMHCommand params){
-		if (params.getMetadataPrefix().toLowerCase()=="dc") 
+		if (params.getMetadataPrefix().toLowerCase()=="oai_dc") 
 			return false;
 		if (params.getMetadataPrefix().toLowerCase()=="dryad")
 		    return false;

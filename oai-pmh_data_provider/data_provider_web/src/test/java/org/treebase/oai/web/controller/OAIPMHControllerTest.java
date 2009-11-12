@@ -99,6 +99,37 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 		ModelAndView mav=controller.Identify(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
+		System.out.println("--------test Identify---------");
+		System.out.print(result);
+		
+	}
+	
+	public void testListSet() {
+		
+		OAIPMHCommand params=new OAIPMHCommand();
+		params.setVerb("ListSet");
+		Map model=new HashMap();
+		model.put("identify",identify );		
+		ModelAndView mav=controller.ListSet(params, model);
+		String result=vu.runTemplate(mav);		
+		this.assertNotNull(result);
+		System.out.println("---------test ListSet---------");
+		System.out.print(result);
+		
+	}
+	
+	public void testListMetadataFormats() {
+		
+		OAIPMHCommand params=new OAIPMHCommand();
+		params.setVerb("ListMetadataFormats");
+		params.setIdentifier("treebase.org/study/TB2:s169");
+		Map model=new HashMap();
+		model.put("identify",identify );
+		model.put("params", params);
+		ModelAndView mav=controller.ListMetadataFormats(params, model);
+		String result=vu.runTemplate(mav);		
+		this.assertNotNull(result);
+		System.out.println("---------test ListMetadataFormats---------");
 		System.out.print(result);
 		
 	}

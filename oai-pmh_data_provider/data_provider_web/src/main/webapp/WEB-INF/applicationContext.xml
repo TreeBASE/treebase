@@ -20,7 +20,7 @@
 	</bean>
 	
 	<bean id="top.identify" class="org.treebase.oai.web.command.Identify">
-		<property name="baseRUL" value="${identify.baseRUL}" />
+		<property name="baseURL" value="${identify.baseURL}" />
 		<property name="repositoryName" value="${identify.repositoryName}" />
 		<property name="protocolVersion" value="${identify.protocolVersion}" />
 		<property name="adminEmail" value="${identify.adminEmail}" />	
@@ -29,9 +29,12 @@
 		<property name="granularity" value="${identify.granularity}" />	
 		<property name="granularityPattern" value="${identify.granularityPattern}" />	
 		<property name="repositoryIdentifier" value="${identify.repositoryIdentifier}" />	
-		<property name="sampleIdentifier" value="${identify.sampleIdentifier}" />		
+		<property name="sampleIdentifier" value="${identify.sampleIdentifier}" />
+		<property name="identifierDelimiter" value="${identify.identifierDelimiter}" />	
+		<property name="dublinPerfix" value="${identify.dublinPerfix}" />	
+		<property name="dryadPerfix" value="${identify.dryadPerfix}" />				
 	</bean>
- 	 	
+ 
  	<!-- ========================================================== -->
 	<!-- LIST OF DWR beans/methods -->
 	<!-- ========================================================== -->

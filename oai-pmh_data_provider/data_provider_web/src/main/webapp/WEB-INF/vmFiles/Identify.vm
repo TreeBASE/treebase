@@ -7,7 +7,7 @@
   <request verb="Identify">${model.identify.baseRUL}</request>
   <Identify>
     <repositoryName>${model.identify.repositoryName}</repositoryName>
-    <baseURL>${model.identify.baseRUL}</baseURL>
+    <baseURL>${model.identify.baseURL}</baseURL>
     <protocolVersion>${model.identify.protocolVersion}</protocolVersion>
     <adminEmail>${model.identify.adminEmail}</adminEmail>
     <earliestDatestamp>${model.identify.earliestDatestamp}</earliestDatestamp>
@@ -23,7 +23,7 @@
         http://www.openarchives.org/OAI/2.0/oai-identifier.xsd">
         <scheme>oai</scheme>
         <repositoryIdentifier>${model.identify.repositoryIdentifier}</repositoryIdentifier>
-        <delimiter>:</delimiter>
+        <delimiter>${model.identify.identifierDelimiter}</delimiter>
         <sampleIdentifier>${model.identify.sampleIdentifier}</sampleIdentifier>
       </oai-identifier>
     </description>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+         http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  
+  <responseDate>${model.identify.getResponseDate()}</responseDate>
+  <request verb="ListMetadataFormats"
+    identifier="${model.params.identifier}">${model.identify.baseURL}</request>
+  <ListMetadataFormats>                    
+   <metadataFormat>
+     <metadataPrefix>oai_dc</metadataPrefix>
+     <schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd
+       </schema>
+     <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/
+       </metadataNamespace>
+   </metadataFormat>
+   
+   <metadataFormat>
+     <metadataPrefix>dryad</metadataPrefix>
+     <schema>http://ils.unc.edu/mrc/dryad/version1_0/dryad_1_0.xsd</schema>
+     <metadataNamespace>http://ils.unc.edu/mrc/dryad/
+      </metadataNamespace>
+   </metadataFormat>
+   
+ </ListMetadataFormats>
+</OAI-PMH>
