@@ -2,6 +2,7 @@ package org.treebase.oai.web.controller;
 
 import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,9 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
 import org.treebase.oai.web.command.Identify;
 import org.treebase.oai.web.command.OAIPMHCommand;
 import org.treebase.oai.web.util.IdentifyUtil;
+import org.cipres.treebase.domain.admin.Person;
+import org.cipres.treebase.domain.study.Citation;
+import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.domain.study.StudyService;
@@ -104,7 +108,7 @@ public class OAIPMHController extends AbstractCommandController{
 				// TODO Auto-generated catch block
 				return (new ModelAndView("badArgument.vm",model));
 			}
-			model.put("recodeList", list);
+			model.put("recordList", getRecordList(list));
 			return (new ModelAndView(params.getMetadataPrefix()+"_ListRecoed.vm",model));
 		
 		}
@@ -120,7 +124,7 @@ public class OAIPMHController extends AbstractCommandController{
 				// TODO Auto-generated catch block
 				return (new ModelAndView("badArgument.vm",model));
 			}
-			model.put("recodeList", list);
+			model.put("recordList", getRecordList(list));
 			return (new ModelAndView(params.getMetadataPrefix()+"_ListIdentifiers.vm",model));
 	
 		}
@@ -139,8 +143,7 @@ public class OAIPMHController extends AbstractCommandController{
 				
 				return (new ModelAndView("idDoesNotExist.vm",model));
 			}
-			
-			model.put("record", submission);			
+			model.put("record", getRecordMap(submission));			
 			return (new ModelAndView(params.getMetadataPrefix()+"_GetRecord.vm",model));
 	
 		}
@@ -160,7 +163,6 @@ public class OAIPMHController extends AbstractCommandController{
 		
 		ModelAndView ListMetadataFormats(OAIPMHCommand params, Map model){
 		
-   
 			Submission submission = null;  
 			
 			try{
@@ -173,9 +175,37 @@ public class OAIPMHController extends AbstractCommandController{
 				
 				return (new ModelAndView("idDoesNotExist.vm",model));
 			}
-			 
+			
+			
 			return (new ModelAndView("ListMetadataFormats.vm",model));
 		
 		}
+	
 		
+		private Map getRecordMap(Submission submission){
+			
+			Map<String, String> map= new HashMap<String, String>();
+			
+			Person submitter=submission.getSubmitter().getPerson();
+			Citation citation=submission.getStudy().getCitation();
+			Study study=submission.getStudy(); 
+			
+			map.put("title", citation.getTitle());
+			map.put("creator", submitter.getFirstName()+" "
+					+ submitter.getMiddleName()+" "
+					+ submitter.getLastName());			
+			map.put("subject", citation.getKeywords());
+			map.put("description", study.getName()+" "+study.getNotes());
+			map.put("abstract", citation.getAbstract());
+			map.put("publisher", citation.());
+			
+			
+			
+			return map;
+		}  
+		
+		private List getRecordList(List<Submission> slist)
+		{
+			return null;
+		}
 }

@@ -133,4 +133,21 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 		System.out.print(result);
 		
 	}
+	
+	public void testGetRecord() {
+		
+		OAIPMHCommand params=new OAIPMHCommand();
+		params.setVerb("ListMetadataFormats");
+		params.setIdentifier("treebase.org/study/TB2:s169");
+		params.setMetadataPrefix("oai_dc");
+		Map model=new HashMap();
+		model.put("identify",identify );
+		model.put("params", params);
+		ModelAndView mav=controller.ListMetadataFormats(params, model);
+		String result=vu.runTemplate(mav);		
+		this.assertNotNull(result);
+		System.out.println("---------test ListMetadataFormats---------");
+		System.out.print(result);
+		
+	}
 }
