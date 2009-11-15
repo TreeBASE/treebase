@@ -11,14 +11,14 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+import org.springframework.test.AbstractTransactionalSpringContextTests;
 import org.springframework.web.servlet.ModelAndView;
 import org.treebase.oai.web.command.Identify;
 import org.treebase.oai.web.command.OAIPMHCommand;
 
 
 
-public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringContextTests {
+public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTests {
 
 	
 	
@@ -107,10 +107,10 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 	public void testListSet() {
 		
 		OAIPMHCommand params=new OAIPMHCommand();
-		params.setVerb("ListSet");
+		params.setVerb("ListSets");
 		Map model=new HashMap();
 		model.put("identify",identify );		
-		ModelAndView mav=controller.ListSet(params, model);
+		ModelAndView mav=controller.ListSets(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
 		System.out.println("---------test ListSet---------");
@@ -138,16 +138,53 @@ public class OAIPMHControllerTest extends AbstractDependencyInjectionSpringConte
 		
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListMetadataFormats");
-		params.setIdentifier("treebase.org/study/TB2:s169");
+		params.setIdentifier("treebase.org/study/TB2:s1225");
 		params.setMetadataPrefix("oai_dc");
 		Map model=new HashMap();
 		model.put("identify",identify );
 		model.put("params", params);
-		ModelAndView mav=controller.ListMetadataFormats(params, model);
+		ModelAndView mav=controller.GetRecord(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
-		System.out.println("---------test ListMetadataFormats---------");
+		System.out.println("---------test getRecord---------");
 		System.out.print(result);
 		
 	}
+	
+public void testListRecord() {
+		
+		OAIPMHCommand params=new OAIPMHCommand();
+		params.setVerb("ListRecords");
+		params.setFrom("2005-11-15T06:16:15Z");
+		params.setUntil("2006-05-15T06:16:15Z");
+		params.setMetadataPrefix("oai_dc");
+		Map model=new HashMap();
+		model.put("identify",identify );
+		model.put("params", params);
+		ModelAndView mav=controller.ListRecords(params, model);
+		String result=vu.runTemplate(mav);		
+		this.assertNotNull(result);
+		System.out.println("---------test ListRecord---------");
+		System.out.print(result);
+		
+	}
+
+public void testListIdentify() {
+	
+	OAIPMHCommand params=new OAIPMHCommand();
+	params.setVerb("ListIdentifiers");
+	params.setFrom("2005-11-15T06:16:15Z");
+	params.setUntil("2006-05-15T06:16:15Z");
+	params.setMetadataPrefix("oai_dc");
+	Map model=new HashMap();
+	model.put("identify",identify );
+	model.put("params", params);
+	ModelAndView mav=controller.ListIdentifiers(params, model);
+	String result=vu.runTemplate(mav);		
+	this.assertNotNull(result);
+	System.out.println("---------test ListIdentifiers---------");
+	System.out.print(result);
+	
+}
+
 }

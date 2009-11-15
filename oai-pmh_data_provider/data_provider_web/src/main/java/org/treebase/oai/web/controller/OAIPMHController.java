@@ -2,6 +2,7 @@ package org.treebase.oai.web.controller;
 
 import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.treebase.oai.web.command.Identify;
 import org.treebase.oai.web.command.OAIPMHCommand;
 import org.treebase.oai.web.util.IdentifyUtil;
 import org.cipres.treebase.domain.admin.Person;
+import org.cipres.treebase.domain.study.ArticleCitation;
+import org.cipres.treebase.domain.study.BookCitation;
 import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
@@ -98,7 +101,7 @@ public class OAIPMHController extends AbstractCommandController{
 	
 	    }
 
-		ModelAndView ListRecoed(OAIPMHCommand params, Map model){
+		ModelAndView ListRecords(OAIPMHCommand params, Map model){
 			
 			List<Submission> list=null;
 			try {
@@ -109,7 +112,7 @@ public class OAIPMHController extends AbstractCommandController{
 				return (new ModelAndView("badArgument.vm",model));
 			}
 			model.put("recordList", getRecordList(list));
-			return (new ModelAndView(params.getMetadataPrefix()+"_ListRecoed.vm",model));
+			return (new ModelAndView(params.getMetadataPrefix()+"_ListRecords.vm",model));
 		
 		}
     		
@@ -155,9 +158,9 @@ public class OAIPMHController extends AbstractCommandController{
 	
 		}
 		
-		ModelAndView ListSet(OAIPMHCommand params, Map model){
+		ModelAndView ListSets(OAIPMHCommand params, Map model){
 			
-			 return (new ModelAndView("ListSet.vm",model));
+			 return (new ModelAndView("ListSets.vm",model));
 			
 		}
 		
@@ -184,28 +187,52 @@ public class OAIPMHController extends AbstractCommandController{
 		
 		private Map getRecordMap(Submission submission){
 			
-			Map<String, String> map= new HashMap<String, String>();
+			Map map= new HashMap();
 			
-			Person submitter=submission.getSubmitter().getPerson();
-			Citation citation=submission.getStudy().getCitation();
-			Study study=submission.getStudy(); 
+			Study study=submission.getStudy();
+			Citation citation=study.getCitation();
+			String publisher=null;
 			
+			//System.out.println("ctype: "+citation.getCitationType());
+			if(citation.getCitationType().toUpperCase().contains("BOOK"))
+				publisher=((BookCitation)citation).getPublisher();
+			else publisher=((ArticleCitation)citation).getJournal();
+						
+			List<Person> authors=citation.getAuthors();
+			 
+		
 			map.put("title", citation.getTitle());
-			map.put("creator", submitter.getFirstName()+" "
-					+ submitter.getMiddleName()+" "
-					+ submitter.getLastName());			
+			map.put("creator", authors);			
 			map.put("subject", citation.getKeywords());
-			map.put("description", study.getName()+" "+study.getNotes());
-			map.put("abstract", citation.getAbstract());
-			map.put("publisher", citation.());
+		    if(study.getName()!=null&study.getNotes()!=null)			
+		    	map.put("description", study.getName()+" "+study.getNotes());
+		    else if(study.getNotes()==null)
+		    	map.put("description",study.getName());
+		    else
+		    	map.put("description",study.getNotes());
+			map.put("publisher", publisher);						
+			map.put("date", "published on "+citation.getPublishYear());
+			map.put("identifier", "treebase.org/study/TB2:s"+study.getId());
+			map.put("datestamp", study.getReleaseDate());
 			
 			
+			//map.put("type", "text");
+			//map.put("language", "en");
+			
+			//map.put("issued", citation.getPublishYear());			
+			//map.put("abstract", citation.getAbstract());			
+	
 			
 			return map;
 		}  
 		
-		private List getRecordList(List<Submission> slist)
+		private List getRecordList(List<Submission> sList)
 		{
-			return null;
+			List recordList=new ArrayList<Map>();
+			
+			for(int i =0; i< sList.size(); i++)
+				recordList.add(getRecordMap(sList.get(i)));
+						
+			return recordList;
 		}
 }
