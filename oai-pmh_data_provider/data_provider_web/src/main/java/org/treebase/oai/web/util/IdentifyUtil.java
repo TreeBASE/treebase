@@ -14,17 +14,7 @@ import org.treebase.oai.web.command.OAIPMHCommand;
  * @author youjun
  *
  */
-public class IdentifyUtil {
-
-	// check if the MetadataPrefix in the params is supported by the service
-	
-	public static boolean badMetadataPrefix(OAIPMHCommand params){
-		if (params.getMetadataPrefix().toLowerCase()=="oai_dc") 
-			return false;
-		if (params.getMetadataPrefix().toLowerCase()=="dryad")
-		    return false;
-		return true;
-	}
+public class IdentifyUtil {	
 	
 	// return a studyID by parsing params.identifier
 	
@@ -40,7 +30,7 @@ public class IdentifyUtil {
 	
 	public static Date parseGranularity(String granularity, String time ) throws ParseException
 	{
-				
+		if(time=="")return new Date();		
 		SimpleDateFormat sdf = new SimpleDateFormat(granularity);			
 		Date utcDate = sdf.parse(time);
 		return utcToLocal(utcDate); 

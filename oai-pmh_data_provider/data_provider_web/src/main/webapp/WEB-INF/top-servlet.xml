@@ -26,6 +26,9 @@
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
 		<property name="studyService"><ref bean="studyService"></ref></property>
 	    <property name="identify"><ref bean="top.identify"></ref></property>
+	    <property name="validator">
+			<bean class="org.treebase.oai.web.validator.OAIPMHValidator"/>
+		</property>	
 	</bean>
 	
  

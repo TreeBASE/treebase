@@ -1,5 +1,9 @@
 package org.treebase.oai.web.command;
-
+/**
+ * 
+ * @author youjun
+ * class transfer page/query input data to controller
+ */
 public class OAIPMHCommand {
 	
 	private String from;
@@ -17,13 +21,15 @@ public class OAIPMHCommand {
 		this.verb = verb;
 	}
 	public String getFrom() {
-		return from;
+		if(from!=null&&from.trim()!="")return from;
+	    return "1995-11-04T00:00:00Z";
 	}
 	public void setFrom(String from) {
 		this.from = from;
 	}
 	public String getUntil() {
-		return until;
+		if(until != null && until.trim()!="") return until;
+	    return "";
 	}
 	public void setUntil(String until) {
 		this.until = until;

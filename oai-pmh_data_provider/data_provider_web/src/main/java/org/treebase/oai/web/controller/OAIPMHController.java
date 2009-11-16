@@ -80,18 +80,20 @@ public class OAIPMHController extends AbstractCommandController{
 		 Map  model=errors.getModel();
 		 model.put("requestParams", params);
 		 model.put("identify", this.identify);
-		 
+		 		 
+		 if(errors.getErrorCount()>0){			 
+		     if(errors.hasFieldErrors("metadataPrefix"))
+				 return new ModelAndView("cannotDisseminateFormat.vm",model);    
+		     if(errors.hasFieldErrors("verb"))
+				 return new ModelAndView("badVerb.vm",model);
+		     if(errors.hasFieldErrors("identifier"))
+				 return new ModelAndView("idDoesNotExist.vm",model);
+		 }
 		 
 		 Method method=null;
-		 
-		 if(IdentifyUtil.badMetadataPrefix(params))
-			 
-			 return new ModelAndView("cannotDisseminateFormat.vm",model);
-		 
 		 try{
 			 method=this.getClass().getMethod(params.getVerb(), new Class[]{OAIPMHCommand.class, Map.class});
-		 }catch(NoSuchMethodException nsme){
-			 
+		 }catch(NoSuchMethodException nsme){	 
 			return new ModelAndView("badVerb.vm",model);
 		 }catch(NullPointerException e){
 			 return (new ModelAndView("badArgument.vm",model));
@@ -175,8 +177,8 @@ public class OAIPMHController extends AbstractCommandController{
 				return (new ModelAndView("badArgument.vm",model));
 			}
 			catch (NullPointerException e){
-				
-				return (new ModelAndView("idDoesNotExist.vm",model));
+				//id is optional for ListMetadataFormats
+				//return (new ModelAndView("idDoesNotExist.vm",model));
 			}
 			
 			
