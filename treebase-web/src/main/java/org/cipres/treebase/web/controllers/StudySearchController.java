@@ -93,21 +93,7 @@ public class StudySearchController extends SearchController {
 		
 		LOGGER.info("formName is '" + formName + "'");
 		
-		if ( ! TreebaseUtil.isEmpty(query) ) {
-			/*
-			CQLParser parser = new CQLParser();
-			CQLNode root = parser.parse(query);
-			root = normalizeParseTree(root);
-			Set<Study> queryResults = doCQLQuery(root, new HashSet<Study>(),request, response, errors);
-			StudySearchResults tsr = new StudySearchResults(queryResults);
-			saveSearchResults(request, tsr);
-			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
-				return new ModelAndView("search/studySearch", Constants.RESULT_SET, tsr);
-			}
-			else {
-				return this.searchResultsAsRDF(tsr, request, root);
-			}
-			*/
+		if ( ! TreebaseUtil.isEmpty(query) && ! query.equals("")) {
 			return this.handleQueryRequest(request, response, errors);
 		}		
 		
