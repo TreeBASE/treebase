@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseIDString;
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.search.SearchResults;
@@ -396,7 +397,8 @@ public abstract class SearchController extends BaseFormController {
 			HttpServletResponse response, BindException bindException, Map model)
 			throws Exception {
 		String query = request.getParameter("query");
-		if ( query != null ) {
+		if ( query != null && ! TreebaseUtil.isEmpty(query) ) {
+			LOGGER.info("query is '"+ query +"'");
 			return this.handleQueryRequest(request, response, bindException);
 		}
 		String action = request.getParameter("action");
