@@ -16,6 +16,12 @@ if [ "x$CATALINA_HOME" = "x" ] ; then
   die '$CATALINA_HOME unset'
 fi
 
+# This used to be hardcoded for /usr/bin/GET, but that requires
+# LWP to be installed system-wide, which is rarer than just
+# having curl somewhere. In any case, the required API for this
+# command is to return a non-zero exit code when attempting to
+# get a URL yields a 404 or other error.
+GETCMD="curl -s -o /dev/null"
 WEBAPPS="$CATALINA_HOME/webapps"
 TARGET_DIR="treebase-web"
 
@@ -50,7 +56,7 @@ fi
 
 # Stop the server, and make sure it's dead before proceeding
 ${CATALINA_HOME}/bin/catalina.sh stop
-if /usr/bin/GET -d $TOMCAT_URL ; then
+if $GETCMD $TOMCAT_URL ; then
   die 'Failed to stop tomcat at $TOMCAT_URL'
 fi
   
@@ -68,7 +74,7 @@ fi
 # Restart the server, and die if it doesn't start right away
 ${CATALINA_HOME}/bin/catalina.sh start
 sleep 3
-if /usr/bin/GET -d $TOMCAT_URL ; then
+if $GETCMD $TOMCAT_URL ; then
   :   # okay
 else 
   die 'Failed to restart tomcat at $TOMCAT_URL'
