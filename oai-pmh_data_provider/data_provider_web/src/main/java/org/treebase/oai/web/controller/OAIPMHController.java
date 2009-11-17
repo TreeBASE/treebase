@@ -107,6 +107,8 @@ public class OAIPMHController extends AbstractCommandController{
 			 model.put("error", "invalid verb");
 			 return new ModelAndView("error.vm",model);
 		 }catch(NullPointerException e){
+			 model.put("error_code", "badVerb");
+			 model.put("error", "missing verb");
 			 return (new ModelAndView("error.vm",model));
 		 }
 		 
@@ -114,7 +116,7 @@ public class OAIPMHController extends AbstractCommandController{
 	
 	    }
 
-		ModelAndView ListRecords(OAIPMHCommand params, Map model){
+	public ModelAndView ListRecords(OAIPMHCommand params, Map model){
 			
 			List<Submission> list=null;
 			try {
@@ -131,7 +133,7 @@ public class OAIPMHController extends AbstractCommandController{
 		}
     		
 
-		ModelAndView ListIdentifiers( OAIPMHCommand params, Map model){
+		public ModelAndView ListIdentifiers( OAIPMHCommand params, Map model){
 			
 			List<Submission> list=null;
 			try {
@@ -147,7 +149,7 @@ public class OAIPMHController extends AbstractCommandController{
 	
 		}
 
-		ModelAndView GetRecord( OAIPMHCommand params, Map model){
+		public ModelAndView GetRecord( OAIPMHCommand params, Map model){
 			
 			Submission submission = null;  
 			
@@ -172,21 +174,21 @@ public class OAIPMHController extends AbstractCommandController{
 	
 		}
 
-		ModelAndView Identify(OAIPMHCommand params, Map model){
+		public ModelAndView Identify(OAIPMHCommand params, Map model){
 	
 			
 			return (new ModelAndView("Identify.vm",model));
 	
 		}
 		
-		ModelAndView ListSets(OAIPMHCommand params, Map model){
+		public ModelAndView ListSets(OAIPMHCommand params, Map model){
 			model.put("error_code", "noSetHierarchy");
 			model.put("error", "This repository does not support sets");			
 			return (new ModelAndView("error.vm",model));
 			
 		}
 		
-		ModelAndView ListMetadataFormats(OAIPMHCommand params, Map model){
+		public ModelAndView ListMetadataFormats(OAIPMHCommand params, Map model){
 		
 			Submission submission = null;  
 			

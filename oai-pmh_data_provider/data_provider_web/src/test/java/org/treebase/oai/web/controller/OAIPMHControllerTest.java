@@ -1,6 +1,7 @@
 package org.treebase.oai.web.controller;
 
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -12,6 +13,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
+import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.treebase.oai.web.command.Identify;
 import org.treebase.oai.web.command.OAIPMHCommand;
@@ -100,12 +102,12 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		ModelAndView mav=controller.Identify(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
-		System.out.println("--------test Identify---------");
-		System.out.print(result);
+		//System.out.println("--------test Identify---------");
+		//System.out.print(result);
 		
 	}
 	
-	public void testListSet() {
+	public void testListSets() {
 		
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListSets");
@@ -115,8 +117,8 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		ModelAndView mav=controller.ListSets(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
-		System.out.println("---------test ListSet---------");
-		System.out.print(result);
+		//System.out.println("---------test ListSet---------");
+		//System.out.print(result);
 		
 	}
 	
@@ -131,8 +133,8 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		ModelAndView mav=controller.ListMetadataFormats(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
-		System.out.println("---------test ListMetadataFormats---------");
-		System.out.print(result);
+		//System.out.println("---------test ListMetadataFormats---------");
+		//System.out.print(result);
 		
 	}
 	
@@ -148,12 +150,12 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		ModelAndView mav=controller.GetRecord(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
-		System.out.println("---------test getRecord---------");
-		System.out.print(result);
+		//System.out.println("---------test getRecord---------");
+		//System.out.print(result);
 		
 	}
 	
-public void testListRecord() {
+public void testListRecords() {
 		
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListRecords");
@@ -171,22 +173,74 @@ public void testListRecord() {
 		
 	}
 
-public void testListIdentify() {
+	public void testListIdentifiers() 
+	{
 	
-	OAIPMHCommand params=new OAIPMHCommand();
-	params.setVerb("ListIdentifiers");
-	params.setFrom("2005-11-15T06:16:15Z");
-	params.setUntil("2006-05-15T06:16:15Z");
-	params.setMetadataPrefix("oai_dc");
-	Map model=new HashMap();
-	model.put("identify",identify );
-	model.put("params", params);
-	ModelAndView mav=controller.ListIdentifiers(params, model);
-	String result=vu.runTemplate(mav);		
-	this.assertNotNull(result);
-	//System.out.println("---------test ListIdentifiers---------");
-	//System.out.print(result);
+		OAIPMHCommand params=new OAIPMHCommand();
+		params.setVerb("ListIdentifiers");
+		params.setFrom("2005-11-15T06:16:15Z");
+		params.setUntil("2006-05-15T06:16:15Z");
+		params.setMetadataPrefix("oai_dc");
+		Map model=new HashMap();
+		model.put("identify",identify );
+		model.put("params", params);
+		ModelAndView mav=controller.ListIdentifiers(params, model);
+		String result=vu.runTemplate(mav);		
+		this.assertNotNull(result);	
+		//System.out.println("---------test ListIdentifiers---------");
+		//System.out.print(result);
 	
-}
+	}	
+	
+	public void testHandle() throws Exception
+	{
+		OAIPMHCommand params=new OAIPMHCommand();		
+		ModelAndView mav=call(params);		
+		System.out.println(mav.getViewName()+" "
+				+mav.getModel().get("error_code")
+				+": "+mav.getModel().get("error"));
+		this.assertEquals("error.vm", mav.getViewName());
+		
+		params.setVerb("Identify");	
+		mav=call(params);
+		this.assertEquals("Identify.vm", mav.getViewName());
+		
+		params.setVerb("ListSets");	
+		mav=call(params);
+		System.out.println(mav.getViewName()+" "
+				+mav.getModel().get("error_code")
+				+": "+mav.getModel().get("error"));
+		this.assertEquals("error.vm", mav.getViewName());
+		
+		params.setVerb("ListMetadataFormats");	
+		mav=call(params);
+		this.assertEquals("ListMetadataFormats.vm", mav.getViewName());
+		
+		params.setVerb("GetRecord");
+		params.setIdentifier("treebase.org/study/TB2:s1225");
+		params.setMetadataPrefix("oai_dc");
+		mav=call(params);
+		this.assertEquals("GetRecord.vm", mav.getViewName());
+		
+		params.setVerb("ListIdentifiers");
+		params.setFrom("2005-11-15T06:16:15Z");
+		params.setUntil("2006-05-15T06:16:15Z");
+		mav=call(params);
+		this.assertEquals("oai_dc_ListIdentifiers.vm", mav.getViewName());
+	
+		params.setVerb("ListRecords");
+		params.setFrom("2005-11-15T06:16:15Z");
+		params.setUntil("2006-05-15T06:16:15Z");
+		mav=call(params);
+		this.assertEquals("ListRecords.vm", mav.getViewName());
+	}
+	
+	
 
+	
+	private ModelAndView call(OAIPMHCommand params) throws Exception
+	{
+		ModelAndView mav=controller.handle(null, null, params, new BindException(params,"params"));		
+		return mav;
+	}
 }
