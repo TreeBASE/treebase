@@ -82,21 +82,32 @@ public class OAIPMHController extends AbstractCommandController{
 		 model.put("identify", this.identify);
 		 		 
 		 if(errors.getErrorCount()>0){			 
-		     if(errors.hasFieldErrors("metadataPrefix"))
-				 return new ModelAndView("cannotDisseminateFormat.vm",model);    
-		     if(errors.hasFieldErrors("verb"))
-				 return new ModelAndView("badVerb.vm",model);
-		     if(errors.hasFieldErrors("identifier"))
-				 return new ModelAndView("idDoesNotExist.vm",model);
+		     if(errors.hasFieldErrors("metadataPrefix")){
+				model.put("error_code", "cannotDisseminateFormat");
+				model.put("error", "bad metadataPrefix");
+		    	return new ModelAndView("error.vm",model); 
+		     }
+		     if(errors.hasFieldErrors("verb")){
+		    	 model.put("error_code", "badVerb");
+				 model.put("error", "no verb was found");
+				 return new ModelAndView("error.vm",model);
+		     }
+		     if(errors.hasFieldErrors("identifier")){
+		    	 model.put("error_code", "idDoesNotExist");
+				 model.put("error", "no id was found");		     
+				 return new ModelAndView("error.vm",model);
+		     }
 		 }
 		 
 		 Method method=null;
 		 try{
 			 method=this.getClass().getMethod(params.getVerb(), new Class[]{OAIPMHCommand.class, Map.class});
-		 }catch(NoSuchMethodException nsme){	 
-			return new ModelAndView("badVerb.vm",model);
+		 }catch(NoSuchMethodException nsme){
+			 model.put("error_code", "badVerb");
+			 model.put("error", "invalid verb");
+			 return new ModelAndView("error.vm",model);
 		 }catch(NullPointerException e){
-			 return (new ModelAndView("badArgument.vm",model));
+			 return (new ModelAndView("error.vm",model));
 		 }
 		 
 		 return (ModelAndView) method.invoke(this, params, model);
@@ -107,14 +118,15 @@ public class OAIPMHController extends AbstractCommandController{
 			
 			List<Submission> list=null;
 			try {
-				list = (List)submissionService.findSubmissionByCreateDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getFrom()), 
-						IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getUntil()));
+				list = (List)submissionService.findSubmissionByCreateDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getModifiedFrom()), 
+						IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getModifiedUntil()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				return (new ModelAndView("badArgument.vm",model));
+				model.put("error_code", "badArgument");
+				model.put("error", "invalid from or until format");
+				return (new ModelAndView("error.vm",model));
 			}
 			model.put("recordList", getRecordList(list));
-			return (new ModelAndView(params.getMetadataPrefix()+"_ListRecords.vm",model));
+			return (new ModelAndView("ListRecords.vm",model));
 		
 		}
     		
@@ -123,11 +135,12 @@ public class OAIPMHController extends AbstractCommandController{
 			
 			List<Submission> list=null;
 			try {
-				list = (List)submissionService.findSubmissionByCreateDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getFrom()), 
-						IdentifyUtil.parseGranularity(identify.getGranularityPattern(), params.getUntil()));
+				list = (List)submissionService.findSubmissionByCreateDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getModifiedFrom()), 
+						IdentifyUtil.parseGranularity(identify.getGranularityPattern(), params.getModifiedUntil()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				return (new ModelAndView("badArgument.vm",model));
+				model.put("error_code", "badArgument");
+				model.put("error", "invalid from or until format");
+				return (new ModelAndView("error.vm",model));
 			}
 			model.put("recordList", getRecordList(list));
 			return (new ModelAndView(params.getMetadataPrefix()+"_ListIdentifiers.vm",model));
@@ -142,14 +155,20 @@ public class OAIPMHController extends AbstractCommandController{
 				 long id = IdentifyUtil.parseID(params);
 			     submission = studyService.findByID(id).getSubmission();
 			}catch(NumberFormatException nfe){
-				return (new ModelAndView("badArgument.vm",model));
+				model.put("error_code", "badArgument");
+				model.put("error", "invalid id format");
+				return (new ModelAndView("error.vm",model));
+		
 			}
 			catch (NullPointerException e){
 				
-				return (new ModelAndView("idDoesNotExist.vm",model));
+				model.put("error_code", "idDoesNotExist");
+				model.put("error", "invalid id");
+				return (new ModelAndView("error.vm",model));
+				
 			}
 			model.put("record", getRecordMap(submission));			
-			return (new ModelAndView(params.getMetadataPrefix()+"_GetRecord.vm",model));
+			return (new ModelAndView("GetRecord.vm",model));
 	
 		}
 
@@ -161,8 +180,9 @@ public class OAIPMHController extends AbstractCommandController{
 		}
 		
 		ModelAndView ListSets(OAIPMHCommand params, Map model){
-			
-			 return (new ModelAndView("ListSets.vm",model));
+			model.put("error_code", "noSetHierarchy");
+			model.put("error", "This repository does not support sets");			
+			return (new ModelAndView("error.vm",model));
 			
 		}
 		
@@ -174,7 +194,10 @@ public class OAIPMHController extends AbstractCommandController{
 				 long id = IdentifyUtil.parseID(params);
 			     submission = studyService.findByID(id).getSubmission();
 			}catch(NumberFormatException nfe){
-				return (new ModelAndView("badArgument.vm",model));
+				model.put("error_code", "badArgument");
+				model.put("error", "invalid id format");			
+				return (new ModelAndView("error.vm",model));
+				
 			}
 			catch (NullPointerException e){
 				//id is optional for ListMetadataFormats

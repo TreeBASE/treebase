@@ -20,17 +20,27 @@ public class OAIPMHCommand {
 	public void setVerb(String verb) {
 		this.verb = verb;
 	}
-	public String getFrom() {
+	public String getModifiedFrom() {
 		if(from!=null&&from.trim()!="")return from;
 	    return "1995-11-04T00:00:00Z";
 	}
+	
+	public String getFrom() {
+		 return from;   
+	}
+	
 	public void setFrom(String from) {
 		this.from = from;
 	}
-	public String getUntil() {
+	public String getModifiedUntil() {
 		if(until != null && until.trim()!="") return until;
 	    return "";
 	}
+	
+	public String getUntil() {
+		 return until;   
+	}
+	
 	public void setUntil(String until) {
 		this.until = until;
 	}

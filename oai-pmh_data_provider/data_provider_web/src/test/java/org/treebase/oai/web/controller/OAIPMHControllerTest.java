@@ -95,7 +95,8 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("Identify");
 		Map model=new HashMap();
-		model.put("identify",identify );		
+		model.put("identify",identify );
+		model.put("params", params);
 		ModelAndView mav=controller.Identify(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
@@ -109,7 +110,8 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListSets");
 		Map model=new HashMap();
-		model.put("identify",identify );		
+		model.put("identify",identify );
+		model.put("params", params);
 		ModelAndView mav=controller.ListSets(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
@@ -164,8 +166,8 @@ public void testListRecord() {
 		ModelAndView mav=controller.ListRecords(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
-		System.out.println("---------test ListRecord---------");
-		System.out.print(result);
+		//System.out.println("---------test ListRecord---------");
+		//System.out.print(result);
 		
 	}
 
@@ -182,8 +184,8 @@ public void testListIdentify() {
 	ModelAndView mav=controller.ListIdentifiers(params, model);
 	String result=vu.runTemplate(mav);		
 	this.assertNotNull(result);
-	System.out.println("---------test ListIdentifiers---------");
-	System.out.print(result);
+	//System.out.println("---------test ListIdentifiers---------");
+	//System.out.print(result);
 	
 }
 
