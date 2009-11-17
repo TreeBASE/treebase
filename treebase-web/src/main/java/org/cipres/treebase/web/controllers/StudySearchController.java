@@ -94,6 +94,7 @@ public class StudySearchController extends SearchController {
 		LOGGER.info("formName is '" + formName + "'");
 		
 		if ( ! TreebaseUtil.isEmpty(query) && ! query.equals("")) {
+			LOGGER.info("query is '" + query + "'");
 			return this.handleQueryRequest(request, response, errors);
 		}		
 		
