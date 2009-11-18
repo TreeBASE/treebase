@@ -35,7 +35,7 @@
 	<!-- DispatcherServlet                                          -->
 	<!-- ========================================================== -->
 	<servlet>
-		<servlet-name>TOPServlet</servlet-name>
+		<servlet-name>top</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -57,8 +57,8 @@
 	<!-- url pattern that will be processed by DispatcherServlet    -->
 	<!-- ========================================================== -->
 	<servlet-mapping>
-		<servlet-name>TOPServlet</servlet-name>
-		<url-pattern>/top/*</url-pattern>
+		<servlet-name>top</servlet-name>
+		<url-pattern>/top/oai</url-pattern>
 	</servlet-mapping>
   	
  	<!-- ========================================================== -->

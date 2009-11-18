@@ -14,8 +14,9 @@ public class OAIPMHValidator implements Validator {
 	public void validate(Object pValidatable, Errors pError) {
 		// ValidationUtils.rejectIfEmpty(e, "name", "name.empty");
 		OAIPMHCommand command = (OAIPMHCommand) pValidatable;				
-		String verb = command.getVerb().trim();
-		String fPrefix = command.getMetadataPrefix().trim();
+		
+		String verb = command.getVerb();
+		String fPrefix = command.getMetadataPrefix();
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(pError, "verb", "empyt verb");
 		if(verb=="GetRecord")
