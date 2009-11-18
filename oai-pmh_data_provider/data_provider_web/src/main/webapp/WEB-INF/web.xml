@@ -73,6 +73,6 @@
 	<!-- ========================================================== -->
 	<!-- Error Pages											 	-->
 	<!-- ========================================================== -->
-	<!-- or errors will return as oai-pmh exception based on .vm files -->
+	<!-- all errors will return as oai-pmh exception based on .vm files -->
 
 </web-app>
