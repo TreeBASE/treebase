@@ -24,6 +24,7 @@ fi
 GETCMD="curl -s -o /dev/null"
 WEBAPPS="$CATALINA_HOME/webapps"
 TARGET_DIR="treebase-web"
+IP_ADDR=`curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'`
 
 # Flag to suppress sourre update and rebuilding
 update_sources=true
@@ -31,7 +32,7 @@ if [ "$1" == "-r" ]; then
   update_sources=false
 fi
 
-TOMCAT_URL=http://treebasedb-dev.nescent.org:6666/treebase-web/
+TOMCAT_URL=http://$IP_ADDR:6666/treebase-web/
 VERSIONFILE=${TREEBASE_HOME}/treebase-core/src/main/java/org/cipres/treebase/Version.java
 
 # Rebuild the application WAR file, if requested
