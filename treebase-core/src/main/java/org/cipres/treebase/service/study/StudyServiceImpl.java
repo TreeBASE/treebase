@@ -1,9 +1,11 @@
 
 package org.cipres.treebase.service.study;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Clob;
 import java.util.Collection;
 import java.util.Iterator;
@@ -353,23 +355,11 @@ public class StudyServiceImpl extends AbstractServiceImpl implements StudyServic
 		Study s = update(pStudy);
 
 		Iterator<File> fileIter = pNexusFiles.iterator();
-		try {
-			while (fileIter.hasNext()) {
-				File element = (File) fileIter.next();
-
-				String fileName = element.getName();
-				FileReader reader;
-				reader = new FileReader(element);
-
-				int fileLength = (int) (element.length());
-				Clob nexus = Hibernate.createClob(reader, fileLength);
-				s.addNexusFile(fileName, nexus);
-
-			}
-		} catch (FileNotFoundException ex) {
-			LOGGER.error(ex.getMessage());
+		while (fileIter.hasNext()) {
+			File element = (File) fileIter.next();
+			String fileName = element.getName();			    												
+			s.addNexusFile(fileName, TreebaseUtil.readFileToString(element));
 		}
-
 	}
 
 	/**

@@ -472,13 +472,10 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 		Study study2 = (Study) hibernateTemplate.load(Study.class, sub.getStudy().getId());
 
 		// hibernateTemplate.refresh(sub);
-		Clob nexusClob = study2.getNexusFiles().values().iterator().next();
-		int clobLength = (int) nexusClob.length();
-		char[] clobchars = new char[clobLength];
-		nexusClob.getCharacterStream().read(clobchars);
-		String clobStr = new String(clobchars);
-		logger.info("test clob: length=" + clobLength + "content = " + clobStr);
-		assertTrue(clobLength > 0);
+		String nexusString = study2.getNexusFiles().values().iterator().next();
+		int nexusStringLength = (int) nexusString.length();
+		logger.info("test clob: length=" + nexusStringLength + "content = " + nexusString);
+		assertTrue(nexusStringLength > 0);
 
 		// 4. delete: delete submission:
 		// after add Nexus files, sub is outdated:
@@ -569,13 +566,10 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 
 		// verify clob:
 		hibernateTemplate.refresh(sub);
-		Clob nexusClob = sub.getStudy().getNexusFiles().values().iterator().next();
-		int clobLength = (int) nexusClob.length();
-		char[] clobchars = new char[clobLength];
-		nexusClob.getCharacterStream().read(clobchars);
-		String clobStr = new String(clobchars);
-		logger.info("test clob: length=" + clobLength + "content = " + clobStr);
-		assertTrue(clobLength > 0);
+		String nexusString = sub.getStudy().getNexusFiles().values().iterator().next();
+		int nexusStringLength = (int) nexusString.length();
+		logger.info("test clob: length=" + nexusStringLength + "content = " + nexusString);
+		assertTrue(nexusStringLength > 0);
 
 		// 4. delete: delete submission:
 		// after add Nexus files, sub is outdated:

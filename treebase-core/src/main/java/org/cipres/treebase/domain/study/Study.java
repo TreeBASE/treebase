@@ -1,6 +1,5 @@
 package org.cipres.treebase.domain.study;
 
-import java.sql.Clob;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -72,7 +71,7 @@ public class Study extends AbstractPersistedObject {
 
 	private List<Analysis> mAnalyses = new ArrayList<Analysis>();
 	private Set<TaxonLabelSet> mTaxonLabelSets = new HashSet<TaxonLabelSet>();
-	private Map<String, Clob> mNexusFiles = new HashMap<String, Clob>();
+	private Map<String, String> mNexusFiles = new HashMap<String, String>();
 
 	// transient fields
 	private String mTransientDescription;
@@ -318,14 +317,14 @@ public class Study extends AbstractPersistedObject {
 	// @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
 	// @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "studyCache")
 	// @Transient
-	public Map<String, Clob> getNexusFiles() {
+	public Map<String, String> getNexusFiles() {
 		return mNexusFiles;
 	}
 
 	/**
 	 * Set the NexusFiles field.
 	 */
-	public void setNexusFiles(Map<String, Clob> pNewNexusFiles) {
+	public void setNexusFiles(Map<String, String> pNewNexusFiles) {
 		mNexusFiles = pNewNexusFiles;
 	}
 
@@ -415,9 +414,9 @@ public class Study extends AbstractPersistedObject {
 	 * Creation date: Feb 22, 2006 12:06:25 PM
 	 * 
 	 * @param pFileName
-	 * @param pNexusFile Clob
+	 * @param pNexusFile
 	 */
-	public void addNexusFile(String pFileName, Clob pNexusFile) {
+	public void addNexusFile(String pFileName, String pNexusFile) {
 		if (TreebaseUtil.isEmpty(pFileName)) {
 			if (pNexusFile == null) {
 				return;

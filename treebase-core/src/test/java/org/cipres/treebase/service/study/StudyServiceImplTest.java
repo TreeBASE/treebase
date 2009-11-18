@@ -362,10 +362,10 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 			+ "f       ctgactgctgaggagaaggctgccgtcaccgccttttggggcaaggtgaaagtggatgaagttggtggtgag gccctgggcaggctgctggttgtctacccctggactcagaggttctttgagtcctttggggacttgtccact gctgatgctgttatgaacaaccctaaggtgaaggcccatggcaagaaggtgctagattcctttagtaatggc atgaagcatctcgatgacctcaagggcacctttgctgcgctgagtgagctgcactgtgataagctgcatgtg gatcctgagaacttcaagctcctgggcaacgtgctagtggttgtgctggctcgcaattttggcaaggaattc accccggtgctgcaggctgactttcagaaggtggtggctggtgtggccaatgccctggcccacagatatcat\n"
 			+ "g       ctgtccgatgcggtcaacgctgccgtcaccgccttttggggcaaggtgaaagtggatcaagttggtggtgag gccctgggcaggccgctggttgtctaccgctggactcagaggtgctatgagtcctttggagacttgtccact gctgatgctgttatgaacaaccctaaggtgaaggcccatggcaagaaggtgctagattcctttagtaatggc atgaagcatctcgatgacctcaagggcacctttgctgcgctgagtgagctgcactgtgataagctgcatgtg gatcctgagaacttcaagctcctgggcaacgtgctagtggttgtgctggctcgcaattttggcaaggaattc accccggtgctgcaggctgactttcagaaggtggtggctggtgtggccaatgccctggcccacagatatcat\n";
 
-		Clob nexusC = Hibernate.createClob(nexus);
+		//Clob nexusC = Hibernate.createClob(nexus);
 		getStudyHome().refresh(s);
 
-		s.addNexusFile(fileName, nexusC);
+		s.addNexusFile(fileName, nexus);
 
 		// force commit immeidately, important:
 		setComplete();
@@ -377,14 +377,14 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		assertTrue(countNexus == 1);
 
 		startNewTransaction();
-		Clob nexusClob = s.getNexusFiles().values().iterator().next();
-		int clobLength = (int) nexusClob.length();
+		String nexusString = s.getNexusFiles().values().iterator().next();
+		int nexusLength = (int) nexusString.length();
 		// String clobStr = nexusClob.getSubString(0, 200);
 
-		char[] clobchars = new char[clobLength];
-		nexusClob.getCharacterStream().read(clobchars);
-		logger.info("test clob: length=" + clobLength + "content = " + new String(clobchars));
-		assertTrue(clobLength > 0);
+		//char[] clobchars = new char[clobLength];
+		//nexusClob.getCharacterStream().read(clobchars);
+		logger.info("test clob: length=" + nexusLength + "content = " + nexusString);
+		assertTrue(nexusLength > 0);
 
 		setComplete();
 		endTransaction();

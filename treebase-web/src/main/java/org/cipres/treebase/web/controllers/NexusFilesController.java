@@ -51,7 +51,7 @@ public class NexusFilesController implements Controller {
 		throws Exception {
 
 		Study study = ControllerUtil.findStudy(pRequest, mStudyService);
-		Map<String, Clob> nexusFilesMap = study.getNexusFiles();
+		Map<String, String> nexusFilesMap = study.getNexusFiles();
 
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("MAP SIZE IS: " + nexusFilesMap.size());

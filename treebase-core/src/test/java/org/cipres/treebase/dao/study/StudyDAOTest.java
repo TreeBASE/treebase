@@ -243,8 +243,10 @@ public class StudyDAOTest extends AbstractDAOTest {
 			+ "f       ctgactgctgaggagaaggctgccgtcaccgccttttggggcaaggtgaaagtggatgaagttggtggtgag gccctgggcaggctgctggttgtctacccctggactcagaggttctttgagtcctttggggacttgtccact gctgatgctgttatgaacaaccctaaggtgaaggcccatggcaagaaggtgctagattcctttagtaatggc atgaagcatctcgatgacctcaagggcacctttgctgcgctgagtgagctgcactgtgataagctgcatgtg gatcctgagaacttcaagctcctgggcaacgtgctagtggttgtgctggctcgcaattttggcaaggaattc accccggtgctgcaggctgactttcagaaggtggtggctggtgtggccaatgccctggcccacagatatcat\n"
 			+ "g       ctgtccgatgcggtcaacgctgccgtcaccgccttttggggcaaggtgaaagtggatcaagttggtggtgag gccctgggcaggccgctggttgtctaccgctggactcagaggtgctatgagtcctttggagacttgtccact gctgatgctgttatgaacaaccctaaggtgaaggcccatggcaagaaggtgctagattcctttagtaatggc atgaagcatctcgatgacctcaagggcacctttgctgcgctgagtgagctgcactgtgataagctgcatgtg gatcctgagaacttcaagctcctgggcaacgtgctagtggttgtgctggctcgcaattttggcaaggaattc accccggtgctgcaggctgactttcagaaggtggtggctggtgtggccaatgccctggcccacagatatcat\n";
 
-		Clob nexusC = Hibernate.createClob(nexus);
-		s.addNexusFile(fileName, nexusC);
+		//XXX rav 18/11/09 - we no longer use Clobs, we use text for nexus strings
+		//Clob nexusC = Hibernate.createClob(nexus);
+		//s.addNexusFile(fileName, nexusC);
+		s.addNexusFile(fileName, nexus);
 
 		getFixture().store(s);
 

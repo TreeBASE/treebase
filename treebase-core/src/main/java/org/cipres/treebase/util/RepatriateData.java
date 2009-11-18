@@ -74,8 +74,8 @@ class RepatriateData extends AbstractStandalone {
 							
 							if (m.getStudy() != s) { 
 								String nexusFileName = m.getNexusFileName();
-								Map<String,Clob> nexusMap = m.getStudy().getNexusFiles();
-								Clob nexusFile = nexusMap.remove(nexusFileName);
+								Map<String,String> nexusMap = m.getStudy().getNexusFiles();
+								String nexusFile = nexusMap.remove(nexusFileName);
 								s.getNexusFiles().put(nexusFileName, nexusFile);
 								m.setStudy(s); 
 							}
@@ -93,8 +93,8 @@ class RepatriateData extends AbstractStandalone {
 									+ " to study " + s.getId() + " submission " + sub.getId());
 							if (t.getStudy() != s) { 
 								String nexusFileName = t.getNexusFileName();
-								Map<String,Clob> nexusMap = t.getStudy().getNexusFiles();
-								Clob nexusFile = nexusMap.remove(nexusFileName);
+								Map<String,String> nexusMap = t.getStudy().getNexusFiles();
+								String nexusFile = nexusMap.remove(nexusFileName);
 								s.getNexusFiles().put(nexusFileName, nexusFile);
 								t.setStudy(s); 
 							}

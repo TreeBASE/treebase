@@ -135,20 +135,11 @@ public class DownloadANexusFileController extends AbstractDownloadController imp
 			return null;
 		}
 		Study study = ControllerUtil.findStudy(req, mStudyService);
-		Map<String, Clob> nexusMap = study.getNexusFiles();		
-		Clob clob = nexusMap.get(nexusFileName);
-		String clobStr = "File Not Found. File Name is: " + nexusFileName;
-		if (clob != null) {
-			try {
-				int clobLength = (int) clob.length();
-				char[] clobchars = new char[clobLength];
-				clob.getCharacterStream().read(clobchars);
-				clobStr = new String(clobchars);
-			} catch ( Exception e ) {
-				e.printStackTrace();
-			}
-		}
-		return clobStr;
+		Map<String, String> nexusMap = study.getNexusFiles();		
+		String nexusString = nexusMap.get(nexusFileName);
+		return nexusString != null 
+			? nexusString 
+			: "File Not Found. File Name is: " + nexusFileName;
 	}
 
 }

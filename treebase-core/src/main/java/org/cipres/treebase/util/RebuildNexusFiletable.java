@@ -23,7 +23,7 @@ public class RebuildNexusFiletable extends AbstractStandalone {
 		for (TBPersistable obj : ContextManager.getStudyHome().findAll(Study.class)) {
 			Study s = (Study) obj;
 	
-			Map<String,Clob> studyNexusFile = s.getNexusFiles();
+			Map<String,String> studyNexusFile = s.getNexusFiles();
 			for (String fileName : studyNexusFile.keySet()) {
 				if (nexusFileStudy.containsKey(fileName)) {
 					nexusFileStudy.remove(fileName);

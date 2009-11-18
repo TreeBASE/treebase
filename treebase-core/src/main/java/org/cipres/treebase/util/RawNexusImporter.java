@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.cipres.treebase.ContextManager;
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.matrix.MatrixHome;
 import org.cipres.treebase.domain.study.Study;
@@ -121,20 +122,8 @@ public class RawNexusImporter extends AbstractStandalone implements RawNexusImpo
 			return false;
 		}
 		
-		Clob clob;
-		try {
-			clob = buildClob(file);
-		} catch (FileNotFoundException e) {
-			err.println(fileName + ": file not found");
-			return false;
-		} catch (UnsupportedEncodingException e) {
-			throw e;
-		} catch (IOException e) {
-			err.println(fileName + ": I/O error; skipping");
-			return false;
-		}
-
-		if (clob == null) return false;
+		String fileContents = TreebaseUtil.readFileToString(file);
+		if (fileContents == null) return false;
 		
 		Set<Study> studies = new HashSet<Study> ();
 		studies.addAll(handleMatricesInFile(file));
@@ -142,7 +131,7 @@ public class RawNexusImporter extends AbstractStandalone implements RawNexusImpo
 		
 		for (Study s : studies) {
 			if (liveMode())
-				s.getNexusFiles().put(fileName, clob);
+				s.getNexusFiles().put(fileName, fileContents);
 			verbose("Study S" + s.getId() + " now linked to nexus file " + fileName);
 		}
 		return true;
