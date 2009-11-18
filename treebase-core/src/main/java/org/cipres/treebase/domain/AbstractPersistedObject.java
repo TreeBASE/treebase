@@ -53,7 +53,7 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 	 * @see org.cipres.treebase.domain.TBPersistable#getId()
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public Long getId() {
 		return mId;
 	}
