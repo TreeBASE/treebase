@@ -64,7 +64,7 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		   StringWriter writer=null;
 		   Template t=null;
 		try {
-			t = ve.getTemplate("\\"+mav.getViewName());
+			t = ve.getTemplate("\\"+mav.getViewName()+".vm");
 		
 		   VelocityContext context = new VelocityContext();
    		   context.put("model", mav.getModel());
@@ -159,8 +159,8 @@ public void testListRecords() {
 		
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListRecords");
-		params.setFrom("2005-11-15T06:16:15Z");
-		params.setUntil("2006-05-15T06:16:15Z");
+		//params.setFrom("2005-11-15T06:16:15Z");
+		params.setUntil("1996-11-04T06:16:15Z");
 		params.setMetadataPrefix("oai_dc");
 		Map model=new HashMap();
 		model.put("identify",identify );
@@ -199,40 +199,40 @@ public void testListRecords() {
 		System.out.println(mav.getViewName()+" "
 				+mav.getModel().get("error_code")
 				+": "+mav.getModel().get("error"));
-		this.assertEquals("error.vm", mav.getViewName());
+		this.assertEquals("error", mav.getViewName());
 		
 		params.setVerb("Identify");	
 		mav=call(params);
-		this.assertEquals("Identify.vm", mav.getViewName());
+		this.assertEquals("Identify", mav.getViewName());
 		
 		params.setVerb("ListSets");	
 		mav=call(params);
 		System.out.println(mav.getViewName()+" "
 				+mav.getModel().get("error_code")
 				+": "+mav.getModel().get("error"));
-		this.assertEquals("error.vm", mav.getViewName());
+		this.assertEquals("error", mav.getViewName());
 		
 		params.setVerb("ListMetadataFormats");	
 		mav=call(params);
-		this.assertEquals("ListMetadataFormats.vm", mav.getViewName());
+		this.assertEquals("ListMetadataFormats", mav.getViewName());
 		
 		params.setVerb("GetRecord");
 		params.setIdentifier("treebase.org/study/TB2:s1225");
 		params.setMetadataPrefix("oai_dc");
 		mav=call(params);
-		this.assertEquals("GetRecord.vm", mav.getViewName());
+		this.assertEquals("GetRecord", mav.getViewName());
 		
 		params.setVerb("ListIdentifiers");
 		params.setFrom("2005-11-15T06:16:15Z");
 		params.setUntil("2006-05-15T06:16:15Z");
 		mav=call(params);
-		this.assertEquals("oai_dc_ListIdentifiers.vm", mav.getViewName());
+		this.assertEquals("oai_dc_ListIdentifiers", mav.getViewName());
 	
 		params.setVerb("ListRecords");
 		params.setFrom("2005-11-15T06:16:15Z");
 		params.setUntil("2006-05-15T06:16:15Z");
 		mav=call(params);
-		this.assertEquals("ListRecords.vm", mav.getViewName());
+		this.assertEquals("ListRecords", mav.getViewName());
 	}
 	
 	

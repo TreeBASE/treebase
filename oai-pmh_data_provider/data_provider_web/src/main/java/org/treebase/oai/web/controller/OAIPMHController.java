@@ -221,10 +221,12 @@ public class OAIPMHController extends AbstractCommandController{
 			String publisher=null;
 			
 			//System.out.println("ctype: "+citation.getCitationType());
+			try{
 			if(citation.getCitationType().toUpperCase().contains("BOOK"))
-				publisher=((BookCitation)citation).getPublisher();
+				   publisher=((BookCitation)citation).getPublisher();
 			else publisher=((ArticleCitation)citation).getJournal();
-						
+			
+			
 			List<Person> authors=citation.getAuthors();
 			 
 		
@@ -242,6 +244,10 @@ public class OAIPMHController extends AbstractCommandController{
 			map.put("identifier", "treebase.org/study/TB2:s"+study.getId());
 			map.put("datestamp", study.getReleaseDate());
 			
+			}catch(NullPointerException e){
+				//study 253 citation= null, data should be fixed 
+ 				System.err.println("study "+study.getId()+
+						" citation= "+e.getMessage());}
 			
 			//map.put("type", "text");
 			//map.put("language", "en");

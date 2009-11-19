@@ -19,16 +19,22 @@ public class OAIPMHValidator implements Validator {
 		String fPrefix = command.getMetadataPrefix();
 		
 		ValidationUtils.rejectIfEmptyOrWhitespace(pError, "verb", "empyt verb");
-		if(verb=="GetRecord")
+		
+		
+		if(verb!=null && verb.equals("GetRecord"))
 			ValidationUtils.rejectIfEmptyOrWhitespace(pError, "identifier", "empyt id");
 		
 		// check format prefix
-		
-		if(verb=="GetRecord"||verb=="ListIdentifiers"||verb=="ListRecords"){
-			ValidationUtils.rejectIfEmptyOrWhitespace(pError, "metadataPrefix", "cannotDisseminateFormat");
-			if(fPrefix!="oai_dc"&fPrefix!="dryad")
-				pError.rejectValue("metadataPrefix","cannotDisseminateFormat");									
-		}
-	}		
+		if(verb!=null){
+		    if(verb.equals("GetRecord")||verb.equals("ListIdentifiers")||verb.equals("ListRecords")){
+			   
+		    	ValidationUtils.rejectIfEmptyOrWhitespace(pError, "metadataPrefix", "cannotDisseminateFormat");
+			   
+		    	if(fPrefix!=null)
+				   if(!(fPrefix.equals("oai_dc")||fPrefix.equals("dryad")))
+				    pError.rejectValue("metadataPrefix","cannotDisseminateFormat");									
+		   }
+	    }	
+	}	
 	   
 }
