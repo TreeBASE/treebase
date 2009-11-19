@@ -145,13 +145,15 @@ sub attr_check {
 
 my $OK = 1;
 my @warnings;
-$type->new($id)->dump(action => \&prt, seen => {}, 
-		      prune => \%prune,
-		      show_all => $opt{a},
-		      warnings => \@warnings,
-		      attr_check => \&attr_check,
-		      defined($opt{d}) ? (maxdepth => $opt{d}) : (),
-    );
+$type->new($id)->dump(
+    action     => \&prt, 
+    seen       => {}, 
+    prune      => \%prune,
+    show_all   => $opt{a},
+    warnings   => \@warnings,
+    attr_check => \&attr_check,
+    defined($opt{d}) ? (maxdepth => $opt{d}) : (),
+);
 
 for my $w (@warnings) {
     print STDERR "*** $w\n";
