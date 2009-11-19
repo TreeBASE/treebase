@@ -3,12 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
          http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
-<responseDate>${model.identify.getResponseDate()}</responseDate>
-<request #if($!model.params.verb)verb="$!model.params.verb" #end
-#if($!model.params.identifier)identifier="$!model.params.identifier" #end 
-#if($!model.params.metadataPrefix)metadataPrefix="$!model.params.metadataPrefix" #end      
-#if($!model.params.from)from="$!model.params.from" #end
-#if($!model.params.until)until="$!model.params.until" #end
-#if($!model.params.resumptionToken)resumptionToken="$!model.params.resumptionToken" #end
-#if($!model.params.set)set="$!model.params.set" #end>
-$!model.identify.BaseURL</request>
+<responseDate>${identify.getResponseDate()}</responseDate>
+<request #if($!requestParams.verb)verb="$!requestParams.verb" #end
+#if($!requestParams.identifier)identifier="$!requestParams.identifier" #end 
+#if($!requestParams.metadataPrefix)metadataPrefix="$!requestParams.metadataPrefix" #end      
+#if($!requestParams.from)from="$!requestParams.from" #end
+#if($!requestParams.until)until="$!requestParams.until" #end
+#if($!requestParams.resumptionToken)resumptionToken="$!requestParams.resumptionToken" #end
+#if($!requestParams.set)set="$!requestParams.set" #end>
+$!identify.BaseURL</request>

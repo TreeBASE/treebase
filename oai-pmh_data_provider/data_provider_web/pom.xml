@@ -246,11 +246,6 @@
      	<version>2.4</version>
      </dependency>
      <dependency>
-     	<groupId>org.cipres.treebase</groupId>
-     	<artifactId>treebase-core</artifactId>
-     	<version>1.0-SNAPSHOT</version>
-     </dependency>
-     <dependency>
      	<groupId>velocity-tools</groupId>
      	<artifactId>velocity-tools</artifactId>
      	<version>1.1</version>
@@ -264,6 +259,11 @@
      	<groupId>velocity-tools</groupId>
      	<artifactId>velocity-tools-view</artifactId>
      	<version>1.1</version>
+     </dependency>
+     <dependency>
+     	<groupId>org.cipres.treebase</groupId>
+     	<artifactId>treebase-core</artifactId>
+     	<version>1.0-SNAPSHOT</version>
      </dependency>
      
   </dependencies>

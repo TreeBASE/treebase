@@ -1,7 +1,7 @@
 #parse("head.vm")
 <ListRecords>
-#if($!model.params.metadataPrefix=="oai_dc")
-#foreach($record in $model.recordList) 
+#if($!requestParams.metadataPrefix=="oai_dc")
+#foreach($record in $recordList) 
 #parse("oai_dc_record.vm")
 #end
 #end

@@ -1,12 +1,12 @@
 #parse("head.vm")
   <Identify>
-    <repositoryName>${model.identify.repositoryName}</repositoryName>
-    <baseURL>${model.identify.baseURL}</baseURL>
-    <protocolVersion>${model.identify.protocolVersion}</protocolVersion>
-    <adminEmail>${model.identify.adminEmail}</adminEmail>
-    <earliestDatestamp>${model.identify.earliestDatestamp}</earliestDatestamp>
-    <deletedRecord>${model.identify.deletedRecord}</deletedRecord>
-    <granularity>${model.identify.granularity}</granularity>
+    <repositoryName>${identify.repositoryName}</repositoryName>
+    <baseURL>${identify.baseURL}</baseURL>
+    <protocolVersion>${identify.protocolVersion}</protocolVersion>
+    <adminEmail>${identify.adminEmail}</adminEmail>
+    <earliestDatestamp>${identify.earliestDatestamp}</earliestDatestamp>
+    <deletedRecord>${identify.deletedRecord}</deletedRecord>
+    <granularity>${identify.granularity}</granularity>
     
     <description>
       <oai-identifier 
@@ -16,9 +16,9 @@
             "http://www.openarchives.org/OAI/2.0/oai-identifier
         http://www.openarchives.org/OAI/2.0/oai-identifier.xsd">
         <scheme>oai</scheme>
-        <repositoryIdentifier>${model.identify.repositoryIdentifier}</repositoryIdentifier>
-        <delimiter>${model.identify.identifierDelimiter}</delimiter>
-        <sampleIdentifier>${model.identify.sampleIdentifier}</sampleIdentifier>
+        <repositoryIdentifier>${identify.repositoryIdentifier}</repositoryIdentifier>
+        <delimiter>${identify.identifierDelimiter}</delimiter>
+        <sampleIdentifier>${identify.sampleIdentifier}</sampleIdentifier>
       </oai-identifier>
     </description>   
  </Identify>

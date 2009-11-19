@@ -1,6 +1,6 @@
 #parse("head.vm")
 <ListIdentifiers>
-#foreach ( $record in $model.recordList) 
+#foreach ( $record in $recordList) 
 <header>
 <identifier>${record.identifier}</identifier> 
 <datestamp>$!record.datestamp</datestamp>

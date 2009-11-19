@@ -24,10 +24,11 @@ public class OAIPMHValidator implements Validator {
 		
 		// check format prefix
 		
-		if(verb=="GetRecord"||verb=="ListIdentifiers"||verb=="ListRecords")
-		  if(fPrefix!="oai_dc"&fPrefix!="dryad")
-			pError.rejectValue("metadataPrefix","cannotDisseminateFormat");									
-	   	
+		if(verb=="GetRecord"||verb=="ListIdentifiers"||verb=="ListRecords"){
+			ValidationUtils.rejectIfEmptyOrWhitespace(pError, "metadataPrefix", "cannotDisseminateFormat");
+			if(fPrefix!="oai_dc"&fPrefix!="dryad")
+				pError.rejectValue("metadataPrefix","cannotDisseminateFormat");									
+		}
 	}		
 	   
 }

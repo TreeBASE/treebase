@@ -85,17 +85,17 @@ public class OAIPMHController extends AbstractCommandController{
 		     if(errors.hasFieldErrors("metadataPrefix")){
 				model.put("error_code", "cannotDisseminateFormat");
 				model.put("error", "bad metadataPrefix");
-		    	return new ModelAndView("error.vm",model); 
+		    	return new ModelAndView("error",model); 
 		     }
 		     if(errors.hasFieldErrors("verb")){
 		    	 model.put("error_code", "badVerb");
 				 model.put("error", "no verb was found");
-				 return new ModelAndView("error.vm",model);
+				 return new ModelAndView("error",model);
 		     }
 		     if(errors.hasFieldErrors("identifier")){
 		    	 model.put("error_code", "idDoesNotExist");
 				 model.put("error", "no id was found");		     
-				 return new ModelAndView("error.vm",model);
+				 return new ModelAndView("error",model);
 		     }
 		 }
 		 
@@ -105,11 +105,11 @@ public class OAIPMHController extends AbstractCommandController{
 		 }catch(NoSuchMethodException nsme){
 			 model.put("error_code", "badVerb");
 			 model.put("error", "invalid verb");
-			 return new ModelAndView("error.vm",model);
+			 return new ModelAndView("error",model);
 		 }catch(NullPointerException e){
 			 model.put("error_code", "badVerb");
 			 model.put("error", "missing verb");
-			 return (new ModelAndView("error.vm",model));
+			 return (new ModelAndView("error",model));
 		 }
 		 
 		 return (ModelAndView) method.invoke(this, params, model);
@@ -125,10 +125,10 @@ public class OAIPMHController extends AbstractCommandController{
 			} catch (ParseException e) {
 				model.put("error_code", "badArgument");
 				model.put("error", "invalid from or until format");
-				return (new ModelAndView("error.vm",model));
+				return (new ModelAndView("error",model));
 			}
 			model.put("recordList", getRecordList(list));
-			return (new ModelAndView("ListRecords.vm",model));
+			return (new ModelAndView("ListRecords",model));
 		
 		}
     		
@@ -142,10 +142,10 @@ public class OAIPMHController extends AbstractCommandController{
 			} catch (ParseException e) {
 				model.put("error_code", "badArgument");
 				model.put("error", "invalid from or until format");
-				return (new ModelAndView("error.vm",model));
+				return (new ModelAndView("error",model));
 			}
 			model.put("recordList", getRecordList(list));
-			return (new ModelAndView(params.getMetadataPrefix()+"_ListIdentifiers.vm",model));
+			return (new ModelAndView(params.getMetadataPrefix()+"_ListIdentifiers",model));
 	
 		}
 
@@ -159,32 +159,32 @@ public class OAIPMHController extends AbstractCommandController{
 			}catch(NumberFormatException nfe){
 				model.put("error_code", "badArgument");
 				model.put("error", "invalid id format");
-				return (new ModelAndView("error.vm",model));
+				return (new ModelAndView("error",model));
 		
 			}
 			catch (NullPointerException e){
 				
 				model.put("error_code", "idDoesNotExist");
 				model.put("error", "invalid id");
-				return (new ModelAndView("error.vm",model));
+				return (new ModelAndView("error",model));
 				
 			}
 			model.put("record", getRecordMap(submission));			
-			return (new ModelAndView("GetRecord.vm",model));
+			return (new ModelAndView("GetRecord",model));
 	
 		}
 
 		public ModelAndView Identify(OAIPMHCommand params, Map model){
 	
 			
-			return (new ModelAndView("Identify.vm",model));
+			return (new ModelAndView("Identify",model));
 	
 		}
 		
 		public ModelAndView ListSets(OAIPMHCommand params, Map model){
 			model.put("error_code", "noSetHierarchy");
 			model.put("error", "This repository does not support sets");			
-			return (new ModelAndView("error.vm",model));
+			return (new ModelAndView("error",model));
 			
 		}
 		
@@ -198,16 +198,16 @@ public class OAIPMHController extends AbstractCommandController{
 			}catch(NumberFormatException nfe){
 				model.put("error_code", "badArgument");
 				model.put("error", "invalid id format");			
-				return (new ModelAndView("error.vm",model));
+				return (new ModelAndView("error",model));
 				
 			}
 			catch (NullPointerException e){
 				//id is optional for ListMetadataFormats
-				//return (new ModelAndView("idDoesNotExist.vm",model));
+				//return (new ModelAndView("error",model));
 			}
 			
 			
-			return (new ModelAndView("ListMetadataFormats.vm",model));
+			return (new ModelAndView("ListMetadataFormats",model));
 		
 		}
 	
