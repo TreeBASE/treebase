@@ -5,9 +5,10 @@ sub CIPRES::TreeBase::TreeBaseObjects::set_db_connection {
     CIPRES::TreeBase::VeryBadORM->set_db_connection(@_); 
 }
 
+####################################################################################################
 package Analysis;
 CIPRES::TreeBase::VeryBadORM->register();
-our %r_attr = qw(ANALYSISSTEPS AnalysisStep);
+our %r_attr = ( 'analysissteps' => 'AnalysisStep' );
 
 sub to_str {
     my $self = shift();
@@ -33,8 +34,8 @@ sub analyzed_matrices {
     my @matrices;
     for my $as ($self->analysis_steps) {
       for my $ad ($as->analyzeddata) {
-	my $matrix = $ad->matrix;
-	push @matrices, $matrix if defined $matrix;
+	    my $matrix = $ad->matrix;
+	    push @matrices, $matrix if defined $matrix;
       }
     }
     $self->{analyzed_matrices} = \@matrices;
@@ -48,8 +49,8 @@ sub analyzed_trees {
     my @trees;
     for my $as ($self->analysis_steps) {
       for my $ad ($as->analyzeddata) {
-	my $tree = $ad->tree;
-	push @trees, $tree if defined $tree;
+	    my $tree = $ad->tree;
+	    push @trees, $tree if defined $tree;
       }
     }
     $self->{analyzed_trees} = \@trees;
@@ -68,14 +69,14 @@ sub consistent {
     my %tlset_ids;
     my $OK = 1;
     for my $tree ($self->analyzed_trees) {
-	if ($tree->treeblock && $tree->treeblock->taxonlabelset) {
-	    $tlset_ids{$tree->treeblock->taxonlabelset->id} ++;
-	}
+		if ($tree->treeblock && $tree->treeblock->taxonlabelset) {
+			$tlset_ids{$tree->treeblock->taxonlabelset->id} ++;
+		}
     }
     for my $matrix ($self->analyzed_matrices) {
-	if ($matrix->taxonlabelset) {
-	    $tlset_ids{$matrix->taxonlabelset->id} ++;
-	}
+		if ($matrix->taxonlabelset) {
+			$tlset_ids{$matrix->taxonlabelset->id} ++;
+		}
     }
     my @ids = keys(%tlset_ids);
     if (@ids == 1) {
@@ -99,10 +100,10 @@ sub consistent {
     return $OK;
 }
 
-
+####################################################################################################
 package AnalysisStep;
 CIPRES::TreeBase::VeryBadORM->register();
-our %r_attr = qw(ANALYZEDDATA AnalyzedData);
+our %r_attr = qw(analyzeddata AnalyzedData);
 
 sub to_str {
     my $self = shift();
@@ -117,6 +118,7 @@ sub recurse {
   }
 }
 
+####################################################################################################
 package AnalyzedData;
 CIPRES::TreeBase::VeryBadORM->register();
 
@@ -134,9 +136,11 @@ sub tree {
   return $_[0]->phylotree;
 }
 
+####################################################################################################
 package Citation;
-our %r2_attr = (AUTHORS => ['CITATION_AUTHOR', 'Person', 'AUTHORS_PERSON_ID']
-    );
+our %r2_attr = (
+	'authors' => ['citation_author', 'Person', 'authors_person_id']
+);
 CIPRES::TreeBase::VeryBadORM->register();
 
 sub recurse {
@@ -152,18 +156,26 @@ sub consistent {
     my %author_count;
     my $OK = 1;
     for my $author ($self->authors) {
-	if (++$author_count{$author->id} == 2) {
-	    push @{$attr{warnings}},  "Citation " . $self->id . " contains author " . $author->id . " multiple times.\n";
-	    $OK = 0;
-	}
+		if (++$author_count{$author->id} == 2) {
+			push @{$attr{warnings}},  
+				"Citation " 
+				. $self->id 
+				. " contains author " 
+				. $author->id 
+				. " multiple times.\n";
+			$OK = 0;
+		}
     }
     return $OK;
 }
 
+####################################################################################################
 package Matrix;
 CIPRES::TreeBase::VeryBadORM->register();
-our %r_attr = qw(ROWS MatrixRow
-                 COLUMNS MatrixColumn);
+our %r_attr = (
+	'rows'    => 'MatrixRow',
+	'columns' => 'MatrixColumn',
+);
 
 sub to_str {
     my $self = shift();
@@ -235,9 +247,11 @@ sub consistent {
     return $OK;
 }
 
+####################################################################################################
 package MatrixColumn;
 CIPRES::TreeBase::VeryBadORM->register();
 
+####################################################################################################
 package MatrixKind;
 CIPRES::TreeBase::VeryBadORM->register();
 
@@ -247,6 +261,7 @@ sub to_str {
     return $self->description ? qq{$s "} . $self->description . qq{"} : $s;
 }
 
+####################################################################################################
 package MatrixRow;
 CIPRES::TreeBase::VeryBadORM->register();
 sub recurse {
@@ -261,22 +276,25 @@ sub consistent {
     return $attr{attr_check}->($self, 'Matrix', \%attr);
 }
 
+####################################################################################################
 package NexusFile;
 CIPRES::TreeBase::VeryBadORM->register();
-our %subobject = (STUDY => 'Study');
+our %subobject = ('study' => 'Study');
 
-sub table { "Study_NexusFile" }
+sub table { "Study_NexusFile" } # XXX check to see if this casing makes sense
 
 sub new_by_name {
     my ($class, $filename, $study_id) = @_;
-    my $self = bless { FILENAME => $filename, 
-		       STUDY_ID => $study_id,
-		       ID => "$study_id,$filename",
-		       reified => 1, # don't try to retrieve the clob!
+    my $self = bless { 
+    	'filename' => $filename, 
+		'study_id' => $study_id,
+		'id'       => "$study_id,$filename",
+		'reified'  => 1, # don't try to retrieve the clob!
     } => $class;
     return $self;
 }
 
+####################################################################################################
 package Person;
 CIPRES::TreeBase::VeryBadORM->register();
 
@@ -291,15 +309,16 @@ sub to_str {
     return $s;
 }
 
+####################################################################################################
 package PhyloTree;
 CIPRES::TreeBase::VeryBadORM->register();
-our %subobject = (ROOTNODE => 'PhyloTreeNode', TREETYPE => 'TreeType');
-our %r_attr = (TREEBLOCK => 'TreeBlock');
+our %subobject = ('rootnode' => 'PhyloTreeNode', 'treetype' => 'TreeType');
+our %r_attr = ('treeblock' => 'TreeBlock');
 
 sub to_str {
     my $self = shift;
     my $s = $self->SUPER::to_str(@_);
-    my $tb1id = $self->TB1_TREEID();
+    my $tb1id = $self->tb1_treeid();
     $s .= qq{ (was $tb1id)} if $tb1id;
     my $title = $self->title;
     $s .= qq{ "$title"} if $title;
@@ -322,23 +341,22 @@ sub consistent {
     my $self = shift;
     my %attr = @_;
     my $OK = 1;
-    $OK &&= $attr{attr_check}->($self, 'Study', \%attr);
-    $OK &&= $attr{attr_check}->($self, 'TreeBlock', \%attr);
-    $OK &&= $attr{attr_check}->($self->rootnode, 'parent', undef,
-				$attr{warnings});
+    $OK &&= $attr{'attr_check'}->($self, 'Study', \%attr);
+    $OK &&= $attr{'attr_check'}->($self, 'TreeBlock', \%attr);
+    $OK &&= $attr{'attr_check'}->($self->rootnode, 'parent', undef, $attr{'warnings'});
 
     for my $a (qw(quality kind type)) {
       my $meth = "tree$a\_id";
       unless (defined $self->$meth) {
-	push @{$attr{warnings}},  "PhyloTree " . $self->id . " has null tree_$a";
-	$OK = 0;
+		push @{$attr{'warnings'}},  "PhyloTree " . $self->id . " has null tree_$a";
+		$OK = 0;
       }
     }
 
     for my $a (qw(label title)) {
       unless (defined $self->$a) {
-	push @{$attr{warnings}},  "PhyloTree " . $self->id . " has null $a";
-	$OK = 0;
+		push @{$attr{warnings}},  "PhyloTree " . $self->id . " has null $a";
+		$OK = 0;
       }
     }
 
@@ -393,12 +411,14 @@ sub nexusfile {
     return $self->{nexusfile} = NexusFile->new_by_name($nfn, $sid);
 }
 
+####################################################################################################
 package PhyloTreeNode;
 CIPRES::TreeBase::VeryBadORM->register();
-our %subobject = (CHILD => 'PhyloTreeNode',
-		  SIBLING => 'PhyloTreeNode',
-		  PARENT => 'PhyloTreeNode',
-    );
+our %subobject = (
+	'child'     => 'PhyloTreeNode',
+	'sibling'   => 'PhyloTreeNode',
+	'parent'    => 'PhyloTreeNode',
+);
 
 sub to_str {
     my $self = shift;
@@ -411,13 +431,9 @@ sub to_str {
 sub children {
   my $self = shift;
   my @children;
-
-  for (my $child = $self->child;
-       $child;
-       $child = $child->sibling) {
+  for (my $child = $self->child; $child; $child = $child->sibling) {
     push @children, $child;
   }
-
   return @children;
 }
 
@@ -431,10 +447,8 @@ sub recurse {
     my %attr = @_;
     my $tl = $self->taxonlabel;
     $tl->dump(%attr) if $tl;
-    for (my $n = $self->child;
-	 $n;
-	 $n = $n->sibling) {
-	$n->dump(%attr);
+    for (my $n = $self->child; $n; $n = $n->sibling) {
+		$n->dump(%attr);
     }
 }
 
@@ -457,17 +471,18 @@ sub consistent {
 
 sub is_nested { 1 }
 
+####################################################################################################
 package Study;
 CIPRES::TreeBase::VeryBadORM->register();
-our %r_attr = qw(ANALYSES Analysis
-                 MATRICES Matrix
-                 TREES    PhyloTree
-                 SUBMISSIONS Submission
-		 TAXONLABELSETS TaxonLabelSet
-                );
+our %r_attr = (
+	'analyses'       => 'Analysis',
+	'matrices'       => 'Matrix',
+	'trees'          => 'PhyloTree',
+	'submissions'    => 'Submission',
+	'taxonlabelsets' => 'TaxonLabelSet',
+);
 
-our %r2_attr = (NEXUSFILES => ['STUDY_NEXUSFILE', 'NexusFile']
-    );
+our %r2_attr = ('nexusfiles' => ['study_nexusfile', 'NexusFile']);
 
 sub to_str {
     my $self = shift();
@@ -652,11 +667,13 @@ sub get_r2_subobject_no_check {
     }
 }
 
+####################################################################################################
 package Submission;
 CIPRES::TreeBase::VeryBadORM->register();
-our %r2_attr = (TREEBLOCKS  => ['SUB_TREEBLOCK', 'TreeBlock'],
-		TAXONLABELS => ['SUB_TAXONLABEL', 'TaxonLabel'],
-		MATRICES    => ['SUB_MATRIX', 'Matrix'],
+our %r2_attr = (
+	treeblocks  => ['sub_treeblock', 'TreeBlock'],
+	taxonlabels => ['sub_taxonlabel', 'TaxonLabel'],
+	matrices    => ['sub_matrix', 'Matrix'],
 );
 
 sub recurse {
@@ -716,7 +733,7 @@ sub consistent {
   return $OK;
 }
 
-
+####################################################################################################
 package Taxon;
 CIPRES::TreeBase::VeryBadORM->register();
 
@@ -726,10 +743,11 @@ sub to_str {
     return "$s " . $self->name;
 }
 
+####################################################################################################
 package TaxonLabel;
 CIPRES::TreeBase::VeryBadORM->register();
-our %r_attr = qw(TREENODES PhyloTreeNode ROWS MatrixRow);
-our %r2_attr = (TAXONLABELSETS => ['TAXONLABELSET_TAXONLABEL', 'TaxonLabelSet']);
+our %r_attr = ('treenodes' => 'PhyloTreeNode', 'rows' => 'MatrixRow');
+our %r2_attr = ('taxonlabelsets' => ['taxonlabelset_taxonlabel', 'TaxonLabelSet']);
 
 sub to_str {
     my $self = shift();
@@ -758,10 +776,11 @@ sub consistent {
     return $attr{attr_check}->($self, 'Study', \%attr);
 }
 
+####################################################################################################
 package TaxonLabelSet;
 CIPRES::TreeBase::VeryBadORM->register();
-our %r_attr = qw(TREEBLOCKS TreeBlock MATRICES Matrix);
-our %r2_attr = (TAXONLABELS => ['TAXONLABELSET_TAXONLABEL', 'TaxonLabel']);
+our %r_attr = ('treeblocks' => 'TreeBlock', 'matrices' => 'Matrix');
+our %r2_attr = ('taxonlabels' => ['taxonlabelset_taxonlabel', 'TaxonLabel']);
 
 sub to_str {
     my $self = shift;
@@ -819,6 +838,7 @@ sub consistent {
     return $OK;
 }
 
+####################################################################################################
 package TaxonVariant;
 CIPRES::TreeBase::VeryBadORM->register();
 
@@ -840,10 +860,11 @@ sub recurse {
   $t->dump(@_) if $t;
 }
 
+####################################################################################################
 package TreeBlock;
 CIPRES::TreeBase::VeryBadORM->register();
-our %r2_attr = (SUBMISSIONS => ['SUB_TREEBLOCK', 'Submission']);
-our %r_attr = (TREES => 'PhyloTree');
+our %r2_attr = ('submissions' => ['sub_treeblock', 'Submission']);
+our %r_attr = ('trees' => 'PhyloTree');
 
 
 sub to_str {
@@ -879,6 +900,7 @@ sub consistent {
     return $OK;
 }
 
+####################################################################################################
 package TreeType;
 CIPRES::TreeBase::VeryBadORM->register();
 

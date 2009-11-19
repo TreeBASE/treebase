@@ -2,7 +2,8 @@
 package CIPRES::TreeBase::VeryBadORM;
 use Carp 'croak';
 use strict 'vars';
-
+use Devel::StackTrace;
+use Data::Dumper;
 our %dbh;
 our $DBH;
 
@@ -23,9 +24,9 @@ sub new {
 	unless defined $DBH;
 
     unless (defined $id) {
-	croak("$class\::new: missing ID argument");
+		croak("$class\::new: missing ID argument");
     }
-    my $obj = bless { ID => $id } => $class;
+    my $obj = bless { 'id' => $id } => $class;
     $cache{$class}{$id} = $obj;
     return $obj;
 }
@@ -36,34 +37,36 @@ sub AUTOLOAD {
     our $AUTOLOAD;
     my ($package, $method) = $AUTOLOAD =~ /(.*)::(.*)/;
     if ($package->has_attr($method)) {
-	return $obj->get_no_check($method, @_);
+		return $obj->get_no_check($method, @_);
     } elsif ($package->has_subobject($method)) {
-	return $obj->get_subobject_no_check($method, @_);
+		return $obj->get_subobject_no_check($method, @_);
     } elsif ($package->has_r_attr($method)) {
-	return $obj->get_r_subobject_no_check($method, @_);
+		return $obj->get_r_subobject_no_check($method, @_);
     } elsif ($package->has_r2_attr($method)) {
-	return $obj->get_r2_subobject_no_check($method, @_);
+		return $obj->get_r2_subobject_no_check($method, @_);
     } else {
-	croak("Unknown attribute '$method' in class '$package'");
+		my $trace = Devel::StackTrace->new;
+		print $trace->as_string; # like carp
+		croak("Unknown attribute '$method' in class '$package'");
     }
 }
 
 sub has_attr {
     my $base = shift;
     my $class = ref($base) || $base;
-    return $class->attr_hash()->{uc shift()};
+    return $class->attr_hash()->{shift()};
 }
 
 sub has_r_attr {
     my $base = shift;
     my $class = ref($base) || $base;
-    return $class->r_class(uc shift());
+    return $class->r_class(shift());
 }
 
 sub has_r2_attr {
     my $base = shift;
     my $class = ref($base) || $base;
-    return $class->r2_class(uc shift());
+    return $class->r2_class(shift());
 }
 
 sub has_subobject {
@@ -74,7 +77,7 @@ sub has_subobject {
 
 sub foreign_key {
     my $base = shift;
-    my $subobj = shift;
+    my $subobj = lc(shift); # XXX
     return $subobj . "_id"; 
 }
 
@@ -86,11 +89,10 @@ sub attr_hash {
 
     my $attr_list = $base->attr_list;
     if (@$attr_list) {
-	%$attr_hash = map { uc($_) => 1 } @$attr_list;
-	$attr_hash->{"$class\_id"} = 1;
-	return $attr_hash;
+		%$attr_hash = map { $_ => 1 } @$attr_list;
+		$attr_hash->{"$class\_id"} = 1;
+		return $attr_hash;
     }
-
     return;
 }
 
@@ -154,20 +156,20 @@ sub get {
     } elsif ($self->has_r_attr($attr)) {
 	return $self->get_r_subobject_no_check($attr, @_);
     }
+    my $trace = Devel::StackTrace->new;
+	print $trace->as_string; # like carp
     croak($self->class . " has no attribute named '$attr'");
 }
 
 sub get_no_check {
     my ($self, $attr) = @_;
-    $attr = uc $attr;
-    return $self->id if $attr eq "ID";
+    return $self->id if $attr eq "id";
     return $self->{$attr} if exists $self->{$attr};
     return $self->{$attr} = $self->reify->{$attr};
 }
 
 sub get_subobject_no_check {
     my ($self, $attr) = @_;
-    $attr = uc $attr;
     return $self->{$attr} if exists $self->{$attr};
     my $id = $self->get($self->foreign_key($attr));
     return unless defined $id;
@@ -181,7 +183,7 @@ sub get_subobject_no_check {
 # and return a list of analysis objects
 sub get_r_subobject_no_check {
     my ($self, $attr) = @_;
-    $attr = uc $attr;
+    $attr = $attr;
     my $target_class = $self->r_class($attr);
     my $target_table = $target_class->table;
     my $field = $target_class->id_attr;
@@ -235,8 +237,8 @@ sub to_str { my $self = shift;
 	     my %attr = @_;
 	     return $self->class  . " #" . $self->id; }
 
-sub id { $_[0]{ID} }
-sub id_attr { return uc($_[0]->class . "_id") };
+sub id { $_[0]{'id'} }
+sub id_attr { return lc($_[0]->class . "_id") };
 sub class { return ref($_[0]) || $_[0]; }
 
 my %known_class;
@@ -247,8 +249,8 @@ sub register {
     my @classes = @_;
     @classes = scalar(caller()) unless @classes;
     for my $class (@classes) {
-	push @{"$class\::ISA"}, $my_class;
-	$class->known_class_hash->{uc $class} = $class;
+		push @{"$class\::ISA"}, $my_class;
+		$class->known_class_hash->{uc $class} = $class;
     }
 }
 
@@ -261,7 +263,7 @@ sub subobject_class {
     my ($self, $subobj) = @_;
     my $subobj_class = \%{$self->class . "::subobject"};
     return $subobj_class->{$subobj} if exists $subobj_class->{$subobj};
-    return $self->alias($subobj) || ucfirst(lc $subobj);
+    return $self->alias($subobj) || $subobj;#ucfirst(lc($subobj));
 }
 
 sub get_id_pair {
@@ -272,17 +274,17 @@ sub get_id_pair {
 sub table { return $_[0]->class; }
 sub r_class {
     my ($self, $r_attr) = @_;
-    return $self->r_attr_hash()->{uc $r_attr};
+    return $self->r_attr_hash()->{$r_attr};
 }
 
 sub r2_table {
     my ($self, $r_attr) = @_;
-    return $self->r2_attr_hash()->{uc $r_attr}->[0];
+    return $self->r2_attr_hash()->{$r_attr}->[0];
 }
 
 sub r2_class {
     my ($self, $r_attr) = @_;
-    return $self->r2_attr_hash()->{uc $r_attr}->[1];
+    return $self->r2_attr_hash()->{$r_attr}->[1];
 }
 
 sub dump {
@@ -291,11 +293,11 @@ sub dump {
     my ($class, $id) = ($self->class, $self->id);
 
     my $continue = 1;
-    $continue = $attr{action}->($self, %attr) if $attr{action};
+    $continue = $attr{'action'}->($self, %attr) if $attr{'action'};
     return unless $continue;
 
-    $attr{depth} += 1;
-    return if defined($attr{maxdepth}) && $attr{depth} > $attr{maxdepth};
+    $attr{'depth'} += 1;
+    return if defined($attr{'maxdepth'}) && $attr{'depth'} > $attr{'maxdepth'};
     $attr{$class} = $id;
     $self->recurse(%attr);
     delete $attr{$class};

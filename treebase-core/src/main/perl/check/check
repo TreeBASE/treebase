@@ -5,6 +5,8 @@ use CIPRES::TreeBase::TreeBaseObjects;
 use Getopt::Std;
 use Getopt::Long;
 use Pod::Usage;
+use Data::Dumper;
+use Devel::StackTrace; # XXX only for developing, delete me
 use Carp 'croak';
 our $indent = 0;
 
@@ -67,25 +69,27 @@ if (-t STDOUT) {
     $| = 1;
     $TERMINAL = 1;
 }
-my %pod_usage_args = ( -exitval => 1, -verbose => 1 );
+my %pod_usage_args = ( '-exitval' => 1, '-verbose' => 1 );
 my %opt;
+
+# processing command line arguments
 getopts('chasd:p:RC:X', \%opt) or pod2usage(%pod_usage_args);
-if ($opt{X}) { list_known_classes(); }
-if ($opt{h}) { pod2usage(%pod_usage_args) }
-if ($opt{R}) {
-    if ($opt{d}) { pod2usage(%pod_usage_args, "-msg" => "-R and -d are incompatible") }
-    $opt{d} = 0;
+if ($opt{'X'}) { list_known_classes(); }
+if ($opt{'h'}) { pod2usage(%pod_usage_args) }
+if ($opt{'R'}) {
+    if ($opt{'d'}) { pod2usage(%pod_usage_args, '-msg' => '-R and -d are incompatible') }
+    $opt{'d'} = 0;
 }
-if ($opt{c}) {
-    if ($opt{C}) { pod2usage(%pod_usage_args, "-msg" => "-c and -C are inconsistent") }
-    $opt{C} = "";  # set, but no classes
+if ($opt{'c'}) {
+    if ($opt{'C'}) { pod2usage(%pod_usage_args, '-msg' => '-c and -C are inconsistent') }
+    $opt{'C'} = "";  # set, but no classes
 }
 
-my %prune = map { $_ => 1 } split /,\s*/, $opt{p};
-my $all_consistency_checks = ! defined $opt{C};
-my %consistency_check = map { $_ => 1 } split /,\s*/, $opt{C};
+my %prune = map { $_ => 1 } split /,\s*/, $opt{'p'};
+my $all_consistency_checks = ! defined $opt{'C'};
+my %consistency_check = map { $_ => 1 } split /,\s*/, $opt{'C'};
 
-if ($opt{s}) {
+if ($opt{'s'}) {
     # prune out "small" classes
     $prune{$_} = 1 for qw(MatrixRow PhyloTreeNode TaxonLabel MatrixKind TreeType);
 }
@@ -94,10 +98,11 @@ my $type = shift or pod2usage(%pod_usage_args);
 my $id = shift or pod2usage(%pod_usage_args);
 $id =~ s/^#//;
 
+# creating database handle
 my $dbh = CIPRES::TreeBase::DBIUtil->dbh
   or die "Couldn't connect to database: " . DBI->errstr;
 CIPRES::TreeBase::TreeBaseObjects->set_db_connection($dbh);
-$dbh->{ShowErrorStatement} = 1;
+$dbh->{'ShowErrorStatement'} = 1;
 
 sub full_str {
     my $self = shift;
@@ -107,17 +112,24 @@ sub full_str {
     return join ", ", @components;
 }
 
+# this is a handler that is passed around during consistency checks
 sub attr_check {
     my ($obj, $attr_name, $attr, $warnings) = @_;
-#    warn "checking to see that this object has $attr_name = $attr->{$attr_name}\n";
+    print Dumper($attr);
+    if ( ref $attr eq 'ARRAY' ) {
+    	print Dumper($attr);
+    	my $trace = Devel::StackTrace->new;
+		print $trace->as_string; # like carp
+		return 1;
+    }
 
     # If $attr is just a scalar, fake up an attr hash with one attribute
     unless (ref $attr) {
-	$attr = { $attr_name => $attr };
+		$attr = { $attr_name => $attr };
     }
 
     unless ($warnings || $attr->{warnings}) {
-	croak "No warning target variable specified";
+		croak "No warning target variable specified";
     }
 
     return 1 unless exists $attr->{$attr_name};
@@ -146,13 +158,13 @@ sub attr_check {
 my $OK = 1;
 my @warnings;
 $type->new($id)->dump(
-    action     => \&prt, 
-    seen       => {}, 
-    prune      => \%prune,
-    show_all   => $opt{a},
-    warnings   => \@warnings,
-    attr_check => \&attr_check,
-    defined($opt{d}) ? (maxdepth => $opt{d}) : (),
+    'action'     => \&prt, 
+    'seen'       => {}, 
+    'prune'      => \%prune,
+    'show_all'   => $opt{a},
+    'warnings'   => \@warnings,
+    'attr_check' => \&attr_check,
+    defined($opt{d}) ? ('maxdepth' => $opt{d}) : (),
 );
 
 for my $w (@warnings) {
@@ -174,7 +186,6 @@ sub prt {
   my $consistent;
 
   my ($class, $id) = ($self->class, $self->id);
-
   if (! $seen) {
       my $z;
       if ($TERMINAL) {
