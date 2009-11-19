@@ -1,27 +1,83 @@
 #!/usr/bin/perl
-
 use strict;
 use CIPRES::TreeBase::DBIUtil;
 use CIPRES::TreeBase::TreeBaseObjects;
 use Getopt::Std;
+use Getopt::Long;
+use Pod::Usage;
+use Carp 'croak';
 our $indent = 0;
+
+=head1 NAME
+
+check - check TreeBASE database consistency
+
+=head1 SYNOPSIS
+
+ Usage: check [-X] [-acsR] [-d n] [-pClass1,Class2,...] [-CClasses...] Class IDnumber
+
+=head1 ARGUMENTS
+
+=over
+
+=item C<-a> 
+
+show B<all> attributes of every object (default: pretty-print objects)
+
+=item C<-s> 
+
+do not recurse into "small" objects (Currently: MatrixRow, PhyloTreeNode, TaxonLabel)
+
+=item C<-R> 
+
+do not recurse at all, printing only the top object
+
+=item C<-c> 
+
+Skip all consistency checking
+
+=item C<-d n> 
+
+recurse only n levels deep
+
+=item C<-pClasses>
+
+'prune': do not display or recurse into objects of these classes.
+
+=item C<-CClasses>
+
+Perform consistency checking of these classes only
+
+=item C<-X>
+
+for a list of known classes
+
+=back
+
+=head1 DESCRIPTION
+
+Recursively print the contents of the specified object of the
+specified class.  For example, "check Study 1234" prints out study #1234
+and all of its trees, matrices, analyses, etc., and their contents.
+
+=cut
 
 my $TERMINAL;
 if (-t STDOUT) {
     $| = 1;
     $TERMINAL = 1;
 }
-
+my %pod_usage_args = ( -exitval => 1, -verbose => 1 );
 my %opt;
-getopts('chasd:p:RC:X', \%opt) or usage();
+getopts('chasd:p:RC:X', \%opt) or pod2usage(%pod_usage_args);
 if ($opt{X}) { list_known_classes(); }
-if ($opt{h}) { usage(); }
+if ($opt{h}) { pod2usage(%pod_usage_args) }
 if ($opt{R}) {
-    if ($opt{d}) { die "-R and -d are incompatible\n"; }
+    if ($opt{d}) { pod2usage(%pod_usage_args, "-msg" => "-R and -d are incompatible") }
     $opt{d} = 0;
 }
 if ($opt{c}) {
-    if ($opt{C}) { die "-c and -C are inconsistent\n"; }
+    if ($opt{C}) { pod2usage(%pod_usage_args, "-msg" => "-c and -C are inconsistent") }
     $opt{C} = "";  # set, but no classes
 }
 
@@ -34,15 +90,15 @@ if ($opt{s}) {
     $prune{$_} = 1 for qw(MatrixRow PhyloTreeNode TaxonLabel MatrixKind TreeType);
 }
 
-my $type = shift or usage();
-my $id = shift or usage();
+my $type = shift or pod2usage(%pod_usage_args);
+my $id = shift or pod2usage(%pod_usage_args);
 $id =~ s/^#//;
 
 my $dbh = CIPRES::TreeBase::DBIUtil->dbh
   or die "Couldn't connect to database: " . DBI->errstr;
 CIPRES::TreeBase::TreeBaseObjects->set_db_connection($dbh);
 $dbh->{ShowErrorStatement} = 1;
-use Carp 'croak';
+
 sub full_str {
     my $self = shift;
     $self->reify;
@@ -156,31 +212,5 @@ sub list_known_classes {
     }
     exit 0;
 }
-
-sub usage {
-    print STDERR qq<Usage: $0 [-X] [-acsR] [-d n] [-pClass1,Class2,...] [-CClasses...] Class IDnumber
-
-Recursively print the contents of the specified object of the
-specified class.  For example, "$0 Study 1234" prints out study #1234
-and all of its trees, matrices, analyses, etc., and their contents.
-
-Use "$0 -X" for a list of known classes.
-
-Options:
-    -a: show *all* attributes of every object (default: pretty-print objects)
-    -s: do not recurse into "small" objects (Currently: MatrixRow,
-        PhyloTreeNode, TaxonLabel)
-    -R: do not recurse at all, printing only the top object
-    -c: Skip all consistency checking
-
-    -d n: recurse only n levels deep
-
-    -pClasses... : 'prune': do not display or recurse into objects of these
-                    classes. 
-    -CClasses... : Perform consistency checking of these classes only
->;
-    exit 1;
-}
-
 
 1;
