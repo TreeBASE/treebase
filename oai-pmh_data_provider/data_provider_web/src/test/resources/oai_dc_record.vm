@@ -1,7 +1,7 @@
 <record> 
 	<header>
-		<identifier>${model.record.identifier}</identifier> 
-		<datestamp>$!model.record.datestamp</datestamp>
+		<identifier>${record.identifier}</identifier> 
+		<datestamp>$!record.datestamp</datestamp>
 	</header>
 		<metadata>
 		<oai_dc:dc 
@@ -10,52 +10,52 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 		xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ 
 		http://www.openarchives.org/OAI/2.0/oai_dc.xsd">       
-			#if($model.record.title)
-			<dc:title>${model.record.title}</dc:title>
+			#if($record.title)
+			<dc:title>${record.title}</dc:title>
 			#end       
-			#if($model.record.creator)
-				#foreach ($person in $model.record.creator)
+			#if($record.creator)
+				#foreach ($person in $record.creator)
 				<dc:creator>${person.lastName}, ${person.firstName}</dc:creator>
 				#end 
 			#end     
-			#if($model.record.subject)
-			<dc:subject>${model.record.subject}</dc:subject> 
+			#if($record.subject)
+			<dc:subject>${record.subject}</dc:subject> 
 			#end 
-			#if($model.record.description)
-			<dc:description>${model.record.description}</dc:description>
+			#if($record.description)
+			<dc:description>${record.description}</dc:description>
 			#end 
-			#if($model.record.publisher)
-			<dc:publisher>${model.record.publisher}</dc:publisher> 
+			#if($record.publisher)
+			<dc:publisher>${record.publisher}</dc:publisher> 
 			#end 
-			#if($model.record.contributor)
-			<dc:contributor>${model.record.contributor}</dc:contributor>        
+			#if($record.contributor)
+			<dc:contributor>${record.contributor}</dc:contributor>        
 			#end 
-			#if($model.record.date)
-			<dc:date>${model.record.date}</dc:date>
+			#if($record.date)
+			<dc:date>${record.date}</dc:date>
 			#end 
-			#if($model.record.type)
-			<dc:type>${model.record.type}</dc:type>
+			#if($record.type)
+			<dc:type>${record.type}</dc:type>
 			#end 
-			#if($model.record.format)
-			<dc:format>${model.record.format}</dc:format>
+			#if($record.format)
+			<dc:format>${record.format}</dc:format>
 #end 
-##if($model.record.identifier)
-##<dc:identifier>${model.record.identifier}</dc:identifier>
+##if($record.identifier)
+##<dc:identifier>${record.identifier}</dc:identifier>
 ##end 
-			#if($model.record.source)
-			<dc:source>{model.record.source}</dc:source>     
+			#if($record.source)
+			<dc:source>{record.source}</dc:source>     
 			#end 
-			#if($model.record.language)
-			<dc:language>${model.record.language}</dc:language>
+			#if($record.language)
+			<dc:language>${record.language}</dc:language>
 			#end 
-			#if($model.record.relation)
-			<dc:relation>${model.record.relation}</dc:relation>
+			#if($record.relation)
+			<dc:relation>${record.relation}</dc:relation>
 			#end 
-			#if($model.record.coverage)
-			<dc:coverage>${model.record.coverage}</dc:coverage>
+			#if($record.coverage)
+			<dc:coverage>${record.coverage}</dc:coverage>
 			#end 
-			#if($model.record.rights)
-			<dc:rights>${model.record.rights}</dc:rights> 
+			#if($record.rights)
+			<dc:rights>${record.rights}</dc:rights> 
 			#end             
 		</oai_dc:dc>
 	</metadata>

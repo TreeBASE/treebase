@@ -1,6 +1,7 @@
 #parse("head.vm")
 <GetRecord>
 #if($!model.params.metadataPrefix=="oai_dc")
+#set($record=$model.record)
 #parse("oai_dc_record.vm")	
 #end
 </GetRecord>

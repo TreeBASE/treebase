@@ -247,7 +247,10 @@ public class OAIPMHController extends AbstractCommandController{
 			}catch(NullPointerException e){
 				//study 253 citation= null, data should be fixed 
  				System.err.println("study "+study.getId()+
-						" citation= "+e.getMessage());}
+						" citation= "+e.getMessage());
+ 				map.put("identifier", "treebase.org/study/TB2:s"+study.getId());
+ 				map.put("datestamp", study.getReleaseDate());
+			}
 			
 			//map.put("type", "text");
 			//map.put("language", "en");

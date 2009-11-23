@@ -155,12 +155,11 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		
 	}
 	
-public void testListRecords() {
-		
+public void testListRecords() {		
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListRecords");
-		//params.setFrom("2005-11-15T06:16:15Z");
-		params.setUntil("1996-11-04T06:16:15Z");
+		params.setFrom("2008-05-05T01:01:01Z");
+		//params.setUntil("1996-11-04T06:16:15Z");
 		params.setMetadataPrefix("oai_dc");
 		Map model=new HashMap();
 		model.put("identify",identify );
@@ -168,14 +167,12 @@ public void testListRecords() {
 		ModelAndView mav=controller.ListRecords(params, model);
 		String result=vu.runTemplate(mav);		
 		this.assertNotNull(result);
-		//System.out.println("---------test ListRecord---------");
-		//System.out.print(result);
-		
+		System.out.println("---------test ListRecord---------");
+		System.out.print(result);		
 	}
 
 	public void testListIdentifiers() 
-	{
-	
+	{	
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListIdentifiers");
 		params.setFrom("2005-11-15T06:16:15Z");
