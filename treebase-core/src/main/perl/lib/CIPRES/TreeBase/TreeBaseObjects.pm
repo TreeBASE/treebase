@@ -2,11 +2,6 @@ $CIPRES::TreeBase::VERSION=0.1;
 
 require CIPRES::TreeBase::VeryBadORM;
 
-sub CIPRES::TreeBase::TreeBaseObjects::set_db_connection { 
-    my $class = shift; 
-    CIPRES::TreeBase::VeryBadORM->set_db_connection(@_); 
-}
-
 =head1 NAME
 
 CIPRES::TreeBase::TreeBaseObjects
@@ -22,6 +17,23 @@ CIPRES::TreeBase::TreeBaseObjects
 =item %subobject
 
 =back
+
+=head1 PACKAGE METHODS
+
+=over
+
+=item set_db_connection()
+
+Aliases to CIPRES::TreeBase::VeryBadORM::set_db_connection
+
+=back
+
+=cut
+
+sub CIPRES::TreeBase::TreeBaseObjects::set_db_connection { 
+    my $class = shift; 
+    CIPRES::TreeBase::VeryBadORM->set_db_connection(@_); 
+}
 
 =head1 OBJECTS
 
