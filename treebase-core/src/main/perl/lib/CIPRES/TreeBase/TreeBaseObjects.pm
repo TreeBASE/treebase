@@ -8,13 +8,49 @@ CIPRES::TreeBase::TreeBaseObjects
 
 =head1 DESCRIPTION
 
+=head1 PACKAGE VARIABLES
+
 =over
 
 =item %r_attr
 
+This hash specifies which other classes refer to the specifying class in a many-to-one relationship.
+For example:
+
+ %Analysis::r_attr = ( 'analysissteps' => 'AnalysisStep' );
+
+Specifies that multiple AnalysisStep objects may refer to an invocant Analysis object, and that
+these AnalysisStep objects can be instantiated by calling the Analysis::analysissteps() method.
+
 =item %r2_attr
 
+This hash specifies associated objects which are linked to instances of the specifying class
+through an intersection table. For example:
+
+ %Citation::r2_attr = (
+	'authors' => ['citation_author', 'Person', 'authors_person_id']
+ );
+
+Specifies that associated instances of the Person class can be fetched by calling the 
+Citation::authors() method which will look in the citation_author table and instantiate
+Person objects passing the values in the authors_person_id column to the Person 
+constructor.
+
 =item %subobject
+
+This hash specifies associated classes which are identified by foreign keys in the table that is
+mapped onto the specifying class. For example:
+
+ %PhyloTree::subobject = (
+	'rootnode' => 'PhyloTreeNode', 
+	'treetype' => 'TreeType'
+ );
+ 
+Specifies that an associated instance (one-to-one) of the PhyloTree's root node (instantiated
+as a PhyloTreeNode) and of the tree type (instantiates as a TreeType object) can be 
+created by calling the rootnode() and treetype() methods, respectively. Calls to those methods
+will look in phylotree.rootnode_id and phylotree.treetype_id in the row of the invocant object
+and create the right associated objects.
 
 =back
 
