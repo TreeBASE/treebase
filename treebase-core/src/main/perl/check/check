@@ -62,6 +62,10 @@ Recursively print the contents of the specified object of the
 specified class.  For example, "check Study 1234" prints out study #1234
 and all of its trees, matrices, analyses, etc., and their contents.
 
+=head1 AUTHOR
+
+Mark Jason Dominus (mjd@plover.com)
+
 =cut
 
 my $TERMINAL;
