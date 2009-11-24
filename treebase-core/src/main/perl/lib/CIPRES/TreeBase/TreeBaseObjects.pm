@@ -305,6 +305,7 @@ sub recurse {
 ####################################################################################################
 package AnalyzedData;
 CIPRES::TreeBase::VeryBadORM->register();
+our %subobject = ('phylotree' => 'PhyloTree');
 
 =head2 AnalyzedData
 
@@ -408,6 +409,10 @@ CIPRES::TreeBase::VeryBadORM->register();
 our %r_attr = (
 	'rows'    => 'MatrixRow',
 	'columns' => 'MatrixColumn',
+);
+our %subobject = ( 
+	'taxonlabelset' => 'TaxonLabelSet',
+	'matrixkind'    => 'MatrixKind',
 );
 
 =head2 Matrix
@@ -564,6 +569,7 @@ sub to_str {
 ####################################################################################################
 package MatrixRow;
 CIPRES::TreeBase::VeryBadORM->register();
+our %subobject = ('taxonlabel' => 'TaxonLabel');
 
 =head2 MatrixRow
 
@@ -681,8 +687,9 @@ sub to_str {
 package PhyloTree;
 CIPRES::TreeBase::VeryBadORM->register();
 our %subobject = (
-	'rootnode' => 'PhyloTreeNode', 
-	'treetype' => 'TreeType'
+	'rootnode'  => 'PhyloTreeNode', 
+	'treetype'  => 'TreeType',
+	'treeblock' => 'TreeBlock',
 );
 our %r_attr = ('treeblock' => 'TreeBlock');
 
@@ -843,9 +850,11 @@ sub nexusfile {
 package PhyloTreeNode;
 CIPRES::TreeBase::VeryBadORM->register();
 our %subobject = (
-	'child'     => 'PhyloTreeNode',
-	'sibling'   => 'PhyloTreeNode',
-	'parent'    => 'PhyloTreeNode',
+	'child'      => 'PhyloTreeNode',
+	'sibling'    => 'PhyloTreeNode',
+	'parent'     => 'PhyloTreeNode',
+	'taxonlabel' => 'TaxonLabel',
+	'phylotree'  => 'PhyloTree',
 );
 
 =head2 PhyloTreeNode
@@ -1348,6 +1357,7 @@ sub to_str {
 ####################################################################################################
 package TaxonLabel;
 CIPRES::TreeBase::VeryBadORM->register();
+our %subobject = ( 'taxonvariant' => 'TaxonVariant' );
 our %r_attr = ('treenodes' => 'PhyloTreeNode', 'rows' => 'MatrixRow');
 our %r2_attr = ('taxonlabelsets' => ['taxonlabelset_taxonlabel', 'TaxonLabelSet']);
 
@@ -1553,6 +1563,7 @@ package TreeBlock;
 CIPRES::TreeBase::VeryBadORM->register();
 our %r2_attr = ('submissions' => ['sub_treeblock', 'Submission']);
 our %r_attr = ('trees' => 'PhyloTree');
+our %subobject = ( 'taxonlabelset' => 'TaxonLabelSet' );
 
 =head2 TreeBlock
 
