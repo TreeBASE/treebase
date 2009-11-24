@@ -6,7 +6,7 @@ use Getopt::Std;
 use Getopt::Long;
 use Pod::Usage;
 use Data::Dumper;
-use Devel::StackTrace; # XXX only for developing, delete me
+#use Devel::StackTrace; # XXX only for developing, delete me
 use Carp 'croak';
 our $indent = 0;
 
@@ -122,8 +122,8 @@ sub attr_check {
     #print Dumper($attr);
     if ( ref $attr eq 'ARRAY' ) {
     	print Dumper($attr);
-    	my $trace = Devel::StackTrace->new;
-		print $trace->as_string; # like carp
+    	#my $trace = Devel::StackTrace->new;
+		#print $trace->as_string; # like carp
 		return 1;
     }
 
