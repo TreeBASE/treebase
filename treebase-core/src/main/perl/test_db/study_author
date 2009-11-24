@@ -1,0 +1,14 @@
+study_id,person_id,role
+1,1,Author
+1,2,Editor
+2,2,Author
+2,3,Author
+4,4,Author
+5,5,Author
+5,6,Author
+5,7,Editor
+7,7,Author
+7,8,Editor
+8,10,Author
+8,8,Author
+8,9,Author

@@ -1,5 +1,5 @@
 
-use Test::More tests => 36;
+use Test::More tests => 50;
 
 use_ok('DBI');
 use_ok('DBD::CSV');
@@ -10,6 +10,8 @@ check_table('study', qw(name study_id owner tree_id));
 check_table('matrices', qw(matrix_id name n_rows study_id));
 check_table('TREE', qw(TreeId name root_node_id));
 check_table('node', qw(treenode_id tree_id left_child right_child data));
+check_table('person', qw(person_id last first));
+check_table('study_author', qw(study_id person_id role));
 
 use_ok('CIPRES::TreeBase::TestObjects');
 
