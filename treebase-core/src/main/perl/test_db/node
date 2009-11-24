@@ -1,4 +1,4 @@
-node_id,tree_id,left_child,right_child,data
+treenode_id,tree_id,left_child,right_child,data
 8,2,,,D
 28,119,,,CC
 29,120,,,P

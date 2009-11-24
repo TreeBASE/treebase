@@ -9,6 +9,8 @@ CIPRES::TreeBase::VeryBadORM->register();
 package Tree;
 CIPRES::TreeBase::VeryBadORM->register();
 
+%subobject = (root_node => 'TreeNode');
+
 sub table { "TREE" }
 sub id_attr { "TreeId" }
 
@@ -16,5 +18,10 @@ package Matrix;
 CIPRES::TreeBase::VeryBadORM->register();
 
 sub table { "matrices" }
+
+package TreeNode;
+CIPRES::TreeBase::VeryBadORM->register();
+
+sub table { "node" }
 
 1;
