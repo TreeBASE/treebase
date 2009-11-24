@@ -10,6 +10,7 @@ package Tree;
 CIPRES::TreeBase::VeryBadORM->register();
 
 %subobject = (root_node => 'TreeNode');
+%r_attr = (nodes => 'TreeNode');
 
 sub table { "TREE" }
 sub id_attr { "TreeId" }

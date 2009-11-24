@@ -124,8 +124,8 @@ sub AUTOLOAD {
     } elsif ($package->has_r2_attr($method)) {
 		return $obj->get_r2_subobject_no_check($method, @_);
     } else {
-		my $trace = Devel::StackTrace->new;
-		print $trace->as_string; # like carp
+#		my $trace = Devel::StackTrace->new;
+#		print $trace->as_string; # like carp
 		croak("Unknown attribute '$method' in class '$package'");
     }
 }
@@ -195,7 +195,7 @@ argument string and appending '_id'.
 
 sub foreign_key {
     my $base = shift;
-    my $subobj = lc(shift); # XXX
+    my $subobj = lc(shift());
     return $subobj . "_id"; 
 }
 
@@ -386,11 +386,10 @@ Treats the supplied attribute name as either a true attribute or name from which
 # and return a list of analysis objects
 sub get_r_subobject_no_check {
     my ($self, $attr) = @_;
-    $attr = $attr;
     my $target_class = $self->r_class($attr);
     my $target_table = $target_class->table;
     my $field = $target_class->id_attr;
-    my $id_field = $self->id_attr;
+    my $id_field = $target_class->foreign_key($self->class); 
     my $q = "select $field from $target_table where $id_field = ?";
     my $sth = $DBH->prepare_cached($q);
     $sth->execute($self->id);
