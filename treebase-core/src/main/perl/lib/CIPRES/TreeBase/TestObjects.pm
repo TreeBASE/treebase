@@ -5,6 +5,7 @@ require CIPRES::TreeBase::VeryBadORM;
 
 package Study;
 CIPRES::TreeBase::VeryBadORM->register();
+%r_attr = (matrices => 'Matrix');
 
 package Tree;
 CIPRES::TreeBase::VeryBadORM->register();
