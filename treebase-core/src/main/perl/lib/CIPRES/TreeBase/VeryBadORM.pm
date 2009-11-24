@@ -107,6 +107,10 @@ respectively. Croaks otherwise.
 =cut
 
 # Maybe add some caching here at some point
+#
+# This should dispatch off to ->get because the code in the
+# two places is almost the same and we've already had one bug
+# occur when they didn't stay in sync.  mjd 20091123
 sub AUTOLOAD {
     my $obj = shift;
     our $AUTOLOAD;
@@ -541,9 +545,28 @@ sub alias {
 
 =item subobject_class()
 
-Returns the class name for the supplied subobject name. This is either a value in the invocant 
-class's %subobject hash (see TreeBaseObjects), an alias as returned by the alias() method or
-the supplied subobject's name itself.
+Returns the class name for the supplied attribute name.  The default is the name of the attribute,
+lowercase with initial capital.  This may be overridden by an entry in the C<%subobject> hash in the
+invocant's class.  For example, suppose there are C<Dessert> objects and C<Flavor> objects.  Suppose
+each C<Dessert> has a C<flavor> and an C<alternate_flavor> attribute, which are C<Flavor> objects.
+One could represent this by defining:
+
+    %Dessert::subobject = (flavor => 'Flavor',
+                           alternate_flavor => 'Flavor',
+                          );
+
+which says that whenever a C<Dessert>  object's C<flavor> or C<alternate_flavor> attributes are
+accessed, C<VeryBadORM> should instantiate them as C<Flavor> objects.
+
+But one could omit the first entry from the hash:
+
+    %Dessert::subobject = (alternate_flavor => 'Flavor');
+
+since the class for the C<flavor> attribute will be inferred to be C<Flavor> by default.
+
+One may, of course, override this method to implement any mapping of attribute to class names that
+is desired.
+
 
 =cut
 
@@ -551,7 +574,7 @@ sub subobject_class {
     my ($self, $subobj) = @_;
     my $subobj_class = \%{$self->class . "::subobject"};
     return $subobj_class->{$subobj} if exists $subobj_class->{$subobj};
-    return $self->alias($subobj) || $subobj;#ucfirst(lc($subobj)); # XXX really?
+    return $self->alias($subobj) || ucfirst(lc($subobj));
 }
 
 =item get_id_pair()
