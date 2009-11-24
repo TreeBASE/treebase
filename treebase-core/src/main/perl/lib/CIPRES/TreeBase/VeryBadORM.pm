@@ -338,8 +338,8 @@ sub get {
     } elsif ($self->has_r_attr($attr)) {
 		return $self->get_r_subobject_no_check($attr, @_);
     }
-    my $trace = Devel::StackTrace->new;
-	print $trace->as_string; # like carp
+#    my $trace = Devel::StackTrace->new;
+#	print $trace->as_string; # like carp
     croak($self->class . " has no attribute named '$attr'");
 }
 
@@ -572,7 +572,7 @@ is desired.
 sub subobject_class { 
     my ($self, $subobj) = @_;
     my $subobj_class = \%{$self->class . "::subobject"};
-    return $subobj_class->{$subobj} if exists $subobj_class->{$subobj};
+    return $subobj_class->{lc $subobj} if exists $subobj_class->{lc $subobj};
     return $self->alias($subobj) || ucfirst(lc($subobj));
 }
 
