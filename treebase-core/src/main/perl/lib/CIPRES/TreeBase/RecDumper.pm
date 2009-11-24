@@ -3,6 +3,24 @@ use Carp 'croak';
 use File::Temp qw(tempfile);
 use strict;
 
+=head1 CIPRES::TreeBase::RecDumper
+
+Writes the contents of a database table as CREATE and INSERT statements.
+Used by the C<sqldump> script.
+
+=head1 METHODS
+
+=over
+
+=item new()
+
+Record dumper constructor. Required named arguments:
+ * TABLE  => name of table to dump
+ * FIELDS => columns to dump from the focal table
+ * TYPES  => datatype names for FIELDS to dump
+
+=cut
+
 # XXX LOB fields should be removed from fieldlist and handled separately
 sub new {
     my $class = shift;
@@ -25,11 +43,6 @@ sub new {
     return $self;
 }
 
-sub set_output {
-    my ($self, $fh) = @_;
-    $self->{'OUT'} = $fh;
-}
-
 sub _initialize {
     my $self = shift;
     my $fieldlist = join ", ", map qq{"$_"}, @{$self->{F}}; 
@@ -38,13 +51,36 @@ sub _initialize {
     return;
 }
 
+=item set_output()
+
+Set the invocant record dumper to write to the provided handle.
+
+=cut
+
+sub set_output {
+    my ($self, $fh) = @_;
+    $self->{'OUT'} = $fh;
+}
+
+=item print()
+
+Prints argument list. If set_output() has been called previously, 
+this method prints to the handle provided there.
+
+=cut
+
 # Print some text literally
 sub print {
     my $self = shift;
     return print {$self->{'OUT'}} @_;
 }
 
-# Format data into an insert statement and return (or write) the result
+=item rec()
+
+Format data into an insert statement and return (or write) the result
+
+=cut
+
 sub rec {
 	my $self = shift;
 	@_ > @{$self->{F}} 
@@ -58,19 +94,19 @@ sub rec {
 	else {		
 		my ( %record, $dir, $path );
 		eval {
-		my @fields = @{$self->{F}};
-		%record = map { $fields[$_] => $_[$_] } ( 0 .. $#fields );
-#		$dir = $self->{'D'} . '/' . $record{STUDY_ID};
-#		mkdir $dir if not -d $dir;
-#		$path = $dir . '/' . $record{FILENAME};
-		my ( $fh, $filename ) = tempfile( DIR => $self->{'D'} );
-		@values = ( $self->quote_data($record{STUDY_ID}), "lo_import('$filename')", $self->quote_data($record{FILENAME}) );
-#		open my $nexfh, '>', $path or croak $!;		
-		print $fh substr( $record{NEXUS}, 1, length($record{NEXUS}) - 2 );
-		close $fh;
-		system('gzip','-9',$filename);
+			my @fields = @{$self->{F}};
+			%record = map { $fields[$_] => $_[$_] } ( 0 .. $#fields );
+	#		$dir = $self->{'D'} . '/' . $record{STUDY_ID};
+	#		mkdir $dir if not -d $dir;
+	#		$path = $dir . '/' . $record{FILENAME};
+			my ( $fh, $filename ) = tempfile( DIR => $self->{'D'} );
+			@values = ( $self->quote_data($record{'STUDY_ID'}), "lo_import('$filename')", $self->quote_data($record{FILENAME}) );
+	#		open my $nexfh, '>', $path or croak $!;		
+			print $fh substr( $record{'NEXUS'}, 1, length($record{'NEXUS'}) - 2 );
+			close $fh;
+			system('gzip','-9',$filename);
 		};
-		warn 'dir: ', $dir, ' path: ', $path, ' file: ', $record{FILENAME}, ' id: ', $record{STUDY_ID}, ' msg: ', $@ if $@;
+		warn 'dir: ', $dir, ' path: ', $path, ' file: ', $record{'FILENAME'}, ' id: ', $record{'STUDY_ID'}, ' msg: ', $@ if $@;
 	}
 	my $values = join ", ", @values;
 	my $insert = $self->{'PREFIX'} . $values . $self->{'SUFFIX'};
@@ -78,7 +114,12 @@ sub rec {
 	return $insert;
 }
 
-# Format metadata into a create statement and return (or write) the result
+=item dump_create()
+
+Format metadata into a create statement and return (or write) the result
+
+=cut
+
 sub dump_create {
 	my $self = shift;
 	my $create = qq{CREATE TABLE "$self->{'N'}";\n};
@@ -86,11 +127,19 @@ sub dump_create {
 	return $create;		
 }
 
+=item quote_data()
+
+For a provided list of record fields, looks up internally what the 
+data types are and applies the correct quoting (e.g. numbers 
+unquoted, strings quoted).
+
+=cut
+
 sub quote_data {
     my $self = shift;
     my @d = @_;
-	for my $i (0 .. $#{$self->{F}}) {
-		my $t = $self->{T}[$i];
+	for my $i (0 .. $#{$self->{'F'}}) {
+		my $t = $self->{'T'}[$i];
 		local *_ = \$d[$i];
 		$_ = "NULL", next unless defined;
 	
@@ -125,5 +174,13 @@ sub quote_data {
 
     return @d;
 }
+
+=back
+
+=head1 SEE ALSO
+
+sqldump
+
+=cut
 
 1;
