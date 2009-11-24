@@ -1,10 +1,7 @@
-name,id,interesting
-cube,8,1
-even prime,2,0
-five,5,0
-seven,7,0
-sphenic,6,1
-square 3,9,1
-square,4,1
-three,3,0
-unit,1,0
+study_id,name,owner,tree_id
+1,study one,Juan,1
+4,study four,Balfour,24
+2,study two,Thieu,2
+8,study eight,Otto,40320
+5,study five,Quentin,120
+7,study seven,Septimus,5040

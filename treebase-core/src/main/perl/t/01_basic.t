@@ -1,18 +1,28 @@
 
-use Test::More tests => 10;
+use Test::More tests => 27;
 
-warn(`pwd`);
 use_ok('DBI');
 use_ok('DBD::CSV');
 
 ok(my $dbh = DBI->connect("DBI:CSV:f_dir=test_db;csv_eol=\n"));
-ok(my $sth = $dbh->prepare("select id from study where interesting > 0"));
-ok($sth->execute());
 
-%x = (4 => 1, 6 => 1, 8 => 1, 9 => 1);
-while (my ($id) = $sth->fetchrow) {
-  ok($x{$id}, "found item $id");
-  delete $x{$id};
+check_table('study', qw(name study_id owner tree_id));
+check_table('matrices', qw(matrix_id name n_rows study_id));
+check_table('TREE', qw(TreeId name root_node_id));
+
+use_ok('CIPRES::TreeBase::TestObjects');
+
+# one test per column, plus four
+sub check_table {
+  my $table = shift;
+  my %expected_columns = map {$_ => 1} @_;
+  ok(my $sth = $dbh->prepare("select * from $table"));
+  ok($sth->execute());
+  ok(my $row = $sth->fetchrow_hashref);
+  for my $col (keys %$row) {
+    ok($expected_columns{$col}, "found expected column '$col' in table '$table'");
+    delete $expected_columns{$col};
+  }
+  is(keys(%expected_columns), 0, "all columns found in table '$table'");
 }
-is(keys(%x), 0, "all items found");
 

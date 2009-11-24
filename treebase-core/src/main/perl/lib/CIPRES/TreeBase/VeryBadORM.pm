@@ -1,8 +1,11 @@
 package CIPRES::TreeBase::VeryBadORM;
+
+$CIPRES::TreeBase::VeryBadORM::VERSION=0.1;
+
 use Carp 'croak';
 use strict 'vars';
-use Devel::StackTrace;
-use Data::Dumper;
+#use Devel::StackTrace;
+#use Data::Dumper;
 our %dbh;
 our $DBH;
 
@@ -12,7 +15,10 @@ CIPRES::TreeBase::VeryBadORM
 
 =head1 DESCRIPTION
 
-Superclass for TreeBASE objects. This class is subclassed by packages in TreeBaseObjects.
+Superclass for TreeBASE objects. This class is subclassed by packages in C<TreeBaseObjects>.
+
+This module maps relations in a relational database to objects in Perl.  It avoids all difficult
+implementation problems by providing only read-only access.
 
 =head1 PACKAGE VARIABLES
 
@@ -20,7 +26,7 @@ Superclass for TreeBASE objects. This class is subclassed by packages in TreeBas
 
 =item %dbh
 
-This hash holds cached (in theory different) database handles keyed on class names.
+This hash holds cached database handles keyed on class names.  
 
 =item $DBH
 
@@ -94,7 +100,7 @@ sub new {
 =item AUTOLOAD
 
 Provides the magical methods available in the child classes. It does this by checking which of
-has_attr(), has_subobject(), has_r_attr() or has_r2_attr() applies and returns one of 
+has_attr(), has_subobject(), has_r_attr() or has_r2_attr() applies and invokes one of
 get_no_check(), get_subobject_no_check(), get_r_subobject_no_check() or get_r2_subobject_no_check()
 respectively. Croaks otherwise.
 
@@ -208,7 +214,7 @@ sub attr_hash {
     my $attr_list = $base->attr_list;
     if (@$attr_list) {
 		%$attr_hash = map { $_ => 1 } @$attr_list;
-		$attr_hash->{"$class\_id"} = 1; # XXX case correct?
+		$attr_hash->{$class->id_attr} = 1;
 		return $attr_hash;
     }
     return;
@@ -229,7 +235,10 @@ sub attr_list {
     my $attr_list = \@{"$class\::attr"};
     return $attr_list if @$attr_list;
 
-    my $q = "select * from " . $base->table . " fetch first 1 rows only"; # XXX case correct?
+# For DB2:
+#    my $q = "select * from " . $base->table . " fetch first 1 rows only";
+# For Postgres:
+    my $q = "select * from " . $base->table . " limit 1";
     my $sth = $DBH->prepare_cached($q);
     $sth->execute();
     while (my $row = $sth->fetchrow_hashref) {
@@ -563,7 +572,7 @@ Returns the name of the table onto which the invocant's class is mapped.
 
 =cut
 
-sub table { return $_[0]->class; } # XXX case correct?
+sub table { return lc($_[0]->class); }
 
 =item r_class()
 

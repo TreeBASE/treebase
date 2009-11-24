@@ -1,4 +1,4 @@
-$CIPRES::TreeBase::VERSION=0.1;
+$CIPRES::TreeBase::TreeBaseObjects::VERSION=0.1;
 
 require CIPRES::TreeBase::VeryBadORM;
 
@@ -8,7 +8,40 @@ CIPRES::TreeBase::TreeBaseObjects
 
 =head1 DESCRIPTION
 
-=head1 PACKAGE VARIABLES
+This module is a collection of classes that represent objects from the TreeBase database.
+Access to the objects is through L<CIPRES::TreeBase::VeryBadORM> and is read-only.
+
+In general, each kind of object is represented by a different class.  For example, studies are
+represented by C<Study> objects, treenodes are represented by C<PhyloTreeNode> objects, and so
+on.
+
+
+=head1 OBJECT ATTRIBUTES
+
+In general, if a database object, represented by C<$X>, has an attribute named C<foo>, then 
+C< $X->foo > retrieves the value of the attribute.  If the attribute is a scalar, the value is
+returned as a Perl scalar; if the attribute is a reference to another database object, a
+Perl object is returned.
+
+Each object is assumed to correspond to a single table in the database.  If the object class is
+C<ObjectClass>, the corresponding table name is assumed to be C<objectclass>.  This can be
+overridden by defining the C<ObjectClass::table> method, which should return the correct table
+name.  
+
+Each object from class C<ObjectClass> is assumed to have a unique ID attribute which is stored
+in the table in a field whose name is returned by C<ObjectClass::id_attr>.  This defaults to
+C<objectclass_id> if the method is not overridden.
+
+C<ObjectClass::new(V<ID>)> will create an object with the specified ID number.  Objects are
+created lazily: the database is not consulted until some 
+
+We will consider a running example, a database which contains studies, trees, and matrices.
+Each tree and each matrix is contained in exactly one study, but each study may have multiple
+trees and matrices.
+
+Each tree contains zero or more treenodes, and each matrix contains zero or more matrixrows.
+
+Suppose the C<tree> table contains a field, C<study_id>, which contains the foreign key of the 
 
 =over
 

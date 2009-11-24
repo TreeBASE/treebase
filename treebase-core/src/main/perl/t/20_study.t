@@ -1,0 +1,13 @@
+use Test::More tests => 5;
+
+use lib '../blib/lib';
+use_ok('CIPRES::TreeBase::TestObjects');
+use DBI;
+my $dbh = DBI->connect("DBI:CSV:f_dir=test_db;csv_eol=\n");
+Study->set_db_connection($dbh);
+
+ok(my $s1 = Study->new(1));
+is($s1->name, 'study one');
+
+ok(my $s8 = Study->new(8));
+is($s8->owner, 'Otto');
