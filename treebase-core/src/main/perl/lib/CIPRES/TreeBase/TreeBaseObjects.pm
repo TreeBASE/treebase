@@ -32,7 +32,7 @@ Each object from class C<ObjectClass> is assumed to have a unique ID attribute w
 in the table in a field whose name is returned by C<ObjectClass::id_attr>.  This defaults to
 C<objectclass_id> if the method is not overridden.
 
-C<ObjectClass::new(V<ID>)> will create an object with the specified ID number.  Objects are
+C<ObjectClass::new(C<$id>)> will create an object with the specified ID number.  Objects are
 created lazily: the database is not consulted until some 
 
 We will consider a running example, a database which contains studies, trees, and matrices.
