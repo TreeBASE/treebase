@@ -453,12 +453,21 @@ sub r2_subobject_query {
 =item r2_id_attr()
 
 Returns name of the foreign key column in the intersection table of the referenced objects 
-(as opposed to instances of the invocant column) in a many-to-many relation.  By default, it 
-consults %r2_attr first. And if that doesn't work, it consults the foreign class's %r2 instead, 
-to see if the relationship was defined in the other direction.
+(as opposed to instances of the invocant column) in a many-to-many relation.  
 
-See description of %r2_attr hash in TreeBaseObjects. This method returns the 3rd element (index 2)
-in the value array ref.
+If C<%r2_attr> lists a target class for the referenced object,
+C<r2_id_attr> uses that class's default C<id_attr>, unless that us
+overriden by C<%r2_attr>.  For example, if C<Study> has:
+
+    %Study::r2_attr = (nexusfiles => ['study_nexus', 'Nexus'])
+
+then the C<nexus_id> column will be consulted, unless
+C<Nexus->id_attr> returns something else.  But if the attribute is
+given explicitly, like this:
+
+    %Study::r2_attr = (nexusfiles => ['study_nexus', 'Nexus', 'nexusfileID'])
+
+then the C<nexusfileID> column of the C<study_nexus> table will be consulted.
 
 =cut
 

@@ -10,11 +10,12 @@ sub table { "matrices" }
 
 package Person;
 CIPRES::TreeBase::VeryBadORM->register();
+%r2_attr = (studies => ['study_author', 'Study']);
 
 package Study;
 CIPRES::TreeBase::VeryBadORM->register();
 %r_attr = (matrices => 'Matrix');
-%r2_attr = (people => ['study_author', 'Person']);
+%r2_attr = (people => ['study_author', 'Person', 'person_id']);
 
 package Tree;
 CIPRES::TreeBase::VeryBadORM->register();
