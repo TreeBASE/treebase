@@ -1,7 +1,7 @@
-study_id,name,owner,tree_id
-1,study one,Juan,1
-4,study four,Balfour,24
-2,study two,Thieu,2
-8,study eight,Otto,40320
-5,study five,Quentin,120
-7,study seven,Septimus,5040
+study_id,name,tree_id
+1,study one,1
+4,study four,24
+2,study two,2
+8,study eight,40320
+5,study five,120
+7,study seven,5040

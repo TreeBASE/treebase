@@ -1,12 +1,12 @@
 
-use Test::More tests => 50;
+use Test::More tests => 49;
 
 use_ok('DBI');
 use_ok('DBD::CSV');
 
 ok(my $dbh = DBI->connect("DBI:CSV:f_dir=test_db;csv_eol=\n"));
 
-check_table('study', qw(name study_id owner tree_id));
+check_table('study', qw(name study_id tree_id));
 check_table('matrices', qw(matrix_id name n_rows study_id));
 check_table('TREE', qw(TreeId name root_node_id));
 check_table('node', qw(treenode_id tree_id left_child right_child data));
