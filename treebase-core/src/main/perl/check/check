@@ -119,7 +119,7 @@ sub full_str {
 # this is a handler that is passed around during consistency checks
 sub attr_check {
     my ($obj, $attr_name, $attr, $warnings) = @_;
-    print Dumper($attr);
+    #print Dumper($attr);
     if ( ref $attr eq 'ARRAY' ) {
     	print Dumper($attr);
     	my $trace = Devel::StackTrace->new;
