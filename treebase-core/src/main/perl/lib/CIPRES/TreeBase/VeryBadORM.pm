@@ -62,11 +62,13 @@ foreign key, joining to a table named C<foo>.  The corresponding record is looke
 the joined table, and an object of class C<Foo> will be constructed and returned.
 
 Technical details: Whether an attribute is considered to be a subobject name is determined
-by the return value of the C<has_subobject> method.  The foreign key column name may be
-overridden by redefining the C<foreign_key> method.  The name of the instantiated class
-may be overridden by redefining the C<subobject_class> method.  The name of the joined
-table may be overridden by redefining the C<table> method for the instantiated class.  See
-the descriptions of those methods below for details.
+by the return value of the C<has_subobject> method.  If so, the method
+C<get_subobject_no_check> is called to instantiate and return the subobject.
+
+The foreign key column name may be overridden by redefining the C<foreign_key> method.
+The name of the instantiated class may be overridden by redefining the C<subobject_class>
+method.  The name of the joined table may be overridden by redefining the C<table> method
+for the instantiated class.  See the descriptions of those methods below for details.
 
 =back
 
@@ -77,11 +79,13 @@ be a class that contains a foreign key linking to the invocant's table.  The tab
 joined and all foreign objects linking to the invocant are returned.
 
 Technical details: An attribute name is considered to designate a reverse subobject when
-the C<has_r_attr> method returns true.  If so, the C<r_class> method is called to
-determine the class from which the subobjects will be instantiated, that class's C<table>
-method will determine the table joined, and that class's C<foreign_key> method will be
-called to determine the foreign key column for the join.  See the descriptions of those
-methods below for details.
+the C<has_r_attr> method returns true.  If so, C<get_r_subobject_no_check> is called to
+instantiate and return the corresponding subobjects.
+
+The C<r_class> method is called to determine the class from which the subobjects will be
+instantiated, that class's C<table> method will determine the table joined, and that
+class's C<foreign_key> method will be called to determine the foreign key column for the
+join.  See the descriptions of those methods below for details.
 
 =item 4. Linked objects.
 
@@ -99,12 +103,14 @@ The third of these is optional; if omitted, the name returned by the foreign cla
 C<id_attr> method is used.
 
 Technical details: An attribute name is considered to designate a linked object when the
-C<has_r2_attr> method returns true.  The C<r2_table> method is called to determine the
-name of the link table.  The invocant's ID is looked up in the column of the link table
-named by the invocant's C<id_field> method, and the corresponding values of the column
-named by the C<r2_id_attr> method are gathered.  An object is allocated for each resulting
-foreign id, in the class named by the C<r2_class> method.  See the descriptions of those
-methods below for details.
+C<has_r2_attr> method returns true.  Then C<get_r2_subobject_no_check> is called to
+instantiate and return the subobjects.
+
+The C<r2_table> method is called to determine the name of the link table.  The invocant's
+ID is looked up in the column of the link table named by the invocant's C<id_field>
+method, and the corresponding values of the column named by the C<r2_id_attr> method are
+gathered.  An object is allocated for each resulting foreign id, in the class named by the
+C<r2_class> method.  See the descriptions of those methods below for details.
 
 For example, consider the following tables:
 
@@ -260,7 +266,7 @@ sub has_subobject {
 =item foreign_key()
 
 Given an attribute name, return the name of the field that stores foreign keys for that
-attribute.
+attribute.  By default, this is just the attribute name with C<"_id"> appended.
 
 =cut
 
@@ -272,11 +278,14 @@ sub foreign_key {
 
 =item attr_hash()
 
-Returns a hash reference of all available attributes for the invocant. It does this by first 
-checking to see if there is an %attr hash defined in the invocant's class (and returns 
-a reference to that if it's there). Otherwise it calls attr_list, uses its contents as keys
-(values are 1) and adds the class name . '_id', i.e. a lookup of the primary key. On subsequent
-calls the output is cached due to the autovivification of the package hash.
+Returns a reference to a hash whose keys are attribute names and whose values indicate
+whether the invocant possesses those attributes.
+
+If the invocant's package contains a hash named C<%attr>, a reference to that hash is
+returned immediately.
+
+Otherwise, C<attr_list> is called to produce a list of attributes, the list is
+converted to a hash, which is cached in C<%attr>, and a reference to C<%attr> is returned.
 
 =cut
 
@@ -297,10 +306,11 @@ sub attr_hash {
 
 =item attr_list()
 
-Returns an array reference of available attributes. It does this by checking if there is an
-array ref $attr available in the invocant's class (and returns that). Otherwise it checks
-the invocant's mapped database table and collects the returned column names and returns those.
-On subsequent calls the output is cached due to the autovivification of the package array.
+Returns a reference to an array of available attributes. 
+
+If the invocant's package contains an array C<@attr>, a reference to this array is
+returned.  Otherwise, the method queries the invocant's mapped database table, collects
+the returned column names, caches them in C<@attr>, and returns a reference to that array.
 
 =cut
 
@@ -323,27 +333,15 @@ sub attr_list {
     return $attr_list;
 }
 
-=item r_attr_hash()
-
-Returns the %r_attr hash defined in the invocant's class (see TreeBaseObjects for a description
-of what that hash is for).
-
-=cut
-
-sub r_attr_hash {
+# Returns the %r_attr hash defined in the invocant's class
+sub _r_attr_hash {
     my $base = shift;
     my $class = ref($base) || $base;
     return my $r_attr_hash = \%{"$class\::r_attr"};
 }
 
-=item r2_attr_hash()
-
-Returns the %r2_attr hash defined in the invocant's class (see TreeBaseObjects for a description
-of what that hash is for).
-
-=cut
-
-sub r2_attr_hash {
+# Returns the %r2_attr hash defined in the invocant's class
+sub _r2_attr_hash {
     my $base = shift;
     my $class = ref($base) || $base;
     return my $r_attr_hash = \%{"$class\::r2_attr"};
@@ -351,7 +349,7 @@ sub r2_attr_hash {
 
 =item reify()
 
-Populates the invocant object's attributes from the database.
+Populates the invocant object's direct attributes from the database.
 
 =cut
 
@@ -383,19 +381,14 @@ Returns whether the invocant has been reified (see reify()).
 
 sub reified { $_[0]{'reified'} }
 
-=item set_reified()
-
-Flags that the invocant object has been reified.
-
-=cut
-
+# Flags that the invocant object has been reified.
 sub set_reified { $_[0]{'reified'} = 1 }
 
 =item get()
 
 Given an invocant and an attribute name, returns the attribute value. 
 
-See the section L<> for details of how attribute names are resolved.
+See the section L<OBJECT ATTRIBUTES> for details of how attribute names are resolved.
 
 =cut
 
@@ -417,8 +410,8 @@ sub get {
 
 =item get_no_check()
 
-Returns the value of the supplied attribute name as applies to the invocant object. This will
-most likely just return scalar, non-reference values such as titles and labels.
+Given the name of a direct attribute, return the value of that attribute in the invoking
+object.  Does not check that the attribute name is valid.
 
 =cut
 
@@ -431,14 +424,15 @@ sub get_no_check {
 
 =item get_subobject_no_check()
 
-Treats the supplied attribute name as either a true attribute or name from which a subobject
-(in one-to-one relation) is instantiated. See description of %subobject hash in TreeBaseObjects.
+Given the name of a subobject attribute, instantiate and return the subobject.  Does not
+check that the attribute name is valid.
 
 =cut
 
 sub get_subobject_no_check {
     my ($self, $attr) = @_;
     return $self->{$attr} if exists $self->{$attr};
+    # XXX what if the foreign key returned here is misspelled?
     my $id = $self->get($self->foreign_key($attr));
     return unless defined $id;
     return $self->{$attr} = $self->subobject_class($attr)->new($id);
@@ -446,8 +440,13 @@ sub get_subobject_no_check {
 
 =item get_r_subobject_no_check()
 
-Treats the supplied attribute name as either a true attribute or name from which a subobject
-(in many-to-one relation) is instantiated. See description of %r_attr hash in TreeBaseObjects.
+Given the name of a reverse subobject attribute, instantiate and return the subobjects.
+Does not check that the attribute name is valid.
+
+The C<r_class> method is called to determine the class from which the subobjects will be
+instantiated, that class's C<table> method will determine the table joined, and that
+class's C<foreign_key> method will be called to determine the foreign key column for the
+join. 
 
 =cut
 
@@ -474,8 +473,14 @@ sub get_r_subobject_no_check {
 
 =item get_r2_subobject_no_check()
 
-Treats the supplied attribute name as either a true attribute or name from which a subobject
-(in many-to-one relation) is instantiated. See description of %r2_attr hash in TreeBaseObjects.
+Given the name of a linked subobject attribute, instantiate and return the linked
+subobjects.  Does not check that the attribute name is valid.
+
+The C<r2_table> method is called to determine the name of the link table.  The invocant's
+ID is looked up in the column of the link table named by the invocant's C<id_field>
+method, and the corresponding values of the column named by the C<r2_id_attr> method are
+gathered.  An object is allocated for each resulting foreign ID, in the class named by the
+C<r2_class> method. 
 
 =cut
 
@@ -488,7 +493,7 @@ Treats the supplied attribute name as either a true attribute or name from which
 sub get_r2_subobject_no_check {
     my ($self, $attr) = @_;
 #    $attr = uc $attr;
-    my $q = $self->r2_subobject_query($attr);
+    my $q = $self->_r2_subobject_query($attr);
     my $target_class = $self->r2_class($attr);
     my $sth = $self->_prepare_cached($q);
     $sth->execute($self->id);
@@ -499,19 +504,13 @@ sub get_r2_subobject_no_check {
     return @results;
 }
 
-=item r2_subobject_query()
+# Creates a SQL statement to resolve the many-to-many relationship (through intersection table)
+# between the invocant object and the supplied attribute. It does this by looking up the class
+# name to instantiate from (by calling r2_class()), the intersection table to look up the relation
+# (by calling r2_table()) and the field name of the id column in the intersection table (by calling
+# r2_id_attr()).
 
-Creates a SQL statement to resolve the many-to-many relationship (through intersection table)
-between the invocant object and the supplied attribute. It does this by looking up the class
-name to instantiate from (by calling r2_class()), the intersection table to look up the relation
-(by calling r2_table()) and the field name of the id column in the intersection table (by calling
-r2_id_attr()).
-
-See description of %r2_attr hash in TreeBaseObjects.
-
-=cut
-
-sub r2_subobject_query {
+sub _r2_subobject_query {
     my ($self, $attr) = @_;
 
     my $target_class = $self->r2_class($attr);
@@ -547,7 +546,7 @@ sub r2_id_attr {
     my ($self, $attr) = @_;
 # Would it make more sense to use $self->foreign_key($attr) as the fallback here?
 # 20091125 MJD
-    $self->r2_attr_hash()->{$attr}->[2] || $self->r2_class($attr)->id_attr;
+    $self->_r2_attr_hash()->{$attr}->[2] || $self->r2_class($attr)->id_attr;
 }
 
 =item to_str()
@@ -692,7 +691,7 @@ Returns the class name for the supplied attribute. This is a value in the %r_att
 
 sub r_class {
     my ($self, $r_attr) = @_;
-    return $self->r_attr_hash()->{$r_attr};
+    return $self->_r_attr_hash()->{$r_attr};
 }
 
 =item r2_table()
@@ -707,7 +706,7 @@ See a description of the %r2_attr hash in TreeBaseObjects. This method returns t
 
 sub r2_table {
     my ($self, $r_attr) = @_;
-    return $self->r2_attr_hash()->{$r_attr}->[0];
+    return $self->_r2_attr_hash()->{$r_attr}->[0];
 }
 
 =item r2_class()
@@ -722,7 +721,7 @@ See a description of the %r2_attr hash in TreeBaseObjects. This method returns t
 
 sub r2_class {
     my ($self, $r_attr) = @_;
-    return $self->r2_attr_hash()->{$r_attr}->[1];
+    return $self->_r2_attr_hash()->{$r_attr}->[1];
 }
 
 =item dump()
