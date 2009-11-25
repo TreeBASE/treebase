@@ -112,22 +112,11 @@ respectively. Croaks otherwise.
 # two places is almost the same and we've already had one bug
 # occur when they didn't stay in sync.  mjd 20091123
 sub AUTOLOAD {
-    my $obj = shift;
     our $AUTOLOAD;
     my ($package, $method) = $AUTOLOAD =~ /(.*)::(.*)/;
-    if ($package->has_attr($method)) {
-		return $obj->get_no_check($method, @_);
-    } elsif ($package->has_subobject($method)) {
-		return $obj->get_subobject_no_check($method, @_);
-    } elsif ($package->has_r_attr($method)) {
-		return $obj->get_r_subobject_no_check($method, @_);
-    } elsif ($package->has_r2_attr($method)) {
-		return $obj->get_r2_subobject_no_check($method, @_);
-    } else {
-#		my $trace = Devel::StackTrace->new;
-#		print $trace->as_string; # like carp
-		croak("Unknown attribute '$method' in class '$package'");
-    }
+    @_ = ($_[0], $method);
+    my $get = $package->can("get");
+    goto &$get;
 }
 
 =item has_attr()
@@ -337,6 +326,8 @@ sub get {
 		return $self->get_subobject_no_check($attr, @_);
     } elsif ($self->has_r_attr($attr)) {
 		return $self->get_r_subobject_no_check($attr, @_);
+    } elsif ($self->has_r2_attr($attr)) {
+		return $self->get_r2_subobject_no_check($attr, @_);
     }
 #    my $trace = Devel::StackTrace->new;
 #	print $trace->as_string; # like carp
