@@ -70,8 +70,6 @@ The name of the instantiated class may be overridden by redefining the C<subobje
 method.  The name of the joined table may be overridden by redefining the C<table> method
 for the instantiated class.  See the descriptions of those methods below for details.
 
-=back
-
 =item 3. Reverse subobjects.
 
 If the object's package contains an C<%r_attr> hash with key C<foo>, the value is taken to
@@ -132,7 +130,6 @@ Suppose that C<%study::r2_attr> contains:
 The link table is C<study_author>, and the foreign table is C<person>.  Then 
 C< Study->new(4)->authors > will return C<Person> objects 101 and 103.
 
-
 =back
 
 =head1 CLASS METHODS
@@ -161,7 +158,11 @@ sub _prepare_cached {
     return $DBH->prepare_cached($q);
 }
 
+=back
+
 =head1 INSTANCE METHODS
+
+=over
 
 =item new()
 
@@ -381,7 +382,13 @@ Returns whether the invocant has been reified (see reify()).
 
 sub reified { $_[0]{'reified'} }
 
-# Flags that the invocant object has been reified.
+
+=item set_reified()
+
+Flags that the invocant object has been reified.
+
+=cut
+
 sub set_reified { $_[0]{'reified'} = 1 }
 
 =item get()
