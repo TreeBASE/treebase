@@ -1288,7 +1288,9 @@ package TaxonLabel;
 CIPRES::TreeBase::VeryBadORM->register();
 our %subobject = ( 'taxonvariant' => 'TaxonVariant' );
 our %r_attr = ('treenodes' => 'PhyloTreeNode', 'rows' => 'MatrixRow');
-our %r2_attr = ('taxonlabelsets' => ['taxonlabelset_taxonlabel', 'TaxonLabelSet']);
+our %r2_attr = (
+	'taxonlabelsets' => ['taxonlabelset_taxonlabel', 'TaxonLabelSet'],
+);
 
 =head2 TaxonLabel
 
