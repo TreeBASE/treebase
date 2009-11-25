@@ -20,21 +20,116 @@ Superclass for TreeBASE objects. This class is subclassed by packages in C<TreeB
 This module maps relations in a relational database to objects in Perl.  It avoids all difficult
 implementation problems by providing only read-only access.
 
-=head1 PACKAGE VARIABLES
+=head1 OBJECT ATTRIBUTES
 
-=over
+In general, if a database object, represented by C<$X>, has an attribute named C<foo>,
+then C< $X->foo > or C< $x->get('foo') > retrieves the value of the attribute.  If the
+attribute is a scalar, the value is returned as a Perl scalar; if the attribute is a
+reference to another database object, a Perl object is returned.
 
-=item %dbh
+Each object is assumed to correspond to a single table in the database.  If the object
+class is C<ObjectClass>, the corresponding table name is assumed to be C<objectclass>.
+This can be overridden by defining the C<ObjectClass::table> method, which should return
+the correct table name.
 
-This hash holds cached database handles keyed on class names.  
+Each object from class C<ObjectClass> is assumed to have a unique ID attribute which is stored
+in the table in a field whose name is returned by C<ObjectClass::id_attr>.  This defaults to
+C<objectclass_id> if the method is not overridden.
 
-=item $DBH
+C<ObjectClass::new(C<$id>)> will create an object with the specified ID number.  Objects
+are created lazily: the database is not consulted until some other attribute of the object
+is read.
 
-Holds a singleton database handle
+Attributes are of four types.  The call C< $Object->foo > will be resolved in the
+following order:
+
+=over 4
+
+=item 1. Direct attributes. 
+
+If the object's table has a column whose name is exactly C<foo>, the value from that
+column will be returned directly.  SQL C<NULL> values are returned as Perl C<undef>.  
+
+Technical details: Whether an attribute name is considered a direct attribute is
+determined by the return value of the C<has_attr> method.  If C<has_attr> returns true,
+C<get_no_check> is called to produce the attribute value.  See the descriptions of those
+methods below for details.
+
+=item 2. Subobjects.
+
+If the object's table has a column whose name is C<foo_id>, its value is taken to be a
+foreign key, joining to a table named C<foo>.  The corresponding record is looked up in
+the joined table, and an object of class C<Foo> will be constructed and returned.
+
+Technical details: Whether an attribute is considered to be a subobject name is determined
+by the return value of the C<has_subobject> method.  The foreign key column name may be
+overridden by redefining the C<foreign_key> method.  The name of the instantiated class
+may be overridden by redefining the C<subobject_class> method.  The name of the joined
+table may be overridden by redefining the C<table> method for the instantiated class.  See
+the descriptions of those methods below for details.
 
 =back
 
-=head1 PACKAGE METHODS
+=item 3. Reverse subobjects.
+
+If the object's package contains an C<%r_attr> hash with key C<foo>, the value is taken to
+be a class that contains a foreign key linking to the invocant's table.  The tables are
+joined and all foreign objects linking to the invocant are returned.
+
+Technical details: An attribute name is considered to designate a reverse subobject when
+the C<has_r_attr> method returns true.  If so, the C<r_class> method is called to
+determine the class from which the subobjects will be instantiated, that class's C<table>
+method will determine the table joined, and that class's C<foreign_key> method will be
+called to determine the foreign key column for the join.  See the descriptions of those
+methods below for details.
+
+=item 4. Linked objects.
+
+If the invocant's package contains an C<%r2_attr> hash with key C<foo>, the value should be
+an array whose first element is the name of a link table that contains keys for both the
+invocant's table and a foreign table.  The three tables are joined, and the objects from
+the foreign table that link through to the invocant are returned.  The value
+C<$r2_attr{foo}> has the following format:
+
+	[ link table name,
+          class in which foreign objects are instantiated,
+          column of link table with foreign keys ]
+
+The third of these is optional; if omitted, the name returned by the foreign class's
+C<id_attr> method is used.
+
+Technical details: An attribute name is considered to designate a linked object when the
+C<has_r2_attr> method returns true.  The C<r2_table> method is called to determine the
+name of the link table.  The invocant's ID is looked up in the column of the link table
+named by the invocant's C<id_field> method, and the corresponding values of the column
+named by the C<r2_id_attr> method are gathered.  An object is allocated for each resulting
+foreign id, in the class named by the C<r2_class> method.  See the descriptions of those
+methods below for details.
+
+For example, consider the following tables:
+
+    study             study_author		person
+
+    study_id          study_id  person_id       person_id
+    1                 1         100             100
+    2                 2         101             101
+    3                 2         102             102
+    4                 2         103             103
+                      3         102
+                      4         101
+                      4         103
+
+Suppose that C<%study::r2_attr> contains:
+
+    authors => [ 'study_author', 'Person', 'person_id' ]
+
+The link table is C<study_author>, and the foreign table is C<person>.  Then 
+C< Study->new(4)->authors > will return C<Person> objects 101 and 103.
+
+
+=back
+
+=head1 CLASS METHODS
 
 =over
 
@@ -54,30 +149,19 @@ Gets the database handle for the invoking child class. Called as a package metho
 
 sub get_db_connection { my $class = shift; return $dbh{$class}; }
 
-=back
-
-=head1 INSTANCE METHODS
-
-=over
-
-=item prepare_cached()
-
-Prepares a query on the singleton database handle, returns statement handler.
-
-=cut
-
-sub prepare_cached {
+# Private; should remain undocumented
+sub _prepare_cached {
     my ($self, $q) = @_;
     return $DBH->prepare_cached($q);
 }
 
+=head1 INSTANCE METHODS
+
 =item new()
 
-Instantiates an instance of one of the classes defined in TreeBaseObjects. This constructor
-requires that the singleton database handle $CIPRES::TreeBase::VeryBadORM::DBH has been defined
-and that a valid ID is supplied as argument. Instantiated objects are cached in the private
-%cache hash as $cache{$class}{$id}. Returned objects are simply blessed hash references that 
-contain the ID as { 'id' => $id }
+Instantiates an instance of one of the classes defined in TreeBaseObjects. This
+constructor requires that the singleton database handle $CIPRES::TreeBase::VeryBadORM::DBH
+has been defined and that a valid ID is supplied as argument.
 
 =cut
 
@@ -97,20 +181,9 @@ sub new {
     return $obj;
 }
 
-=item AUTOLOAD
-
-Provides the magical methods available in the child classes. It does this by checking which of
-has_attr(), has_subobject(), has_r_attr() or has_r2_attr() applies and invokes one of
-get_no_check(), get_subobject_no_check(), get_r_subobject_no_check() or get_r2_subobject_no_check()
-respectively. Croaks otherwise.
-
-=cut
-
 # Maybe add some caching here at some point
 #
-# This should dispatch off to ->get because the code in the
-# two places is almost the same and we've already had one bug
-# occur when they didn't stay in sync.  mjd 20091123
+# Do not document this; it's private
 sub AUTOLOAD {
     our $AUTOLOAD;
     my ($package, $method) = $AUTOLOAD =~ /(.*)::(.*)/;
@@ -121,8 +194,11 @@ sub AUTOLOAD {
 
 =item has_attr()
 
-Checks to see if the invocant's class defines the supplied attribute. It does this by calling
-attr_hash() and doing a lookup for the supplied attribute in the returned hash.
+Given an attribute name, check to see if the invocant's class has a direct attribute with
+that name, and return true or false.  
+
+By default, it looks for the attribute name as a key in the hash returned by the
+C<attr_hash()> method.
 
 =cut
 
@@ -134,9 +210,11 @@ sub has_attr {
 
 =item has_r_attr()
 
-Checks to see if the invocant's class defines the supplied "reverse attribute" (see 
-L<TreeBaseObjects> for the description of the %r_attr hash). It does this by returning whatever
-is returned by r_class() whilst passing it the supplied "reverse attribute"'s name.
+Given an attribute name, check to see if the invocant's class has a reverse attribute with
+that name, and return true or false.
+
+By default, this just passes the attribute name to the C<r_class> method to see if an
+instantiating class is known for the reverse attribute.
 
 =cut
 
@@ -148,10 +226,11 @@ sub has_r_attr {
 
 =item has_r2_attr()
 
-Checks to see if the invocant's class defines the supplied "reverse attribute through 
-intersection table" (see L<TreeBaseObjects> for the description of the %r2_attr hash). It does this 
-by returning whatever is returned by r2_class() whilst passing it the supplied "reverse 
-attribute through intersection table"'s name.
+Given an attribute name, check to see if the invocant's class has a link attribute with
+that name, and return true or false.
+
+By default, this just passes the attribute name to the C<r2_class> method to see if an
+instantiating class is known for the link attribute.
 
 =cut
 
@@ -163,9 +242,11 @@ sub has_r2_attr {
 
 =item has_subobject()
 
-Checks to see if the invocant is associated with the supplied subobject. It does this by 
-first turning the subobject's name into a foreign key column (by calling foreign_key()) and then 
-checking whether that column is available as an attribute (by calling has_attr()).
+Given an attribute name, check to see if the invocant's class has a subobject attribute with
+that name, and return true or false.
+
+By default, this method first obtains the name of the foreign key field used for this
+attribute, and then checks to see if the invocant has a direct attribute with that name.
 
 =cut
 
@@ -177,8 +258,8 @@ sub has_subobject {
 
 =item foreign_key()
 
-Turns the supplied argument into a foreign key column. It does this by lower casing the 
-argument string and appending '_id'.
+Given an attribute name, return the name of the field that stores foreign keys for that
+attribute.
 
 =cut
 
@@ -311,10 +392,9 @@ sub set_reified { $_[0]{'reified'} = 1 }
 
 =item get()
 
-Given an invocant and a supplied attribute name, returns the attribute value. What the attribute
-actually is, is decided by first checking has_attr(), has_subobject(), has_r_attr() and returns
-the output of either get_no_check(), get_subobject_no_check() or get_r_subobject_no_check() 
-respectively. B<This method is probably never used and therefore probably buggy.>
+Given an invocant and an attribute name, returns the attribute value. 
+
+See the section L<> for details of how attribute names are resolved.
 
 =cut
 
@@ -409,7 +489,7 @@ sub get_r2_subobject_no_check {
 #    $attr = uc $attr;
     my $q = $self->r2_subobject_query($attr);
     my $target_class = $self->r2_class($attr);
-    my $sth = $self->prepare_cached($q);
+    my $sth = $self->_prepare_cached($q);
     $sth->execute($self->id);
     my @results;
     while (my ($target_id) = $sth->fetchrow) {
@@ -464,6 +544,8 @@ then the C<nexusfileID> column of the C<study_nexus> table will be consulted.
 
 sub r2_id_attr {
     my ($self, $attr) = @_;
+# Would it make more sense to use $self->foreign_key($attr) as the fallback here?
+# 20091125 MJD
     $self->r2_attr_hash()->{$attr}->[2] || $self->r2_class($attr)->id_attr;
 }
 
@@ -544,18 +626,24 @@ sub alias {
 
 =item subobject_class()
 
-Returns the class name for the supplied attribute name.  The default is the name of the attribute,
-lowercase with initial capital.  This may be overridden by an entry in the C<%subobject> hash in the
-invocant's class.  For example, suppose there are C<Dessert> objects and C<Flavor> objects.  Suppose
-each C<Dessert> has a C<flavor> and an C<alternate_flavor> attribute, which are C<Flavor> objects.
-One could represent this by defining:
+Given an attribute name, return the name of the class that represents that attribute.
+
+The default version looks up the attribute name as a key in the hash C<%subobject>, and,
+returns the associated value, if there is one.
+
+If not, it converts the attribute name to all-lowercase, uppercases the first character,
+and uses the result.   For example, the default class for the C<potato> attribute is C<Potato>.
+
+For example, suppose there are C<Dessert> objects and C<Flavor> objects.  Suppose each
+C<Dessert> has a C<flavor> and an C<alternate_flavor> attribute, which are C<Flavor>
+objects.  One could represent this by defining:
 
     %Dessert::subobject = (flavor => 'Flavor',
                            alternate_flavor => 'Flavor',
                           );
 
-which says that whenever a C<Dessert>  object's C<flavor> or C<alternate_flavor> attributes are
-accessed, C<VeryBadORM> should instantiate them as C<Flavor> objects.
+which says that whenever a C<Dessert> object's C<flavor> or C<alternate_flavor> attributes
+are accessed, C<VeryBadORM> should instantiate them as C<Flavor> objects.
 
 But one could omit the first entry from the hash:
 
@@ -565,7 +653,6 @@ since the class for the C<flavor> attribute will be inferred to be C<Flavor> by 
 
 One may, of course, override this method to implement any mapping of attribute to class names that
 is desired.
-
 
 =cut
 
