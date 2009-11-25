@@ -62,6 +62,97 @@ Recursively print the contents of the specified object of the
 specified class.  For example, "check Study 1234" prints out study #1234
 and all of its trees, matrices, analyses, etc., and their contents.
 
+=head1 WARNING MESSAGES
+
+=head2 *** Analysis # contains data with the following taxonlabelsets: ##
+
+This means that the taxonlables in one analysis belong to more than
+one taxonlabelset.  I had an idea at one point tha teach analysis's
+taxonlabels should belong to only one TLS.  I think Bill explained to
+me that this was mistaken.  Better double-check.
+
+=head2 *** Analysis # contains no matrices
+
+=head2 *** Analysis # contains no taxonlabelsets
+
+=head2 *** Analysis # contains no trees
+
+An analysis consists of a step that turns a matrix into one or more
+trees.  An analysis with no matrices is missing its matrix.  I believe
+that an analysis with no trees is similarly defective.  The
+taxonlabels in the matrices and trees should be organized into
+taxonlabelsets.
+
+=head2 *** Matrix # has # rows but nchar=
+
+The actual number of columns doesn't match the NCHAR in the matrix
+table.  ("Rows" should be "columns".)
+
+=head2 *** Matrix # has # rows but ntax=
+
+The actual number of rows doesn't match the NTAX in the matrix
+table.
+
+=head2 *** Object Matrix ## should have Study = #,  but it is missing.
+
+The study contains an analysis which involces the specified matrix,
+but the matrix's STUDY field doesn't point back.
+
+=head2 *** Object TaxonLabel ## should have Study = #,  but instead has #
+
+=head2 *** Study # has analyzed data with taxon label # which doesn't point back.
+
+Similarly, this taxonlabel is included in some tree or matrix that is
+part of the indicated study, but its STUDY field doesn't point back to
+the study.  I think these are essentially the same, but I'm not
+certain; I'll try to remember to double-check.
+
+=head2 *** PhyloTree # has null title
+
+=head2 *** PhyloTree # has null tree_kind
+
+=head2 *** PhyloTree # has null tree_quality
+
+=head2 *** PhyloTree # has null tree_type
+
+Self-explanatory, I think.
+
+=head2 *** PhyloTreeNode # is a leaf but has no TaxonLabel
+
+Leaf nodes represent taxa and should have labels.  Internal nodes do
+not necessarily.
+
+=head2 *** Study # has no citation
+
+Should be clear.
+
+=head2 *** Study # in # submissions.
+
+Each study should belong to exactly one submission.
+
+=head2 *** Submission # refers to matrix # which has no study.
+
+=head2 *** Submission # refers to taxonlabel # which doesn't refer back.
+
+=head2 *** Submission # refers to tree # which has no study.
+
+Submissions are linked to matrices, TLs, and trees via the
+submission_matrix table, etc.  But if the submission is linked to a
+matrix, then the matrix should also point back to the study with which
+the submission is associated.  That is,
+
+   for all submissions s,
+     for all m in s.matrices,
+       m.study.submission should be equal to s
+
+Similarly for trees and TLs.
+
+=head2 *** tree # references TLS #, but its node # contains TL # which is not in the set.
+
+"TLS" is taxonlabelset.  The tree is associated with a TLS, which
+ought to contain all the taxonlabels that are attached to nodes in the
+tree.  But the tree has a node with a taxonlabel that is not in the TLS.
+
 =head1 AUTHOR
 
 Mark Jason Dominus (mjd@plover.com)
