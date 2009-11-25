@@ -253,7 +253,8 @@ attribute, and then checks to see if the invocant has a direct attribute with th
 sub has_subobject {
     my $base = shift;
     my $subobj = shift;
-    return $base->has_attr($base->foreign_key($subobj));
+    my $fk = $base->foreign_key($subobj) or return;
+    return $base->has_attr($fk);
 }
 
 =item foreign_key()
