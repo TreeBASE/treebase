@@ -49,9 +49,9 @@
 	</logger>
 
  	<!-- show SQL statement -->
-	<!--logger name="org.hibernate.SQL">
+	<logger name="org.hibernate.SQL">
 		<level value="debug"/>
-	</logger-->
+	</logger>
 
  	<!-- show jdbc -->
 	<!--logger name="org.hibernate.jdbc">
