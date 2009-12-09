@@ -71,7 +71,7 @@
 	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="var" path="M2_REPO/logkit/logkit/1.0.1/logkit-1.0.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/javax/mail/mail/1.4/mail-1.4.jar"/>
-	<classpathentry kind="var" path="M2_REPO/mesquite/mesquite/2.01.tb/mesquite-2.01.tb.jar"/>
+	<!--classpathentry kind="var" path="M2_REPO/mesquite/mesquite/2.01.tb/mesquite-2.01.tb.jar"/-->
 	<classpathentry kind="var" path="M2_REPO/mrj/MRJToolkitStubs/1.0/MRJToolkitStubs-1.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/neethi/neethi/2.0.4/neethi-2.0.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/oro/oro/2.0.8/oro-2.0.8.jar"/>
