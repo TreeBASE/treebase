@@ -2514,3 +2514,21 @@ ALTER TABLE USERTYPERRD_COLRANGE
 	REFERENCES COLUMNRANGE(COLUMNRANGE_ID)
 	ON DELETE NO ACTION 
 	ON UPDATE NO ACTION;
+
+-- INDICES
+CREATE INDEX matrixcolumn_phylochar_id_idx ON matrixcolumn(phylochar_id);
+CREATE INDEX matrixrow_taxonlabel_id_idx ON matrixrow(taxonlabel_id);
+CREATE INDEX matrixrow_matrix_id_idx on matrixrow(matrix_id);
+CREATE INDEX matrixdatatype_phylochar_id_idx ON matrixdatatype(phylochar_id);
+CREATE INDEX rowsegment_matrixrow_id_idx ON rowsegment(matrixrow_id);
+
+CREATE INDEX matrixelement_matrixcolumn_id_idx ON matrixelement(matrixcolumn_id);
+CREATE INDEX matrixelement_matrixrow_id_idx ON matrixelement(matrixrow_id);
+CREATE INDEX matrixelement_discretecharstate_id_idx ON matrixelement(discretecharstate_id);
+
+CREATE INDEX matrixelement_discretecharstate_id_idx ON matrixelement(discretecharstate_id);
+CREATE INDEX discretecharstate_phylochar_id_idx ON discretecharstate(phylochar_id);
+
+CREATE INDEX analysis_study_id_idx ON analysis(study_id);
+CREATE INDEX submission_study_id_idx ON submission(study_id);
+CREATE INDEX study_citation_id_idx ON study(citation_id);
