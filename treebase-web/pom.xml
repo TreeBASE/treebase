@@ -95,10 +95,15 @@
 
 	<dependencies>
 
+		
 		<dependency>
+			
 			<groupId>org.nexml.model</groupId>
+			
 			<artifactId>nexml</artifactId>
+			
 			<version>1.5-SNAPSHOT</version>
+		
 		</dependency>
 		
 		<dependency>
@@ -303,9 +308,13 @@
 		</dependency>
 		
 		<dependency>
+			
 			<groupId>zing.z3950.org</groupId>
+			
 			<artifactId>cql-java</artifactId>
+			
 			<version>1.0</version>
+		
 		</dependency>
 
 	</dependencies>
