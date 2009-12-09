@@ -14,6 +14,10 @@
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/treebase.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/menuExpandable.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/messages.css'/>" />
+<script type="text/javascript" src="/treebase-web/scripts/prototype/prototype.js"></script>
+<script type="text/javascript" src="/treebase-web/scripts/prototype/prototype-1.6.0.3.js"></script>
+<script type="text/javascript" src="/treebase-web/scripts/script.aculo.us/effects.js"></script>
+<script type="text/javascript" src="/treebase-web/scripts/script.aculo.us/controls.js"></script>
 <script type="text/javascript" src="<c:url value='/scripts/menuExpandable.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common.js'/>"></script>
 
