@@ -7,13 +7,17 @@
 <form method="post"  id="dataForm">
 
 <fieldset>
-<legend>Search based on Study Accession Number</legend>
+<legend>Search for submissions by identifiers
+<a href="#" class="openHelp" onclick="openHelp('searchBySubmissionID')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+</legend>
 
 <table border="0" cellpadding="3" cellspacing="3">
 
 	<tr>
         <th><fmt:message key="submission.accession"/>:</th>
-        <td>  	   	
+        <td>  	   
+        	<input type="radio" name="identifierType" value="TB1"/>Legacy accession number
+        	<input type="radio" name="identifierType" value="TB2"/>TreeBASE2 study ID
         	<input type="text" name="submissionaccession"  maxlength = "25"/>       
         </td>
     </tr>
