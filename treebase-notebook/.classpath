@@ -6,7 +6,7 @@
   <classpathentry kind="src" path="/treebase-core"/>
   <classpathentry kind="var" path="M2_REPO/asm/asm/1.5.3/asm-1.5.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-remoting/1.2.6/spring-remoting-1.2.6.jar" sourcepath="M2_REPO/org/springframework/spring-remoting/1.2.6/spring-remoting-1.2.6-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/mesquite/mesquite/1.11/mesquite-1.11.jar"/>
+  <!--classpathentry kind="var" path="M2_REPO/mesquite/mesquite/1.11/mesquite-1.11.jar"/-->
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/1.2.6/spring-core-1.2.6.jar" sourcepath="M2_REPO/org/springframework/spring-core/1.2.6/spring-core-1.2.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/pal/pal/1.5.1/pal-1.5.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4-sources.jar"/>
