@@ -15,9 +15,9 @@
 
 	<tr>
         <th><fmt:message key="submission.accession"/>:</th>
-        <td>  	   
-        	<input type="radio" name="identifierType" value="TB1"/>Legacy accession
-        	<input type="radio" name="identifierType" value="TB2"/>TreeBASE2 Id
+        <td>  	
+        	<input type="radio" name="identifierType" value="TB2" checked="checked"/>TreeBASE2 Id   
+        	<input type="radio" name="identifierType" value="TB1"/>Legacy accession        	
         	<input type="text" name="submissionaccession"  maxlength = "25"/>       
         </td>
     </tr>
