@@ -9,7 +9,7 @@ getopts('xdn:', \%opt) or usage();
 $commit_batch_size ||= $opt{n};
 
 my $BEGIN = "BEGIN TRANSACTION;\n";
-$BEGIN .= "SET CONSTAINTS ALL DEFERRED;\n" if $opt{d};
+$BEGIN .= "SET CONSTRAINTS ALL DEFERRED;\n" if $opt{d};
 
 my $OK = 1;
 
