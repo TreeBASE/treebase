@@ -53,10 +53,10 @@ public class SearchBySubmissionIDController extends BaseFormController {
 		BindException bindExp) throws Exception {
 
 		String studyAccession = request.getParameter("submissionaccession").trim();
+		String identifierType = request.getParameter("identifierType").trim();
 		Submission sub;
 
-		if (TreebaseUtil.isEmpty(studyAccession)) {
-			
+		if (TreebaseUtil.isEmpty(studyAccession)) {			
 			return setAttributeAndShowForm(
 				request,
 				response,
@@ -64,17 +64,13 @@ public class SearchBySubmissionIDController extends BaseFormController {
 				"errors",
 				"Please provide a study accession number.");
 		}
-
-//		if (!ControllerUtil.checkForLongNumber(submissionID)) {
-//			return setAttributeAndShowForm(
-//				request,
-//				response,
-//				bindExp,
-//				"errors",
-//				"Submission ID has to be a number.");
-//		}
-
-		sub = getSubmissionHome().findByStudyAccessionNumber(studyAccession);
+		if ( identifierType.equals("TB1") ) {
+			sub = getSubmissionHome().findByStudyAccessionNumber(studyAccession);
+		}
+		else {
+			sub = getSubmissionHome().findBySubmissionNumber(studyAccession);
+		}
+		
 		if (sub == null) {
 			return setAttributeAndShowForm(request, response, bindExp, "errors", "Submission accession: '"
 				+ studyAccession + "' does not exist.");
