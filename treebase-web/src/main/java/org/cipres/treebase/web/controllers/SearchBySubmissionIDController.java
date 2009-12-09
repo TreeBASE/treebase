@@ -63,11 +63,11 @@ public class SearchBySubmissionIDController extends BaseFormController {
 				bindExp,
 				"errors",
 				"Please provide a study accession number.");
-		}
-		if ( ! studyAccession.startsWith("S") ) {
-			studyAccession = "S" + studyAccession;
-		}
+		}		
 		if ( identifierType.equals("TB1") ) {
+			if ( ! studyAccession.startsWith("S") ) {
+				studyAccession = "S" + studyAccession;
+			}
 			sub = getSubmissionHome().findByStudyAccessionNumber(studyAccession);
 		}
 		else {
