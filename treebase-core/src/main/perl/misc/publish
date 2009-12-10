@@ -26,10 +26,6 @@ WEBAPPS="$CATALINA_HOME/webapps"
 TARGET_DIR="treebase-web"
 IP_ADDR=`curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'`
 
-# Need to set this for mesquite, in case we're launching
-# on servers that don't have X11 configure
-export DISPLAY=:0.0
-
 # Flag to suppress sourre update and rebuilding
 update_sources=true
 if [ "$1" == "-r" ]; then
@@ -56,7 +52,7 @@ if $update_sources; then
 
   touch ${TREEBASE_HOME}/treebase-web/src/main/webapp/common/footer.jsp
  
-  mvn install -Dmaven.test.skip=true
+  mvn -e install -Dmaven.test.skip=true
 fi
 
 # Stop the server, and make sure it's dead before proceeding
