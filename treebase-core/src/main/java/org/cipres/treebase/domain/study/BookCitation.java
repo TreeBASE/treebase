@@ -130,6 +130,32 @@ public class BookCitation extends Citation {
 	public String getBookTitle() {
 		return mBookTitle;
 	}
+	
+	/**
+	 * Return the BookTitle
+	 * 
+	 * @see org.cipres.treebase.domain.study.Citation#getTitle()
+	 * @return String
+	 */
+	@Override
+	@Transient
+	public String getTitle () {
+		/*
+		 * We always want getTitle() to return something.
+		 * For ArticleCitations, this field would normally
+		 * be set with the name of the article. For InBookCitation,
+		 * this field is populated with the section title, so
+		 * InBookCitation.getSectionTitle() calls the getTitle()
+		 * method defined here, from whence we need to go up
+		 * the inheritance tree to the parent Citation class. For
+		 * BookCitations, the title field is unset, so we return
+		 * the BookTitle field instead.
+		 */
+		if ( this instanceof InBookCitation ) {
+			return super.getTitle();
+		}
+		return getBookTitle();
+	}
 
 	/**
 	 * Set the BookTitle field.
