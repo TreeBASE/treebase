@@ -118,6 +118,10 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 		converter.setTaxonLabelHome(getTaxonLabelHome());
 
 		//converter.processLoadFile(pNexusFiles, pStudy, data, pListener);
+		if ( LOGGER.isInfoEnabled() ) {
+			LOGGER.info("Mesquite is located at: '"+System.getProperty(MESQUITE_FOLDER_DIR_KEY)+"'");
+		}
+		
 		converter.parseOneFile(pNexusFile, pStudy, data);
 
 		return data;	
