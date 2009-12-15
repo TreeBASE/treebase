@@ -1,0 +1,25 @@
+#NEXUS
+[written Thu Sep 20 14:10:05 MST 2007 by Mesquite  version 2.0BETA4 (build i64) at Odontium.local/192.168.0.3 (David Maddison)]
+BEGIN TREES;
+	Title 'Trees from "13-trees.nex"';
+	LINK Taxa = Untitled_Block_of_Taxa;
+	TRANSLATE
+		1 Aus,
+		2 Fubonidia,
+		3 Ibbinidibe,
+		4 Snorolopa,
+		5 Quidnubia,
+		6 Suinon,
+		7 Zorabynyx,
+		8 Huichoros,
+		9 Jotinupa;
+	TREE First_Tree = ((((1,5),4),((7,6),2)),((9,8),3));
+	TREE Second_Tree = ((((9,((4,1),2)),6),3),((8,7),5));
+	TREE Third_Tree = ((8,((2,6),1)),((((3,9),7),4),5));
+	TREE Polytomous = ((1,5),(7,6,2),4,((9,8),3));
+	TREE Partial_tree = (((9,(1,2)),(8,7)),(3,5));
+
+END;
+
+
+

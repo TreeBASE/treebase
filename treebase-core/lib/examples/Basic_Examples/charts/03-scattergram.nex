@@ -1,0 +1,271 @@
+#NEXUS
+[written Tue Aug 21 10:42:56 PDT 2007 by Mesquite  version 2.0BETA3 (build i50) at Thrandina.local/192.168.0.101 (Wayne Maddison)]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX=9;
+	TAXLABELS
+		Aus Fubonidia Ibbinidibe Snorolopa Quidnubia Suinon Zorabynyx Huichoros Jotinupa 
+	;
+	BLOCKID WM1148984a9e0104;
+
+END;
+
+
+BEGIN CHARACTERS;
+	TITLE  Structure_&_Color;
+	DIMENSIONS  NCHAR=2;
+	FORMAT DATATYPE = STANDARD GAP = - MISSING = ? SYMBOLS = "  0 1";
+	CHARSTATELABELS 
+		1 number_of_eyes /  one two, 2 tail_color /  blue red ; 
+	MATRIX
+	Aus         11
+	Fubonidia   11
+	Ibbinidibe  11
+	Snorolopa   1(0,1)
+	Quidnubia   00
+	Suinon      00
+	Zorabynyx   00
+	Huichoros   00
+	Jotinupa    00
+
+;
+		BLOCKID WM1148984aa0a0;
+
+
+END;
+BEGIN CHARACTERS;
+	TITLE  Measurements;
+	DIMENSIONS  NCHAR=4;
+	FORMAT DATATYPE = CONTINUOUS;
+CHARSTATELABELS 
+		1 toe_length,
+		2 slime_index,
+		3 puncture_density,
+		4 sneakiness ; 
+	MATRIX
+	Aus          2.434 45.96 0.0 20.0
+	Fubonidia    2.22 38.0 20.0 20.0
+	Ibbinidibe   2.04 84.0 40.0 7.0
+	Snorolopa    2.24 74.0 60.0 0.0
+	Quidnubia    2.74 26.0 80.0 17.4
+	Suinon       2.9 58.0 100.0 1.0
+	Zorabynyx    2.7800000000000002 54.0 120.0 4.0
+	Huichoros    2.16 70.0 140.0 0.0
+	Jotinupa     3.12 45.96 160.0 0.0
+
+;
+		BLOCKID WM1148984aa220;
+
+
+END;
+BEGIN TREES;
+	TRANSLATE
+		1 Aus,
+		2 Fubonidia,
+		3 Ibbinidibe,
+		4 Snorolopa,
+		5 Quidnubia,
+		6 Suinon,
+		7 Zorabynyx,
+		8 Huichoros,
+		9 Jotinupa;
+	TREE First_Tree = ((((1,5),4),((7,6),2)),((9,8),3));
+	TREE Second_Tree = ((((9,((4,1),2)),6),3),((8,7),5));
+	TREE Third_Tree = ((8,((2,6),1)),((((3,9),7),4),5));
+	TREE Polytomous = ((1,5),(7,6,2),4,((9,8),3));
+	TREE Partial_tree = (((9,(1,2)),(8,7)),(3,5));
+
+END;
+
+
+BEGIN NOTES;
+
+	TEXT TAXA = Fubonidians TAXON = 5 TEXT = Lives_deep_in_dark_caves;
+
+	CHARACTERS = Structure_&_Color TAXA = Fubonidians;
+	TEXT   TAXON = 4 CHARACTER = 2 TEXT = 'Some individuals are blue, others are red.  Why, no one knows.';
+
+	CHARACTERS = Measurements TAXA = Fubonidians;
+
+END;
+
+BEGIN LABELS;
+TAXAGROUPLABEL Fubonidiines COLOR = (RGB 0.03137255 0.41176471 1.0) ;
+TAXAGROUPLABEL Jotinupiines COLOR = (RGB 1.0 0.83137255 0.33725490) ;
+
+
+END;
+
+BEGIN SETS;
+TAXPARTITION * UNTITLED  =  Fubonidiines :  1 -  3 5, Jotinupiines :  4 6 -  9;
+
+END;
+
+BEGIN ASSUMPTIONS;
+OPTIONS DEFTYPE =                              unord PolyTcount =                              MINSTEPS;
+	TYPESET * UNTITLED  (CHARACTERS = Structure_&_Color)  =  unord:  1 -  2;
+TYPESET Current_Parsimony_Models  (CHARACTERS = Structure_&_Color)  =  unord:  1 -  2;
+TYPESET * UNTITLED  (CHARACTERS = Measurements)  =  Squared:  1 -  4;
+
+END;
+
+BEGIN MESQUITECHARMODELS;
+	ProbModelSet * UNTITLED  (CHARACTERS = Structure_&_Color)  =  'Mk1 (est.)':  1 -  2;
+ProbModelSet * UNTITLED  (CHARACTERS = Measurements)  =  Brownian_default:  1 -  4;
+END;
+
+BEGIN CODONS;
+CODESET * UNTITLED  (CHARACTERS = Structure_&_Color)  =  universal:  1 -  2;
+
+
+END;
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 8476784597994698209 WM1148984a9e0104;
+		endTell;
+		getEmployee #mesquite.charMatrices.ManageCharacters.ManageCharacters;
+		tell It;
+			setID 0 974864624972105434 WM1148984aa0a0;
+			checksum 0 4129971366;
+			setID 1 1065345207404390442 WM1148984aa220;
+			checksum 1 2480804147;
+		endTell;
+		getEmployee  #mesquite.charMatrices.BasicDataWindowCoord.BasicDataWindowCoord;
+		tell It;
+			showDataWindow #1065345207404390442 #mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindowMaker;
+			tell It;
+				getWindow;
+				tell It;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 495 247;
+					setLocation 10 475;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+					setTool mesquite.charMatrices.BasicDataWindowMaker.BasicDataWindow.arrow;
+					colorCells  #mesquite.charMatrices.NoColor.NoColor;
+					setBackground White;
+					toggleShowNames on;
+					toggleTight off;
+					toggleShowChanges on;
+					toggleSeparateLines off;
+					toggleShowStates on;
+					toggleAutoWCharNames on;
+					toggleShowDefaultCharNames off;
+					toggleConstrainCW on;
+					setColumnWidth 70;
+					toggleBirdsEye off;
+					toggleColorsPanel off;
+					birdsEyeWidth 2;
+					toggleLinkedScrolling on;
+					toggleScrollLinkedTables off;
+				endTell;
+				showWindow;
+				getEmployee #mesquite.charMatrices.AnnotPanel.AnnotPanel;
+				tell It;
+					togglePanel off;
+				endTell;
+				getEmployee #mesquite.charMatrices.CharReferenceStrip.CharReferenceStrip;
+				tell It;
+					showStrip off;
+				endTell;
+				getEmployee #mesquite.charMatrices.ColorCells.ColorCells;
+				tell It;
+					setColor Red;
+					removeColor off;
+				endTell;
+			endTell;
+		endTell;
+		newAssistant  #mesquite.charts.TaxaScattergram.TaxaScattergram;
+		tell It;
+			setTaxonSource  #mesquite.minimal.StoredTaxa.StoredTaxa;
+			tell It;
+				setTaxa #8476784597994698209;
+			endTell;
+			setTaxa #8476784597994698209;
+			axesSame;
+			setValues  #mesquite.cont.ContinuousStatesT.ContinuousStatesT;
+			tell It;
+				getCharacterSource  #mesquite.charMatrices.CharSrcCoordObed.CharSrcCoordObed;
+				tell It;
+					setCharacterSource #mesquite.charMatrices.StoredCharacters.StoredCharacters;
+					tell It;
+						setDataSet #1065345207404390442;
+					endTell;
+				endTell;
+				setCharacter 2;
+				setItem 0;
+			endTell;
+			showNamesToggle on;
+			getCharter #mesquite.charts.ItemsBiplot.ItemsBiplot;
+			tell It;
+				getWindow;
+				tell It;
+					setX 1;
+					setY 2;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 490 442;
+					setLocation 512 25;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+				endTell;
+				enableCalculations;
+				getEmployee #mesquite.charts.Scattergram.Scattergram;
+				tell It;
+					markerSize 10;
+					toggleJoin off;
+					toggleShowDots on;
+					movingWindowSize 1;
+					sumByBlocks off;
+						newAssistant  #mesquite.charts.ShowYEqualsX.ShowYEqualsX;
+				endTell;
+			endTell;
+			setChartVisible;
+			doCounts;
+			showWindow;
+		endTell;
+		newAssistant  #mesquite.basic.ExamplesNavigator.ExamplesNavigator;
+		tell It;
+			setNextFileName '04-scattergram.nex';
+			setPrevFileName '02-histogram.nex';
+			getWindow;
+			tell It;
+					setExplanationSize 0;
+					setAnnotationSize 0;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 483 309;
+					setLocation 13 22;
+					setFont SanSerif;
+					setFontSize 10;
+					setActive;
+				setExplanation 'Some of the scattergrams give you a choice of either showing the same type of value on both axes, or different types.  The former is useful if you want one axis to show the state in character 1, and the other axis to show the state in character 2 in the same matrix.  Both axes are showing states in characters, but they show it for different characters.  The latter is useful if you want to show completely different values, such as (for a Trees scattergram) the branch length depth of a tree versus its asymmetry.^n^nThe spots in the scattergram are  colored differently according to the current Taxa Partition colors.  This is useful for both taxa or characters, when the taxa or characters have been partitioned into groups and the groups have assigned colors.^n^nYou can select the spots in a scattergram by using the arrow tool to draw a box around the spots to be selected.   If you select a series of spots then choose Copy from the Edit menu, then the chart''s data for those points will be copied to the clipboard.';
+				setTitle Scattergrams;
+				toggleFileNames off;
+				setPrevButtonName Previous;
+				setNextButtonName Next;
+			endTell;
+			showWindow;
+		endTell;
+		endTell;
+end;
+
+
