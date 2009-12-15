@@ -1,0 +1,290 @@
+#NEXUS
+[written Tue Aug 21 11:02:48 PDT 2007 by Mesquite  version 2.0BETA3 (build i50) at Thrandina.local/192.168.0.101 (Wayne Maddison)]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX=25;
+	TAXLABELS
+		X._multilineatus X._nigrensis X._cortezi X._malinche X._continens X._nezahualcoyti X._montezumae X._pygmaeus X._birchmanii X._couchianus X._gordoni X._meyeri X._xiphidium X._variatus X._evelynae X._clemenciae X._milleri X._maculatus X._andersi X._alvarezi X._helleri X._signum P._olmaceae P._interm P._compressa 
+	;
+	BLOCKID 010a90b186ef1;
+
+END;
+
+
+BEGIN CHARACTERS;
+	DIMENSIONS  NCHAR=1;
+	FORMAT DATATYPE = STANDARD GAP = - MISSING = ? SYMBOLS = "  0 1";
+	CHARSTATELABELS 
+		1 Tail /  swordless swords ; 
+	MATRIX
+	X._multilineatus  1
+	X._nigrensis      1
+	X._cortezi        1
+	X._malinche       1
+	X._continens      0
+	X._nezahualcoyti  1
+	X._montezumae     1
+	X._pygmaeus       0
+	X._birchmanii     1
+	X._couchianus     0
+	X._gordoni        0
+	X._meyeri         0
+	X._xiphidium      0
+	X._variatus       0
+	X._evelynae       0
+	X._clemenciae     1
+	X._milleri        0
+	X._maculatus      0
+	X._andersi        0
+	X._alvarezi       1
+	X._helleri        1
+	X._signum         1
+	P._olmaceae       0
+	P._interm         0
+	P._compressa      0
+
+;
+		BLOCKID 010a90b187b50;
+
+
+END;
+BEGIN TREES;
+	TRANSLATE
+		1 X._multilineatus,
+		2 X._nigrensis,
+		3 X._cortezi,
+		4 X._malinche,
+		5 X._continens,
+		6 X._nezahualcoyti,
+		7 X._montezumae,
+		8 X._pygmaeus,
+		9 X._birchmanii,
+		10 X._couchianus,
+		11 X._gordoni,
+		12 X._meyeri,
+		13 X._xiphidium,
+		14 X._variatus,
+		15 X._evelynae,
+		16 X._clemenciae,
+		17 X._milleri,
+		18 X._maculatus,
+		19 X._andersi,
+		20 X._alvarezi,
+		21 X._helleri,
+		22 X._signum,
+		23 P._olmaceae,
+		24 P._interm,
+		25 P._compressa;
+	TREE Figure_5 = ((((((((1:1.0,2:1.0):1.0,(3:1.0,4:1.0):1.0):1.0,5:1.0):1.0,6:1.0):1.0,7:1.0):1.0,(8:1.0,9:1.0):1.0):1.0,((((((((((10:1.0,11:1.0):1.0,12:1.0):1.0,13:1.0):1.0,14:1.0):1.0,15:1.0):1.0,16:1.0):1.0,17:1.0):1.0,18:1.0):1.0,19:1.0):1.0,((20:1.0,21:1.0):1.0,22:1.0):1.0):1.0):1.0,((25:1.0,24:1.0):1.0,23:1.0):1.0):1.0;
+
+END;
+
+
+BEGIN CODONS;
+CODESET * UNTITLED   =  universal:  1;
+
+
+END;
+
+BEGIN MESQUITECHARMODELS;
+	CharModel mk1_model (Mk1) = 
+		 rate 0.067 maxState 1;
+	CharModel Asymmetrical_model (AsymmMk) = 
+		 forward  ?  backward  ?  equilibAsPrior;
+
+	ProbModelSet * UNTITLED   =  'Mk1 (est.)':  1;
+END;
+
+BEGIN ASSUMPTIONS;
+	TYPESET * UNTITLED   =  unord:  1;
+
+END;
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 8265138006560775301 010a90b186ef1;
+		endTell;
+		getEmployee #mesquite.charMatrices.ManageCharacters.ManageCharacters;
+		tell It;
+			setID 0 6115459465024062079 010a90b187b50;
+			checksum 0 3737896798;
+		endTell;
+		getEmployee  #mesquite.trees.BasicTreeWindowCoord.BasicTreeWindowCoord;
+		tell It;
+			makeTreeWindow #8265138006560775301  #mesquite.trees.BasicTreeWindowMaker.BasicTreeWindowMaker;
+			tell It;
+				setTreeSource  #mesquite.trees.StoredTrees.StoredTrees;
+				tell It;
+					setTreeBlock 1;
+					toggleUseWeights off;
+				endTell;
+				setAssignedID 298.1019014879746.4115002201943536709;
+				getTreeWindow;
+				tell It;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 607 748;
+					setLocation 495 32;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+					getTreeDrawCoordinator #mesquite.trees.BasicTreeDrawCoordinator.BasicTreeDrawCoordinator;
+				tell It;
+					suppress;
+					setTreeDrawer  #mesquite.trees.BallsNSticks.BallsNSticks;
+					tell It;
+						setSpotDiameter 22;
+						setEdgeWidth 2;
+						orientRight;
+						useDiagonal;
+						toggleCosmic off;
+						getEmployee #mesquite.trees.NodeLocsStandard.NodeLocsStandard;
+						tell It;
+							stretchToggle off;
+							branchLengthsToggle off;
+							toggleScale on;
+							toggleBroadScale off;
+							toggleCenter off;
+							toggleEven off;
+							namesAngle ?;
+						endTell;
+					endTell;
+					setBackground White;
+					setBranchColor Black;
+					showNodeNumbers off;
+					showBranchColors on;
+					labelBranchLengths off;
+					desuppress;
+					getEmployee #mesquite.trees.BasicDrawTaxonNames.BasicDrawTaxonNames;
+					tell It;
+						setColor Black;
+						toggleColorPartition on;
+						toggleShadePartition off;
+						toggleNodeLabels on;
+						toggleCenterNodeNames off;
+						toggleShowNames on;
+					endTell;
+				endTell;
+					setTreeNumber 1;
+					setTree '((((((((1:1.0,2:1.0):1.0,(3:1.0,4:1.0):1.0):1.0,5:3.0):1.0,6:4.0):1.0,7:5.0):1.0,(8:1.0,9:1.0):5.0):5.0,((((((((((10:1.0,11:1.0):1.0,12:2.0):1.0,13:3.0):1.0,14:4.0):1.0,15:5.0):1.0,16:6.0):1.0,17:7.0):1.0,18:8.0):1.0,19:9.0):1.0,((20:1.0,21:1.0):1.0,22:2.0):8.0):1.0):1.0,((25:1.0,24:1.0):1.0,23:2.0):10.0):1.0;';
+					useSuggestedSize off;
+					toggleSizeToFit on;
+					toggleTextOnTree off;
+					newAssistant  #mesquite.ancstates.TraceCharacterHistory.TraceCharacterHistory;
+				tell It;
+					suspend ;
+					setDisplayMode  #mesquite.ancstates.ShadeStatesOnTree.ShadeStatesOnTree;
+					tell It;
+						toggleLabels off;
+						toggleGray off;
+					endTell;
+					setHistorySource  #mesquite.ancstates.RecAncestralStates.RecAncestralStates;
+					tell It;
+						getCharacterSource  #mesquite.charMatrices.CharSrcCoordObed.CharSrcCoordObed;
+						tell It;
+							setCharacterSource #mesquite.charMatrices.StoredCharacters.StoredCharacters;
+							tell It;
+								setDataSet #6115459465024062079;
+							endTell;
+						endTell;
+						setMethod  #mesquite.stochchar.MargProbAncStates.MargProbAncStates;
+						tell It;
+							setModelSource  #mesquite.stochchar.StoredProbModel.StoredProbModel;
+							tell It;
+								setModel 3   Asymmetrical_model;
+							endTell;
+							getEmployee #mesquite.stochchar.zMargLikeCateg.zMargLikeCateg;
+							tell It;
+								setReportMode Proportional_Likelihoods;
+								setRootMode Use_Root_State_Frequencies_as_Prior;
+								setDecision 2.0;
+								setUnderflowCheckFreq 2;
+							endTell;
+						endTell;
+					endTell;
+					setCharacter 1;
+					setMapping 1;
+					toggleShowLegend on;
+					toggleGray off;
+					toggleWeights on;
+					setInitialOffsetX 20;
+					setInitialOffsetY -163;
+					setLegendWidth 243;
+					setLegendHeight 161;
+					resume ;
+				endTell;
+				endTell;
+				showWindow;
+				getEmployee #mesquite.trees.ColorBranches.ColorBranches;
+				tell It;
+					setColor Red;
+					removeColor off;
+				endTell;
+				getEmployee #mesquite.ornamental.BranchNotes.BranchNotes;
+				tell It;
+					setAlwaysOn off;
+				endTell;
+				getEmployee #mesquite.ornamental.ColorTreeByPartition.ColorTreeByPartition;
+				tell It;
+					colorByPartition off;
+				endTell;
+			endTell;
+		endTell;
+		getEmployee  #mesquite.charMatrices.ManageCharModels.ManageCharModels;
+		tell It;
+			getEmployee #mesquite.stochchar.AsymmModelCurator.AsymmModelCurator;
+			tell It;
+				editModel Asymmetrical_model #mesquite.minimal.WindowBabysitter.WindowBabysitter;
+				tell It;
+					getWindow;
+					tell It;
+						popOut;
+						setExplanationSize 0;
+						setAnnotationSize 0;
+						setFontIncAnnot 0;
+						setFontIncExp 0;
+						setSize 343 315;
+						setLocation 82 497;
+						setFont SanSerif;
+						setFontSize 10;
+					endTell;
+					showWindow;
+				endTell;
+			endTell;
+		endTell;
+		newAssistant  #mesquite.basic.ExamplesNavigator.ExamplesNavigator;
+		tell It;
+			setNextFileName '15ab-xiphStochCharMap.nex';
+			setPrevFileName '15-Mk1AsymmCompare.nex';
+			getWindow;
+			tell It;
+					setExplanationSize 0;
+					setAnnotationSize 0;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 469 295;
+					setLocation 12 34;
+					setFont SanSerif;
+					setFontSize 10;
+					setActive;
+				setExplanation 'The asymmetrical model of evolution (AsymmMk) has two options: either the root state frequencies are assumed to be the same as the implicit equilibrium frequencies, or they are assumed to be equal (i.e. a flat prior).  Try choosing the alternative options in the editor for the model.  Note how the reconstruction at the root changes if the root state option is changed.  This effect is particularly strong if one of the states is more common than the other.';
+				setTitle Likelihood;
+				toggleFileNames off;
+				setPrevButtonName Previous;
+				setNextButtonName Next;
+			endTell;
+			showWindow;
+		endTell;
+		endTell;
+end;
+
+
