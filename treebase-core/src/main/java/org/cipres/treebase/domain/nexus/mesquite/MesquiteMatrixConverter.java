@@ -821,8 +821,6 @@ public abstract class MesquiteMatrixConverter {
 
 			int continuing = 0;
 			for (int ic = 0; ic < pNumChar; ic++) {
-
-				// 
 				if (pBitsSpecsSet.isSelected(ic)) {
 					if (continuing == 0) {
 						// discontinue
