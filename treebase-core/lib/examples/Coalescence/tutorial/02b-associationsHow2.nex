@@ -1,0 +1,150 @@
+#NEXUS
+[written Tue Aug 21 23:07:02 PDT 2007 by Mesquite  version 2.0BETA3 (build i50) at Thrandina.local/10.0.1.2 (Wayne Maddison)]
+
+BEGIN TAXA;
+	TITLE Species;
+	DIMENSIONS NTAX=3;
+	TAXLABELS
+		speciesA speciesB speciesC 
+	;
+	BLOCKID WM1148c2e1e9227;
+
+END;
+
+
+
+BEGIN TAXA;
+	TITLE Genes;
+	DIMENSIONS NTAX=5;
+	TAXLABELS
+		geneA1 geneA2 geneB geneC1 geneC2 
+	;
+	BLOCKID WM1148c2e1e9628;
+
+END;
+
+
+BEGIN TaxaAssociation;
+TITLE how_genes_fit_into_species;
+TAXA Species ,  Genes;
+ASSOCIATES 
+
+	speciesA /  geneA1 geneA2 , 
+	speciesB /  geneB , 
+	speciesC /  geneC1 geneC2
+
+;
+
+END;
+
+
+BEGIN NOTES;
+
+	TEXT  FILE TEXT = 'This file was created as follows.  First, I chose "New" from the File menu.  I indicated the file name in the file dialog box.  Then, when the dialog box came up asking me about a set of taxa, I entered the name ("Species"), and how many taxa (3).  In the taxa list window (e.g., at left), I renamed the taxa (species A, B, C). Next, I made the second set of taxa (e.g., "Genes") by selecting the "New block of taxa" menu item in the Taxa&Trees menu.^n^nNext, I began to indicate how the one set of taxa fits into the other set of taxa.  To do this, I created an "Association" block in the data file (there isn''t a fancy editor for this yet, just a crude one).  I did this by selecting "New Association" in the Taxa&Trees menu.  I was asked to identify the two sets of taxa to be associated, and presented with a simple text editor in a dialog box. ^n^nI then finished writing the "ASSOCIATES" command.  To see an example, go to the Association block window and select "Show example ASSOCIATION block" from the Taxa&Trees menu.  For instance, with these data a possible ASSOCIATES command would be:^n^nASSOCIATES ^n	speciesA /  geneA1 geneA2 , ^n	speciesB /  geneB, ^n	speciesC /  geneC1 geneC2 , ^n;^n^nI entered this.  Then, I closed the Association block window.  This caused the block to be processed.  ^n^nIf you want to see the Association block editor, choose Edit Association from the  Taxa&Trees menu.^n^nTo see the next step in analyzing gene trees within species trees, hit the button in the "Go To File" window.';
+
+END;
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 2038936534183152982 WM1148c2e1e9227;
+			tell It;
+				setSelected  3;
+				attachments ;
+			endTell;
+			setID 1 2451688679550742169 WM1148c2e1e9628;
+		endTell;
+		getEmployee  #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			showTaxa #2038936534183152982 #mesquite.lists.TaxonList.TaxonList;
+			tell It;
+				setTaxa #2038936534183152982;
+				getWindow;
+				tell It;
+					newAssistant  #mesquite.lists.DefaultTaxaOrder.DefaultTaxaOrder;
+					newAssistant  #mesquite.lists.TaxonListCurrPartition.TaxonListCurrPartition;
+					newAssistant  #mesquite.assoc.TaxonListAssoc.TaxonListAssoc;
+				tell It;
+					getAssociationsTask Stored Taxa Associations (id# 3779);
+					resetAssociation;
+					getEmployee #mesquite.assoc.StoredAssociations.StoredAssociations;
+					tell It;
+						setCurrentAssociation 0;
+					endTell;
+				endTell;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 603 246;
+					setLocation 586 405;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+				endTell;
+				showWindow;
+				getEmployee #mesquite.lists.TaxonListAnnotPanel.TaxonListAnnotPanel;
+				tell It;
+					togglePanel off;
+				endTell;
+			endTell;
+			showTaxa #2451688679550742169 #mesquite.lists.TaxonList.TaxonList;
+			tell It;
+				setTaxa #2451688679550742169;
+				getWindow;
+				tell It;
+					newAssistant  #mesquite.lists.DefaultTaxaOrder.DefaultTaxaOrder;
+					newAssistant  #mesquite.lists.TaxonListCurrPartition.TaxonListCurrPartition;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 536 252;
+					setLocation 4 403;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+				endTell;
+				showWindow;
+				getEmployee #mesquite.lists.TaxonListAnnotPanel.TaxonListAnnotPanel;
+				tell It;
+					togglePanel off;
+				endTell;
+			endTell;
+		endTell;
+		newAssistant  #mesquite.basic.ExamplesNavigator.ExamplesNavigator;
+		tell It;
+			setNextFileName '03-associationsHow3.nex';
+			setPrevFileName '02-associationsHow2.nex';
+			getWindow;
+			tell It;
+					setExplanationSize 0;
+					setAnnotationSize 0;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 603 254;
+					setLocation 9 22;
+					setFont SanSerif;
+					setFontSize 10;
+					setActive;
+				setExplanation 'The List of Taxa window above for species has a column showing the genes associated with each species, and at right has an editor for the association.  To change what genes are associated with what species, do the following:^n^n1.  select a species^n2. Go to the Associations Editor panel and touch on the genes you want to assign to that species.  Hit the arrow button to assign the genes.^n^nYou can also use the add and subtract buttons to change what genes are assigned to the species.^n^nTo see the next step in analyzing gene trees within species trees, hit the button "Next".';
+				setTitle Building_a_Taxa_Association;
+				toggleFileNames off;
+				setPrevButtonName Previous;
+				setNextButtonName Next;
+			endTell;
+			showWindow;
+		endTell;
+		endTell;
+end;
+
+

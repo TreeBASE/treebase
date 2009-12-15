@@ -1,0 +1,353 @@
+#NEXUS
+[written Tue Aug 21 23:05:35 PDT 2007 by Mesquite  version 2.0BETA3 (build i50) at Thrandina.local/10.0.1.2 (Wayne Maddison)]
+
+BEGIN TAXA;
+	TITLE Populations;
+	DIMENSIONS NTAX=2;
+	TAXLABELS
+		East West 
+	;
+	BLOCKID WM1148c2c4a0319;
+
+END;
+
+
+
+BEGIN TAXA;
+	TITLE genes_sampled;
+	DIMENSIONS NTAX=9;
+	TAXLABELS
+		East1 East2 East3 East4 West1 West2 West3 West4 West5 
+	;
+	BLOCKID WM1148c2c4a1820;
+
+END;
+
+
+BEGIN LABELS;
+TAXAGROUPLABEL Eastern_samples COLOR = (RGB 0.20392157 1.0 0.42745098) ;
+TAXAGROUPLABEL Western_Samples COLOR = (RGB 1.0 0.81568627 0.20392157) ;
+
+
+END;
+
+BEGIN SETS;
+TAXPARTITION * UNTITLED  (TAXA = genes_sampled) =  Eastern_samples :  1 -  4, Western_Samples :  5 -  9;
+
+END;
+
+BEGIN TREES;
+	LINK Taxa = Populations;
+	TRANSLATE
+		1 East,
+		2 West;
+	TREE tree = (1:10.0,2:10.0):100.0;
+	TREE tree = (1:50.0,2:50.0):100.0;
+	TREE tree = (1:100.0,2:100.0):100.0;
+	TREE tree = (1:200.0,2:200.0):100.0;
+
+END;
+
+
+BEGIN TaxaAssociation;
+TITLE location;
+TAXA Populations ,  genes_sampled;
+ASSOCIATES 
+
+	East /  East1 East2 East3 East4 , 
+	West /  West1 West2 West3 West4 West5
+
+;
+
+END;
+
+
+BEGIN NOTES;
+
+	TEXT  FILE TEXT = 'Coalescence simulations can be blended with associations between containing and contained trees by simulating gene trees within a species tree.  In this file, the species tree is actually a population tree, and there are only two populations.^n^nThere are two sets of taxa, one representing populations (East and West) and the other representing genes sampled from those populations.  At left is a population tree within which is simulated a gene tree by coalescence.  The time since the populations split was 50 generations; the effective population size is 100 (you can change time divergence as described below; change Ne using the menu item in the Contained menu of the tree window).  Scroll through simulated gene trees by hitting the arrows under "Contained Tree" in the legend.^n^nThe degree to which the gene tree is expected to show a clean separation of genes sampled in the West from those sampled in the East depends on the time since separation of the populations.  To increase the time since separation of the populations, change the branch lengths of the species tree.  Do this in one of two ways: (1) use the ruler tool (to change both branches at once, select both branches using the branch select tool, holding down the shift key as you are selecting the second branch to accumulate the selection.  Then, once both branches are selected, apply the ruler tool to one of them), or (2) select "Set all branch lengths" from the "Branch lengths" submenu of the Tree menu of the tree window.^n^nNote that the longer are the branch lengths, the more completely the genes in each population have coalesced before they reach the ancestral populations.  You can see this clearly in the tree window showing a gene tree by itself.  Because there is a TaxaPartition stored in the data file that indicates the West samples are to be colored tan and the East samples to be colored green, their names in the gene tree window are colored accordingly.  This gene tree is simulated, and as you change the lengths of the branches of the population tree, you may see a change in the degree of mixing of the East and West samples in the gene tree.^n^nTo go to the next example, hit the button in the "Go To File" window at left.^n^nTo duplicate this file, create a file with two sets of taxa and an association block indicating how they are linked.  Ask to show a tree window for the populations.  Select "Contained Associates" for the tree form, selecting Simulate Tree and Contained Coalescence for the tree source.  Ask to show branch lengths.';
+
+END;
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 2717996828273828747 WM1148c2c4a0319;
+			setID 1 2319072353600653909 WM1148c2c4a1820;
+		endTell;
+		getEmployee  #mesquite.trees.BasicTreeWindowCoord.BasicTreeWindowCoord;
+		tell It;
+			makeTreeWindow #2717996828273828747  #mesquite.trees.BasicTreeWindowMaker.BasicTreeWindowMaker;
+			tell It;
+				setTreeSource  #mesquite.trees.StoredTrees.StoredTrees;
+				tell It;
+					setTaxa #2717996828273828747;
+					setTreeBlock 1;
+					toggleUseWeights off;
+				endTell;
+				setAssignedID 1442.971300502392.3825508766828255405;
+				getTreeWindow;
+				tell It;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 536 458;
+					setLocation 572 32;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+					getTreeDrawCoordinator #mesquite.trees.BasicTreeDrawCoordinator.BasicTreeDrawCoordinator;
+				tell It;
+					suppress;
+					setTreeDrawer  #mesquite.assoc.ContainedAssociates.ContainedAssociates;
+					tell It;
+						suppress ;
+						getAssociationSource  #mesquite.assoc.StoredAssociations.StoredAssociations;
+						tell It;
+							setCurrentAssociation 0;
+						endTell;
+						getReconstructor  #mesquite.coalesce.RecCoalescenceHistory.RecCoalescenceHistory;
+						tell It;
+							toggleUnrooted off;
+							toggleResolve on;
+							toggleUseLengths on;
+						endTell;
+						setEdgeWidth 64;
+						setTreeSource  #mesquite.trees.SimulateTree.SimulateTree;
+						tell It;
+							setTreeSimulator  #mesquite.coalesce.ContainedCoalescence.ContainedCoalescence;
+							tell It;
+								getAssociationTask  #mesquite.assoc.StoredAssociations.StoredAssociations;
+								tell It;
+									setCurrentAssociation 0;
+								endTell;
+								getTreeSource  #mesquite.trees.TreeOfContext.TreeOfContext;
+								tell It;
+									setContextID 1442.971300502392.3825508766828255405;
+								endTell;
+								setSimulator  #mesquite.coalesce.ContainedCoalescSim.ContainedCoalescSim;
+								tell It;
+									getEmployee #mesquite.coalesce.NeutralCoalescence.NeutralCoalescence;
+									tell It;
+										setEffective 100;
+										toggleExponential on;
+									endTell;
+								endTell;
+								forgetAssociation ;
+							endTell;
+							setSeed 984411246198;
+						endTell;
+						setContained 1;
+						toggleScale on;
+						setInitialOffsetX -424;
+						setInitialOffsetY -177;
+						desuppress ;
+						getEmployee #mesquite.trees.NodeLocsStandard.NodeLocsStandard;
+						tell It;
+							stretchToggle off;
+							branchLengthsToggle on;
+							toggleScale on;
+							toggleBroadScale off;
+							toggleCenter on;
+							toggleEven on;
+							namesAngle ?;
+						endTell;
+					endTell;
+					setBackground White;
+					setBranchColor Blue;
+					showNodeNumbers off;
+					showBranchColors on;
+					labelBranchLengths off;
+					desuppress;
+					getEmployee #mesquite.trees.BasicDrawTaxonNames.BasicDrawTaxonNames;
+					tell It;
+						setFont SanSerif;
+						setFontSize 10;
+						setColor Black;
+						toggleColorPartition on;
+						toggleShadePartition on;
+						toggleNodeLabels on;
+						toggleCenterNodeNames off;
+						toggleShowNames on;
+					endTell;
+				endTell;
+					setTreeNumber 1;
+					setTree '(1:50.0,2:50.0):100.0;';
+					useSuggestedSize off;
+					toggleSizeToFit on;
+					toggleTextOnTree off;
+					newAssistant  #mesquite.trees.TreeNotesMaker.TreeNotesMaker;
+				tell It;
+					getNote;
+					tell It;
+						setBounds 328 221 123 86;
+						setFont Serif;
+						setFontSize 18;
+						setOffsetX 328;
+						setOffsetY 221;
+						setNote Population_tree_with_contained_gene_tree;
+						setOffsetX 328;
+						setOffsetY 221;
+					endTell;
+				endTell;
+				endTell;
+				showWindow;
+				getEmployee #mesquite.trees.ColorBranches.ColorBranches;
+				tell It;
+					setColor Red;
+					removeColor off;
+				endTell;
+				getEmployee #mesquite.ornamental.BranchNotes.BranchNotes;
+				tell It;
+					setAlwaysOn off;
+				endTell;
+				getEmployee #mesquite.ornamental.ColorTreeByPartition.ColorTreeByPartition;
+				tell It;
+					colorByPartition off;
+				endTell;
+			endTell;
+			makeTreeWindow #2319072353600653909  #mesquite.trees.BasicTreeWindowMaker.BasicTreeWindowMaker;
+			tell It;
+				setTreeSource  #mesquite.trees.SimulateTree.SimulateTree;
+				tell It;
+					setTreeSimulator  #mesquite.coalesce.ContainedCoalescence.ContainedCoalescence;
+					tell It;
+						getAssociationTask  #mesquite.assoc.StoredAssociations.StoredAssociations;
+						tell It;
+							setCurrentAssociation 0;
+						endTell;
+						getTreeSource  #mesquite.trees.TreeOfContext.TreeOfContext;
+						tell It;
+							setContextID 1442.971300502392.3825508766828255405;
+						endTell;
+						setSimulator  #mesquite.coalesce.ContainedCoalescSim.ContainedCoalescSim;
+						tell It;
+							getEmployee #mesquite.coalesce.NeutralCoalescence.NeutralCoalescence;
+							tell It;
+								setEffective 100;
+								toggleExponential on;
+							endTell;
+						endTell;
+						forgetAssociation ;
+					endTell;
+					setSeed 984411246666;
+				endTell;
+				setAssignedID 1471.971300503030.3721084600339604932;
+				getTreeWindow;
+				tell It;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 518 301;
+					setLocation 587 584;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+					getTreeDrawCoordinator #mesquite.trees.BasicTreeDrawCoordinator.BasicTreeDrawCoordinator;
+				tell It;
+					suppress;
+					setTreeDrawer  #mesquite.trees.ArcTree.ArcTree;
+					tell It;
+						setNodeLocs #mesquite.trees.NodeLocsStandard.NodeLocsStandard;
+						tell It;
+							stretchToggle off;
+							branchLengthsToggle off;
+							toggleScale on;
+							toggleBroadScale off;
+							toggleCenter on;
+							toggleEven on;
+							namesAngle ?;
+						endTell;
+						setEdgeWidth 4;
+						orientUp;
+					endTell;
+					setBackground White;
+					setBranchColor Black;
+					showNodeNumbers off;
+					showBranchColors on;
+					labelBranchLengths off;
+					desuppress;
+					getEmployee #mesquite.trees.BasicDrawTaxonNames.BasicDrawTaxonNames;
+					tell It;
+						setFont SanSerif;
+						setFontSize 10;
+						setColor Black;
+						toggleColorPartition off;
+						toggleShadePartition on;
+						toggleNodeLabels on;
+						toggleCenterNodeNames off;
+						toggleShowNames on;
+					endTell;
+				endTell;
+					setTreeNumber 1;
+					useSuggestedSize off;
+					toggleSizeToFit on;
+					toggleTextOnTree off;
+					newAssistant  #mesquite.trees.TreeNotesMaker.TreeNotesMaker;
+				tell It;
+					getNote;
+					tell It;
+						setBounds 23 4 100 24;
+						setFont Serif;
+						setFontSize 18;
+						setOffsetX 23;
+						setOffsetY 4;
+						setNote Gene_tree;
+						setOffsetX 23;
+						setOffsetY 4;
+					endTell;
+				endTell;
+				endTell;
+				showWindow;
+				getEmployee #mesquite.trees.ColorBranches.ColorBranches;
+				tell It;
+					setColor Red;
+					removeColor off;
+				endTell;
+				getEmployee #mesquite.ornamental.BranchNotes.BranchNotes;
+				tell It;
+					setAlwaysOn off;
+				endTell;
+				getEmployee #mesquite.ornamental.ColorTreeByPartition.ColorTreeByPartition;
+				tell It;
+					colorByPartition off;
+				endTell;
+			endTell;
+		endTell;
+		newAssistant  #mesquite.basic.ExamplesNavigator.ExamplesNavigator;
+		tell It;
+			setNextFileName '06-twoPopulations2.nex';
+			setPrevFileName '04-associations.nex';
+			getWindow;
+			tell It;
+					setExplanationSize 0;
+					setAnnotationSize 0;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 531 631;
+					setLocation 5 22;
+					setFont SanSerif;
+					setFontSize 10;
+					setActive;
+				setExplanation 'Coalescence simulations can be blended with associations between containing and contained trees by simulating gene trees within a species tree.  In this file, the species tree is actually a population tree, and there are only two populations.^n^nThere are two sets of taxa, one representing populations (East and West) and the other representing genes sampled from those populations.  At right, above, is a population tree within which is simulated a gene tree by coalescence.  The time since the populations split was 50 generations; the effective population size is 100 (you can change time divergence as described below; change Ne using the menu item in the Coalescent Simulation submenu of the Contained menu of the tree window).  Scroll through simulated gene trees by hitting the arrows under "Contained Tree" in the legend.^n^nThe degree to which the gene tree is expected to show a clean separation of genes sampled in the West from those sampled in the East depends on the time since separation of the populations.  To increase the time since separation of the populations, change the branch lengths of the species tree.  Do this in one of two ways: (1) use the ruler tool (to change both branches at once, select both branches using the branch select tool, holding down the shift key as you are selecting the second branch to accumulate the selection.  Then, once both branches are selected, apply the ruler tool to one of them), or (2) select "Set all branch lengths" from the "Branch lengths" submenu of the Tree menu of the tree window.^n^nNote that the longer are the branch lengths, the more completely the genes in each population have coalesced before they reach the ancestral populations.  You can see this clearly in the tree window, below, showing a gene tree by itself.  Because the taxa are partitioned into two groups, and set so that the West samples are to be colored tan and the East samples to be colored green, their names in the gene tree window are colored accordingly.  This gene tree is simulated, and as you change the lengths of the branches of the population tree, you may see a change in the degree of mixing of the East and West samples in the gene tree.^n^nTo duplicate this file, create a file with two sets of taxa and an association block indicating how they are linked.  Ask to show a tree window for the populations.  Select "Contained Associates" for the tree form, selecting Simulate Tree and Contained Coalescence within Current Tree for the tree source.  Ask to show branch lengths.';
+				setTitle Diverging_populations;
+				toggleFileNames off;
+				setPrevButtonName Previous;
+				setNextButtonName Next;
+			endTell;
+			showWindow;
+		endTell;
+		endTell;
+end;
+
+
