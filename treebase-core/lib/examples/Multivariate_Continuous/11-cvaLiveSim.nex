@@ -1,0 +1,279 @@
+#NEXUS
+[written Mon Sep 03 18:31:34 PDT 2007 by Mesquite  version 2.0BETA3 (build i55) at Thrandina.local/10.0.1.6 (Wayne Maddison)]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX=48;
+	TAXLABELS
+		A1 A2 A3 A4 A5 A6 A7 A8 A9 A10 A11 A12 B1 B2 B3 B4 B5 B6 B7 B8 B9 B10 B11 B12 C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 D11 D12 
+	;
+	BLOCKID WM114cc1e74c719;
+
+END;
+
+
+BEGIN TREES;
+	TRANSLATE
+		1 A1,
+		2 A2,
+		3 A3,
+		4 A4,
+		5 A5,
+		6 A6,
+		7 A7,
+		8 A8,
+		9 A9,
+		10 A10,
+		11 A11,
+		12 A12,
+		13 B1,
+		14 B2,
+		15 B3,
+		16 B4,
+		17 B5,
+		18 B6,
+		19 B7,
+		20 B8,
+		21 B9,
+		22 B10,
+		23 B11,
+		24 B12,
+		25 C1,
+		26 C2,
+		27 C3,
+		28 C4,
+		29 C5,
+		30 C6,
+		31 C7,
+		32 C8,
+		33 C9,
+		34 C10,
+		35 C11,
+		36 C12,
+		37 D1,
+		38 D2,
+		39 D3,
+		40 D4,
+		41 D5,
+		42 D6,
+		43 D7,
+		44 D8,
+		45 D9,
+		46 D10,
+		47 D11,
+		48 D12;
+	TREE tree = (((((1:2.0,(2:1.0,4:1.0):1.0):2.0,(9:3.0,(10:2.0,(11:1.0,12:1.0):1.0):1.0):1.0):1.0,((3:1.0,6:1.0):2.0,(5:2.0,(7:1.0,8:1.0):1.0):1.0):2.0):2.0[%color = 5 ],((13:1.0,14:1.0):4.0,((((15:1.0,16:1.0):1.0,(18:1.0,19:1.0):1.0):1.0,(17:1.0,22:1.0):2.0):1.0,((20:1.0,21:1.0):1.0,(23:1.0,24:1.0):1.0):2.0):1.0):2.0[%color = 6 ]):3.0,(((25:2.0,(35:1.0,36:1.0):1.0):5.0,(26:6.0,((27:4.0,(29:3.0,(30:2.0,(31:1.0,32:1.0):1.0):1.0):1.0):1.0,(28:2.0,(33:1.0,34:1.0):1.0):3.0):1.0):1.0):2.0[%color = 13 ],(37:7.0,((38:3.0,(46:2.0,(47:1.0,48:1.0):1.0):1.0):3.0,(39:5.0,((40:1.0,44:1.0):3.0,(42:3.0,(41:2.0,(43:1.0,45:1.0):1.0):1.0):1.0):1.0):1.0):1.0):2.0[%color = 11 ]):1.0):0.0;
+
+END;
+
+
+BEGIN LABELS;
+TAXAGROUPLABEL Red COLOR = (RGB 1.0 0.15686275 0.10980392) ;
+TAXAGROUPLABEL Orange COLOR = (RGB 1.0 0.61176471 0.15686275) ;
+TAXAGROUPLABEL Cyan COLOR = (RGB 0.28627451 1.0 0.85882353) ;
+TAXAGROUPLABEL Green COLOR = (RGB 0.21176471 1.0 0.18431373) ;
+TAXAGROUPLABEL Yellow COLOR = (RGB 0.88235294 1.0 0.17254902) ;
+TAXAGROUPLABEL Goldenrod;
+
+
+END;
+
+BEGIN SETS;
+TAXPARTITION * UNTITLED  =  Red :  1 -  12, Orange :  13 -  24, Cyan :  25 -  36, Green :  37 -  48;
+TAXPARTITION untitled  =  Red :  1 -  12, Orange :  13 -  24, Cyan :  25 -  36, Green :  37 -  48;
+TAXPARTITION untitled  =  Red :  1 -  12, Orange :  13 -  24, Yellow :  25 -  36, Green :  37 -  48;
+TAXPARTITION species  =  Red :  1 -  12, Orange :  13 -  24, Yellow :  25 -  36, Goldenrod :  37 -  48;
+TAXPARTITION untitled  =  Red :  1 -  12, Orange :  13 -  24, Cyan :  25 -  36, Green :  37 -  48;
+TAXPARTITION untitled  =  Red :  1 -  12, Orange :  13 -  24, Yellow :  25 -  36, Green :  37 -  48;
+TAXPARTITION species  =  Red :  1 -  12, Orange :  13 -  24, Yellow :  25 -  36, Goldenrod :  37 -  48;
+
+END;
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 6690059761767473967 WM114cc1e74c719;
+		endTell;
+		getEmployee  #mesquite.trees.BasicTreeWindowCoord.BasicTreeWindowCoord;
+		tell It;
+			makeTreeWindow #6690059761767473967  #mesquite.trees.BasicTreeWindowMaker.BasicTreeWindowMaker;
+			tell It;
+				setTreeSource  #mesquite.trees.StoredTrees.StoredTrees;
+				tell It;
+					setTreeBlock 1;
+					toggleUseWeights off;
+				endTell;
+				setAssignedID 1836.967910171762.6568711385870313008;
+				getTreeWindow;
+				tell It;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 512 472;
+					setLocation 11 351;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+					getTreeDrawCoordinator #mesquite.trees.BasicTreeDrawCoordinator.BasicTreeDrawCoordinator;
+				tell It;
+					suppress;
+					setTreeDrawer  #mesquite.trees.SquareTree.SquareTree;
+					tell It;
+						setNodeLocs #mesquite.trees.NodeLocsStandard.NodeLocsStandard;
+						tell It;
+							stretchToggle off;
+							branchLengthsToggle on;
+							toggleScale on;
+							toggleBroadScale off;
+							toggleCenter on;
+							toggleEven on;
+							namesAngle ?;
+						endTell;
+						setEdgeWidth 4;
+						orientUp;
+						toggleCorners off;
+					endTell;
+					setBackground White;
+					setBranchColor Black;
+					showNodeNumbers off;
+					showBranchColors on;
+					labelBranchLengths off;
+					desuppress;
+					getEmployee #mesquite.trees.BasicDrawTaxonNames.BasicDrawTaxonNames;
+					tell It;
+						setFont SanSerif;
+						setFontSize 10;
+						setColor Black;
+						toggleColorPartition off;
+						toggleShadePartition on;
+						toggleNodeLabels on;
+						toggleCenterNodeNames off;
+						toggleShowNames on;
+					endTell;
+				endTell;
+					setTreeNumber 1;
+					useSuggestedSize off;
+					toggleSizeToFit on;
+					toggleTextOnTree off;
+				endTell;
+				showWindow;
+				getEmployee #mesquite.trees.ColorBranches.ColorBranches;
+				tell It;
+					setColor Red;
+					removeColor off;
+				endTell;
+				getEmployee #mesquite.ornamental.BranchNotes.BranchNotes;
+				tell It;
+					setAlwaysOn off;
+				endTell;
+				getEmployee #mesquite.ornamental.ColorTreeByPartition.ColorTreeByPartition;
+				tell It;
+					colorByPartition off;
+				endTell;
+			endTell;
+		endTell;
+		newAssistant  #mesquite.charts.TaxaScattergram.TaxaScattergram;
+		tell It;
+			setTaxonSource  #mesquite.minimal.StoredTaxa.StoredTaxa;
+			tell It;
+				setTaxa #6690059761767473967;
+			endTell;
+			setTaxa #6690059761767473967;
+			axesSame;
+			setValues  #mesquite.cont.ContinuousStatesT.ContinuousStatesT;
+			tell It;
+				getCharacterSource  #mesquite.charMatrices.CharSrcCoordObed.CharSrcCoordObed;
+				tell It;
+					setCharacterSource #mesquite.rhetenor.CharFromOrdinations.CharFromOrdinations;
+					tell It;
+						getCharacterSource #mesquite.charMatrices.CharMatrixCoordIndep.CharMatrixCoordIndep;
+						tell It;
+							setCharacterSource #mesquite.stochchar.SimulatedMatrix.SimulatedMatrix;
+							tell It;
+								setMatrix 1;
+								setNumChars 10;
+								setCharacterSimulator  #mesquite.stochchar.EvolveContinuous.EvolveContinuous;
+								tell It;
+									setModelByName Brownian_default;
+								endTell;
+								setSeed 995374620870;
+								getTreeSource  #mesquite.trees.TreeOfContext.TreeOfContext;
+								tell It;
+									setContextID 1836.967910171762.6568711385870313008;
+								endTell;
+							endTell;
+						endTell;
+						setOrdinator #mesquite.rhetenor.CanonicalVariates.CanonicalVariates;
+						setItem 0;
+					endTell;
+				endTell;
+				setCharacter 2;
+				setItem 0;
+			endTell;
+			showNamesToggle on;
+			getCharter #mesquite.charts.ItemsBiplot.ItemsBiplot;
+			tell It;
+				getWindow;
+				tell It;
+					setX 1;
+					setY 2;
+					popOut;
+					setExplanationSize 20;
+					setAnnotationSize 20;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 512 472;
+					setLocation 557 22;
+					setFont SanSerif;
+					setFontSize 10;
+					getToolPalette;
+					tell It;
+					endTell;
+				endTell;
+				enableCalculations;
+				getEmployee #mesquite.charts.Scattergram.Scattergram;
+				tell It;
+					markerSize 10;
+					toggleJoin off;
+					toggleShowDots on;
+					movingWindowSize 1;
+					sumByBlocks off;
+				endTell;
+			endTell;
+			setChartVisible;
+			doCounts;
+			showWindow;
+		endTell;
+		newAssistant  #mesquite.basic.ExamplesNavigator.ExamplesNavigator;
+		tell It;
+			setNextFileName '12-epca.nex';
+			setPrevFileName '10-pcaLiveSim.nex';
+			getWindow;
+			tell It;
+					setExplanationSize 0;
+					setAnnotationSize 0;
+					setFontIncAnnot 0;
+					setFontIncExp 0;
+					setSize 528 246;
+					setLocation 9 22;
+					setFont SanSerif;
+					setFontSize 10;
+					setActive;
+				setExplanation 'This file shows a Canonical Variates Analysis performed on a data set simulated "live" using Brownian motion evolution on the tree below.  The partition of taxa used to define groups for the CVA represents the four major clades of the tree.  By changing the lengths of the colored branches in the tree, the characters simulated will do better or worse at distinguishing the clades via CVA.^n^nTo to ask to resimulate the data, select "Next Simulated matrix" from the "Scattergram" menu of the scattergram window.';
+				setTitle 'Live Simulation -CVA';
+				toggleFileNames off;
+				setPrevButtonName Previous;
+				setNextButtonName Next;
+			endTell;
+			showWindow;
+		endTell;
+		endTell;
+end;
+
+
