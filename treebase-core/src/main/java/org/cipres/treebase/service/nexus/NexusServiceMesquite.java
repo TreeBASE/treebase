@@ -5,6 +5,8 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Properties;
 
+import mesquite.lib.MesquiteModule;
+
 import org.apache.log4j.Logger;
 
 import org.cipres.treebase.domain.DomainHome;
@@ -191,6 +193,8 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 	 */
 	public void setMesquiteFolderDir(String pMesquiteFolderDir) {
 		System.setProperty(MESQUITE_FOLDER_DIR_KEY, pMesquiteFolderDir);
+		MesquiteModule.mesquiteDirectory = new File(pMesquiteFolderDir);
+		MesquiteModule.mesquiteDirectoryPath = pMesquiteFolderDir;
 	}
 
 	@Override
