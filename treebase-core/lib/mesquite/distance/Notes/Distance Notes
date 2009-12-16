@@ -1,0 +1,12 @@
+Mesquite.distance notes
+-----------------------------
+
+fix so distanceTask compatibility with current matrix
+
+==========
+
+post 1.07:
+Taxon Pairs chart:
+	build TaxonPairs universal selection system, TaxonPair[] attached to TaxaBlock, etc.
+	
+Distances To Log	
