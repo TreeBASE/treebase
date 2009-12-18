@@ -131,7 +131,11 @@
 	</c:if>	
 	
 	<display:footer>
-	  <c:if test="${publicationState eq 'NotReady'}">	
+	  <%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>
+  	  
+  	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">	
 		<tr>
     	  <td colspan="8" align="center">
 	        <input type="submit" class="button" name="Update" value="<fmt:message key="button.update"/>" />

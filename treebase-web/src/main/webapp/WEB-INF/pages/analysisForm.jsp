@@ -50,7 +50,11 @@ Fill in the analysis information for submission <strong>${studyMap['id']} - ${st
   	<tr>
     	<th></th>
     	<td>
-    		<c:if test="${publicationState eq 'NotReady'}">
+    		<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>
+  	  
+  	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
  			  <c:choose>
  				<c:when test="${analysis.id == null}">
  					<input type="submit" name="Submit" value="<fmt:message key="button.submit"/>" />

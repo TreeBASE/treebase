@@ -9,7 +9,7 @@
 <legend>Summary
 <a href="#" class="openHelp" onclick="openHelp('submissionSummaryView')"><img class="iconButton" alt="help" src="<fmt:message key="icons.help"/>" /></a>
 </legend>
-Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/><br/>
+Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/>, <a href="/treebase-web/admin/changeStudyStatus.html"> Update Status</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submission initiated:&nbsp;&nbsp;<c:out value="${initiatedDate}"/><br/>
 
 <c:if test="${not empty citationsummary.study}">

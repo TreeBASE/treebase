@@ -70,7 +70,11 @@
 		<a href="javascript:popupWithSizes('${url}',900,800,'1')">View trees</a>
 	</display:column>
 	
-	<c:if test="${publicationState eq 'NotReady'}">					
+	<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>
+  	  
+  	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">				
 		<display:column titleKey="link.delete" 
 				sortable="false"
 				url="/user/deleteATreeBlock.html" paramId="treeblockid" paramProperty="id"

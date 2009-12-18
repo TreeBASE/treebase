@@ -75,7 +75,12 @@
     	</c:when>
     </c:choose>    
   	<tr>
-  	  <c:if test="${publicationState eq 'NotReady'}">
+  	
+  	<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>
+  	  
+  	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
     	<th></th>
     	<td colspan="5" align="center">    	  
     		<c:choose>

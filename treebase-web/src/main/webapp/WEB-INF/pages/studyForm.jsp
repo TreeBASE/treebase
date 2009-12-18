@@ -71,7 +71,11 @@
     	  <c:if test="${publicationState eq 'Ready' || publicationState eq 'Published'}">
     	   <Strong>For now, this study is read only.</Strong>
     	  </c:if>
-    	  <c:if test="${publicationState eq 'NotReady'}">
+    	  <%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>
+  	  
+  	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
     		<c:choose>
     			<c:when test="${study.id == null }">
     				<input type="submit" name="Submit" value="<fmt:message key="button.submit"/>"/>

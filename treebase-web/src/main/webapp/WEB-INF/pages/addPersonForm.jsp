@@ -81,7 +81,11 @@
     
     
     <tr>
-      <c:if test="${publicationState eq 'NotReady'}">
+      <%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>
+  	  
+  	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
     	<td></td>
     	<td colspan="5">
 		    <input type="submit" name="Submit" value="<fmt:message key="button.submit"/>" />
