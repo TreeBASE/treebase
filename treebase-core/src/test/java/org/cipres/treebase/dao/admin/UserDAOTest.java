@@ -83,7 +83,7 @@ public class UserDAOTest extends AbstractDAOTest {
 		logger.info("user created: " + user.getUsername() + "id = " + user.getId());
 
 		// 2. verify
-		String sqlStr = "select count(*) from User where user_id=" + user.getId();
+		String sqlStr = "select count(*) from public.user where user_id=" + user.getId();
 		int count = jdbcTemplate.queryForInt(sqlStr);
 		assertTrue(count == 1);
 
@@ -124,7 +124,7 @@ public class UserDAOTest extends AbstractDAOTest {
 		user.setEmailAddressString(email);
 
 		UserHome fixture = getUserHome();
-		String sqlStr = "select count(*) from User where username='" + user.getUsername() + "'";
+		String sqlStr = "select count(*) from public.user where username='" + user.getUsername() + "'";
 
 		// 3. delete
 		fixture.delete(user);
@@ -151,7 +151,7 @@ public class UserDAOTest extends AbstractDAOTest {
 
 		// 1. find a valid username first:
 		List<String> usernames = jdbcTemplate.queryForList(
-			"select username from user",
+			"select username from public.user",
 			String.class);
 
 		if (usernames.size() > 0) {
@@ -253,7 +253,7 @@ public class UserDAOTest extends AbstractDAOTest {
 
 		// 1. find a valid email first:
 		List<String> emails = jdbcTemplate.queryForList(
-			"select p.email from person p, USER u where p.PERSON_ID = u.PERSON_ID",
+			"select p.email from person p, public.USER u where p.PERSON_ID = u.PERSON_ID",
 			String.class);
 
 		if (emails.size() > 0) {
@@ -315,7 +315,7 @@ public class UserDAOTest extends AbstractDAOTest {
 
 		// 1. find a valid email first:
 		List<String> emails = jdbcTemplate.queryForList(
-			"select p.email from person p, USER u where p.PERSON_ID = u.PERSON_ID",
+			"select p.email from person p, public.USER u where p.PERSON_ID = u.PERSON_ID",
 			String.class);
 
 		if (emails.size() > 0) {
@@ -375,7 +375,7 @@ public class UserDAOTest extends AbstractDAOTest {
 		logger.info("user updated: " + result.getUsername() + "id = " + result.getId());
 
 		// 2. verify
-		String sqlStr = "select username from User where user_id=" + result.getId();
+		String sqlStr = "select username from public.user where user_id=" + result.getId();
 		String verifyName = (String) jdbcTemplate.queryForObject(sqlStr, String.class);
 		assertTrue("verify failed.", newUserName.equals(verifyName));
 
