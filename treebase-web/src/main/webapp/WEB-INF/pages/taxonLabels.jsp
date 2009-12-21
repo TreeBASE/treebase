@@ -27,7 +27,11 @@ names in <a href="http://www.ubio.org">uBIO</a> and <a href="http://www.ncbi.nlm
 			   
 	<!-- this class name 'checkBoxColumn' is important, not just for styling,
 	but also to add check/uncheck all behaviour  -->
-	<c:if test="${editable}">
+	<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>	  
+	
+	<c:if test="${editable||isEditable eq 'yes'}">
 		<display:column class="checkBoxColumn">
 			<input type="checkbox" name="validate" value="${userList.id}" title="Include/exclude from validation"
 				<c:if test="${!userList.attemptedLinking}"> checked="checked"</c:if>
@@ -72,7 +76,7 @@ names in <a href="http://www.ubio.org">uBIO</a> and <a href="http://www.ncbi.nlm
 		</c:if>	
 	</display:column>
 				
-	<c:if test="${editable}">		
+	<c:if test="${editable||isEditable eq 'yes'}">	
 		<display:column
 			url="/user/editTaxonLabel.html" 
 			paramId="taxonlabelid" 
@@ -88,7 +92,7 @@ names in <a href="http://www.ubio.org">uBIO</a> and <a href="http://www.ncbi.nlm
 	</c:if>
 
 
-	<c:if test="${editable}">
+	<c:if test="${editable||isEditable eq 'yes'}">
 		<display:footer>
 			<tr>
 

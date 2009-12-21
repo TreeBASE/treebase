@@ -24,7 +24,7 @@
 				url="/user/summary.html" paramId="id" paramProperty="id"/>
 				
 	<display:column  title="Submitter" 	sortable="true">
-		<a href='mailto:${userList.submitter.emailAddressString}?subject=From Treebase Editor'>${userList.submitter.username}</a>
+		<a href='mailto:${userList.submitter.emailAddressString}?subject=TreeBASE Submission S${userList.id}'>${userList.submitter.username}</a>
 	</display:column>
 				
 	<display:column property="study.name" title="Study Name" sortable="true"/>

@@ -19,7 +19,12 @@
 <form method="post" name="dataform">
 
 <c:set var="counter"   value="0"/>
-<c:if test="${publicationState eq 'NotReady'}">	
+
+<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>
+  	  
+ <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
 <fieldset>
 <legend>Taxon label list editor
 <a href="#" class="openHelp" onclick="openHelp('editSetTaxonLabel')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>

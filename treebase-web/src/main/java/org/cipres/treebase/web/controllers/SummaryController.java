@@ -168,6 +168,7 @@ public class SummaryController extends BaseFormController {
 		}
 
 		resultMap.put("submissionNumber", submission.getSubmissionNumber());
+		resultMap.put("submission", submission);
 		resultMap.put("studyStatus", study.getStudyStatus().getDescription());
 
 		// Collection<Analysis> anacoll = study.getAnalysesReadOnly();

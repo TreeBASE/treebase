@@ -11,7 +11,7 @@
 </legend>
 Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/>, <a href="/treebase-web/admin/changeStudyStatus.html"> Update Status</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submission initiated:&nbsp;&nbsp;<c:out value="${initiatedDate}"/><br/>
-
+<a href='mailto:${submission.submitter.emailAddressString}?subject=TreeBASE Submission S${submission.id}'>Contact Submitter</a><br/>
 <c:if test="${not empty citationsummary.study}">
 	<c:if test="${not empty citationsummary.study.name}">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Study name:&nbsp;&nbsp;<c:out value="${citationsummary.study.name}"/>
