@@ -186,7 +186,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 		}
 
 		// 1. find a study with trees:
-		String studyStr = "select study_id from phylotree where study_id is not null and published = 0 fetch first rows only";
+		String studyStr = "select study_id from phylotree where study_id is not null and published is false fetch first rows only";
 		long studyId = jdbcTemplate.queryForLong(studyStr);
 		logger.info("study id: " + studyId);
 		assertTrue(studyId > 0);

@@ -187,7 +187,7 @@ public class MatrixDAOTest extends AbstractDAOTest {
 		}
 
 		// 1. find a study with matrices:
-		String studyStr = "select study_id from matrix where study_id is not null and published = 0 fetch first rows only";
+		String studyStr = "select study_id from matrix where study_id is not null and published is false fetch first rows only";
 		long studyId = jdbcTemplate.queryForLong(studyStr);
 		logger.info("study id: " + studyId);
 		assertTrue(studyId > 0);

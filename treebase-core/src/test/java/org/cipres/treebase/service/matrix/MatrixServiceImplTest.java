@@ -225,6 +225,8 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 		getMatrixHome().store(taxonLabel);
 		getMatrixHome().store(c1);
 		getMatrixHome().store(c2);
+		getMatrixHome().store(e1);
+		getMatrixHome().store(e2);
 		getMatrixHome().store(matrix);
 		
 		// force commit immediately, important:

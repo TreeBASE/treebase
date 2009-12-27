@@ -66,7 +66,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 //		logger.info("treeId = "  + phyloTreeID + " NodeCount =" + nodeCount);
 //		
 //		assertTrue("No big tree found.", phyloTreeID != -1);
-		Long phyloTreeID = 382L;
+		Long phyloTreeID = 380L;
 		
 		// 2. Test:
 		PhyloTree tree = (PhyloTree) loadObject(PhyloTree.class, phyloTreeID);
