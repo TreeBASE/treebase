@@ -71,7 +71,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 		}
 
 		// 1. find a matrix in a analyzed data:
-		String matrixStr = "select matrix_id from analyzedData where matrix_id > 0 fetch first rows only";
+		String matrixStr = "select matrix_id from analyzedData where matrix_id is not null fetch first rows only";
 		long matrixId = jdbcTemplate.queryForLong(matrixStr);
 		logger.info("matrix id: " + matrixId);
 		assertTrue(matrixId > 0);
@@ -107,7 +107,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 		}
 
 		// 1. find a matrix in a analyzed data:
-		String treeStr = "select Phylotree_id from analyzedData fetch first rows only";
+		String treeStr = "select Phylotree_id from analyzedData where Phylotree_id is not null fetch first rows only";
 		long treeId = jdbcTemplate.queryForLong(treeStr);
 		logger.info("tree id: " + treeId);
 		assertTrue(treeId > 0);
