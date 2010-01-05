@@ -208,7 +208,7 @@ public class MatrixDAOTest extends AbstractDAOTest {
 
 		// 3. verify
 		String treeCountStr = "select count(m.matrix_id) from matrix m "
-			+ " where m.study_ID = " + s.getId() + " and m.published = 1";
+			+ " where m.study_ID = " + s.getId() + " and m.published is true";
 		int countVeri = jdbcTemplate.queryForInt(treeCountStr);
 		logger.debug("verify Count = " + countVeri);
 		assertTrue(countVeri == count);
