@@ -207,7 +207,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 
 		// 3. verify
 		String treeCountStr = "select count(tree.phylotree_id) from phylotree tree "
-			+ " where tree.study_ID = " + s.getId() + " and tree.published = 1";
+			+ " where tree.study_ID = " + s.getId() + " and tree.published is true";
 		int countVeri = jdbcTemplate.queryForInt(treeCountStr);
 		logger.debug("verify Count = " + countVeri);
 		assertTrue(countVeri == count);
@@ -572,7 +572,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	 * @author mjd
 	 */
 	public void testFindByTopology3() throws Exception {
-		if (true) fail("unimplemented");
+		//if (true) fail("unimplemented");
 		String testName = "FindByTopology3";
 		if (logger.isInfoEnabled()) {
 			logger.info("\n\t\tRunning Test: " + testName);

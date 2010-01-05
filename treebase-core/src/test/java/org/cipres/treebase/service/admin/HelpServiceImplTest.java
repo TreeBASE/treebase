@@ -1,7 +1,7 @@
 package org.cipres.treebase.service.admin;
 
 import junit.framework.TestCase;
-
+import org.cipres.treebase.dao.AbstractDAOTest;
 import org.apache.log4j.Logger;
 import org.cipres.treebase.domain.admin.Help;
 
@@ -11,7 +11,7 @@ import org.cipres.treebase.domain.admin.Help;
  * 
  * @author mjd 20081117
  */
-public class HelpServiceImplTest extends TestCase {
+public class HelpServiceImplTest extends AbstractDAOTest {
 	private static final Logger LOGGER = Logger.getLogger(HelpServiceImplTest.class);
 
 	private HelpServiceImpl mFixture;
@@ -26,13 +26,16 @@ public class HelpServiceImplTest extends TestCase {
 	 * @generatedBy CodePro at 10/13/05 4:18 PM
 	 */
 	public HelpServiceImpl getFixture() {
-		if (mFixture == null) {
-			mFixture = new HelpServiceImpl();
-		}
+		
 		return mFixture;
 	}
-
-	@Override
+	
+	public void setFixture(HelpServiceImpl hsi) {
+		
+			mFixture = hsi;
+		
+	}
+	/*@Override
 	protected void setUp() throws Exception {
 		// TODO Auto-generated method stub
 		super.setUp();
@@ -43,7 +46,7 @@ public class HelpServiceImplTest extends TestCase {
 		// TODO Auto-generated method stub
 		super.tearDown();
 	}
-
+    */
 	public void testNull() {
 		assertNotNull(getFixture());
 	}
