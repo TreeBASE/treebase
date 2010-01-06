@@ -96,9 +96,15 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 		nodes.addAll(t.getTreeNodesReadOnly());
 		
 		while (searchResult == null) {
-			PhyloTreeNode a = nodes.someElement();
-			PhyloTreeNode b = nodes.someElement();
-			PhyloTreeNode c = nodes.someElement();
+			PhyloTreeNode a;
+			do{ a = nodes.someElement();}
+			while (a.getTaxonLabel()==null);
+			PhyloTreeNode b;
+			do{ b = nodes.someElement();}
+			while (b.getTaxonLabel()==null);
+			PhyloTreeNode c;
+			do{ c = nodes.someElement();}
+			while (c.getTaxonLabel()==null);			
 			
 			searchResult = false;
 			if (c.haveABCTopology(a, b)) {
@@ -118,6 +124,8 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 					}
 				}
 			}
+			//this line may cause infinity loop, but it is needed for pick up a set of test node 
+			else searchResult=null; 
 			
 		}
 		

@@ -126,14 +126,14 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		getStudyHome().store(s);
 
 		// force commit immeidately, important:
-		setComplete();
+		//setComplete();
 		endTransaction();
 
 		onSetUp();
 
 		// Notes: this is important: why?? there are two copies of s in the same session.
 		// how???
-		s = (Study) hibernateTemplate.merge(s);
+		//s = (Study) hibernateTemplate.merge(s);
 
 		Long studyID = s.getId();
 		Long citationID = c.getId();
@@ -156,7 +156,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		// 3. delete
 		// fixture.delete(testRole);
 		getFixture().deleteStudy(s);
-		setComplete();
+		//setComplete();
 		endTransaction();
 
 		// 4. verify delte:
