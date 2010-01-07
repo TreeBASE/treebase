@@ -126,7 +126,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		getStudyHome().store(s);
 
 		// force commit immeidately, important:
-		//setComplete();
+		setComplete();
 		endTransaction();
 
 		onSetUp();
@@ -156,7 +156,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		// 3. delete
 		// fixture.delete(testRole);
 		getFixture().deleteStudy(s);
-		//setComplete();
+		setComplete();
 		endTransaction();
 
 		// 4. verify delte:
