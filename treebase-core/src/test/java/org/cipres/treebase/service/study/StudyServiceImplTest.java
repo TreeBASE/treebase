@@ -133,7 +133,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// Notes: this is important: why?? there are two copies of s in the same session.
 		// how???
-		//s = (Study) hibernateTemplate.merge(s);
+		s = (Study) hibernateTemplate.merge(s);
 
 		Long studyID = s.getId();
 		Long citationID = c.getId();
@@ -499,7 +499,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// 1. get a valid nexus file name:
 		String fileName = "wtset.nex";		
-		long studyId = 82L;
+		long studyId = 100L;
 		logger.info("study id: " + studyId);
 		assertTrue(studyId > 0);
 		Study s = (Study) hibernateTemplate.get(Study.class, studyId);

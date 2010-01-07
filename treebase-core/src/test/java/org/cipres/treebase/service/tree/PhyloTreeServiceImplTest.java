@@ -172,7 +172,7 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 	
 	public void testFindSomethingByRangeExpression() throws MalformedRangeExpression {
 		Collection<PhyloTree> trees = getFixture()
-		.findSomethingByRangeExpression(PhyloTree.class, "nTax", "37..100");
+		.findSomethingByRangeExpression(PhyloTree.class, "nTax", "37..40");
 		assertTrue(trees.size() > 0);
 		for (PhyloTree tree : trees) {
 			int n = tree.getnTax();

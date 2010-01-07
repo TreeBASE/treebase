@@ -751,6 +751,7 @@ public class PhyloTree extends AbstractPersistedObject {
 	 */
 	// added in implementation where the number of tips is calculated and
 	// stored if the internal boxed member mNtax is null (i.e. unassigned)
+	@Column(name = "ntax")
 	public Integer getnTax() {
 		if ( mNtax == null ) {
 			int ntax = 0;
