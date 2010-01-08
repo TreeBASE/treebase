@@ -607,7 +607,7 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 				// }
 			} finally {
 				// Dispose the mesquite project after all usage:
-				if (dataSet != null) dataSet.getMesqProject().dispose();
+				if (dataSet != null && dataSet.getMesqProject()!=null) dataSet.getMesqProject().dispose();
 			}
 			
 			for (Matrix m : dataSet.getMatrices()) {
