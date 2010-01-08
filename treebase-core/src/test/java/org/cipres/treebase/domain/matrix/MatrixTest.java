@@ -73,10 +73,10 @@ public class MatrixTest extends AbstractDAOTest {
 		
 		String s = builder.toString();
 		{ 
-			Pattern p = Pattern.compile("^\\s*DIMENSIONS\\s+", Pattern.MULTILINE);
+			Pattern p = Pattern.compile("^\\s*DIMENSIONS\\s+NCHAR=1585;", Pattern.MULTILINE);
 			Matcher matcher = p.matcher(s);
 			assertTrue(matcher.find());
-			assertEquals("NCHAR=1585;", matcher.group(1));
+			//assertEquals("NCHAR=1585;", matcher.group(1));
 		}
 	}
 	
