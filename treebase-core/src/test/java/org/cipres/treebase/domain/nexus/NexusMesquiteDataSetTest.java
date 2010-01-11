@@ -2,6 +2,7 @@
 package org.cipres.treebase.domain.nexus;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
+import org.cipres.treebase.service.nexus.NexusServiceMesquite;
 
 /**
  * NexusMesquiteDataSetTest.java
@@ -13,7 +14,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
  */
 public class NexusMesquiteDataSetTest extends AbstractDAOTest {
 
-	private NexusService mFixture;
+	private NexusServiceMesquite mFixture;
 
 	/**
 	 * Constructor.
@@ -34,7 +35,7 @@ public class NexusMesquiteDataSetTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
-	public void setFixture(NexusService pNewFixture) {
+	public void setFixture(NexusServiceMesquite pNewFixture) {
 		mFixture = pNewFixture;
 	}
 
