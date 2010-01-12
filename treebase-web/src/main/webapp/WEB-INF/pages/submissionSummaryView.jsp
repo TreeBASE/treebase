@@ -17,7 +17,7 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 </a>
 <br/>
 <a href="/treebase-web/phylows/<c:out value="${submission.study.phyloWSPath}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
-	<img class="iconButton" alt="link" src="<fmt:message key="icons.permalink"/>" />
+	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
 	Reviewer access URL: right-click and copy me
 </a>
 
