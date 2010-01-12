@@ -12,6 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.cipres.treebase.NamespacedGUID;
+import org.cipres.treebase.TreebaseIDString;
+import org.cipres.treebase.TreebaseUtil;
+import org.cipres.treebase.domain.study.Study;
+import org.cipres.treebase.web.Constants;
+import org.cipres.treebase.web.util.ControllerUtil;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindException;
@@ -138,15 +144,30 @@ public abstract class BaseFormController extends CancellableFormController {
 
 	@Override
 	protected ModelAndView showForm(
-		HttpServletRequest pArg0,
-		HttpServletResponse pArg1,
-		BindException pArg2,
-		Map pArg3) throws Exception {
-		if (isAuthorizationChecked()) {
-			return super.showForm(pArg0, pArg1, pArg2, pArg3);
+		HttpServletRequest pRequest,
+		HttpServletResponse pResponse,
+		BindException pBindException,
+		Map pMap) throws Exception {
+		if (isAuthorizationChecked() || isReviewerAccessGranted(pRequest)) {
+			return super.showForm(pRequest, pResponse, pBindException, pMap);
 		} else {
 			return new ModelAndView(AUTHORIZATION_VIOLATION_VIEW);
 		}
+	}
+
+	private boolean isReviewerAccessGranted(HttpServletRequest pRequest) {
+		boolean reviewerAccessGranted = false;
+		String storedHashedStudyId = pRequest.getSession().getAttribute(Constants.X_ACCESS_CODE).toString();		
+		if ( ! TreebaseUtil.isEmpty(storedHashedStudyId) ) {
+			Long studyId = ControllerUtil.getStudyId(pRequest);
+			TreebaseIDString treebaseIDString = new TreebaseIDString(Study.class,studyId);
+			NamespacedGUID namespacedGUID = treebaseIDString.getNamespacedGUID();
+			String computedHashedStudyId = namespacedGUID.getHashedIDString();
+			if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
+				reviewerAccessGranted = true;
+			}
+		}
+		return reviewerAccessGranted;
 	}
 
 	protected ModelAndView setAttributeAndShowForm(
