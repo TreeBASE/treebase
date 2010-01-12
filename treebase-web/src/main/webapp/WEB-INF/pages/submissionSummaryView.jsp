@@ -11,16 +11,21 @@
 </legend>
 Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/>, <a href="/treebase-web/admin/changeStudyStatus.html"> Update Status</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submission initiated:&nbsp;&nbsp;<c:out value="${initiatedDate}"/><br/>
-<a href='mailto:${submission.submitter.emailAddressString}?subject=TreeBASE Submission S${submission.id}'>Contact Submitter</a><br/>
+<a href='mailto:${submission.submitter.emailAddressString}?subject=TreeBASE Submission S${submission.id}'>
+	<img class="iconButton" alt="mail" src="<fmt:message key="icons.email"/>" />
+	Contact Submitter
+</a>
+<br/>
+<a href="/treebase-web/phylows/<c:out value="${submission.study.phyloWSPath}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
+	<img class="iconButton" alt="link" src="<fmt:message key="icons.permalink"/>" />
+	Reviewer access URL: right-click and copy me
+</a>
+
 <c:if test="${not empty citationsummary.study}">
 	<c:if test="${not empty citationsummary.study.name}">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Study name:&nbsp;&nbsp;<c:out value="${citationsummary.study.name}"/>
 	</c:if>
 </c:if>
-
-<a href="/treebase-web/phylows/<c:out value="${submission.study.phyloWSPath}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
-	Reviewer access URL
-</a>
 
 <br/>
 <br/>
