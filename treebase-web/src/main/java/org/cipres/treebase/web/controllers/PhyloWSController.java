@@ -16,6 +16,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
+import org.cipres.treebase.web.Constants;
 
 public class PhyloWSController implements Controller {
 	private static String ncbiBaseUrl = "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=";
@@ -61,6 +62,11 @@ public class PhyloWSController implements Controller {
         res.setContentType("text/plain");
         String url = null;
         String domain = "http://" + req.getServerName() + ":" + req.getServerPort();
+		if ( ! TreebaseUtil.isEmpty(req.getParameter(Constants.X_ACCESS_CODE)) ) {
+			req.getSession().setAttribute(
+				Constants.X_ACCESS_CODE, 
+				req.getParameter(Constants.X_ACCESS_CODE));
+		}        
         try { 
             String pathInfo = req.getPathInfo();
             if ( TreebaseUtil.isEmpty(pathInfo) ) {
