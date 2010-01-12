@@ -18,7 +18,7 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 	</c:if>
 </c:if>
 
-<a href="/treebase-web/phylows/<c:out value="${submission.study.phyloWSPath}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>">
+<a href="/treebase-web/phylows/<c:out value="${submission.study.phyloWSPath}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
 	Reviewer access URL
 </a>
 
