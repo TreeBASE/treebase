@@ -16,6 +16,9 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 	<c:if test="${not empty citationsummary.study.name}">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Study name:&nbsp;&nbsp;<c:out value="${citationsummary.study.name}"/>
 	</c:if>
+	<a href="/treebase-web/phylows/<c:out value="${citationsummary.study.phyloWSPath}"/>?x-access-code=<c:out value="${citationsummary.study.namespacedGUID.hashedIDString}"/>">
+		Reviewer access URL
+	</a>
 </c:if>
 
 <br/>
