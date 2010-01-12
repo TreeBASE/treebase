@@ -165,6 +165,7 @@ public abstract class BaseFormController extends CancellableFormController {
 			String computedHashedStudyId = namespacedGUID.getHashedIDString();
 			if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
 				reviewerAccessGranted = true;
+				saveMessage(pRequest,"You are in reviewer access mode.");
 			}
 		}
 		return reviewerAccessGranted;
