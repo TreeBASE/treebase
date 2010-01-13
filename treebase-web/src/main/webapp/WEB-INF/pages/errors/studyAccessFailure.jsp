@@ -8,3 +8,5 @@
      alt="<fmt:message key="icon.warning"/>" class="icon" />
 	<c:out value="${requestScope.exception.message}"/>
 </p>
+
+<c:import url="/user/submissionList.html"/>
