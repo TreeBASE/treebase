@@ -141,6 +141,22 @@ public abstract class BaseFormController extends CancellableFormController {
 	protected void setAuthorizationChecked(boolean pAuthorizationChecked) {
 		mAuthorizationChecked = pAuthorizationChecked;
 	}
+	
+	/**
+	 * 
+	 * @param pRequest
+	 * @param pModelAndView
+	 * @return
+	 */
+	protected ModelAndView getConditionalModelAndView(
+		HttpServletRequest pRequest,
+		ModelAndView pModelAndView) {
+		if ( isReviewerAccessGranted(pRequest) || isAuthorizationChecked() ) {
+			return pModelAndView;
+		} else {
+			return new ModelAndView(AUTHORIZATION_VIOLATION_VIEW);
+		}		
+	}
 
 	@Override
 	protected ModelAndView showForm(
