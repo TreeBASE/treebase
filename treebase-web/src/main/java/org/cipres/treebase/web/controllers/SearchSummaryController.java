@@ -256,9 +256,8 @@ class SearchSummaryController extends BaseFormController {
 	protected ModelAndView processFormSubmission(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException bindException)
 			throws Exception {
-		// TODO Auto-generated method stub
 		LOGGER.debug("processFormSubmission found study " + (Study) command);
-		return showForm(request, response, bindException);
+		return getConditionalModelAndView(request, showForm(request, response, bindException));
 	}
 
 	@Override
@@ -401,7 +400,7 @@ class SearchSummaryController extends BaseFormController {
 		// but what the heck, let's put it in just to be sure
 		newModel.put("study", theStudy);
 
-		return new ModelAndView(pageName, newModel);
+		return getConditionalModelAndView(request, new ModelAndView(pageName, newModel));
 	}
 	
 
