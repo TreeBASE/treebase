@@ -3,6 +3,8 @@ package org.cipres.treebase;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -12,6 +14,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.TimeZone;
 
 import org.cipres.treebase.domain.study.Citation;
@@ -421,6 +424,27 @@ public class TreebaseUtil {
 		// System.out.println(date + " GMT");
 
 		return date + " GMT";
+	}
+	
+	/**
+	 * This method returns the domain name (possibly with port number)
+	 * which can be used to construct URLs by prefixing with "http://"
+	 * and suffixing with the full path (e.g. "/treebase-web")
+	 * 
+	 * @return domain name
+	 */
+	public static String getDomainName() {
+		Properties properties = new Properties();
+		String domainName = "";
+		try {
+			properties.load( new FileInputStream("treebase.properties") );
+			domainName = properties.getProperty("treebase.domain.name");			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return domainName;		
 	}
 
 	/**
