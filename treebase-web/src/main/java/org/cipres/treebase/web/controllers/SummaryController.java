@@ -92,8 +92,7 @@ public class SummaryController extends BaseFormController {
 		HttpServletResponse response,
 		Object command,
 		BindException errors) throws Exception {
-
-		return new ModelAndView(getSuccessView());
+		return getConditionalModelAndView(request, new ModelAndView(getSuccessView()));
 	}
 
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
