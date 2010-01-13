@@ -173,15 +173,18 @@ public abstract class BaseFormController extends CancellableFormController {
 
 	private boolean isReviewerAccessGranted(HttpServletRequest pRequest) {
 		boolean reviewerAccessGranted = false;
-		String storedHashedStudyId = pRequest.getSession().getAttribute(Constants.X_ACCESS_CODE).toString();		
-		if ( ! TreebaseUtil.isEmpty(storedHashedStudyId) ) {
-			Long studyId = ControllerUtil.getStudyId(pRequest);
-			TreebaseIDString treebaseIDString = new TreebaseIDString(Study.class,studyId);
-			NamespacedGUID namespacedGUID = treebaseIDString.getNamespacedGUID();
-			String computedHashedStudyId = namespacedGUID.getHashedIDString();
-			if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
-				reviewerAccessGranted = true;
-				saveMessage(pRequest,"You are in reviewer access mode.");
+		Object xAccesCodeObject = pRequest.getSession().getAttribute(Constants.X_ACCESS_CODE);
+		if ( xAccesCodeObject != null ) {
+			String storedHashedStudyId = xAccesCodeObject.toString();		
+			if ( ! TreebaseUtil.isEmpty(storedHashedStudyId) ) {
+				Long studyId = ControllerUtil.getStudyId(pRequest);
+				TreebaseIDString treebaseIDString = new TreebaseIDString(Study.class,studyId);
+				NamespacedGUID namespacedGUID = treebaseIDString.getNamespacedGUID();
+				String computedHashedStudyId = namespacedGUID.getHashedIDString();
+				if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
+					reviewerAccessGranted = true;
+					saveMessage(pRequest,"You are in reviewer access mode.");
+				}
 			}
 		}
 		return reviewerAccessGranted;
