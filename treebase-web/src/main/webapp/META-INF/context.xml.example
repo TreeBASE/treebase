@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- An example of META-INF/context.xml - a Tomcat-specific shorthand to specify JNDI resources during development. 
+     See http://tomcat.apache.org/tomcat-5.5-doc/jndi-datasource-examples-howto.html
+ -->
+
+<!-- Copy this file (context.xml.example) to context.xml and replace YOUR-XXX strings with suitable credentials. 
+     (Note that context.xml is set to be ignored by SVN, so storing passwords there is safe.)  
+     Make sure that $CATALINA_HOME/common/lib contains a postgres JDBC driver jar. 
+     Now, dropping treebase-web.war to $CATALINA_HOME/webapps of a vanilla Tomcat should automatically create 
+     config file $CATALINA_HOME/conf/Catalina/localhost/treebase-web.xml, 
+     which instructs Tomcat to provide a JNDI DataSource. 
+     FYI: If this config is created or modified by hand, it is not affected by WAR (re-)deployments. 
+          (I.e., server-side configuration supercedes WAR-side.)  
+-->
+
+<Context reloadable="true">
+
+  <Resource name="jdbc/TreebaseDB" auth="Container"
+            type="javax.sql.DataSource" driverClassName="org.postgresql.Driver" 
+            url="jdbc:postgresql://YOUR-URL"
+            username="YOUR-NAME" password="YOUR-PASS"
+			maxActive="20" maxIdle="10" maxWait="-1"
+            />
+
+</Context>
+
+

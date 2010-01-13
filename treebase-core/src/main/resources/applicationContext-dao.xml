@@ -22,24 +22,31 @@
 		</property>
 	</bean>
 
+
+<!-- VG 2010-01-11  instead, see applicationContext-db-webapp.xml and applicationContext-db-standalone.xml
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClassName}" />
 		<property name="jdbcUrl" value="${jdbc.url}" />
 		<property name="user" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 		<property name="minPoolSize" value="5" />
+-->		
 		<!-- reduce to expose connection leak problem, if any
 		     property name="maxPoolSize" value="100" /-->
+<!-- 
 		<property name="maxPoolSize" value="10" />
 		<property name="initialPoolSize" value="6" />
 		<property name="maxIdleTime" value="3600" />
+-->
 		<!--property name="maxIdleTime" value="9000" /-->
+<!-- 
 		<property name="maxConnectionAge" value="18000" />
 		<property name="idleConnectionTestPeriod" value="300" />
 		<property name="maxIdleTimeExcessConnections" value="300" />
 		<property name="maxStatementsPerConnection" value="100" />
 		<property name="numHelperThreads" value="5" />
 	</bean>
+-->
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">

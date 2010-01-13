@@ -18,6 +18,7 @@ public class CoreServiceLauncher {
 	private static final Logger LOGGER = Logger.getLogger(CoreServiceLauncher.class);
 
 	private static final String[] SPRING_CONFIG_FILES = new String[] {// "applicationContext.xml",
+	"applicationContext-db-standalone.xml",      // 2010-01-12 VG
 	"applicationContext-dao.xml",
 	"applicationContext-service.xml",
 	"applicationContext-standalone.xml" // 20090222 MJD

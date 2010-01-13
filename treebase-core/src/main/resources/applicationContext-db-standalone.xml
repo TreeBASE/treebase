@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+    http://www.directwebremoting.org/schema/spring-dwr  
+    http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" 
+    default-autowire="no">
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="minPoolSize" value="5" />
+		<!-- reduce to expose connection leak problem, if any
+		     property name="maxPoolSize" value="100" /-->
+		<property name="maxPoolSize" value="10" />
+		<property name="initialPoolSize" value="6" />
+		<property name="maxIdleTime" value="3600" />
+		<!--property name="maxIdleTime" value="9000" /-->
+		<property name="maxConnectionAge" value="18000" />
+		<property name="idleConnectionTestPeriod" value="300" />
+		<property name="maxIdleTimeExcessConnections" value="300" />
+		<property name="maxStatementsPerConnection" value="100" />
+		<property name="numHelperThreads" value="5" />
+	</bean>
+
+
+
+</beans>
+   
