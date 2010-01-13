@@ -8,11 +8,3 @@
      alt="<fmt:message key="icon.warning"/>" class="icon" />
 	<c:out value="${requestScope.exception.message}"/>
 </p>
-
-<c:import url="/user/submissionList.html"/>
-
-<!--  % 
-Exception ex = (Exception) request.getAttribute("exception");
-ex.printStackTrace(new java.io.PrintWriter(out)); 
-% -->
-<!--   a href="/user/submissionList.html" onclick="history.back();return false">&#171; Back</a -->
