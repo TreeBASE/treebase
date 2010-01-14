@@ -70,6 +70,7 @@ class SearchSummaryController extends BaseFormController {
 	
 	class NoStudySpecifiedError extends Error { }
 	class UnknownStudyError extends Error { }
+	class RestrictedStudyError extends Error { }
 	
 	Study theStudy = null;
 	CharacterMatrix theMatrix = null; // XXX What if it isn't a CharacterMatrix?
@@ -90,6 +91,13 @@ class SearchSummaryController extends BaseFormController {
 			theStudy = getStudyService().findByID(studyID);
 			if (theStudy == null) { throw new UnknownStudyError(); }
 			LOGGER.debug("formBackingObject found study " + theStudy);
+			if ( ! theStudy.isPublished() ) {
+				String hashedId = theStudy.getNamespacedGUID().getHashedIDString();
+				String xAccessCode = request.getParameter(Constants.X_ACCESS_CODE);
+				if ( ! hashedId.equals(xAccessCode) ) {
+					throw new RestrictedStudyError();
+				}
+			}
 		}
 		
 		theTree = null;
