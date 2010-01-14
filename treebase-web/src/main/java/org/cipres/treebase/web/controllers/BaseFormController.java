@@ -131,6 +131,7 @@ public abstract class BaseFormController extends CancellableFormController {
 	 * @return
 	 */
 	private boolean isAuthorizationChecked() {
+		LOGGER.info("Checking whether explicit access is granted, value="+mAuthorizationChecked);
 		return mAuthorizationChecked;
 	}
 
@@ -175,17 +176,31 @@ public abstract class BaseFormController extends CancellableFormController {
 		boolean reviewerAccessGranted = false;
 		Object xAccesCodeObject = pRequest.getSession().getAttribute(Constants.X_ACCESS_CODE);
 		if ( xAccesCodeObject != null ) {
-			String storedHashedStudyId = xAccesCodeObject.toString();		
+			String storedHashedStudyId = xAccesCodeObject.toString();
+			LOGGER.info("x-access-code="+storedHashedStudyId);
 			if ( ! TreebaseUtil.isEmpty(storedHashedStudyId) ) {
 				Long studyId = ControllerUtil.getStudyId(pRequest);
-				TreebaseIDString treebaseIDString = new TreebaseIDString(Study.class,studyId);
-				NamespacedGUID namespacedGUID = treebaseIDString.getNamespacedGUID();
-				String computedHashedStudyId = namespacedGUID.getHashedIDString();
+				LOGGER.info("studyId="+studyId);
+				TreebaseIDString tbidstr = new TreebaseIDString(Study.class,studyId);
+				LOGGER.info("TreebaseIDString="+tbidstr);
+				NamespacedGUID nsguid = tbidstr.getNamespacedGUID();
+				LOGGER.info("NamespacedGUID="+nsguid);
+				String computedHashedStudyId = nsguid.getHashedIDString();
+				LOGGER.info("computedHashedStudyId="+computedHashedStudyId);
 				if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
 					reviewerAccessGranted = true;
 					saveMessage(pRequest,"You are in reviewer access mode.");
+					LOGGER.info("x-access-code matches computed hashed study id");
+					LOGGER.info("Reviewer access is granted");
+				}
+				else {
+					LOGGER.info("x-access-code doesn't match computed hashed study id");
+					LOGGER.info("access denied");
 				}
 			}
+		}
+		else {
+			LOGGER.info("No x-access-code parameter supplied");
 		}
 		return reviewerAccessGranted;
 	}
