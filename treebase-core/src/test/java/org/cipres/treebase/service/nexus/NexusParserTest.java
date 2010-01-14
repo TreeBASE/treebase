@@ -21,6 +21,7 @@ public class NexusParserTest extends AbstractServiceTest {
 	 * 
 	 * Creation date: Apr 18, 2006 2:50:18 PM
 	 */
+	//cipres datatype will not be used anymore
 	public void testLoadPhyloDataSet() throws Exception {
 		String testName = "loadPhyloDataSet";
 		if (logger.isInfoEnabled()) {
@@ -30,14 +31,14 @@ public class NexusParserTest extends AbstractServiceTest {
 		File nexusFile = new File(getClass().getResource(TEST_NEX_FILE).toURI());
 		assertTrue("Test File " + TEST_NEX_FILE + " cannot be found.", nexusFile.exists());
 
-		PhyloDataset data = new PhyloDataset(nexusFile);
+		/*PhyloDataset data = new PhyloDataset(nexusFile);
 
 		DataMatrix matrix = data.getDataMatrix();
 		assertTrue("Empty matrix.", matrix != null);
 
 		Tree tree = data.getFirstTree();
 		assertTrue("Empty tree.", tree != null);
-
+        */
 		if (logger.isInfoEnabled()) {
 			logger.info(testName + " - end "); //$NON-NLS-1$
 		}

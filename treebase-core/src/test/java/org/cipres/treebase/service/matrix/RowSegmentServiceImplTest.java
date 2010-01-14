@@ -127,6 +127,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	 * Run the createRowSegments test.
 	 * 
 	 */
+	/* this test can not be done without headless mesquite enviroment
 	public void testCreateRowSegments() throws Exception {
 
 		String testName = "testCreateRowSegments";
@@ -245,4 +246,5 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 			logger.info(testName + " verified.");
 		}
 	}
+	*/
 }
