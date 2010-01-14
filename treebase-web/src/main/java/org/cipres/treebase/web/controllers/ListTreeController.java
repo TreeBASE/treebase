@@ -171,6 +171,7 @@ public class ListTreeController extends BaseFormController {
 				request.getRemoteUser(),
 				submission_id);
 			if (perm2 == TBPermission.WRITE || perm2 == TBPermission.SUBMITTED_WRITE) {
+				LOGGER.info("setAuthorizationChecked(true)");
 				setAuthorizationChecked(true);
 				Collection<PhyloTree> phyloTreeList = treeblock.getTreeList();
 				ControllerUtil.setTreeBlockId(TBID, request);
@@ -178,6 +179,7 @@ public class ListTreeController extends BaseFormController {
 				// This ID has to be saved for success/cancel view.
 				return new AGenericList<Collection<PhyloTree>>(phyloTreeList);
 			} else {
+				LOGGER.info("setAuthorizationChecked(false)");
 				setAuthorizationChecked(false);
 				return new AGenericList<Collection<PhyloTree>>(new ArrayList<PhyloTree>());
 			}

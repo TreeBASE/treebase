@@ -135,8 +135,10 @@ public class DeleteStudyController extends BaseFormController {
 		TBPermission perm = getSubmissionService().getPermission(username, Long.parseLong(subid));
 
 		if (perm == TBPermission.WRITE) {
+			LOGGER.info("setAuthorizationChecked(true)");
 			setAuthorizationChecked(true);
 		} else {
+			LOGGER.info("setAuthorizationChecked(false)");
 			setAuthorizationChecked(false);
 		}
 

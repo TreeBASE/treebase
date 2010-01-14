@@ -108,6 +108,7 @@ public class SummaryController extends BaseFormController {
 		Study study;
 		if (TreebaseUtil.isEmpty(submission_id)) {
 			study = ControllerUtil.findStudy(request, mStudyService);
+			LOGGER.info("setAuthorizationChecked(true)");
 			setAuthorizationChecked(true);// This is needed in case one is clicking at Summary
 			// link at the bottom of the menu list on the right hand
 			// side.
@@ -122,8 +123,10 @@ public class SummaryController extends BaseFormController {
 				Long.parseLong(submission_id));
 			if (perm2 == TBPermission.WRITE || perm2 == TBPermission.READ_ONLY
 				|| perm2 == TBPermission.SUBMITTED_WRITE) {
+				LOGGER.info("setAuthorizationChecked(true)");
 				setAuthorizationChecked(true);
 			} else {
+				LOGGER.info("setAuthorizationChecked(false)");
 				setAuthorizationChecked(false);
 				return new ArticleCitation();
 			}

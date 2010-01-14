@@ -326,9 +326,11 @@ public class AnalysisStepFormController extends BaseFormController {
 
 		if (TreebaseUtil.isEmpty(analysisStep_id)) {
 			if (perm == TBPermission.WRITE) {
+				LOGGER.info("setAuthorizationChecked(true)");
 				setAuthorizationChecked(true);
 				return analysisStepCommand;
 			} else {
+				LOGGER.info("setAuthorizationChecked(false)");
 				setAuthorizationChecked(false);
 				return null;
 			}
@@ -360,14 +362,14 @@ public class AnalysisStepFormController extends BaseFormController {
 					// FIXME set a session variable to hide the edit buttons.
 
 				}
-
+				LOGGER.info("setAuthorizationChecked(true)");
 				setAuthorizationChecked(true);
 				return analysisStepCommand;
 			} else {
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug("NULL CONDITION SATISFIED");
 				}
-
+				LOGGER.info("setAuthorizationChecked(false)");
 				setAuthorizationChecked(false);
 				return analysisStepCommand;
 			}

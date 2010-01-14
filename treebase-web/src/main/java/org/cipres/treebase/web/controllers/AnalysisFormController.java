@@ -176,9 +176,11 @@ public class AnalysisFormController extends BaseFormController {
 
 		if (TreebaseUtil.isEmpty(analysis_id)) {
 			if (perm == TBPermission.WRITE) {
+				LOGGER.info("setAuthorizationChecked(true)");
 				setAuthorizationChecked(true);
 				return new Analysis();
 			} else {
+				LOGGER.info("setAuthorizationChecked(false)");
 				setAuthorizationChecked(false);
 				return null;
 			}
@@ -195,11 +197,12 @@ public class AnalysisFormController extends BaseFormController {
 					// FIXME set a session variable to hide the edit buttons.
 
 				}
-
+				LOGGER.info("setAuthorizationChecked(true)");
 				setAuthorizationChecked(true);
 				return analysis;
 			} else {
 				LOGGER.debug("NULL CONDITION SATISFIED");
+				LOGGER.info("setAuthorizationChecked(false)");
 				setAuthorizationChecked(false);
 				return new Analysis();
 			}

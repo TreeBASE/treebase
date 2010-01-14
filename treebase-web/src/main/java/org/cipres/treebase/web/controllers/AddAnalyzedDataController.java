@@ -9,6 +9,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.admin.UserRole.TBPermission;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -31,6 +32,7 @@ import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.web.util.ControllerUtil;
 
 public class AddAnalyzedDataController extends BaseFormController {
+	private static final Logger LOGGER = Logger.getLogger(AddAnalyzedDataController.class);
 	private AnalysisService mAnalysisService;
 	private StudyService mStudyService;
 	private AnalysisStepService mAnalysisStepService;
@@ -241,6 +243,7 @@ public class AddAnalyzedDataController extends BaseFormController {
 		Study study;
 		if (TreebaseUtil.isEmpty(submission_id)) {
 			study = ControllerUtil.findStudy(request, mStudyService);
+			LOGGER.info("setAuthorizationChecked(true)");
 			setAuthorizationChecked(true);// This is needed in case one is clicking at Summary
 			// link at the bottom of the menu list on the right hand
 			// side.
@@ -255,8 +258,10 @@ public class AddAnalyzedDataController extends BaseFormController {
 				Long.parseLong(submission_id));
 			if (perm2 == TBPermission.WRITE || perm2 == TBPermission.READ_ONLY
 				|| perm2 == TBPermission.SUBMITTED_WRITE) {
+				LOGGER.info("setAuthorizationChecked(true)");
 				setAuthorizationChecked(true);
 			} else {
+				LOGGER.info("setAuthorizationChecked(false)");
 				setAuthorizationChecked(false);
 				return new ArticleCitation();
 			}
