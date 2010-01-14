@@ -198,6 +198,9 @@ public abstract class BaseFormController extends CancellableFormController {
 					LOGGER.info("access denied");
 				}
 			}
+			else {
+				LOGGER.info("x-access-code is empty");
+			}
 		}
 		else {
 			LOGGER.info("No x-access-code parameter supplied");
