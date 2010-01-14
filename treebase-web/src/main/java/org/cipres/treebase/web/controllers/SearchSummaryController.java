@@ -82,7 +82,7 @@ class SearchSummaryController extends BaseFormController {
 	protected Study formBackingObject(HttpServletRequest request)
 			throws Exception {
 		Map<String,String []> param = request.getParameterMap();
-		
+		LOGGER.info("in formBackingObject");
 		theStudy = null;
 		{
 			Long studyID = getIDParam(param, "id");
@@ -133,7 +133,7 @@ class SearchSummaryController extends BaseFormController {
 	
 	@Override
 	protected Map<String,Object> referenceData(HttpServletRequest pRequest) throws Exception {
-
+		LOGGER.info("in referenceData");
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		Study study = ControllerUtil.findStudy(pRequest, getStudyService());
 
@@ -256,6 +256,7 @@ class SearchSummaryController extends BaseFormController {
 	protected ModelAndView processFormSubmission(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException bindException)
 			throws Exception {
+		LOGGER.info("in processFormSubmission");
 		LOGGER.debug("processFormSubmission found study " + (Study) command);
 		return getConditionalModelAndView(request, showForm(request, response, bindException));
 	}
@@ -264,6 +265,7 @@ class SearchSummaryController extends BaseFormController {
 	protected ModelAndView showForm(HttpServletRequest request,
 			HttpServletResponse response, BindException errors) throws Exception {
 		String pageName = request.getServletPath();
+		LOGGER.info("in showForm");
 //		LOGGER.debug("GetServletPath returns " + pageName);
 		if (pageName == null) {
 			pageName = getDefaultPage();
@@ -408,6 +410,7 @@ class SearchSummaryController extends BaseFormController {
 	// The code should be shared
 	private void setupForPhyloWidget(HttpServletRequest request) {
 		// set up NEWICKSTRINGNAME and NEWICKSTRINGSMAP
+		LOGGER.info("setupForPhyloWidget");
 		String separator = "@";
 		Map<String, String> treeMap = new HashMap<String, String>();
 		String newickStringName = null;
@@ -428,6 +431,7 @@ class SearchSummaryController extends BaseFormController {
 	 * The code should be shared
 	 */
 	private String getMapKey(PhyloTree pTree) {
+		LOGGER.info("in getMapKey");
 		StringBuilder key = new StringBuilder("TreeId: " + pTree.getId());
 		if (!TreebaseUtil.isEmpty(pTree.getLabel())) {
 			key.append("|").append(pTree.getLabel());
@@ -446,58 +450,72 @@ class SearchSummaryController extends BaseFormController {
 	}
 
 	public String getDefaultPage() {
+		LOGGER.info("in getDefaultPage");
 		return defaultPage;
 	}
 
 	public void setDefaultPage(String defaultView) {
+		LOGGER.info("in setDefaultPage");
 		this.defaultPage = defaultView;
 	}
 
 	public StudyService getStudyService() {
+		LOGGER.info("in getStudyService");
 		return studyService;
 	}
 
 	public void setStudyService(StudyService studyService) {
+		LOGGER.info("in setStudyService");
 		this.studyService = studyService;
 	}
 
 	public MatrixService getMatrixService() {
+		LOGGER.info("in getMatrixService");
 		return matrixService;
 	}
 
 	public void setMatrixService(MatrixService matrixService) {
+		LOGGER.info("in setMatrixService");
 		this.matrixService = matrixService;
 	}
 
 	public MatrixRowService getMatrixRowService() {
+		LOGGER.info("in getMatrixRowService");
 		return matrixRowService;
 	}
 
 	public void setMatrixRowService(MatrixRowService matrixRowService) {
+		LOGGER.info("in setMatrixRowService");
 		this.matrixRowService = matrixRowService;
 	}
 
 	public PhyloTreeService getPhyloTreeService() {
+		LOGGER.info("in getPhyloTreeService");
 		return phyloTreeService;
 	}
 
 	public void setPhyloTreeService(PhyloTreeService phyloTreeService) {
+		LOGGER.info("in setPhyloTreeService");
 		this.phyloTreeService = phyloTreeService;
 	}
 
 	public AnalysisService getAnalysisService() {
+		LOGGER.info("in getAnalysisService");
 		return analysisService;
 	}
 
 	public void setAnalysisService(AnalysisService analysisService) {
+		LOGGER.info("in setAnalysisService");
 		this.analysisService = analysisService;
 	}
 
 	public TaxonLabelService getTaxonLabelService() {
+		LOGGER.info("in getTaxonLabelService");
 		return taxonLabelService;
 	}
 
 	public void setTaxonLabelService(TaxonLabelService taxonLabelService) {
+		LOGGER.info("in setTaxonLabelService");
 		this.taxonLabelService = taxonLabelService;
 	}
 
