@@ -1,6 +1,10 @@
 
 package org.cipres.treebase.web.controllers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,7 +12,9 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.domain.admin.UserService;
+import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.util.ControllerUtil;
@@ -87,8 +93,16 @@ public class ListSubmissionController extends MultiActionController {
 		boolean isUser = request.isUserInRole("User");
 		request.getSession().setAttribute("isUser", Boolean.valueOf(isUser));
 
-		return new ModelAndView("submissionList", Constants.SUBMISSION_LIST, ControllerUtil
-			.getUser(request, mUserService).getSubmissionIterator());
+		User user = ControllerUtil.getUser(request, mUserService);
+		List<Submission> submissionList = new ArrayList<Submission>();
+		Iterator<Submission> submissionIterator = submissionList.iterator();
+		if ( user != null ) {
+			submissionIterator = user.getSubmissionIterator();
+		}
+		return new ModelAndView(
+			"submissionList",
+			Constants.SUBMISSION_LIST,
+			submissionIterator);
 	}
 
 	/**
