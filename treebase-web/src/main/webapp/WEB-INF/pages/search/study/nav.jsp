@@ -241,7 +241,7 @@
 		</div>
 		<div style="width:100%;text-align:center;padding-top:10px">
 			<input type="submit" id="agreementOk" value="OK" onclick="$('agreement').style.display = 'none'"/>
-			<input type="submit" id="agreementCancel" value="Cancel" onclick="history.back(1)"/>
+			<input type="submit" id="agreementCancel" value="Cancel" onclick="document.href='/treebase-web/accessviolation.html'"/>
 		</div>
 	</div>
 	</c:if>
