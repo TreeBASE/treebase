@@ -197,7 +197,7 @@ public abstract class BaseFormController extends CancellableFormController {
 				//saveMessage(pRequest,"You are in reviewer access mode.");				
 				LOGGER.info("x-access-code matches computed hashed study id");
 				LOGGER.info("Reviewer access is granted");
-				if ( ! (Boolean)pRequest.getSession().getAttribute(Constants.REVIEWER_ACCESS_GRANTED) ) {
+				if ( pRequest.getSession().getAttribute(Constants.REVIEWER_ACCESS_GRANTED) == null ) {
 					pRequest.getSession().setAttribute("displayAgreement",true);
 				}
 				pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, reviewerAccessGranted);
