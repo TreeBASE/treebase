@@ -187,53 +187,57 @@
 	</div>
 	<c:if test="${displayAgreement}">
 		<script type="text/javascript">
-var msg = "Reviewer/Referee Access Agreement\n"
-+ "\n"
-+ "You have reached this page using a special URL that is intended to be used\n"
-+ "by journal editors and reviewers or referees of a paper that is under\n"
-+ "consideration for publication. This URL gives you access to the submitted\n"
-+ "data and metadata associated with analyses and results presented in the\n"
-+ "paper under review. Please carefully examine the data paying special\n"
-+ "attention to the following:\n"
-+ "\n"
-+ "* The citation data (authors, year, citation, abstract) should be\n"
-+ "  complete, except for information that is not yet known (e.g. volume or\n"
-+ "  page numbers).\n"
-+ "* Verify that nexus files are error-free and executable by software\n"
-+ "  programs (e.g. PAUP, Mesquite, MacClade, etc). Please make sure that the\n"
-+ "  taxon labels for trees are identical, or a subset of, the taxon labels in\n"
-+ "  data matrices connected by way of an analysis. If taxon labels in trees do\n"
-+ "  not match with taxon labels in associated data matrices, the data will not\n"
-+ "  be useful to the scientific community.\n"
-+ "* Verify that data are not missing and that opportunities to supply\n"
-+ "  valuable metadata are not overlooked. For example, TreeBASE can store\n"
-+ "  Genbank accession numbers, museum voucher IDs, latitude and longitudes for\n"
-+ "  specimen localities, character names and character state names for\n"
-+ "  morphological data, etc. Including these metadata are sometimes overlooked\n"
-+ "  by submitting authors, yet sharing this metadata is extremely valuable to\n"
-+ "  the scientific community. Please use your power as a reviewer to encourage\n"
-+ "  the sharing of richly-annotated metadata.\n"
-+ "* Verify that analyses are not missing and that, where possible, analysis\n"
-+ "  entries include software commands (e.g. the contents of a PAUP block or\n"
-+ "  MrBayes block) so that analyses can be replicated easily (e.g. commands\n"
-+ "  that describe substitution models, data partitions, and heuristic search\n"
-+ "  parameters).\n"
-+ "* Verify that taxon labels are mapped against TreeBASE's taxonomic\n"
-+ "  dictionary. Data in TreeBASE can only be found using a taxon name search if\n"
-+ "  the taxon labels are properly mapped.\n"
-+ "\n"
-+ "By clicking the 'OK' button below, you agree to keep these data\n"
-+ "confidential; you agree not to retain these data after completing your report\n"
-+ "to the journal editor; you agree not to use these data or knowledge of these\n"
-+ "data for the purposes of your research until and unless the paper under\n"
-+ "review has been published and the data have been made available to the\n"
-+ "general public; you agree to keep the URL confidential.\n";
-			if (confirm(msg) { 
-				 // do things if OK
+		TreeBASE.register(
+			function() {
+				var msg = "Reviewer/Referee Access Agreement\n"
+				+ "\n"
+				+ "You have reached this page using a special URL that is intended to be used\n"
+				+ "by journal editors and reviewers or referees of a paper that is under\n"
+				+ "consideration for publication. This URL gives you access to the submitted\n"
+				+ "data and metadata associated with analyses and results presented in the\n"
+				+ "paper under review. Please carefully examine the data paying special\n"
+				+ "attention to the following:\n"
+				+ "\n"
+				+ "* The citation data (authors, year, citation, abstract) should be\n"
+				+ "  complete, except for information that is not yet known (e.g. volume or\n"
+				+ "  page numbers).\n"
+				+ "* Verify that nexus files are error-free and executable by software\n"
+				+ "  programs (e.g. PAUP, Mesquite, MacClade, etc). Please make sure that the\n"
+				+ "  taxon labels for trees are identical, or a subset of, the taxon labels in\n"
+				+ "  data matrices connected by way of an analysis. If taxon labels in trees do\n"
+				+ "  not match with taxon labels in associated data matrices, the data will not\n"
+				+ "  be useful to the scientific community.\n"
+				+ "* Verify that data are not missing and that opportunities to supply\n"
+				+ "  valuable metadata are not overlooked. For example, TreeBASE can store\n"
+				+ "  Genbank accession numbers, museum voucher IDs, latitude and longitudes for\n"
+				+ "  specimen localities, character names and character state names for\n"
+				+ "  morphological data, etc. Including these metadata are sometimes overlooked\n"
+				+ "  by submitting authors, yet sharing this metadata is extremely valuable to\n"
+				+ "  the scientific community. Please use your power as a reviewer to encourage\n"
+				+ "  the sharing of richly-annotated metadata.\n"
+				+ "* Verify that analyses are not missing and that, where possible, analysis\n"
+				+ "  entries include software commands (e.g. the contents of a PAUP block or\n"
+				+ "  MrBayes block) so that analyses can be replicated easily (e.g. commands\n"
+				+ "  that describe substitution models, data partitions, and heuristic search\n"
+				+ "  parameters).\n"
+				+ "* Verify that taxon labels are mapped against TreeBASE's taxonomic\n"
+				+ "  dictionary. Data in TreeBASE can only be found using a taxon name search if\n"
+				+ "  the taxon labels are properly mapped.\n"
+				+ "\n"
+				+ "By clicking the 'OK' button below, you agree to keep these data\n"
+				+ "confidential; you agree not to retain these data after completing your report\n"
+				+ "to the journal editor; you agree not to use these data or knowledge of these\n"
+				+ "data for the purposes of your research until and unless the paper under\n"
+				+ "review has been published and the data have been made available to the\n"
+				+ "general public; you agree to keep the URL confidential.\n";
+				if (confirm(msg) { 
+					 // do things if OK
+				}
+				else {
+					history.back(1);
+				}	
 			}
-			else {
-				history.back(1);
-			}						
+		);					
 		</script>
 	</c:if>
 </c:if>
