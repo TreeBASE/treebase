@@ -200,6 +200,9 @@ public abstract class BaseFormController extends CancellableFormController {
 				if ( pRequest.getSession().getAttribute(Constants.REVIEWER_ACCESS_GRANTED) == null ) {
 					pRequest.getSession().setAttribute("displayAgreement",true);
 				}
+				else {
+					pRequest.getSession().setAttribute("displayAgreement",false);
+				}
 				pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, reviewerAccessGranted);
 
 			}
