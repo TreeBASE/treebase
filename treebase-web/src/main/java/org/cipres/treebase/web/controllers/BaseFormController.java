@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.NamespacedGUID;
@@ -178,33 +179,33 @@ public abstract class BaseFormController extends CancellableFormController {
 		}
 	}
 
-	private boolean isReviewerAccessGranted(HttpServletRequest pRequest) {
-		boolean reviewerAccessGranted = false;
-		if ( "cancel".equals(pRequest.getParameter("agreement")) ) {
-			pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, false);
+	private boolean isReviewerAccessGranted(HttpServletRequest req) {
+		boolean passedHashedIDCheck = false;
+		HttpSession session = req.getSession();
+		if ( "cancel".equals(req.getParameter("agreement")) ) {
+			session.setAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED, false);
 		}	
-		if ( "ok".equals(pRequest.getParameter("agreement")) ) {
-			pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, true);
+		if ( "ok".equals(req.getParameter("agreement")) ) {
+			session.setAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED, true);
 		}
-		Object xAccesCodeObject = pRequest.getSession().getAttribute(Constants.X_ACCESS_CODE);
+		Object xAccesCodeObject = session.getAttribute(Constants.X_ACCESS_CODE);
 		if ( xAccesCodeObject != null ) {
-			String storedHashedStudyId = xAccesCodeObject.toString();
-			TreebaseIDString tbidstr = new TreebaseIDString(Study.class,Long.parseLong(pRequest.getParameter("id")));
-			if ( storedHashedStudyId.equals(tbidstr.getNamespacedGUID().getHashedIDString()) ) {
-				Object accessGranted = pRequest.getSession().getAttribute(Constants.REVIEWER_ACCESS_GRANTED);
-				if ( accessGranted == null || ((Boolean)accessGranted).booleanValue() == false ) {
-					LOGGER.info("Going to display agreement");
-					pRequest.getSession().setAttribute("displayAgreement",true);
+			String suppliedHashedID = xAccesCodeObject.toString();
+			TreebaseIDString tbidstr = new TreebaseIDString(Study.class,Long.parseLong(req.getParameter("id")));
+			if ( suppliedHashedID.equals(tbidstr.getNamespacedGUID().getHashedIDString()) ) {
+				passedHashedIDCheck = true;
+				Object agreementAccepted = session.getAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED);
+				if ( agreementAccepted == null || ((Boolean)agreementAccepted).booleanValue() == false ) {
+					LOGGER.info("Going to display agreement - agreement acceptance: "+agreementAccepted);
+					session.setAttribute("displayAgreement",true);
 				}
 				else {
-					LOGGER.info("Reviewer access is granted");
-					reviewerAccessGranted = true;
-					pRequest.getSession().setAttribute("displayAgreement",false);
-				}
-				pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, reviewerAccessGranted);
+					LOGGER.info("Not displaying agreement");					
+					session.setAttribute("displayAgreement",false);
+				}				
 			}
 		}		
-		return reviewerAccessGranted;
+		return passedHashedIDCheck;
 	}
 
 	protected ModelAndView setAttributeAndShowForm(
