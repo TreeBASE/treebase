@@ -179,6 +179,11 @@ public abstract class BaseFormController extends CancellableFormController {
 	}
 
 	private boolean isReviewerAccessGranted(HttpServletRequest pRequest) {
+		if ( "cancel".equals(pRequest.getParameter("agreement")) ) {
+			pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, false);
+			pRequest.getSession().setAttribute("displayAgreement",true);
+			return false;
+		}
 		boolean reviewerAccessGranted = false;
 		Object xAccesCodeObject = pRequest.getSession().getAttribute(Constants.X_ACCESS_CODE);
 		if ( xAccesCodeObject != null ) {
@@ -204,7 +209,6 @@ public abstract class BaseFormController extends CancellableFormController {
 					pRequest.getSession().setAttribute("displayAgreement",false);
 				}
 				pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, reviewerAccessGranted);
-
 			}
 			else {
 				LOGGER.info("x-access-code doesn't match computed hashed study id");
