@@ -91,6 +91,7 @@ class SearchSummaryController extends BaseFormController {
 			theStudy = getStudyService().findByID(studyID);
 			if (theStudy == null) { throw new UnknownStudyError(); }
 			LOGGER.debug("formBackingObject found study " + theStudy);
+			/*
 			if ( ! theStudy.isPublished() ) {
 				String hashedId = theStudy.getNamespacedGUID().getHashedIDString();
 				String xAccessCode = request.getParameter(Constants.X_ACCESS_CODE);
@@ -98,6 +99,7 @@ class SearchSummaryController extends BaseFormController {
 					throw new RestrictedStudyError();
 				}
 			}
+			*/
 		}
 		
 		theTree = null;
