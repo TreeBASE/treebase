@@ -230,7 +230,7 @@
 				+ "data for the purposes of your research until and unless the paper under\n"
 				+ "review has been published and the data have been made available to the\n"
 				+ "general public; you agree to keep the URL confidential.\n";
-				if (confirm(msg) { 
+				if ( confirm(msg) ) { 
 					 // do things if OK
 				}
 				else {
