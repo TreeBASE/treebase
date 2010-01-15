@@ -183,7 +183,7 @@
 <c:if test="${reviewerAccessGranted}">
   	<div>
   		<img src="<fmt:message key="icons.info"/>" alt="<fmt:message key="icon.information"/>" class="icon" />
-		<span style="color: red; ">You are in reviewer mode ${initialReviewerRedirect}.</span>
+		<span style="color: red; ">You are in reviewer mode ${displayAgreement}.</span>
 	</div>
 </c:if>
 

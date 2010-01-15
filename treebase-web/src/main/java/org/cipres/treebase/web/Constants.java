@@ -25,6 +25,8 @@ public class Constants {
 	 * objects to be stores in the session
 	 */
 	public static final String X_ACCESS_CODE = "x-access-code";
+	public static final String REVIEWER_ACCESS_GRANTED = "reviewerAccessGranted";
+	
 	public static final String STUDY_MAP = "studyMap";
 	public static final String ANALYSIS_MAP = "analysisMap";
 	public static final String ANALYSIS_STEP_MAP = "analysisStepMap";
