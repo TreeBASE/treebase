@@ -241,8 +241,15 @@
 			general public; you agree to keep the URL confidential.		
 		</div>
 		<div style="width:100%;text-align:center;padding-top:10px">
-			<input type="submit" id="agreementOk" value="OK" onclick="window.location=location.href+'&agreement=ok'"/>
-			<input type="submit" id="agreementCancel" value="Cancel" onclick="window.location=location.href+'&agreement=cancel'"/>
+			<script type="text/javascript">
+				function processAgreementResponse(response) {
+					var currentLocation = location.href;
+					var newLocation = currentLocation.replace(/&agreement=[ok|cancel]/,"") + '&agreement=' + response;
+					window.location=newLocation;
+				}
+			</script>
+			<input type="submit" id="agreementOk" value="OK" onclick="processAgreementResponse('ok')"/>
+			<input type="submit" id="agreementCancel" value="Cancel" onclick="processAgreementResponse('cancel')"/>
 		</div>
 	</div>
 </c:if>
