@@ -194,7 +194,7 @@ public abstract class BaseFormController extends CancellableFormController {
 			LOGGER.info("computedHashedStudyId="+computedHashedStudyId);
 			if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
 				reviewerAccessGranted = true;
-				saveMessage(pRequest,"You are in reviewer access mode.");
+				//saveMessage(pRequest,"You are in reviewer access mode.");				
 				LOGGER.info("x-access-code matches computed hashed study id");
 				LOGGER.info("Reviewer access is granted");
 			}
@@ -206,6 +206,7 @@ public abstract class BaseFormController extends CancellableFormController {
 		else {
 			LOGGER.info("No x-access-code parameter supplied");
 		}
+		pRequest.setAttribute("reviewerAccessGranted", reviewerAccessGranted);
 		return reviewerAccessGranted;
 	}
 
