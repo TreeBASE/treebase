@@ -37,6 +37,7 @@ public class PhyloWSController implements Controller {
 				throw new ObjectNotFoundException("Can't find study " + objectId);
 			}    
 			if ( ! TreebaseUtil.isEmpty(request.getParameter(Constants.X_ACCESS_CODE))) {
+				request.setAttribute("initialReviewerRedirect", true);
 				return base
 					.append("/summary.html?id=")
 					.append(objectId)
