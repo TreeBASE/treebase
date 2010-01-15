@@ -28,15 +28,30 @@ public class PhyloWSController implements Controller {
 	private static String format = "format";
 	private static String[] classesWithPages = { "tree", "study", "matrix" };
     
-    private String createUrl(String prefix, Long objectId) throws Exception {
+    private String createUrl(String prefix, Long objectId,HttpServletRequest request) throws Exception {
     	String url = "";
-    	String base = "/treebase-web/search/study";
+    	StringBuffer base = new StringBuffer("/treebase-web/search/study");
     	if ( prefix.equals(TreebaseIDString.getPrefixForClass(Study.class)) ) {
 			Study study = getStudyService().findByID(objectId);
 			if ( study == null ) {
 				throw new ObjectNotFoundException("Can't find study " + objectId);
-			}    			    		
-    		return base + "/summary.html?id=" + objectId;
+			}    
+			if ( ! TreebaseUtil.isEmpty(request.getParameter(Constants.X_ACCESS_CODE))) {
+				return base
+					.append("/summary.html?id=")
+					.append(objectId)
+					.append('&')
+					.append(Constants.X_ACCESS_CODE)
+					.append('=')
+					.append(request.getParameter(Constants.X_ACCESS_CODE))
+					.toString();
+			}
+			else {
+				return base
+					.append("/summary.html?id=")
+					.append(objectId)
+					.toString();
+			}
     	}   
     	else if ( prefix.equals(TreebaseIDString.getPrefixForClass(Matrix.class)) ) {
     		Matrix matrix = getMatrixService().findByID(objectId);
@@ -44,7 +59,12 @@ public class PhyloWSController implements Controller {
     			throw new ObjectNotFoundException("Can't find matrix " + objectId);
     		}
     		Study study = matrix.getStudy();
-    		return base + "/matrix.html?id=" + study.getId() + "&matrixid=" + objectId;
+    		return base
+    			.append("/matrix.html?id=")
+    			.append(study.getId())
+    			.append("&matrixid=")
+    			.append(objectId)
+    			.toString();
     	}
     	else if ( prefix.equals(TreebaseIDString.getPrefixForClass(PhyloTree.class)) ) {
     		PhyloTree phyloTree = getPhyloTreeService().findByID(objectId);
@@ -52,7 +72,12 @@ public class PhyloWSController implements Controller {
     			throw new ObjectNotFoundException("Can't find tree " + objectId);
     		}
     		Study study = phyloTree.getStudy();
-    		return base + "/tree.html?id=" + study.getId() + "&treeid=" + objectId;
+    		return base
+    			.append("/tree.html?id=")
+    			.append(study.getId())
+    			.append("&treeid=")
+    			.append(objectId)
+    			.toString();
     	}
     	return url;
     }
@@ -94,7 +119,7 @@ public class PhyloWSController implements Controller {
 		            		url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
 		            	}
 		            	else if ( req.getParameter(format).equals("html") ) {
-		            		url = domain + createUrl(tbID.getTypePrefix(),tbID.getId());
+		            		url = domain + createUrl(tbID.getTypePrefix(),tbID.getId(),req);
 		            	}
 		            	else {
 		            		url = domain + createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),req.getParameter(format));
