@@ -183,33 +183,28 @@ public abstract class BaseFormController extends CancellableFormController {
 		Object xAccesCodeObject = pRequest.getSession().getAttribute(Constants.X_ACCESS_CODE);
 		if ( xAccesCodeObject != null ) {
 			String storedHashedStudyId = xAccesCodeObject.toString();
-			//LOGGER.info("x-access-code="+storedHashedStudyId);
-			if ( ! TreebaseUtil.isEmpty(storedHashedStudyId) ) {
-				Long studyId = ControllerUtil.getStudyId(pRequest);
-				//LOGGER.info("studyId="+studyId);
-				TreebaseIDString tbidstr = new TreebaseIDString(Study.class,studyId);
-				//LOGGER.info("TreebaseIDString="+tbidstr);
-				NamespacedGUID nsguid = tbidstr.getNamespacedGUID();
-				//LOGGER.info("NamespacedGUID="+nsguid);
-				String computedHashedStudyId = nsguid.getHashedIDString();
-				//LOGGER.info("computedHashedStudyId="+computedHashedStudyId);
-				if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
-					reviewerAccessGranted = true;
-					saveMessage(pRequest,"You are in reviewer access mode.");
-					//LOGGER.info("x-access-code matches computed hashed study id");
-					//LOGGER.info("Reviewer access is granted");
-				}
-				else {
-					//LOGGER.info("x-access-code doesn't match computed hashed study id");
-					//LOGGER.info("access denied");
-				}
+			LOGGER.info("x-access-code="+storedHashedStudyId);
+			Long studyId = Long.parseLong(pRequest.getParameter("id"));
+			LOGGER.info("studyId="+studyId);
+			TreebaseIDString tbidstr = new TreebaseIDString(Study.class,studyId);
+			LOGGER.info("TreebaseIDString="+tbidstr);
+			NamespacedGUID nsguid = tbidstr.getNamespacedGUID();
+			LOGGER.info("NamespacedGUID="+nsguid);
+			String computedHashedStudyId = nsguid.getHashedIDString();
+			LOGGER.info("computedHashedStudyId="+computedHashedStudyId);
+			if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
+				reviewerAccessGranted = true;
+				saveMessage(pRequest,"You are in reviewer access mode.");
+				LOGGER.info("x-access-code matches computed hashed study id");
+				LOGGER.info("Reviewer access is granted");
 			}
 			else {
-				//LOGGER.info("x-access-code is empty");
+				LOGGER.info("x-access-code doesn't match computed hashed study id");
+				LOGGER.info("access denied");
 			}
 		}
 		else {
-			//LOGGER.info("No x-access-code parameter supplied");
+			LOGGER.info("No x-access-code parameter supplied");
 		}
 		return reviewerAccessGranted;
 	}
