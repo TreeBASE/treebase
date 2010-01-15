@@ -180,45 +180,29 @@ public abstract class BaseFormController extends CancellableFormController {
 
 	private boolean isReviewerAccessGranted(HttpServletRequest pRequest) {
 		boolean reviewerAccessGranted = false;
+		if ( "cancel".equals(pRequest.getParameter("agreement")) ) {
+			pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, false);
+		}	
+		if ( "ok".equals(pRequest.getParameter("agreement")) ) {
+			pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, true);
+		}
 		Object xAccesCodeObject = pRequest.getSession().getAttribute(Constants.X_ACCESS_CODE);
 		if ( xAccesCodeObject != null ) {
 			String storedHashedStudyId = xAccesCodeObject.toString();
-			LOGGER.info("x-access-code="+storedHashedStudyId);
-			Long studyId = Long.parseLong(pRequest.getParameter("id"));
-			LOGGER.info("studyId="+studyId);
-			TreebaseIDString tbidstr = new TreebaseIDString(Study.class,studyId);
-			LOGGER.info("TreebaseIDString="+tbidstr);
-			NamespacedGUID nsguid = tbidstr.getNamespacedGUID();
-			LOGGER.info("NamespacedGUID="+nsguid);
-			String computedHashedStudyId = nsguid.getHashedIDString();
-			LOGGER.info("computedHashedStudyId="+computedHashedStudyId);
-			if ( storedHashedStudyId.equals(computedHashedStudyId) ) {
-				reviewerAccessGranted = true;
-				//saveMessage(pRequest,"You are in reviewer access mode.");				
-				LOGGER.info("x-access-code matches computed hashed study id");
-				LOGGER.info("Reviewer access is granted");
-				if ( pRequest.getSession().getAttribute(Constants.REVIEWER_ACCESS_GRANTED) == null ) {
+			TreebaseIDString tbidstr = new TreebaseIDString(Study.class,Long.parseLong(pRequest.getParameter("id")));
+			if ( storedHashedStudyId.equals(tbidstr.getNamespacedGUID().getHashedIDString()) ) {
+				Object accessGranted = pRequest.getSession().getAttribute(Constants.REVIEWER_ACCESS_GRANTED);
+				if ( accessGranted == null || ((Boolean)accessGranted).booleanValue() == false ) {
+					LOGGER.info("Going to display agreement");
 					pRequest.getSession().setAttribute("displayAgreement",true);
 				}
 				else {
+					LOGGER.info("Reviewer access is granted");
+					reviewerAccessGranted = true;
 					pRequest.getSession().setAttribute("displayAgreement",false);
 				}
 				pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, reviewerAccessGranted);
-				pRequest.getSession().removeAttribute(Constants.REVIEWER_ACCESS_DENIED);
 			}
-			else {
-				LOGGER.info("x-access-code doesn't match computed hashed study id");
-				LOGGER.info("access denied");
-			}
-		}
-		else {
-			LOGGER.info("No x-access-code parameter supplied");
-		}
-		if ( "cancel".equals(pRequest.getParameter("agreement")) || pRequest.getSession().getAttribute(Constants.REVIEWER_ACCESS_DENIED) != null) {
-			pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_GRANTED, false);
-			pRequest.getSession().setAttribute("displayAgreement",true);
-			pRequest.getSession().setAttribute(Constants.REVIEWER_ACCESS_DENIED, true);
-			return false;
 		}		
 		return reviewerAccessGranted;
 	}
