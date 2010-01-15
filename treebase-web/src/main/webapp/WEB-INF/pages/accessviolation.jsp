@@ -1,1 +1,8 @@
-<h2><strong>Sorry! your action is not authorized.</strong></h2>
+<%@ include file="/common/taglibs.jsp"%>
+<head>
+	<title>Access denied</title>
+	<content tag="heading">Access denied</content>
+</head>
+<body>
+	<strong>Sorry! your action is not authorized.</strong>
+</body>
