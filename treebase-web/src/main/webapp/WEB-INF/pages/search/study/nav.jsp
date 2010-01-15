@@ -244,7 +244,7 @@
 			<script type="text/javascript">
 				function processAgreementResponse(response) {
 					var currentLocation = location.href;
-					var newLocation = currentLocation.replace(/&agreement=[ok|cancel]/,"") + '&agreement=' + response;
+					var newLocation = currentLocation.replace(/&agreement=(ok|cancel)/g,"") + '&agreement=' + response;
 					window.location=newLocation;
 				}
 			</script>
