@@ -106,7 +106,7 @@ public abstract class BaseFormController extends CancellableFormController {
 			messages = new ArrayList();
 		}
 		messages.add(msg);
-		request.setAttribute("messsages", messages);
+		request.setAttribute("messages", messages);
 	}
 
 	/**
