@@ -185,7 +185,7 @@
   		<img src="<fmt:message key="icons.info"/>" alt="<fmt:message key="icon.information"/>" class="icon" />
 		<span style="color: red; ">You are in reviewer mode.</span>
 	</div>
-	<c:if test="${displayAgreement}">
+	<c:if test="${displayAgreement || reviewerAccessDenied}">
 			<div id="agreement" style="position:fixed;left:10%;top:5%;width:80%;height:80%;background-color:white;padding:10px;border:5px solid orange">
 		<h2>Reviewer/Referee Access Agreement</h2>
 		<div style="width:100%;overflow:auto">
