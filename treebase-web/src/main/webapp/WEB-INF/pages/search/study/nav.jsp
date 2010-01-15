@@ -177,15 +177,14 @@
 </div>
 
 <h2><c:out value="${headerPrefix}"/> Study ${study.id}</h2>
+
 <div class="message" id="searchMessages">
 
-<c:if test="${not empty messages}">
-  <c:forEach var="msg" items="${messages}">
+<c:if test="${reviewerAccessGranted}">
   	<div>
   		<img src="<fmt:message key="icons.info"/>" alt="<fmt:message key="icon.information"/>" class="icon" />
-		<span style="color: red; ">${msg}</span>
+		<span style="color: red; ">You are in reviewer mode.</span>
 	</div>
-  </c:forEach>
 </c:if>
 
 <c:if test="${! empty study.citation.title}">
