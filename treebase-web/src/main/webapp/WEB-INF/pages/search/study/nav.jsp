@@ -178,6 +178,16 @@
 
 <h2><c:out value="${headerPrefix}"/> Study ${study.id}</h2>
 <div class="message" id="searchMessages">
+
+<c:if test="${not empty messages}">
+  <c:forEach var="msg" items="${messages}">
+  	<div>
+  		<img src="<fmt:message key="icons.info"/>" alt="<fmt:message key="icon.information"/>" class="icon" />
+		<span style="color: red; ">${msg}</span>
+	</div>
+  </c:forEach>
+</c:if>
+
 <c:if test="${! empty study.citation.title}">
 	<div>
 		<img src="<fmt:message key="icons.info"/>" alt="<fmt:message key="icon.information"/>" class="icon" />
