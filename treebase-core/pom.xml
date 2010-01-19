@@ -47,7 +47,13 @@
 	</repositories>
 
 	<dependencies>
-
+        <!--dependency>
+			<groupId>org.cipres</groupId>
+			<artifactId>framework</artifactId>
+			<version>1.0.1</version>
+			<scope>compile</scope>
+		</dependency-->
+        
 		<dependency>
 			<groupId>org.acegisecurity</groupId>
 			<artifactId>acegi-security</artifactId>
@@ -131,18 +137,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.cipres</groupId>
-			<artifactId>framework</artifactId>
-			<version>1.0.1</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 			<version>1.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -159,7 +157,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
@@ -176,7 +173,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http-jetty</artifactId>
@@ -192,25 +188,21 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.sql</groupId>
 			<artifactId>jdbc-stdext</artifactId>
 			<version>2.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>ibm</groupId>
 			<artifactId>db2jcc_license_cu</artifactId>
 			<version>2.6.80</version>
 		</dependency>
-
 		<dependency>
 			<groupId>ibm</groupId>
 			<artifactId>db2jcc</artifactId>
