@@ -153,7 +153,7 @@ public abstract class BaseFormController extends CancellableFormController {
 	protected ModelAndView getConditionalModelAndView(
 		HttpServletRequest pRequest,
 		ModelAndView pModelAndView) {
-		if ( isReviewerAccessGranted(pRequest) || isAuthorizationChecked() ) {
+		if ( ControllerUtil.isReviewerAccessGranted(pRequest) || isAuthorizationChecked() ) {
 			return pModelAndView;
 		} else {
 			return new ModelAndView(AUTHORIZATION_VIOLATION_VIEW);
@@ -170,42 +170,13 @@ public abstract class BaseFormController extends CancellableFormController {
 			LOGGER.info("returning supplied ModelAndView because access was granted explicitly");
 			return super.showForm(pRequest, pResponse, pBindException, pMap);
 		}
-		if (isReviewerAccessGranted(pRequest)) {
+		if (ControllerUtil.isReviewerAccessGranted(pRequest)) {
 			LOGGER.info("returning supplied ModelAndView because reviewer access was granted");
 			return super.showForm(pRequest, pResponse, pBindException, pMap);
 		} else {
 			LOGGER.info("returning AUTHORIZATION_VIOLATION_VIEW");
 			return new ModelAndView(AUTHORIZATION_VIOLATION_VIEW);
 		}
-	}
-
-	private boolean isReviewerAccessGranted(HttpServletRequest req) {
-		boolean passedHashedIDCheck = false;
-		HttpSession session = req.getSession();
-		if ( "cancel".equals(req.getParameter("agreement")) ) {
-			session.setAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED, false);
-		}	
-		if ( "ok".equals(req.getParameter("agreement")) ) {
-			session.setAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED, true);
-		}
-		Object xAccesCodeObject = session.getAttribute(Constants.X_ACCESS_CODE);
-		if ( xAccesCodeObject != null ) {
-			String suppliedHashedID = xAccesCodeObject.toString();
-			TreebaseIDString tbidstr = new TreebaseIDString(Study.class,Long.parseLong(req.getParameter("id")));
-			if ( suppliedHashedID.equals(tbidstr.getNamespacedGUID().getHashedIDString()) ) {
-				passedHashedIDCheck = true;
-				Object agreementAccepted = session.getAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED);
-				if ( agreementAccepted == null || ((Boolean)agreementAccepted).booleanValue() == false ) {
-					LOGGER.info("Going to display agreement - agreement acceptance: "+agreementAccepted);
-					session.setAttribute("displayAgreement",true);
-				}
-				else {
-					LOGGER.info("Not displaying agreement");					
-					session.setAttribute("displayAgreement",false);
-				}				
-			}
-		}		
-		return passedHashedIDCheck;
 	}
 
 	protected ModelAndView setAttributeAndShowForm(
