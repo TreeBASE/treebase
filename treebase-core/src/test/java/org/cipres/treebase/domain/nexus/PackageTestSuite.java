@@ -35,7 +35,7 @@ public class PackageTestSuite {
 		TestSuite suite = new TestSuite("Tests in package " + PackageTestSuite.class.getName());
 
 		suite.addTestSuite(MesquiteConverterTest.class);
-		suite.addTestSuite(NexusNCLDataSetTest.class);
+		
 		suite.addTestSuite(NexusMesquiteDataSetTest.class);
 
 		return suite;
