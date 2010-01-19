@@ -121,9 +121,11 @@
 	</bean>
 	
 	<bean id="downloadATreeBlockController" class="org.cipres.treebase.web.controllers.DownloadATreeBlockController">
+		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
-		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>	
+		<property name="submissionHome"><ref bean="submissionHome"></ref></property>			
 	</bean>
 	
 	<!-- Download A Matrix -->	
@@ -149,7 +151,8 @@
 		<property name="matrixService"><ref bean="matrixService"></ref></property>
 		<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
-		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>	
+		<property name="studyService"><ref bean="studyService"></ref></property>			
 	</bean>	
 	
 	<!-- Download A NexusFile -->	
@@ -573,6 +576,8 @@
 	
 	<bean id="searchMapToPhyloWidgetController" class="org.cipres.treebase.web.controllers.SearchMapToPhyloWidgetController"
 	  parent="directMapToPhyloWidgetController">
+	  	<property name="submissionHome"><ref bean="submissionHome"></ref></property>
+	  	<property name="studyService"><ref bean="studyService"></ref></property>	  						  
 		<property name="defaultView"><value>redirect:/test/newPhylowidget.html</value></property>
 	</bean>
 	
@@ -912,13 +917,17 @@
 				<prop key="/searchStudyList.html">listSearchStudyController</prop>
 				<prop key="/searchStudy.html">searchStudyController</prop>
 				<prop key="/study-query.html">updateStudyQueryController</prop>
+				
+				<!-- SEARCH SECTION -->
 				<prop key="/search/">studySearchController</prop>
 				<prop key="/search/studySearch.html">studySearchController</prop>
 				<prop key="/search/treeSearch.html">treeSearchController</prop>
 				<prop key="/search/treeTopSearch.html">treeTopSearchController</prop>
 				<prop key="/search/matrixSearch.html">matrixSearchController</prop>	
 				<prop key="/search/taxonSearch.html">taxonSearchController</prop>
-			    <prop key="/search/study/summary.html">searchSummaryController</prop>
+				
+				<!-- SEARCH RESULTS SECTION -->
+			    <prop key="/search/study/summary.html">searchSummaryController</prop>								
 			    <prop key="/search/study/analyses.html">searchSummaryController</prop>
 			    <prop key="/search/study/matrices.html">searchSummaryController</prop>
 			    <prop key="/search/study/trees.html">searchSummaryController</prop>
@@ -930,6 +939,7 @@
 			    <prop key="/search/study/taxa.html">searchSummaryController</prop>
 			    <prop key="/search/study/rowSegments.html">searchSummaryController</prop>
 			    <prop key="/search/study/anyObjectAsRDF.html">anyObjectAsRDFController</prop>
+			    
 			    <prop key="/search/searchResultsAsRDF.html">searchResultsAsRDFController</prop>
 				<prop key="/search/matrixRowList.html">listMatrixRowController</prop>
 				<prop key="/search/taxonList.html">listTaxaSearchController</prop>
@@ -940,7 +950,8 @@
 				<prop key="/search/downloadAnAnalysisStep.html">downloadAnAnalysisStepController</prop>
 				<prop key="/search/downloadANexusFile.html">downloadANexusFileController</prop>
 				<prop key="/search/downloadANexusRCTFile.html">downloadANexusRCTFileController</prop>
-				       
+				
+				<!-- SUBMISSION SECTION -->
 				<prop key="/user/updateProfile.html">userFormController</prop>
 				<prop key="/user/submissionList.html">listSubmissionController</prop>
 				<prop key="/user/studyForm.html">studyFormController</prop>
@@ -983,6 +994,8 @@
 				
 				<prop key="/user/treeParser.html">treeParserController</prop>
 				<prop key="/user/treeParserResult.html">treeParserResultController</prop>
+				
+				<!-- JSON related bean mappings -->
 				<prop key="/json/submissionIsland.html">submissionToJsonController</prop>			       		
 			</props>
 		</property>
