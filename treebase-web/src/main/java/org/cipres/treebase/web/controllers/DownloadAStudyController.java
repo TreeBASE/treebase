@@ -89,4 +89,9 @@ public class DownloadAStudyController extends AbstractDownloadController
 		return null;
 	}
 
+	@Override
+	protected Study getStudy(long objectId, HttpServletRequest request) {
+		return getStudyService().findByID(objectId);
+	}
+
 }

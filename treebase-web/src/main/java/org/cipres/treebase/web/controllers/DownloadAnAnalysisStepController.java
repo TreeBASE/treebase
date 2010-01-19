@@ -17,6 +17,8 @@ import org.cipres.treebase.domain.matrix.MatrixService;
 import org.cipres.treebase.domain.study.AnalysisStep;
 import org.cipres.treebase.domain.study.AnalysisStepService;
 import org.cipres.treebase.domain.study.AnalyzedData;
+import org.cipres.treebase.domain.study.Study;
+import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
@@ -34,6 +36,23 @@ public class DownloadAnAnalysisStepController extends AbstractDownloadController
 	private MatrixService mMatrixService;
 	private PhyloTreeService mPhyloTreeService;
 	private AnalysisStepService mAnalysisStepService;
+	private StudyService mStudyService;
+
+	/**
+	 * Return the StudyService field.
+	 * 
+	 * @return StudyService mStudyService
+	 */
+	public StudyService getStudyService() {		
+		return mStudyService;
+	}
+
+	/**
+	 * Set the StudyService field.
+	 */
+	public void setStudyService(StudyService pNewStudyService) {
+		mStudyService = pNewStudyService;
+	}
 
 	/**
 	 * Return the PhyloTreeService field
@@ -95,7 +114,7 @@ public class DownloadAnAnalysisStepController extends AbstractDownloadController
 		if ( request.getParameter("analysisid") == null ) {
 			return null;
 		}
-		long analysisId = Long.parseLong(request.getParameter("analysisid"));		
+		long analysisId = Long.parseLong(request.getParameter("analysisid"));
 		generateAFileDynamically(request, response, analysisId);
 		return null;
 	}
@@ -149,6 +168,12 @@ public class DownloadAnAnalysisStepController extends AbstractDownloadController
 			}
 		}		
 		return stepContent.toString();
+	}
+
+	@Override
+	protected Study getStudy(long objectId, HttpServletRequest request) {
+		AnalysisStep step = getAnalysisStepService().findByID(objectId);
+		return step.getAnalysis().getStudy();
 	}
 
 }

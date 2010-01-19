@@ -125,4 +125,10 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 		}
 	}
 
+	@Override
+	protected Study getStudy(long objectId, HttpServletRequest request) {
+		PhyloTree tree = getPhyloTreeService().findByID(objectId);
+		return tree.getStudy();
+	}
+
 }

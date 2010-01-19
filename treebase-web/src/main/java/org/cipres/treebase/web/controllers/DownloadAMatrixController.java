@@ -115,4 +115,10 @@ public class DownloadAMatrixController extends AbstractDownloadController implem
 		}
 	}
 
+	@Override
+	protected Study getStudy(long objectId, HttpServletRequest request) {
+		Matrix matrix = getMatrixService().findByID(objectId);
+		return matrix.getStudy();
+	}
+
 }

@@ -142,4 +142,9 @@ public class DownloadANexusFileController extends AbstractDownloadController imp
 			: "File Not Found. File Name is: " + nexusFileName;
 	}
 
+	@Override
+	protected Study getStudy(long objectId, HttpServletRequest request) {
+		return ControllerUtil.findStudy(request, mStudyService);
+	}
+
 }

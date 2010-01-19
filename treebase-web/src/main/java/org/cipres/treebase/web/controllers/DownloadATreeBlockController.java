@@ -8,6 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import org.cipres.treebase.domain.nexus.NexusDataSet;
+import org.cipres.treebase.domain.study.Study;
+import org.cipres.treebase.domain.study.StudyService;
+import org.cipres.treebase.domain.study.Submission;
+import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.tree.PhyloTreeHome;
 import org.cipres.treebase.domain.tree.TreeBlock;
 
@@ -20,7 +24,43 @@ import org.cipres.treebase.domain.tree.TreeBlock;
 public class DownloadATreeBlockController extends AbstractDownloadController implements Controller {
 
 	private PhyloTreeHome mPhyloTreeHome;
+	private StudyService mStudyService;
+	private SubmissionHome mSubmissionHome;
+	
+	/**
+	 * Return the SubmissionHome field
+	 * 
+	 * @return
+	 */
+	public SubmissionHome getSubmissionHome() {
+		return mSubmissionHome;
+	}
+	
+	/**
+	 * Set the SubmissionHome field
+	 * 
+	 * @param pSubmissionHome
+	 */
+	public void setSubmissionHome(SubmissionHome pSubmissionHome) {
+		mSubmissionHome = pSubmissionHome;
+	}
 
+	/**
+	 * Return the StudyService field.
+	 * 
+	 * @return StudyService mStudyService
+	 */
+	public StudyService getStudyService() {		
+		return mStudyService;
+	}
+
+	/**
+	 * Set the StudyService field.
+	 */
+	public void setStudyService(StudyService pNewStudyService) {
+		mStudyService = pNewStudyService;
+	}	
+	
 	/**
 	 * @return the phyloTreeHome
 	 */
@@ -75,6 +115,13 @@ public class DownloadATreeBlockController extends AbstractDownloadController imp
 			treeBlock.generateAFileDynamically(bldr);
 			return bldr.toString();
 		}
+	}
+
+	@Override
+	protected Study getStudy(long objectId, HttpServletRequest request) {
+		TreeBlock treeBlock = getPhyloTreeHome().findTreeBlockById(objectId);
+		Submission submission = getSubmissionHome().findByTreeBlock(treeBlock);
+		return submission.getStudy();		
 	}
 
 }

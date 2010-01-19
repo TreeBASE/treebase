@@ -98,4 +98,9 @@ public class DownloadANexusRCTFileController extends AbstractDownloadController 
 		}
 	}
 
+	@Override
+	protected Study getStudy(long objectId, HttpServletRequest request) {
+		return ControllerUtil.findStudy(request, mStudyService);
+	}
+
 }
