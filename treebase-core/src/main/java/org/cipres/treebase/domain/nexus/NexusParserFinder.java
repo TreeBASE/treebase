@@ -7,7 +7,7 @@ import org.cipres.treebase.domain.matrix.ItemDefinitionHome;
 import org.cipres.treebase.domain.matrix.MatrixDataTypeHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.service.nexus.NexusServiceMesquite;
-import org.cipres.treebase.service.nexus.NexusServiceNCL;
+//import org.cipres.treebase.service.nexus.NexusServiceNCL;
 
 /**
  * NexusParserFinder.java
@@ -43,14 +43,14 @@ public class NexusParserFinder implements FactoryBean {
 	 */
 	private NexusService getNexusServiceImpl() {
 		if (mNexusServiceImpl == null) {
-			if (PARSER_NCL.compareToIgnoreCase(getNexusParserStr()) == 0) {
-				NexusServiceNCL serviceNCL = new NexusServiceNCL();
+			//if (PARSER_NCL.compareToIgnoreCase(getNexusParserStr()) == 0) {
+				//NexusServiceNCL serviceNCL = new NexusServiceNCL();
 				
-				serviceNCL.setMatrixDataTypeHome(getMatrixDataTypeHome());
-				serviceNCL.setTaxonLabelHome(getTaxonLabelHome());
+				//serviceNCL.setMatrixDataTypeHome(getMatrixDataTypeHome());
+				//serviceNCL.setTaxonLabelHome(getTaxonLabelHome());
 				
-				mNexusServiceImpl = serviceNCL;
-			} else {
+				//mNexusServiceImpl = serviceNCL;
+			//} else {
 				NexusServiceMesquite serviceMesquite = new NexusServiceMesquite();
 				
 				serviceMesquite.setItemDefinitionHome(getItemDefinitionHome());
@@ -59,7 +59,7 @@ public class NexusParserFinder implements FactoryBean {
 				
 				mNexusServiceImpl = serviceMesquite;
 				
-			}
+			//}
 		}
 		return mNexusServiceImpl;
 	}
