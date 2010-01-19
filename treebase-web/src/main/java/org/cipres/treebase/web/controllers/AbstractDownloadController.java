@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.nexus.NexusService;
+import org.cipres.treebase.domain.study.Study;
+import org.cipres.treebase.domain.study.StudyService;
+import org.cipres.treebase.web.util.ControllerUtil;
 import org.cipres.treebase.web.util.WebUtil;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -21,6 +24,18 @@ public abstract class AbstractDownloadController implements Controller {
 	private NexusService mRdfaService;	
 	private static String mNexmlContentType = "application/xml";
 	private static String mRdfContentType = "application/rdf+xml";
+
+	/**
+	 * Return the StudyService field.
+	 * 
+	 * @return StudyService mStudyService
+	 */
+	public abstract StudyService getStudyService();
+
+	/**
+	 * Set the StudyService field.
+	 */
+	public abstract void setStudyService(StudyService pNewStudyService);
 	
 	protected Properties getDefaultProperties(HttpServletRequest request) {
 		Properties properties = new Properties();
@@ -85,6 +100,13 @@ public abstract class AbstractDownloadController implements Controller {
 	 */
 	protected abstract String getFileContent(long objectId,HttpServletRequest request);
 	
+	/**
+	 * 
+	 * @param objectId - the id of the focal object (e.g. a tree)
+	 * @return the study to which the focal object belongs
+	 */
+	protected abstract Study getStudy(long objectId,HttpServletRequest request);
+	
 	protected String getDownloadDir (HttpServletRequest request) {
 		String downloadDir = request.getSession().getServletContext().getRealPath(
 				TreebaseUtil.FILESEP + "NexusFileDownload")
@@ -100,29 +122,35 @@ public abstract class AbstractDownloadController implements Controller {
 	 * @param downloadDirName
 	 */
 	protected void generateAFileDynamically(HttpServletRequest request, HttpServletResponse response, long objectId) {
-		String downloadDirName = getDownloadDir(request);
-		File dirPath = new File(downloadDirName);
-		if (!dirPath.exists()) {
-			dirPath.mkdirs();
-		}
-		String fileName = getFileName(objectId,request);
-		try {
-			File file = new File(downloadDirName + TreebaseUtil.FILESEP + fileName);
-			FileWriter out = new FileWriter(file);
-			out.write(getFileContent(objectId,request));
-			out.close();
-			if ( getFormat(request) == FORMAT_NEXML ) {
-				WebUtil.downloadFile(response, downloadDirName, fileName, mNexmlContentType);
+        if ( ! ControllerUtil.isReviewerAccessGranted(request) && ! getStudy(objectId,request).isPublished() ) {
+        	response.setStatus(HttpServletResponse.SC_SEE_OTHER);        
+        	response.setHeader("Location", "/treebase-web/accessviolation.html");
+        }
+        else {
+			String downloadDirName = getDownloadDir(request);
+			File dirPath = new File(downloadDirName);
+			if (!dirPath.exists()) {
+				dirPath.mkdirs();
 			}
-			else if ( getFormat(request) == FORMAT_RDF ) {
-				WebUtil.downloadFile(response, downloadDirName, fileName, mRdfContentType);
-			}			
-			else {
-				WebUtil.downloadFile(response, downloadDirName, fileName);
+			String fileName = getFileName(objectId,request);
+			try {
+				File file = new File(downloadDirName + TreebaseUtil.FILESEP + fileName);
+				FileWriter out = new FileWriter(file);
+				out.write(getFileContent(objectId,request));
+				out.close();
+				if ( getFormat(request) == FORMAT_NEXML ) {
+					WebUtil.downloadFile(response, downloadDirName, fileName, mNexmlContentType);
+				}
+				else if ( getFormat(request) == FORMAT_RDF ) {
+					WebUtil.downloadFile(response, downloadDirName, fileName, mRdfContentType);
+				}			
+				else {
+					WebUtil.downloadFile(response, downloadDirName, fileName);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        }
 	}
 
 	/**
