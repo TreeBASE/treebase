@@ -44,7 +44,7 @@
 				title="<fmt:message key="analysis.notvalidated"/>" 
 				alt="<fmt:message key="analysis.notvalidated"/>"/>			
 		</span>
-		<a href="/treebase-web/search/downloadAnAnalysisStep.html?analysisid=${analysisStepCommand.id}">
+		<a href="/treebase-web/search/downloadAnAnalysisStep.html?analysisid=${analysisStepCommand.id}&id=${analysisStepCommand.analysis.study.id}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.download.reconstructed"/>" 
