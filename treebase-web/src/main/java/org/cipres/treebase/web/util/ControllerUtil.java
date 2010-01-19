@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import org.cipres.treebase.TreebaseIDString;
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.domain.admin.UserService;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -273,5 +276,44 @@ public class ControllerUtil {
 		}
 		return test;
 	}
+	
+	/**
+	 * This method looks up (and manipulates) two session attributes:
+	 * <li>Constants.REVIEWER_AGREEMENT_ACCEPTED, whose value is a boolean.
+	 * This attribute flags whether the reviewer has accepted the agreement
+	 * regarding embargoed data.</li>
+	 * <li>Constants.X_ACCESS_CODE, whose value is a string. This attribute
+	 * stores the hashed ID string for the focal study.</li>
+	 * @param req
+	 * @return
+	 */
+	public static boolean isReviewerAccessGranted(HttpServletRequest req) {
+		boolean passedHashedIDCheck = false;
+		HttpSession session = req.getSession();
+		if ( "cancel".equals(req.getParameter("agreement")) ) {
+			session.setAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED, false);
+		}	
+		if ( "ok".equals(req.getParameter("agreement")) ) {
+			session.setAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED, true);
+		}
+		Object xAccesCodeObject = session.getAttribute(Constants.X_ACCESS_CODE);
+		if ( xAccesCodeObject != null ) {
+			String suppliedHashedID = xAccesCodeObject.toString();
+			TreebaseIDString tbidstr = new TreebaseIDString(Study.class,Long.parseLong(req.getParameter("id")));
+			if ( suppliedHashedID.equals(tbidstr.getNamespacedGUID().getHashedIDString()) ) {
+				passedHashedIDCheck = true;
+				Object agreementAccepted = session.getAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED);
+				if ( agreementAccepted == null || ((Boolean)agreementAccepted).booleanValue() == false ) {
+					LOGGER.info("Going to display agreement - agreement acceptance: "+agreementAccepted);
+					session.setAttribute("displayAgreement",true);
+				}
+				else {
+					LOGGER.info("Not displaying agreement");					
+					session.setAttribute("displayAgreement",false);
+				}				
+			}
+		}		
+		return passedHashedIDCheck;
+	}	
 
 }
