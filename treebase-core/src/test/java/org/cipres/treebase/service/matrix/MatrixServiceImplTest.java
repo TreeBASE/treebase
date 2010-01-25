@@ -221,18 +221,14 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 		matrix.addRow(r1);
 
 		// TODO: add a second row.
-
-		getMatrixHome().store(taxonLabel);
+	
+		//getMatrixHome().store(taxonLabel);
 		getMatrixHome().store(c1);
 		getMatrixHome().store(c2);
 		getMatrixHome().store(e1);
 		getMatrixHome().store(e2);
 		getMatrixHome().store(matrix);
 		
-		// force commit immediately, important:
-		setComplete();
-		endTransaction();
-
 		// 2. verify
 		Long matrixID = matrix.getId();
 		Long c1ID = c1.getId();
@@ -244,47 +240,61 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 		Long e2ID = e2.getId();
 		Long taxonID = taxonLabel.getId();
 
-		logger.info("matrix created: " + matrix.getTitle() + "id = " + matrixID + " symbols=" + matrix.getSymbols() + " gap =" + matrix.getGapSymbol());
+	    logger.info("matrix created: " + matrix.getTitle() + "id = " + matrixID + " symbols=" + matrix.getSymbols() + " gap =" + matrix.getGapSymbol());
 		logger.info("taxonLabel created: " + taxonLabel.getTaxonLabel() + "id = " + taxonID);
 		logger.info("2 columns created: id = " + c1ID + ", " + c2ID);
 		logger.info("2 rows created: id = " + r1.getId() + ", ");
 		logger.info("2 segments created: id = " + seg1.getId() + ", " + seg2.getId());
 		logger.info("2 elements created: id = " + e1.getId() + ", " + e2.getId());
 
-		String sqlStr = "select count(*) from matrix where matrix_id=" + matrixID;
-		int count = jdbcTemplate.queryForInt(sqlStr);
-		assertTrue(count == 1);
+		// force commit immediately, important:
+		//setComplete();
+		//endTransaction();
+	
+		Matrix m = (Matrix)loadObject(Matrix.class, matrixID);
+		TaxonLabel tl = (TaxonLabel)loadObject(TaxonLabel.class, taxonID);
+	    //String sqlStr = "select count(*) from matrix where matrix_id=" + matrixID;
+		//int count = jdbcTemplate.queryForInt(sqlStr);
+		//assertTrue(count == 1);
+		assertTrue( m!=null );
+		//assertTrue( tl!=null );
 		assertTrue(c1ID != null && c2ID != null);
 		assertTrue(r1.getId() != null);
 		assertTrue(seg1ID != null && seg2ID != null);
 		assertTrue(e1ID != null && e2ID != null);
-		assertTrue(taxonID != null);
+	
 
 		// 3. delete
+	    //startNewTransaction();
 		getFixture().deleteMatrix(matrix);
 		getMatrixHome().deletePersist(taxonLabel);
-		setComplete();
+		//setComplete();
 
 		// 4. verify delte:
-		int countVerify = jdbcTemplate.queryForInt(sqlStr);
-		assertTrue("Deletion failed.", countVerify == 0);
+		m = (Matrix)loadObject(Matrix.class, matrixID);
+		assertTrue( m == null );
+		//int countVerify = jdbcTemplate.queryForInt(sqlStr);
+		//assertTrue("Deletion failed.", countVerify == 0);
 
-		String sqlStrRow = "select count(*) from matrixrow where matrixrow_id=" + r1ID;
-		countVerify = jdbcTemplate.queryForInt(sqlStrRow);
-		assertTrue("cascade delete row failed.", countVerify == 0);
+		//String sqlStrRow = "select count(*) from matrixrow where matrixrow_id=" + r1ID;
+		//countVerify = jdbcTemplate.queryForInt(sqlStrRow);
+		//assertTrue("cascade delete row failed.", countVerify == 0);
 
-		String sqlStrElement = "select count(*) from matrixelement where matrixelement_id=" + e2ID;
-		countVerify = jdbcTemplate.queryForInt(sqlStrElement);
-		assertTrue("cascade delete element failed.", countVerify == 0);
+		//String sqlStrElement = "select count(*) from matrixelement where matrixelement_id=" + e2ID;
+		//countVerify = jdbcTemplate.queryForInt(sqlStrElement);
+		//assertTrue("cascade delete element failed.", countVerify == 0);
 
-		String sqlStrColumn = "select count(*) from matrixcolumn where matrixcolumn_id=" + c2ID;
-		countVerify = jdbcTemplate.queryForInt(sqlStrColumn);
-		assertTrue("cascade delete column failed.", countVerify == 0);
+		//String sqlStrColumn = "select count(*) from matrixcolumn where matrixcolumn_id=" + c2ID;
+		//countVerify = jdbcTemplate.queryForInt(sqlStrColumn);
+		//assertTrue("cascade delete column failed.", countVerify == 0);
 
-		String sqlStrTaxonLabel = "select count(*) from taxonLabel where taxonLabel_id=" + taxonID;
-		countVerify = jdbcTemplate.queryForInt(sqlStrTaxonLabel);
-		assertTrue("delete taxonLabel failed.", countVerify == 0);
+		tl = (TaxonLabel)loadObject(TaxonLabel.class, taxonID);
+		assertTrue( tl == null );
+		//String sqlStrTaxonLabel = "select count(*) from taxonLabel where taxonLabel_id=" + taxonID;
+		//countVerify = jdbcTemplate.queryForInt(sqlStrTaxonLabel);
+		//assertTrue("delete taxonLabel failed.", countVerify == 0);
 
 		logger.info("Done. matrix Deleted: " + matrixID);
 	}
+
 }
