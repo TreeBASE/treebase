@@ -83,7 +83,7 @@ public class ContinuousMatrixElementJDBC {
 				// DISCRETECHARSTATE_ID
 
 				ps.setDouble(1, e.getValue()); // Value
-				ps.setShort(2, e.getGap()); // Gap
+				ps.setBoolean(2, e.getGap()); // Gap
 				ps.setLong(3, e.getMatrixColID()); // MATRIXCOLUMN_ID
 				// ps.setLong(4, 0); // ITEMDEFINITION_ID //Only by compound elements. 
 				ps.setLong(4, e.getMatrixRowID()); // MATRIXROW_ID
@@ -125,8 +125,8 @@ public class ContinuousMatrixElementJDBC {
 	 * 
 	 * @return short mGap
 	 */
-	public short getGap() {
-		return mGap;
+	public boolean getGap() {
+		return (mGap!=0);
 	}
 
 	/**
