@@ -15,6 +15,7 @@ import javax.persistence.Version;
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * The abstract super class for all persisted domain objects.
@@ -53,8 +54,9 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 	 * @see org.cipres.treebase.domain.TBPersistable#getId()
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	public Long getId() {
+	@GenericGenerator(name="TB2SEQGEN", strategy = "org.cipres.treebase.domain.TB2SequenceGenerator")	  
+	@GeneratedValue(generator="TB2SEQGEN")
+		public Long getId() {
 		return mId;
 	}
 
