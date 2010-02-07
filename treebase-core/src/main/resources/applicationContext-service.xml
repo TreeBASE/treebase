@@ -142,8 +142,7 @@
                 <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
                 <property name="taxonLabelHome" ref="taxonLabelHome"/>
                 <property name="itemDefinitionHome" ref="itemDefinitionHome"/>
-                <property name="mesquiteFolderDir" value="${mesquite.folder_dir}"/>
-  </bean>
+   </bean>
   
   	<bean id="nexmlService" class = "org.cipres.treebase.service.nexus.NexusServiceNexml">
                 <!-- property name="domainHome" ref="domainHome"/ -->

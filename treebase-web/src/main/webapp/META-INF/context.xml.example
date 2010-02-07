@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- An example of META-INF/context.xml - a Tomcat-specific shorthand to specify JNDI resources during development. 
+<!-- This is an example of META-INF/context.xml - a Tomcat-specific shorthand to specify JNDI resources during development. 
      See http://tomcat.apache.org/tomcat-5.5-doc/jndi-datasource-examples-howto.html
  -->
 
-<!-- Copy this file (context.xml.example) to context.xml and replace YOUR-XXX strings with suitable credentials. 
-     (Note that context.xml is set to be ignored by SVN, so storing passwords there is safe.)  
+<!-- Copy this file (context.xml.example) to context.xml and replace YOUR-XXX strings with suitable values. 
+     (Note that context.xml is set to be ignored by SVN, so placing passwords there is safe.)  
      Make sure that $CATALINA_HOME/common/lib contains a postgres JDBC driver jar. 
      Now, dropping treebase-web.war to $CATALINA_HOME/webapps of a vanilla Tomcat should automatically create 
      config file $CATALINA_HOME/conf/Catalina/localhost/treebase-web.xml, 
@@ -16,13 +16,19 @@
 
 <Context reloadable="true">
 
-  <Resource name="jdbc/TreebaseDB" auth="Container"
-            type="javax.sql.DataSource" driverClassName="org.postgresql.Driver" 
+	 <Resource name="jdbc/TreebaseDB" auth="Container"
+            type="javax.sql.DataSource" 
+            description="The JNDI DataSource for the Treebase postgres instance."
+            driverClassName="org.postgresql.Driver" 
             url="jdbc:postgresql://YOUR-URL"
             username="YOUR-NAME" password="YOUR-PASS"
 			maxActive="20" maxIdle="10" maxWait="-1"
             />
-
+            
+	  <Environment name="tb2/MesquiteFolder" value="/PATH/TO/YOUR/mesquite-2.01.tb"
+         type="java.lang.String" override="false"
+	     description="Absolute path to the directory where headless Mesquite is unpacked on the host system."/>	
+	
 </Context>
 
 

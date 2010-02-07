@@ -5,6 +5,9 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Properties;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import mesquite.lib.MesquiteModule;
 
 import org.apache.log4j.Logger;
@@ -19,6 +22,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.event.ProgressionListener;
 import org.cipres.treebase.service.AbstractServiceImpl;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * NexusServiceMesquite.java
@@ -28,7 +32,7 @@ import org.cipres.treebase.service.AbstractServiceImpl;
  * @author Jin Ruan
  * 
  */
-public class NexusServiceMesquite extends AbstractServiceImpl implements NexusService {
+public class NexusServiceMesquite extends AbstractServiceImpl implements NexusService, InitializingBean {
 	private static final Logger LOGGER = Logger.getLogger(NexusServiceMesquite.class);
 	private static final String MESQUITE_FOLDER_DIR_KEY = "mesquite.folder_dir";
 
@@ -99,6 +103,27 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 	protected DomainHome getDomainHome() {
 		return null; // do not need persistence service.
 	}
+	
+	/** Looks up where Mesquite is installed on the host system and informs MesquiteModule of the location.  
+        (This is an implementation of a standard Spring bean initialization method, 
+         which is invoked after all properties are set.)
+   */
+	public void afterPropertiesSet() throws Exception {
+		String mesquiteFolderDir = null; 
+		InitialContext ic;
+		try {
+			ic = new InitialContext();
+			mesquiteFolderDir  = (String) ic.lookup("java:comp/env/tb2/MesquiteFolder");
+		} catch (NamingException e) {
+			LOGGER.fatal("Error looking up tb/MesquiteFolder via JNDI"); 
+		}
+		mesquiteFolderDir = mesquiteFolderDir + "/foo";   //since the last path element is somehow dropped subsequently... VG 2010-02-07
+
+		System.setProperty(MESQUITE_FOLDER_DIR_KEY, mesquiteFolderDir);
+		MesquiteModule.mesquiteDirectory = new File(mesquiteFolderDir);
+		MesquiteModule.mesquiteDirectoryPath = mesquiteFolderDir;				
+	}
+	
 
 	/** 
 	 * 
@@ -185,18 +210,7 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 
 		return data;
 	}
-
-	/**
-	 * Set the mesquite folder dirtory to be used inside mesquite file "MesquiteModule.java".
-	 * 
-	 * @param pMesquiteFolderDir
-	 */
-	public void setMesquiteFolderDir(String pMesquiteFolderDir) {
-		System.setProperty(MESQUITE_FOLDER_DIR_KEY, pMesquiteFolderDir);
-		MesquiteModule.mesquiteDirectory = new File(pMesquiteFolderDir);
-		MesquiteModule.mesquiteDirectoryPath = pMesquiteFolderDir;
-	}
-
+	
 	@Override
 	public Class defaultResultClass() {
 		return null;

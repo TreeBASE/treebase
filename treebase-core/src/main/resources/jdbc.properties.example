@@ -1,16 +1,3 @@
-#### VG 2010-01-12 DB credentials that are used by the web application are now in JNDI -- see /treebase-web/src/main/webapp/META-INF/context.xml
-#### The credentials below are only used by tests and, possibly, by data importing classes in cipres.teebase.util
-#### (see treebase-core/src/main/java/org/cipres/treebase/core/CoreServiceLauncher.java)
-
-jdbc.driverClassName=org.postgresql.Driver
-
-# Login credentials, obtain the actual values from
-# other developers (or create your own on a fresh install).
-jdbc.url=jdbc:postgresql://YOUR.SERVER.ORG/YOUR-DB
-jdbc.username=YOUR_USERNAME
-jdbc.password=YOUT_PASSWORD
-
-
 # This tells our object-relational mapping libraries
 # to use postgres-specific SQL dialect
 hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
@@ -23,5 +10,19 @@ hibernate.generate_statistics=false
 # options are: validate | update | create | create-drop
 hibernate.hbm2ddl.auto=
 
+
+#### VG 2010-02-07 Properties below are not read by the webapp anymore. 
+#### Instead, equivalent resources are looked up through JNDI -- see /treebase-web/src/main/webapp/META-INF/context.xml
+#### These properties are only read by tests and, possibly, by data importing classes in cipres.teebase.util
+#### (see treebase-core/src/main/java/org/cipres/treebase/core/CoreServiceLauncher.java)
+
+jdbc.driverClassName=org.postgresql.Driver
+
+# Login credentials, obtain the actual values from
+# other developers (or create your own on a fresh install).
+jdbc.url=jdbc:postgresql://YOUR.SERVER.ORG/YOUR-DB
+jdbc.username=YOUR_USERNAME
+jdbc.password=YOUT_PASSWORD
+
 # Mesquite installation directory
-mesquite.folder_dir=/home/rvosa/applications/mesquiteHeadless/Mesquite_Folder/
+mesquite.folder_dir=/PATH/TO/YOUR/mesquite-2.01.tb
