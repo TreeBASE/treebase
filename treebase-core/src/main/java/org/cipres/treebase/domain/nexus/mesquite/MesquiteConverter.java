@@ -340,6 +340,7 @@ public class MesquiteConverter extends AbstractNexusConverter implements NexusPa
 				phyloTree.setPublished(false);
 				phyloTree.setRootedTree(mesqTree.getRooted());
 				phyloTree.setNewickString(newick);
+				phyloTree.setStudy(pStudy);
 				// phyloTree.setBigTree(false); //TODO
 				// phyloTree.setTreeType(treeType);
 				// phyloTree.setTreeAttribute(pNewTreeAttribute);
