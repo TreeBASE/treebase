@@ -137,13 +137,14 @@
                 <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
                 <property name="taxonLabelHome" ref="taxonLabelHome"/>
    </bean-->
-	
+
+<!-- VG 2010-02-09 nexusService bean is now set in applicationContext-db-webappp.xml and in applicationContext-db-standalone.xml 	
 	<bean id="nexusService" class = "org.cipres.treebase.service.nexus.NexusServiceMesquite">
                 <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
                 <property name="taxonLabelHome" ref="taxonLabelHome"/>
                 <property name="itemDefinitionHome" ref="itemDefinitionHome"/>
    </bean>
-  
+-->  
   	<bean id="nexmlService" class = "org.cipres.treebase.service.nexus.NexusServiceNexml">
                 <!-- property name="domainHome" ref="domainHome"/ -->
                 <property name="taxonLabelHome" ref="taxonLabelHome"/>

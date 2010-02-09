@@ -13,4 +13,10 @@
 		<property name="jndiName" value="java:comp/env/jdbc/TreebaseDB"/>
 	</bean>
 
+	<bean id="nexusService" class = "org.cipres.treebase.service.nexus.NexusServiceMesquite">
+                <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+                <property name="itemDefinitionHome" ref="itemDefinitionHome"/>
+   </bean>
+
 </beans>

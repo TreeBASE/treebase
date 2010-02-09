@@ -40,6 +40,9 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 	private MatrixDataTypeHome mMatrixDataTypeHome;
 	private ItemDefinitionHome mItemDefinitionHome;
 
+	private String mExplicitMesquiteFolder = null;
+	private String mJndiMesquiteFolder = null; 
+
 	/**
 	 * Constructor.
 	 */
@@ -104,24 +107,47 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 		return null; // do not need persistence service.
 	}
 	
-	/** Looks up where Mesquite is installed on the host system and informs MesquiteModule of the location.  
+
+	/**  Explicitly set Mesquite folder location that will be passed to mesquite.lib.MesquiteModule. 
+	 *   Only for use in tests and stand-alone tools (the webapp looks up the location in afterPropertiesSet()). 
+	 * 
+	 * @param pMesquiteFolderDir
+	 */
+	public void setMesquiteFolderDir(String pMesquiteFolderDir) {
+		mExplicitMesquiteFolder = pMesquiteFolderDir; 
+		LOGGER.info("Mesquite folder location set explicitly to " + mExplicitMesquiteFolder); 
+		//--
+		//System.setProperty(MESQUITE_FOLDER_DIR_KEY, pMesquiteFolderDir);
+		//MesquiteModule.mesquiteDirectory = new File(pMesquiteFolderDir);
+		//MesquiteModule.mesquiteDirectoryPath = pMesquiteFolderDir;
+	}
+	
+	
+	/** Looks up where Mesquite is installed on the host system and passes the location to mesquite.lib.MesquiteModule.  
         (This is an implementation of a standard Spring bean initialization method, 
          which is invoked after all properties are set.)
    */
 	public void afterPropertiesSet() throws Exception {
-		String mesquiteFolderDir = null; 
-		InitialContext ic;
 		try {
-			ic = new InitialContext();
-			mesquiteFolderDir  = (String) ic.lookup("java:comp/env/tb2/MesquiteFolder");
+			InitialContext ic = new InitialContext();
+			mJndiMesquiteFolder  = (String) ic.lookup("java:comp/env/tb2/MesquiteFolder");
 		} catch (NamingException e) {
-			LOGGER.fatal("Error looking up tb/MesquiteFolder via JNDI"); 
+			LOGGER.info("Failure looking up tb/MesquiteFolder via JNDI"); 
 		}
-		mesquiteFolderDir = mesquiteFolderDir + "/foo";   //since the last path element is somehow dropped subsequently... VG 2010-02-07
 
-		System.setProperty(MESQUITE_FOLDER_DIR_KEY, mesquiteFolderDir);
-		MesquiteModule.mesquiteDirectory = new File(mesquiteFolderDir);
-		MesquiteModule.mesquiteDirectoryPath = mesquiteFolderDir;				
+		String mesquiteFolder; 
+		if (mExplicitMesquiteFolder == null) 
+			if (mJndiMesquiteFolder == null) { mesquiteFolder = null; LOGGER.fatal("Failed to determine Mesquite folder location"); }
+			else { mesquiteFolder = mJndiMesquiteFolder; LOGGER.info("Setting mesquite folder location from JNDI: " + mJndiMesquiteFolder); }
+		else 
+			if (mJndiMesquiteFolder == null) { mesquiteFolder = mExplicitMesquiteFolder; LOGGER.info("Using explicitly set Mesquite folder: " + mExplicitMesquiteFolder);}
+			else { mesquiteFolder = mJndiMesquiteFolder; LOGGER.warn("Explicitly set Mesquite folder (" + mExplicitMesquiteFolder + 
+																	 ") is overwritten by the one from JNDI: " + mJndiMesquiteFolder); }
+		
+		mesquiteFolder = mesquiteFolder + "/foo";   //since the last path element is somehow dropped subsequently... VG 2010-02-07
+		System.setProperty(MESQUITE_FOLDER_DIR_KEY, mesquiteFolder);
+		MesquiteModule.mesquiteDirectory = new File(mesquiteFolder);
+		MesquiteModule.mesquiteDirectoryPath = mesquiteFolder;				
 	}
 	
 

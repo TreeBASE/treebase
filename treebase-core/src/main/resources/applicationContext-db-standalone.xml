@@ -28,6 +28,12 @@
 		<property name="numHelperThreads" value="5" />
 	</bean>
 
+	<bean id="nexusService" class = "org.cipres.treebase.service.nexus.NexusServiceMesquite">
+                <property name="matrixDataTypeHome" ref="matrixDataTypeHome"/>
+                <property name="taxonLabelHome" ref="taxonLabelHome"/>
+                <property name="itemDefinitionHome" ref="itemDefinitionHome"/>
+                <property name="mesquiteFolderDir" value="${mesquite.folder_dir}"/>
+    </bean>
 
 
 </beans>
