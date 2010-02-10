@@ -95,7 +95,7 @@ public class NexmlDocumentConverter extends NexmlObjectConverter {
 	 * @param document
 	 */
 	private void copyCitationMetadata(Citation citation,Document document) {
-		attachAnnotation("dcterms.bibliographicCitation",citation.getAuthorsCitationStyleWithoutHtml(),mDCURI,document);
+		attachAnnotation("dcterms:bibliographicCitation",citation.getAuthorsCitationStyleWithoutHtml(),mDCURI,document);
 		if ( null != citation.getTitle() ) {
 			attachAnnotation("tb:title.study",citation.getTitle(),mTBTermsURI,document);
 		}
