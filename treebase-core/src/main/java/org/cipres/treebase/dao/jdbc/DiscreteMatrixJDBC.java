@@ -334,8 +334,10 @@ public class DiscreteMatrixJDBC extends MatrixJDBC {
 		try {
 			// insert new discrete phylochar.
 			//Note: this is db2 specific code (faster), see EnvrionmentTest.testGetGeneratedKey() for generic jdbc code.
-			String queryBuf = "select phylochar_id from final table(INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?))";
-
+			//VG-- String queryBuf = "select phylochar_id from final table(INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?))";
+			//VG 2010-02-10 Replacing above DB2 sql with this PostreSQL:
+			String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?) RETURNING phylochar_id";
+			
 			PreparedStatement ps = pCon.prepareStatement(queryBuf);
 
 			// String stateStr = "INSERT INTO DISCRETECHARSTATE(DISCRETECHARSTATE_ID, VERSION,

@@ -165,8 +165,10 @@ public class ContinuousMatrixJDBC extends MatrixJDBC {
 			// insert new phylochar.
 			// Note: this is db2 specific code (faster), see EnvrionmentTest.testGetGeneratedKey()
 			// for generic jdbc code.
-			String queryBuf = "select phylochar_id from final table(INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION, LOWERLIMIT, UPPERLIMIT) VALUES('N', default, 0, ?, ?, ?))";
-
+			//--String queryBuf = "select phylochar_id from final table(INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION, LOWERLIMIT, UPPERLIMIT) VALUES('N', default, 0, ?, ?, ?))";
+			//VG 2010-02-10 Replacing above DB2 sql with this PostreSQL:
+			String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION, LOWERLIMIT, UPPERLIMIT) VALUES('N', default, 0, ?, ?, ?) returning phylochar_id";
+			
 			PreparedStatement ps = pCon.prepareStatement(queryBuf);
 			for (MatrixColumnJDBC columnJDBC : columns) {
 
