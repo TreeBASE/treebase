@@ -109,9 +109,11 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 		QName qName = QName.get("base", "xml", "http://www.w3.org/XML/1998/namespace");
 		String sourceBase = nexmlDocument.getRootElement().attributeValue(qName);
 		cdaoDoc.getRootElement().setAttributeValue(qName, sourceBase);
-		Iterator<org.dom4j.Element> elementIterator = rdfaDoc.getRootElement().elementIterator(); 
+		Iterator<org.dom4j.Element> elementIterator = rdfaDoc.getRootElement().elementIterator();
 		while ( elementIterator.hasNext() ) {
-			cdaoDoc.getRootElement().add(elementIterator.next());
+			org.dom4j.Element elt = elementIterator.next();
+			elt.detach();
+			cdaoDoc.getRootElement().add(elt);
 		}
 		return cdaoDoc.asXML();		
 	}
