@@ -4,8 +4,6 @@ Pending schema patches:
 
 * Drop geospot_id_sequence -- there is no corresponding sequence
 
-* Drop hibernate_sequence
-
 * Correct PK name in stepmatrixelement and create stepmatrixelement_id_sequence
 
 * Create indexes, as suggested by Bill 2010-02-03 (and maybe later)

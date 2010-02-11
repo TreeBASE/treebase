@@ -202,6 +202,7 @@ public class Submission extends AbstractPersistedObject {
 	@CollectionId(columns = @Column(name = "COLLECTION_ID", nullable = false), type = @Type(type = "long"), generator = "sequence")
 	// @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "studyCache")
+	//VG 2010-02-11 This property causes, in DB, values for SUB_TREEBLOCK.COLLECTION_ID being drawn from hibernate_sequence. 
 	protected Collection<TreeBlock> getSubmittedTreeBlocks() {
 		return mSubmittedTreeBlocks;
 	}
@@ -224,6 +225,7 @@ public class Submission extends AbstractPersistedObject {
 	@CollectionId(columns = @Column(name = "COLLECTION_ID", nullable = false), type = @Type(type = "long"), generator = "sequence")
 	// @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "studyCache")
+	//VG 2010-02-11 This property causes, in DB, values for SUB_MATRIX.COLLECTION_ID being drawn from hibernate_sequence. 
 	protected Collection<Matrix> getSubmittedMatrices() {
 		return mSubmittedMatrices;
 	}
