@@ -1,6 +1,12 @@
 package org.cipres.treebase.service.nexus;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Iterator;
 import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -72,32 +78,41 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 	private String transform(String input) {
 		SAXReader reader = new SAXReader();
 		ByteArrayInputStream bs = new ByteArrayInputStream(input.getBytes());
-		org.dom4j.Document jDomDocument = null;
+		org.dom4j.Document nexmlDocument = null;
 		try {
-			jDomDocument = reader.read( bs );
+			nexmlDocument = reader.read( bs );
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+				
 		TransformerFactory factory = TransformerFactory.newInstance();
-		Transformer transformer = null;
+		Transformer rdfaTransformer = null;
+		Transformer cdaoTransformer = null;
 		try {
-			transformer = factory.newTransformer( new StreamSource( "http://www.nexml.org/nexml/xslt/RDFa2RDFXML.xsl" ) );
+			rdfaTransformer = factory.newTransformer( new StreamSource( "http://www.nexml.org/nexml/xslt/RDFa2RDFXML.xsl" ) );
+			cdaoTransformer = factory.newTransformer( new StreamSource( "http://www.nexml.org/nexml/xslt/nexml2cdao.xsl"  ) );
 		} catch (TransformerConfigurationException e1) {
 			e1.printStackTrace();
 		}		
-		DocumentSource source = new DocumentSource( jDomDocument );
-		DocumentResult result = new DocumentResult();
+		DocumentSource nexmlSource = new DocumentSource( nexmlDocument );
+		DocumentResult rdfaResult = new DocumentResult();
+		DocumentResult cdaoResult = new DocumentResult();
 		try {
-			transformer.transform( source, result );
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
+			rdfaTransformer.transform( nexmlSource, rdfaResult );
+			cdaoTransformer.transform( nexmlSource, cdaoResult );
+		} catch (TransformerException e) {		
 			e.printStackTrace();
 		}
-		org.dom4j.Document transformedDoc = result.getDocument();
+				
+		org.dom4j.Document rdfaDoc = rdfaResult.getDocument();
+		org.dom4j.Document cdaoDoc = cdaoResult.getDocument();
 		QName qName = QName.get("base", "xml", "http://www.w3.org/XML/1998/namespace");
-		String sourceBase = jDomDocument.getRootElement().attributeValue(qName);
-		transformedDoc.getRootElement().setAttributeValue(qName, sourceBase);
-		return transformedDoc.asXML();		
+		String sourceBase = nexmlDocument.getRootElement().attributeValue(qName);
+		cdaoDoc.getRootElement().setAttributeValue(qName, sourceBase);
+		Iterator<org.dom4j.Element> elementIterator = rdfaDoc.getRootElement().elementIterator(); 
+		while ( elementIterator.hasNext() ) {
+			cdaoDoc.getRootElement().add(elementIterator.next());
+		}
+		return cdaoDoc.asXML();		
 	}
 }
