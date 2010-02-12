@@ -106,24 +106,25 @@ public class PhyloWSController implements Controller {
             	url = domain + createSearchUrl(pathComponents[pathComponents.length-2],req);
             } else {
 	            String rawNamespacedGUID = pathComponents[pathComponents.length-1];
-	            if ( rawNamespacedGUID.startsWith("uBio:") ) {
+	            if ( rawNamespacedGUID.startsWith("uBio:") ) { // XXX be polite, use real URL
 	            	url = uBioBaseUrl + rawNamespacedGUID.substring("uBio:".length());
 	            }
-	            else if ( rawNamespacedGUID.startsWith("NCBI:") ) {
+	            else if ( rawNamespacedGUID.startsWith("NCBI:") ) { // XXX be polite, use real URL
 	            	url = ncbiBaseUrl + rawNamespacedGUID.substring("NCBI:".length());
 	            }            
 	            else {
 		            NamespacedGUID namespacedGUID = new NamespacedGUID(rawNamespacedGUID);
 		            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
 		            if ( hasWebPage(pathComponents) ) {
-		            	if ( TreebaseUtil.isEmpty(req.getParameter(format)) ) {
+		            	String serializationFormat = createSerializationFormat(req);
+		            	if ( TreebaseUtil.isEmpty(serializationFormat) ) {
 		            		url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
 		            	}
-		            	else if ( req.getParameter(format).equals("html") ) {
+		            	else if ( serializationFormat.equals("html") ) {
 		            		url = domain + createUrl(tbID.getTypePrefix(),tbID.getId(),req);
 		            	}
 		            	else {
-		            		url = domain + createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),req.getParameter(format));
+		            		url = domain + createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),serializationFormat);
 		            	}
 		            }
 		            else {
@@ -143,6 +144,16 @@ public class PhyloWSController implements Controller {
         	res.setHeader("Location", url);        
         }
         return null;
+	}
+	
+	/**
+	 * This is a placeholder method that might parse accept headers for content-negotiation
+	 * one day
+	 * @param request
+	 * @return
+	 */
+	private String createSerializationFormat(HttpServletRequest request) {
+		return request.getParameter(format);
 	}
 	
 	private String createSearchUrl(String path,HttpServletRequest request) {
