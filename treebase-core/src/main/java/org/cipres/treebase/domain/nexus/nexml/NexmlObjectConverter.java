@@ -24,7 +24,9 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected static URI mDCURI;
 	protected static URI mPrismURI;
 	protected static URI mTBTermsURI;
-	protected URI mBaseURI;
+	protected static URI mDwCURI;
+	protected URI mBaseURI;	
+	private static String mDwCString = "http://rs.tdwg.org/dwc/terms/";
 	private static String mTBTermsString = "http://treebase.org/terms#";
 	private static String mDCURIString = "http://purl.org/dc/terms/";
 	private static String mPrismURIString = "http://prismstandard.org/namespaces/1.2/basic/";
@@ -43,6 +45,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 			mDCURI = new URI(mDCURIString);
 			mPrismURI = new URI(mPrismURIString);
 			mTBTermsURI = new URI(mTBTermsString);
+			mDwCURI = new URI(mDwCString);
 			if ( null != baseURI ) {
 				mBaseURI = new URI(baseURI);
 			}
