@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.nexus.nexml;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.cipres.treebase.dao.jdbc.ContinuousMatrixElementJDBC;
 import org.cipres.treebase.dao.jdbc.ContinuousMatrixJDBC;
@@ -22,6 +23,7 @@ import org.cipres.treebase.domain.matrix.MatrixDataType;
 import org.cipres.treebase.domain.matrix.MatrixElement;
 import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.matrix.PhyloChar;
+import org.cipres.treebase.domain.matrix.RowSegment;
 import org.cipres.treebase.domain.matrix.StandardMatrix;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -292,11 +294,12 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			DiscreteMatrix tbMatrix) {	
 		OTUs xmlOTUs = xmlMatrix.getOTUs();
 		List<org.nexml.model.Character> characterList = xmlMatrix.getCharacters();
-		for ( MatrixRow row : tbMatrix.getRowsReadOnly() ) {
-			OTU xmlOTU = getOTUById(xmlOTUs, row.getTaxonLabel().getId());
+		for ( MatrixRow tbRow : tbMatrix.getRowsReadOnly() ) {
+			Set<RowSegment> tbSegments = tbRow.getSegmentsReadOnly();
+			OTU xmlOTU = getOTUById(xmlOTUs, tbRow.getTaxonLabel().getId());
 			int charIndex = 0;
 			if ( characterList.size() <= MAX_GRANULAR_NCHAR && xmlOTUs.getAllOTUs().size() <= MAX_GRANULAR_NTAX ) {
-				for ( MatrixElement tbCell : row.getElements() ) {
+				for ( MatrixElement tbCell : tbRow.getElements() ) {
 					org.nexml.model.Character xmlCharacter = characterList.get(charIndex);
 					MatrixCell<CharacterState> xmlCell = xmlMatrix.getCell(xmlOTU, xmlCharacter);				
 					DiscreteCharState tbState = ((DiscreteMatrixElement)tbCell).getCharState();
@@ -304,11 +307,21 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 					CharacterState xmlState = xmlCharacter.getCharacterStateSet().lookupCharacterStateBySymbol(tbSymbolString);								
 					xmlCell.setValue(xmlState);								
 					attachTreeBaseID((Annotatable)xmlCell,tbCell,DiscreteMatrixElement.class);
+					for ( RowSegment tbSegment : tbSegments ) {
+						if ( tbSegment.getStartIndex() <= charIndex && charIndex <= tbSegment.getEndIndex() ) {
+							if ( tbSegment.getSpecimenLabel().getLatitude() != null ) {
+								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLatitude", mDwCURI, tbSegment.getSpecimenLabel().getLatitude());
+							}
+							if ( tbSegment.getSpecimenLabel().getLongitude() != null ) {
+								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLongitude", mDwCURI, tbSegment.getSpecimenLabel().getLongitude());
+							}
+						}
+					}
 					charIndex++;
 				}
 			}
 			else {
-				String seq = row.buildElementAsString();
+				String seq = tbRow.buildElementAsString();
 				if ( tbMatrix.getDataType().getDescription().equals(MatrixDataType.MATRIX_DATATYPE_STANDARD) ) {
 					StringBuilder sb = new StringBuilder();
 					for ( int i = 0; i < seq.length(); i++ ) {
