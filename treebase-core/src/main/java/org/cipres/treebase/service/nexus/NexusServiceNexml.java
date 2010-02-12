@@ -23,7 +23,6 @@ import org.nexml.model.DocumentFactory;
 
 public class NexusServiceNexml extends AbstractServiceImpl implements NexusService {
 	private static final Logger LOGGER = Logger.getLogger(NexusServiceNexml.class);
-//	private DomainHome mDomainHome;
 	private TaxonLabelHome mTaxonLabelHome;
 
 	@Override
@@ -35,12 +34,6 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 	protected DomainHome getDomainHome() {
 		return null; // do not need persistence service.
 	}
-	
-	/*
-	public void setDomainHome(DomainHome domainHome) {
-		mDomainHome = domainHome;
-	}
-	*/
 
 	public NexusDataSet parseNexus(Study study, Collection<File> nexusFiles,
 			ProgressionListener listener) {
@@ -66,30 +59,10 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 	}
 
 	public String serialize(NexusDataSet nexusDataSet) {
-		/*
-		Document document = null;
-		try {
-			document = DocumentFactory.createDocument();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(null,getTaxonLabelHome(),document);
-		return ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
-		*/
 		return serialize(nexusDataSet,null);
 	}
 
 	public String serialize(Study study) {
-		/*
-		Document document = null;
-		try {
-			document = DocumentFactory.createDocument();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),document);
-		return ndc.fromTreeBaseToXml(study).getXmlString();
-		*/
 		return serialize(study,null);
 	}
 
@@ -120,38 +93,12 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 	}
 
 	public String serialize(NexusDataSet nexusDataSet, Properties properties) {
-		/*
-		String baseURI = null;
-		if ( null != properties ) {
-			baseURI = properties.getProperty("nexml.uri.base");
-		}
-		Document document = null;
-		try {
-			document = DocumentFactory.createDocument();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}		
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(null,getTaxonLabelHome(),document,baseURI);
-		*/
-		NexmlDocumentConverter ndc = this.getNexmlDocumentConverter(null, properties);
+		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, properties);
 		return ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
 	}
 
 	public String serialize(Study study, Properties properties) {
-		/*
-		String baseURI = null;
-		if ( null != properties ) {
-			baseURI = properties.getProperty("nexml.uri.base");
-		}		
-		Document document = null;
-		try {
-			document = DocumentFactory.createDocument();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),document,baseURI);
-		*/
-		NexmlDocumentConverter ndc = this.getNexmlDocumentConverter(study, properties);
+		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
 		return ndc.fromTreeBaseToXml(study).getXmlString();
 	}
 
