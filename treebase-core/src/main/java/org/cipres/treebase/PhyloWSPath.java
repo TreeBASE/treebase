@@ -1,5 +1,8 @@
 package org.cipres.treebase;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.cipres.treebase.domain.TBPersistable;
 
 public class PhyloWSPath {
@@ -16,7 +19,25 @@ public class PhyloWSPath {
 	
 	public String getPath() {
 		return getPath(new StringBuilder()).toString();
-	}	
+	}
+	
+	/**
+	 * This method constructs a permanent url based on the
+	 * treebase.purl.domain property (as computed by TreebaseUtil.getPurlDomain()),
+	 * the phylows path and the namespaced GUID for the object.
+	 * @return the permanent url for the object
+	 */
+	public URL getPurl () {
+		StringBuilder sb = new StringBuilder(TreebaseUtil.getPurlDomain());
+		sb = getPath(sb).append(mNamespacedGUID.toString());
+		URL url = null;		
+		try {
+			url = new URL(sb.toString());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}		
+		return url;
+	}
 	
 	/**
 	 * 
