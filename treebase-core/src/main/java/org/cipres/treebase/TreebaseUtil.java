@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
 import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.framework.ExecutionResult;
@@ -39,6 +40,7 @@ public class TreebaseUtil {
 	public static final String ANEMPTYSPACE = " ";
 	public static final String LINESEP = System.getProperty("line.separator");
 	public static final int citationMaxLength = 5000;
+	private static final Logger LOGGER = Logger.getLogger(TreebaseUtil.class);
 
 	private TreebaseUtil() {
 		super();
@@ -438,10 +440,14 @@ public class TreebaseUtil {
 		String domainName = "";
 		try {
 			properties.load( new FileInputStream("treebase.properties") );
+			LOGGER.info("properties loaded successfully");
 			domainName = properties.getProperty("treebase.purl.domain");			
+			LOGGER.info("domain name: "+domainName);
 		} catch (FileNotFoundException e) {
+			LOGGER.warn("FileNotFoundException: " + e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			LOGGER.warn("IOException: "+e.getMessage());
 			e.printStackTrace();
 		}
 		return domainName;		

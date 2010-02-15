@@ -3,11 +3,13 @@ package org.cipres.treebase;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.log4j.Logger;
 import org.cipres.treebase.domain.TBPersistable;
 
 public class PhyloWSPath {
 	private NamespacedGUID mNamespacedGUID;
 	private Package mPackage;
+	private static final Logger LOGGER = Logger.getLogger(PhyloWSPath.class);
 	
 	public StringBuilder getPath(StringBuilder sb) {
 		String[] packagePathFragments = mPackage.getName().split("\\.");
@@ -30,10 +32,12 @@ public class PhyloWSPath {
 	public URL getPurl () {
 		StringBuilder sb = new StringBuilder(TreebaseUtil.getPurlDomain());
 		sb = getPath(sb).append(mNamespacedGUID.toString());
+		LOGGER.info(sb);
 		URL url = null;		
 		try {
 			url = new URL(sb.toString());
 		} catch (MalformedURLException e) {
+			LOGGER.warn("MalformedURLException: "+e.getMessage());
 			e.printStackTrace();
 		}		
 		return url;
