@@ -8,9 +8,7 @@
 </head>
 
 <body id="s-study"/>
-<c:set var="serverName" scope="request" value="<%= request.getServerName() %>"/>
-<c:set var="portNumber" scope="request" value="<%= request.getServerPort() %>"/>
-<c:set var="baseLink" scope="request" value='http://${serverName}:${portNumber}/treebase-web/phylows/${study.phyloWSPath}'/>
+<c:set var="baseLink" scope="request" value='${study.phyloWSPath.purl}'/>
 <c:set var="currentSection" scope="request" value="Citation"/>
 <c:set var="headerPrefix" scope="request" value="${currentSection} for"/>
 <jsp:include page="nav.jsp"/>
