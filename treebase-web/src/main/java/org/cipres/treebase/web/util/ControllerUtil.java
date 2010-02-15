@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import org.cipres.treebase.TreebaseIDString;
-import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.domain.admin.UserService;
 import org.cipres.treebase.domain.matrix.Matrix;
