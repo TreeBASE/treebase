@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cipres.treebase.TreebaseUtil;
+import org.cipres.treebase.domain.admin.UserRole.TBPermission;
 import org.cipres.treebase.domain.nexus.NexusService;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
+import org.cipres.treebase.domain.study.Submission;
+import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.util.ControllerUtil;
 import org.cipres.treebase.web.util.WebUtil;
 import org.springframework.web.servlet.mvc.Controller;
@@ -22,6 +25,7 @@ public abstract class AbstractDownloadController implements Controller {
 	protected static final int FORMAT_RDF = 3;
 	private NexusService mNexmlService;	
 	private NexusService mRdfaService;	
+	private SubmissionService mSubmissionService;
 	private static String mNexmlContentType = "application/xml";
 	private static String mRdfContentType = "application/rdf+xml";
 
@@ -122,7 +126,7 @@ public abstract class AbstractDownloadController implements Controller {
 	 * @param downloadDirName
 	 */
 	protected void generateAFileDynamically(HttpServletRequest request, HttpServletResponse response, long objectId) {
-        if ( ! ControllerUtil.isReviewerAccessGranted(request) && ! getStudy(objectId,request).isPublished() ) {
+        if ( ! isSubmitter(objectId,request) && ! ControllerUtil.isReviewerAccessGranted(request) && ! getStudy(objectId,request).isPublished() ) {
         	response.setStatus(HttpServletResponse.SC_SEE_OTHER);        
         	response.setHeader("Location", "/treebase-web/accessviolation.html");
         }
@@ -152,6 +156,18 @@ public abstract class AbstractDownloadController implements Controller {
 			}
         }
 	}
+	
+	private boolean isSubmitter (long objectId,HttpServletRequest request) {
+		Study study = getStudy(objectId,request);
+		Submission submission = study.getSubmission();
+		TBPermission tbp = getSubmissionService().getPermission(request.getRemoteUser(), submission.getId());
+		if (tbp == TBPermission.WRITE || tbp == TBPermission.READ_ONLY || tbp == TBPermission.SUBMITTED_WRITE) {
+			return true;
+		} 
+		else {
+			return false;
+		}
+	}
 
 	/**
 	 * 
@@ -175,6 +191,14 @@ public abstract class AbstractDownloadController implements Controller {
 
 	public void setRdfaService(NexusService rdfaService) {
 		mRdfaService = rdfaService;
+	}
+	
+	public void setSubmissionService(SubmissionService submissionService) {
+		mSubmissionService = submissionService;
+	}
+	
+	public SubmissionService getSubmissionService() {
+		return mSubmissionService;
 	}
 
 }
