@@ -315,6 +315,11 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 							if ( tbSegment.getSpecimenLabel().getLongitude() != null ) {
 								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLongitude", mDwCURI, tbSegment.getSpecimenLabel().getLongitude());
 							}
+							/*
+							if ( tbSegment.getSpecimenLabel().getGenBankAccession() != null ) {
+								((Annotatable)xmlCell).addAnnotationValue(arg0, arg1, arg2)
+							}
+							*/
 						}
 					}
 					charIndex++;
