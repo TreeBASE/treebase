@@ -439,7 +439,11 @@ public class TreebaseUtil {
 		Properties properties = new Properties();
 		String domainName = "";
 		try {
-			properties.load( new FileInputStream("treebase.properties") );
+			properties.load(
+				TreebaseUtil.class
+					.getClassLoader()
+					.getResourceAsStream("treebase.properties"));
+			//properties.load( new FileInputStream("treebase.properties") );
 			LOGGER.info("properties loaded successfully");
 			domainName = properties.getProperty("treebase.purl.domain");			
 			LOGGER.info("domain name: "+domainName);
