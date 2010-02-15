@@ -158,7 +158,8 @@ public abstract class AbstractDownloadController implements Controller {
 	}
 	
 	private boolean isSubmitter (long objectId,HttpServletRequest request) {
-		Study study = getStudy(objectId,request);
+		Study study = ControllerUtil.findStudy(request, getStudyService());
+		//Study study = getStudy(objectId,request);
 		Submission submission = study.getSubmission();
 		TBPermission tbp = getSubmissionService().getPermission(request.getRemoteUser(), submission.getId());
 		if (tbp == TBPermission.WRITE || tbp == TBPermission.READ_ONLY || tbp == TBPermission.SUBMITTED_WRITE) {
