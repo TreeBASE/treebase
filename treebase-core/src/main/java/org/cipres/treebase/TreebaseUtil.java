@@ -433,12 +433,12 @@ public class TreebaseUtil {
 	 * 
 	 * @return domain name
 	 */
-	public static String getDomainName() {
+	public static String getPurlDomain() {
 		Properties properties = new Properties();
 		String domainName = "";
 		try {
 			properties.load( new FileInputStream("treebase.properties") );
-			domainName = properties.getProperty("treebase.domain.name");			
+			domainName = properties.getProperty("treebase.purl.domain");			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
