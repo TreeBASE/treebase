@@ -110,6 +110,7 @@
 		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
 		<property name="rdfaService"><ref bean="rdfaService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
 	</bean>	
 	
 	<!-- Download A Tree -->	
@@ -117,7 +118,8 @@
 		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
-		<property name="rdfaService"><ref bean="rdfaService"></ref></property>		
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>	
+		<property name="submissionService"><ref bean="submissionService"></ref></property>	
 	</bean>
 	
 	<bean id="downloadATreeBlockController" class="org.cipres.treebase.web.controllers.DownloadATreeBlockController">
@@ -125,7 +127,8 @@
 		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
 		<property name="rdfaService"><ref bean="rdfaService"></ref></property>	
-		<property name="submissionHome"><ref bean="submissionHome"></ref></property>			
+		<property name="submissionHome"><ref bean="submissionHome"></ref></property>	
+		<property name="submissionService"><ref bean="submissionService"></ref></property>		
 	</bean>
 	
 	<!-- Download A Matrix -->	
@@ -133,7 +136,8 @@
 		<property name="matrixService"><ref bean="matrixService"></ref></property>
 		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
-		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>	
+		<property name="submissionService"><ref bean="submissionService"></ref></property>			
 	</bean>
 	
 	<!-- Download A NexusFile -->	
@@ -142,7 +146,8 @@
 		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="matrixService"><ref bean="matrixService"></ref></property>
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
-		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>	
+		<property name="submissionService"><ref bean="submissionService"></ref></property>			
 	</bean>
 	
 	<!-- Download An AnalysisStep's input and output as a NexusFile -->	
@@ -152,14 +157,16 @@
 		<property name="analysisStepService"><ref bean="analysisStepService"></ref></property>
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
 		<property name="rdfaService"><ref bean="rdfaService"></ref></property>	
-		<property name="studyService"><ref bean="studyService"></ref></property>			
+		<property name="studyService"><ref bean="studyService"></ref></property>		
+		<property name="submissionService"><ref bean="submissionService"></ref></property>	
 	</bean>	
 	
 	<!-- Download A NexusFile -->	
 	<bean id="downloadANexusRCTFileController" class="org.cipres.treebase.web.controllers.DownloadANexusRCTFileController">		
 		<property name="studyService"><ref bean="studyService"></ref></property>	
 		<property name="nexmlService"><ref bean="nexmlService"></ref></property>
-		<property name="rdfaService"><ref bean="rdfaService"></ref></property>				
+		<property name="rdfaService"><ref bean="rdfaService"></ref></property>
+		<property name="submissionService"><ref bean="submissionService"></ref></property>				
 	</bean>
 	
 	<!-- View Taxa -->	
