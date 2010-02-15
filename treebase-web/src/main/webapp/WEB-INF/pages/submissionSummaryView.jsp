@@ -16,9 +16,9 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 	Contact Submitter
 </a>
 <br/>
-<a href="/treebase-web/phylows/<c:out value="${submission.study.phyloWSPath}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
+<a href="<c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
 	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
-	Reviewer access URL: right-click and copy me
+	Reviewer access URL: <c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html
 </a>
 
 <c:if test="${not empty citationsummary.study}">
