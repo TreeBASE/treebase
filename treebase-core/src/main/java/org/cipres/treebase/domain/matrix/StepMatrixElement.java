@@ -24,7 +24,7 @@ import org.cipres.treebase.domain.AbstractPersistedObject;
  */
 @Entity
 @Table(name = "STEPMATRIXELEMENT")
-@AttributeOverride(name = "id", column = @Column(name = "DISCRETECHARSTATE_ID"))
+@AttributeOverride(name = "id", column = @Column(name = "STEPMATRIXELEMENT_ID"))
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "matrixCache")
 public class StepMatrixElement extends AbstractPersistedObject {
 

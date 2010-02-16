@@ -1,27 +1,42 @@
+Pending framework issues 
+========================
+
+* Prior to taking the 1st schema snapshot (from treestage or treedev?): 
+  - Create table versionhistory
+
+* Develop a script for getting a current snapshot of the initial (dictionary) data, 
+  to be used alongside with the schema snapshot command. 
+
+
 Pending schema patches: 
+======================
 
 [To be put in as patches after the storage structure for them is in place in this directory -- VG 2010-02-04]:
 
-* Drop geospot_id_sequence -- there is no corresponding sequence
+* Give explicit names to all constraints
+
+* Drop geospot_id_sequence -- there is no corresponding table
 
 * Correct PK name in stepmatrixelement and create stepmatrixelement_id_sequence
 
 * Create indexes, as suggested by Bill 2010-02-03 (and maybe later)
-     Bill's message of 2010-02-03: "Of the top of my head, I would assume that the following fields need to be indexed:
-        Table			Field
+        Table				Field
         --------			-------
-        taxon			name
+        taxon				name
         taxonvariant		fullname
-        taxonlabel		taxonlabel
+        taxonlabel			taxonlabel
         citation			title
         citation			abstract
-        person			lastname"
-     More details in bug https://sourceforge.net/tracker/?func=detail&atid=1126676&aid=2945391&group_id=248804, 
-        esp phylotree, phylonode indexes. 
-     Also, compare to the end-of-Jan schema snapshot of treebasedev   
+        person				lastname
+        phylotreenode    	taxonlabel_id, phylotree_id 
+    See: 
+      -  Bill's message of 2010-02-03:    
+      -  https://sourceforge.net/tracker/?func=detail&atid=1126676&aid=2945391&group_id=248804, 
+      -  Also, compare to the end-of-Jan schema snapshot of treebasedev   
 
 
 Pending data cleanups (mostly, on staging):
+===========================================
 
 * Remove junk, particularly that created by tests
 
@@ -41,4 +56,11 @@ Pending data cleanups (mostly, on staging):
      2. I got the user_id for the "migration" user, and it happened to be 9955
      3. I ran this statement: "UPDATE submission SET user_id = 9955 WHERE user_id IS NULL"
      Now all migrated data belong to the user "migration". "
+     
+     
+Data cleanups on production: 
+============================
+
+* Synch hibernate_sequence and {sub_matrix,sub_treebaseblock}.collection_id
+
     
