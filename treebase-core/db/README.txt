@@ -1,59 +1,89 @@
-[This will contain instructions on how to do and commit patches. 
-For now, it's just a message from my email 2010-02-03  --VG]
+This directory keeps track of schema patches applied to the DB as the application evolves, 
+as well as occasional snapshots of the schema and pre-loaded dictionary-like data. 
 
-"A setup/discipline for schema changes"
+Outline
+======= 
 
-This brings up something that was on my back burner for a while:  
-setting up a workflow and a file/directory structure to maintain  
-schema patches. That would be something similar to migration scripts  
-in Ruby or Python (but with scripts written in SQL and no automation).
+The setup is inspired by database migrations in Ruby and Python, but is not nearly as comprehensive. 
 
-The idea is that we store in SVN the initial snapshot of the DB schema  
-and sequential patches that we have been developing w.r.t  
-treebasedev.  These patches will be used to bring up-to-date  
-treebasestage, and then treebaseprod.   After that we can erase the  
-patches, refresh the snapshot, and continue for another cycle.   
-Official TB2 code releases are to be declared at the start of a cycle,  
-when there are no patches yet.  The snapshot is what should be used to  
-create a fresh TB2 instance by someone who wants to run their own. 
+The 'patches' directory stores SQL scripts (nnnn_descr_label.sql) that move the schema 
+from one version to the next.  Occasionally, we put into the 'snaphots' subdirectory 
+nnnn_SCHEMA...sql and nnnn_DATA...sql that capture the state of the DB after the 
+patches/nnnn.sql patch has been applied.
 
-Patches are to be sequentially numbered (by hand).  To keep track  
-which DB instance has already been brought up to which patch version,  
-I suggest creating a special table with a number column.  Each patch  
-will have an UPDATE setting the number in the table to the patch's  
-number.
+Patches are sequentially numbered (by hand). If a snapshot nnnn is present, it reflects 
+the state of the DB after patch nnnn was applied. 
 
-If this sounds ok, I hope to set this up by end of tomorrow.
+The schema (staring with the very first 0000 snapshot) contains the 'versionhistory' table, 
+which is used to keep track which patches have already been applied to a particular DB instance. 
+This is particularly useful in multi-instance installations (e.g., when there are 
+development, staging, production, etc., instances).  [See versionhistory.sql for the table's definition.]
 
 
-Some more details: 
+Task-specific instructions
+==========================
 
-* Patch naming: 0001_short_name.sql
-* Each patch starts by incrementing the number in the version table.
-* Each patch will be executed as a transaction, but there is no need to insert transaction commands into the patch.  
-* Patches and snapshots must not include any ownership or permissions commands.
-* Version table schema: 
-CREATE TABLE versionhistory
-(
-  id serial NOT NULL,
-  patchnumber integer,
-  patchlabel character varying(63) NOT NULL,
-  patchdescription character varying(1023),
-  applied timestamp (0) without time zone DEFAULT now(),
-  CONSTRAINT versionhistory_pkey PRIMARY KEY (id),
-  CONSTRAINT versionhistory_unique_patchnumber UNIQUE (patchnumber)
-)
-COMMENT ON TABLE versionhistory IS 'VersionHistory table is NOT a part of the TreeBase application. It is only used within the development and deployment process to keep track of schema patches applied to a DB instance. ';
+Creating a patch 
+----------------
+
+A patch is generally committed into SVN together with Java code for the application.  
+It is expected that, for a given SVN version, the application code expects to work
+w.r.t. the database containing all the patches from this version.  
+
+Use the next sequential number and a short descriptive label to name a patch. 
+To avoid numbering conflicts, developers must coordinate their patching activity. 
+
+Each patch must start by an INSERT of a row describing the patch into the versionhistory table.  
+(See existing patches for examples.)
+
+Each patch will be executed as a transaction, so there is no need to insert 
+transaction commands into the patch.  
+
+Patches must not include any ownership or permissions commands: ownership and 
+permissions are installation-specific, and therefore should be handled by the 
+instance maintainer.
+
+When an error is discovered in a recent patch, it may be ok to fix it and commit 
+a new version under the same patch number, provided it is possible to adjust all DB 
+instances to conform with the new patch version.  This can be doable when the patch
+was only applied to the development DB instance.  When the patch with an error was already 
+applied to production databases, it could be more prudent to develop a new, error-fixing patch. 
 
 
-To get a current schema snapshot
-================================
+Applying a patch
+----------------
 
-pg_dump -h treebase-dev.nescent.org -U treebase_app --format=p --no-owner --no-privileges --schema-only  treebasestage > schema_snapshot_treebasestage_2010-02-01.sql
+Apply each patch within a transaction, e.g.,  
+psql -d yourdb -U yourusername
+yourdb=> begin transaction;
+yourdb=> \i nnnn_your_patch.sql
+yourdb=> commit;  OR rollback;
+
+After that, adjust ownership and permissions on newly created objects, if any, 
+as required by the DB instance.  
+
+Use your judgment on what to do in case the patch application generated errors 
+and you had to roll back.  Most likely, someone has to work on improving the patch. 
 
 
-To restore the schema into a new DB: 
-====================================
+Creating a current snapshot
+---------------------------
+
+Schema snapshots must not include any ownership or permissions commands, since these 
+are installation-specific.  This command,  
+
+pg_dump -h your.host.url -U your_username --format=p --no-owner --no-privileges --schema-only  yourdb >  nnnn_your_label.sql
+
+creates a reasonably lean dump of the schema.  However, if the DB contained any objects 
+not created by prior snapshots and patches, they should be removed by hand. 
+
+Data snapshot is trickier.  The best bet right now is probably by hand-modifying the previous data snapshot. 
+
+
+Creating a fresh DB
+------------------
+
+Use the most recent snapshot: 
 
 psql -d yourdb -U yourusername -f nnn_SCHEMA_xxx.sql
 psql -d yourdb -U yourusername -f nnn_DATA_xxx.sql
@@ -64,4 +94,35 @@ psql -d yourdb -U yourusername
 yourdb=> begin transaction;
 yourdb=> \i nnn_SCHEMA_xxx.sql
 yourdb=> \i nnn_DATA_xxx.sql
-yourdb=> end transaction 
+yourdb=> commit;  
+
+
+Recommended development - production - staging workflow 
+=======================================================
+
+Local instances:  It is recommended that each developer has his own DB instance to use for writing 
+and initially testing new versions of the application and schema patches. This ensures 
+at least some basic compatibility between SQL and Java within a given SVN commit. 
+These instances may contain only minimal data, as useful for the developer. 
+
+Development instance:  The dev DB instance is frequently re-built to track 
+the most recent SVN version of the application and DB patches. It is used to verify correctness 
+of new versions and to communicate with non-programmer project participants. 
+This instance should contain sizable and representative amount of data, 
+but not necessarily as much or as good quality as the production instance. 
+
+Staging instance:  The stage instance is a testbed for rolling out a new version on production.  
+When development on dev reaches  release, a staging instance is created by cloning the 
+current production instance.  This ensures that the possible new data quirks accumulated 
+since the previous release are present.  Then patches spanning from the previous to the current 
+release are applied, new version of the application is installed, and the whole system is tested
+and verified as necessary.  If all works well, then the release roll-out may proceed on production. 
+Otherwise, back to development.    
+
+Production instance: This is the instance with the authoritative data that is constantly being 
+accessed by external uses and can tolerate only brief periods of downtime.  Make a backup before
+rolling out a new release and only roll out releases that were successfully verified on staging. 
+After a new release roll-out, it makes sense to use the prod instance to create a new 
+schema-and-dictionaries snapshot. 
+
+  

@@ -1,3 +1,6 @@
+-- Table for tracking which schema patches have been applied to the current DB instance. 
+-- This table is already in the snapshot 0000_SCHEMA_before_patches_start.sql 
+
 CREATE TABLE versionhistory
 (
   id serial NOT NULL,
