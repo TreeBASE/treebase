@@ -24,6 +24,8 @@ Pending schema patches:
 Pending data cleanups (on staging):
 ===================================
 
+[Could be worthwhile to do PRIOR to Dec 2009 and Feb 2010 migrations.]
+
 * Remove junk, particularly that created by tests
 
 * Known junk: Submission 22 and its related records
@@ -36,7 +38,7 @@ Pending data cleanups (on staging):
        (study 22 and submission 22 happen to be the same)." 
      VG: these IDs are from end-of-Jan treebasedev; the current treebasestage may have fewer.   
 
-* Replace "owner" nulls by the special "migration" owner (see Bill's message of around 2010-02-02)
+* Replace "owner" nulls (in submission.user_id?) by the special "migration" owner (see Bill's message of around 2010-02-02)
     "Also because we have reverted to an older instance of the data, the migrated records contain have NULL in the user_id of the submission table. This causes null pointer errors for the unit tests. To fix the problem, I did the following:
      1. I created a user with username "migration" and email address "migration@treebase.org". This is the dummy "user" who will now "own" all migrated submissions that lack an owner.
      2. I got the user_id for the "migration" user, and it happened to be 9955
@@ -48,5 +50,6 @@ Data cleanups on production:
 ============================
 
 * Synch hibernate_sequence and {sub_matrix,sub_treebaseblock}.collection_id
+  [No need if prod is restored from a dump of stage made after ~2010-02-13]
 
     

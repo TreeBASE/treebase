@@ -7,7 +7,8 @@
 --  - Converted commented-out DB2 RESTART statements on PK columns to working Postgres RESTART statements on sequences.  
 --  - Added (6, 1, 'Retracted') to citationStatus 
 --  - Removed initial data from tables Person, User, Submission, Study
-
+--  VG 2010-02-27: initial entries into "user" and "person" tables
+ 
 
 insert into citationStatus(citationstatus_id, version, description) values 
 (1, 1, 'In Prep'),
@@ -226,6 +227,22 @@ insert into userRole(userRole_id, VERSION, AUTHORITY) values
 	(2, 1, 'User'),
 	(3, 1, 'Associate Editor');
 alter sequence userrole_id_sequence restart with 4;
+
+
+insert into person(person_id, version, lastname, firstname, mname, phone, email) 
+    values
+    (1, 0, 'Tb2', 'Admin',  '', '', 'tb2admin@nowhere.com'),
+    (2, 0, 'Tb2', 'User',   '', '', 'tb2user@nowhere.com'),
+    (3, 0, 'Tb2', 'Editor', '', '', 'tb2editor@nowhere.com');
+alter sequence person_id_sequence restart with 100;
+
+insert into "user"(user_id, version, username, password, userrole_id, person_id) 
+    VALUES
+    (1,  0, 'tb2admin',  '*', 1, 1),
+    (2,  0, 'tb2user',   '*', 2, 2),
+    (3,  0, 'tb2editor', '*', 3, 3);
+alter sequence user_id_sequence restart with 100;
+
 
 
 insert into studyStatus(studystatus_id, version, description) values 

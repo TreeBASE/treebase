@@ -1,0 +1,12 @@
+-- Populates an empty DB with tables and dictionary data
+-- corresponding to the most recent snapshot and all subsequent patches. 
+
+\i snapshots/0000_SCHEMA_before_patches_start.sql
+\i snapshots/0000_DATA_before_patches_start.sql
+
+\i patches/0001_constraint-names.sql
+\i patches/0002_drop-geospot_id_sequence.sql
+\i patches/0003_rename-stepmatrixelement-pk.sql
+\i patches/0004_create-indexes.sql
+
+

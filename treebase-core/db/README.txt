@@ -49,6 +49,8 @@ instances to conform with the new patch version.  This can be doable when the pa
 was only applied to the development DB instance.  When the patch with an error was already 
 applied to production databases, it could be more prudent to develop a new, error-fixing patch. 
 
+When adding a patch, add a line into init_db_uptodate.pg as well. 
+
 
 Applying a patch
 ----------------
@@ -79,21 +81,25 @@ not created by prior snapshots and patches, they should be removed by hand.
 
 Data snapshot is trickier.  The best bet right now is probably by hand-modifying the previous data snapshot. 
 
+After creating a new snapshot, update init_db_uptodate.pg: change the names of the snapshot scripts
+and remove all \i commands for the patch scripts. 
+
 
 Creating a fresh DB
 ------------------
 
+Use the init_db_uptodate.pg script, which should create the DB from the most recent snapshot 
+and apply all the subsequent patches: 
+
 Use the most recent snapshot: 
 
-psql -d yourdb -U yourusername -f nnn_SCHEMA_xxx.sql
-psql -d yourdb -U yourusername -f nnn_DATA_xxx.sql
+psql -d yourdb -U yourusername -f init_db_uptodate.pg
 
 OR 
 
 psql -d yourdb -U yourusername
 yourdb=> begin transaction;
-yourdb=> \i nnn_SCHEMA_xxx.sql
-yourdb=> \i nnn_DATA_xxx.sql
+yourdb=> \i init_db_uptodate.pg
 yourdb=> commit;  
 
 
