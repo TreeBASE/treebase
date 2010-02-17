@@ -110,13 +110,13 @@ public class DiscreteMatrixElementJDBC {
 				
 				//IBM JDBC driver has a 32k batch limit:
 				if (count > MatrixJDBC.JDBC_BATCH_LIMIT) {
-					count = 0;
 					ps.executeBatch();
 					pCon.commit();
 
 					if (LOGGER.isDebugEnabled()) {
 						LOGGER.debug("committing count=" + count); //$NON-NLS-1$
 					}
+					count = 0;
 				}
 			}
 
