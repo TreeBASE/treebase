@@ -198,7 +198,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 		Submission returnVal = null;
 			Query q = getSession()
 				.createQuery(
-					"select sub from Submission as sub where sub.id = :mID");
+					"select sub from Submission as sub where sub.study.id = :mID");
 
 			q.setLong("mID", pID);
 			Object o = q.uniqueResult();
