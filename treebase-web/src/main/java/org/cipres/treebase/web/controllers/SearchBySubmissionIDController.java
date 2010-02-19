@@ -70,8 +70,18 @@ public class SearchBySubmissionIDController extends BaseFormController {
 			}
 			sub = getSubmissionHome().findByStudyAccessionNumber(studyAccession);
 		}
-		else {
+		else if( identifierType.equals("TB2") ){
 			sub = getSubmissionHome().findBySubmissionNumber(studyAccession);
+		}
+		else{
+			Long pID;
+			try{
+				pID=Long.parseLong(studyAccession);
+				sub = getSubmissionHome().findByStudyID(pID);
+			}catch(NumberFormatException nfe){
+				sub=null;
+			}
+				
 		}
 		
 		if (sub == null) {

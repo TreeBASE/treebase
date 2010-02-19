@@ -193,4 +193,19 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 		return q.list();
 	}
 
+	public Submission findByStudyID(Long pID) {
+		// TODO Auto-generated method stub
+		Submission returnVal = null;
+			Query q = getSession()
+				.createQuery(
+					"select sub from Submission as sub where sub.id = :mID");
+
+			q.setLong("mID", pID);
+			Object o = q.uniqueResult();
+
+			returnVal = (Submission) o;
+		
+		return returnVal;
+	}
+
 }

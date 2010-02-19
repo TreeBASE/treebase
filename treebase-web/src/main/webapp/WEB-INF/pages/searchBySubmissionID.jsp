@@ -17,7 +17,8 @@
         <th><fmt:message key="submission.accession"/>:</th>
         <td>  	
         	<input type="radio" name="identifierType" value="TB2" checked="checked"/>TreeBASE2 Id   
-        	<input type="radio" name="identifierType" value="TB1"/>Legacy accession        	
+        	<input type="radio" name="identifierType" value="TB1"/>Legacy accession 
+        	<input type="radio" name="identifierType" value="TB0"/>TreeBase2 Study ID        	       	
         	<input type="text" name="submissionaccession"  maxlength = "25"/>       
         </td>
     </tr>

@@ -36,7 +36,7 @@ public interface SubmissionHome extends DomainHome {
 	 * @return Submission
 	 */
 	Submission findByStudyAccessionNumber(String pAccNumber);
-
+	Submission findByStudyID(Long pID);
 	/**
 	 * Find by the associated matrix. Returns null if no match is found.
 	 * 
