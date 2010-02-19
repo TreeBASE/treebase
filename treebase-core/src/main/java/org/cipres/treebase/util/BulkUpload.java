@@ -138,7 +138,8 @@ public class BulkUpload  extends AbstractStandalone implements BulkUploadInterfa
 		User submitter = null; // No submitter
 
 		//Study s = bulkUpload.addFileSimple(new File(dirName, fn), submitter, session);
-		Study s = addFilesSimple(undoneFiles, submitter, null);
+		//Study s = addFilesSimple(undoneFiles, submitter, null);     //VG 2010-02-18 -- see comment at the method
+		Study s = addFilesOneByOne(undoneFiles, submitter);
 		if (s == null) {
 			log("conversion of files failed");
 		} else {
@@ -161,6 +162,7 @@ public class BulkUpload  extends AbstractStandalone implements BulkUploadInterfa
 		ContextManager.getTaxonLabelHome().flush();
 	}
 	
+	//VG this is not used: the only use is commented out
 	Study addFileSimple(File f, User aUser, Session session) throws IOException {
 		List<File> theFile = new LinkedList<File> ();
 		theFile.add(f);
@@ -168,6 +170,11 @@ public class BulkUpload  extends AbstractStandalone implements BulkUploadInterfa
 		return addFilesSimple(theFile, aUser, session);
 	}
 	
+	//VG 2010-02-18  stopped using this method 
+	//This method commits matrices, but not trees or the files. 
+	//Uncommenting the commitTransaction() call does not help much, 
+	//since then all trees and files are bundled into a huge transaction, 
+	//where a single failure scraps uploads of all prior trees and files (but not matrices!)
 	public Study addFilesSimple(List<File> files, User aUser, Session session) throws IOException { 
 		//Transaction t = session.beginTransaction();
 		Submission sub = getPseudoSubmission();
@@ -180,6 +187,27 @@ public class BulkUpload  extends AbstractStandalone implements BulkUploadInterfa
 		log("added " + uploadResult.getMatrixCount() + " matrices and " + uploadResult.getTreeCount() + " trees.");
 
 		return study;
+	}
+	
+	//VG 2010-02-18 This fixes the deficiency of addFilesSimple by committing each file upload. 
+	public Study addFilesOneByOne(List<File> files, User aUser) throws IOException {
+		Submission sub = getPseudoSubmission();
+		Study study = sub.getStudy();		
+		log("submission ID = " + sub.getId() + " study ID " + study.getId());
+
+		int countMatrices = 0, countTrees = 0;
+		for (File f : files) {
+			beginTransaction();
+			List<File> theFile = new LinkedList<File> ();
+			theFile.add(f);
+			UploadFileResult uploadResult = ContextManager.getSubmissionService().addNexusFilesJDBC(sub, theFile, null);
+			commitTransaction();
+			log("added " + uploadResult.getMatrixCount() + " matrices and " + uploadResult.getTreeCount() + " trees.");
+			countMatrices += uploadResult.getMatrixCount(); 
+			countTrees += uploadResult.getTreeCount(); 
+		}
+		log("Added in his batch: " + countMatrices + " matrices, " + countTrees + " trees."); 
+		return study;		
 	}
 	
 	private static Submission getPseudoSubmission() {
