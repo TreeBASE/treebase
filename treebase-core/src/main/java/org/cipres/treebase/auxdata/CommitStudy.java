@@ -18,7 +18,10 @@ import org.cipres.treebase.domain.study.AnalyzedData;
 import org.cipres.treebase.domain.study.AnalyzedMatrix;
 import org.cipres.treebase.domain.study.AnalyzedTree;
 import org.cipres.treebase.domain.study.Citation;
-import org.cipres.treebase.domain.study.DistanceAlgorithm;
+import org.cipres.treebase.domain.study.BayesianAlgorithm;	
+import org.cipres.treebase.domain.study.EvolutionAlgorithm;
+import org.cipres.treebase.domain.study.JoiningAlgorithm;
+import org.cipres.treebase.domain.study.UPGMAAlgorithm;
 import org.cipres.treebase.domain.study.LikelihoodAlgorithm;
 import org.cipres.treebase.domain.study.OtherAlgorithm;
 import org.cipres.treebase.domain.study.ParsimonyAlgorithm;
@@ -222,11 +225,16 @@ public class CommitStudy extends GenericAuxDataAction implements CompleteStudyAc
 			
 			Algorithm theAlgorithm;
 			String tb1Algorithm = an.getString("algorithm");
-			
 			if (tb1Algorithm.equalsIgnoreCase("parsimony")) {
 				theAlgorithm = new ParsimonyAlgorithm();
-			} else if (tb1Algorithm.equalsIgnoreCase("distance")) {
-				theAlgorithm = new DistanceAlgorithm();
+			} else if (tb1Algorithm.equalsIgnoreCase("bayesian")) {
+				theAlgorithm = new BayesianAlgorithm();
+			} else if (tb1Algorithm.equalsIgnoreCase("evolution")) {
+				theAlgorithm = new EvolutionAlgorithm();
+			} else if (tb1Algorithm.equalsIgnoreCase("joining")) {
+				theAlgorithm = new JoiningAlgorithm();
+			} else if (tb1Algorithm.equalsIgnoreCase("UPGMA")) {
+				theAlgorithm = new UPGMAAlgorithm();
 			} else if (tb1Algorithm.equalsIgnoreCase("likelihood")) {
 				theAlgorithm = new LikelihoodAlgorithm();
 			} else {

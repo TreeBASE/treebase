@@ -73,7 +73,10 @@ public class StartupListener extends ContextLoaderListener {
 		List algorithmTypes = new ArrayList();
 		algorithmTypes.add(Constants.ALGORITHM_LIKELIHOOD);
 		algorithmTypes.add(Constants.ALGORITHM_PARSIMONY);
-		algorithmTypes.add(Constants.ALGORITHM_DISTANCE);
+		algorithmTypes.add(Constants.ALGORITHM_Bayesian);
+		algorithmTypes.add(Constants.ALGORITHM_Evolution);
+		algorithmTypes.add(Constants.ALGORITHM_Joining);
+		algorithmTypes.add(Constants.ALGORITHM_UPGMA);
 		algorithmTypes.add(Constants.ALGORITHM_OTHER);
 		context.setAttribute(Constants.ALGORITHM_TYPES, algorithmTypes);
 

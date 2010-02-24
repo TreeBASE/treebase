@@ -104,8 +104,10 @@
 		<mapping class="org.cipres.treebase.domain.study.BookCitation" />
 		<mapping class="org.cipres.treebase.domain.study.Citation" />
 		<mapping class="org.cipres.treebase.domain.study.CitationStatus" />
-		<mapping class="org.cipres.treebase.domain.study.DistanceAlgorithm" />
+		<mapping class="org.cipres.treebase.domain.study.BayesianAlgorithm" />
+		<mapping class="org.cipres.treebase.domain.study.EvolutionAlgorithm" />		
 		<mapping class="org.cipres.treebase.domain.study.InBookCitation" />
+		<mapping class="org.cipres.treebase.domain.study.JoiningAlgorithm" />
 		<mapping class="org.cipres.treebase.domain.study.LikelihoodAlgorithm" />
 		<mapping class="org.cipres.treebase.domain.study.OtherAlgorithm" />
 		<mapping class="org.cipres.treebase.domain.study.ParsimonyAlgorithm" />
@@ -113,7 +115,8 @@
 		<mapping class="org.cipres.treebase.domain.study.Study" />
 		<mapping class="org.cipres.treebase.domain.study.StudyStatus" />
 		<mapping class="org.cipres.treebase.domain.study.Submission" />
-	
+		<mapping class="org.cipres.treebase.domain.study.UPGMAAlgorithm" />
+			
 		<mapping class="org.cipres.treebase.domain.taxon.LSIDTaxonLink" />
 		<mapping class="org.cipres.treebase.domain.taxon.SpecimenLabel" />
 		<mapping class="org.cipres.treebase.domain.taxon.Taxon" />

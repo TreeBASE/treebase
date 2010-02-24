@@ -19,13 +19,16 @@ import org.cipres.treebase.domain.study.AnalysisStep;
 import org.cipres.treebase.domain.study.AnalyzedData;
 import org.cipres.treebase.domain.study.AnalyzedMatrix;
 import org.cipres.treebase.domain.study.AnalyzedTree;
-import org.cipres.treebase.domain.study.DistanceAlgorithm;
+import org.cipres.treebase.domain.study.BayesianAlgorithm;
+import org.cipres.treebase.domain.study.EvolutionAlgorithm;
+import org.cipres.treebase.domain.study.JoiningAlgorithm;
 import org.cipres.treebase.domain.study.LikelihoodAlgorithm;
 import org.cipres.treebase.domain.study.OtherAlgorithm;
 import org.cipres.treebase.domain.study.ParsimonyAlgorithm;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.Submission;
+import org.cipres.treebase.domain.study.UPGMAAlgorithm;
 import org.cipres.treebase.framework.ExecutionResult;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.model.AnalysisCommand;
@@ -128,11 +131,17 @@ public class DisplayAnalysisController implements Controller {
 					algorithmType = Constants.ALGORITHM_LIKELIHOOD;
 				} else if (algorithm instanceof ParsimonyAlgorithm) {
 					algorithmType = Constants.ALGORITHM_PARSIMONY;
-				} else if (algorithm instanceof DistanceAlgorithm) {
-					algorithmType = Constants.ALGORITHM_DISTANCE;
-				} else if (algorithm instanceof OtherAlgorithm) {
+				}  else if (algorithm instanceof OtherAlgorithm) {
 					algorithmType = Constants.ALGORITHM_OTHER;
-				}
+				}else if (algorithm instanceof BayesianAlgorithm) {
+					algorithmType = Constants.ALGORITHM_Bayesian;
+				} else if (algorithm instanceof EvolutionAlgorithm) {
+					algorithmType = Constants.ALGORITHM_Evolution;
+				} else if (algorithm instanceof JoiningAlgorithm) {
+					algorithmType = Constants.ALGORITHM_Joining;
+			} else if (algorithm instanceof UPGMAAlgorithm) {
+				algorithmType = Constants.ALGORITHM_UPGMA;	
+			}
 				// add algorithm type for analysisStepCommand
 				analysisStepCommand.setAlgorithmType(algorithmType);
 

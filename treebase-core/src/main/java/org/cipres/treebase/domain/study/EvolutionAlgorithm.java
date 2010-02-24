@@ -5,29 +5,29 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 /**
- * DistanceAlgorithm.java
+ * UPGMAAlgorithm.java
  * 
- * Created on Mar 13, 2006
+ * Created on Feb 23, 2010
  * 
- * @author Jin Ruan
+ * @author Youjun Guo
  * 
  */
 @SuppressWarnings("serial")
 @Entity
-@DiscriminatorValue("D")
-public class DistanceAlgorithm extends Algorithm {
+@DiscriminatorValue("E")
 
+public class EvolutionAlgorithm extends Algorithm {
 	/**
 	 * Constructor.
 	 */
-	public DistanceAlgorithm() {
+	public EvolutionAlgorithm() {
 		super();
 	}
 
 	@Override
 	@Transient
 	public String getAlgorithmType() {
-		return DistanceAlgorithm;
+		return EvolutionAlgorithm;
 	}
 
 }

@@ -12,11 +12,14 @@ import org.cipres.treebase.domain.matrix.GapMode;
 import org.cipres.treebase.domain.matrix.PolyTCount;
 import org.cipres.treebase.domain.study.Algorithm;
 import org.cipres.treebase.domain.study.AnalysisStep;
-import org.cipres.treebase.domain.study.DistanceAlgorithm;
+import org.cipres.treebase.domain.study.BayesianAlgorithm;
+import org.cipres.treebase.domain.study.EvolutionAlgorithm;
+import org.cipres.treebase.domain.study.JoiningAlgorithm;
 import org.cipres.treebase.domain.study.LikelihoodAlgorithm;
 import org.cipres.treebase.domain.study.OtherAlgorithm;
 import org.cipres.treebase.domain.study.ParsimonyAlgorithm;
 import org.cipres.treebase.domain.study.Software;
+import org.cipres.treebase.domain.study.UPGMAAlgorithm;
 import org.cipres.treebase.web.Constants;
 
 /**
@@ -47,7 +50,10 @@ public class AnalysisStepCommand extends AnalysisStep {
 	private List<String> mUniqueAlgorithmDescriptions;
 
 	public AnalysisStepCommand() {
-		algorithmMap.put(Constants.ALGORITHM_DISTANCE, new DistanceAlgorithm());
+		algorithmMap.put(Constants.ALGORITHM_Bayesian, new BayesianAlgorithm());
+		algorithmMap.put(Constants.ALGORITHM_Evolution, new EvolutionAlgorithm());
+		algorithmMap.put(Constants.ALGORITHM_Joining, new JoiningAlgorithm());
+		algorithmMap.put(Constants.ALGORITHM_UPGMA, new UPGMAAlgorithm());
 		algorithmMap.put(Constants.ALGORITHM_LIKELIHOOD, new LikelihoodAlgorithm());
 		algorithmMap.put(Constants.ALGORITHM_OTHER, new OtherAlgorithm());
 		// ParsimonyAlgorithm parsimonyAlgorithm = new ParsimonyAlgorithm();

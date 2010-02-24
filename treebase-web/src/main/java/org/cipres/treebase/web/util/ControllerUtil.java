@@ -17,12 +17,15 @@ import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.study.Algorithm;
 import org.cipres.treebase.domain.study.Analysis;
 import org.cipres.treebase.domain.study.AnalysisStep;
-import org.cipres.treebase.domain.study.DistanceAlgorithm;
+import org.cipres.treebase.domain.study.BayesianAlgorithm;
+import org.cipres.treebase.domain.study.EvolutionAlgorithm;
+import org.cipres.treebase.domain.study.JoiningAlgorithm;
 import org.cipres.treebase.domain.study.LikelihoodAlgorithm;
 import org.cipres.treebase.domain.study.OtherAlgorithm;
 import org.cipres.treebase.domain.study.ParsimonyAlgorithm;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
+import org.cipres.treebase.domain.study.UPGMAAlgorithm;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.exceptions.EmptyStudyException;
 
@@ -246,8 +249,14 @@ public class ControllerUtil {
 			type = Constants.ALGORITHM_LIKELIHOOD;
 		} else if (algorithm instanceof ParsimonyAlgorithm) {
 			type = Constants.ALGORITHM_PARSIMONY;
-		} else if (algorithm instanceof DistanceAlgorithm) {
-			type = Constants.ALGORITHM_DISTANCE;
+		} else if (algorithm instanceof BayesianAlgorithm) {
+			type = Constants.ALGORITHM_Bayesian;
+		} else if (algorithm instanceof EvolutionAlgorithm) {
+			type = Constants.ALGORITHM_Evolution;
+		} else if (algorithm instanceof JoiningAlgorithm) {
+			type = Constants.ALGORITHM_Joining;
+		} else if (algorithm instanceof UPGMAAlgorithm) {
+			type = Constants.ALGORITHM_UPGMA;	
 		} else if (algorithm instanceof OtherAlgorithm) {
 			type = Constants.ALGORITHM_OTHER;
 		}

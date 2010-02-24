@@ -11,15 +11,30 @@
 </legend>
 Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/>, <a href="/treebase-web/admin/changeStudyStatus.html"> Update Status</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submission initiated:&nbsp;&nbsp;<c:out value="${initiatedDate}"/><br/>
-<a href='mailto:${submission.submitter.emailAddressString}?subject=TreeBASE Submission S${submission.id}'>
-	<img class="iconButton" alt="mail" src="<fmt:message key="icons.email"/>" />
-	Contact Submitter
-</a>
-<br/>
-<a href="<c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
-	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
-	Reviewer access URL: right-click and copy
-</a>
+
+<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+	<a href='mailto:${submission.submitter.emailAddressString}?subject=TreeBASE Submission S${submission.id}'>
+		<img class="iconButton" alt="mail" src="<fmt:message key="icons.email"/>" />
+		Contact Submitter
+	</a>
+	<br/>
+	<a href="<c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
+		<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
+		Reviewer access URL: right-click and copy
+	</a>
+<% } %>
+
+<%if(request.isUserInRole("User") ){%>
+	<a href='mailto:help@treebase.org?subject=TreeBASE Submission S${submission.id}'>
+		<img class="iconButton" alt="mail" src="<fmt:message key="icons.email"/>" />
+		Contact TreeBASE Help 
+	</a>
+	<br/>
+	<a href="<c:out value="http://purl.org/phylo/treebase/phylows/study/TB2:S"/><c:out value="${submission.study.id}"/>">
+		<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
+		Study Accession URL: right-click and copy
+	</a>
+<% } %>
 
 <c:if test="${not empty citationsummary.study}">
 	<c:if test="${not empty citationsummary.study.name}">

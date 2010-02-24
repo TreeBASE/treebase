@@ -98,10 +98,14 @@ public abstract class Algorithm extends AbstractPersistedObject {
 	}
 	
 	/* constants returned by getAlgorithmType */
-	public static final String LikelihoodAlgorithm = "maximum likelihood";
-	public static final String DistanceAlgorithm = "distance";
+	public static final String LikelihoodAlgorithm = "maximum likelihood";	
 	public static final String OtherAlgorithm = "other algorithm";
 	public static final String ParsimonyAlgorithm = "parsimony";
+	public static final String BayesianAlgorithm ="bayesian inference";	
+	public static final String EvolutionAlgorithm ="minimum evolution";
+	public static final String JoiningAlgorithm ="neighbor joining";
+	public static final String UPGMAAlgorithm = "UPGMA";
+	
 	
 	/**
 	 * @return a string describing the algorithm type (for example, "parsimony")
