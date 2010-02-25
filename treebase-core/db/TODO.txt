@@ -44,6 +44,8 @@ Pending data cleanups (on staging):
      2. I got the user_id for the "migration" user, and it happened to be 9955
      3. I ran this statement: "UPDATE submission SET user_id = 9955 WHERE user_id IS NULL"
      Now all migrated data belong to the user "migration". "
+   Also, see "null->'tb1'; http://www.treebase.org/~piel/taxlabels_fix.zip; Study 22 (Jan 8)"
+     
      
      
 Data cleanups on production: 
