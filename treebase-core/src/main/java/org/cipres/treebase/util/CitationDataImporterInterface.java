@@ -24,4 +24,7 @@ public interface CitationDataImporterInterface extends Standalone {
 	public void setCitationHome(CitationHome citationHome);
 	
 	public void processCitationFile(BufferedReader in, boolean testMode) throws NumberFormatException, IOException;
+	public void processAllCitations(BufferedReader in, boolean testMode) throws NumberFormatException, IOException;
+    public void processOneCitation(String[] fields, boolean testMode) throws NumberFormatException, IOException;
+
 }

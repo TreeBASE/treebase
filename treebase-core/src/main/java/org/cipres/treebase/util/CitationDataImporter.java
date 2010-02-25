@@ -112,8 +112,8 @@ public class CitationDataImporter extends AbstractStandalone implements Citation
 				person.setFirstName(nameParts[1]);
 				person.setMiddleName("");
 				person.setEmailAddressString("");
-				personHome.save(person);
-				personHome.store(person);				
+				//personHome.save(person);   //-- VG 2010-02-24  These were messing up parent transactions by 
+				//personHome.store(person);  //-- VG		     saving too early. 		
 			}
 			warn(person.getLastName());
 			authors.add(person);
@@ -263,18 +263,136 @@ public class CitationDataImporter extends AbstractStandalone implements Citation
 			in = new BufferedReader(
 					new InputStreamReader(new FileInputStream(inFileName), "UTF8"));
 
-			me.processCitationFile(in, testmode);
+			//me.processCitationFile(in, testmode);  //VG-2010-02-25 now deprecated
+			me.processAllCitations(in, testmode);
 		} 
 		catch ( Exception e ) {
 			e.printStackTrace();
 		}
 	}	
 	
-	/**
-	 * 
-	 * 
-	 * @see org.cipres.treebase.util.CitationDataImporterInterface#processCitationFile(java.io.BufferedReader, boolean)
+	/** Go through the open citation file and transactionally save each successfully processed citation. 
+	 *  Processing stops on error, with prior transactions committed. 
+	 *  Derived from the deprecated processCitationsFile by factoring out most of the while-loop code
+	 *  into its own method, so that Spring can make it transactional. 
 	 */
+	public void processAllCitations(BufferedReader in, boolean testMode) throws NumberFormatException, IOException {
+		String line;
+        while ( ( line = in.readLine()) != null ) {
+        	String[] fields = line.split("\t"); 
+        	processOneCitation(fields, testMode); 
+        }
+        in.close();
+	}	
+
+	/** Process one citation from the file and save the result transactionally.  
+	 *  This method is declared PROPAGATION_REQUIRES_NEW in the bean descriptor.
+	 */
+	public void processOneCitation(String[] fields, boolean testMode) throws NumberFormatException, IOException {
+    	if ( fields[0].startsWith("*") ) {
+    		warn("Line is commented out, skipping");
+    		return;
+    	}
+    	String tb1StudyId = fields[18];
+    	Study study = findStudy(tb1StudyId);
+    	if ( study == null ) {
+    		warn("No such study (TB1 accession): " + tb1StudyId);
+    		return;
+    	}
+    	Citation citationStub = study.getCitation();
+    	Citation citation = null;
+    	if ( citationStub != null ) {
+    		warn("Study "+tb1StudyId+" already associated with a citation "+citationStub.getId());
+//    		 In general, citation stubs already exist for each study. However, these
+//    		 stubs are all of type ArticleCitation, which means that, in the case of
+//    		 BookCitations (for example) we'll get a class cast exception when we try
+//    		 to cast the citation to a book in order to set the editors.
+    		//getCitationService().deleteCitation(citationStub);
+    		//citation = createCitation(fields[0]);
+    		citation = citationStub;
+    	}		
+    	else {
+    		warn("No citation stub association with study (TB1 accession) " + tb1StudyId);
+    		citation = createCitation(fields[0]);
+    	}
+    	if ( citation == null ) {
+    		warn("No citation was instantiated, skipping this record (TB1 accession) "+tb1StudyId);
+    		return;
+    	}
+    	for ( int i = 0; i < fields.length; i++ ) {
+    		if ( ! TreebaseUtil.isEmpty(fields[i]) ) {
+    			switch(i) {
+    				case 0: citation.setCitationType(fields[i]); break;
+    				case 1: setAuthors(citation,fields[i],personHome,false); break;
+    				case 2: citation.setPublishYear(Integer.parseInt(fields[i])); break;
+    				case 3: if ( citation instanceof BookCitation ) { 
+    					((BookCitation)citation).setBookTitle(fields[i]);
+    					citation.setTitle(fields[i]);
+    				} else {
+    					citation.setTitle(fields[i]);
+    				} break;
+    				case 4: setAuthors(citation,fields[i],personHome,true); break;
+    				case 5: if ( citation instanceof ArticleCitation ) {
+    					((ArticleCitation)citation).setJournal(fields[i]);
+    					warn("Setting journal name "+fields[i]);
+    				} else {
+    					warn("Setting book title "+fields[i]);
+    					((BookCitation)citation).setBookTitle(fields[i]);
+    				} break;
+    				case 6: if ( citation instanceof BookCitation ) {                 					
+    					((BookCitation)citation).setCity(fields[i]); 
+    				} else {
+    					warn("Record has an entry for city, yet it's not a book (TB1 accession) "+tb1StudyId);
+    				} break;
+    				case 7: if ( citation instanceof BookCitation ) {                 					
+    					((BookCitation)citation).setPublisher(fields[i]);
+    				} else {
+    					warn("Record has an entry for publisher, yet it's not a book (TB1 accession) "+tb1StudyId);
+    				} break;
+    				case 8: if ( citation instanceof ArticleCitation ) { 
+    					((ArticleCitation)citation).setVolume(fields[i]);
+    				} else {
+    					warn("Record has an entry for volume, yet it's not an article (TB1 accession) "+tb1StudyId);
+    				} break;
+    				case 10: if ( citation instanceof ArticleCitation ) { 
+    					((ArticleCitation)citation).setIssue(fields[i]);
+    				} else {
+    					warn("Record has an entry for issue, yet it's not an article (TB1 accession)"+tb1StudyId);
+    				} break;
+    				case 11: citation.setPages(fields[i]); break;
+    				case 15: if ( fields[i].equals("in press") ) {
+    					citation.setCitationStatusDescription(CitationStatus.INPRESS);                					
+    				}
+    				case 16: citation.setKeywords(fields[i]); break;
+    				case 17: citation.setAbstract(checkAbstractLength(fields[i])); break;
+    				case 18: citation.setStudy(study); break;
+    				case 19: citation.setURL(fields[i]); break;
+    				case 20: citation.setDoi(fields[i]); break;
+    				default: warn("Empty field expected, found: " + fields[i] + " for line: " + /*was: line */fields.toString()); break;
+    			}
+    		}
+    	}
+    	warn("Storing citation "+citation.getId());
+    	warn(citation.getAuthorsCitationStyleWithoutHtml());   
+    	if ( ! testMode ) {
+        	study.setCitation(citation);
+        	getStudyService().update(study);
+        	Long id = study.getCitation().getId();
+        	warn("Stored citation at ID " + id); 
+    	}
+    	else {
+    		warn("Test run, not saving");
+    	}		
+	}
+	
+	/**
+	 * Deprecated, use processAllCitations() instead. 
+	 * The programmatic transaction handling via the commit(); beginTransaction(); pair at the end of this method
+	 * was leaving an open transaction, leading to an exception. Also, the "-test" command line switch had no effect. 
+	 * Instead, fine-grained transactions (for each citation) are now achieved by embracing Spring's declarative 
+	 * transactions: transactions are at boundaries of designated methods.  VG-2010-02-25
+	 */
+	@Deprecated
 	public void processCitationFile(BufferedReader in, boolean testMode) throws NumberFormatException, IOException {
 		String line;
 		Long maxId = new Long(0);

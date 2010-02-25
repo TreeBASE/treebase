@@ -221,6 +221,8 @@
 		<property name="transactionAttributes">
 			<props>
 				<prop key="processCitationFile">PROPAGATION_REQUIRED</prop>
+				<prop key="processOneCitation">PROPAGATION_REQUIRES_NEW</prop>
+				<prop key="processAllCitations">PROPAGATION_SUPPORTS</prop>
 			</props>
 		</property>
 	</bean>
