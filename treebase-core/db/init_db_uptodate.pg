@@ -8,5 +8,7 @@
 \i patches/0002_drop-geospot_id_sequence.sql
 \i patches/0003_rename-stepmatrixelement-pk.sql
 \i patches/0004_create-indexes.sql
+\i patches/0005_add-taxonabel-tb1legacyid.sql
+
 
 
