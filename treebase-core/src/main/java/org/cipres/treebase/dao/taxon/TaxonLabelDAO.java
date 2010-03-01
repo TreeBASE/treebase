@@ -409,12 +409,13 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 		return result;
 
 	}
-
+    // need refactoring later
+	//all the sql statement should go to same file or class 
 	public Collection<Matrix> findMatrices(Taxon t) {
 		Query q = getSession()
-		.createQuery("select distinct m from Matrix m, TaxonLabel tl where " +
-				"tl member of m.taxa.taxonLabelList and tl.taxonVariant.taxon = :t");
-		q.setParameter("t", t);
+		.createSQLQuery("select distinct m.* from matrix m join matrixrow using(matrix_id) join taxonlabel " +
+				"using (taxonlabel_id) join taxonvariant using (taxonvariant_id) where taxon_id = :id").addEntity(Matrix.class);
+		q.setParameter("id", t.getId());
 		Collection<Matrix> result = q.list();
 		return result;
 	}
@@ -436,8 +437,11 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 */
 	public Collection<PhyloTree> findTrees(Taxon t) {
 		Query q = getSession()
-		.createQuery("select pt from PhyloTree pt, TaxonLabel tl where " +
-				"tl member of pt.treeBlock.taxonLabelSet.taxonLabelList and tl.taxonVariant.taxon = :t");
+		.createQuery("select distinct pt from PhyloTree pt inner join fetch pt.treeNodes tn where " +
+		"tn.taxonLabel.taxonVariant.taxon = :t"); 
+		
+		//("select pt from PhyloTree pt, TaxonLabel tl where " +
+		//		"tl member of pt.treeBlock.taxonLabelSet.taxonLabelList and tl.taxonVariant.taxon = :t");
 		q.setParameter("t", t);
 		Collection<PhyloTree> result = new HashSet<PhyloTree>();
 		for (Object o: q.list()) {  // Can't select distinct over phylotrees today 20081204 mjd
