@@ -6,10 +6,6 @@
 <c:set var="currentSection" scope="request" value="Matrices"/>
 <c:set var="headerPrefix" scope="request" value="${currentSection} for "/>
 
-<c:set var="serverName" scope="request" value="<%= request.getServerName() %>"/>
-<c:set var="portNumber" scope="request" value="<%= request.getServerPort() %>"/>
-<c:set var="baseURL" scope="request" value='http://${serverName}:${portNumber}/treebase-web/phylows/'/>
-
 <jsp:include page="nav.jsp"/>
 
 <c:url var="studyURL" value="summary.html">
@@ -26,7 +22,7 @@
 			   cellpadding="3">
 
 	<display:column title="ID">
-		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">html</c:param></c:url>
+		<c:url var="url" value="${matrix.phyloWSPath.purl}"><c:param name="format">html</c:param></c:url>
 		<a href="${url}">${matrix.treebaseIDString}</a>
 	</display:column>
 	
@@ -71,7 +67,7 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">nexml</c:param></c:url>		
+		<c:url var="url" value="${matrix.phyloWSPath.purl}"><c:param name="format">nexml</c:param></c:url>		
 		<a href="${url}">
 			<img 
 				class="iconButton" 
@@ -85,7 +81,7 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">rdf</c:param></c:url>
+		<c:url var="url" value="${matrix.phyloWSPath.purl}"><c:param name="format">rdf</c:param></c:url>
 		<a href="${url}">
 			<img 
 				class="iconButton" 
@@ -99,7 +95,7 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">nexus</c:param></c:url>
+		<c:url var="url" value="${matrix.phyloWSPath.purl}"><c:param name="format">nexus</c:param></c:url>
 		<a href="${url}">
 			<img 
 				class="iconButton" 
@@ -130,7 +126,7 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${baseURL}${matrix.phyloWSPath}"><c:param name="format">html</c:param></c:url>
+		<c:url var="url" value="${matrix.phyloWSPath.purl}"><c:param name="format">html</c:param></c:url>
 		<a href="${url}">		
 			<img 
 				class="iconButton" 
