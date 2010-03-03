@@ -12,30 +12,31 @@
 Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/>, <a href="/treebase-web/admin/changeStudyStatus.html"> Update Status</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submission initiated:&nbsp;&nbsp;<c:out value="${initiatedDate}"/><br/>
 
-<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
-	<a href='mailto:${submission.submitter.emailAddressString}?subject=TreeBASE Submission S${submission.id}'>
-		<img class="iconButton" alt="mail" src="<fmt:message key="icons.email"/>" />
-		Contact Submitter
-	</a>
-	<br/>
-	<a href="<c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
-		<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
-		Reviewer access URL: right-click and copy
-	</a>
-<% } %>
-
-<%if(request.isUserInRole("User") ){%>
-	<a href='mailto:help@treebase.org?subject=TreeBASE Submission S${submission.id}'>
-		<img class="iconButton" alt="mail" src="<fmt:message key="icons.email"/>" />
-		Contact TreeBASE Help 
-	</a>
-	<br/>
-	<a href="<c:out value="http://purl.org/phylo/treebase/phylows/study/TB2:S"/><c:out value="${submission.study.id}"/>">
-		<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
-		Study Accession URL: right-click and copy
-	</a>
-<% } %>
-
+<br/>
+<a href='mailto:${submission.submitter.emailAddressString}?subject=TreeBASE Submission S${submission.id}'>
+	<img class="iconButton" alt="mail" src="<fmt:message key="icons.email"/>" />
+	Contact Submitter
+</a>
+<br/>
+<a href='mailto:help@treebase.org?subject=TreeBASE Submission S${submission.id}'>
+	<img class="iconButton" alt="mail" src="<fmt:message key="icons.email"/>" />
+	Contact TreeBASE Help 
+</a>
+<br/>
+<br/>
+<a href="<c:out value="http://purl.org/phylo/treebase/phylows/study/TB2:S"/><c:out value="${submission.study.id}"/>">
+	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
+	Study Accession URL:<br/>
+	<c:out value="http://purl.org/phylo/treebase/phylows/study/TB2:S"/><c:out value="${submission.study.id}"/>
+</a>
+<div><strong>You can cite this URL in your manuscript; It will become the permanent and resolvable resource locator after your submission has been approved and the data are made public.</strong></div>
+<br/>
+<a href="<c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
+	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
+	Reviewer access URL: right-click and copy me
+</a>
+<div><string>You can copy and send this URL to you journal editor to provide reviewers with limited, read-only access to your data, even if your submission has not yet been approved and the data are not yet public.</sstrong></div>
+<br/>
 <c:if test="${not empty citationsummary.study}">
 	<c:if test="${not empty citationsummary.study.name}">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Study name:&nbsp;&nbsp;<c:out value="${citationsummary.study.name}"/>
@@ -43,7 +44,7 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 </c:if>
 
 <br/>
-<br/>
+
 
 <c:if test="${empty citationsummary.title}">
  Citation information not yet entered. Click the <strong>Citation</strong> menu item on the right.<br/><br/>
