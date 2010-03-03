@@ -29,7 +29,7 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 	Study Accession URL:<br/>
 	<c:out value="http://purl.org/phylo/treebase/phylows/study/TB2:S"/><c:out value="${submission.study.id}"/>
 </a>
-<div><strong>You can cite this URL in your manuscript; It will become the permanent and resolvable resource locator after your submission has been approved and the data are made public.</strong></div>
+<div><strong>You can cite this URL in your manuscript. It will become the permanent and resolvable resource locator after your submission has been approved and the data are made public.</strong></div>
 <br/>
 <a href="<c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
 	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
