@@ -35,7 +35,7 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
 	Reviewer access URL: right-click and copy me
 </a>
-<div><string>You can copy and send this URL to you journal editor to provide reviewers with limited, read-only access to your data, even if your submission has not yet been approved and the data are not yet public.</sstrong></div>
+<div><strong>You can copy and send this URL to you journal editor to provide reviewers with limited, read-only access to your data, even if your submission has not yet been approved and the data are not yet public.</strong></div>
 <br/>
 <c:if test="${not empty citationsummary.study}">
 	<c:if test="${not empty citationsummary.study.name}">

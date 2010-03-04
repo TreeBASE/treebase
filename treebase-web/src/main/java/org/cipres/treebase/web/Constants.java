@@ -77,7 +77,6 @@ public class Constants {
 	public static final String ALGORITHM_TYPES = "algorithmtypes";
 	public static final String ALGORITHM_LIKELIHOOD = Algorithm.LikelihoodAlgorithm;
 	public static final String ALGORITHM_PARSIMONY = Algorithm.ParsimonyAlgorithm;
-	//public static final String ALGORITHM_DISTANCE = Algorithm.DistanceAlgorithm;
 	public static final String ALGORITHM_OTHER = Algorithm.OtherAlgorithm;
 	public static final String ALGORITHM_Bayesian =Algorithm.BayesianAlgorithm;	
 	public static final String ALGORITHM_Evolution =Algorithm.EvolutionAlgorithm;
