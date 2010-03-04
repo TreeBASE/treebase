@@ -4,7 +4,7 @@
 <div id="mainMenu">
 <div id="gutter">
 <div id="menu">
-<a onclick="switchMenu('menuDiv');" style="cursor: pointer;">[X]</a>
+<a onclick="switchMenu();" style="cursor: pointer;"><img id="tb" src="../images/minus.gif;"/>Tool Box</a>
 <menu:useMenuDisplayer name="ListMenu" permissions="rolesAdapter" >
     <menu:displayMenu name="Searches" />
  </menu:useMenuDisplayer>
@@ -20,13 +20,16 @@
         openMenu("menuDiv");
     }
 
-    function switchMenu(obj) {
-        var el = document.getElementById(obj);
+    function switchMenu() {
+        var el = document.getElementById('menuDiv');
+        var tb = document.getElementById('tb');
         if ( el.style.display != "none" ) {
             el.style.display = 'none';
-        }
+            tb.src="../images/plus.gif";
+                    }
         else {
-            el.style.display = '';
-        }
+            el.style.display = 'block';
+            tb.src="../images/minus.gif";
+                   }
     }
 </script>
