@@ -15,7 +15,9 @@
 <!-- Since we are not ready for it that is why line is commented -->
 <form method="post" enctype="multipart/form-data" >
 <fieldset>
-	<legend>Upload tab delimited file</legend>
+	<legend>Upload tab delimited file
+	<a href="#" class="openHelp" onclick="openHelp('uploadRowSegmentData')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>	
+	</legend>
 	<table border="0" cellpadding="1">
 	
 		<tr>

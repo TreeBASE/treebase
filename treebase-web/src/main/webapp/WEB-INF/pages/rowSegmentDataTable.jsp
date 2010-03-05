@@ -9,8 +9,9 @@
 
 
 <fieldset>
-<legend>Row segment data</legend>
-	
+<legend>Row segment data
+	<a href="#" class="openHelp" onclick="openHelp('rowSegmentDataTable')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+</legend>	
 	<b style="font-size:125%"> Check if header is included in the file: </b> <input type="checkbox" name="cbox" value="Butter" checked = true><br> 
   	<div style="overflow:auto; width:100%;">
   	<table border="1" class="list">
