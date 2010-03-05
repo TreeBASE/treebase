@@ -24,6 +24,11 @@ Pending schema patches:
 Pending data cleanups (on staging):
 ===================================
 
+[Was promised to be done after migration] 
+
+* fixlabels_trans.zip -- removes duplicate taxon labels - email of 2010-03-03
+
+
 [Could be worthwhile to do PRIOR to Dec 2009 and Feb 2010 migrations.]
 
 * Remove junk, particularly that created by tests
