@@ -1,0 +1,188 @@
+Most scripts in scripts/* invoke Java tools developed Mark-Jason Dominus. 
+These tools are in treebase-core, in the package org.cipres.treebase.util. 
+They are described in a message from Mark posted at 
+http://sourceforge.net/apps/mediawiki/treebase/index.php?title=DataDumps#Migrating_TB1_-.3E_TB2_data
+and copied below.  
+
+Understanding of this text is not necessary in order to run scripts/*, but may help if you need to work on the underlying Java tools. 
+
+
+----------------------------------------------------------------------
+
+= Migrating TB1 -> TB2 data = 
+
+1. Bill supplied the following data:
+
+ a. Nexus files, each containing either one tree or one matrix.
+
+    i. Matrix files are in ~/treebase-data/matrix/
+    ii. Tree files are in ~/treebase-data/tree/
+
+ b. "Dump.txt" file, describing the structure of studies, analyses, and
+    including author and citation information.
+
+    i. Most recent version in ~/treebase-data/Dump.txt
+    ii. Older versions in ~/treebase-data/Dump-YYYYMMDD.txt
+
+ c. Taxon data, as three tab-separated files in ~/treebase-data/taxon/:
+
+    i. T.tax, the taxon data
+    ii. TV.tab, the taxon variant data
+    iii. TL.tab, the taxon label data
+
+    Bill had a document explaining the format of these files, but I
+    don't know where my copy is; get it from him if you need it.  The
+    format is also documented in the util/LoadTaxonData.java file.
+
+2. My importing programs are in three places:
+
+ a. Nexus file importer and miscellaneous utilities are in:
+
+    treebase-core/src/main/java/org/cipres/treebase/util
+
+    henceforward called "~util".
+
+ b. Dump.txt loader:
+
+    treebase-core/src/main/java/org/cipres/treebase/auxdata
+
+    henceforward called "~auxdata".
+
+ c. Perl utilities:
+
+    /home/mjd/t/treebase-core/src/main/perl
+
+    henceforward called "~perl".  There are a number of useful
+     utilities in ~perl/bin that you should take a look at.
+
+3. Running standalone programs
+
+  It was not clear to me that there was an easy way to run a
+  standalone command-line-type utility in the Spring/Hibernate
+  environment without binding it to a web page.   I built the
+  Standalone interface to address this.
+
+  To run one of these programs, say BulkUpload, do this:
+
+    cd treebase-core/target/classes
+    jrun -D M2_REPO=path/to/m2_repository org.cipress.treebase.util.BulkUpload <args...>
+
+
+  I use $HOME/.m2/repository for M2_REPO.
+
+  The purpose of "jrun" is to assemble the correct classpath (by
+  examining the .classpath files written out by Eclipse) and execute
+  the Java interpreter.  The complete classpath is really big, and it
+  was helpful to have this utility to figure it out.
+
+  "jrun" is in ~perl/jrun.  It has some other command-line options;
+  see the source code.
+
+3. To import data:
+
+  a. Load in the nexus files with ~util/BulkUpload.  BulkUpload gets
+     a list of file or directory names as arguments.  If given a
+     directory name, it processes all the files contained in the
+     directory.
+
+  b. The code Jin wrote to import nexus files forgets to set the row
+     and column count on matrices, and the node count on trees.  So
+     now run ~util/SetMatrixNChar and ~util/SetTreeNChar to adjust
+     these correctly.  These get no arguments.
+
+  c. Process the Dump.txt file.  The utility for this in
+     util/AuxiliaryDataImporter.  To invoke:
+
+        jrun -D M2_REPO=... org.cipres.treebase.util.AuiliaryDataImporter [flags...] Dump.txt
+
+     If you omit "Dump.txt", it will try to read from some hardwired
+     default path.
+
+     The program will read and parse the Dump.txt file, which
+     contains a series of sections, one for each study.  The program
+     will construct a representation of each study, and perform an
+     action for each one.
+
+     The default action, defined by CommitStudy.java, is to create a
+     study and its associated analyses, link the appropriate Matrix
+     and Tree objects, and generally try to build the study as
+     defined in the Dump.txt file.  If a section calls for it to
+     create a study with a TB1 legacy ID number that is already in
+     the database, it will skip that section.
+
+     Command-line flags:
+
+     -a ActionClass.  The ActionClass must implement interface
+     CompleteStudyAction.  The default is CommitStudy.
+
+     -l logFileName.  Write diagnostics to specified log file instead
+     of standard error.
+
+     -n.  Say what would be done, but don't actually do anything.
+
+     -t.  Set "testing mode" flag.  Interpretation of this is up to
+     the specific action class.  For the default, it probebly tells
+     the action to set the "TestMode" flag in Study and Submission
+     objects that it creates.
+
+     -s ID,ID,ID...   Process only those studies with the specified
+     legacy ID numbers.  (Default: Process all studies.)
+
+4. Check results
+
+  a. Look for missing objects.
+
+     util/WhatsMissing checks the contents of the database against a
+     census file that lists the objects that should be there
+     post-migration.  It uses the Java resrouce path to find the
+     census files.  The most recent census files I have are in
+     treebase-core/src/main/resources/{matrices,studies,trees}.lst.
+
+     Command-line options:
+
+     -s : Check for missing studie.
+     -m : Check for missing matrices.
+     -t : Check for missing trees.
+
+       If none of -s, -m, or -t is supplied, the program checks all three.
+
+     -Q : Quiet mode.
+
+   b. Check database consistency.
+
+      perl/bin/check is a program that understands a lot of the
+     proper structure of TB2 objects and does a variety of
+     consistency checks on the database.  To run:
+
+       check ObjectType ID#
+
+     Where ObjectType is something like "Study" or "Matrix".  Use
+     "check -X" to get a list of legal values for this argument.
+
+     To extend the checker to understand more object types, add them
+     to ~perl/lib/CIPRES/TreeBase/TreeBaseObjects.pm.  Email me if
+     you need to do this; I will be able to explain what is needed.
+
+     I suggest that you do something like this:
+
+         for id in `sel study_id from study`; do
+           echo $id
+           check Study $id > S$id.out 2> S$id.err
+         done
+
+     And then go away for a while.  Any consistency failures will be
+     reported on a line with a leading '***'.  The program in
+     ~perl/bin/digester may be useful in going over the consistency
+     checker's reports: It aggregates similar error messages into
+     groups, and creates a file for each group of messages.  So after
+     running 'check' as above, you may
+
+         grep '\*\*\*' S*.err | digester
+
+     to get an overview of what sorts of failures occurred, and how
+     many times each.  Use '-d directoryName' to have it put the
+     digested reports into some subdirectory.
+
+
+
+As always, please email me if you have any questions.
