@@ -211,7 +211,8 @@ public class BulkUpload  extends AbstractStandalone implements BulkUploadInterfa
 	}
 	
 	private static Submission getPseudoSubmission() {
-		return PseudoSubmission.getPseudoSubmission("TEST");
+//		return PseudoSubmission.getPseudoSubmission("TEST");   //VG2010-03-05 Changed to a more appropriate name
+		return PseudoSubmission.getPseudoSubmission("UPLOAD");
 	}
 	
 	private class MJDLogger extends PrintStream {
