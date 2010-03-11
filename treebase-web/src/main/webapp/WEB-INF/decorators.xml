@@ -9,6 +9,7 @@
         <pattern>/home.html</pattern>
         <pattern>/about.html</pattern>
         <pattern>/urlAPI.html</pattern>
+        <pattern>/people.html</pattern>
     </decorator>
 	
 	<!-- decoration page for search pages -->

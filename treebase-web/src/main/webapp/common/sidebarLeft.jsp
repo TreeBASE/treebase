@@ -9,7 +9,7 @@
 				<ul id="innerNavlist">
 					<li><a href="<c:url value="/about.html"/>"><fmt:message key="nav.overview"/></a></li>
 					<li><a href="#"><fmt:message key="nav.technology"/></a></li>
-					<li><a href="#"><fmt:message key="nav.people"/></a></li>
+					<li><a href="<c:url value="/people.html"/>"><fmt:message key="nav.people"/></a></li>
 					<li><a href="#"><fmt:message key="nav.partnerships"/></a></li>
 				</ul>
 			</li>			

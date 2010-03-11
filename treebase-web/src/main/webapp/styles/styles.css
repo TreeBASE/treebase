@@ -281,6 +281,22 @@ body#s-treeTop #st-treeTop a
 	vertical-align: middle	
 }
 
+/* People tables
+*******************************************************************************************/
+table.peopleTable td {
+	width: 130px;
+	text-align: center;
+	vertical-align: top;
+	padding-bottom: 20px;
+	padding-top: 20px;
+}
+
+table.peopleTable img {
+	border: 1px solid silver;
+	padding: 5px;
+	background-color: white;
+}
+
 	
 /* Left Sidebar Navigation Menu 
 *******************************************************************************************/
