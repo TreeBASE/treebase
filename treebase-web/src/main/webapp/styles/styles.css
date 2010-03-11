@@ -303,7 +303,7 @@ body#s-treeTop #st-treeTop a
 	border-bottom: 1px solid #CCC;
 }
 
-#navcontainer a:link, #navlist a:visited {
+#navcontainer a:link, #navlist #innerNavlist a:visited {
 	color: #333333;
 	text-decoration: none;
 }
@@ -312,6 +312,10 @@ body#s-treeTop #st-treeTop a
 	background-color: #DEE4FF;
 	text-decoration: none;
 	color: #3863A4;
+}
+
+#innerNavlist > li {
+	padding-left: 15px;	
 }
 
 /* Login Area Styles  
