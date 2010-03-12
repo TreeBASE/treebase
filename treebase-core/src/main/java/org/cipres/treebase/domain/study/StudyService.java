@@ -50,6 +50,15 @@ public interface StudyService extends AbstractService {
 	 * @return Collection<Study>
 	 */
 	Collection<Study> findByName(String pStudyName, boolean pCaseSensitive);
+	
+	
+	/**
+	 * Find studies by journal name. Return an empty set if no match is found.
+	 * @param pJournal
+	 * @param pCaseSensitive
+	 * @return Collection<Study>
+	 */
+	Collection<Study> findByJournal(String pJournal, boolean pCaseSensitive);
 
 	/**
 	 * Advanced study query by criteria.

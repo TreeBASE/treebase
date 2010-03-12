@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Clob;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -528,5 +529,10 @@ public class StudyServiceImpl extends AbstractServiceImpl implements StudyServic
 	@Override
 	public Class defaultResultClass() {
 		return Study.class;
+	}
+
+	public Collection<Study> findByJournal(String pJournal,
+			boolean pCaseSensitive) {
+		return getStudyHome().findByJournal(pJournal);
 	}
 }

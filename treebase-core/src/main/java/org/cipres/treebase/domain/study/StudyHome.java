@@ -45,6 +45,14 @@ public interface StudyHome extends DomainHome {
 	 * @return Set<Study>
 	 */
 	Collection<Study> findByAuthor(Person pAuthor);
+	
+	/**
+	 * Find studies by journal name.
+	 * 
+	 * @param pJournal
+	 * @return Collection<Study>
+	 */
+	Collection<Study> findByJournal(String pJournal);
 
 	/**
 	 * Find studies submitted by an user. Return an empty set if no match is found.

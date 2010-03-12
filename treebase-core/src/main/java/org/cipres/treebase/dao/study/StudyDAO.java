@@ -19,6 +19,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Restrictions;
@@ -362,6 +363,20 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 		Collection<TaxonLabel> taxonLabels = getTaxonLabelHome().findByExactString(label);
 		Collection<Study> studies = getTaxonLabelHome().findStudiesWithTaxonLabels(taxonLabels);
 		return studies;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.study.StudyHome#findByJournal(java.lang.String)
+	 */
+	public Collection<Study> findByJournal(String pJournal) {
+		Collection<Study> returnVal = new ArrayList<Study>();
+		if (pJournal != null) {
+			Query q = getSession().createQuery("select study from Citation where lower(journal) like :mStr");
+			q.setString("mStr", pJournal.trim().toLowerCase() + '%');
+			returnVal = q.list();			
+		}
+		return returnVal;
 	}
 
 
