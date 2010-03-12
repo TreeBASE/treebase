@@ -336,6 +336,12 @@ public class AuxDataTest extends TestCase {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+		public Collection<Study> findByJournal(String pJournal,
+				boolean pCaseSensitive) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 }
 
