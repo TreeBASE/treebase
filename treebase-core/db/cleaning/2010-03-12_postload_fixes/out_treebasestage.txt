@@ -1,0 +1,39 @@
+treebasestage=> \i ./all_postload_fixes.sql
+Assigning the special user tb1import to all studies and submissions with null user_id...
+BEGIN
+UPDATE 2451
+UPDATE 2427
+COMMIT
+Putting default values into phylotree.treekind, phylotree.treequality, and matrix.description...
+BEGIN
+UPDATE 983
+UPDATE 983
+UPDATE 834
+COMMIT
+Updating matrix.{ntax,nchar} to the actual counts of rows and columns...
+BEGIN
+
+
+ matrix_id |     tb_matrixid      |      nexusfilename       | published | new_ntax | new_nchar 
+-----------+----------------------+--------------------------+-----------+----------+-----------
+      4050 |                      | 18S-28S                  | f         |       72 |      1818
+      4070 |                      | zztip                    | f         |       12 |       542
+      4090 | M1728                | M1728.nex                | f         |       26 |        30
+      4091 | M1729                | M1729.nex                | f         |       46 |        30
+      4092 | M2056                | M2056.nex                | f         |       49 |       161
+      4093 | M2313                | M2313.nex                | f         |       43 |      1902
+      4094 | M2765                | M2765.nex                | f         |       74 |      2266
+      4095 | M2767                | M2767.nex                | f         |       66 |       806
+      4096 | M62c1x28x96c15c56c19 | M62c1x28x96c15c56c19.nex | f         |       72 |        82
+      4097 | M644                 | M644.nex                 | f         |       28 |        86
+      4098 | M64c1x28x96c16c00c36 | M64c1x28x96c16c00c36.nex | f         |       46 |        84
+      4099 | M76c1x29x96c15c31c23 | M76c1x29x96c15c31c23.nex | f         |       15 |        31
+      4110 |                      | M2496.nex                | f         |       34 |     16837
+      4130 |                      | 12Tx432C.nex             | f         |       12 |       432
+      4150 |                      | withstates.nex           | f         |        7 |        28
+      4374 | M4524                | M4524.nex                | f         |      205 |     11335
+      4622 | M4460                | M4460.nex                | f         |       54 |      9173
+(17 rows)
+
+UPDATE 17
+COMMIT
