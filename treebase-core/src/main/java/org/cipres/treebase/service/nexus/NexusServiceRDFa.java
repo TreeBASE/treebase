@@ -11,6 +11,8 @@ import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.log4j.Logger;
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
 import org.cipres.treebase.domain.study.Study;
@@ -35,46 +37,86 @@ import javax.xml.transform.stream.StreamSource;
  *
  */
 public class NexusServiceRDFa extends NexusServiceNexml {
+	private static final Logger LOGGER = Logger.getLogger(NexusServiceRDFa.class);
+	
+	/**
+	 * 
+	 */
 	public String serialize(NexusDataSet nexusDataSet,Properties properties) {
 		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, properties);
 		return transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());
 	}
+	
+	/**
+	 * 
+	 */
 	public String serialize(NexusDataSet nexusDataSet) {
-		/*
-		Document document = null;
-		try {
-			document = DocumentFactory.createDocument();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(null,getTaxonLabelHome(),document);
-		String NeXML = ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
-		return transform(NeXML);
-		*/
 		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, null);
 		return transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());		
 	}
 
+	/**
+	 * 
+	 */
 	public String serialize(Study study,Properties properties) {
 		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
 		return transform(ndc.fromTreeBaseToXml(study).getXmlString());
 	}
+	
+	/**
+	 * 
+	 */
 	public String serialize(Study study) {
-		/*
-		Document document = null;
-		try {
-			document = DocumentFactory.createDocument();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),document);
-		String NeXML = ndc.fromTreeBaseToXml(study).getXmlString();
-		return transform(NeXML);
-		*/
 		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, null);
 		return transform(ndc.fromTreeBaseToXml(study).getXmlString());		
 	}
 	
+	/**
+	 * 
+	 * @param cdaoDoc
+	 */
+	private void normalizeCdaoDoc (org.dom4j.Document cdaoDoc) {
+		
+		LOGGER.info("inside normalizeCdaoDoc");
+		Iterator<org.dom4j.Element> parentIterator = cdaoDoc.getRootElement().elementIterator();
+		while ( parentIterator.hasNext() ) {
+			org.dom4j.Element parent = parentIterator.next();
+			QName rdfIDQName = QName.get("ID", "rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+			String rdfID = parent.attributeValue(rdfIDQName);
+			if ( ! TreebaseUtil.isEmpty(rdfID) ) {
+				
+				LOGGER.info("going to flatten ID "+rdfID);
+				Iterator<org.dom4j.Element> childIterator = cdaoDoc.getRootElement().elementIterator();
+				while ( childIterator.hasNext() ) {
+					org.dom4j.Element child = childIterator.next();
+					QName rdfAboutQName = QName.get("about", "rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+					String rdfAbout = child.attributeValue(rdfAboutQName);
+					
+					if ( ! TreebaseUtil.isEmpty(rdfAbout) && rdfAbout.equals("#"+rdfID) ) {
+						
+						LOGGER.info("found referencing element");
+						Iterator<org.dom4j.Element> grandChildIterator = child.elementIterator();
+						while ( grandChildIterator.hasNext() ) {
+							org.dom4j.Element grandChild = grandChildIterator.next();
+							grandChild.detach();
+							parent.add(grandChild);
+						}
+						
+						childIterator.remove();
+					}
+
+				}
+			}
+		}
+
+	}
+	
+	/**
+	 * 
+	 * @param input
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
 	private String transform(String input) {
 		SAXReader reader = new SAXReader();
 		ByteArrayInputStream bs = new ByteArrayInputStream(input.getBytes());
@@ -82,6 +124,7 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 		try {
 			nexmlDocument = reader.read( bs );
 		} catch (DocumentException e) {
+			System.out.println(input);
 			e.printStackTrace();
 		}
 				
@@ -115,6 +158,7 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 			elt.detach();
 			cdaoDoc.getRootElement().add(elt);
 		}
+		normalizeCdaoDoc(cdaoDoc);
 		return cdaoDoc.asXML();		
 	}
 }
