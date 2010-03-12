@@ -15,8 +15,6 @@ span.pagelinks {
     width: 80%;
 }
 
-
-
 table.list {
     border: 1px solid #808080;
     border-collapse: collapse;
@@ -24,10 +22,10 @@ table.list {
     width: 100%;
     background: white;
 }
-table.list td {
-    padding-left: 3px;  
-}
 
+table.list td {
+    padding-left: 3px
+}
 
 table.list th {
     background-color: silver;

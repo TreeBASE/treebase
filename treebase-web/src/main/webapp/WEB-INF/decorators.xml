@@ -10,6 +10,7 @@
         <pattern>/about.html</pattern>
         <pattern>/urlAPI.html</pattern>
         <pattern>/people.html</pattern>
+        <pattern>/technology.html</pattern>
     </decorator>
 	
 	<!-- decoration page for search pages -->

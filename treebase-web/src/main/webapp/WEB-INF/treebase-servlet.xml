@@ -859,6 +859,7 @@
 				<prop key="/login.html">filenameController</prop>
 				<prop key="/urlAPI.html">filenameController</prop>
 				<prop key="/people.html">filenameController</prop>
+				<prop key="/technology.html">filenameController</prop>
 				
 				<prop key="/user/viewXML.html">filenameController</prop>
 				<prop key="/test/phylowidget.html">filenameController</prop>
