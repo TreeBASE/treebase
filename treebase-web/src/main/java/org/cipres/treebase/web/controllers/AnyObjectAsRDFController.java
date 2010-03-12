@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
+import org.cipres.treebase.TreebaseUtil;
+import org.cipres.treebase.domain.Annotatable;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.tree.PhyloTree;
@@ -45,20 +47,16 @@ public class AnyObjectAsRDFController implements Controller {
 						request.setAttribute("hasRdf", true);
 					}
 					phyloWSPath = new PhyloWSPath(theClass.getPackage(),namespacedGUID);
+//					if ( theClass.isAssignableFrom(Annotatable.class) ) {
+//						request.setAttribute(arg0, arg1)
+//					}
 				}
 			}
 		}
 		request.getSession().setAttribute("namespacedGUID", namespacedGUID.toString());
 		// <c:set var="baseURL" value="http://localhost:8080/treebase-web/PhyloWS"/>
-		StringBuffer domainAddress = new StringBuffer("http://");
-		domainAddress
-			.append(request.getServerName())
-			.append(':')
-			.append(request.getServerPort());
-		StringBuffer baseURL = new StringBuffer(domainAddress);
-		baseURL.append("/treebase-web/phylows");
-		request.getSession().setAttribute("baseURL", baseURL.toString());
-		request.getSession().setAttribute("domainAddress", domainAddress.toString());
+		// treebase.purl.domain=http://purl.org/phylo/treebase/phylows/
+		request.getSession().setAttribute("baseURL", TreebaseUtil.getPurlDomain());
 		request.getSession().setAttribute("phyloWSPath", phyloWSPath);
 		return new ModelAndView("anyObjectAsRDF");
 	}
