@@ -123,7 +123,7 @@ public abstract class SearchController extends BaseFormController {
 		if ( null != root ) {			
 			request.getSession().setAttribute("normalizedCQLQuery", URLEncoder.encode(root.toCQL(),"UTF-8"));
 		}
-		return new ModelAndView(new RedirectView("searchResultsAsRDF.html"));
+		return new ModelAndView(new RedirectView("searchResultsAsRDF.rdf"));
 	}
 	
 	protected <E extends TBPersistable> SearchResults<E> intersectSearchResults(
