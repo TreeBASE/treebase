@@ -26,11 +26,28 @@ public class PhyloWSController implements Controller {
 	private PhyloTreeService mPhyloTreeService;
 	private StudyService mStudyService;
 	private static String format = "format";
+	
+	/* 
+	 * this array is used to identify whether a path fragment maps to an object
+	 * for which web pages are available. Maybe this should be an enum or a map
+	 * instead.
+	 */
 	private static String[] classesWithPages = { "tree", "study", "matrix" };
     
+	/**
+	 * Given an object prefix ("tree", "study" or "matrix") and an object ID, constructs
+	 * a relative URL to an HTML page about that object.
+	 * @param prefix identifies either studies, matrices or trees
+	 * @param objectId is the primary key for the requested object
+	 * @param request is the servlet request, which we need to check for reviewer access
+	 * @return a relative URL to an HTML page, or an empty string
+	 * @throws Exception
+	 */
     private String createUrl(String prefix, Long objectId,HttpServletRequest request) throws Exception {
     	String url = "";
     	StringBuffer base = new StringBuffer("/treebase-web/search/study");
+    	
+    	// requested object is a study
     	if ( prefix.equals(TreebaseIDString.getPrefixForClass(Study.class)) ) {
 			Study study = getStudyService().findByID(objectId);
 			if ( study == null ) {
@@ -54,6 +71,8 @@ public class PhyloWSController implements Controller {
 					.toString();
 			}
     	}   
+    	
+    	// requested object is a matrix
     	else if ( prefix.equals(TreebaseIDString.getPrefixForClass(Matrix.class)) ) {
     		Matrix matrix = getMatrixService().findByID(objectId);
     		if ( matrix == null ) {
@@ -67,6 +86,8 @@ public class PhyloWSController implements Controller {
     			.append(objectId)
     			.toString();
     	}
+    	
+    	// requested object is a tree
     	else if ( prefix.equals(TreebaseIDString.getPrefixForClass(PhyloTree.class)) ) {
     		PhyloTree phyloTree = getPhyloTreeService().findByID(objectId);
     		if ( phyloTree == null ) {
@@ -87,7 +108,7 @@ public class PhyloWSController implements Controller {
 		throws Exception {
         res.setContentType("text/plain");
         String url = null;
-        String domain = "http://" + req.getServerName() + ":" + req.getServerPort();
+        //String domain = "http://" + req.getServerName() + ":" + req.getServerPort();
 		if ( ! TreebaseUtil.isEmpty(req.getParameter(Constants.X_ACCESS_CODE)) ) {
 			req.getSession().setAttribute(
 				Constants.X_ACCESS_CODE, 
@@ -103,7 +124,8 @@ public class PhyloWSController implements Controller {
             }
             String[] pathComponents = pathInfo.split("/");
             if ( pathComponents[pathComponents.length-1].equals("find") ) {
-            	url = domain + createSearchUrl(pathComponents[pathComponents.length-2],req);
+            	//url = domain + createSearchUrl(pathComponents[pathComponents.length-2],req);
+            	url = createSearchUrl(pathComponents[pathComponents.length-2],req);
             } else {
 	            String rawNamespacedGUID = pathComponents[pathComponents.length-1];
 	            if ( rawNamespacedGUID.startsWith("uBio:") ) { // XXX be polite, use real URL
@@ -118,17 +140,17 @@ public class PhyloWSController implements Controller {
 		            if ( hasWebPage(pathComponents) ) {
 		            	String serializationFormat = createSerializationFormat(req);
 		            	if ( TreebaseUtil.isEmpty(serializationFormat) ) {
-		            		url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+		            		url = "/treebase-web/search/study/anyObjectAsRDF.rdf?namespacedGUID=" + namespacedGUID.toString();
 		            	}
 		            	else if ( serializationFormat.equals("html") ) {
-		            		url = domain + createUrl(tbID.getTypePrefix(),tbID.getId(),req);
+		            		url = createUrl(tbID.getTypePrefix(),tbID.getId(),req);
 		            	}
 		            	else {
-		            		url = domain + createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),serializationFormat);
+		            		url = createDownloadUrl(tbID.getTypePrefix(),tbID.getId(),serializationFormat);
 		            	}
 		            }
 		            else {
-		            	url = domain + "/treebase-web/search/study/anyObjectAsRDF.html?namespacedGUID=" + namespacedGUID.toString();
+		            	url = "/treebase-web/search/study/anyObjectAsRDF.rdf?namespacedGUID=" + namespacedGUID.toString();
 		            }
 	            }
             }
@@ -157,9 +179,8 @@ public class PhyloWSController implements Controller {
 	}
 	
 	private String createSearchUrl(String path,HttpServletRequest request) {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder("/treebase-web/search/");
 		sb
-			.append("/treebase-web/search/")
 			.append(path)
 			.append("Search.html?query=")
 			.append(request.getParameter("query"))
@@ -170,6 +191,12 @@ public class PhyloWSController implements Controller {
 		return sb.toString();
 	}
 
+	/**
+	 * Given an array of path fragments, returns whether an HTML web page
+	 * exists for the type of object the fragments map onto
+	 * @param pathComponents
+	 * @return true of web page exists, false otherwise
+	 */
 	private boolean hasWebPage(String[] pathComponents) {
 		for ( int i = ( pathComponents.length - 1 ); i >= 0; i-- ) {
 			for ( int j = 0; j < classesWithPages.length; j++ ) {
