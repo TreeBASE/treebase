@@ -39,8 +39,10 @@ h1, h2, h3 {
 }
 
 #content h2 {
-	background: #BED1E5 url("../images/off_bg.gif") repeat-x left top;
-	padding: 5px !important
+	margin: 0px;
+	padding: 15px !important;
+	border-top: 1px solid #3d649f;
+	background-image: url("../images/footer_bg.gif")
 }
 
 #contentRight h1 {
