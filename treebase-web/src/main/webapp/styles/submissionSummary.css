@@ -22,7 +22,7 @@ ul.menuList {
 }
 li.menubar a.standalone, li.menubar { background: url('../images/blank.gif')              no-repeat 0px 0px !important }
 li.Home a.Home {                 background: url('../images/icons/house.png')             no-repeat 0px 0px !important }
-li.Notes a.Notes {               background: url('../images/icons/comment.png')           no-repeat 0px 0px !important }
+li.Notes a.Notes {               background: url('../images/icons/note.png')              no-repeat 0px 0px !important }
 li.Citation a.Citation {         background: url('../images/icons/report.png')            no-repeat 0px 0px !important }
 li.Authors a.Authors {           background: url('../images/icons/group.png')             no-repeat 0px 0px !important }
 li.Upload a.Upload {             background: url('../images/icons/page_white_get.png')    no-repeat 0px 0px !important }
