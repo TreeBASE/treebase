@@ -7,6 +7,7 @@ import java.text.StringCharacterIterator;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
@@ -21,6 +22,7 @@ import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
 
 public class NexmlObjectConverter extends AbstractNexusConverter {
+	private Logger logger = Logger.getLogger(NexmlObjectConverter.class);
 	protected static URI mDCURI;
 	protected static URI mPrismURI;
 	protected static URI mTBTermsURI;
@@ -87,6 +89,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		if ( null != tbPersistable.getId() ) {
 			//attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);			
 			String uriString = getDocument().getBaseURI().toString() + tbPersistable.getPhyloWSPath().toString();
+			annotatable.addAnnotationValue("tb:resource",mTBTermsURI, URI.create(uriString));
 			annotatable.addAnnotationValue("dcterms:relation",mDCURI, URI.create(uriString));
 		}
 	}
@@ -133,8 +136,10 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	}
 	
 	protected OTUs getOTUsById(Long taxonLabelSetId) {
-		for ( OTUs otus : getDocument().getOTUsList() ) {
+		logger.debug("Going to look for taxa block "+taxonLabelSetId);
+		for ( OTUs otus : getDocument().getOTUsList() ) {			
 			Long annotatedID = readTreeBaseID(otus);
+			logger.debug("Seen taxa block "+annotatedID);
 			if ( taxonLabelSetId.equals(annotatedID) ) {
 				return otus;
 			}
