@@ -950,9 +950,9 @@
 			    <prop key="/search/study/analysis.html">searchSummaryController</prop>
 			    <prop key="/search/study/taxa.html">searchSummaryController</prop>
 			    <prop key="/search/study/rowSegments.html">searchSummaryController</prop>
-			    <prop key="/search/study/anyObjectAsRDF.html">anyObjectAsRDFController</prop>
+			    <prop key="/search/study/anyObjectAsRDF.rdf">anyObjectAsRDFController</prop>
 			    
-			    <prop key="/search/searchResultsAsRDF.html">searchResultsAsRDFController</prop>
+			    <prop key="/search/searchResultsAsRDF.rdf">searchResultsAsRDFController</prop>
 				<prop key="/search/matrixRowList.html">listMatrixRowController</prop>
 				<prop key="/search/taxonList.html">listTaxaSearchController</prop>
 				<prop key="/search/downloadAStudy.html">downloadAStudyController</prop>				
