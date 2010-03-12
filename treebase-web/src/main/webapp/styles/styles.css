@@ -46,7 +46,7 @@ h1, h2, h3 {
 #contentRight h1 {
 	margin: 0px;
 	padding: 15px;
-	border-top: 1px solid silver;
+	border-top: 1px solid #3d649f;
 	background-image: url("../images/footer_bg.gif")
 }
 
@@ -57,7 +57,7 @@ h1, h2, h3 {
 }
 
 #contentRight h2 {
-	border-top: 1px solid silver
+	border-top: 1px solid #3d649f
 }
 
 /* Page Structure/Layout 
@@ -262,7 +262,6 @@ body#s-treeTop #st-treeTop a
     float: right;
  	font-family: "Lucida Grande", sans-serif;
  	font-style: italic;
-//	font-size: 118%;
 	display: block;
 	margin: 0 1px 0 0;
 	height: inherit;
@@ -346,18 +345,12 @@ table.peopleTable {
 	margin-left: 15px;	
 }
 
-#navlist li {
-//	border-left: 5px solid #3863a4
-}
-
 #contentRight {
 	background-color: white
 }
 
 #sidebarLeftGutter {
-	background-color: #f0f0f0;
-	border-right: 1px solid silver;
-	border-bottom: 1px solid silver
+	background-color: #e8e8e8
 }
 /* Login Area Styles  
 *******************************************************************************************/
