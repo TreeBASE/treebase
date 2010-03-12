@@ -77,6 +77,7 @@ public class StudySearchController extends SearchController {
 		byLegacyID,
 		byTitle,
 		byKeyword,
+		byJournal
 	}
 
 	protected ModelAndView onSubmit(
@@ -191,6 +192,8 @@ public class StudySearchController extends SearchController {
 				results.addAll(doSearch(request, response, SearchType.inCitation, errors, term.getTerm()));				
 			} else if ( index.equals("tb.identifier.study.tb1") ) {
 				results.addAll(doSearch(request, response, SearchType.byLegacyID, errors, term.getTerm()));
+			} else if ( index.startsWith("prism.publicationName") ) {
+				results.addAll(doSearch(request, response, SearchType.byJournal, errors, term.getTerm()));
 			} else {
 				// issue warnings
 				addMessage(request, "Unsupported index: " + index);
@@ -278,6 +281,9 @@ public class StudySearchController extends SearchController {
 				break;
 			case byKeyword:
 				matches = studyService.findByKeyword(keywordSearchTerm);
+				break;
+			case byJournal:
+				matches = studyService.findByJournal(keywordSearchTerm, false);
 				break;
 			default:
 				throw new Error ("Unknown search type '" + searchType + "'");
