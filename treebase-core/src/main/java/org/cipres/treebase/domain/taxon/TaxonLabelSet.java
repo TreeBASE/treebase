@@ -252,5 +252,10 @@ public class TaxonLabelSet extends AbstractPersistedObject {
 			pBuilder.append("\n");
 		}
 	}
+	
+	@Transient
+	public String getLabel() {
+		return getTitle();
+	}
 
 }
