@@ -81,5 +81,10 @@ public class PhyloChar extends AbstractPersistedObject {
 	public boolean isInteresting() {
 		return getId() >= Constants.MIN_INTERESTING_PHYLOCHAR_ID;
 	}
+	
+	@Transient
+	public String getLabel() {
+		return getDescription();
+	}
 
 }
