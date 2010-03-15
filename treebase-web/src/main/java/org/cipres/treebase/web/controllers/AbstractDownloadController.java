@@ -43,13 +43,13 @@ public abstract class AbstractDownloadController implements Controller {
 	
 	protected Properties getDefaultProperties(HttpServletRequest request) {
 		Properties properties = new Properties();
-		StringBuffer baseURI = new StringBuffer("http://");
-		baseURI
-			.append(request.getServerName())
-			.append(':')
-			.append(request.getServerPort())
-			.append("/treebase-web/phylows/");
-		properties.setProperty("nexml.uri.base", baseURI.toString());
+//		StringBuffer baseURI = new StringBuffer("http://");
+//		baseURI
+//			.append(request.getServerName())
+//			.append(':')
+//			.append(request.getServerPort())
+//			.append("/treebase-web/phylows/");
+		properties.setProperty("nexml.uri.base", TreebaseUtil.getPurlDomain());
 		return properties;
 	}
 	
