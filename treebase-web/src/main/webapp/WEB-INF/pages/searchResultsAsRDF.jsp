@@ -7,7 +7,7 @@
   xmlns:dc="http://purl.org/dc/elements/1.1/"
   xmlns="http://purl.org/rss/1.0/">
   <channel rdf:about="${baseURL}${phyloWSPath}?query=<c:out value="${normalizedCQLQuery}" escapeXml="true"/>&amp;format=${format}&amp;recordSchema=${recordSchema}">
-    <title>${phyloWSPath}</title>
+    <title>TreeBASE</title>
     <link>${baseURL}</link>
     <description>${searchResultsThawed.description}</description>
     <%--image rdf:resource="${domainAddress}<fmt:message key="icons.treebase.16px"/>"/--%>
@@ -26,9 +26,13 @@
   </image--%>
   <c:forEach var="result" items="${searchResultsThawed.results}" varStatus="status">
   <item rdf:about="${baseURL}<c:out value="${result.phyloWSPath}"/>">
-    <title><c:out value="${result.namespacedGUID}"/></title>
+    <title><c:out value="${result.label}"/></title>
     <link>${baseURL}<c:out value="${result.phyloWSPath}"/></link>
     <description><c:out value="${result.namespacedGUID}"/></description>
+	<c:forEach var="anno" items="${result.annotations}" varStatus="annoStatus">
+		<<c:out value="${anno.property}"/> 
+			xmlns:<c:out value="${anno.prefix}"/>="<c:out value="${anno.URI}"/>"><c:out value="${anno.value}" escapeXml="true"/></<c:out value="${anno.property}"/>>
+	</c:forEach>
   </item>  
   </c:forEach>
 </rdf:RDF>
