@@ -585,4 +585,10 @@ public class PhyloTreeNode extends AbstractPersistedObject implements TreeNode {
 	public boolean haveABCTopology(PhyloTreeNode n1, PhyloTreeNode n2) {
 		return ! n1.nearestCommonAncestor(n2).isAncestorOf(this);
 	}
+	
+	@Override
+	@Transient
+	public String getLabel() {
+		return getTaxonLabelAsString();
+	}
 }
