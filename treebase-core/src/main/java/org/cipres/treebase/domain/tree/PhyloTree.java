@@ -4,6 +4,7 @@ package org.cipres.treebase.domain.tree;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -25,9 +26,11 @@ import javax.persistence.Transient;
 import mesquite.lib.MesquiteDouble;
 import mesquite.lib.StringUtil;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
@@ -227,6 +230,7 @@ public class PhyloTree extends AbstractPersistedObject {
 	 * 
 	 * @return String
 	 */
+	@Override
 	@Column(name = "Label", length = TBPersistable.COLUMN_LENGTH_STRING)
 	public String getLabel() {
 		return mLabel;
@@ -778,4 +782,26 @@ public class PhyloTree extends AbstractPersistedObject {
 		setRootNode(null);
 		setNewickString(null);
 	}
+	
+	@Transient
+	public List<Annotation> getAnnotations() {
+		List<Annotation> annotations = super.getAnnotations();
+		if ( null != getId() ) { 
+			annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.tree", getId()));
+		}
+		if ( null != getKindDescription() ) {
+			annotations.add(new Annotation(Constants.TBTermsURI, "tb:kind.tree", getKindDescription()));
+		}
+		if ( null != getTypeDescription() ) {
+			annotations.add(new Annotation(Constants.TBTermsURI, "tb:type.tree", getTypeDescription()));
+		}
+		if ( null != getQualityDescription() ) {
+			annotations.add(new Annotation(Constants.TBTermsURI, "tb:quality.tree", getQualityDescription()));
+		}
+		if ( null != getnTax() ) {
+			annotations.add(new Annotation(Constants.TBTermsURI, "tb:ntax.tree", getnTax()));
+		}		
+		return annotations;
+	}
+
 }
