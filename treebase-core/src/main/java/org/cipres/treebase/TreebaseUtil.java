@@ -3,7 +3,6 @@ package org.cipres.treebase;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -41,6 +40,7 @@ public class TreebaseUtil {
 	public static final String LINESEP = System.getProperty("line.separator");
 	public static final int citationMaxLength = 5000;
 	private static final Logger LOGGER = Logger.getLogger(TreebaseUtil.class);
+	private static String mPurlDomain;
 
 	private TreebaseUtil() {
 		super();
@@ -436,25 +436,28 @@ public class TreebaseUtil {
 	 * @return domain name
 	 */
 	public static String getPurlDomain() {
-		Properties properties = new Properties();
-		String domainName = "";
-		try {
-			properties.load(
-				TreebaseUtil.class
-					.getClassLoader()
-					.getResourceAsStream("treebase.properties"));
-			//properties.load( new FileInputStream("treebase.properties") );
-			LOGGER.info("properties loaded successfully");
-			domainName = properties.getProperty("treebase.purl.domain");			
-			LOGGER.info("domain name: "+domainName);
-		} catch (FileNotFoundException e) {
-			LOGGER.warn("FileNotFoundException: " + e.getMessage());
-			e.printStackTrace();
-		} catch (IOException e) {
-			LOGGER.warn("IOException: "+e.getMessage());
-			e.printStackTrace();
+		if ( null == mPurlDomain ) {
+			Properties properties = new Properties();
+			try {
+				properties.load(
+					TreebaseUtil.class
+						.getClassLoader()
+						.getResourceAsStream("treebase.properties"));
+				LOGGER.info("properties loaded successfully");
+				mPurlDomain = properties.getProperty("treebase.purl.domain");			
+				LOGGER.info("domain name: "+mPurlDomain);
+			} catch (FileNotFoundException e) {
+				LOGGER.warn("FileNotFoundException: " + e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				LOGGER.warn("IOException: "+e.getMessage());
+				e.printStackTrace();
+			}
+			return mPurlDomain;			
 		}
-		return domainName;		
+		else {
+			return mPurlDomain;
+		}
 	}
 
 	/**
