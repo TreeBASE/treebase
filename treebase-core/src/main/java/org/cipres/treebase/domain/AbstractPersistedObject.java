@@ -2,19 +2,22 @@
 package org.cipres.treebase.domain;
 
 import java.io.Serializable;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.Comparator;
-
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
+import org.cipres.treebase.TreebaseUtil;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -99,6 +102,31 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 	@Transient
 	public PhyloWSPath getPhyloWSPath() {
 		return new PhyloWSPath(this);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.Annotatable#getAnnotations()
+	 */
+	@Transient
+	public List<Annotation> getAnnotations() {
+		// This is called by child classes using super.getAnnotations()
+		// to get the common annotations out of the way
+		List<Annotation> annotations = new ArrayList<Annotation>();
+		URI uri = URI.create(TreebaseUtil.getPurlDomain()+getPhyloWSPath());
+		annotations.add(new Annotation(Constants.OWLURI,"owl:sameAs",uri));
+		return annotations;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.NexmlWritable#getLabel()
+	 */
+	@Transient
+	public String getLabel() {
+		// This is overridden by child classes that want a name/title/label
+		// to be serialized in nexml or rdf
+		return null;
 	}
 
 }
