@@ -31,7 +31,9 @@ import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.TreebaseUtil;
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 
 /**
@@ -931,4 +933,20 @@ public abstract class CharacterMatrix extends Matrix {
 	@Override
 	@Transient
 	public boolean isCharacterMatrix() { return true; }
+	
+	@Transient
+	public List<Annotation> getAnnotations() {
+		List<Annotation> annotations = super.getAnnotations();
+		annotations.add(new Annotation(Constants.TBTermsURI,"tb:type.matrix",getDataType().getDescription()));
+		annotations.add(new Annotation(Constants.TBTermsURI,"tb:ntax.matrix",getnTax()));
+		annotations.add(new Annotation(Constants.TBTermsURI,"tb:nchar.matrix",getnChar()));
+		annotations.add(new Annotation(Constants.TBTermsURI,"tb:identifier.matrix",getId()));
+		return annotations;
+	}	
+	
+	@Transient
+	public String getLabel() {
+		return getTitle();
+	}
+	
 }
