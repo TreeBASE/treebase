@@ -1,8 +1,6 @@
 
 package org.cipres.treebase.domain;
 
-import javax.persistence.Transient;
-
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
@@ -15,7 +13,7 @@ import org.cipres.treebase.TreebaseIDString;
  * @author Jin Ruan
  * 
  */
-public interface TBPersistable {
+public interface TBPersistable extends NexmlWritable {
 
 	/**
 	 * Default column length for the String type in the database.
