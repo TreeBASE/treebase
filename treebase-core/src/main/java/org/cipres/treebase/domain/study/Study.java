@@ -26,8 +26,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
+import org.cipres.treebase.Constants;
+import org.cipres.treebase.ContextManager;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.admin.User;
@@ -38,6 +41,8 @@ import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.TreeBlock;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -46,6 +51,7 @@ import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.IndexColumn;
 import org.jdom.Element;
+import org.nexml.model.Document;
 
 @Entity
 @Table(name = "STUDY")
@@ -685,4 +691,54 @@ public class Study extends AbstractPersistedObject {
 		}
 		return treeBlocks;
 	}
+	
+	@Override
+	@Transient
+	public String getLabel() {
+		if ( null != getCitation() ) {
+			return getCitation().getTitle();
+		}
+		return getName();
+	}
+	
+	@Transient
+	public List<Annotation> getAnnotations() {
+		List<Annotation> annotations = super.getAnnotations();
+		annotations.add(new Annotation(Constants.PrismURI,"prism:section","Study"));
+		annotations.add(new Annotation(Constants.TBTermsURI,"tb:identifier.study",getId().toString()));
+		annotations.add(new Annotation(Constants.TBTermsURI,"tb:identifier.study.tb1",getTB1StudyID()));
+		if ( null != getName() ) {
+			annotations.add(new Annotation(Constants.TBTermsURI,"tb:title.study",getName()));
+		}			
+		if ( null != getReleaseDate() ) {
+			annotations.add(new Annotation(Constants.DCURI,"dc:date",getReleaseDate().toString()));
+		}
+		if ( null != getSubmission() ) {
+			if ( null != getSubmission().getSubmitter() ) {
+//				annotations.add(new Annotation(Constants.DCURI,"dc:creator",getSubmission().getSubmitter().getPerson().getFullNameCitationStyle()));
+			}
+			if ( null != getSubmission().getCreateDate() ) {
+				annotations.add(new Annotation(Constants.PrismURI,"prism:creationDate",getSubmission().getCreateDate().toString()));
+			}
+		}		
+		if ( null != getCitation() ) {	
+			try {
+				List<Annotation> citationAnnotations = getCitation().getAnnotations();
+				Annotation deleteme = null;
+				for ( Annotation anno : citationAnnotations ) {
+					if ( anno.getProperty().equals("owl:sameAs") ) {
+						deleteme = anno;
+					}
+				}
+				if ( null != deleteme ) {
+					citationAnnotations.remove(deleteme);
+				}
+				annotations.addAll(citationAnnotations);				
+			} catch ( Exception e ) {
+				e.printStackTrace();
+			}
+		}		
+		return annotations;
+	}
+		
 }
