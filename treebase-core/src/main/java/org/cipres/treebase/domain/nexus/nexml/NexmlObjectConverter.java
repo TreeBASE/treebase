@@ -1,15 +1,14 @@
 package org.cipres.treebase.domain.nexus.nexml;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.TreebaseIDString;
-import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.nexus.AbstractNexusConverter;
@@ -23,17 +22,9 @@ import org.nexml.model.OTUs;
 
 public class NexmlObjectConverter extends AbstractNexusConverter {
 	private Logger logger = Logger.getLogger(NexmlObjectConverter.class);
-	protected static URI mDCURI;
-	protected static URI mPrismURI;
-	protected static URI mTBTermsURI;
-	protected static URI mDwCURI;
-	protected URI mBaseURI;	
-	private static String mDwCString = "http://rs.tdwg.org/dwc/terms/";
-	private static String mTBTermsString = "http://treebase.org/terms#";
-	private static String mDCURIString = "http://purl.org/dc/terms/";
-	private static String mPrismURIString = "http://prismstandard.org/namespaces/1.2/basic/";
-	private static String mBaseURIString = "http://purl.org/PHYLO/TREEBASE/PHYLOWS/";
-	private static String mDCIdentifier = "dcterms:identifier";	
+	protected URI mBaseURI = Constants.BaseURI;
+//	private static String mBaseURIString = "http://purl.org/PHYLO/TREEBASE/PHYLOWS/";
+//	private static String mDCIdentifier = "dcterms:identifier";	
 	public static String TreeBASE2Prefix = "TreeBASE2";
 	private Document mDocument;
 		
@@ -43,21 +34,8 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @param taxonLabelHome
 	 */
 	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document, String baseURI) {
-		try {
-			mDCURI = new URI(mDCURIString);
-			mPrismURI = new URI(mPrismURIString);
-			mTBTermsURI = new URI(mTBTermsString);
-			mDwCURI = new URI(mDwCString);
-			if ( null != baseURI ) {
-				mBaseURI = new URI(baseURI);
-			}
-			else {
-				mBaseURI = new URI(mBaseURIString);
-			}
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
 		if ( null != baseURI ) {
+			mBaseURI = URI.create(baseURI);
 			document.setBaseURI(mBaseURI);
 		}
 		setTaxonLabelHome(taxonLabelHome);
@@ -75,10 +53,10 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @param tbPersistable
 	 * @return
 	 */
-	private String makeNamespacedID (TBPersistable tbPersistable,Class<?> persistableClass) {
-		TreebaseIDString tbIDString = new TreebaseIDString(persistableClass,tbPersistable.getId());
-		return tbIDString.getNamespacedGUID().toString();
-	}
+//	private String makeNamespacedID (TBPersistable tbPersistable,Class<?> persistableClass) {
+//		TreebaseIDString tbIDString = new TreebaseIDString(persistableClass,tbPersistable.getId());
+//		return tbIDString.getNamespacedGUID().toString();
+//	}
 	
 	/**
 	 * 
@@ -88,9 +66,12 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected void attachTreeBaseID(Annotatable annotatable,TBPersistable tbPersistable,Class<?> persistableClass) {
 		if ( null != tbPersistable.getId() ) {
 			//attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);			
-			String uriString = getDocument().getBaseURI().toString() + tbPersistable.getPhyloWSPath().toString();
-			annotatable.addAnnotationValue("tb:resource",mTBTermsURI, URI.create(uriString));
-			annotatable.addAnnotationValue("dcterms:relation",mDCURI, URI.create(uriString));
+//			String uriString = getDocument().getBaseURI().toString() + tbPersistable.getPhyloWSPath().toString();
+//			annotatable.addAnnotationValue("owl:sameAs",Constants.OWLURI, URI.create(uriString));
+//			annotatable.addAnnotationValue("dcterms:relation",Constants.DCURI, URI.create(uriString));
+			for ( org.cipres.treebase.domain.Annotation anno : tbPersistable.getAnnotations() ) {
+				annotatable.addAnnotationValue(anno.getProperty(), anno.getURI(), anno.getValue());
+			}
 		}
 	}
 	
@@ -117,7 +98,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		// dc:identifier predicate in a nexml meta annotation,
 		// e.g. <meta property="dc:identifier" content="TB2:Tr231"/>
 		// this will return something that stringifies to TB2:Tr231
-		Set<Object> dublinCoreRelationObjects = annotatable.getRelValues("dcterms:relation");
+		Set<Object> dublinCoreRelationObjects = annotatable.getRelValues("owl:sameAs");
 		Iterator<Object> objectIterator = dublinCoreRelationObjects.iterator();
 		while ( objectIterator.hasNext() ) {
 			URI relationURI = (URI)objectIterator.next();
