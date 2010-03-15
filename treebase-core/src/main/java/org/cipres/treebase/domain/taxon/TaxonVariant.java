@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -168,5 +169,10 @@ public class TaxonVariant extends AbstractPersistedObject {
 
 	public void setTB1LegacyId(Integer legacyId) {
 		mTB1LegacyId = legacyId;
+	}
+	
+	@Transient
+	public String getLabel() {
+		return getFullName();
 	}
 }
