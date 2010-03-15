@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.dao.jdbc.ContinuousMatrixElementJDBC;
 import org.cipres.treebase.dao.jdbc.ContinuousMatrixJDBC;
 import org.cipres.treebase.dao.jdbc.DiscreteMatrixElementJDBC;
@@ -179,9 +180,9 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 				if ( null != tbState.getDescription() ) {
 					xmlState.setLabel(tbState.getDescription());
 				}	
-				if ( null != tbState.getNotes() ) {
-					((Annotatable)xmlState).addAnnotationValue("dcterms:description", mDCURI, tbState.getNotes());
-				}
+//				if ( null != tbState.getNotes() ) {
+//					((Annotatable)xmlState).addAnnotationValue("dcterms:description", Constants.DCURI, tbState.getNotes());
+//				}
 				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
 			}			
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
@@ -222,7 +223,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
 			PhyloChar tbCharacter = tbColumn.getCharacter();
 			if ( null != tbCharacter.getDescription() && ! tbCharacter.getDescription().equals(tbDataType) ) {
-				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", mDCURI, tbCharacter.getDescription());
+				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", Constants.DCTermsURI, tbCharacter.getDescription());
 			}			
 			if ( null != tbCharacter.getId() && tbCharacter.getId() != 2 ) { // XXX is PhyloChar.id 2 some sort of magic number?
 				attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);
@@ -245,7 +246,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter();
 			PhyloChar tbCharacter = tbColumn.getCharacter();
 			if ( null != tbCharacter.getDescription() ) {
-				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", mDCURI, tbCharacter.getDescription());
+				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", Constants.DCTermsURI, tbCharacter.getDescription());
 			}			
 			attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);			
 		}		
@@ -275,10 +276,6 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		}
 		xmlMatrix.setLabel(tbMatrix.getTitle());
 		attachTreeBaseID((Annotatable)xmlMatrix, tbMatrix,Matrix.class);
-		((Annotatable)xmlMatrix).addAnnotationValue("tb:type.matrix", mTBTermsURI, tbMatrix.getDataType().getDescription());
-		((Annotatable)xmlMatrix).addAnnotationValue("tb:ntax.matrix", mTBTermsURI, tbMatrix.getnTax());
-		((Annotatable)xmlMatrix).addAnnotationValue("tb:nchar.matrix", mTBTermsURI, tbMatrix.getnChar());
-		((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix", mTBTermsURI, tbMatrix.getId());
 		return xmlMatrix;
 	}
 
@@ -310,10 +307,10 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 					for ( RowSegment tbSegment : tbSegments ) {
 						if ( tbSegment.getStartIndex() <= charIndex && charIndex <= tbSegment.getEndIndex() ) {
 							if ( tbSegment.getSpecimenLabel().getLatitude() != null ) {
-								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLatitude", mDwCURI, tbSegment.getSpecimenLabel().getLatitude());
+								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, tbSegment.getSpecimenLabel().getLatitude());
 							}
 							if ( tbSegment.getSpecimenLabel().getLongitude() != null ) {
-								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLongitude", mDwCURI, tbSegment.getSpecimenLabel().getLongitude());
+								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, tbSegment.getSpecimenLabel().getLongitude());
 							}
 							/*
 							if ( tbSegment.getSpecimenLabel().getGenBankAccession() != null ) {
