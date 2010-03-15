@@ -9,7 +9,11 @@
 <legend>Summary
 <a href="#" class="openHelp" onclick="openHelp('submissionSummaryView')"><img class="iconButton" alt="help" src="<fmt:message key="icons.help"/>" /></a>
 </legend>
-Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/>, <a href="/treebase-web/admin/changeStudyStatus.html"> Update Status</a><br/>
+Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/>
+<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+, <a href="/treebase-web/admin/changeStudyStatus.html"> Update Status</a>
+<%}%>
+<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submission initiated:&nbsp;&nbsp;<c:out value="${initiatedDate}"/><br/>
 
 <br/>
@@ -33,7 +37,8 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 <br/>
 <a href="<c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html">
 	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
-	Reviewer access URL: right-click and copy me
+	Reviewer access URL:<br/>
+	<c:out value="${submission.study.phyloWSPath.purl}"/>?x-access-code=<c:out value="${submission.study.namespacedGUID.hashedIDString}"/>&format=html
 </a>
 <div><strong>You can copy and send this URL to you journal editor to provide reviewers with limited, read-only access to your data, even if your submission has not yet been approved and the data are not yet public.</strong></div>
 <br/>
