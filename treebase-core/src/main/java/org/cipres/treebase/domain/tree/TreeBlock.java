@@ -276,5 +276,10 @@ public class TreeBlock extends AbstractPersistedObject {
 		return tlSet == null ? new ArrayList<TaxonLabel>() 
 				             : tlSet.getTaxonLabelsReadOnly();
 	}
+	
+	@Transient
+	public String getLabel() {
+		return getTitle();
+	}
 
 }
