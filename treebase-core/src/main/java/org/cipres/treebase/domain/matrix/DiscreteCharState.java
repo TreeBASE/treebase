@@ -1,5 +1,8 @@
 package org.cipres.treebase.domain.matrix;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -7,11 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
 
 /**
@@ -113,6 +119,20 @@ public class DiscreteCharState extends AbstractPersistedObject {
 	 */
 	public void setNotes(String pNewNotes) {
 		mNotes = pNewNotes;
+	}
+	
+	@Transient
+	public List<Annotation> getAnnotations() {
+		List<Annotation> annotations = super.getAnnotations();
+		if ( null != getNotes() ) {
+			annotations.add(new Annotation(Constants.DCTermsURI,"dcterms:description",getNotes()));
+		}
+		return annotations;
+	}	
+	
+	@Transient
+	public String getLabel() {
+		return getDescription();
 	}
 
 }
