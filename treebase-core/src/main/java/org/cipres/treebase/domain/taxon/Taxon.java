@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -238,6 +239,11 @@ public class Taxon extends AbstractPersistedObject {
 	 */
 	public void setForeignLinks(Collection<TaxonLink> pNewForeignLinks) {
 		mForeignLinks = pNewForeignLinks;
+	}
+	
+	@Transient
+	public String getLabel() {
+		return getName();
 	}
 
 }
