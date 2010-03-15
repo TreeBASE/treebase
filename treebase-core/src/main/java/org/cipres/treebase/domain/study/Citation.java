@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.study;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -23,12 +24,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.Session;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.IndexColumn;
 import org.springframework.beans.BeanUtils;
 
+import org.cipres.treebase.Constants;
+import org.cipres.treebase.ContextManager;
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.admin.Person;
 
@@ -302,15 +309,15 @@ public class Citation extends AbstractPersistedObject {
 
 	/**
 	 * Get an ordered list of authors.
-	 * 
+	 * @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "studyCache")
 	 * @return
-	 */
+	 */	 
 	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinTable(name = "CITATION_AUTHOR", joinColumns = {@JoinColumn(name = "CITATION_ID")})
-	@IndexColumn(name = "AUTHOR_ORDER")
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "studyCache")
+	@IndexColumn(name = "AUTHOR_ORDER")	
+	@Fetch(FetchMode.JOIN)
 	public List<Person> getAuthors() {
-		return mAuthors;
+		return mAuthors; // The fetch annotation prevents org.hibernate.LazyInitializationException
 	}
 
 	/**
@@ -492,6 +499,25 @@ public class Citation extends AbstractPersistedObject {
 	}
 	
 	@Transient
+	private String getAuthorsAsString() {
+		StringBuilder authorsCitationStyle = new StringBuilder();
+		List<Person> authors = getAuthors();
+		int size = authors.size();
+		if (size > 0) {
+			for ( int i = 0; i < size; i++ ) {
+				authorsCitationStyle.append(authors.get(i).getFullNameCitationStyle());
+				if ( size > 1 && i == size - 2 ) {
+					authorsCitationStyle.append(", & ");
+				} 
+				else if (size > 1 && i < size - 2) {
+					authorsCitationStyle.append(", ");
+				}
+			}
+		}
+		return authorsCitationStyle.toString();
+	}
+	
+	@Transient
 	public String getAuthorsAsBibtex() {
 		return catPersonsBibtex(getAuthors());
 	}
@@ -647,5 +673,56 @@ public class Citation extends AbstractPersistedObject {
 	protected void getDetailedPublicationInformation(StringBuilder pBuilder, boolean pGenerateHtml) {
 
 	}
+	
+	@Transient
+	public List<Annotation> getAnnotations() {		
+		List<Annotation> annotations = super.getAnnotations();
+		annotations.add(new Annotation(Constants.DCTermsURI,"dcterms:bibliographicCitation",getAuthorsCitationStyleWithoutHtml()));
+		annotations.add(new Annotation(Constants.DCURI,"dc:title",getTitle()));
+		annotations.add(new Annotation(Constants.DCURI,"dc:creator",getAuthorsAsString()));
+		for ( Person person : getAuthors() ) {
+			String personName = person.getFullNameCitationStyle();
+			annotations.add(new Annotation(Constants.DCURI,"dc:contributor",personName));
+		}
+		try {
+			if ( null != getPublishYear() ) {
+				annotations.add(new Annotation(Constants.PrismURI,"prism:publicationDate",getPublishYear().toString()));
+			}
+			if ( null != getDoi() ) {
+				annotations.add(new Annotation(Constants.PrismURI,"prism:doi",getDoi()));
+			}
+			if ( null != getPages() ) {
+				String[] pages = getPages().split("\\-");
+				if ( pages.length == 2 ) {
+					annotations.add(new Annotation(Constants.PrismURI,"prism:startingPage",pages[0]));
+					annotations.add(new Annotation(Constants.PrismURI,"prism:endingPage",pages[1]));
+					annotations.add(new Annotation(Constants.PrismURI,"prism:pageRange",getPages()));			
+				}
+			}
+			if ( null != getKeywords() ) {
+				String[] keywords = getKeywords().split(", ");
+				for ( int i = 0; i < keywords.length; i++ ) {
+					annotations.add(new Annotation(Constants.DCURI,"dc:subject",keywords[i]));
+				}		
+			}
+			if ( this instanceof ArticleCitation ) {
+				ArticleCitation ac = (ArticleCitation)this;
+				String journal = ac.getJournal();
+				if ( null != journal ) {
+					annotations.add(new Annotation(Constants.PrismURI,"prism:publicationName",journal));
+					annotations.add(new Annotation(Constants.DCURI,"dc:publisher",journal));
+				}
+				if ( null != ac.getVolume() ) {
+					annotations.add(new Annotation(Constants.PrismURI,"prism:volume",ac.getVolume()));
+				}
+				if ( null != ac.getIssue() ) {
+					annotations.add(new Annotation(Constants.PrismURI,"prism:number",ac.getIssue()));
+				}
+			}
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		}
+		return annotations;
+	}	
 
 }
