@@ -7,7 +7,6 @@ import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
-import org.cipres.treebase.domain.Annotatable;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.tree.PhyloTree;
