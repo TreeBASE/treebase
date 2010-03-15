@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.nexus.nexml;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -83,21 +84,6 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 		Tree<FloatEdge> xmlTree = xmlTreeBlock.createFloatTree();
 		if ( null != phyloTree.getLabel() ) {
 			xmlTree.setLabel(phyloTree.getLabel());
-		}
-		if ( null != phyloTree.getId() ) { 
-			xmlTree.addAnnotationValue("tb:identifier.tree", mTBTermsURI, phyloTree.getId());
-		}
-		if ( null != phyloTree.getKindDescription() ) {
-			xmlTree.addAnnotationValue("tb:kind.tree", mTBTermsURI, phyloTree.getKindDescription());
-		}
-		if ( null != phyloTree.getTypeDescription() ) {
-			xmlTree.addAnnotationValue("tb:type.tree", mTBTermsURI, phyloTree.getTypeDescription());
-		}
-		if ( null != phyloTree.getQualityDescription() ) {
-			xmlTree.addAnnotationValue("tb:quality.tree", mTBTermsURI, phyloTree.getQualityDescription());
-		}
-		if ( null != phyloTree.getnTax() ) {
-			xmlTree.addAnnotationValue("tb:ntax.tree", mTBTermsURI, phyloTree.getnTax());
 		}
 		attachTreeBaseID(xmlTree, phyloTree,PhyloTree.class);
 		copyTreeBaseTree(phyloTree, xmlTree);
