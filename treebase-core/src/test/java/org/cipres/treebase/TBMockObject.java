@@ -1,5 +1,9 @@
 package org.cipres.treebase;
 
+import java.util.List;
+import java.util.Set;
+
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
 
 /**
@@ -52,6 +56,21 @@ public class TBMockObject extends Object implements TBPersistable {
 	}
 
 	public PhyloWSPath getPhyloWSPath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Annotation> getAnnotations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getAnnotationsAsXmlString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getLabel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
