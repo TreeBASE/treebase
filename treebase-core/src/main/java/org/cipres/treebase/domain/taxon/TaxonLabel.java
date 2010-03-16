@@ -25,6 +25,8 @@ import org.cipres.treebase.domain.study.Submission;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 /**
@@ -134,6 +136,7 @@ public class TaxonLabel extends AbstractPersistedObject {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "TAXONVARIANT_ID", nullable = true)
+	@Fetch(FetchMode.JOIN)
 	public TaxonVariant getTaxonVariant() {
 		return mTaxonVariant;
 	}
@@ -153,6 +156,7 @@ public class TaxonLabel extends AbstractPersistedObject {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STUDY_ID", nullable = true)
 	@Index(name = "TLABEL_STUDY_IDX")
+	@Fetch(FetchMode.JOIN)
 	public Study getStudy() {
 		return mStudy;
 	}
@@ -206,31 +210,39 @@ public class TaxonLabel extends AbstractPersistedObject {
 	@Transient
 	public List<Annotation> getAnnotations() {
 		List<Annotation> annotations = super.getAnnotations();
-		if ( null != getNcbiTaxID() ) {
-			StringBuilder urlString = new StringBuilder(TreebaseUtil.getPurlDomain());
-			getPhyloWSPath().getPath(urlString).append("NCBI:").append(getNcbiTaxID());									
-			annotations.add(new Annotation(Constants.DCTermsURI, "dc:relation", URI.create(urlString.toString())));
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.ncbi", "NCBI:" + getNcbiTaxID()));
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxon", getTaxonVariant().getTaxon().getId()));
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonLabel", getId()));
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:title.taxon", getTaxonVariant().getTaxon().getName()));
-		}
-		TaxonVariant tv = getTaxonVariant();
-		if ( null != tv ) {
-			if ( null != tv.getNamebankID() ) {
-				StringBuilder urlString = new StringBuilder(TreebaseUtil.getPurlDomain());
-				getPhyloWSPath().getPath(urlString).append("uBio:").append(tv.getNamebankID());					
-				annotations.add(new Annotation(Constants.DCTermsURI, "dc:relation", URI.create(urlString.toString())));
-				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.ubio", "uBio:" + tv.getNamebankID()));
-				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonVariant", tv.getId()));
-				annotations.add(new Annotation(Constants.TBTermsURI, "tb:title.taxonVariant", tv.getFullName()));
+		try {
+			TaxonVariant tv = getTaxonVariant();
+			if ( null != tv ) {
+				if ( null != tv.getNamebankID() ) {
+					annotations.add(new Annotation(Constants.SKOSURI, "skos:closeMatch", URI.create(Constants.uBioBase+tv.getNamebankID())));					
+					String fullName = tv.getFullName();
+					if ( ! getLabel().equals(fullName) ) {
+						annotations.add(new Annotation(Constants.SKOSURI, "skos:altLabel",fullName));
+					}
+					if ( null != getNcbiTaxID() ) {
+						annotations.add(new Annotation(Constants.SKOSURI, "skos:closeMatch", URI.create(String.format(Constants.NCBITaxonomyFormat, getNcbiTaxID()))));
+						String taxonName = tv.getTaxon().getLabel();
+						if ( ! fullName.equals(taxonName) ) {
+							annotations.add(new Annotation(Constants.SKOSURI, "skos:prefLabel",taxonName));
+						}
+						
+					}					
+				}
 			}
-		}	
+		}
+		catch ( Exception e) {
+			e.printStackTrace();
+		}
 		return annotations;
 	}	
 	
 	@Transient
 	public String getLabel() {
 		return getTaxonLabel();
+	}
+	
+	@Transient
+	public Study getContext() {
+		return getStudy();
 	}
 }
