@@ -37,6 +37,8 @@ import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.NamedNativeQuery;
 
 /**
@@ -284,6 +286,7 @@ public class PhyloTree extends AbstractPersistedObject {
 	 */
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "TREEQUALITY_ID")
+	@Fetch(FetchMode.JOIN)
 	public TreeQuality getTreeQuality() {
 		return mTreeQuality;
 	}
@@ -320,6 +323,7 @@ public class PhyloTree extends AbstractPersistedObject {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TREEKIND_ID")
+	@Fetch(FetchMode.JOIN)
 	public TreeKind getTreeKind() {
 		return mTreeKind;
 	}
@@ -338,6 +342,7 @@ public class PhyloTree extends AbstractPersistedObject {
 	 */
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "TREETYPE_ID")
+	@Fetch(FetchMode.JOIN)
 	public TreeType getTreeType() {
 		return mTreeType;
 	}
@@ -786,22 +791,29 @@ public class PhyloTree extends AbstractPersistedObject {
 	@Transient
 	public List<Annotation> getAnnotations() {
 		List<Annotation> annotations = super.getAnnotations();
-		if ( null != getId() ) { 
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.tree", getId()));
+		try {
+			if ( null != getKindDescription() ) {
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:kind.tree", getKindDescription()));
+			}
+			if ( null != getTypeDescription() ) {
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:type.tree", getTypeDescription()));
+			}
+			if ( null != getQualityDescription() ) {
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:quality.tree", getQualityDescription()));
+			}
+			if ( null != getnTax() ) {
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:ntax.tree", getnTax()));
+			}	
+		} catch ( Exception e ) {
+			e.printStackTrace();
 		}
-		if ( null != getKindDescription() ) {
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:kind.tree", getKindDescription()));
-		}
-		if ( null != getTypeDescription() ) {
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:type.tree", getTypeDescription()));
-		}
-		if ( null != getQualityDescription() ) {
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:quality.tree", getQualityDescription()));
-		}
-		if ( null != getnTax() ) {
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:ntax.tree", getnTax()));
-		}		
 		return annotations;
+	}
+	
+	@Override
+	@Transient
+	public Study getContext() {
+		return getStudy();
 	}
 
 }
