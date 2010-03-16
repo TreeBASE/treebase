@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
@@ -20,7 +21,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
 
 /**
@@ -245,5 +248,23 @@ public class Taxon extends AbstractPersistedObject {
 	public String getLabel() {
 		return getName();
 	}
+	
+	@Transient
+	public List<Annotation> getAnnotations() {
+		List<Annotation> annotations = super.getAnnotations();
+		try {
+			if ( null != getNcbiTaxId() ) {
+				annotations.add(new Annotation(Constants.SKOSURI,"skos:exactMatch",Constants.NCBITaxonomyBase + getNcbiTaxId()));
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.ncbi", getNcbiTaxId()));				
+			}
+			if ( null != getUBioNamebankId() ) {
+				annotations.add(new Annotation(Constants.SKOSURI,"skos:exactMatch",Constants.uBioBase + getUBioNamebankId()));
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.ubio", getUBioNamebankId()));				
+			}
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		}
+		return annotations;
+	}	
 
 }
