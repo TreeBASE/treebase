@@ -591,4 +591,10 @@ public class PhyloTreeNode extends AbstractPersistedObject implements TreeNode {
 	public String getLabel() {
 		return getTaxonLabelAsString();
 	}
+	
+	@Override
+	@Transient
+	public PhyloTree getContext() {
+		return getTree();
+	}
 }
