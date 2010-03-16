@@ -128,5 +128,16 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 		// to be serialized in nexml or rdf
 		return null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.TBPersistable#getContext()
+	 */
+	@Transient
+	public TBPersistable getContext() {
+		// This is overridden by child classes to indicate which other object
+		// provides the invocant's context. E.g. for a node this would be a tree.
+		return null;
+	}
 
 }
