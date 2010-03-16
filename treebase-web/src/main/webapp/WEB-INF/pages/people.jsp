@@ -7,7 +7,7 @@
 				<td>
 					<img src="images/people/anon.jpg" width="81" height="108" alt="Vladimir Gapeyev"/>
 					<br/><strong>Vladimir Gapeyev</strong>
-					<br/>Developer
+					<br/>Deployment Maintainer
 				</td>
 				<td>
 					<img src="images/people/anon.jpg" width="81" height="108" alt="Youjun Guo"/>
