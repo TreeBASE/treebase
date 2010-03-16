@@ -22,6 +22,7 @@ import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
 import org.cipres.treebase.domain.TBPersistable;
+import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.hibernate.annotations.Cache;
@@ -280,6 +281,15 @@ public class TreeBlock extends AbstractPersistedObject {
 	@Transient
 	public String getLabel() {
 		return getTitle();
+	}
+	
+	@Transient
+	public Study getContext() {
+		PhyloTree firstTree = getTreeList().iterator().next();
+		if ( null != firstTree ) {
+		return firstTree.getContext();
+		}		
+		return null;
 	}
 
 }
