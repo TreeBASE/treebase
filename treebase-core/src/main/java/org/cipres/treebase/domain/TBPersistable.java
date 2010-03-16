@@ -43,5 +43,7 @@ public interface TBPersistable extends NexmlWritable {
 	public NamespacedGUID getNamespacedGUID ();
 	
 	public PhyloWSPath getPhyloWSPath ();
+	
+	public TBPersistable getContext ();
 
 }
