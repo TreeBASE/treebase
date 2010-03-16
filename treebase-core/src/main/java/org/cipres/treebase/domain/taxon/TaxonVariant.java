@@ -14,6 +14,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 import org.cipres.treebase.domain.AbstractPersistedObject;
@@ -151,6 +153,7 @@ public class TaxonVariant extends AbstractPersistedObject {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "TAXON_ID", nullable = false)
 	@Index(name = "TVARI_TAXON_IDX")
+	@Fetch(FetchMode.JOIN)
 	public Taxon getTaxon() {
 		return mTaxon;
 	}
