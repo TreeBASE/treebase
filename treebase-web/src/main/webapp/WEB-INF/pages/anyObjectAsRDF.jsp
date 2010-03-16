@@ -3,13 +3,21 @@
 <% response.setContentType("application/rss+xml"); %>
 <rdf:RDF
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xmlns:dcterms="http://purl.org/dc/terms/"
   xmlns:dc="http://purl.org/dc/elements/1.1/"
   xmlns="http://purl.org/rss/1.0/">
   <channel rdf:about="${baseURL}${phyloWSPath}">
-    <title>${phyloWSPath}</title>
+    <title><c:out value="${theObject.label}"/></title>
     <link>${baseURL}</link>
     <description>Serializations for ${phyloWSPath}</description>
+    <c:if test="${theObject.context != null}">
+    	<rdfs:isDefinedBy rdf:resource="${baseURL}<c:out value="${theObject.context.phyloWSPath}"/>"/>
+    </c:if>
+	<c:forEach var="anno" items="${theObject.annotations}" varStatus="annoStatus">
+		<<c:out value="${anno.property}"/> 
+			xmlns:<c:out value="${anno.prefix}"/>="<c:out value="${anno.URI}"/>"><c:out value="${anno.value}" escapeXml="true"/></<c:out value="${anno.property}"/>>
+	</c:forEach>    
     <%--image rdf:resource="<c:url value="/images/logo16px.png"/>"/--%>
     <items>
       <rdf:Seq>
