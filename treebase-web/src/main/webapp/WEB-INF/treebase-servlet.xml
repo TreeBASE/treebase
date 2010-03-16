@@ -15,7 +15,9 @@
 	
 	<bean id="processUserController" class="org.cipres.treebase.web.controllers.ProcessUserController"/>
 		
-	<bean id="anyObjectAsRDFController" class="org.cipres.treebase.web.controllers.AnyObjectAsRDFController"/>
+	<bean id="anyObjectAsRDFController" class="org.cipres.treebase.web.controllers.AnyObjectAsRDFController">
+		<property name="studyService"><ref bean="studyService"></ref></property>	
+	</bean>
 	<bean id="searchResultsAsRDFController" class="org.cipres.treebase.web.controllers.SearchResultsAsRDFController"/>	
 	
 	<bean id="appletInteractionController" class="org.cipres.treebase.web.controllers.AppletInteractionController">
