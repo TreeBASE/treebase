@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Index;
@@ -148,4 +149,9 @@ public abstract class MatrixElement extends AbstractPersistedObject {
 	 * @return
 	 */
 	public abstract StringBuilder appendValueAsSymbol(StringBuilder pBuf, CharacterMatrix pMatrix);
+	
+	@Transient
+	public CharacterMatrix getContext() {
+		return getColumn().getMatrix();
+	}
 }
