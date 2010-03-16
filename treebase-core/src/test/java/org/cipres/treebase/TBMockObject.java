@@ -75,4 +75,9 @@ public class TBMockObject extends Object implements TBPersistable {
 		return null;
 	}
 
+	public TBPersistable getContext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
