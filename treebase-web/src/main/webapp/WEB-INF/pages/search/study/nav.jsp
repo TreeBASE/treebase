@@ -81,6 +81,7 @@
 		</a>
 		
 		<!-- save to connotea -->
+                <!-- commented out temporarily because this uses the absolute path, which won't work due to proxying
 		<form method="post" id="connotea" action="http://www.connotea.org/add" enctype="application/x-www-form-urlencoded" name="edit">
 		
 		    <input 
@@ -172,6 +173,7 @@
 				<img src="/treebase-web/images/connotea.gif" alt="Connotea" class="iconButton"/>
 				Connotea
 			</a>
+		--> <!-- end of commenting out connotea -->
 		<div id="notice"></div>
 	</fieldset>
 </div>
