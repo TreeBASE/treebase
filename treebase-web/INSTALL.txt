@@ -1,0 +1,6 @@
+For information on configuring, building, and deploying TreeBASE 
+consult the TreeBASE wiki:
+
+http://sourceforge.net/apps/mediawiki/treebase/
+
+Of particular relevance are sections 'Building' and 'Deploying'.

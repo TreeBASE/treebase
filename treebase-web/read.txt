@@ -1,5 +1,0 @@
-The information contained in this file was no longer up-to-date
-and no longer being maintained. For information on configuring, 
-building and deploying TreeBASE, consult the wiki:
-
-http://sourceforge.net/apps/mediawiki/treebase/
