@@ -12,7 +12,7 @@
 		</p>
 		<h2>Implementation Technologies</h2>
 		<ul>
-			<li>Database: <a href="http://www.postgresql.org/">PostgreSQL 8.3</a></li>
+			<li>Database: <a href="http://www.postgresql.org/">PostgreSQL 8.4.2</a></li>
 			<li>Programming language: Java (web-application), Perl (data migration and 
 			maintenance)</li>
 			<li>Database ORM: <a href="http://www.hibernate.org/">Hibernate</a></li>
