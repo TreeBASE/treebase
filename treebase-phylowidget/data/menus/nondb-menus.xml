@@ -1,0 +1,81 @@
+<menuset name="PhyloWidget Menus">
+	<menu type="Toolbar" fontsize="11" x="2" y="2">
+		<item name="File">
+			<!--item name="New Tree" action="treeNew" shortcut="control-n"/-->
+			<!--item name="Load Tree..." action="treeLoad"/-->
+			<item name="Save Tree..." action="treeSave"/>
+			<!--item name="Save Tree To Database" action="treeSaveToDB"/-->
+			<item name="Export Image">
+				<item name="Large (1600x1200)" action="fileOutputBig"/>
+				<item name="Small (640 x 480)" action="fileOutputSmall"/>
+				<item name="PDF" action="fileOutputPDF"/>
+			</item>
+		</item>
+		<item name="View">
+			<item name="Zoom to Full" action="viewZoomToFull" shortcut="control-F"/>
+			<item name="Renderer Type">
+				<item name="Rectangular" action="viewRectangular" shortcut="control-1"/>
+				<item name="Diagonal" action="viewDiagonal" shortcut="control-2"/>
+				<item name="Circular" action="viewCircular" shortcut="control-3"/>
+			</item>
+			<item name="Show/Hide">
+				<item name="Branch Lengths" type="CheckBox" property="showBranchLengths" value="false"/>
+				<item name="Inner Clade Labels" type="CheckBox" property="showCladeLabels" value="false"/>			
+			</item>
+			<item name="Style">
+				<item name="Text Angle" type="NumberScroller" property="textRotation" increment=".5" default="0" min="-45" max="45"/>
+				<item name="Node Size" type="NumberScroller" property="nodeSize" increment =".005" default=".2" min="0" max=".5"/>
+				<item name="Line Weight" type="NumberScroller" property="lineSize" increment =".001" default=".1" min="0" max=".5"/>
+			</item>
+			<item name="Render Threshold" type="NumberScroller" property="renderThreshold" increment="5" default="150" min="5" max="1000"/>
+			<item name="Minimum Text Size" type="NumberScroller" property="minTextSize" increment =".1" default="10" min="0" max="36"/>
+			<!-- <item name="Stretch Tree to Fit" type="CheckBox" property="fitTreeToWindow" /> -->
+			<item name="Use Branch Lengths" type="CheckBox" property="useBranchLengths" shortcut="ctrl-b" />
+		</item>
+		<!--item name="Tree">			
+				<item name="Mutate Once" action="treeMutateOnce" shortcut="control-m"/>
+				<item name="Mutate Slow" action="treeMutateSlow"/>
+				<item name="Mutate Fast" action="treeMutateFast"/>
+				<item name="Stop Mutating" action="treeStopMutating" shortcut="control-shift-m"/>
+			</item>
+			<item name="Flip Tree" action="treeFlip" shortcut="control-R"/>
+			<item name="Auto-sort Tree" action="treeAutoSort" shortcut="control-L"/>
+			<item name="Remove Elbows" action="treeRemoveElbows" shortcut="control-E"/>
+		</item-->
+	</menu>
+
+	<menu name="dock" type="ToolDock" width="30" rotation="left">
+	<!-- the "rotation" parameter can have the values: left, right, top, bottom -->
+		<item name="Arrow" tool="arrow" shortcut="a" icon="dock/arrow.png"/>
+		<item name="Scroll" tool="scroll" shortcut="s" icon="dock/grab.png"/>
+		<item name="Zoom" tool="zoom" shortcut="z" icon="dock/zoom.png"/>
+	</menu>
+
+	<menu name="context" type="org.phylowidget.ui.PhyloContextMenu">
+		<!--item name="Tree Edit" hint="t">
+			<item name="Add" hint="a">
+				<item name="Child" action="nodeAddChild" hint="c"/>
+				<item name="Sister" action="nodeAddSister" hint="s"/>
+			</item>
+			<item name="Delete" hint="d">
+				<item name="This node" action="nodeDelete" hint="t"/>
+				<item name="Subtree" action="nodeDeleteSubtree" hint="s"/>
+			</item>
+		</item-->
+		<item name="Layout" hint="a">
+			<item name="Reroot" action="nodeReroot" hint="r"/>
+			<item name="Flip subtree" action="nodeFlipSubtree" hint="f"/>
+			<item name="Switch children" action="nodeSwitchChildren" hint="s"/>
+		</item>
+		<!--item name="Clipboard" hint="c">
+			<item name="Cut" action="nodeCut" hint="x"/>
+			<item name="Copy" action="nodeCopy" hint="c"/>
+			<item name="Paste" action="nodePaste" hint="v"/>
+			<item name="Clear" action="nodeClearClipboard" hint="r"/>
+		</item-->
+		<!--item name="Node Edit" hint="e">
+			<item name="Name" action="nodeEditName" hint="n"/>
+			<item name="Branch length" action="nodeEditBranchLength" hint="b"/>
+		</item-->
+	</menu>
+</menuset>
