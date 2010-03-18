@@ -49,8 +49,13 @@
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.download.reconstructed"/>" 
+<%--
 				title="<fmt:message key="download.reconstructedfile"/>" 
-				alt="<fmt:message key="download.reconstructedfile"/>"/>	
+				alt="<fmt:message key="download.reconstructedfile"/>"
+--%>
+				title="<fmt:message key="download.unavailable"/>" 
+				alt="<fmt:message key="download.unavailable"/>"	
+				/>	
 <!-- 		</a>	  -->	
 		<c:if test="${not empty analysisStepCommand.displayName}">
 			<c:out value="${analysisStepCommand.displayName}"/>
@@ -58,7 +63,7 @@
 		<c:if test="${empty analysisStepCommand.displayName}">
 			<em>Untitled</em>
 		</c:if>			
-	</h2>
+	--</h2>
 	<div <c:if test="${!editable}">style="display:none"</c:if> id="analysisStepCommand<c:out value="${analysisStepCommand.id}"/>">
 		<c:if test="${editable || ( not empty analysisStepCommand.displayName || not empty analysisStepCommand.notes )}">
 		<fieldset>
