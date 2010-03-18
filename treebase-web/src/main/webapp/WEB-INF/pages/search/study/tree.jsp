@@ -105,7 +105,7 @@ table .val {
                             archive="PhyloWidget.jar,core.jar,itext.jar,jgrapht-jdk1.5.jar,pdf.jar"
                             mayscript="true"
                             width="600" height="600">
-                            <param name="menuFile" value="nondb-menus.xml" />
+                            
                             <param name="image" value="loading.gif" />
                             <param name="boxmessage" value="Loading Processing software..." />
                             <param name="boxbgcolor" value="#FFFFFF" />
