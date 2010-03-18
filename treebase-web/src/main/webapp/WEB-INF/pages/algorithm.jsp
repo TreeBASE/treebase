@@ -44,13 +44,14 @@
 				title="<fmt:message key="analysis.notvalidated"/>" 
 				alt="<fmt:message key="analysis.notvalidated"/>"/>			
 		</span>
-		<a href="/treebase-web/search/downloadAnAnalysisStep.html?analysisid=${analysisStepCommand.id}&id=${analysisStepCommand.analysis.study.id}">
+<!-- VG 2010-03-17 Disabled analysis download as requested in #2972107, to mitigate #2970700 and #2970457   -->		
+<!-- 		<a href="/treebase-web/search/downloadAnAnalysisStep.html?analysisid=${analysisStepCommand.id}&id=${analysisStepCommand.analysis.study.id}">  -->
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.download.reconstructed"/>" 
 				title="<fmt:message key="download.reconstructedfile"/>" 
 				alt="<fmt:message key="download.reconstructedfile"/>"/>	
-		</a>		
+<!-- 		</a>	  -->	
 		<c:if test="${not empty analysisStepCommand.displayName}">
 			<c:out value="${analysisStepCommand.displayName}"/>
 		</c:if>	
