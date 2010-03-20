@@ -172,23 +172,7 @@ table .val {
                     <div id="comments" style="margin: 5px">
                         Make a selection by clicking on the tree list.
                     </div>
-					<c:if test="${treeBlockID != null}">
-						<fieldset style="margin-left:5px;margin-right:5px;background-color:white">		
-							<legend>Quick links</legend>								
-							<p style="text-align:left">							
-								<a href="/treebase-web/search/study/trees.html?id=${studyID}" target="_new">
-									<img class="iconButton" style="vertical-align:middle" src="<fmt:message key="icons.trees"/>" />
-									Containing tree set
-								</a>
-							</p>
-							<p style="text-align:left">							
-								<a href="/treebase-web/search/study/summary.html?id=${studyID}" target="_new">
-									<img class="iconButton" style="vertical-align:middle" src="<fmt:message key="icons.citation"/>" />
-									Containing study
-								</a>
-							</p>
-						</fieldset>
-					</c:if>                     
+				                  
 		        </td>
 		    </tr>
         </table>	

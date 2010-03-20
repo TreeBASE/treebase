@@ -862,6 +862,10 @@
 				<prop key="/urlAPI.html">filenameController</prop>
 				<prop key="/people.html">filenameController</prop>
 				<prop key="/technology.html">filenameController</prop>
+				<prop key="/partnership.html">filenameController</prop>
+				<prop key="/reference.html">filenameController</prop>
+				<prop key="/journal.html">filenameController</prop>
+				<prop key="/contact.html">filenameController</prop>
 				
 				<prop key="/user/viewXML.html">filenameController</prop>
 				<prop key="/test/phylowidget.html">filenameController</prop>

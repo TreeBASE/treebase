@@ -20,10 +20,10 @@
 					<br/>Deployment Manager
 				</td>
 				<td>
-					<img src="images/people/bpiel.gif" width="81" height="108" alt="William Piel"/>
+					<img src="images/people/bpiel.jpeg" width="81" height="108" alt="William Piel"/>
 					<br/><strong>William Piel</strong>
-					<br/>Data Editor
-					<br />Prototype Developer
+					<br/>Content Editor
+					<br />Prototype Dev
 				</td>
 				<td>
 					<img src="images/people/vtannen.jpeg" width="81" height="108" alt="Val Tannen"/>
@@ -60,7 +60,7 @@
 				<td>
 					<img src="images/people/mdonoghue.gif" width="81" height="108" alt="Michael Donoghue"/>
 					<br/><strong>Michael Donoghue</strong>
-					<br/>Conceptual Issues
+					<br/>Concept
 				</td>
 				<td>
 					<img src="images/people/teriksson.gif" width="81" height="108" alt="Torsten Eriksson"/>
@@ -92,7 +92,8 @@
 				<td>
 					<img src="images/people/msanderson.gif" width="81" height="108" alt="Mike Sanderson"/>
 					<br/><strong>Mike Sanderson</strong>
-					<br/>Conceptual Issues
+					<br/>Concept
+					<br/>Prototype Dev
 				</td>
 				<td>
 					<img src="images/people/anon.jpg" width="81" height="108" alt="Can van Tran"/>

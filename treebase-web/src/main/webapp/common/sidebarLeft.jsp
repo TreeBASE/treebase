@@ -10,11 +10,13 @@
 						<li><a href="<c:url value="/about.html"/>"><fmt:message key="nav.overview"/></a></li>
 						<li><a href="<c:url value="/technology.html"/>"><fmt:message key="nav.technology"/></a></li>
 						<li><a href="<c:url value="/people.html"/>"><fmt:message key="nav.people"/></a></li>
-						<li><a href="#"><fmt:message key="nav.partnerships"/></a></li>
+						<li><a href="<c:url value="/partnership.html"/>"><fmt:message key="nav.partnerships"/></a></li>
+						<li><a href="<c:url value="/reference.html"/>"><fmt:message key="nav.references"/></a></li>
 					</ul>
 				</li>			
 				<li><a href="<c:url value="/urlAPI.html"/>"><fmt:message key="nav.dataaccess"/></a></li>
-				<li><a href="#"><fmt:message key="nav.contact"/></a></li>			
+				<li><a href="<c:url value="/journal.html"/>"><fmt:message key="nav.journals"/></a></li>
+				<li><a href="<c:url value="/contact.html"/>"><fmt:message key="nav.contact"/></a></li>			
 			</ul>
 		</div>
 	</div>

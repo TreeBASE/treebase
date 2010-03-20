@@ -11,6 +11,10 @@
         <pattern>/urlAPI.html</pattern>
         <pattern>/people.html</pattern>
         <pattern>/technology.html</pattern>
+        <pattern>/partnership.html</pattern>
+        <pattern>/reference.html</pattern>
+        <pattern>/contact.html</pattern>
+        <pattern>/journal.html</pattern>
     </decorator>
 	
 	<!-- decoration page for search pages -->
