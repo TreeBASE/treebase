@@ -5,7 +5,7 @@
 <p class=MsoNormal>&nbsp;</p>
 
 <p class=MsoNormal><img width=160 height=100
-src="images/partnership/image001.jpg" style='height:100px;width:160px'>&nbsp;The
+src="images/nescent_logo.jpg" style='height:100px;width:160px'>&nbsp;The
 <a href="http://www.nescent.org"
 title="National Evolutionary Synthesis Center (NESCent)" id=qhvf>National
 Evolutionary Synthesis Center (NESCent)</a> is a national center sponsored by
