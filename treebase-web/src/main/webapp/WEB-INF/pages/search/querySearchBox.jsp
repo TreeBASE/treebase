@@ -17,7 +17,7 @@
 		The TreeBASE website can be searched using a subset of constructs from the 
 		<a href="http://www.loc.gov/standards/sru/specs/cql.html">CQL</a> specification. For
 		more information on how this is used, visit the 
-		<a href="/treebase-web/help/urlAPI.jsp">TreeBASE help page about searching</a>.
+		<a href="/treebase-web/urlAPI.html">TreeBASE help page about searching</a>.
 	</p>
 	<div>
 		<textarea name="query" style="width:100%"></textarea><br/>
