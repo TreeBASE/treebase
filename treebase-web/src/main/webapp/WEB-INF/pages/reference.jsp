@@ -1,5 +1,5 @@
 
-<h1>Reference</h1>
+<h1>References</h1>
 		<p>
 			<strong>Blake, J. A., C. J. Bult, M. J. Donoghue, J. Humphries, and C. Fields.</strong> 
 			1994. Interoperability of biological databases: a meeting report. 

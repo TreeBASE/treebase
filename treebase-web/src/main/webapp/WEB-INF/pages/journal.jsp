@@ -296,10 +296,6 @@ research.&nbsp;</p>
  </tr>
 </table>
 
-<p class=MsoNormal>&nbsp;</p>
-
-<p class=MsoNormal>&nbsp;</p>
-
 <p class=MsoNormal><b>Other Journals with a Significant Presence in TreeBASE</b>:
 <a
 href="http://purl.org/phylo/treebase/phylows/study/find?query=prism.publicationName=%2American+Journal+of+Botany%22"

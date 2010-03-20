@@ -7,14 +7,14 @@
 <p>For questions about data submission and data content, please
 contact:&nbsp;</p>
 
-<p><img src="images/help_mail.jpg">&nbsp;</p>
+<p>&nbsp;&nbsp;<img src="images/help_mail.jpg">&nbsp;</p>
 
 <h2>Bugs</h2>
 
 <p>To report software bugs, browser conflicts, and ergonomic
 inefficiencies, please contact:</p>
 
-<p><img src="images/bugs_mail.jpg">&nbsp;</p>
+<p>&nbsp;&nbsp;<img src="images/bugs_mail.jpg">&nbsp;</p>
 
 <p>Alternatively, you can enter a bug report directly into our
 sourceforge online bug tracker. For that, please follow these steps:</p>
