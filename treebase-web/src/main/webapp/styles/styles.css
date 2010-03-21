@@ -52,11 +52,13 @@ h1, h2, h3 {
 	background-image: url("../images/footer_bg.gif")
 }
 
-#contentRight h2, #contentRight h3, #contentRight p, #content p, #content h3 {
+#contentRight h2, #contentRight h3, #contentRight p, #content p, #content h3, #contentRight dl {
 	padding-left: 15px !important;
 	padding-right: 15px !important;	
 	padding-top: 15px !important		
 }
+
+dt { font-weight: bold }
 
 #contentRight h2 {
 	border-top: 1px solid #3d649f
