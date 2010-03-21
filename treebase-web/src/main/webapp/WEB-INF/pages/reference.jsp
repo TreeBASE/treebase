@@ -1,5 +1,6 @@
-
-<h1>References</h1>
+<div id="contentRight">
+	<div class="gutter">
+		<h1>References</h1>
 		<p>
 			<strong>Blake, J. A., C. J. Bult, M. J. Donoghue, J. Humphries, and C. Fields.</strong> 
 			1994. Interoperability of biological databases: a meeting report. 
@@ -83,3 +84,5 @@
 			 2005. Fast Structural Search in Phylogenetic Databases 
 			 <em>. Evolutionary Bioinformatics Online</em>, <strong>1</strong>: 37-46.
 		</p>
+	</div>
+</div>
