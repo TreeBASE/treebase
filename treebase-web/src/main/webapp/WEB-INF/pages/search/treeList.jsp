@@ -19,7 +19,7 @@
 			<c:param name="id" value="${tree.study.id}" />
 		</c:url>
 		<input type="checkbox" id="s-${tree.id }" name="selection" value="${tree.id }" /> 
-		<a href="${url}" target="_blank">Tr${tree.id }</a>
+		<a href="${url}">Tr${tree.id }</a>
 	</display:column>
 
 				
