@@ -119,7 +119,7 @@ table .val {
                         		<param name="showBranchLengths" value="true"/>
                         		<param name="useBranchLengths" value="true"/>                        	
                         	-->
-                        	<param name="menuFile" value="nondb-menus.xml" />
+                        	<param name="menuFile" value="limited-menus.xml" />
                             <param name="image" value="loading.gif" />
                             <param name="boxmessage" value="Loading PhyloWidget software..." />
                             <param name="boxbgcolor" value="#FFFFFF" />
