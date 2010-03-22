@@ -7,7 +7,7 @@
    			TreeBASE.register( function() { $('keyword').focus(); } );
    		//]]>   
    	</script>  
-    <input type=text class="textCell" style="width:150px" name="searchTerm" id="keyword" value="${searchTerm}"/>
+    <input type="text" class="textCell" style="width:150px" name="searchTerm" id="keyword" value="${searchTerm}"/>
    <button type="submit" name="searchButton" value="studyID">Study ID</button>
       <button type="submit" name="searchButton" value="legacyStudyID">Legacy Study ID</button>
      <button type="submit" name="searchButton" value="authorKeyword">Author</button>

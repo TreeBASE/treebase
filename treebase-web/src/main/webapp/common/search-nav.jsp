@@ -4,32 +4,49 @@
 	<li id="s-navlabel">Search</li>
 	<li id="st-study">
 		<a href="<c:url value="/search/studySearch.html"/>">
-		<img class="iconButton" src="<fmt:message key="icons.citation"/>" />
+		<img 
+			class="iconButton" 
+			src="<fmt:message key="icons.citation"/>" 
+			alt="<fmt:message key="search.nav.studyTab"/>"/>
 		<fmt:message key="search.nav.studyTab"/></a>
 	</li>
 	<li id="st-matrix">
 		<a href="<c:url value="/search/matrixSearch.html"/>">
-		<img class="iconButton" src="<fmt:message key="icons.matrices"/>" />
+		<img 
+			class="iconButton" 
+			src="<fmt:message key="icons.matrices"/>" 
+			alt="<fmt:message key="search.nav.matrixTab"/>"/>
 		<fmt:message key="search.nav.matrixTab"/></a>
 	</li>
 	<li id="st-tree">
 		<a href="<c:url value="/search/treeSearch.html"/>">
-		<img class="iconButton" src="<fmt:message key="icons.trees"/>" />
+		<img 
+			class="iconButton" 
+			src="<fmt:message key="icons.trees"/>" 
+			alt="<fmt:message key="search.nav.treeTab"/>"/>
 		<fmt:message key="search.nav.treeTab"/></a>
 	</li>
 	<li id="st-taxon">
 		<a href="<c:url value="/search/taxonSearch.html"/>">
-		<img class="iconButton" src="<fmt:message key="icons.taxa"/>" />
+		<img 
+			class="iconButton" 
+			src="<fmt:message key="icons.taxa"/>" 
+			alt="<fmt:message key="search.nav.taxonTab"/>"/>
 		<fmt:message key="search.nav.taxonTab"/></a>
 	</li>	
 	<li id="st-treeTop">
 		<a href="<c:url value="/search/treeTopSearch.html"/>">
-		<img class="iconButton" src="<fmt:message key="icons.tree"/>" />
+		<img 
+			class="iconButton" 
+			src="<fmt:message key="icons.tree"/>" 
+			alt="<fmt:message key="search.nav.treeTopTab"/>"/>
 		<fmt:message key="search.nav.treeTopTab"/></a>
 	</li>
 	<li style="background-color:transparent">
   		<a href="#" class="openHelp" style="background-color:transparent; border:none" onclick="openHelp('searchTabs')">
-  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
+  			<img 
+  				class="iconButton" 
+  				src="<fmt:message key="icons.help"/>" alt="?"/>
   		</a>		
 	</li>	
 	<!-- 

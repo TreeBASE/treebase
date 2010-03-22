@@ -20,5 +20,5 @@
 			</ul>
 		</div>
 	</div>
-	<img src="<c:url value="images/footer_bg.gif"/>" style="width:100%"/>
+	<img src="<c:url value="images/footer_bg.gif"/>" style="width:100%" alt="" />
 </div>
