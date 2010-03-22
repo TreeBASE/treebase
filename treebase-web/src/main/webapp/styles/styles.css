@@ -22,7 +22,7 @@ body {
 }
 
 #content a:hover, #contentRight a:hover {
-	border-bottom: 2px solid orangered;
+	border-bottom: 2px solid #FF4500;
 	font-weight: bold
 }
 
@@ -308,8 +308,9 @@ table.peopleTable {
 img.journal {
 	width: 121px; 
 	height: 40px;
-	border: 0;
-	align: bottom 	
+	border: 1px solid silver;
+	margin: 5px;
+	padding: 5px
 }
 
 	
@@ -572,20 +573,10 @@ input.enabled {
 	border: 1px solid silver	
 }
 input.software {
-	width: 100%;
-	overflow: scroll
 }
 select.software {
 	width: 100%
 }
 .analysisStep {
 	background-color:white
-}
-
-/* Home page styles
-*******************************************************************************************/
-#sponsors > img {
-	border: 1px solid silver;
-	margin: 5px;
-	padding: 5px
 }

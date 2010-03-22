@@ -9,6 +9,9 @@
 	<jsp:include page="analysisList.jsp"/>
 --%> 
 <script type="text/javascript" src="/treebase-web/scripts/user/analysisEditor.js"></script>
+<script type="text/javascript">
+	var myAnalysisIDs = new Array();
+</script>
 <c:set var="analysisStepCounter" value="0" scope="request"/>
 <c:set var="redirect" value="redirect:/user/analyses.html" scope="request"/>
 <c:forEach var="analysisCommand" items="${studyCommand.analysisCommandList}" varStatus="status_analysis">
@@ -18,6 +21,7 @@
 	<h2>
 		<a onclick="TreeBASE.collapseExpand('analysis<c:out value="${analysisCommand.id}"/>','block',this)"
 			style="border:none"
+			id="analysisCollapser<c:out value="${analysisCommand.id}"/>"
 			title="collapse">
 			<img 
 				class="iconButton" 
@@ -131,7 +135,10 @@
 		
 	<fieldset 
 		style="padding-left:20px;padding-right:20px;background-color:#E5E5E5;border:none" 
-		id="analysis<c:out value="${analysisCommand.id}"/>">		
+		id="analysis<c:out value="${analysisCommand.id}"/>">	
+		<script type="text/javascript">
+			myAnalysisIDs.push('<c:out value="${analysisCommand.id}"/>');
+		</script>		
 		
 		<!--  EDITABLE -->				
 		<c:if test="${editable}">
@@ -329,4 +336,16 @@
 			</a>				    
 		</form>			
 	</div>
+</c:if>
+
+<c:if test="${editable}">
+	<script type="text/javascript">
+		for ( var i = 0; i < ( myAnalysisIDs.length - 1 ); i++ ) {
+			TreeBASE.collapseExpand(
+				'analysis'+myAnalysisIDs[i],
+				'block',
+				$('analysisCollapser'+myAnalysisIDs[i])
+			);
+		}
+	</script>
 </c:if>
