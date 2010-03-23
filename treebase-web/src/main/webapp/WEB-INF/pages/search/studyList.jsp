@@ -49,7 +49,7 @@
 			<c:set var="DOIResource" value="${DOIResolver}${study.citation.doi}"/>
 			<a href="${DOIResource}" target="_blank">
 			<img class="iconButton" src="<fmt:message key="icons.weblink"/>" />
-			${study.citation.doi}</a>			
+			<!-- ${study.citation.doi} --></a>			
 		</c:if>
 	</display:column>
 
