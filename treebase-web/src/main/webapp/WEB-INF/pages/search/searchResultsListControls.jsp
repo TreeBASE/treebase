@@ -1,5 +1,5 @@
 <%@ include file="/common/taglibs.jsp"%>
-<script type="text/javascript" src="/treebase-web/scripts/prototype/prototype-1.6.0.3.js"></script>
+<%-- script type="text/javascript" src="/treebase-web/scripts/prototype/prototype-1.6.0.3.js"></script --%>
 <c:if test="${! isEmpty }">
 
 <script type="text/javascript">

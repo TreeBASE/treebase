@@ -92,9 +92,10 @@ TreeBASE.register(
 	2. onfocus we change the border to soft blue
 	3. onblur (i.e. we leave the input) we go back to the previous border
 */
+
 TreeBASE.register(
 	function() {
-		var inputs = $(document).getElementsByClassName('textCell');
+		var inputs = $$('.textCell');
 		for ( var i = 0; i < inputs.length; i++ ) {
 			if ( inputs[i] ) {
 				var currentColor = inputs[i].style.borderColor;
@@ -113,7 +114,7 @@ TreeBASE.register(
 TreeBASE.register(
 	function () {
 	    if ( document.getElementsByClassName ) {
-            var checkBoxCells = document.getElementsByClassName('checkBoxColumn');
+            var checkBoxCells = $$('.checkBoxColumn');
             var buttonContainer = $('buttonContainer');
             if ( checkBoxCells.length > 0 && buttonContainer ) {
                 var checkButton = new Element('input',{'type':'button','value':'Check all'});

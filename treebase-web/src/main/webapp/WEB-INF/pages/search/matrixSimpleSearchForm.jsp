@@ -2,11 +2,6 @@
   <form id="searchSimple" method="post">
   <fieldset>
   Search: <input type="hidden" name="formName" value="matrixSimple"/>
-   	<script type="text/javascript">
-   		//<![CDATA[
-   			TreeBASE.register( function() { $('keyword').focus(); } );
-   		//]]>   
-   	</script>
     <input type=text class="textCell" style="width:150px" name="searchTerm" id="keyword" value="${searchTerm}"/>
    <button type="submit" name="searchButton" value="matrixID">Matrix ID</button>
      <button type="submit" name="searchButton" value="matrixTitle">Title</button>

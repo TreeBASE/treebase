@@ -29,8 +29,9 @@
 
 <script type="text/javascript" src="<c:url value='/dwr/engine.js'/>"> </script>
 <script type="text/javascript" src="<c:url value='/dwr/util.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/scripts/prototype/prototype.js'/>"></script>
+<!-- script type="text/javascript" src="<c:url value='/scripts/prototype/prototype.js'/>"></script-->
 <script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
+<!-- script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.1.js'/>"></script-->
 
 <script type="text/javascript" src="<c:url value='/scripts/script.aculo.us/effects.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/script.aculo.us/controls.js'/>"></script>
