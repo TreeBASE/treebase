@@ -81,7 +81,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 			// ALERT: the result might not be unique since mesquite allows duplicated taxonlabels
 			// in the same tree.
 			// returnVal = (TaxonLabel) c.uniqueResult();
-
+			c.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); 
 			returnVal = c.list();
 		}
 		return returnVal;
