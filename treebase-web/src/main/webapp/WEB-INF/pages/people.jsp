@@ -1,41 +1,75 @@
 <div class="gutter">
 	<h1>People</h1>
 	<table class="peopleTable">
-		<thead><tr><th colspan="6"><h2>Current contributors</h2></th></tr></thead>
-		<tr>
-			<td>
-				<img src="images/people/anon.jpg" width="81" height="108" alt="Vladimir Gapeyev"/>
-				<br/><strong>Vladimir Gapeyev</strong>
-				<br/>Deployment Maintainer
-			</td>
-			<td>
-				<img src="images/people/anon.jpg" width="81" height="108" alt="Youjun Guo"/>
-				<br/><strong>Youjun Guo</strong>
-				<br/>Developer
-			</td>			
-			<td>
-				<img src="images/people/hlapp.jpeg" width="81" height="108" alt="Hilmar Lapp"/>
-				<br/><strong>Hilmar Lapp</strong>
-				<br/>Deployment Manager
-			</td>
-			<td>
-				<img src="images/people/bpiel.jpeg" width="81" height="108" alt="William Piel"/>
-				<br/><strong>William Piel</strong>
-				<br/>Content Editor
-				<br />Prototype Dev
-			</td>
-			<td>
-				<img src="images/people/vtannen.jpeg" width="81" height="108" alt="Val Tannen"/>
-				<br/><strong>Val Tannen</strong>
-				<br/>Development Leader
-			</td>
-			<td>
-				<img src="images/people/rvos.jpg" width="81" height="108" alt="Rutger Vos"/>
-				<br/><strong>Rutger Vos</strong>
-				<br/>Developer
-				<br/>API Design
-			</td>
-		</tr>
+			<thead><tr><th colspan="6"><h2>Current contributors</h2></th></tr></thead>
+			<tr>
+				<td>
+					<img src="images/people/jauman.jpg" width="81" height="108" alt="Jon Auman"/>
+					<br/><strong>Jon Auman</strong>
+					<br/>
+					DBA &amp;<br/>
+                    Systems Administrator
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Vladimir Gapeyev"/>
+					<br/><strong>Vladimir Gapeyev</strong>
+					<br/>Deployment Maintainer
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Youjun Guo"/>
+					<br/><strong>Youjun Guo</strong>
+					<br/>Developer
+				</td>			
+				<td>
+					<img src="images/people/hlapp.jpeg" width="81" height="108" alt="Hilmar Lapp"/>
+					<br/><strong>Hilmar Lapp</strong>
+					<br/>Deployment Manager
+				</td>
+				<td>
+					<img src="images/people/bpiel.jpeg" width="81" height="108" alt="William Piel"/>
+					<br/><strong>William Piel</strong>
+					<br/>Content Editor
+					<br/>Prototype Dev
+				</td>
+				<td>
+					<img src="images/people/mplaza.jpg" width="81" height="108" alt="Melanie Plaza"/>
+					<br/><strong>Melanie Plaza</strong>
+					<br/>Metadata Editor
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="images/people/vtannen.jpeg" width="81" height="108" alt="Val Tannen"/>
+					<br/><strong>Val Tannen</strong>
+					<br/>Development Leader
+				</td>
+				<td>
+					<img src="images/people/rvos.jpg" width="81" height="108" alt="Rutger Vos"/>
+					<br/><strong>Rutger Vos</strong>
+					<br/>Developer
+					<br/>API Design
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
+			</tr>
 	</table>
 	
 	<table class="peopleTable">	
