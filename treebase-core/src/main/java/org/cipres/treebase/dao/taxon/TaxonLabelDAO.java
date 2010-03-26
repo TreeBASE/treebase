@@ -460,4 +460,24 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 		}
 		return result;
 	}
+
+	public void clean(TaxonLabelSet tSet) {
+		// TODO Auto-generated method stub
+		Query q = getSession()
+		.createQuery("select count(*) from TreeBlock tb where tb.taxonLabelSet = :ts"); 
+		q.setParameter("ts", tSet);
+	    int count=((Integer)q.iterate().next()).intValue();
+	    
+	    q = getSession()
+		.createQuery("select count(*) from Matrix m where m.taxa = :ts"); 
+		q.setParameter("ts", tSet);
+	    count += ((Integer)q.iterate().next()).intValue();
+	    
+	    if(count==0)deletePersist(tSet);
+	}
+
+	public void clean(List<TaxonLabel> tList) {
+		// TODO Auto-generated method stub
+		
+	}
 }
