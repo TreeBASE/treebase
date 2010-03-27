@@ -478,6 +478,18 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 
 	public void clean(List<TaxonLabel> tList) {
 		// TODO Auto-generated method stub
-		
+		for(TaxonLabel tl : tList){
+			Query q = getSession()
+			.createQuery("select count(*) from PhyloTreeNode pn where pn.taxonLabel = :tl"); 
+			q.setParameter("tl", tl);
+		    int count=((Integer)q.iterate().next()).intValue();
+		    
+		    q = getSession()
+			.createQuery("select count(*) from MatrixRow mr where mr.taxonLabel = :tl"); 
+			q.setParameter("tl", tl);
+		    count += ((Integer)q.iterate().next()).intValue();
+		    
+		    if(count==0)deletePersist(tl);
+		}
 	}
 }
