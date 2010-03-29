@@ -124,6 +124,28 @@ public abstract class MatrixJDBC {
 	}
 
 	/**
+	 * Delete all rows and associated objects using direct SQL. 
+	 * 
+	 * @param pMatrix
+	 * @param pSession
+	 */
+	public static void deleteMatrixRowSQL(CharacterMatrix pMatrix, Session pSession) {		
+		// delete all matrix rows by direct JDBC:
+		// * delete all row segments
+		// * delete all rows
+		
+		String query = "DELETE FROM ROWSEGMENT WHERE MATRIXROW_ID in (select row.MATRIXROW_ID from MATRIXROW row where row.MATRIX_ID = :matrixID)"; 
+		Query q = pSession.createSQLQuery(query);
+		q.setParameter("matrixID", pMatrix.getId());
+		q.executeUpdate();
+
+		query = "DELETE FROM MATRIXROW WHERE MATRIX_ID = :matrixID";
+		q = pSession.createSQLQuery(query);
+		q.setParameter("matrixID", pMatrix.getId());
+		q.executeUpdate();
+			
+	}
+	/**
 	 * Delete all elements and associated objects in a matrix using direct SQL.
 	 * 
 	 * @param pTree
@@ -153,8 +175,8 @@ public abstract class MatrixJDBC {
 		q.setParameter("matrixID", pMatrix.getId());
 		q.executeUpdate();
 
-		query = "delete from matrixelement where matrixelement_id IN "
-			+ "(select m.matrixelement_id from matrixelement m, MATRIXCOLUMN c where m.MATRIXCOLUMN_ID = c.MATRIXCOLUMN_ID and c.MATRIX_ID = :matrixID)";
+		query = "DELETE FROM matrixelement WHERE matrixcolumn_id IN"
+			+ "(SELECT c.matrixcolumn_id FROM matrixcolumn c WHERE c.matrix_id = :matrixID)";
 		q = pSession.createSQLQuery(query);
 		q.setParameter("matrixID", pMatrix.getId());
 		q.executeUpdate();

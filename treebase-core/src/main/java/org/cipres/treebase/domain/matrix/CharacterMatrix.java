@@ -83,7 +83,7 @@ public abstract class CharacterMatrix extends Matrix {
 	 * 
 	 * @return CodonPositionSet
 	 */
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "CODONPOSITIONSET_ID", nullable = true)
 	public CodonPositionSet getDefaultCodonPosSet() {
 		return mDefaultCodonPosSet;
@@ -111,7 +111,7 @@ public abstract class CharacterMatrix extends Matrix {
 	 * 
 	 * @return CharWeightSet
 	 */
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "CHARWEIGHTSET_ID", nullable = true)
 	public CharWeightSet getDefaultWeightSet() {
 		return mDefaultWeightSet;
@@ -139,7 +139,7 @@ public abstract class CharacterMatrix extends Matrix {
 	 * 
 	 * @return ExcludedCharSet
 	 */
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "CHARSET_ID", nullable = true)
 	public ExcludedCharSet getDefaultExcludedSet() {
 		return mDefaultExcludedSet;
@@ -167,7 +167,7 @@ public abstract class CharacterMatrix extends Matrix {
 	 * 
 	 * @return TypeSet mDefaultTypeSet
 	 */
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TYPESET_ID", nullable = true)
 	public TypeSet getDefaultTypeSet() {
 		return mDefaultTypeSet;
@@ -332,7 +332,7 @@ public abstract class CharacterMatrix extends Matrix {
 	 * 
 	 * @return AncStateSet
 	 */
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "ANCSTATESET_ID", nullable = true)
 	public AncStateSet getDefaultAncSet() {
 		return mDefaultAncSet;
@@ -358,7 +358,7 @@ public abstract class CharacterMatrix extends Matrix {
 	//@OneToMany(cascade = CascadeType.ALL)
 	// no cascade merge since we do not modify a column ?? Need test.
 	//@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "MATRIX_ID")
 	@IndexColumn(name = "COLUMN_ORDER")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "matrixCache")
@@ -445,10 +445,10 @@ public abstract class CharacterMatrix extends Matrix {
 		// private Set<CodonPositionSet> mCodonPosSets;
 		// private Set<GeneticCodeSet> mCodeSets;
 		// private Set<TypeSet> mTypeSets;
-
-		pMatrixHome.cascadeDeleteElements(this);
-		pMatrixHome.cascadeDeleteRows(getRows());
-		pMatrixHome.cascadeDeleteColumns(this);
+		pMatrixHome.cascadeDelete(this);
+		//pMatrixHome.cascadeDeleteElements(this);
+		//pMatrixHome.cascadeDeleteRows(this);
+		//pMatrixHome.cascadeDeleteColumns(this);
 		
 		// pMatrixHome.cascadeDeleteAncStateSet(getAncStateSets());
 		// pMatrixHome.cascadeDeleteCharWeightSet(getWeightSets());
@@ -508,7 +508,7 @@ public abstract class CharacterMatrix extends Matrix {
 	// the one side has to be the owner side, cannot use "mappedby"
 	// also need to duplicate specify the JoinColumn here.
 	// @OneToMany(mappedBy = "matrix", cascade = CascadeType.ALL)
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@OneToMany(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "MATRIX_ID")
 	@IndexColumn(name = "ROW_ORDER")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "matrixCache")

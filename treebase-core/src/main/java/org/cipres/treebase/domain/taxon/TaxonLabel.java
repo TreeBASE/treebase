@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -54,6 +56,7 @@ public class TaxonLabel extends AbstractPersistedObject {
 
 	private TaxonVariant mTaxonVariant;
 	private Study mStudy;
+	private Submission mSubmission;
 
 	/**
 	 * Constructor.
@@ -173,13 +176,27 @@ public class TaxonLabel extends AbstractPersistedObject {
 	 * 
 	 * @return the submission
 	 * @author mjd 20080929
+	 * modified by Youjun
 	 */
-	@Transient
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(name = "sub_taxonlabel", 
+			joinColumns = @JoinColumn(name = "taxonlabel_id"),
+	        inverseJoinColumns = @JoinColumn(name="submission_id")
+
+	)
 	public Submission getSubmission() {
-		Study s = getStudy();
-		return s == null ? null : s.getSubmission();		
+		
+		return mSubmission;		
 	}
 
+	/**
+	 * Set the Submission field.
+	 */
+	public void setSubmission(Submission pNewSubmission) {
+		mSubmission = pNewSubmission;
+	}
+	
+	
 	/**
 	 * Return the taxon name if it available.
 	 */

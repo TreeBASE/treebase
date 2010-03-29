@@ -466,12 +466,12 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 		Query q = getSession()
 		.createQuery("select count(*) from TreeBlock tb where tb.taxonLabelSet = :ts"); 
 		q.setParameter("ts", tSet);
-	    int count=((Integer)q.iterate().next()).intValue();
+	    int count=((Long)q.iterate().next()).intValue();
 	    
 	    q = getSession()
 		.createQuery("select count(*) from Matrix m where m.taxa = :ts"); 
 		q.setParameter("ts", tSet);
-	    count += ((Integer)q.iterate().next()).intValue();
+	    count += ((Long)q.iterate().next()).intValue();
 	    
 	    if(count==0)deletePersist(tSet);
 	}
@@ -482,12 +482,12 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 			Query q = getSession()
 			.createQuery("select count(*) from PhyloTreeNode pn where pn.taxonLabel = :tl"); 
 			q.setParameter("tl", tl);
-		    int count=((Integer)q.iterate().next()).intValue();
+		    int count=((Long)q.iterate().next()).intValue();
 		    
 		    q = getSession()
 			.createQuery("select count(*) from MatrixRow mr where mr.taxonLabel = :tl"); 
 			q.setParameter("tl", tl);
-		    count += ((Integer)q.iterate().next()).intValue();
+		    count += ((Long)q.iterate().next()).intValue();
 		    
 		    if(count==0)deletePersist(tl);
 		}

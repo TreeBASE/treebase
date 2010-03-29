@@ -2,6 +2,7 @@
 package org.cipres.treebase.domain.taxon;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.cipres.treebase.domain.DomainHome;
@@ -229,4 +230,15 @@ public interface TaxonLabelHome extends DomainHome {
 	 * @return All taxonlabelsets of which this taxonlabel is a member
 	 */
 	Set<TaxonLabelSet> findTaxonLabelSets(TaxonLabel tl);
+    
+	/**
+	 * clean orphan record @ TaxonLabelSet
+	 */
+	public void clean(TaxonLabelSet tSet);
+    
+	/**
+	 * clean orphan record @ TaxonLabel
+	 */
+	public void clean(List<TaxonLabel> tList);
+
 }

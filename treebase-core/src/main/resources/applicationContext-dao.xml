@@ -173,6 +173,7 @@
 				<property name="matrixRowHome" ref="matrixRowHome" />
 				<property name="submissionHome" ref="submissionHome" />
 				<property name="analyzedDataHome" ref="analyzedDataHome" />
+			    <property name="taxonLabelHome" ref="taxonLabelHome" />
 			</bean>
 		</property>
 	</bean>

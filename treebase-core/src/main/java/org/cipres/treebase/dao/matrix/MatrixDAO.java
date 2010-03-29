@@ -28,6 +28,9 @@ import org.cipres.treebase.domain.study.AnalyzedDataHome;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionHome;
+import org.cipres.treebase.domain.taxon.TaxonLabel;
+import org.cipres.treebase.domain.taxon.TaxonLabelHome;
+import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -50,7 +53,8 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 	private MatrixRowHome mMatrixRowHome;
 	private SubmissionHome mSubmissionHome;
 	private AnalyzedDataHome mAnalyzedDataHome;
-
+	private TaxonLabelHome mTaxonLabelHome;
+	
 	/**
 	 * Constructor.
 	 */
@@ -107,6 +111,25 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 	}
 
 	/**
+	 * set the TaxonLabelHome field.
+	 */
+	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
+		mTaxonLabelHome = pNewTaxonLabelHome;
+	}
+
+	/**
+	 * Return the TaxonLabelHome field.
+	 * 
+	 * 
+	 * @return TaxonLabelHome mTaxonLabelHome
+	 */
+	private TaxonLabelHome getTaxonLabelHome() {
+		return mTaxonLabelHome;
+	}
+	
+	
+	
+	/**
 	 * Return the SubmissionHome field.
 	 * 
 	 * @return SubmissionHome mSubmissionHome
@@ -138,6 +161,35 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 
 	/**
 	 * 
+	 * @see org.cipres.treebase.domain.matrix.MatrixHome#cascadeDelete(org.cipres.treebase.domain.matrix.CharacterMatrix)
+	 */
+	public void cascadeDelete(CharacterMatrix pMatrix) {
+		
+		// bi-directional relationships:
+		// * delete submission-> matrix
+		// * delete analyzedData -> matrix
+		Submission sub = getSubmissionHome().findByMatrix(pMatrix);
+		if (sub != null) {
+			sub.removeMatrix(pMatrix);
+		}
+
+		Collection<AnalyzedData> dataLink = getAnalyzedDataHome().findByMatrix(pMatrix);
+		for (AnalyzedData data : dataLink) {
+			data.getAnalysisStep().removeAnalyzedData(data);
+		}
+		
+		TaxonLabelSet tSet = pMatrix.getTaxa();
+		List<TaxonLabel> tList = pMatrix.getAllTaxonLabels();
+      
+		getHibernateTemplate().delete(pMatrix);  
+		
+		getTaxonLabelHome().clean(tSet);
+		getTaxonLabelHome().clean(tList);
+		
+	}
+	
+	/**
+	 * 
 	 * @see org.cipres.treebase.domain.matrix.MatrixHome#delete(org.cipres.treebase.domain.matrix.Matrix)
 	 */
 	public void delete(Matrix pMatrix) {
@@ -145,21 +197,8 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 
 			// Use double dispatch.
 			pMatrix.cascadeDelete(this);
-
-			// bi-directional relationships:
-			// * delete submission-> matrix
-			// * delete analyzedData -> matrix
-			Submission sub = getSubmissionHome().findByMatrix(pMatrix);
-			if (sub != null) {
-				sub.removeMatrix(pMatrix);
-			}
-
-			Collection<AnalyzedData> dataLink = getAnalyzedDataHome().findByMatrix(pMatrix);
-			for (AnalyzedData data : dataLink) {
-				data.getAnalysisStep().removeAnalyzedData(data);
-			}
-
-			getHibernateTemplate().delete(pMatrix);
+						
+		
 		}
 	}
 
@@ -184,6 +223,15 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		getMatrixRowHome().deleteRows(pRows);
 	}
 
+	
+	/**
+	 * 
+	 * @see org.cipres.treebase.domain.matrix.MatrixHome#cascadeDeleteRows(java.util.Collection)
+	 */
+	public void cascadeDeleteRows(CharacterMatrix pMatrix) {
+		MatrixJDBC.deleteMatrixRowSQL(pMatrix,getSession());
+	}
+	
 	/**
 	 * 
 	 * @see org.cipres.treebase.domain.matrix.MatrixHome#cascadeDeleteAncStateSet(java.util.Set)

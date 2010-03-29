@@ -55,14 +55,14 @@ public interface MatrixHome extends DomainHome {
 	 * @param pMatrix
 	 */
 	void cascadeDeleteColumns(CharacterMatrix pMatrix);
-
+	void cascadeDelete(CharacterMatrix pMatrix);
 	/**
 	 * Delete a collection of matrix rows.
 	 * 
 	 * @param pRows
 	 */
 	void cascadeDeleteRows(Collection<MatrixRow> pRows);
-
+	void cascadeDeleteRows(CharacterMatrix pMatrix);
 	/**
 	 * Delete a collection of ancestral state sets.
 	 * 
