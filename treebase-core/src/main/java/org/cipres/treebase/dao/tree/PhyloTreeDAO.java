@@ -18,6 +18,7 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
+import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeHome;
@@ -124,7 +125,9 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 				block.removePhyloTree(pTree);
 
 				if (block.isEmpty()) {
+					TaxonLabelSet tSet=block.getTaxonLabelSet();
 					deleteTreeBlock(block);
+					getTaxonLabelHome().clean(tSet);
 				}
 			}
 
@@ -149,16 +152,18 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 
 			// getHibernateTemplate().delete(data);
 		}
-
+        
+		Set<TaxonLabel> tSet=pTree.getAllTaxonLabels();
 		// Delete by direct JDBC:
 		// * Tree nodes
 		// ** for each tree node, node attribute.
 		// ** (TODO) NodeEdge
-		PhyloTreeJDBC.deletePhyloTreeNodeSQL(pTree, getSession());
+		//PhyloTreeJDBC.deletePhyloTreeNodeSQL(pTree, getSession());
 
 		// cascade delete by hibernate:
 		// * tree atrribute
 		getHibernateTemplate().delete(pTree);
+		getTaxonLabelHome().clean(new ArrayList<TaxonLabel>(tSet));
 	}
 
 	/**

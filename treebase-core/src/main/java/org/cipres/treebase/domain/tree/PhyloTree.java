@@ -407,7 +407,7 @@ public class PhyloTree extends AbstractPersistedObject {
 	 * @return Set<TreeNode> 
 	 */
 	//@OneToMany(mappedBy = "tree", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-	@OneToMany(mappedBy = "tree", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@OneToMany(mappedBy = "tree", cascade = {CascadeType.ALL})
 	//@Fetch(FetchMode.SUBSELECT)
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "treeCache")
 	//@Loader(namedQuery="loadNodes")

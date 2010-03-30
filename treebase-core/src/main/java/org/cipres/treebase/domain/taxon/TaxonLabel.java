@@ -1,6 +1,7 @@
 package org.cipres.treebase.domain.taxon;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.IndexColumn;
 
 /**
  * TaxonLabel usually associates with one Taxon. If it does not, it usually means the referred
@@ -57,7 +59,7 @@ public class TaxonLabel extends AbstractPersistedObject {
 	private TaxonVariant mTaxonVariant;
 	private Study mStudy;
 	private Submission mSubmission;
-
+    private Set<TaxonLabelSet> mTaxonLabelSet;  
 	/**
 	 * Constructor.
 	 */
@@ -207,6 +209,26 @@ public class TaxonLabel extends AbstractPersistedObject {
 		}
 		return null;
 	}
+	
+	/**
+	 * Return the TaxonLabelSet field.
+	 * 
+	 * @return List<PhyloTaxonLabel>
+	 */
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinTable(name = "TaxonLabelSET_TaxonLabel", joinColumns = {@JoinColumn(name = "TaxonLabel_ID")}, inverseJoinColumns = @JoinColumn(name = "TaxonLabelSet_ID"))
+	protected Set<TaxonLabelSet> getTaxonLabelSet() {
+		return mTaxonLabelSet;
+	}
+
+
+	/**
+	 * Set the TaxonLabelSet field.
+	 */
+	protected void setTaxonLabelSet(Set<TaxonLabelSet> pTaxonLabelSet) {
+		mTaxonLabelSet = pTaxonLabelSet;
+	}
+
 
 	/**
 	 * Return the taxon name if it available.
