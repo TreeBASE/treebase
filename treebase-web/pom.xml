@@ -77,6 +77,10 @@
 			<name>NeXML Remote Repository</name>
 			<url>http://nexml-dev.nescent.org/.m2/repository/</url>
 		</repository>
+		<repository>
+			<id>org.tuckey.urlrewritefilter</id>
+			<url>http://repository.jboss.org/maven2/org/tuckey/urlrewritefilter/</url>
+		</repository>
 
 	</repositories>
 
@@ -315,6 +319,11 @@
 			
 			<version>1.0</version>
 		
+		</dependency>
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>3.0.4</version>
 		</dependency>
 
 	</dependencies>

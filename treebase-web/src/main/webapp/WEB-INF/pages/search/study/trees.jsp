@@ -19,11 +19,11 @@
 			   export="false">
 	
 	<display:column sortable="false" title="ID">
-    	<c:url var="treeURL" value="tree.html">
-      		<c:param name="id" value="${study.id}" />
-      		<c:param name="treeid" value="${tree.id}" />
-   		</c:url>
-   		<a href="javascript:popupWithSizes('${treeURL}',1000,900,'1')">Tr${tree.id}</a>
+    	<c:url var="url" value="/tree_for_phylowidget/">
+			<!--c:param name="treeid" value="${tree.id}" /-->
+			<!--c:param name="id" value="${tree.study.id}" /-->
+		</c:url>
+		<a href="http://www.phylowidget.org/full/?tree='http://<%=request.getServerName()%>:<%=request.getServerPort()%>${url}TB2:Tr${tree.id}'" target="myplwidget">Tr${tree.id}</a>
 	</display:column>	
 	
 	<display:column  
@@ -119,11 +119,11 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-    	<c:url var="treeURL" value="tree.html">
-      		<c:param name="id" value="${study.id}" />
-      		<c:param name="treeid" value="${tree.id}" />
-   		</c:url>
-   		<a href="javascript:popupWithSizes('${treeURL}',1000,900,'1')">
+    	<c:url var="url" value="/tree_for_phylowidget/">
+			<!--c:param name="treeid" value="${tree.id}" /-->
+			<!--c:param name="id" value="${tree.study.id}" /-->
+		</c:url>
+		<a href="http://www.phylowidget.org/full/?tree='http://<%=request.getServerName()%>:<%=request.getServerPort()%>${url}TB2:Tr${tree.id}'" target="myplwidget">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.list"/>" 

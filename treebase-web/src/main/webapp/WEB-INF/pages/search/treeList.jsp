@@ -14,12 +14,12 @@
 			   export = "false">
 
 	<display:column title="" sortable="true" class="checkBoxColumn">
-		<c:url var="url" value="study/tree.html">
-			<c:param name="treeid" value="${tree.id}" />
-			<c:param name="id" value="${tree.study.id}" />
+		<c:url var="url" value="/tree_for_phylowidget/">
+			<!--c:param name="treeid" value="${tree.id}" /-->
+			<!--c:param name="id" value="${tree.study.id}" /-->
 		</c:url>
 		<input type="checkbox" id="s-${tree.id }" name="selection" value="${tree.id }" /> 
-		<a href="${url}" target="myplwidget">Tr${tree.id}</a>
+		<a href="http://www.phylowidget.org/full/?tree='http://<%=request.getServerName()%>:<%=request.getServerPort()%>${url}TB2:Tr${tree.id}'" target="myplwidget">Tr${tree.id}</a>
 	</display:column>
 
 				
@@ -81,11 +81,11 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="study/tree.html">
-			<c:param name="treeid" value="${tree.id}" />
-			<c:param name="id" value="${tree.study.id}" />
+		<c:url var="url" value="/tree_for_phylowidget/">
+			<!--c:param name="treeid" value="${tree.id}" /-->
+			<!--c:param name="id" value="${tree.study.id}" /-->
 		</c:url>
-		<a href="${url}" target="myplwidget">		
+		<a href="http://www.phylowidget.org/full/?tree='http://<%=request.getServerName()%>:<%=request.getServerPort()%>${url}TB2:Tr${tree.id}'" target="myplwidget">		
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.list"/>" 
