@@ -132,7 +132,7 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 			InitialContext ic = new InitialContext();
 			mJndiMesquiteFolder  = (String) ic.lookup("java:comp/env/tb2/MesquiteFolder");
 		} catch (NamingException e) {
-			LOGGER.info("Failure looking up tb/MesquiteFolder via JNDI"); 
+			LOGGER.info("Failure looking up tb2/MesquiteFolder via JNDI"); 
 		}
 
 		String mesquiteFolder; 
