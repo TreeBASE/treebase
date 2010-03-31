@@ -2,6 +2,7 @@ fix_taxonlabels.sql
    detects TaxonLabelSets whose study_id still refers to a dummy study used for loading from TB1 dumps
    and updates it to the proper real study. 
    
+This was applied to the production DB at treebase.nescent.org by Jon on 2010-03-20.  
 
 
 =============================================================
