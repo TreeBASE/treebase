@@ -1,4 +1,7 @@
+<%@page import="org.cipres.treebase.TreebaseUtil"%>
+<% String purlBase = TreebaseUtil.getPurlBase(); %>
 <%@ include file="/common/taglibs.jsp"%>
+
 <head>
 <title>Summary Information</title>
 <content tag="heading">Summary  for current study</content>
@@ -28,10 +31,10 @@ Submission: <c:out value="${submissionNumber}"/>, <c:out value="${studyStatus}"/
 </a>
 <br/>
 <br/>
-<a href="<c:out value="http://purl.org/phylo/treebase/phylows/study/TB2:S"/><c:out value="${submission.study.id}"/>">
+<a href="<c:out value="${submission.study.phyloWSPath.purl}"/>">
 	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
 	Study Accession URL:<br/>
-	<c:out value="http://purl.org/phylo/treebase/phylows/study/TB2:S"/><c:out value="${submission.study.id}"/>
+	<c:out value="${submission.study.phyloWSPath.purl}"/>
 </a>
 <div><strong>You can cite this URL in your manuscript. It will become the permanent and resolvable resource locator after your submission has been approved and the data are made public.</strong></div>
 <br/>

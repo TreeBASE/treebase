@@ -54,7 +54,25 @@
       <env-entry-name>tb2/MesquiteFolder</env-entry-name>
       <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>	
- 	
+    
+    <env-entry>
+      <description>The base URL from which this Treebase instance is served.
+                   Most likely, it has the form "http://your.server.xxx/treebase-web/".
+                   Trailing slash is required.</description>
+      <env-entry-name>tb2/SiteUrl</env-entry-name>
+      <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>	
+     
+    <env-entry>
+      <description>The base URL of a PURL service that redirects to this Treebase instance.
+                   The PURL service should resolve tb2/PurlBase value into something 
+                   like "http://your.server.xxx/..../treebase-web/phylows/", 
+                   which must be the valid PhyloWS URL of this Treebase instance.
+                   Trailing slash is required.</description>
+      <env-entry-name>tb2/PurlBase</env-entry-name> 
+      <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>	
+
 
 	<!-- ========================================================== -->
 	<!-- List of Filters											-->

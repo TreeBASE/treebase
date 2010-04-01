@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.TimeZone;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
 import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.Study;
@@ -40,7 +43,8 @@ public class TreebaseUtil {
 	public static final String LINESEP = System.getProperty("line.separator");
 	public static final int citationMaxLength = 5000;
 	private static final Logger LOGGER = Logger.getLogger(TreebaseUtil.class);
-	private static String mPurlDomain;
+	private static String mPurlBase;
+	private static String mSiteUrl; 
 
 	private TreebaseUtil() {
 		super();
@@ -435,7 +439,8 @@ public class TreebaseUtil {
 	 * 
 	 * @return domain name
 	 */
-	public static String getPurlDomain() {
+	/*--
+	public static String getPurlBase() {
 		if ( null == mPurlDomain ) {
 			Properties properties = new Properties();
 			try {
@@ -459,7 +464,53 @@ public class TreebaseUtil {
 			return mPurlDomain;
 		}
 	}
+*/	
+	
+	/**
+	 * Returns the base URL of the PURL service associated with this Treebase instance,
+	 * which can be used to construct full PURLs by suffixing with a PhyloWS command, e.g. "/study/TB2:S1925"
+	 * 
+	 * @return the base URL of the PURL service
+	 */
+	public static String getPurlBase() {
+		if (null != mPurlBase) 
+			return mPurlBase; 
+		else {
+			try {
+				mPurlBase = "http://DUMMY_PURL_BASE/"; 
+				InitialContext ic = new InitialContext();
+				mPurlBase  = (String) ic.lookup("java:comp/env/tb2/PurlBase");
+			} catch (NamingException e) {
+				LOGGER.info("Failure looking up tb2/PurlBase via JNDI"); 
+				e.printStackTrace();
+			}
+			return mPurlBase; 
+		}
+	}
 
+	
+	/**
+	 * Returns the base URL of this Treebase instance, by looking it up in Tomcat via JNDI.
+	 * 
+	 * @return the base URL of of this Treebase instance
+	 */
+	public static String getSiteUrl() {
+		if (null != mSiteUrl) 
+			return mSiteUrl; 
+		else {
+			try {
+				mSiteUrl = "http://DUMMY_SITE_URL/"; 
+				InitialContext ic = new InitialContext();
+				mSiteUrl  = (String) ic.lookup("java:comp/env/tb2/SiteUrl");
+			} catch (NamingException e) {
+				LOGGER.info("Failure looking up tb2/SiteUrl via JNDI"); 
+				e.printStackTrace();
+			}
+			return mSiteUrl; 
+		}
+	}
+	
+	
 	/**
 	 * This method appends header information upon formatting to the nexus file.
 	 * 

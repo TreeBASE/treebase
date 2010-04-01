@@ -35,7 +35,7 @@ public class SearchResultsAsRDFController implements Controller {
 			request.getSession().setAttribute("searchResultsThawed", searchResults);			
 			request.getSession().setAttribute("recordSchema", request.getSession().getAttribute("recordSchema"));
 			request.getSession().setAttribute("format", "rss1");
-			request.getSession().setAttribute("baseURL", TreebaseUtil.getPurlDomain());
+			request.getSession().setAttribute("baseURL", TreebaseUtil.getPurlBase());
 			request.getSession().setAttribute("phyloWSPath", phyloWSPath);
 			if ( null != request.getParameter("query") ) {			
 				String query = request.getParameter("query");						

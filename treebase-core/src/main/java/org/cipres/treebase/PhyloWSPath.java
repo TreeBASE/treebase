@@ -24,13 +24,12 @@ public class PhyloWSPath {
 	}
 	
 	/**
-	 * This method constructs a permanent url based on the
-	 * treebase.purl.domain property (as computed by TreebaseUtil.getPurlDomain()),
+	 * Constructs a PURL, based on the base URL of the PURL service (looked up through JNDI)
 	 * the phylows path and the namespaced GUID for the object.
-	 * @return the permanent url for the object
+	 * @return the PURL for the object
 	 */
 	public URL getPurl () {
-		StringBuilder sb = new StringBuilder(TreebaseUtil.getPurlDomain());
+		StringBuilder sb = new StringBuilder(TreebaseUtil.getPurlBase());
 		sb = getPath(sb).append(mNamespacedGUID.toString());
 		LOGGER.info(sb);
 		URL url = null;		

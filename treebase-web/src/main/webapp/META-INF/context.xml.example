@@ -16,7 +16,7 @@
 
 <Context reloadable="true">
 
-	 <Resource name="jdbc/TreebaseDB" auth="Container"
+  <Resource name="jdbc/TreebaseDB" auth="Container"
             type="javax.sql.DataSource" 
             description="The JNDI DataSource for the Treebase postgres instance."
             driverClassName="org.postgresql.Driver" 
@@ -25,10 +25,18 @@
 			maxActive="20" maxIdle="10" maxWait="-1"
             />
             
-	  <Environment name="tb2/MesquiteFolder" value="/PATH/TO/YOUR/mesquite-2.01.tb"
+  <Environment name="tb2/MesquiteFolder" value="/PATH/TO/YOUR/mesquite-2.01.tb"
          type="java.lang.String" override="false"
 	     description="Absolute path to the directory where headless Mesquite is unpacked on the host system."/>	
 	
+  <Environment name="tb2/SiteUrl" value="http://YOUR-HOST/treebase-web/"
+         type="java.lang.String" override="false"
+	description="The base URL from which this Treebase instance is served."/>	
+
+  <Environment name="tb2/PurlBase" value="http://purl.org/YOUR/PURL/DOMAIN/phylows/"
+         type="java.lang.String" override="false"
+	description="The base URL of a PURL service that redirects to this Treebase instance."/>	
+
 </Context>
 
 

@@ -1,3 +1,6 @@
+<%@page import="org.cipres.treebase.TreebaseUtil"%>
+<% String purlBase = TreebaseUtil.getPurlBase(); %>
+
 <div class="gutter">
 	<h1>Data Access</h1>
 	<h2>Web Browser User Interface</h2>
@@ -41,11 +44,11 @@
 	</p>
 	<dl>
 		<dt>URI to a study</dt>
-		<dd>http://purl.org/phylo/treebase/phylows/study/TB2:S1925</dd>
+		<dd><%=purlBase%>study/TB2:S1925</dd>
 		<dt>URI to a matrix</dt>
-		<dd>http://purl.org/phylo/treebase/phylows/matrix/TB2:M2610</dd>
+		<dd><%=purlBase%>matrix/TB2:M2610</dd>
 		<dt>URI to a tree</dt>
-		<dd>http://purl.org/phylo/treebase/phylows/tree/TB2:Tr2026</dd>
+		<dd><%=purlBase%>tree/TB2:Tr2026</dd>		
 	</dl>
 	<h2>RSS Feeds</h2>
 	<p>

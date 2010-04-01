@@ -113,7 +113,7 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 		// This is called by child classes using super.getAnnotations()
 		// to get the common annotations out of the way
 		List<Annotation> annotations = new ArrayList<Annotation>();
-		URI uri = URI.create(TreebaseUtil.getPurlDomain()+getPhyloWSPath());
+		URI uri = URI.create(TreebaseUtil.getPurlBase()+getPhyloWSPath());
 		annotations.add(new Annotation(Constants.OWLURI,"owl:sameAs",uri));
 		return annotations;
 	}
