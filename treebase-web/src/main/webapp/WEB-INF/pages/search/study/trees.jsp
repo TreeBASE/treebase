@@ -131,7 +131,7 @@
 			<!--c:param name="id" value="${tree.study.id}" /-->
 		</c:url>
 		
-		<a href="javascript:void(0)" onClick="openPhylowidget(${tree.id}">
+		<a href="javascript:void(0)" onClick="openPhylowidget(${tree.id})">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.list"/>" 
