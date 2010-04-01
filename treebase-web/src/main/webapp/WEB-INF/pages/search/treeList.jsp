@@ -5,6 +5,7 @@
 <body id="trees"/ --%>
 
 
+
 <display:table name="${resultSet.results}"
 			   requestURI=""
 			   class="list"
@@ -18,8 +19,16 @@
 			<!--c:param name="treeid" value="${tree.id}" /-->
 			<!--c:param name="id" value="${tree.study.id}" /-->
 		</c:url>
+		<script type="text/javascript">
+		function openPhylowidget(tree_id)
+		{
+			 var realURL = "http://www.phylowidget.org/full/?tree='http://"+location.host+"${url}"+"TB2:Tr"+tree_id+"'";
+			 window.open(realURL,'myplwidget')
+		}
+          
+        </script>
 		<input type="checkbox" id="s-${tree.id }" name="selection" value="${tree.id }" /> 
-		<a href="http://www.phylowidget.org/full/?tree='http://<%=request.getServerName()%>:<%=request.getServerPort()%>${url}TB2:Tr${tree.id}'" target="myplwidget">Tr${tree.id}</a>
+		<a href="javascript:void(0)" onClick="openPhylowidget(${tree.id})">Tr${tree.id}</a>
 	</display:column>
 
 				
@@ -85,7 +94,7 @@
 			<!--c:param name="treeid" value="${tree.id}" /-->
 			<!--c:param name="id" value="${tree.study.id}" /-->
 		</c:url>
-		<a href="http://www.phylowidget.org/full/?tree='http://<%=request.getServerName()%>:<%=request.getServerPort()%>${url}TB2:Tr${tree.id}'" target="myplwidget">		
+		<a href="javascript:void(0)" onClick="openPhylowidget(${tree.id})">		
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.list"/>" 
