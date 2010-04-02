@@ -12,7 +12,7 @@
 <script type="text/javascript">
 		function openPhylowidget(tree_id)
 		{
-			 var realURL = "http://www.phylowidget.org/full/?tree='http://"+location.host+"${url}"+"TB2:Tr"+tree_id+"'";
+			 var realURL = "http://www.phylowidget.org/full/?tree='http://"+location.host+"/treebase-web/tree_for_phylowidget/"+"TB2:Tr"+tree_id+"'";
 			 window.open(realURL,'myplwidget')
 		}
 </script>
