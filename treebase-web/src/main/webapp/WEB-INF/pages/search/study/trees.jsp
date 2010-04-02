@@ -9,7 +9,13 @@
 <c:url var="studyURL" value="summary.html">
 <c:param name="id" value="${study.id}"/>
 </c:url>
-
+<script type="text/javascript">
+		function openPhylowidget(tree_id)
+		{
+			 var realURL = "http://www.phylowidget.org/full/?tree='http://"+location.host+"${url}"+"TB2:Tr"+tree_id+"'";
+			 window.open(realURL,'myplwidget')
+		}
+</script>
 <display:table name="trees"
 			   requestURI=""
 			   class="list"
@@ -23,14 +29,8 @@
 			<!--c:param name="treeid" value="${tree.id}" /-->
 			<!--c:param name="id" value="${tree.study.id}" /-->
 		</c:url>
-		<script type="text/javascript">
-		function openPhylowidget(tree_id)
-		{
-			 var realURL = "http://www.phylowidget.org/full/?tree='http://"+location.host+"${url}"+"TB2:Tr"+tree_id+"'";
-			 window.open(realURL,'myplwidget')
-		}
-        </script>
-		<a href="javascript:void(0)" onClick="openPhylowidget(${tree.id}">Tr${tree.id}</a>
+		
+		<a href="javascript:void(0)" onClick="openPhylowidget(${tree.id})">Tr${tree.id}</a>
 	</display:column>	
 	
 	<display:column  
