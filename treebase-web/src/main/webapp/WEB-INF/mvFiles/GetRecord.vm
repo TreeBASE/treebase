@@ -1,0 +1,7 @@
+#parse("head.vm")
+<GetRecord>
+#if($!requestParams.metadataPrefix=="oai_dc")
+#parse("oai_dc_record.vm")	
+#end
+</GetRecord>
+</OAI-PMH>

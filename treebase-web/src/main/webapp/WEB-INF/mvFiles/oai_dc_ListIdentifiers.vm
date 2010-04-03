@@ -1,0 +1,10 @@
+#parse("head.vm")
+<ListIdentifiers>
+#foreach ( $record in $recordList) 
+<header>
+<identifier>${record.identifier}</identifier> 
+<datestamp>$!record.datestamp</datestamp>
+</header>
+#end
+</ListIdentifiers>
+</OAI-PMH>

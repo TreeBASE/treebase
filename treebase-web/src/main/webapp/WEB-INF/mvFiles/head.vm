@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+         http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+<responseDate>${identify.getResponseDate()}</responseDate>
+<request #if($!requestParams.verb)verb="$!requestParams.verb" #end
+#if($!requestParams.identifier)identifier="$!requestParams.identifier" #end 
+#if($!requestParams.metadataPrefix)metadataPrefix="$!requestParams.metadataPrefix" #end      
+#if($!requestParams.from)from="$!requestParams.from" #end
+#if($!requestParams.until)until="$!requestParams.until" #end
+#if($!requestParams.resumptionToken)resumptionToken="$!requestParams.resumptionToken" #end
+#if($!requestParams.set)set="$!requestParams.set" #end>
+$!identify.BaseURL</request>

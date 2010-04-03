@@ -1,0 +1,3 @@
+#parse("head.vm")                           
+  <error code="noSetHierarchy">This repository does not support sets</error>
+</OAI-PMH>

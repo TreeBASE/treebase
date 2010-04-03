@@ -1,0 +1,9 @@
+#parse("head.vm")
+<ListRecords>
+#if($!requestParams.metadataPrefix=="oai_dc")
+#foreach($record in $recordList) 
+#parse("oai_dc_record.vm")
+#end
+#end
+</ListRecords>
+</OAI-PMH>
