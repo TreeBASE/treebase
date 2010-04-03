@@ -1,4 +1,4 @@
-package org.treebase.oai.web.command;
+package org.cipres.treebase.web.model;
 /**
  * 
  * @author youjun

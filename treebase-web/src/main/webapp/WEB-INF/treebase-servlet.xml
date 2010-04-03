@@ -10,6 +10,16 @@
 
 	
 	<!-- ========================================================== -->
+	<!-- velocity configure							                -->
+	<!-- ========================================================== -->
+
+   <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+    <property name="resourceLoaderPath">
+      <value>WEB-INF/vmFiles/</value>
+    </property>
+    </bean>
+	
+	<!-- ========================================================== -->
 	<!-- LIST OF CONTROLLERS FOR WEB-TIER							-->
 	<!-- ========================================================== -->
 	
@@ -826,6 +836,16 @@
 		<property name="userService"><ref bean="userService"></ref></property>
 		<property name="helpService"><ref bean="helpService"></ref></property>
 	</bean>
+	
+	
+	 <bean id="OAIPMHController" class="org.cipres.treebase.web.controllers.OAIPMHController">
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>
+	    <property name="identify"><ref bean="top.identify"></ref></property>
+	    <property name="validator">
+			<bean class="org.cipres.treebase.web.validators.OAIPMHValidator"/>
+		</property>	
+	</bean>
  
 	<!-- ========================================================== -->
 	<!-- LIST OF VALIDATORS FOR CONTROLLER							-->
@@ -838,15 +858,29 @@
 	</bean>
 	
 	<!-- ========================================================== -->
-	<!-- Spring View Resolvers for JSPs								-->
+	<!-- Spring View Resolvers for JSPs	and .vm files							-->
 	<!-- ========================================================== -->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+  
+    <bean id="vmViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="order" value="1"></property> 
+        <property name="suffix">
+            <value>.vm</value>
+        </property>
+        <property name="exposeRequestAttributes">
+            <value>true</value>
+        </property>
+        <property name="exposeSessionAttributes">
+            <value>true</value>
+         </property>
+    </bean>
+    
+      <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="requestContextAttribute" value="rc"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-    
+     
 	<!-- ========================================================== -->
 	<!-- URL MAPPING												-->
 	<!-- ========================================================== -->
@@ -855,6 +889,7 @@
 		<property name="alwaysUseFullPath" value="true"/>
 			<property name="mappings">
 			<props>
+			    <prop key="/top/**">OAIPMHController</prop>
 				<prop key="/phylows/**">phyloWSController</prop>
 				<prop key="/about.html">filenameController</prop>
 				<prop key="/home.html">filenameController</prop>

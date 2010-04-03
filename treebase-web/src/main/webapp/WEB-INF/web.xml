@@ -209,6 +209,10 @@
 		<servlet-name>treebase</servlet-name>
 		<url-pattern>/phylows/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>treebase</servlet-name>
+		<url-pattern>/top/*</url-pattern>
+	</servlet-mapping>
 	
 	<!-- ========================================================== -->
 	<!-- url pattern that will be processed by XFireSpringServlet    -->

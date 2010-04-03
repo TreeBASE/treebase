@@ -1,4 +1,4 @@
-package org.treebase.oai.web.command;
+package org.cipres.treebase.web.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

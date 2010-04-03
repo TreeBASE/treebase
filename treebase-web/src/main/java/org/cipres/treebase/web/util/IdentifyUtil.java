@@ -1,4 +1,4 @@
-package org.treebase.oai.web.util;
+package org.cipres.treebase.web.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.treebase.oai.web.command.Identify;
-import org.treebase.oai.web.command.OAIPMHCommand;
+import org.cipres.treebase.web.model.Identify;
+import org.cipres.treebase.web.model.OAIPMHCommand;
 /*
  * 
  * @author youjun

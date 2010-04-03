@@ -1,4 +1,4 @@
-package org.treebase.oai.web.controller;
+package org.cipres.treebase.web.controllers;
 
 import java.lang.reflect.Method;
 import java.text.ParseException;
@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
-import org.treebase.oai.web.command.Identify;
-import org.treebase.oai.web.command.OAIPMHCommand;
-import org.treebase.oai.web.util.IdentifyUtil;
+import org.cipres.treebase.web.model.Identify;
+import org.cipres.treebase.web.model.OAIPMHCommand;
+import org.cipres.treebase.web.util.IdentifyUtil;
 import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.study.ArticleCitation;
 import org.cipres.treebase.domain.study.BookCitation;

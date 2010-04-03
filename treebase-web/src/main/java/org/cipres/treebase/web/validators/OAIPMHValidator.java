@@ -1,9 +1,9 @@
-package org.treebase.oai.web.validator;
+package org.cipres.treebase.web.validators;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import org.treebase.oai.web.command.OAIPMHCommand;
+import org.cipres.treebase.web.model.OAIPMHCommand;
 
 public class OAIPMHValidator implements Validator {
 	
