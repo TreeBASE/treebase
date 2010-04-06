@@ -860,20 +860,38 @@
 	<!-- ========================================================== -->
 	<!-- Spring View Resolvers for JSPs	and .vm files							-->
 	<!-- ========================================================== -->
-  <!--
-    <bean id="vmViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
-        <property name="order" value="1"></property> 
-        <property name="suffix">
-            <value>.vm</value>
-        </property>
-        <property name="exposeRequestAttributes">
-            <value>true</value>
-        </property>
-        <property name="exposeSessionAttributes">
-            <value>true</value>
+    <!--
+    <bean id="chainableVelocityViewResolver" class="org.cipres.treebase.web.viewresolver.ChainableVelocityViewResolver">        
+          <property name="chainableResolver">                 
+                <bean class="org.springframework.web.servlet.view.velocity. VelocityViewResolver">
+                    <property name="order" value="1"></property> 
+                   		<property name="suffix">
+            			<value>.vm</value>
+        			</property>
+        			<property name="exposeRequestAttributes">
+            			<value>true</value>
+        			</property>
+        			<property name="exposeSessionAttributes">
+            			<value>true</value>
+         			</property>
+                	<property name="contentType" value="application/xml;charset=UTF-8" />
+                </bean>                                                                 
          </property>
-    </bean>
-     --> 
+         <property name="order"><value>1</value></property>
+         <property name="views">
+            <list>
+                <value>error</value>
+                <value>ListRecords</value>
+                <value>GetRecord</value>
+                <value>Identify</value>
+                <value>ListMetadataFormats</value>
+                <value>oai_dc_ListIdentifiers</value>
+                <value>ListSets</value>
+            </list>
+        </property>
+                 
+      </bean>
+      -->
       <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="requestContextAttribute" value="rc"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
