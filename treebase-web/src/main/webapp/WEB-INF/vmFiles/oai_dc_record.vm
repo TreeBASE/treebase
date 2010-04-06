@@ -38,11 +38,11 @@
 #end 
 #if($record.format)
 <dc:format>${record.format}</dc:format>
-
 #end 
-##if($record.identifier)
-##<dc:identifier>${record.identifier}</dc:identifier>
-##end 
+
+#if($record.identifier)
+<dc:identifier>${record.identifier}</dc:identifier>
+#end 
 			
 #if($record.source)
 <dc:source>{record.source}</dc:source>     

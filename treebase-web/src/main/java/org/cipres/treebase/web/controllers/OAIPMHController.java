@@ -24,6 +24,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.domain.study.StudyService;
+
 /**
  * OAIPMHController.java
  * 
@@ -231,16 +232,16 @@ public class OAIPMHController extends AbstractCommandController{
 			List<Person> authors=citation.getAuthors();
 			 
 		
-			map.put("title", citation.getTitle());
+			map.put("title", IdentifyUtil.escape4XML(citation.getTitle()));
 			map.put("creator", authors);			
-			map.put("subject", citation.getKeywords());
+			map.put("subject", IdentifyUtil.escape4XML(citation.getKeywords()));
 		    if(study.getName()!=null&study.getNotes()!=null)			
-		    	map.put("description", study.getName()+" "+study.getNotes());
+		    	map.put("description", IdentifyUtil.escape4XML(study.getName()+" "+study.getNotes()));
 		    else if(study.getNotes()==null)
-		    	map.put("description",study.getName());
+		    	map.put("description",IdentifyUtil.escape4XML(study.getName()));
 		    else
-		    	map.put("description",study.getNotes());
-			map.put("publisher", publisher);						
+		    	map.put("description",IdentifyUtil.escape4XML(study.getNotes()));
+			map.put("publisher", IdentifyUtil.escape4XML(publisher));						
 			map.put("date", "published on "+citation.getPublishYear());
 			map.put("identifier", "TreeBASE.org/study/TB2:s"+study.getId());
 			map.put("datestamp", study.getReleaseDate());

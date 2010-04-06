@@ -13,11 +13,9 @@
 	<!-- velocity configure							                -->
 	<!-- ========================================================== -->
 
-   <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-    <property name="resourceLoaderPath">
-      <value>WEB-INF/vmFiles/</value>
-    </property>
-    </bean>
+   <bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">   
+    <property name="resourceLoaderPath" value="/WEB-INF/vmFiles/" />
+   </bean>
 	
 	<!-- ========================================================== -->
 	<!-- LIST OF CONTROLLERS FOR WEB-TIER							-->
@@ -860,14 +858,11 @@
 	<!-- ========================================================== -->
 	<!-- Spring View Resolvers for JSPs	and .vm files							-->
 	<!-- ========================================================== -->
-    <!--
+   
     <bean id="chainableVelocityViewResolver" class="org.cipres.treebase.web.viewresolver.ChainableVelocityViewResolver">        
           <property name="chainableResolver">                 
-                <bean class="org.springframework.web.servlet.view.velocity. VelocityViewResolver">
-                    <property name="order" value="1"></property> 
-                   		<property name="suffix">
-            			<value>.vm</value>
-        			</property>
+                <bean class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        			<property name="suffix" value=".vm"/>
         			<property name="exposeRequestAttributes">
             			<value>true</value>
         			</property>
@@ -876,8 +871,7 @@
          			</property>
                 	<property name="contentType" value="application/xml;charset=UTF-8" />
                 </bean>                                                                 
-         </property>
-         <property name="order"><value>1</value></property>
+         </property>        
          <property name="views">
             <list>
                 <value>error</value>
@@ -891,7 +885,7 @@
         </property>
                  
       </bean>
-      -->
+      
       <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="requestContextAttribute" value="rc"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
