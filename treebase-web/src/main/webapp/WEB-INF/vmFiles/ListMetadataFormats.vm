@@ -2,17 +2,14 @@
   <ListMetadataFormats>                    
    <metadataFormat>
      <metadataPrefix>oai_dc</metadataPrefix>
-     <schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd
-       </schema>
-     <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/
-       </metadataNamespace>
+     <schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd</schema>
+     <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/</metadataNamespace>
    </metadataFormat>
    
    <metadataFormat>
      <metadataPrefix>dryad</metadataPrefix>
      <schema>http://ils.unc.edu/mrc/dryad/version1_0/dryad_1_0.xsd</schema>
-     <metadataNamespace>http://ils.unc.edu/mrc/dryad/
-      </metadataNamespace>
+     <metadataNamespace>http://ils.unc.edu/mrc/dryad/</metadataNamespace>
    </metadataFormat>
    
  </ListMetadataFormats>

@@ -51,32 +51,41 @@ public class IdentifyUtil {
 	    return new Date(utcMiliseconds + cal.get(Calendar.ZONE_OFFSET) + cal.get(Calendar.DST_OFFSET));
 	}
 	
-	  public static String escape4XML(String aText){
-		    final StringBuilder result = new StringBuilder();
-		    final StringCharacterIterator iterator = new StringCharacterIterator(aText);
-		    char character =  iterator.current();
-		    while (character != CharacterIterator.DONE ){
-		      if (character == '<') {
+	  public static String escape4XML(long study_id, String xmlStr){
+		    if(xmlStr==null)return null;
+		    StringBuilder result = new StringBuilder();
+		    StringCharacterIterator sci = new StringCharacterIterator(xmlStr);
+		    char c =  sci.current();
+		    while (c != CharacterIterator.DONE ){
+		      if (c == '<') {
 		        result.append("&lt;");
 		      }
-		      else if (character == '>') {
+		      else if (c == '>') {
 		        result.append("&gt;");
 		      }
-		      else if (character == '\"') {
+		      else if (c == '\"') {
 		        result.append("&quot;");
 		      }
-		      else if (character == '\'') {
+		      else if (c == '\'') {
 		        result.append("&#039;");
 		      }
-		      else if (character == '&') {
+		      else if (c == '&') {
 		         result.append("&amp;");
 		      }
 		      else {
-		        //the char is not a special one
-		        //add it to the result as is
-		        result.append(character);
+		        if (!Character.isDefined(c)) {		    	  
+		    	    try {
+					    throw new Exception();
+				    } catch (Exception e) {
+					    // TODO Auto-generated catch block
+					    System.err.println("study:"+ study_id+" undefined charachter:"+ c + " in " + xmlStr );
+				    }
+		            
+			         
+			    }
+		        result.append(c);		        
 		      }
-		      character = iterator.next();
+		      c = sci.next();
 		    }
 		    return result.toString();
 		  }

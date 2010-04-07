@@ -232,24 +232,24 @@ public class OAIPMHController extends AbstractCommandController{
 			List<Person> authors=citation.getAuthors();
 			 
 		
-			map.put("title", IdentifyUtil.escape4XML(citation.getTitle()));
+			map.put("title", IdentifyUtil.escape4XML(study.getId(),citation.getTitle()));
 			map.put("creator", authors);			
-			map.put("subject", IdentifyUtil.escape4XML(citation.getKeywords()));
+			map.put("subject", IdentifyUtil.escape4XML(study.getId(),citation.getKeywords()));
 		    if(study.getName()!=null&study.getNotes()!=null)			
-		    	map.put("description", IdentifyUtil.escape4XML(study.getName()+" "+study.getNotes()));
+		    	map.put("description", IdentifyUtil.escape4XML(study.getId(),study.getName()+" "+study.getNotes()));
 		    else if(study.getNotes()==null)
-		    	map.put("description",IdentifyUtil.escape4XML(study.getName()));
+		    	map.put("description",IdentifyUtil.escape4XML(study.getId(),study.getName()));
 		    else
-		    	map.put("description",IdentifyUtil.escape4XML(study.getNotes()));
-			map.put("publisher", IdentifyUtil.escape4XML(publisher));						
+		    	map.put("description",IdentifyUtil.escape4XML(study.getId(),study.getNotes()));
+			map.put("publisher", IdentifyUtil.escape4XML(study.getId(),publisher));						
 			map.put("date", "published on "+citation.getPublishYear());
 			map.put("identifier", "TreeBASE.org/study/TB2:s"+study.getId());
 			map.put("datestamp", study.getReleaseDate());
 			
-			}catch(NullPointerException e){
+			}catch(Exception e){
 				//study 253 citation= null, data should be fixed 
  				System.err.println("study "+study.getId()+
-						" citation= "+e.getMessage());
+						" citation= "+e.toString());
  				return null;
 			}
 			
