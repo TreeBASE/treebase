@@ -58,7 +58,7 @@ public class TaxonLabel extends AbstractPersistedObject {
 
 	private TaxonVariant mTaxonVariant;
 	private Study mStudy;
-	private Submission mSubmission;
+	//private Submission mSubmission;
     private Set<TaxonLabelSet> mTaxonLabelSet;  
 	/**
 	 * Constructor.
@@ -174,29 +174,34 @@ public class TaxonLabel extends AbstractPersistedObject {
 	}
 	
 	/**
-	 * Return the submission this taxonLabel inhabits
-	 * 
-	 * @return the submission
-	 * @author mjd 20080929
-	 * modified by Youjun
-	 */
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@JoinTable(name = "sub_taxonlabel", 
-			joinColumns = @JoinColumn(name = "taxonlabel_id"),
-	        inverseJoinColumns = @JoinColumn(name="submission_id")
+	  * Return the submission this taxonLabel inhabits
+	  *
+	  * @return the submission
+	  * @author mjd 20080929
+	  */
+	  @Transient
+	  public Submission getSubmission() {
+	  	Study s = getStudy();
+	  	return s == null ? null : s.getSubmission();
+	  }
+	  
+	//@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	//@JoinTable(name = "sub_taxonlabel", 
+	//		joinColumns = @JoinColumn(name = "taxonlabel_id"),
+	//        inverseJoinColumns = @JoinColumn(name="submission_id")
 
-	)
-	public Submission getSubmission() {
+	//)
+	//public Submission getSubmission() {
 		
-		return mSubmission;		
-	}
+	//	return mSubmission;		
+	//}
 
 	/**
 	 * Set the Submission field.
 	 */
-	public void setSubmission(Submission pNewSubmission) {
-		mSubmission = pNewSubmission;
-	}
+	//public void setSubmission(Submission pNewSubmission) {
+	//	mSubmission = pNewSubmission;
+	//}
 	
 	
 	/**
