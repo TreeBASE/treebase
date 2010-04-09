@@ -84,7 +84,7 @@ or your tree block &quot;Set of 5 MP Trees from COI Analysis&quot;</li>
 <ul>
     <li>Do not abbreviate taxon names (e.g. write &quot;Homo sapiens&quot;, not &quot;H. sapiens&quot;)</li>
     
-    <li>The NEXUS file should use underscores (&quot;_&quot;) to represent spaces</li>
+    <li>The NEXUS file should use underscores (&quot;_&quot;) to represent spaces (but when using the Mesquite GUI, use spaces: it will correctly save them as underscores in the NEXUS)</li>
     
     <li>Avoid using quotation marks, brackets, parentheses, commas, colons, and semicolons.</li>
     
