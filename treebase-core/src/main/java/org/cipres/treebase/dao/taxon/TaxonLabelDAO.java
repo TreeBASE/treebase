@@ -489,7 +489,11 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 			q.setParameter("tl", tl);
 		    count += ((Long)q.iterate().next()).intValue();
 		    
-		    if(count==0)deletePersist(tl);
+		    if(count==0){
+		    	Submission sub=tl.getSubmission();
+		    	if(sub!=null)sub.removeTaxonLabel(tl);
+		    	deletePersist(tl);
+		    }
 		}
 	}
 }
