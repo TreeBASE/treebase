@@ -174,8 +174,8 @@ public class Submission extends AbstractPersistedObject {
 	 * 
 	 * @return Set<Taxon>
 	 */
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	// @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+	//@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	@JoinTable(name = "SUB_TAXONLABEL", joinColumns = {@JoinColumn(name = "SUBMISSION_ID")}, inverseJoinColumns = @JoinColumn(name = "TAXONLABEL_ID"))
 	// @IndexColumn(name = "TAXONLABEL_ORDER")
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "studyCache")
