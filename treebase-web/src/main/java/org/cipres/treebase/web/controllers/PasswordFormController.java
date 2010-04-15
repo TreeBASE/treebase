@@ -124,9 +124,11 @@ public class PasswordFormController extends BaseFormController {
 	    	+ "Thank you for requesting username/password from TreeBASE.\n\nHere is your username: " 
 	    	+ u.getUsername() + "\nYour password: " 
 	    	+ u.getPassword()
-			+ "\n\nTreebase login site: " 
-			+ generateServerURL(request) 
-			+ "/login.jsp");	    
+	    	+ "\n\nTreebase site: " 
+			+ TreebaseUtil.getSiteUrl()); 
+//	    	+ "\n\nTreebase login site: " 
+//			+ generateServerURL(request) 
+//			+ "/login.jsp");	    
 	    
 	    // send the message
 	    Transport.send(message);
