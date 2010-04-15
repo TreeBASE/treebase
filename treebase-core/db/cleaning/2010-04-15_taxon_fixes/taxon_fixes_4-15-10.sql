@@ -1,5 +1,5 @@
 
-being work;
+begin work;
 
 -- start by creating new records in taxon
 -- I'm assuming that it is safe to start taxon_id at 600001

@@ -15,3 +15,12 @@ Please verify that these numbers are beyond the current highest numbers.
 
 Apply changes as soon as convenient, because it is not impossible that new submissions 
 in the interim will map to taxonvariants that this script wants to delete. 
+
+
+---------------- 
+
+Jon and Vladimir ran this on production 2010-04-15 
+Afterwards, we updated the sequences to: 
+  taxon_id_sequence        600100
+  taxonvariant_id_sequence 800100
+  
