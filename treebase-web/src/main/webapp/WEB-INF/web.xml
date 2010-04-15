@@ -73,6 +73,11 @@
       <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>	
 
+    <env-entry>
+      <description>Host name of an SMTP server that your instance can use without authentication.</description>
+      <env-entry-name>tb2/SmtpHost</env-entry-name>
+      <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>	
 
 	<!-- ========================================================== -->
 	<!-- List of Filters											-->

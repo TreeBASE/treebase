@@ -45,6 +45,7 @@ public class TreebaseUtil {
 	private static final Logger LOGGER = Logger.getLogger(TreebaseUtil.class);
 	private static String mPurlBase;
 	private static String mSiteUrl; 
+	private static String mSmtpHost; 
 
 	private TreebaseUtil() {
 		super();
@@ -431,40 +432,24 @@ public class TreebaseUtil {
 
 		return date + " GMT";
 	}
+
 	
-	/**
-	 * This method returns the domain name (possibly with port number)
-	 * which can be used to construct URLs by prefixing with "http://"
-	 * and suffixing with the full path (e.g. "/treebase-web")
+	/** Looks up a JNDI Environment parameter that carries a string value.
 	 * 
-	 * @return domain name
 	 */
-	/*--
-	public static String getPurlBase() {
-		if ( null == mPurlDomain ) {
-			Properties properties = new Properties();
-			try {
-				properties.load(
-					TreebaseUtil.class
-						.getClassLoader()
-						.getResourceAsStream("treebase.properties"));
-				LOGGER.info("properties loaded successfully");
-				mPurlDomain = properties.getProperty("treebase.purl.domain");			
-				LOGGER.info("domain name: "+mPurlDomain);
-			} catch (FileNotFoundException e) {
-				LOGGER.warn("FileNotFoundException: " + e.getMessage());
-				e.printStackTrace();
-			} catch (IOException e) {
-				LOGGER.warn("IOException: "+e.getMessage());
-				e.printStackTrace();
-			}
-			return mPurlDomain;			
+	private static String lookupJndiEnvironmentString(String name, String fallback) {
+		String result = fallback; 
+		try {
+			InitialContext ic = new InitialContext();
+			result  = (String) ic.lookup("java:comp/env/" + name);
+		} catch (NamingException e) {
+			LOGGER.info("Failure looking up " + name + " via JNDI"); 
+			e.printStackTrace();
 		}
-		else {
-			return mPurlDomain;
-		}
+		return result; 
 	}
-*/	
+	
+	
 	
 	/**
 	 * Returns the base URL of the PURL service associated with this Treebase instance,
@@ -473,21 +458,10 @@ public class TreebaseUtil {
 	 * @return the base URL of the PURL service
 	 */
 	public static String getPurlBase() {
-		if (null != mPurlBase) 
-			return mPurlBase; 
-		else {
-			try {
-				mPurlBase = "http://DUMMY_PURL_BASE/"; 
-				InitialContext ic = new InitialContext();
-				mPurlBase  = (String) ic.lookup("java:comp/env/tb2/PurlBase");
-			} catch (NamingException e) {
-				LOGGER.info("Failure looking up tb2/PurlBase via JNDI"); 
-				e.printStackTrace();
-			}
-			return mPurlBase; 
-		}
+		if (null == mPurlBase) 
+			mPurlBase = lookupJndiEnvironmentString("tb2/PurlBase", "http://DUMMY_PURL_BASE/"); 
+		return mPurlBase; 
 	}
-
 	
 	/**
 	 * Returns the base URL of this Treebase instance, by looking it up in Tomcat via JNDI.
@@ -495,20 +469,21 @@ public class TreebaseUtil {
 	 * @return the base URL of of this Treebase instance
 	 */
 	public static String getSiteUrl() {
-		if (null != mSiteUrl) 
-			return mSiteUrl; 
-		else {
-			try {
-				mSiteUrl = "http://DUMMY_SITE_URL/"; 
-				InitialContext ic = new InitialContext();
-				mSiteUrl  = (String) ic.lookup("java:comp/env/tb2/SiteUrl");
-			} catch (NamingException e) {
-				LOGGER.info("Failure looking up tb2/SiteUrl via JNDI"); 
-				e.printStackTrace();
-			}
-			return mSiteUrl; 
-		}
+		if (null == mSiteUrl)
+			mSiteUrl = lookupJndiEnvironmentString("tb2/SiteUrl", "http://DUMMY.SITE.COM/"); 
+		return mSiteUrl; 
 	}
+
+	/**
+	 * 
+	 * @return the SMTP host to use for automated email
+	 */
+	public static String getSmtpHost() { 
+		if (null == mSmtpHost) 
+			mSmtpHost = lookupJndiEnvironmentString("tb2/SmtpHost", "smtp.DUMMY.HOST");
+		return mSmtpHost; 
+	}
+	
 	
 	
 	/**

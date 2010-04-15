@@ -37,6 +37,10 @@
          type="java.lang.String" override="false"
 	description="The base URL of a PURL service that redirects to this Treebase instance."/>	
 
+  <Environment name="tb2/SmtpHost" value="smtp.YOUR.SERVER.ORG"
+         type="java.lang.String" override="false"
+	description="Host name of an SMTP server that your instance can use without authentication."/>	
+
 </Context>
 
 
