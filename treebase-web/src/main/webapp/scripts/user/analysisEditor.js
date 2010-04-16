@@ -77,25 +77,35 @@ if ( TreeBASE.analysisEditor == null ) {
 		if ( selector.value == 'Matrices' ) {
 			var m = TreeBASE.submission.submittedMatrices;
 			for ( var i = 0; i < m.length; i++ ) {
-				innerOptions += '<option value="' + m[i].id + '">' + m[i].title + '</option>'; 
+				if(typeof(m[i])!= "undefined"){
+						innerOptions += '<option value=\"' + m[i].id + '\">' + m[i].title + '</option>'; 
+				}
 			}
 		}
 		else if ( selector.value == 'TreeBlocks' ) {
 			var tb = TreeBASE.submission.submittedTreeBlocks;
 			for ( var i = 0; i < tb.length; i++ ) {
-				innerOptions += '<option value="' + tb[i].id + '">' + tb[i].title + '</option>'; 
-			}	
+				if(typeof(tb[i])!= "undefined"){
+					innerOptions += '<option value=\"' + tb[i].id + '\">' + tb[i].title + '</option>'; 
+				}
+			}
 		}
 		else if ( selector.value == 'Trees' ) {
 			var tb = TreeBASE.submission.submittedTreeBlocks;
 			for ( var i = 0; i < tb.length; i++ ) {
-				var t = tb[i].treeList;
-				for ( var j = 0; j < t.length; j++ ) {
-					innerOptions += '<option value="' + t[j].id + '">' + t[j].label + '</option>';
-				}
+				if(typeof(tb[i])!= "undefined"){
+					var t = tb[i].treeList;
+					for ( var j = 0; j < t.length; j++ ) {
+						if(typeof(t[j])!= "undefined"){
+							innerOptions += '<option value=\"' + t[j].id + '\">' + t[j].label + '</option>';
+						}
+					}
+			    }
 			}	
 		}
-		selects[1].innerHTML = innerOptions;
+		
+		//selects[1].innerHTML = innerOptions;		
+		$(selects[1]).update(innerOptions);
 		selects[1].name = selector.value;
 		var inputs = theDiv.getElementsByTagName('input');
 		inputs[0].style.display = 'block';
