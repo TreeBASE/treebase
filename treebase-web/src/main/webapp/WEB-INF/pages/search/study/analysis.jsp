@@ -48,13 +48,13 @@ on TB1 analyses.&nbsp;]</p>
 						border="0"
 						onClick="CollapseExpand('${AnalysisStepId}')"/> 
                                         <!-- commented out due to issue# 2970700 and issue# 2970457 -->
-					<!-- <a href="/treebase-web/search/downloadAnAnalysisStep.html?analysisid=${analysisStep.id}"> -->
+					<a href="/treebase-web/search/downloadAnAnalysisStep.html?analysisid=${analysisStep.id}"> 
 						<img 
 							class="iconButton" 
 							src="<fmt:message key="icons.download.reconstructed"/>" 
 							title="<fmt:message key="download.reconstructedfile"/>" 
 							alt="<fmt:message key="download.reconstructedfile"/>"/>	
-					<!-- </a> -->					
+					</a>					
 					<strong>Analysis Step ${status_analysisStep.count}:</strong>
 					<c:out value="${analysisStepCommand.name}" />
 				</li>

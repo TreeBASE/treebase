@@ -140,7 +140,7 @@ public class DownloadAnAnalysisStepController extends AbstractDownloadController
 				PhyloTree tree = data.getTreeData();
 				Matrix matrix  = data.getMatrixData();
 				if ( tree != null ) {
-					tree.getTreeBlock().setTaxonLabelSet(inputLabelSet);
+					tree.getTreeBlock().setTaxonLabelSet(inputLabelSet);					
 					tree.buildNexusBlock(stepContent);
 				}
 				if ( matrix != null ) {
@@ -152,7 +152,7 @@ public class DownloadAnAnalysisStepController extends AbstractDownloadController
 		
 		stepContent.append("[ The following blocks are output data for analysis step " + analysisId + " ]\n");
 		TaxonLabelSet outputLabelSet = step.getOutputTaxonLabelSet();
-		outputLabelSet.buildNexusBlockTaxa(stepContent, true, false);
+		//outputLabelSet.buildNexusBlockTaxa(stepContent, true, false);
 		for ( AnalyzedData data : step.getDataSetReadOnly() ) {
 			if ( ! data.isInputData() ) {
 				PhyloTree tree = data.getTreeData();
