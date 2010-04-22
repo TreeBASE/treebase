@@ -528,7 +528,7 @@ public class TreebaseUtil {
 			}
 		}
 		pBuilder
-			.append(TreebaseUtil.getLineSeparators(2)).append("Study ID = " + pStudy.getId())
+			.append(TreebaseUtil.getLineSeparators(2)).append("TreeBASE Study URI:  " + pStudy.getPhyloWSPath().getPurl())
 			.append("]").append(TreebaseUtil.getLineSeparators(2));
 	}
 }

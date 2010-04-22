@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.taxon;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -192,11 +193,12 @@ public class TaxonLabelSet extends AbstractPersistedObject {
 	 */
 	public void buildNexusBlockTaxa(StringBuilder pBuilder, boolean pOnePerLine, boolean pLineNumber) {
 
-		List<TaxonLabel> txnlbllist = getTaxonLabelsReadOnly();
+		List<TaxonLabel> txnlbllist = new ArrayList<TaxonLabel>(getTaxonLabelList());
+		sortByTaxonLabel(txnlbllist);
 		int numoftxnlbls = txnlbllist.size();
 
 		pBuilder.append("BEGIN TAXA;\n");
-		pBuilder.append("        TITLE  " + StringUtil.tokenize(getTitle()) + ";\n");
+		pBuilder.append("        TITLE  " + StringUtil.tokenize(getTitle().replaceAll("Input|Output", "")) + ";\n");
 		pBuilder.append("        DIMENSIONS NTAX=" + numoftxnlbls + ";\n");
 		pBuilder.append("        TAXLABELS\n");
 		pBuilder.append("            ");
@@ -258,4 +260,17 @@ public class TaxonLabelSet extends AbstractPersistedObject {
 		return getTitle();
 	}
 
+	private void sortByTaxonLabel(List<TaxonLabel> tList)
+	{
+		java.util.Collections.sort(tList, new Comparator<TaxonLabel>() {
+			
+			public int compare(TaxonLabel pObject1, TaxonLabel pObject2) {
+				String id1 = pObject1.getTaxonLabel();
+				String id2 = pObject2.getTaxonLabel();
+				return id1.compareTo(id2);
+			}
+		
+		});
+		
+	}
 }

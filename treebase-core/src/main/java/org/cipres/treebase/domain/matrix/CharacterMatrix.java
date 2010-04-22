@@ -600,7 +600,8 @@ public abstract class CharacterMatrix extends Matrix {
 	public void generateMatrixTable(StringBuilder pBuilder) {
 
 		// MATRIX section:
-		List<MatrixRow> matrixRows = getRows();
+		List<MatrixRow> matrixRows = new ArrayList<MatrixRow>(getRows());
+		sortRowByTaxonLabel(matrixRows);
 		Iterator<MatrixRow> iterator = matrixRows.iterator();
 
 		ArrayList<String> tLabel = new ArrayList<String>();
@@ -851,7 +852,7 @@ public abstract class CharacterMatrix extends Matrix {
 			if (isDefaultCodonSet(codonSet)) {
 				pStrBuilder.append('*');
 			}
-			pStrBuilder.append(" ").append(codonSet.getTitle()).append(" = ").append(TreebaseUtil.LINESEP);			
+			pStrBuilder.append(" ").append(codonSet.getTitle()).append(" (CHARACTERS = ").append(StringUtil.tokenize(getTitle())).append(") = ").append(TreebaseUtil.LINESEP);			
 			codonSet.generateNexusString(pStrBuilder);
 		}
 

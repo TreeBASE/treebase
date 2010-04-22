@@ -1,6 +1,7 @@
 
 package org.cipres.treebase.domain.matrix;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -419,7 +420,7 @@ public abstract class Matrix extends AbstractPersistedObject {
 
 		pBuilder.append("BEGIN CHARACTERS;").append(TreebaseUtil.LINESEP);
 		pBuilder
-			.append("[! Matrix ID =").append(getId()).append("  ]").append(TreebaseUtil.LINESEP)
+			.append("[! TreeBASE Matrix URI: ").append(getPhyloWSPath().getPurl()).append("]").append(TreebaseUtil.LINESEP)
 			.append(TreebaseUtil.LINESEP);
 
 		pBuilder.append("\tTITLE ").append(StringUtil.tokenize(getTitle())).append(";").append(
@@ -432,7 +433,7 @@ public abstract class Matrix extends AbstractPersistedObject {
 		} else {
 			taxaTitle = "No taxa found for this matrix. Old data. Need to import this matrix again.";
 		}
-		pBuilder.append("\tLINK TAXA = " + StringUtil.tokenize(taxaTitle) + ";").append(
+		pBuilder.append("\tLINK TAXA = " + StringUtil.tokenize(taxaTitle.replaceAll("Input|Output", "")) + ";").append(
 			TreebaseUtil.LINESEP);
 		
 		pBuilder.append(getDimensionsInfo()).append(TreebaseUtil.LINESEP);
@@ -515,5 +516,19 @@ public abstract class Matrix extends AbstractPersistedObject {
 	 */
 	public void setDimensions() {
 		// By default, do nothing
+	}
+	
+	protected void sortRowByTaxonLabel(List<MatrixRow> rList)
+	{
+		java.util.Collections.sort(rList, new Comparator<MatrixRow>() {
+			
+			public int compare(MatrixRow pObject1, MatrixRow pObject2) {
+				String id1 = pObject1.getTaxonLabel().getTaxonLabel();
+				String id2 = pObject2.getTaxonLabel().getTaxonLabel();
+				return id1.compareTo(id2);
+			}
+		
+		});
+		
 	}
 }

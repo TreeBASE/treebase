@@ -557,7 +557,7 @@ public class PhyloTree extends AbstractPersistedObject {
 		pBuilder.append("BEGIN TREES;\n");
 		pBuilder
 			.append("      TITLE ").append(StringUtil.tokenize(blockTitle)).append(";\n");
-		pBuilder.append("      LINK TAXA = ").append(StringUtil.tokenize(taxaTitle)).append(";\n");
+		pBuilder.append("      LINK TAXA = ").append(StringUtil.tokenize(taxaTitle.replaceAll("Input|Output", ""))).append(";\n");
 		pBuilder.append("      TREE ").append(StringUtil.tokenize(getLabel())).append(" = ");
 
 		if (getRootedTree() != null) {
@@ -569,7 +569,7 @@ public class PhyloTree extends AbstractPersistedObject {
 
 		}
 		pBuilder.append(getNewickString()).append("\n");
-		pBuilder.append("[!  TreeBASE tree Id = ").append(getId()).append(" ]\n");
+		pBuilder.append("[!  TreeBASE tree URI: ").append(getPhyloWSPath().getPurl()).append("]\n");
 
 		pBuilder.append("\n\nEND;\n");
 	}
