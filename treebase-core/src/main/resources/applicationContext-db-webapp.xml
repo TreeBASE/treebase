@@ -9,6 +9,17 @@
     http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd" 
     default-autowire="no">
 
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+		<list>
+			<value>classpath:treebase.properties</value>
+		</list>
+		</property>
+	</bean>
+
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/TreebaseDB"/>
 	</bean>

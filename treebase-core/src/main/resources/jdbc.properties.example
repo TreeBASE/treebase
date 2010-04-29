@@ -1,20 +1,9 @@
-# This tells our object-relational mapping libraries
-# to use postgres-specific SQL dialect
-hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+# If needed, copy this to jdbc.properties and supply appropriate values. 
 
-# for development only:
-hibernate.show_sql=false
-hibernate.format_sql=true
-hibernate.generate_statistics=false
-
-# options are: validate | update | create | create-drop
-hibernate.hbm2ddl.auto=
-
-
-#### VG 2010-02-07 Properties below are not read by the webapp anymore. 
-#### Instead, equivalent resources are looked up through JNDI -- see /treebase-web/src/main/webapp/META-INF/context.xml
-#### These properties are only read by tests and, possibly, by data importing classes in cipres.teebase.util
-#### (see treebase-core/src/main/java/org/cipres/treebase/core/CoreServiceLauncher.java)
+# As of 2010-04-29, jdbc.properties should only contain counterparts of JNDI parameters
+# specified in /treebase-web/src/main/webapp/META-INF/context.xml or in the Tomcat installation. 
+# jdbc.properties is not read by the web application; it is only used by locally-run tools 
+# such as unit tests, data importers (in cipres.teebase.util) and data checkers. 
 
 jdbc.driverClassName=org.postgresql.Driver
 

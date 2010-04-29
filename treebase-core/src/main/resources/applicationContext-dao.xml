@@ -11,6 +11,8 @@
 
 	
 
+<!-- VG 2010-01-11, 1010-04-29  instead, see applicationContext-db-webapp.xml and applicationContext-db-standalone.xml
+
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
@@ -22,8 +24,6 @@
 		</property>
 	</bean>
 
-
-<!-- VG 2010-01-11  instead, see applicationContext-db-webapp.xml and applicationContext-db-standalone.xml
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClassName}" />
 		<property name="jdbcUrl" value="${jdbc.url}" />
