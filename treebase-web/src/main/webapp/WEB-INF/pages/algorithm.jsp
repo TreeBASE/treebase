@@ -49,12 +49,14 @@
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.download.reconstructed"/>" 
-<%--
+
 				title="<fmt:message key="download.reconstructedfile"/>" 
 				alt="<fmt:message key="download.reconstructedfile"/>"
---%>
+
+<%-- 
 				title="<fmt:message key="download.unavailable"/>" 
 				alt="<fmt:message key="download.unavailable"/>"	
+--%>
 				/>	
 		</a>	  	
 		<c:if test="${not empty analysisStepCommand.displayName}">
