@@ -547,7 +547,11 @@ class SearchSummaryController extends BaseFormController {
 
 	private class TaxonLabelByLabelComparator implements Comparator<TaxonLabel> {
 		public int compare(TaxonLabel a, TaxonLabel b) {
-			return a.getTaxonLabel().compareTo(b.getTaxonLabel());
+                    String l1 = (a == null) ? "" : a.getTaxonLabel();
+                    String l2 = (b == null) ? "" : b.getTaxonLabel();
+                    if (l1 == null) l1 = "";
+                    if (l2 == null) l2 = "";
+                    return l1.compareTo(l2);
 		}	
 	}
 }
