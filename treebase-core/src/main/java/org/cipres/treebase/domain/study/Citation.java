@@ -475,26 +475,31 @@ public class Citation extends AbstractPersistedObject {
 	public String getAuthorsCitationStyleWithoutHtml() {
 
 		StringBuilder authorsCitationStyle = new StringBuilder();
-		List<Person> authors = getAuthors();
-		int size = authors.size();
-
-		if (size > 0) {
-
-			for (int i = 0; i < size; i++) {
-
-				authorsCitationStyle.append(authors.get(i).getFullNameCitationStyle());
-
-				if (size > 1 && i == size - 2) {
-					authorsCitationStyle.append(", & ");
-				} else if (size > 1 && i < size - 2) {
-					authorsCitationStyle.append(", ");
+		try {
+			List<Person> authors = getAuthors();
+			int size = authors.size();
+	
+			if (size > 0) {
+	
+				for (int i = 0; i < size; i++) {
+	
+					authorsCitationStyle.append(authors.get(i).getFullNameCitationStyle());
+	
+					if (size > 1 && i == size - 2) {
+						authorsCitationStyle.append(", & ");
+					} else if (size > 1 && i < size - 2) {
+						authorsCitationStyle.append(", ");
+					}
 				}
+	
 			}
-
+	
+			authorsCitationStyle.append(" ").append(getPublishYear());
+			getDetailedPublicationInformation(authorsCitationStyle, false);
 		}
-
-		authorsCitationStyle.append(" ").append(getPublishYear());
-		getDetailedPublicationInformation(authorsCitationStyle, false);
+		catch ( Exception e ) {
+			e.printStackTrace();
+		}
 		return authorsCitationStyle.toString();
 	}
 	
@@ -525,65 +530,70 @@ public class Citation extends AbstractPersistedObject {
 	@Transient
 	public String getRisReference () {
 		StringBuilder ris = new StringBuilder(), sub = new StringBuilder();
-		String citationType = this.getRealCitationType(), cls = "\n";
-		boolean isArticle = false, isBook = false, isInBook = false;		
-		if ( citationType.equals(ArticleCitation.CITATION_TYPE_ARTICLE) ) {
-			ris.append("TY  - JOUR\n");
-			sub.append("JF  - ").append(appendMe(((ArticleCitation)this).getJournal())).append(cls);
-			sub.append("VL  - ").append(appendMe(((ArticleCitation)this).getVolume())).append(cls);
-			sub.append("IS  - ").append(appendMe(((ArticleCitation)this).getIssue())).append(cls);
-			isArticle = true;
-		}
-		else if ( citationType.equals(BookCitation.CITATION_TYPE_BOOK) ) {
-			ris.append("TY  - BOOK\n");
-			isBook = true;
-		}	
-		else if ( citationType.equals(InBookCitation.CITATION_TYPE_BOOKSECTION) ) {
-			ris.append("TY  - CHAP\n");
-			sub.append("TI  - ").append(appendMe(((InBookCitation)this).getBookTitle())).append(cls);
-			isInBook = true;
-		}	
-		if ( isBook || isInBook) {
-			sub.append("SN  - ISBN ").append(appendMe(((BookCitation)this).getISBN())).append(cls);
-			sub.append("PB  - ").append(appendMe(((BookCitation)this).getPublisher())).append(cls);
-			sub.append("CY  - ").append(appendMe(((BookCitation)this).getCity())).append(cls);
-			catPersonsRis(sub,"ED - ",((BookCitation)this).getEditors());			
-		}
-		if ( isInBook || isArticle ) {
-			String pages = getPages();
-			if ( pages != null && pages.matches("^\\d+-\\d+$") ) {
-				String[] pageRange = pages.split("-");
-				sub.append("SP  - ").append(pageRange[0]).append(cls);
-				sub.append("EP  - ").append(pageRange[1]).append(cls);
+		try {
+			String citationType = this.getRealCitationType(), cls = "\n";
+			boolean isArticle = false, isBook = false, isInBook = false;		
+			if ( citationType.equals(ArticleCitation.CITATION_TYPE_ARTICLE) ) {
+				ris.append("TY  - JOUR\n");
+				sub.append("JF  - ").append(appendMe(((ArticleCitation)this).getJournal())).append(cls);
+				sub.append("VL  - ").append(appendMe(((ArticleCitation)this).getVolume())).append(cls);
+				sub.append("IS  - ").append(appendMe(((ArticleCitation)this).getIssue())).append(cls);
+				isArticle = true;
 			}
-		}
-		ris.append("ID  - ").append(getId()).append(cls);	
-		catPersonsRis(ris,"AU  - ",getAuthors());		
-		ris.append("T1  - ").append(appendMe(getTitle())).append(cls);		
-		ris.append("PY  - ").append(appendMe(getPublishYear())).append(cls);
-		String keyWords = getKeywords();
-		if ( keyWords != null ) {
-			String[] words = keyWords.split(",\\s*");
-			for ( int i = 0; i < words.length; i++ ) {
-				ris.append("KW  - ").append(appendMe(words[i])).append(cls);
+			else if ( citationType.equals(BookCitation.CITATION_TYPE_BOOK) ) {
+				ris.append("TY  - BOOK\n");
+				isBook = true;
+			}	
+			else if ( citationType.equals(InBookCitation.CITATION_TYPE_BOOKSECTION) ) {
+				ris.append("TY  - CHAP\n");
+				sub.append("TI  - ").append(appendMe(((InBookCitation)this).getBookTitle())).append(cls);
+				isInBook = true;
+			}	
+			if ( isBook || isInBook) {
+				sub.append("SN  - ISBN ").append(appendMe(((BookCitation)this).getISBN())).append(cls);
+				sub.append("PB  - ").append(appendMe(((BookCitation)this).getPublisher())).append(cls);
+				sub.append("CY  - ").append(appendMe(((BookCitation)this).getCity())).append(cls);
+				catPersonsRis(sub,"ED - ",((BookCitation)this).getEditors());			
 			}
+			if ( isInBook || isArticle ) {
+				String pages = getPages();
+				if ( pages != null && pages.matches("^\\d+-\\d+$") ) {
+					String[] pageRange = pages.split("-");
+					sub.append("SP  - ").append(pageRange[0]).append(cls);
+					sub.append("EP  - ").append(pageRange[1]).append(cls);
+				}
+			}
+			ris.append("ID  - ").append(getId()).append(cls);	
+			catPersonsRis(ris,"AU  - ",getAuthors());		
+			ris.append("T1  - ").append(appendMe(getTitle())).append(cls);		
+			ris.append("PY  - ").append(appendMe(getPublishYear())).append(cls);
+			String keyWords = getKeywords();
+			if ( keyWords != null ) {
+				String[] words = keyWords.split(",\\s*");
+				for ( int i = 0; i < words.length; i++ ) {
+					ris.append("KW  - ").append(appendMe(words[i])).append(cls);
+				}
+			}
+			String url = getURL(), doi = getDoi(), pmid = getPMID();
+			String theUrl = null;
+			if ( url != null && ! url.equals("http://") ) {
+				theUrl = url;
+			}
+			else if ( doi != null ) {
+				theUrl = "http://dx.doi.org/" + doi;
+			}
+			else if ( pmid != null ) {
+				theUrl = "http://pmid.us/" + pmid;
+			}
+			ris.append("UR  - ").append(appendMe(theUrl)).append(cls);
+			ris.append("N2  - ").append(appendMe(getAbstract())).append(cls);		
+			ris.append("L3  - ").append(appendMe(getDoi())).append(cls);
+			ris.append(sub);
+			ris.append("ER  - ").append(cls);
 		}
-		String url = getURL(), doi = getDoi(), pmid = getPMID();
-		String theUrl = null;
-		if ( url != null && ! url.equals("http://") ) {
-			theUrl = url;
+		catch ( Exception e ) {
+			e.printStackTrace();
 		}
-		else if ( doi != null ) {
-			theUrl = "http://dx.doi.org/" + doi;
-		}
-		else if ( pmid != null ) {
-			theUrl = "http://pmid.us/" + pmid;
-		}
-		ris.append("UR  - ").append(appendMe(theUrl)).append(cls);
-		ris.append("N2  - ").append(appendMe(getAbstract())).append(cls);		
-		ris.append("L3  - ").append(appendMe(getDoi())).append(cls);
-		ris.append(sub);
-		ris.append("ER  - ").append(cls);
 		return ris.toString();		
 	}
 	
@@ -603,44 +613,49 @@ public class Citation extends AbstractPersistedObject {
 	@Transient
 	public String getBibtexReference () {
 		StringBuilder bib = new StringBuilder(), sub = new StringBuilder();
-		String citationType = this.getRealCitationType(), cls = "},";
-		boolean isArticle = false, isBook = false, isInBook = false;		
-		if ( citationType.equals(ArticleCitation.CITATION_TYPE_ARTICLE) ) {
-			bib.append("@ARTICLE{");
-			sub.append("\n\t journal = {").append(appendMe(((ArticleCitation)this).getJournal())).append(cls);
-			sub.append("\n\t volume = {").append(appendMe(((ArticleCitation)this).getVolume())).append(cls);
-			sub.append("\n\t number = {").append(appendMe(((ArticleCitation)this).getIssue())).append(cls);
-			isArticle = true;
+		try {
+			String citationType = this.getRealCitationType(), cls = "},";
+			boolean isArticle = false, isBook = false, isInBook = false;		
+			if ( citationType.equals(ArticleCitation.CITATION_TYPE_ARTICLE) ) {
+				bib.append("@ARTICLE{");
+				sub.append("\n\t journal = {").append(appendMe(((ArticleCitation)this).getJournal())).append(cls);
+				sub.append("\n\t volume = {").append(appendMe(((ArticleCitation)this).getVolume())).append(cls);
+				sub.append("\n\t number = {").append(appendMe(((ArticleCitation)this).getIssue())).append(cls);
+				isArticle = true;
+			}
+			else if ( citationType.equals(BookCitation.CITATION_TYPE_BOOK) ) {
+				bib.append("@BOOK{");
+				isBook = true;
+			}
+			else if ( citationType.equals(InBookCitation.CITATION_TYPE_BOOKSECTION) ) {
+				bib.append("@INCOLLECTION{");
+				sub.append("\n\t booktitle = {").append(appendMe(((InBookCitation)this).getBookTitle())).append(cls);
+				isInBook = true;
+			}
+			if ( isBook || isInBook) {
+				sub.append("\n\t isbn = {").append(appendMe(((BookCitation)this).getISBN())).append(cls);
+				sub.append("\n\t publisher = {").append(appendMe(((BookCitation)this).getPublisher())).append(cls);
+				sub.append("\n\t address = {").append(appendMe(((BookCitation)this).getCity())).append(cls);
+				sub.append("\n\t editor = {").append(appendMe(catPersonsBibtex(((BookCitation)this).getEditors()))).append(cls);			
+			}
+			if ( isInBook || isArticle ) {
+				sub.append("\n\t pages = {").append(appendMe(getPages()).replaceFirst("\\-", "--")).append(cls);
+			}		
+			bib.append("TreeBASE2Ref").append(getId()).append(",");		
+			bib.append("\n\t author = {").append(appendMe(catPersonsBibtex(getAuthors()))).append(cls);		
+			bib.append("\n\t title = {").append(appendMe(getTitle())).append(cls);		
+			bib.append("\n\t year = {").append(appendMe(getPublishYear())).append(cls);
+			bib.append("\n\t keywords = {").append(appendMe(getKeywords())).append(cls);
+			bib.append("\n\t doi = {").append(appendMe(getDoi())).append(cls);
+			bib.append("\n\t url = {").append(appendMe(getURL())).append(cls);
+			bib.append("\n\t pmid = {").append(appendMe(getPMID())).append(cls);
+			bib.append(sub);
+			bib.append("\n\t abstract = {").append(appendMe(getAbstract())).append("}");		
+			bib.append("\n}");
 		}
-		else if ( citationType.equals(BookCitation.CITATION_TYPE_BOOK) ) {
-			bib.append("@BOOK{");
-			isBook = true;
+		catch ( Exception e ) {
+			e.printStackTrace();
 		}
-		else if ( citationType.equals(InBookCitation.CITATION_TYPE_BOOKSECTION) ) {
-			bib.append("@INCOLLECTION{");
-			sub.append("\n\t booktitle = {").append(appendMe(((InBookCitation)this).getBookTitle())).append(cls);
-			isInBook = true;
-		}
-		if ( isBook || isInBook) {
-			sub.append("\n\t isbn = {").append(appendMe(((BookCitation)this).getISBN())).append(cls);
-			sub.append("\n\t publisher = {").append(appendMe(((BookCitation)this).getPublisher())).append(cls);
-			sub.append("\n\t address = {").append(appendMe(((BookCitation)this).getCity())).append(cls);
-			sub.append("\n\t editor = {").append(appendMe(catPersonsBibtex(((BookCitation)this).getEditors()))).append(cls);			
-		}
-		if ( isInBook || isArticle ) {
-			sub.append("\n\t pages = {").append(appendMe(getPages()).replaceFirst("\\-", "--")).append(cls);
-		}		
-		bib.append("TreeBASE2Ref").append(getId()).append(",");		
-		bib.append("\n\t author = {").append(appendMe(catPersonsBibtex(getAuthors()))).append(cls);		
-		bib.append("\n\t title = {").append(appendMe(getTitle())).append(cls);		
-		bib.append("\n\t year = {").append(appendMe(getPublishYear())).append(cls);
-		bib.append("\n\t keywords = {").append(appendMe(getKeywords())).append(cls);
-		bib.append("\n\t doi = {").append(appendMe(getDoi())).append(cls);
-		bib.append("\n\t url = {").append(appendMe(getURL())).append(cls);
-		bib.append("\n\t pmid = {").append(appendMe(getPMID())).append(cls);
-		bib.append(sub);
-		bib.append("\n\t abstract = {").append(appendMe(getAbstract())).append("}");		
-		bib.append("\n}");
 		return bib.toString();
 	}
 	
