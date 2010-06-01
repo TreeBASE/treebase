@@ -82,17 +82,16 @@
 		
 		<!-- save to connotea -->
                 <!-- commented out temporarily because this uses the absolute path, which won't work due to proxying - SF Bug 2972133 --> 
-       <%--
 		<form method="post" id="connotea" action="http://www.connotea.org/add" enctype="application/x-www-form-urlencoded" name="edit">
 		
 		    <input 
 		        name="uri" 
-		        value="<%= request.getScheme() %>://<%= request.getLocalName() %>:<%= request.getLocalPort() %>/treebase-web/search/study/summary.html?id=<c:out value="${study.id}"/>" 
+		        value="${baseLink}?format=html" 
 		        type="hidden"/>
 		
 		    <input 
 		        name="uri" 
-		        value="<%= request.getScheme() %>://<%= request.getLocalName() %>:<%= request.getLocalPort() %>/treebase-web/search/study/summary.html?id=<c:out value="${study.id}"/>" 
+		        value="${baseLink}?format=html" 
 		        type="hidden"/>
 		
 		    <input name="ctitle" value="<c:out value="${cit.title}"/>"  type="hidden"/>		        
@@ -174,7 +173,7 @@
 				<img src="/treebase-web/images/connotea.gif" alt="Connotea" class="iconButton"/>
 				Connotea
 			</a>
-		--%> <!-- end of commenting out connotea -->
+		<!-- end of commenting out connotea -->
 		<div id="notice"></div>
 	</fieldset>
 </div>
