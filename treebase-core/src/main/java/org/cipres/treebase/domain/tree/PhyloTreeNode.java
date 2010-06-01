@@ -17,6 +17,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 import org.cipres.treebase.TreebaseUtil;
@@ -168,6 +170,7 @@ public class PhyloTreeNode extends AbstractPersistedObject implements TreeNode {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PHYLOTREE_ID", nullable = false)
 	@Index(name = "TNODE_TREE_IDX")
+	@Fetch(FetchMode.JOIN)
 	public PhyloTree getTree() {
 		return mTree;
 	}

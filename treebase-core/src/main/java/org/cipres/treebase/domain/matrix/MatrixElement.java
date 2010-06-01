@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 import org.cipres.treebase.domain.AbstractPersistedObject;
@@ -119,6 +121,7 @@ public abstract class MatrixElement extends AbstractPersistedObject {
 	@ManyToOne
 	@JoinColumn(name = "MATRIXCOLUMN_ID", nullable = true)
 	@Index(name = "Element_COL_IDX")
+	@Fetch(FetchMode.JOIN)
 	public MatrixColumn getColumn() {
 		return mColumn;
 	}

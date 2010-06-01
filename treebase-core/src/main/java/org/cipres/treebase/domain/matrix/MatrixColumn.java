@@ -18,6 +18,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 import org.cipres.treebase.domain.AbstractPersistedObject;
@@ -78,6 +80,7 @@ public class MatrixColumn extends AbstractPersistedObject {
 	// the nullable = false cause the add error code -407, the matrix column is null!
 	// @JoinColumn(name = "MATRIX_ID", insertable = false, updatable = false, nullable = false)
 	@Index(name = "COLUMN_M_IDX")
+	@Fetch(FetchMode.JOIN)
 	public CharacterMatrix getMatrix() {
 		return mMatrix;
 	}

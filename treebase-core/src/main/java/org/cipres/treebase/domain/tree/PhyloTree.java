@@ -458,6 +458,7 @@ public class PhyloTree extends AbstractPersistedObject {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STUDY_ID")
+	@Fetch(FetchMode.JOIN)
 	public Study getStudy() {
 		return mStudy;
 	}
@@ -813,6 +814,7 @@ public class PhyloTree extends AbstractPersistedObject {
 	@Override
 	@Transient
 	public Study getContext() {
+		// org.hibernate.LazyInitializationException
 		return getStudy();
 	}
 
