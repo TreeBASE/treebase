@@ -26,8 +26,8 @@ public abstract class AbstractDownloadController implements Controller {
 	private NexusService mNexmlService;	
 	private NexusService mRdfaService;	
 	private SubmissionService mSubmissionService;
-	private static String mNexmlContentType = "application/xml";
-	private static String mRdfContentType = "application/rdf+xml";
+	private static String mNexmlContentType = "application/xml; charset=UTF-8";
+	private static String mRdfContentType = "application/rdf+xml; charset=UTF-8";
 
 	/**
 	 * Return the StudyService field.
