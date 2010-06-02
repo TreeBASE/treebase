@@ -53,6 +53,15 @@ public interface StudyHome extends DomainHome {
 	 * @return Collection<Study>
 	 */
 	Collection<Study> findByJournal(String pJournal);
+	
+	/**
+	 * Find studies by journal name, with exact matching
+	 * 
+	 * @param pJournal
+	 * @param pExactMatch
+	 * @return Collection<Study>
+	 */
+	Collection<Study> findByJournal(String pJournal, boolean pExactMatch);
 
 	/**
 	 * Find studies submitted by an user. Return an empty set if no match is found.
