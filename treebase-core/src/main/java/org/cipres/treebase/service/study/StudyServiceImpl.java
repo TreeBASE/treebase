@@ -533,6 +533,6 @@ public class StudyServiceImpl extends AbstractServiceImpl implements StudyServic
 
 	public Collection<Study> findByJournal(String pJournal,
 			boolean pCaseSensitive) {
-		return getStudyHome().findByJournal(pJournal);
+		return getStudyHome().findByJournal(pJournal,pCaseSensitive);
 	}
 }
