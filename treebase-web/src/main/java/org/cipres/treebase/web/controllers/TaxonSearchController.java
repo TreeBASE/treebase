@@ -3,7 +3,9 @@ package org.cipres.treebase.web.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,21 +56,7 @@ public class TaxonSearchController extends SearchController {
 		String formName = request.getParameter("formName");
 		String query = request.getParameter("query");
 		if ( ! TreebaseUtil.isEmpty(query) ) {
-			/*
-			CQLParser parser = new CQLParser();
-			CQLNode root = parser.parse(query);
-			root = normalizeParseTree(root);
-			Set<Taxon> queryResults = doCQLQuery(root, new HashSet<Taxon>(),request);
-			TaxonSearchResults tsr = new TaxonSearchResults(queryResults);
-			saveSearchResults(request, tsr);
-			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
-				return samePage(request);
-			}
-			else {
-				return this.searchResultsAsRDF(tsr, request, root);
-			}
-			*/
-			return this.handleQueryRequest(request, response, errors);
+			return this.handleQueryRequest(request, response, errors, query);
 		}
 		if (formName.equals("searchByTaxonLabel")) {
 			SearchCommand newSearchCommand = (SearchCommand)searchCommand;
@@ -107,24 +95,6 @@ public class TaxonSearchController extends SearchController {
 		} else {
 			return super.onSubmit(request, response, (SearchCommand) searchCommand, errors);
 		}
-	}
-	
-	private CQLNode normalizeParseTree(CQLNode node) {
-		if ( node instanceof CQLBooleanNode ) {
-			((CQLBooleanNode)node).left = normalizeParseTree(((CQLBooleanNode)node).left);
-			((CQLBooleanNode)node).right = normalizeParseTree(((CQLBooleanNode)node).right);
-			return node;
-		}
-		else if ( node instanceof CQLTermNode ) {
-			String index = ((CQLTermNode)node).getIndex();
-			String term = ((CQLTermNode)node).getTerm();
-			CQLRelation relation = ((CQLTermNode)node).getRelation();
-			index = index.replaceAll("dcterms.title", "tb.title.taxon");
-			index = index.replaceAll("dcterms.identifier", "tb.identifier.taxon");
-			return new CQLTermNode(index,relation,term);
-		}
-		logger.debug(node);
-		return node;
 	}
 	
 	private Set<Taxon> doCQLQuery(CQLNode node, Set<Taxon> results, HttpServletRequest request) {
@@ -401,9 +371,9 @@ public class TaxonSearchController extends SearchController {
 
 	@Override
 	protected ModelAndView handleQueryRequest(HttpServletRequest request,
-			HttpServletResponse response, BindException errors)
+			HttpServletResponse response, BindException errors, String query)
 			throws CQLParseException, IOException, InstantiationException {
-		String query = request.getParameter("query");
+		//String query = request.getParameter("query");
 		CQLParser parser = new CQLParser();
 		CQLNode root = parser.parse(query);
 		root = normalizeParseTree(root);
@@ -431,5 +401,13 @@ public class TaxonSearchController extends SearchController {
 			this.saveSearchResults(request, res);
 			return this.searchResultsAsRDF(res, request, root,schema,"taxon");
 		}
+	}
+
+	@Override
+	protected Map<String, String> getPredicateMapping() {
+		Map<String,String> mapping = new HashMap<String,String>();
+		mapping.put("dcterms.title", "tb.title.taxon");
+		mapping.put("dcterms.identifier", "tb.identifier.taxon");		
+		return mapping;
 	}
 }

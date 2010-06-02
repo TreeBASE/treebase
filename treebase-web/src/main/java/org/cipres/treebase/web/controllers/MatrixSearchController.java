@@ -3,7 +3,9 @@ package org.cipres.treebase.web.controllers;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,21 +73,7 @@ public class MatrixSearchController extends SearchController {
 		LOGGER.info("formName is '" + formName + "'");
 		
 		if ( ! TreebaseUtil.isEmpty(query) ) {
-			/*
-			CQLParser parser = new CQLParser();
-			CQLNode root = parser.parse(query);
-			root = normalizeParseTree(root);
-			Set<Matrix> queryResults = doCQLQuery(root, new HashSet<Matrix>(),request, response, errors);
-			MatrixSearchResults tsr = new MatrixSearchResults(queryResults);
-			saveSearchResults(request, tsr);
-			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
-				return new ModelAndView("search/matrixSearch", Constants.RESULT_SET, tsr); 			
-			}
-			else {
-				return this.searchResultsAsRDF(tsr, request, root);
-			}
-			*/
-			return this.handleQueryRequest(request, response, errors);
+			return this.handleQueryRequest(request, response, errors, query);
 		}		
 		
 		if (formName.equals("matrixSimple")) {
@@ -180,26 +168,7 @@ public class MatrixSearchController extends SearchController {
 		}
 		logger.debug(node);
 		return results;		
-	}		
-	
-	private CQLNode normalizeParseTree(CQLNode node) {
-		if ( node instanceof CQLBooleanNode ) {
-			((CQLBooleanNode)node).left = normalizeParseTree(((CQLBooleanNode)node).left);
-			((CQLBooleanNode)node).right = normalizeParseTree(((CQLBooleanNode)node).right);
-			return node;
-		}
-		else if ( node instanceof CQLTermNode ) {
-			String index = ((CQLTermNode)node).getIndex();
-			String term = ((CQLTermNode)node).getTerm();
-			CQLRelation relation = ((CQLTermNode)node).getRelation();
-			index = index.replaceAll("dcterms.title", "tb.title.matrix");
-			index = index.replaceAll("dcterms.identifier", "tb.identifier.matrix");
-			index = index.replaceAll("dcterms.extent", "tb.ntax.matrix");
-			return new CQLTermNode(index,relation,term);
-		}
-		logger.debug(node);
-		return node;
-	}	
+	}
 	
 	@SuppressWarnings("unchecked")
 	private Collection<Matrix> doSearch(
@@ -208,20 +177,6 @@ public class MatrixSearchController extends SearchController {
 			SearchType searchType,
 			BindException errors,
 			String searchTerm) throws InstantiationException {
-
-//		String searchTerm = convertStars(request.getParameter("searchTerm"));
-//		String keywordSearchTerm = "%" + searchTerm + "%";
-//	 	SearchMessageSetter mSetter = new RequestMessageSetter(request);
-		
-//		MatrixSearchResults oldRes;	
-//		{
-//			SearchResults<?> sr = searchResults(request);
-//			if (sr != null) {
-//				oldRes = (MatrixSearchResults) sr.convertToMatrices();
-//			} else {
-//				oldRes = new MatrixSearchResults ();   // TODO: Convert existing search results to new type	
-//			}
-//		}
 
 		Collection<Matrix> matches = null;
 		MatrixService matrixService = getSearchService().getMatrixService();	
@@ -271,13 +226,6 @@ public class MatrixSearchController extends SearchController {
 		}
 		matches.removeAll(orphanedMatrices);
 		return matches;
-		
-//		SearchResults<Matrix> newRes = intersectSearchResults(oldRes, 
-//				new MatrixSearchResults(matches), mSetter, "No matching matrices found");
-//
-//		saveSearchResults(request, newRes);
-//		
-//		return new ModelAndView("search/matrixSearch", Constants.RESULT_SET, newRes); 
 
 	}
 
@@ -291,8 +239,8 @@ public class MatrixSearchController extends SearchController {
 	}
 
 	@Override
-	protected ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors) throws CQLParseException, IOException, InstantiationException {
-		String query = request.getParameter("query");				
+	protected ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors, String query) throws CQLParseException, IOException, InstantiationException {
+		//String query = request.getParameter("query");				
 		CQLParser parser = new CQLParser();
 		CQLNode root = parser.parse(query);
 		root = normalizeParseTree(root);
@@ -320,6 +268,15 @@ public class MatrixSearchController extends SearchController {
 			this.saveSearchResults(request, res);
 			return this.searchResultsAsRDF(res, request, root, schema, original);
 		}
+	}
+
+	@Override
+	protected Map<String, String> getPredicateMapping() {
+		Map<String,String> mapping = new HashMap<String,String>();
+		mapping.put("dcterms.title", "tb.title.matrix");
+		mapping.put("dcterms.identifier", "tb.identifier.matrix");
+		mapping.put("dcterms.extent", "tb.ntax.matrix");
+		return mapping;
 	}
 
 }

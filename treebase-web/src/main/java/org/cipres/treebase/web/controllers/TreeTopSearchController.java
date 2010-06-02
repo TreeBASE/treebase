@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.web.Constants;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.z3950.zing.cql.CQLNode;
 import org.z3950.zing.cql.CQLParseException;
 
 /**
@@ -189,8 +191,20 @@ public class TreeTopSearchController extends SearchController {
 
 	@Override
 	protected ModelAndView handleQueryRequest(HttpServletRequest request,
-			HttpServletResponse response, BindException errors)
+			HttpServletResponse response, BindException errors, String query)
 			throws CQLParseException, IOException, InstantiationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected CQLNode normalizeParseTree(CQLNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Map<String, String> getPredicateMapping() {
 		// TODO Auto-generated method stub
 		return null;
 	}

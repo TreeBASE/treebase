@@ -3,7 +3,9 @@ package org.cipres.treebase.web.controllers;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,21 +71,7 @@ public class TreeSearchController extends SearchController {
 		LOGGER.info("formName is '" + formName + "'");
 		
 		if ( ! TreebaseUtil.isEmpty(query) ) {
-			/*
-			CQLParser parser = new CQLParser();
-			CQLNode root = parser.parse(query);
-			root = normalizeParseTree(root);
-			Set<PhyloTree> queryResults = doCQLQuery(root, new HashSet<PhyloTree>(),request, response, errors);
-			TreeSearchResults tsr = new TreeSearchResults(queryResults);
-			saveSearchResults(request, tsr);
-			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
-				return new ModelAndView("search/treeSearch", Constants.RESULT_SET, tsr);
-			}
-			else {
-				return this.searchResultsAsRDF(tsr, request, root);
-			}
-			*/
-			return this.handleQueryRequest(request, response, errors);
+			return this.handleQueryRequest(request, response, errors, query);
 		}
 		
 		if (formName.equals("treeSimple")) {
@@ -180,25 +168,6 @@ public class TreeSearchController extends SearchController {
 		logger.debug(node);
 		return results;		
 	}	
-	
-	private CQLNode normalizeParseTree(CQLNode node) {
-		if ( node instanceof CQLBooleanNode ) {
-			((CQLBooleanNode)node).left = normalizeParseTree(((CQLBooleanNode)node).left);
-			((CQLBooleanNode)node).right = normalizeParseTree(((CQLBooleanNode)node).right);
-			return node;
-		}
-		else if ( node instanceof CQLTermNode ) {
-			String index = ((CQLTermNode)node).getIndex();
-			String term = ((CQLTermNode)node).getTerm();
-			CQLRelation relation = ((CQLTermNode)node).getRelation();
-			index = index.replaceAll("dcterms.title", "tb.title.tree");
-			index = index.replaceAll("dcterms.identifier", "tb.identifier.tree");
-			index = index.replaceAll("dcterms.extent", "tb.ntax.tree");
-			return new CQLTermNode(index,relation,term);
-		}
-		logger.debug(node);
-		return node;
-	}	
 
 	@SuppressWarnings("unchecked")
 	private Collection<PhyloTree> doSearch(
@@ -207,18 +176,6 @@ public class TreeSearchController extends SearchController {
 			SearchType searchType,
 			BindException errors,
 			String searchTerm) throws InstantiationException {
-
-//		String searchTerm = convertStars(request.getParameter("searchTerm"));
-//		String keywordSearchTerm = "%" + searchTerm + "%";
-//		TreeSearchResults oldRes;	
-//		{
-//			SearchResults<?> sr = searchResults(request);
-//			if (sr != null) {
-//				oldRes = (TreeSearchResults) sr.convertToTrees();
-//			} else {
-//				oldRes = new TreeSearchResults ();   // TODO: Convert existing search results to new type	
-//			}
-//		}
 
 		Collection<PhyloTree> matches = null;
 		PhyloTreeService phyloTreeService = getSearchService().getPhyloTreeService();	
@@ -279,9 +236,9 @@ public class TreeSearchController extends SearchController {
 
 	@Override
 	protected ModelAndView handleQueryRequest(HttpServletRequest request,
-			HttpServletResponse response, BindException errors)
+			HttpServletResponse response, BindException errors, String query)
 			throws CQLParseException, IOException, InstantiationException {
-		String query = request.getParameter("query");
+		//String query = request.getParameter("query");
 		CQLParser parser = new CQLParser();
 		CQLNode root = parser.parse(query);
 		root = normalizeParseTree(root);
@@ -309,6 +266,15 @@ public class TreeSearchController extends SearchController {
 			this.saveSearchResults(request, res);
 			return this.searchResultsAsRDF(res, request, root,schema,"tree");
 		}
+	}
+
+	@Override
+	protected Map<String, String> getPredicateMapping() {
+		Map<String,String> mapping = new HashMap<String,String>();
+		mapping.put("dcterms.title", "tb.title.tree");
+		mapping.put("dcterms.identifier", "tb.identifier.tree");
+		mapping.put("dcterms.extent", "tb.ntax.tree");		
+		return mapping;
 	}
 
 }

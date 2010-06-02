@@ -35,8 +35,11 @@ import org.cipres.treebase.web.util.SearchMessageSetter;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.z3950.zing.cql.CQLBooleanNode;
 import org.z3950.zing.cql.CQLNode;
 import org.z3950.zing.cql.CQLParseException;
+import org.z3950.zing.cql.CQLRelation;
+import org.z3950.zing.cql.CQLTermNode;
 
 
 /**
@@ -46,14 +49,51 @@ public abstract class SearchController extends BaseFormController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(SearchController.class);
-	
+	private static final Logger LOGGER = Logger.getLogger(SearchController.class);	
 	protected SearchService searchService;
 	protected String formView;
-
 	private TaxonLabelService mTaxonLabelService;
 	
-	protected abstract ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors) throws CQLParseException, IOException, InstantiationException;	
+	protected abstract ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors,String query) throws CQLParseException, IOException, InstantiationException;
+	
+	/**
+	 * Recursively traverses a CQL parse tree (presumably starting from its
+	 * root node), replacing the observed indices with ones suggested by the map
+	 * returned by getPredicateMapping(). The function of this is to allow concrete
+	 * subclasses to create specific mappings from more general ones, e.g. when a
+	 * study search query refers to the index "dcterms.identifier", the StudySearchController
+	 * can specify that within its context this index is understood to mean "tb.identifier.study",
+	 * i.e. the study ID.
+	 * @param node
+	 * @return
+	 */
+	protected CQLNode normalizeParseTree(CQLNode node) {
+		if ( node instanceof CQLBooleanNode ) {
+			((CQLBooleanNode)node).left = normalizeParseTree(((CQLBooleanNode)node).left);
+			((CQLBooleanNode)node).right = normalizeParseTree(((CQLBooleanNode)node).right);
+			return node;
+		}
+		else if ( node instanceof CQLTermNode ) {
+			String index = ((CQLTermNode)node).getIndex();
+			String term = ((CQLTermNode)node).getTerm();
+			CQLRelation relation = ((CQLTermNode)node).getRelation();
+			Map<String,String> mapping = getPredicateMapping();
+			for ( String key : mapping.keySet() ) {
+				index = index.replaceAll(key, mapping.get(key));
+			}
+			return new CQLTermNode(index,relation,term);
+		}
+		logger.debug(node);
+		return node;
+	}	
+	
+	/**
+	 * Returns a mapping between more general search indices (e.g. "dcterms.identifier")
+	 * and the specific indices (e.g. "tb.identifier.study") that are understood to be used 
+	 * by the concrete subclass
+	 * @return
+	 */
+	protected abstract Map<String,String> getPredicateMapping();
 
 	protected ModelAndView onSubmit(
 			HttpServletRequest request,
@@ -399,7 +439,7 @@ public abstract class SearchController extends BaseFormController {
 		String query = request.getParameter("query");
 		if ( query != null && ! TreebaseUtil.isEmpty(query) ) {
 			LOGGER.info("query is '"+ query +"'");
-			return this.handleQueryRequest(request, response, bindException);
+			return this.handleQueryRequest(request, response, bindException, query);
 		}
 		String action = request.getParameter("action");
 		if (action != null && action.equals("discard") && request.getMethod().equals("GET")) {
