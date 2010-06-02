@@ -22,6 +22,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -377,6 +378,25 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 			returnVal = q.list();			
 		}
 		return returnVal;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.study.StudyHome#findByJournal(java.lang.String, boolean)
+	 */
+	public Collection<Study> findByJournal(String pJournal, boolean pExactMatch) {
+		if ( pExactMatch == false ) {
+			return findByJournal(pJournal);
+		}		
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("Going to do an exact journal name match for "+pJournal);  
+		}		
+		Collection<Study> studies = new ArrayList<Study>();
+		Criteria studyCrit = getSession().createCriteria(Study.class).createAlias("citation", "cit");
+		//studyCrit.add(Restrictions.like("cit.journal", pJournal.trim(), MatchMode.EXACT));
+		studyCrit.add(Restrictions.eq("cit.journal", pJournal));
+		studies = (Collection<Study>) studyCrit.list();
+		return studies;
 	}
 
 
