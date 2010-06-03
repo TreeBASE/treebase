@@ -13,8 +13,10 @@ public class Constants {
 	public static final URI BaseURI = URI.create("http://purl.org/PHYLO/TREEBASE/PHYLOWS/");
 	public static final URI OWLURI = URI.create("http://www.w3.org/2002/07/owl#");	
 	public static final URI SKOSURI = URI.create("http://www.w3.org/2004/02/skos/core#");
+	public static final URI RDFSURI = URI.create("http://www.w3.org/2000/01/rdf-schema#");
+	public static final URI RDFURI = URI.create("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 	public static final String NCBITaxonomyBase = "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=";
 	public static final String uBioBase = "http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:";
-	public static final String NCBITaxonomyFormat = "http://purl.uniprot.org/taxonomy/%s.rdf";
+	public static final String NCBITaxonomyFormat = "http://purl.uniprot.org/taxonomy/%s";
 }
 
