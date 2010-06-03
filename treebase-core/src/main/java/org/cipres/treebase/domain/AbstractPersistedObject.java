@@ -115,6 +115,11 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 		List<Annotation> annotations = new ArrayList<Annotation>();
 		URI uri = URI.create(TreebaseUtil.getPurlBase()+getPhyloWSPath());
 		annotations.add(new Annotation(Constants.OWLURI,"owl:sameAs",uri));
+		TBPersistable context = getContext();
+		if ( null != context ) {
+			URI contextUri = URI.create(TreebaseUtil.getPurlBase()+context.getPhyloWSPath());
+			annotations.add(new Annotation(Constants.RDFSURI, "rdfs:isDefinedBy",contextUri));
+		}
 		return annotations;
 	}
 
