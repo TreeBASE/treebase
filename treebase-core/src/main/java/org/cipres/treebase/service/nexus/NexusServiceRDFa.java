@@ -6,17 +6,23 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
 import org.cipres.treebase.domain.study.Study;
 import org.dom4j.DocumentException;
+import org.dom4j.Node;
 import org.dom4j.QName;
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
@@ -72,42 +78,50 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 	}
 	
 	/**
-	 * 
+	 * Changes local URIs into global ones, based on owl:sameAs annotations
 	 * @param cdaoDoc
 	 */
 	private void normalizeCdaoDoc (org.dom4j.Document cdaoDoc) {
+		Map<String,String> resourceForId = new HashMap<String,String>();
+		QName rdfAboutQName = QName.get("about", "rdf", Constants.RDFURI.toString());
+		QName rdfResourceQName = QName.get("resource", "rdf", Constants.RDFURI.toString());
+		QName rdfIDQName = QName.get("ID", "rdf", Constants.RDFURI.toString());
 		
 		LOGGER.info("inside normalizeCdaoDoc");
-		Iterator<org.dom4j.Element> parentIterator = cdaoDoc.getRootElement().elementIterator();
-		while ( parentIterator.hasNext() ) {
-			org.dom4j.Element parent = parentIterator.next();
-			QName rdfIDQName = QName.get("ID", "rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-			String rdfID = parent.attributeValue(rdfIDQName);
-			if ( ! TreebaseUtil.isEmpty(rdfID) ) {
-				
-				LOGGER.info("going to flatten ID "+rdfID);
-				Iterator<org.dom4j.Element> childIterator = cdaoDoc.getRootElement().elementIterator();
-				while ( childIterator.hasNext() ) {
-					org.dom4j.Element child = childIterator.next();
-					QName rdfAboutQName = QName.get("about", "rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-					String rdfAbout = child.attributeValue(rdfAboutQName);
-					
-					if ( ! TreebaseUtil.isEmpty(rdfAbout) && rdfAbout.equals("#"+rdfID) ) {
-						
-						LOGGER.info("found referencing element");
-						Iterator<org.dom4j.Element> grandChildIterator = child.elementIterator();
-						while ( grandChildIterator.hasNext() ) {
-							org.dom4j.Element grandChild = grandChildIterator.next();
-							grandChild.detach();
-							parent.add(grandChild);
-						}
-						
-						childIterator.remove();
-					}
-
-				}
+		List<org.dom4j.Element> sameAsObjects = cdaoDoc.selectNodes("//owl:sameAs[@rdf:resource]");
+		for ( org.dom4j.Element sameAsElt : sameAsObjects ) {
+			org.dom4j.Element subjectElt = sameAsElt.getParent();
+			String id = subjectElt.attributeValue(rdfAboutQName).substring(1); // remove #
+			String resource = sameAsElt.attributeValue(rdfResourceQName);
+			resourceForId.put(id, resource);			
+			subjectElt.detach();
+		}
+		
+		// replace ID attributes
+		List<org.dom4j.Element> identifiableObjects = cdaoDoc.selectNodes("//rdf:Description[@rdf:ID]");
+		for ( org.dom4j.Element identifiableObject : identifiableObjects ) {
+			String rdfID = identifiableObject.attributeValue(rdfIDQName);
+			if ( resourceForId.containsKey(rdfID) ) {
+				org.dom4j.Attribute idAttr = identifiableObject.attribute(rdfIDQName);
+				identifiableObject.remove(idAttr);
+				identifiableObject.addAttribute(rdfAboutQName, resourceForId.get(rdfID));					
 			}
 		}
+		
+		// replace about and resource references
+		for ( String rdfID : resourceForId.keySet() ) {
+			List<org.dom4j.Element> referencingObjects = cdaoDoc.selectNodes("//rdf:Description[@rdf:about='#"+rdfID+"']");
+			referencingObjects.addAll(cdaoDoc.selectNodes("//*[@rdf:resource='#"+rdfID+"']"));
+			for ( org.dom4j.Element referencingObject : referencingObjects ) {
+				org.dom4j.Attribute attr = referencingObject.attribute(rdfAboutQName);
+				if ( null == attr ) {
+					attr = referencingObject.attribute(rdfResourceQName);
+				}
+				if ( null != attr ) {
+					attr.setValue(resourceForId.get(rdfID));
+				}										
+			}	
+		}		
 
 	}
 	
