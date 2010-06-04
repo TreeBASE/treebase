@@ -261,6 +261,9 @@ public class Taxon extends AbstractPersistedObject {
 				annotations.add(new Annotation(Constants.SKOSURI,"skos:exactMatch",Constants.uBioBase + getUBioNamebankId()));
 				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.ubio", getUBioNamebankId()));				
 			}
+			if ( null != getTB1LegacyId() ) {
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxon.tb1", getTB1LegacyId()));
+			}
 		} catch ( Exception e ) {
 			e.printStackTrace();
 		}
