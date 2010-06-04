@@ -150,4 +150,24 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 		}
 		return result;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.taxon.TaxonHome#findByTB1LegacyId(java.lang.Integer)
+	 */
+	public Taxon findByTB1LegacyId(Integer tb1LegacyId) {
+		Criteria c = getSession().createCriteria(Taxon.class);
+		c.add(Expression.eq("TB1LegacyId", tb1LegacyId));
+		return (Taxon) c.uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.taxon.TaxonHome#findVariantByTB1LegacyId(java.lang.Integer)
+	 */
+	public TaxonVariant findVariantByTB1LegacyId(Integer tb1LegacyId) {
+		Criteria c = getSession().createCriteria(TaxonVariant.class);
+		c.add(Expression.eq("TB1LegacyId", tb1LegacyId));
+		return (TaxonVariant) c.uniqueResult();
+	}
 }

@@ -85,14 +85,30 @@ public interface TaxonHome extends DomainHome {
 	Taxon findByNcbiTaxId(Integer genbankId);
 	
 	/**
-	 * Find the taxon that has the specified NCBI genBank ID
+	 * Find the taxon that has the specified uBio namebank ID
 	 * 
 	 * Throw an exception if there are multiple matches
 	 * 
-	 * @param genbankId
+	 * @param nameBankId
 	 * @return the taxon object, or null if none is found
 	 * @author mjd 20080821
 	 * @throws NonUniqueObjectException
 	 */
 	Taxon findByUBIOTaxId(Long nameBankId);
+	
+	/**
+	 * Find the taxon that has the specified TreeBASE1 legacy ID
+	 * 
+	 * @param tb1LegacyId
+	 * @return the taxon object, or null if none is found
+	 */
+	Taxon findByTB1LegacyId(Integer tb1LegacyId);
+	
+	/**
+	 * Find the taxonVariant that has the specified TreeBASE1 legacy ID
+	 * 
+	 * @param tb1LegacyId
+	 * @return the taxonVariant object, or null if none is found
+	 */	
+	TaxonVariant findVariantByTB1LegacyId(Integer tb1LegacyId);
 }
