@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY owl2 "http://www.w3.org/2006/12/owl2#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://purl.org/phylo/treebase/2.0/terms#"
+     xml:base="http://purl.org/phylo/treebase/2.0/terms#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:owl2="http://www.w3.org/2006/12/owl2#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about="">
+        <owl:imports rdf:resource="http://dublincore.org/2008/01/14/dcterms.rdf"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/identifier -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/dc/elements/1.1/identifier"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/extent -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/dc/terms/extent"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/title -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/dc/terms/title"/>
+    
+
+
+    <!-- http://purl.org/dc/terms/type -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/dc/terms/type"/>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.matrix -->
+
+    <owl:ObjectProperty rdf:about="identifier.matrix">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.ncbi -->
+
+    <owl:ObjectProperty rdf:about="identifier.ncbi">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.study -->
+
+    <owl:ObjectProperty rdf:about="identifier.study">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.study.tb1 -->
+
+    <owl:ObjectProperty rdf:about="identifier.study.tb1">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.taxon -->
+
+    <owl:ObjectProperty rdf:about="identifier.taxon">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.taxon.tb1 -->
+
+    <owl:ObjectProperty rdf:about="identifier.taxon.tb1">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>    
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.taxonLabel -->
+
+    <owl:ObjectProperty rdf:about="identifier.taxonLabel">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.taxonVariant -->
+
+    <owl:ObjectProperty rdf:about="identifier.taxonVariant">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+    
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.taxonVariant.tb1 -->
+
+    <owl:ObjectProperty rdf:about="identifier.taxonVariant.tb1">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.tree -->
+
+    <owl:ObjectProperty rdf:about="identifier.tree">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.ubio -->
+
+    <owl:ObjectProperty rdf:about="identifier.ubio">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#kind.tree -->
+
+    <owl:ObjectProperty rdf:about="kind.tree">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#nchar.matrix -->
+
+    <owl:ObjectProperty rdf:about="nchar.matrix">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/extent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#ntax.matrix -->
+
+    <owl:ObjectProperty rdf:about="ntax.matrix">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/extent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#ntax.tree -->
+
+    <owl:ObjectProperty rdf:about="ntax.tree">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/extent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#quality.tree -->
+
+    <owl:ObjectProperty rdf:about="quality.tree">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#title.matrix -->
+
+    <owl:ObjectProperty rdf:about="title.matrix">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/title"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#title.study -->
+
+    <owl:ObjectProperty rdf:about="title.study">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/title"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#title.taxon -->
+
+    <owl:ObjectProperty rdf:about="title.taxon">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/title"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#title.taxonLabel -->
+
+    <owl:ObjectProperty rdf:about="title.taxonLabel">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/title"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#title.taxonVariant -->
+
+    <owl:ObjectProperty rdf:about="title.taxonVariant">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/title"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#title.tree -->
+
+    <owl:ObjectProperty rdf:about="title.tree">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/title"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#type.matrix -->
+
+    <owl:ObjectProperty rdf:about="type.matrix">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/phylo/treebase/2.0/terms#type.tree -->
+
+    <owl:ObjectProperty rdf:about="type.tree">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/terms/type"/>
+    </owl:ObjectProperty>
+</rdf:RDF>
