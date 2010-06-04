@@ -125,6 +125,8 @@ public class TaxonSearchController extends SearchController {
 		else if ( node instanceof CQLTermNode ) {
 			CQLTermNode term = (CQLTermNode)node;
 			String index = term.getIndex();
+			
+			// CQL predicate is a title, will do a text search
 			if ( index.startsWith("tb.title") ) {
 				boolean exactMatch = term.getRelation().getBase().equals("==");
 				SearchTable searchTable = null;
@@ -143,6 +145,8 @@ public class TaxonSearchController extends SearchController {
 				}
 				results.addAll(doTextSearch(term.getTerm(), caseSensitive, exactMatch, searchTable));
 			}
+			
+			// CQL predicate is an identifier, will do id search
 			else if ( index.startsWith("tb.identifier") ) {
 				NamingAuthority namingAuthority = null;
 				if ( index.endsWith("ncbi") ) {
@@ -154,7 +158,7 @@ public class TaxonSearchController extends SearchController {
 				else {
 					namingAuthority = NamingAuthority.TREEBASE;
 				}
-				results.addAll(doIdentifierSearch(request, term.getTerm(), namingAuthority));
+				results.addAll(doIdentifierSearch(request, term.getTerm(), namingAuthority, index));
 			} else {
 				// issue warnings
 				addMessage(request, "Unsupported index: " + index);
@@ -214,7 +218,7 @@ public class TaxonSearchController extends SearchController {
 				}
 				break;
 			case ID:
-				taxa.addAll(doIdentifierSearch(request,searchTerm, namingAuthority));
+				taxa.addAll(doIdentifierSearch(request,searchTerm, namingAuthority, null));
 				break;
 		}
 		
@@ -232,20 +236,47 @@ public class TaxonSearchController extends SearchController {
 	 * @param request
 	 * @param results
 	 */
-	private Collection<Taxon> doIdentifierSearch(HttpServletRequest request, String identifier, NamingAuthority namingAuthority) {		
+	private Collection<Taxon> doIdentifierSearch(HttpServletRequest request, String identifier, NamingAuthority namingAuthority, String index) {		
 		Collection<Taxon> taxaFound = new ArrayList<Taxon>();
 		switch(namingAuthority) {
 			case TREEBASE :
 				LOGGER.debug("Going to search for TreeBASE IDs");	
-				TreebaseIDString idstr;
-				try {
-					idstr = new TreebaseIDString(identifier, Taxon.class, true);
-					Taxon match = getTaxonHome().findPersistedObjectByID(idstr.getTBClass(), idstr.getId());
-					if ( match != null ) {
-						taxaFound.add(match);
+				if ( ! index.endsWith(".tb1") ) {
+					TreebaseIDString idstr;
+					try {
+						idstr = new TreebaseIDString(identifier, Taxon.class, true);
+						Taxon match = getTaxonHome().findPersistedObjectByID(idstr.getTBClass(), idstr.getId());
+						if ( match != null ) {
+							taxaFound.add(match);
+						}					
+					} catch (MalformedTreebaseIDString e) {
+						addMessage(request, "Ignoring malformed taxon ID string '" + identifier + "'; try 'Tx####' or just a number");
+					}
+				}
+				// looking up by legacy IDs, which we might have for Taxon and TaxonVariant
+				else {
+					LOGGER.debug("Searching for legacy " + index);
+					Integer tb1LegacyId = null;
+					try {
+						tb1LegacyId = Integer.parseInt(identifier);
+					} catch ( NumberFormatException e ) {
+						addMessage(request, "Ignoring malformed TreeBASE1 ID string '" + identifier + "', because: " + e.getMessage());
+						LOGGER.error("Couldn't parse legacy ID: "+e.getMessage());
+					}
+					if ( null != tb1LegacyId && index.matches(".*taxonVariant.*") ) {
+						TaxonVariant tv = getTaxonHome().findVariantByTB1LegacyId(tb1LegacyId);
+						LOGGER.debug("Found taxon variant: " + tv.getId());
+						if ( null != tv.getTaxon() ) {
+							taxaFound.add(tv.getTaxon());
+						}
+					}
+					else if ( null != tb1LegacyId ){
+						Taxon taxon = getTaxonHome().findByTB1LegacyId(tb1LegacyId);
+						LOGGER.debug("Found taxon: " + taxon.getId());
+						if ( null != taxon ) {
+							taxaFound.add(taxon);
+						}
 					}					
-				} catch (MalformedTreebaseIDString e) {
-					addMessage(request, "Ignoring malformed taxon ID string '" + identifier + "'; try 'Tx####' or just a number");
 				}
 				break;
 			case NCBI :
