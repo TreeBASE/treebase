@@ -1,6 +1,8 @@
 
 package org.cipres.treebase.domain.taxon;
 
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +20,9 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
 
 /**
@@ -178,4 +182,17 @@ public class TaxonVariant extends AbstractPersistedObject {
 	public String getLabel() {
 		return getFullName();
 	}
+	
+	@Transient
+	public List<Annotation> getAnnotations() {
+		List<Annotation> annotations = super.getAnnotations();
+		try {
+			if ( null != getTB1LegacyId() ) {
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonVariant.tb1", getTB1LegacyId()));
+			}
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		}
+		return annotations;
+	}	
 }
