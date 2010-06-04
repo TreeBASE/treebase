@@ -265,13 +265,19 @@ public class TaxonLabel extends AbstractPersistedObject {
 					}
 					if ( null != getNcbiTaxID() ) {
 						annotations.add(new Annotation(Constants.SKOSURI, "skos:closeMatch", URI.create(String.format(Constants.NCBITaxonomyFormat, getNcbiTaxID()))));
-						String taxonName = tv.getTaxon().getLabel();
+						Taxon taxon = tv.getTaxon();
+						String taxonName = taxon.getLabel();
 						if ( ! fullName.equals(taxonName) ) {
 							annotations.add(new Annotation(Constants.SKOSURI, "skos:prefLabel",taxonName));
 						}
-						
+						if ( null != taxon.getTB1LegacyId() ) {
+							annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxon.tb1", taxon.getTB1LegacyId()));
+						}						
 					}					
 				}
+				if ( null != tv.getTB1LegacyId() ) {
+					annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonVariant.tb1", tv.getTB1LegacyId()));
+				}				
 			}
 		}
 		catch ( Exception e) {
