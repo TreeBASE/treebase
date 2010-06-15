@@ -56,6 +56,7 @@ public class MatrixSearchController extends SearchController {
 		byType,
 		byNTAX,
 		byNCHAR,
+		byTB1ID
 	}
 	
 	protected ModelAndView onSubmit(
@@ -153,8 +154,10 @@ public class MatrixSearchController extends SearchController {
 			String index = term.getIndex();				
 			if ( index.startsWith("tb.title") ) {
 				results.addAll(doSearch(request, response, SearchType.byTitle, errors, term.getTerm()));
-			} else if ( index.startsWith("tb.identifier") ) {
+			} else if ( index.equals("tb.identifier.matrix") ) {
 				results.addAll(doSearch(request, response, SearchType.byID, errors, term.getTerm()));
+			} else if ( index.equals("tb.identifier.matrix.tb1") ) { 
+				results.addAll(doSearch(request, response, SearchType.byTB1ID, errors, term.getTerm()));
 			} else if ( index.startsWith("tb.type") ) {
 				results.addAll(doSearch(request, response, SearchType.byType, errors, term.getTerm()));
 			} else if ( index.startsWith("tb.ntax") ) {
@@ -185,7 +188,12 @@ public class MatrixSearchController extends SearchController {
 		case byID:
 			matches = (Collection<Matrix>) doSearchByIDString(request, matrixService, Matrix.class, searchTerm);
 			break;
-
+		
+		case byTB1ID:
+			matches = new HashSet<Matrix>();
+			matches.add(matrixService.findByTB1StudyID(searchTerm));
+			break;
+			
 		case byTitle:
 			matches = matrixService
 	  		.findSomethingBySubstring(Matrix.class, "title", searchTerm);

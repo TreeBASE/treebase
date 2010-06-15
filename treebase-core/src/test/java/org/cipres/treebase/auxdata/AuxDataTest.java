@@ -212,6 +212,11 @@ public class AuxDataTest extends TestCase {
 				Boolean caseSensitive) {
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		public Matrix findByTB1StudyID(String pTB1MatrixID) {
+			// TODO Auto-generated method stub
+			return null;
 		}	
 	}
 	

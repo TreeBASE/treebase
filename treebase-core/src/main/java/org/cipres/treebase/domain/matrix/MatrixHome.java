@@ -168,5 +168,14 @@ public interface MatrixHome extends DomainHome {
 	 * @return MatrixKind
 	 */
 	MatrixKind findKindByDescription(String pDescription);
+	
+	/**
+	 * Return a Matrix object by its legacy TreeBASE1 id. The Matrix object is fully inflated
+	 * with colum, row and elements data
+	 * 
+	 * @param pTB1MatrixID
+	 * @return
+	 */
+	Matrix findByTB1StudyID(String pTB1MatrixID);	
 
 }

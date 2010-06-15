@@ -276,6 +276,10 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		}
 		xmlMatrix.setLabel(tbMatrix.getTitle());
 		attachTreeBaseID((Annotatable)xmlMatrix, tbMatrix,Matrix.class);
+		String tb1MatrixID = tbMatrix.getTB1MatrixID();
+		if ( null != tb1MatrixID ) {
+			((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix.tb1", Constants.TBTermsURI, tb1MatrixID);
+		}
 		return xmlMatrix;
 	}
 

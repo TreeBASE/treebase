@@ -145,4 +145,8 @@ public class MatrixServiceImpl extends AbstractServiceImpl implements MatrixServ
 	public Class defaultResultClass() {
 		return Matrix.class;
 	}
+
+	public Matrix findByTB1StudyID(String pTB1MatrixID) {
+		return getMatrixHome().findByTB1StudyID(pTB1MatrixID);
+	}
 }

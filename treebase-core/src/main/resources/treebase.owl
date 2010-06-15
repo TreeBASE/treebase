@@ -68,6 +68,14 @@
     
 
 
+    <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.matrix.tb1 -->
+
+    <owl:ObjectProperty rdf:about="identifier.matrix.tb1">
+        <rdfs:subPropertyOf rdf:resource="http://purl.org/dc/elements/1.1/identifier"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://purl.org/phylo/treebase/2.0/terms#identifier.ncbi -->
 
     <owl:ObjectProperty rdf:about="identifier.ncbi">

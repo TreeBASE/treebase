@@ -28,6 +28,7 @@ import org.cipres.treebase.domain.study.AnalyzedDataHome;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionHome;
+import org.cipres.treebase.domain.taxon.Taxon;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
@@ -36,6 +37,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.criterion.Expression;
 
 /**
  * MatrixDAO.java
@@ -613,5 +615,15 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 
 		returnVal = (MatrixKind) c.uniqueResult();
 		return returnVal;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.matrix.MatrixHome#findByTB1StudyID(java.lang.String)
+	 */
+	public Matrix findByTB1StudyID(String pTB1MatrixID) {
+		Criteria c = getSession().createCriteria(Matrix.class);
+		c.add(Expression.eq("TB_MatrixID", pTB1MatrixID));
+		return (Matrix) c.uniqueResult();
 	}
 }
