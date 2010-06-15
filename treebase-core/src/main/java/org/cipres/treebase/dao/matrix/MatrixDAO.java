@@ -623,7 +623,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 	 */
 	public Matrix findByTB1StudyID(String pTB1MatrixID) {
 		Criteria c = getSession().createCriteria(Matrix.class);
-		c.add(Expression.eq("TB_MatrixID", pTB1MatrixID));
+		c.add(Expression.eq("TB1MatrixID", pTB1MatrixID));
 		return (Matrix) c.uniqueResult();
 	}
 }
