@@ -333,15 +333,13 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 				xmlMatrix.setSeq(seq,xmlOTU);
 			}
 			for ( RowSegment tbSegment : tbSegments ) {
-				if ( tbSegment.getStartIndex() <= charIndex && charIndex <= tbSegment.getEndIndex() ) {
-					Double latitude = tbSegment.getSpecimenLabel().getLatitude();
-					Double longitude = tbSegment.getSpecimenLabel().getLongitude();
-					if ( null != latitude ) {
-						xmlOTU.addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, latitude);
-					}
-					if ( null != longitude ) {
-						xmlOTU.addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, longitude);
-					}
+				Double latitude = tbSegment.getSpecimenLabel().getLatitude();
+				Double longitude = tbSegment.getSpecimenLabel().getLongitude();
+				if ( null != latitude ) {
+					xmlOTU.addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, latitude);
+				}
+				if ( null != longitude ) {
+					xmlOTU.addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, longitude);
 				}
 			}			
 		}	
