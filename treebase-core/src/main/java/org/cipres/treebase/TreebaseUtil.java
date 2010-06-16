@@ -6,6 +6,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -150,6 +155,25 @@ public class TreebaseUtil {
 
 		return buf.toString();
 	}
+	
+	public static String removeTroublesomeCharacters(String inString) {
+	    if ( inString == null ) {
+	    	return null;
+	    }
+	    StringBuilder newString = new StringBuilder();
+	    for (int i = 0; i < inString.length(); i++) {
+	        char ch = inString.charAt(i);
+	        // remove any characters outside the valid UTF-8 range as well as all control characters
+	        // except tabs and new lines
+	        if ((ch < 0x00FD && ch > 0x001F) || ch == '\t' || ch == '\n' || ch == '\r') {
+	            newString.append(ch);
+	        }
+	    }
+	    return newString.toString();
+
+	}
+	
+	
 	
 	/**
 	 * Reads the contents of a file into a string

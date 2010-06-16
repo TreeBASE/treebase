@@ -57,6 +57,7 @@ public class MatrixDataType extends AbstractPersistedObject {
 	 * 
 	 * @return String mDescription
 	 */
+	@Override
 	@Column(name = "Description", length = TBPersistable.COLUMN_LENGTH_STRING)
 	public String getDescription() {
 		return mDescription;

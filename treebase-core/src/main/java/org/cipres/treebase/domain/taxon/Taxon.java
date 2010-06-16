@@ -72,6 +72,7 @@ public class Taxon extends AbstractPersistedObject {
 	 * 
 	 * @return String
 	 */
+	@Override
 	@Column(name = "Description", nullable = true, length = TBPersistable.COLUMN_LENGTH_STRING_NOTES)
 	public String getDescription() {
 		return mDescription;

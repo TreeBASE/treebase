@@ -26,9 +26,9 @@
   </image--%>
   <c:forEach var="result" items="${searchResultsThawed.results}" varStatus="status">
   <item rdf:about="${baseURL}<c:out value="${result.phyloWSPath}"/>">
-    <title><c:out value="${result.label}"/></title>
+    <title><![CDATA[<c:out value="${result.label}"/>]]></title>
     <link>${baseURL}<c:out value="${result.phyloWSPath}"/></link>
-    <description><c:out value="${result.namespacedGUID}"/></description>
+    <description><![CDATA[<c:out value="${result.description}"/>]]></description>
 	<c:forEach var="anno" items="${result.annotations}" varStatus="annoStatus">
 		<<c:out value="${anno.property}"/> 
 			xmlns:<c:out value="${anno.prefix}"/>="<c:out value="${anno.URI}"/>"><c:out value="${anno.value}" escapeXml="true"/></<c:out value="${anno.property}"/>>

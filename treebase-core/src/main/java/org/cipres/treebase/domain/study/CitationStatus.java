@@ -71,6 +71,7 @@ public class CitationStatus extends AbstractPersistedObject {
 	 * 
 	 * @return String
 	 */
+	@Override
 	@Column(name = "Description", length = TBPersistable.COLUMN_LENGTH_50)
 	public String getDescription() {
 		return mDescription;

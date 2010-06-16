@@ -5,16 +5,9 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cipres.treebase.NamespacedGUID;
-import org.cipres.treebase.PhyloWSPath;
-import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
-import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsFrozen;
-import org.cipres.treebase.domain.search.SearchResultsType;
-import org.cipres.treebase.domain.study.Study;
-import org.cipres.treebase.domain.tree.PhyloTree;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import org.z3950.zing.cql.CQLNode;

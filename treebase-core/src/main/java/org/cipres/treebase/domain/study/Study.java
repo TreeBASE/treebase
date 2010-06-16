@@ -694,11 +694,20 @@ public class Study extends AbstractPersistedObject {
 	
 	@Override
 	@Transient
+	public String getDescription() {
+		if ( null != getCitation() ) {
+			return TreebaseUtil.removeTroublesomeCharacters(getCitation().getAbstract());
+		}
+		return "";
+	}
+	
+	@Override
+	@Transient
 	public String getLabel() {
 		if ( null != getCitation() ) {
-			return getCitation().getTitle();
+			return TreebaseUtil.removeTroublesomeCharacters(getCitation().getTitle());
 		}
-		return getName();
+		return TreebaseUtil.removeTroublesomeCharacters(getName());
 	}
 	
 	@Transient

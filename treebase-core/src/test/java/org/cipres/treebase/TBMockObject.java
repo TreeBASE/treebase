@@ -80,4 +80,9 @@ public class TBMockObject extends Object implements TBPersistable {
 		return null;
 	}
 
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

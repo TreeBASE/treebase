@@ -145,4 +145,13 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.NexmlWritable#getDescription()
+	 */
+	@Transient
+	public String getDescription() {
+		return this.getNamespacedGUID().toString();
+	}
+
 }
