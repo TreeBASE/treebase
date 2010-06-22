@@ -156,7 +156,7 @@ public abstract class SearchController extends BaseFormController {
 		baseURL.append("/treebase-web/phylows");
 		request.getSession().setAttribute("recordSchema", schema);
 		request.getSession().setAttribute("format", request.getParameter("format"));
-		request.getSession().setAttribute("baseURL", baseURL.toString());
+		request.getSession().setAttribute("baseURL", TreebaseUtil.getPurlBase());
 		request.getSession().setAttribute("domainAddress", domainAddress.toString());
 		request.getSession().setAttribute("phyloWSPath", phyloWSPath);
 		request.getSession().setAttribute("originalSection", original);
