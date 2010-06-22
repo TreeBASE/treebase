@@ -482,13 +482,13 @@ public class Citation extends AbstractPersistedObject {
 			if (size > 0) {
 	
 				for (int i = 0; i < size; i++) {
-	
-					authorsCitationStyle.append(authors.get(i).getFullNameCitationStyle());
-	
-					if (size > 1 && i == size - 2) {
-						authorsCitationStyle.append(", & ");
-					} else if (size > 1 && i < size - 2) {
-						authorsCitationStyle.append(", ");
+					if ( null != authors.get(i) ) {
+						authorsCitationStyle.append(authors.get(i).getFullNameCitationStyle());		
+						if (size > 1 && i == size - 2) {
+							authorsCitationStyle.append(", & ");
+						} else if (size > 1 && i < size - 2) {
+							authorsCitationStyle.append(", ");
+						}
 					}
 				}
 	
@@ -510,12 +510,14 @@ public class Citation extends AbstractPersistedObject {
 		int size = authors.size();
 		if (size > 0) {
 			for ( int i = 0; i < size; i++ ) {
-				authorsCitationStyle.append(authors.get(i).getFullNameCitationStyle());
-				if ( size > 1 && i == size - 2 ) {
-					authorsCitationStyle.append(", & ");
-				} 
-				else if (size > 1 && i < size - 2) {
-					authorsCitationStyle.append(", ");
+				if ( null != authors.get(i) ) {
+					authorsCitationStyle.append(authors.get(i).getFullNameCitationStyle());
+					if ( size > 1 && i == size - 2 ) {
+						authorsCitationStyle.append(", & ");
+					} 
+					else if (size > 1 && i < size - 2) {
+						authorsCitationStyle.append(", ");
+					}
 				}
 			}
 		}
@@ -696,8 +698,10 @@ public class Citation extends AbstractPersistedObject {
 		annotations.add(new Annotation(Constants.DCURI,"dc:title",getTitle()));
 		annotations.add(new Annotation(Constants.DCURI,"dc:creator",getAuthorsAsString()));
 		for ( Person person : getAuthors() ) {
-			String personName = person.getFullNameCitationStyle();
-			annotations.add(new Annotation(Constants.DCURI,"dc:contributor",personName));
+			if ( null != person ) {
+				String personName = person.getFullNameCitationStyle();
+				annotations.add(new Annotation(Constants.DCURI,"dc:contributor",personName));
+			}
 		}
 		try {
 			if ( null != getPublishYear() ) {
