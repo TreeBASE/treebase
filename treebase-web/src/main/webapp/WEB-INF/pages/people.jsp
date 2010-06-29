@@ -32,12 +32,17 @@
 					<br/>Prototype Dev
 				</td>
 				<td>
-					<img src="images/people/mplaza.jpg" width="81" height="108" alt="Melanie Plaza"/>
-					<br/><strong>Melanie Plaza</strong>
+					<img src="http://www.treebase.org/treebase-web/images/people/jping.jpg" width="81" height="108" alt="Junli Ping"/>
+					<br/><strong>Junli Ping</strong>
 					<br/>Metadata Editor
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<img src="http://www.treebase.org/treebase-web/images/people/mplaza.jpg" width="81" height="108" alt="Melanie Plaza"/>
+					<br/><strong>Melanie Plaza</strong>
+					<br/>Metadata Editor
+				</td>
 				<td>
 					<img src="images/people/vtannen.jpeg" width="81" height="108" alt="Val Tannen"/>
 					<br/><strong>Val Tannen</strong>
@@ -48,11 +53,6 @@
 					<br/><strong>Rutger Vos</strong>
 					<br/>Developer
 					<br/>API Design
-				</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
 				</td>
 				<td>
 					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
