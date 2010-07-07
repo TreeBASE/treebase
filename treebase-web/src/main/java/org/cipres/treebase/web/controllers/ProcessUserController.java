@@ -21,7 +21,11 @@ public class ProcessUserController implements Controller {
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
+		String importKey = (String)request.getSession().getAttribute("importKey");
+		if (importKey != null && importKey.length()>0) {
 
+			return new ModelAndView("redirect:/user/studyForm.html");
+		}		
 		if (request.isUserInRole(UserRole.ROLE_ADMIN) || request.isUserInRole(UserRole.ROLE_ASSO_EDITOR)) {
 
 			return new ModelAndView("redirect:/admin/administrationPage.html");

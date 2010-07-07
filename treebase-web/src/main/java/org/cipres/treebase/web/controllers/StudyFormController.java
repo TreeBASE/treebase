@@ -1,6 +1,9 @@
 
 package org.cipres.treebase.web.controllers;
 
+import java.io.File;
+import java.util.Collection;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +17,15 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.domain.admin.UserService;
+import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.Constants;
+import org.cipres.treebase.web.model.MyProgressionListener;
 import org.cipres.treebase.web.util.ControllerUtil;
+import org.cipres.treebase.web.util.DryadUtil;
 
 /**
  * StudyFormController.java
@@ -96,7 +102,9 @@ public class StudyFormController extends BaseFormController {
 
 		Study study = (Study) command;
 		User user = ControllerUtil.getUser(request, mUserService);
-
+		String importKey = (String)request.getSession().getAttribute("importKey");
+		request.getSession().removeAttribute("importKey");
+		
 		if (request.getParameter(ACTION_SUBMIT) != null) {
 			// Study must be submitted with citation together
 			// here we are just saving the data to the session
@@ -118,7 +126,38 @@ public class StudyFormController extends BaseFormController {
 			// save Study object to session and remove
 			ControllerUtil.saveStudy(request, submission.getStudy());
 
-		} else if (request.getParameter(ACTION_UPDATE) != null) {
+		} else if(importKey != null && importKey.length()>0){
+			
+			String uploadDir = getServletContext()
+			.getRealPath(TreebaseUtil.FILESEP + "DryadUpload")
+			+ TreebaseUtil.FILESEP + importKey;
+			String importStatus="";
+			File bagitPath= new File(uploadDir, "data");
+			if(!bagitPath.exists())importStatus = "NOT FOUND";
+			else{
+			
+				try{
+					Submission submission = mSubmissionService.createSubmission(user, new Study());
+				
+					Citation citation = DryadUtil.createCitation(bagitPath);
+					submission.getStudy().setCitation(citation);
+					citation.setStudy(submission.getStudy());
+			
+					Collection<File> files = DryadUtil.getDataFiles(bagitPath);
+					MyProgressionListener listener = new MyProgressionListener();
+					getSubmissionService().addNexusFilesJDBC(submission, files, listener);
+					// save Study object to session
+					ControllerUtil.saveStudy(request, submission.getStudy());
+					importStatus = "OK";
+				}catch (Exception e) {
+					importStatus = "FAILED";
+				}
+			}
+			request.setAttribute("importStatus", importStatus);
+			//request.getSession().removeAttribute("importKey");
+			return new ModelAndView(new RedirectView("submissionList.html"));
+			
+		}else if (request.getParameter(ACTION_UPDATE) != null) {
 			mStudyService.update(study);
 		} else if (request.getParameter(ACTION_DELETE) != null) {
 

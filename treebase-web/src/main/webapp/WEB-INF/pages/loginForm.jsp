@@ -2,6 +2,13 @@
 
 <form method="post" id="loginForm" action="<c:url value="/j_security_check"/>" >
 
+<% 
+	if(request.getParameter("importKey") != null){
+
+       session.setAttribute("importKey",request.getParameter("importKey"));
+	}
+%>
+
 <fieldset>
 <legend>Login</legend>
 

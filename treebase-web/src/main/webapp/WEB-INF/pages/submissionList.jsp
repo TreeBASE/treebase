@@ -101,7 +101,19 @@ The table below shows a list of your Treebase submissions.
 	</display:footer>
 
 	<display:setProperty name="basic.empty.showtable" value="true"/>
-	
+
 </display:table>
 </fieldset>
+<fieldset>
+<legend>Dryad Import Result
+<a href="#" class="openHelp" onclick="openHelp('dryadImport')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>	
+</legend>		
+			<div align="center">		
+            	<c:choose>
+		   			<c:when test="${importStatus =='NOT FOUND'}"><c:out value="Sorry, we cannot find your data"/></c:when>
+		   			<c:when test="${importStatus =='OK'}"><c:out value="Import finished"/></c:when>
+		   			<c:when test="${importStatus =='FAILED'}"><c:out value="Sorry, One or more data file cannot parsed correctly, you may add your data via treebase interfaces"/></c:when>        
+				</c:choose>	   	
+		   	</div>		
+</fieldset>			
 </form>
