@@ -21,6 +21,9 @@
 			</resource>
 		</resources>
 		<finalName>treebase-web</finalName>
+		
+		
+		
 		<plugins>
 
 			<!-- Ant Task plugin-->
@@ -80,26 +83,20 @@
 		<repository>
 			<id>org.tuckey.urlrewritefilter</id>
 			<url>http://repository.jboss.org/maven2/org/tuckey/urlrewritefilter/</url>
-		</repository>
-
+		</repository>      
+    	<repository>
+      		<id>java.net</id>
+      		<url>http://download.java.net/maven/2</url>
+    	</repository>
+   
+        
 	</repositories>
+	
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>Maven Snapshots</id>
-			<url>http://snapshots.maven.codehaus.org/maven2</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 
-	<dependencies>
 
-		
+	
+	<dependencies>		
 		<dependency>
 			
 			<groupId>org.nexml.model</groupId>
@@ -341,5 +338,36 @@
      	<artifactId>velocity-tools-view</artifactId>
      	<version>1.1</version>
      </dependency>
-	</dependencies>
+     
+<dependency>
+<groupId>com.sun.jersey</groupId>
+<artifactId>jersey-client</artifactId>
+<version>1.1.5</version>
+</dependency>
+
+<dependency>
+<groupId>com.sun.jersey</groupId>
+<artifactId>jersey-server</artifactId>
+<version>1.1.5</version>
+</dependency>
+
+<dependency>
+<groupId>com.sun.jersey.contribs</groupId>
+<artifactId>jersey-multipart</artifactId>
+<version>1.1.5</version>
+</dependency>
+
+<dependency>
+<groupId>com.sun.jersey</groupId>
+<artifactId>jersey-bundle</artifactId>
+<version>1.1.5</version>
+</dependency>
+
+<dependency>
+<groupId>javax.ws.rs</groupId>
+<artifactId>jsr311-api</artifactId>
+<version>1.0</version>
+</dependency>
+</dependencies>
+		
 </project>
