@@ -21,7 +21,12 @@ public class ProcessUserController implements Controller {
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
-		String importKey = (String)request.getSession().getAttribute("importKey");
+		String importKey = null;
+		if(request.getParameter("importKey") != null){
+               importKey = (String)request.getAttribute("importKey");
+		       request.getSession().setAttribute("importKey",importKey);
+		}
+		
 		if (importKey != null && importKey.length()>0) {
 
 			return new ModelAndView("redirect:/user/studyForm.html");

@@ -2,6 +2,7 @@
 package org.cipres.treebase.web.controllers;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
@@ -127,32 +128,41 @@ public class StudyFormController extends BaseFormController {
 			ControllerUtil.saveStudy(request, submission.getStudy());
 
 		} else if(importKey != null && importKey.length()>0){
-			
-			String uploadDir = getServletContext()
-			.getRealPath(TreebaseUtil.FILESEP + "DryadUpload")
-			+ TreebaseUtil.FILESEP + importKey;
+			String uploadpath = getServletContext()
+        	.getRealPath(TreebaseUtil.FILESEP + "DryadFileUpload")
+        	+ TreebaseUtil.FILESEP +  importKey;			
 			String importStatus="";
-			File bagitPath= new File(uploadDir, "data");
-			if(!bagitPath.exists())importStatus = "NOT FOUND";
-			else{
 			
-				try{
+			File uploadDir=new File(uploadpath);
+			if(!uploadDir.exists()){
+				importStatus = "NOT FOUND";
+				return new ModelAndView(new RedirectView("submissionList.html"));
+			}
+			
+			File[] uploadFiles = uploadDir.listFiles(new FileFilter(){public boolean accept(File file){return file.isDirectory();}}); 			
+			if(uploadDir.length()==0){
+				importStatus = "NOT FOUND";
+				return new ModelAndView(new RedirectView("submissionList.html"));	
+			}
+			File bagitPath = uploadFiles[0];
+			File dataPath = new File(bagitPath, "data");
+			
+			try{
 					Submission submission = mSubmissionService.createSubmission(user, new Study());
-				
-					Citation citation = DryadUtil.createCitation(bagitPath);
+					Citation citation = DryadUtil.createCitation(dataPath);
 					submission.getStudy().setCitation(citation);
 					citation.setStudy(submission.getStudy());
 			
-					Collection<File> files = DryadUtil.getDataFiles(bagitPath);
+					Collection<File> files = DryadUtil.getDataFiles(dataPath);
 					MyProgressionListener listener = new MyProgressionListener();
 					getSubmissionService().addNexusFilesJDBC(submission, files, listener);
 					// save Study object to session
 					ControllerUtil.saveStudy(request, submission.getStudy());
 					importStatus = "OK";
-				}catch (Exception e) {
+			}catch (Exception e) {
 					importStatus = "FAILED";
-				}
 			}
+			
 			request.setAttribute("importStatus", importStatus);
 			//request.getSession().removeAttribute("importKey");
 			return new ModelAndView(new RedirectView("submissionList.html"));
