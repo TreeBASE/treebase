@@ -25,6 +25,7 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.model.MyProgressionListener;
+import org.cipres.treebase.web.util.CitationParser;
 import org.cipres.treebase.web.util.ControllerUtil;
 import org.cipres.treebase.web.util.DryadUtil;
 
@@ -106,28 +107,7 @@ public class StudyFormController extends BaseFormController {
 		String importKey = (String)request.getSession().getAttribute("importKey");
 		request.getSession().removeAttribute("importKey");
 		
-		if (request.getParameter(ACTION_SUBMIT) != null) {
-			// Study must be submitted with citation together
-			// here we are just saving the data to the session
-			// request.getSession().setAttribute(Constants.STUDY_KEY, study);
-
-			// BeanUtils.copyProperties(citationCommand.getCitationMap(citationType),
-			// citationCommand);
-
-			// FIXME citation
-			// Citation c = new ArticleCitation();
-			// c.setStudy(study);
-			// study.setCitation(c);
-
-			// retrieve Study object from session to be submitted with citation
-			// Study study = (Study) request.getSession().getAttribute(Constants.STUDY_KEY);
-			// citationCommand.getCitationMap(citationType).setStudy(study);
-			Submission submission = mSubmissionService.createSubmission(user, study);
-
-			// save Study object to session and remove
-			ControllerUtil.saveStudy(request, submission.getStudy());
-
-		} else if(importKey != null && importKey.length()>0){
+		if(importKey != null && importKey.length()>0){
 			String uploadpath = getServletContext()
         	.getRealPath(TreebaseUtil.FILESEP + "DryadFileUpload")
         	+ TreebaseUtil.FILESEP +  importKey;			
@@ -149,13 +129,14 @@ public class StudyFormController extends BaseFormController {
 			
 			try{
 					Submission submission = mSubmissionService.createSubmission(user, new Study());
-					Citation citation = DryadUtil.createCitation(dataPath);
+					CitationParser cparser= new CitationParser(dataPath);
+					Citation citation = cparser.getCitation();
 					submission.getStudy().setCitation(citation);
 					citation.setStudy(submission.getStudy());
 			
 					Collection<File> files = DryadUtil.getDataFiles(dataPath);
 					MyProgressionListener listener = new MyProgressionListener();
-					getSubmissionService().addNexusFilesJDBC(submission, files, listener);
+					//getSubmissionService().addNexusFilesJDBC(submission, files, listener);
 					// save Study object to session
 					ControllerUtil.saveStudy(request, submission.getStudy());
 					importStatus = "OK";
@@ -167,7 +148,32 @@ public class StudyFormController extends BaseFormController {
 			//request.getSession().removeAttribute("importKey");
 			return new ModelAndView(new RedirectView("submissionList.html"));
 			
-		}else if (request.getParameter(ACTION_UPDATE) != null) {
+		}
+		
+		
+		
+		if (request.getParameter(ACTION_SUBMIT) != null) {
+			// Study must be submitted with citation together
+			// here we are just saving the data to the session
+			// request.getSession().setAttribute(Constants.STUDY_KEY, study);
+
+			// BeanUtils.copyProperties(citationCommand.getCitationMap(citationType),
+			// citationCommand);
+
+			// FIXME citation
+			// Citation c = new ArticleCitation();
+			// c.setStudy(study);
+			// study.setCitation(c);
+
+			// retrieve Study object from session to be submitted with citation
+			// Study study = (Study) request.getSession().getAttribute(Constants.STUDY_KEY);
+			// citationCommand.getCitationMap(citationType).setStudy(study);
+			Submission submission = mSubmissionService.createSubmission(user, study);
+
+			// save Study object to session and remove
+			ControllerUtil.saveStudy(request, submission.getStudy());
+
+		} else if (request.getParameter(ACTION_UPDATE) != null) {
 			mStudyService.update(study);
 		} else if (request.getParameter(ACTION_DELETE) != null) {
 
@@ -208,6 +214,10 @@ public class StudyFormController extends BaseFormController {
 			request.getSession().removeAttribute(Constants.STUDY_MAP);
 			return new Study();
 		}
+		
+		if(request.getSession().getAttribute("importKey") != null)
+			return new Study();
+		
 		// if we are updating a data that's already in the db (access from RHS menu)
 		study = ControllerUtil.findStudy(request, mStudyService);
 		return study;
