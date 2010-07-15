@@ -105,7 +105,7 @@ public class StudyFormController extends BaseFormController {
 		Study study = (Study) command;
 		User user = ControllerUtil.getUser(request, mUserService);
 		String importKey = (String)request.getSession().getAttribute("importKey");
-		request.getSession().removeAttribute("importKey");
+		//request.getSession().removeAttribute("importKey");
 		
 		if(importKey != null && importKey.length()>0){
 			String uploadpath = getServletContext()
