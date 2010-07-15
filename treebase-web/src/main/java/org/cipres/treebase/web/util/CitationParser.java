@@ -56,7 +56,7 @@ public class CitationParser {
 
 		
 	private void loadData(){
-	    
+	
 		Node description = getNode(pubRoot,"description",dcterms);		
 		if(description!=null)citation.setAbstract(description.getText());
 		
@@ -104,11 +104,12 @@ public class CitationParser {
 		}
 		
 		
-		if(getNode(pubRoot,"pubStatus",null).getText()!=null){
+		if(getNode(pubRoot,"pubStatus",null)!=null){
 			if("published".compareToIgnoreCase(getNode(pubRoot,"pubStatus",null).getText())==0)
 		     	citation.setPublished(true);
 		    else citation.setPublished(false);
-		}
+		}		  
+		
 	}
 
 	private Node getNode(Element root, String localName, Namespace namespace){

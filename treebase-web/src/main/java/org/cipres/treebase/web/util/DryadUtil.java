@@ -16,7 +16,7 @@ import org.dom4j.io.*;
 
 public class DryadUtil {
 	
-	public static Collection<File> getDataFiles(File path) {
+	public static List<File> getDataFiles(File path) {
 		// TODO Auto-generated method stub
 		 File[] files = path.listFiles(new FileFilter() {
 	            public boolean accept(File file) {	                 

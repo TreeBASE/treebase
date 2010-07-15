@@ -1,33 +1,24 @@
 
 package org.cipres.treebase.web.controllers;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.Collection;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cipres.treebase.TreebaseUtil;
 import org.apache.log4j.Logger;
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.domain.admin.UserService;
-import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.Constants;
-import org.cipres.treebase.web.model.MyProgressionListener;
-import org.cipres.treebase.web.util.CitationParser;
 import org.cipres.treebase.web.util.ControllerUtil;
-import org.cipres.treebase.web.util.DryadUtil;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * StudyFormController.java
@@ -104,53 +95,6 @@ public class StudyFormController extends BaseFormController {
 
 		Study study = (Study) command;
 		User user = ControllerUtil.getUser(request, mUserService);
-		String importKey = (String)request.getSession().getAttribute("importKey");
-		//request.getSession().removeAttribute("importKey");
-		
-		if(importKey != null && importKey.length()>0){
-			String uploadpath = getServletContext()
-        	.getRealPath(TreebaseUtil.FILESEP + "DryadFileUpload")
-        	+ TreebaseUtil.FILESEP +  importKey;			
-			String importStatus="";
-			
-			File uploadDir=new File(uploadpath);
-			if(!uploadDir.exists()){
-				importStatus = "NOT FOUND";
-				return new ModelAndView(new RedirectView("submissionList.html"));
-			}
-			
-			File[] uploadFiles = uploadDir.listFiles(new FileFilter(){public boolean accept(File file){return file.isDirectory();}}); 			
-			if(uploadDir.length()==0){
-				importStatus = "NOT FOUND";
-				return new ModelAndView(new RedirectView("submissionList.html"));	
-			}
-			File bagitPath = uploadFiles[0];
-			File dataPath = new File(bagitPath, "data");
-			
-			try{
-					Submission submission = mSubmissionService.createSubmission(user, new Study());
-					CitationParser cparser= new CitationParser(dataPath);
-					Citation citation = cparser.getCitation();
-					submission.getStudy().setCitation(citation);
-					citation.setStudy(submission.getStudy());
-			
-					Collection<File> files = DryadUtil.getDataFiles(dataPath);
-					MyProgressionListener listener = new MyProgressionListener();
-					//getSubmissionService().addNexusFilesJDBC(submission, files, listener);
-					// save Study object to session
-					ControllerUtil.saveStudy(request, submission.getStudy());
-					importStatus = "OK";
-			}catch (Exception e) {
-					importStatus = "FAILED";
-			}
-			
-			request.setAttribute("importStatus", importStatus);
-			//request.getSession().removeAttribute("importKey");
-			return new ModelAndView(new RedirectView("submissionList.html"));
-			
-		}
-		
-		
 		
 		if (request.getParameter(ACTION_SUBMIT) != null) {
 			// Study must be submitted with citation together
@@ -214,10 +158,7 @@ public class StudyFormController extends BaseFormController {
 			request.getSession().removeAttribute(Constants.STUDY_MAP);
 			return new Study();
 		}
-		
-		if(request.getSession().getAttribute("importKey") != null)
-			return new Study();
-		
+						
 		// if we are updating a data that's already in the db (access from RHS menu)
 		study = ControllerUtil.findStudy(request, mStudyService);
 		return study;

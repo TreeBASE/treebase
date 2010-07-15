@@ -21,8 +21,10 @@
 	<!-- LIST OF CONTROLLERS FOR WEB-TIER							-->
 	<!-- ========================================================== -->
 	
-	<bean id="processUserController" class="org.cipres.treebase.web.controllers.ProcessUserController"/>
-		
+	<bean id="processUserController" class="org.cipres.treebase.web.controllers.ProcessUserController">
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="userService"><ref bean="userService"></ref></property>
+	</bean>
 	<bean id="anyObjectAsRDFController" class="org.cipres.treebase.web.controllers.AnyObjectAsRDFController">
 		<property name="studyService"><ref bean="studyService"></ref></property>	
 	</bean>
