@@ -113,7 +113,7 @@ public class CitationParser {
 	}
 
 	private Node getNode(Element root, String localName, Namespace namespace){
-        if(namespace==null)return root.element(new QName(localName));
+        if(namespace==null)return root.element(localName);
 		return root.element(new QName(localName, namespace));
 	}
 

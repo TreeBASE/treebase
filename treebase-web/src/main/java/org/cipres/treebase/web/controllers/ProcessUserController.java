@@ -87,7 +87,7 @@ public class ProcessUserController implements Controller {
 			        CitationParser cparser= new CitationParser(dataPath);
 			        Citation citation = cparser.getCitation();
 					Study study = new Study();
-					
+					study.setName(bagitPath.getName());
 					study.setCitation(citation);					
 			        citation.setStudy(study);					
 					Submission submission = mSubmissionService.createSubmission(user, study);
