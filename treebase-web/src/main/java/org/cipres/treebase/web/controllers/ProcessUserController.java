@@ -70,14 +70,14 @@ public class ProcessUserController implements Controller {
 			File uploadDir=new File(uploadpath);
 			if(!uploadDir.exists()){
 				importStatus = "NOT FOUND";
-				request.setAttribute("importStatus", importStatus);
+				request.getSession().setAttribute("importStatus", importStatus);
 				return new ModelAndView("redirect:/user/submissionList.html");
 			}
 			
 			File[] uploadFiles = uploadDir.listFiles(new FileFilter(){public boolean accept(File file){return file.isDirectory();}}); 			
 			if(uploadFiles.length==0){
 				importStatus = "NOT FOUND";
-				request.setAttribute("importStatus", importStatus);
+				request.getSession().setAttribute("importStatus", importStatus);
 				return new ModelAndView("redirect:/user/submissionList.html");
 			}
 			File bagitPath = uploadFiles[0];
@@ -108,7 +108,7 @@ public class ProcessUserController implements Controller {
 					importStatus = "FAILED";
 			}
 			
-			request.setAttribute("importStatus", importStatus);
+			request.getSession().setAttribute("importStatus", importStatus);
 			request.getSession().removeAttribute("importKey");			
 			return new ModelAndView("redirect:/user/submissionList.html");
 			
