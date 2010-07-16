@@ -197,7 +197,7 @@ public class Person extends AbstractPersistedObject {
 		fullNameCitationStyle.append(getFirstName().trim().substring(0, 1).toUpperCase()).append(
 			".");
 
-		if (getMiddleName().trim() != null && getMiddleName().trim().length() > 0) {
+		if (getMiddleName() != null && getMiddleName().trim().length() > 0) {
 
 			fullNameCitationStyle
 				.append(getMiddleName().trim().substring(0, 1).toUpperCase()).append(".");
