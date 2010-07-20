@@ -61,7 +61,7 @@ public class CitationParser {
 		if(description!=null)citation.setAbstract(description.getText());
 		
 		Node identifier = getNode(pubRoot,"identifier",dcterms);		
-		if(identifier!=null)citation.setDoi(identifier.getText());;
+		if(identifier!=null)citation.setDoi(identifier.getText().replaceAll("doi:", ""));
 		
 	    Node title = getNode(pubRoot,"title",dcterms);		
 	    if(title!=null)citation.setTitle(title.getText());
@@ -90,7 +90,13 @@ public class CitationParser {
 		    String []names = al.get(i).getText().split(",");
 			if(names.length >1 ){
 				Person p = new Person ();
-				p.setFirstName(names[1]);
+				names[1]=names[1].trim();
+				if(!(names[1].contains(" ")))p.setFirstName(names[1]);
+				else {					
+					
+					p.setFirstName(names[1].trim().substring(0,names[1].indexOf(" ")));
+					p.setMiddleName(names[1].trim().substring(names[1].indexOf(" ")));
+				}
 				p.setLastName(names[0]);
 				citation.addAuthor(p);
 			}

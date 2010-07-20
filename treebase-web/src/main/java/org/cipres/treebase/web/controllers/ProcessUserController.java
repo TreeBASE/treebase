@@ -96,7 +96,7 @@ public class ProcessUserController implements Controller {
 			        for(int i=0; i<files.size(); i++ )
 			        	submission.getStudy().addNexusFile(files.get(i).getName(), "NEXUS");			        	
 					MyProgressionListener listener = new MyProgressionListener();
-					//getSubmissionService().addNexusFilesJDBC(submission, files, listener);
+					getSubmissionService().addNexusFilesJDBC(submission, files, listener);
 					
 					// save Study object to session					
 					//mSubmissionService.save(submission);
