@@ -38,7 +38,7 @@ public class DryadImportor {
 public String processMultiparts(MultiPart multiPart) { 
        
         String ip = httpRequest.getRemoteAddr();
-    	if(!AllowIP.isAllowIP(ip))return "client " + ip + " is not authorized"; 
+    	//if(!AllowIP.isAllowIP(ip))return "client " + ip + " is not authorized"; 
     	
         BodyPartEntity bpe = (BodyPartEntity) multiPart.getBodyParts().get(0).getEntity();  
         File unzipFold;
@@ -92,7 +92,6 @@ class AllowIP{
 	private static final String yale2 = "130.132.27.212";
     
 	static boolean isAllowIP(String ip){
-		
 		if (ip.compareTo(dryad1)==0) return true;
 		if (ip.compareTo(dryad2)==0) return true;
 		if (ip.compareTo(yale1)==0)return true;
