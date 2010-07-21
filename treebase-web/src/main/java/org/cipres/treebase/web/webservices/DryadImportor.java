@@ -11,6 +11,7 @@ import java.io.StringWriter;
  
 import com.sun.jersey.multipart.*;   
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpUtils;
 import javax.ws.rs.Consumes; 
 //import javax.ws.rs.POST;
 import javax.ws.rs.PUT; 
@@ -76,7 +77,7 @@ public String processMultiparts(MultiPart multiPart) {
 			e.printStackTrace(new PrintWriter(sw));
 			return sw.getBuffer().toString();  
 		}         
-		String[] baseURL=httpRequest.getRequestURL().toString().split("handshaking");
+		String[] baseURL=HttpUtils.getRequestURL(httpRequest).toString().split("handshaking");
         String importURL= baseURL[0] + "login.jsp?importKey=" + systemTime;
      
         return importURL; 
