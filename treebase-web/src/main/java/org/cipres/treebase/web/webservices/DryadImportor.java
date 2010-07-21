@@ -38,7 +38,7 @@ public class DryadImportor {
 public String processMultiparts(MultiPart multiPart) { 
        
         String ip = httpRequest.getRemoteAddr();
-    	if(!AllowIP.isAllowIP(ip))return "not authorized"; 
+    	if(!AllowIP.isAllowIP(ip))return "client " + ip + " is not authorized"; 
     	
         BodyPartEntity bpe = (BodyPartEntity) multiPart.getBodyParts().get(0).getEntity();  
         File unzipFold;
