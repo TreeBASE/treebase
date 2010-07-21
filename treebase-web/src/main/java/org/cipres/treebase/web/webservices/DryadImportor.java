@@ -38,7 +38,8 @@ public class DryadImportor {
 public String processMultiparts(MultiPart multiPart) { 
        
         String ip = httpRequest.getRemoteAddr();
-    	//if(!AllowIP.isAllowIP(ip))return "client " + ip + " is not authorized"; 
+    	// apache server re-write the ip to 127.0.0.1
+        //if(!AllowIP.isAllowIP(ip))return "client " + ip + " is not authorized"; 
     	
         BodyPartEntity bpe = (BodyPartEntity) multiPart.getBodyParts().get(0).getEntity();  
         File unzipFold;
@@ -75,7 +76,9 @@ public String processMultiparts(MultiPart multiPart) {
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
 			return sw.getBuffer().toString();  
-		}         
+		} 
+		
+		// apache server re-write the application path to localhost 
 		//String[] baseURL=httpRequest.getRequestURL().toString().split("handshaking");
         String importURL= "BASEURL" + "/login.jsp?importKey=" + systemTime;
      
