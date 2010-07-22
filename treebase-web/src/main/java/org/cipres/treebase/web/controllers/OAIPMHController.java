@@ -243,8 +243,8 @@ public class OAIPMHController extends AbstractCommandController{
 		    	map.put("description",IdentifyUtil.escape4XML(study.getId(),study.getNotes()));
 			map.put("publisher", IdentifyUtil.escape4XML(study.getId(),publisher));						
 			map.put("date", "published on "+citation.getPublishYear());
-			map.put("identifier", "TreeBASE.org/study/TB2:s"+study.getId());
-			map.put("datestamp", study.getReleaseDate());
+			map.put("identifier", "purl.org/phylo/treebase/phylows/study/TB2:S"+study.getId());
+			map.put("datestamp", study.getLastModifiedDate());
 			
 			}catch(Exception e){
 				//study 253 citation= null, data should be fixed 
