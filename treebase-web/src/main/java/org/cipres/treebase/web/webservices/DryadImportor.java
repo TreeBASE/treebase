@@ -78,9 +78,10 @@ public String processMultiparts(MultiPart multiPart) {
 			return sw.getBuffer().toString();  
 		} 
 		
+		String BASEURL = TreebaseUtil.getSiteUrl();
 		// apache server re-write the application path to localhost 
 		//String[] baseURL=httpRequest.getRequestURL().toString().split("handshaking");
-        String importURL= "BASEURL" + "/login.jsp?importKey=" + systemTime;
+        String importURL= BASEURL + "login.jsp?importKey=" + systemTime;
      
         return importURL; 
   
