@@ -241,7 +241,7 @@ public class OAIPMHController extends AbstractCommandController{
 		    else
 		    	map.put("description",study.getNotes());
 			map.put("publisher", publisher);						
-			map.put("date", "published on "+citation.getPublishYear());
+			map.put("date", citation.getPublishYear());
 			map.put("identifier", "TreeBASE.org/study/TB2:s"+study.getId());
 			map.put("datestamp", study.getReleaseDate());
 			
