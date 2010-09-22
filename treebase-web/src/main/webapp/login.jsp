@@ -101,6 +101,10 @@ or your tree block &quot;Set of 5 MP Trees from COI Analysis&quot;</li>
 <body id="info"/>
 
 <!-- loginForm.jsp -->
+<%-- VG: delete this after TB disk move --%>
+<b>Logging into Treebase is currently disabled in order to perform necessary maintenance. Please try again a few hours later.  We expect logins re-enabled by noon 24 September 2010, or earlier.</b> 
+<%-- VG: restore this after TB disk move
 <c:import url="/WEB-INF/pages/loginForm.jsp"/>
+--%>
 <!-- password -->
 <p>Forgot your password? Have your <a href="<c:url value="passwordForm.html"/>">password e-mailed to you</a></p>
