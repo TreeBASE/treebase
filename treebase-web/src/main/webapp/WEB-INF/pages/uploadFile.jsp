@@ -28,12 +28,8 @@ function show_or_hide(layer_ref, state) {
 Please limit the number of trees you upload for parsing to  ~30, otherwise  large numbers of trees resulting from the 
 same analysis will overwhelm the user experience in TreeBASE's search interface with what are largley redudant trees. 
 If you have a large number of trees, please either select a few preferred trees and upload those for parsing, or upload 
-a consensus tree. Keep in mind that users will be able to download your original, un-parsed upload file, so if you have 
-a 10,000-tree posterior distribution that you would like to make available, consider creating two tree blocks: one with 
-the majority rule consensus tree, and the other with the 10,000 trees Ñ but instead of writing 
-&quot;BEGIN TREES;&quot; [...] &quot;END;&quot; put something like &quot;BEGIN EXTRATREES;&quot; [...] &quot;END;&quot;. 
-This allows a large batch of trees to be made available to users but they won't actually be parsed into TreeBASE, and 
-thus they won't  overwhelm the user experience.  </p>	
+a consensus tree. For information on making large numbers of trees available to users, please see the help 
+<a href="#" class="openHelp" onclick="openHelp('uploadFile')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>.</p>	
 <!--form method="post" enctype="multipart/form-data" onsubmit="setTimeout('queryStatus()', 200);"-->
 <!-- Line above is needed to show the actal amount of data uploaded using Ajax -->
 <!-- Since we are not ready for it that is why line is commented -->
