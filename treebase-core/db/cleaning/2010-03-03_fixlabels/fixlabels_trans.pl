@@ -15,17 +15,9 @@ use DBI;
 # constraint that taxonlabel_id in sub_taxonlabel be unique. Instead, we delete any 
 # sub_taxonlabel records that have a taxonlabel_id that is determined to be redundant. 
 
-# For a local database:
-
-my $database = "tb2synops";
-my $username = "piel";
+my $database = "";
+my $username = "treebase_app";
 my $password = "";
-
-# For the remote database, uncomment this (and also uncomment line 142):
-
-# my $database = "treebasedev";
-# my $username = "treebase_app";
-# my $password = "tim5tema";
 
 
 my $dbh = &ConnectToPg($database, $username, $password);
@@ -155,7 +147,7 @@ sub ConnectToPg {
 	
 	$cstr = "DBI:Pg:dbname="."$cstr";
 	# uncomment this to run against the server at NESCent:
-	# $cstr .= ";host=treebasedb-dev.nescent.org";
+	$cstr .= ";host=treebasedb-dev.nescent.org";
 
 	
 	my $dbh = DBI->connect($cstr, $user, $pass, {AutoCommit => 0, PrintError => 1, RaiseError => 1});
