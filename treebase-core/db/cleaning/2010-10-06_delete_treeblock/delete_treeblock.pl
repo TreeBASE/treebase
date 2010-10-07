@@ -56,17 +56,17 @@ if ( $treeblock_id =~ m/^\d+$/ ) {
 				print "Lets attempt to do this ". int($totRec/$sets) ." times in sets of $sets records\n";
 				
 				$statement = "DELETE FROM phylotreenode WHERE phylotree_id IN (
-				   SELECT phylotree_id FROM phylotree WHERE treeblock_id = ? LIMIT $sets 
+				   SELECT phylotree_id FROM phylotree WHERE treeblock_id = ? LIMIT ? 
 				)";
 				
 				my $delete_phylonodes =  $dbh->prepare("$statement");
 
 				foreach my $cnt (1 .. int($totRec/$sets) ) {
-					$delete_phylonodes->execute( $treeblock_id );
+					$delete_phylonodes->execute( $treeblock_id, $sets );
 					print "Deletion $cnt for batch of $sets phylotreenode records \n";
 				}
 				# one more for good measure
-				$delete_phylonodes->execute( $treeblock_id );
+				$delete_phylonodes->execute( $treeblock_id, $totRec );
 
 				# taxonlabels are referenced by nodes, matrix rows, taxon blocks *and* submissions 
 				# let's remove the connection to submissions. This assumes that there are no matrices 
