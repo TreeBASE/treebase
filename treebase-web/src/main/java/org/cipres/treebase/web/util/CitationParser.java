@@ -19,7 +19,10 @@ public class CitationParser {
 	private static final Namespace xs = new Namespace("xs","http://www.w3.org/2001/XMLSchema");
 	private static final Namespace dwc= new Namespace("dwc", "http://rs.tdwg.org/dwc/terms/");
 	private static final Namespace dcterms= new Namespace("dcterms", "http://purl.org/dc/terms/");
-	private static final Namespace prism= new Namespace("prism", "http://prismstandard.org/namespaces/basic/2.0/");
+	
+	//VG 2010-11-18 fixing SF:3089438 - extracting journal name from bagit metadata
+	//-- private static final Namespace prism= new Namespace("prism", "http://prismstandard.org/namespaces/basic/2.0/");
+	private static final Namespace bibo = new Namespace("bibo", "http://purl.org/ontology/bibo/"); 
 
 	private Element pubRoot;
 	private Element pkgRoot;
@@ -66,7 +69,9 @@ public class CitationParser {
 	    Node title = getNode(pubRoot,"title",dcterms);		
 	    if(title!=null)citation.setTitle(title.getText());
 		
-		Node issueIdentifier = getNode(pubRoot,"issueIdentifier",prism);		
+//VG 2010-11-18 fixing SF:3089438 - extracting journal name from bagit metadata
+/*--
+	    Node issueIdentifier = getNode(pubRoot,"issueIdentifier",prism);		
 		if(issueIdentifier!=null)citation.setIssue(issueIdentifier.getText());
 		
 		Node publicationName = getNode(pubRoot,"publicationName",prism);		
@@ -77,7 +82,27 @@ public class CitationParser {
 		
 		Node pageRange = getNode(pubRoot,"pageRange",prism);		
 		if(pageRange!=null)citation.setPages(pageRange.getText());						
-	
+*/		
+		Node journal = getNode(pubRoot,"Journal",bibo);	
+		if (journal!=null) citation.setJournal(journal.getText());
+		
+		Node volume = getNode(pubRoot,"volume",bibo);		
+		if (volume!=null) citation.setVolume(volume.getText());		
+		
+		Node issue = getNode(pubRoot,"Issue",bibo);		
+		if (issue!=null) citation.setIssue(issue.getText());
+		
+		Node pages = getNode(pubRoot,"pages",bibo);		
+		Node pageStart = getNode(pubRoot,"pageStart",bibo);		
+		Node pageEnd = getNode(pubRoot,"pageEnd",bibo);	
+		if (pages != null) 
+			citation.setPages(pages.getText()); 
+		else if (pageStart != null && pageEnd != null) 
+			citation.setPages(pageStart.getText() + "-" + pageEnd.getText()); 
+//end VG 2010-11-18		
+		
+		
+		
 		List<Node> kl = getNodes(pkgRoot,"subject",dcterms);
 		String keywords="";
 		for(int i = 0; i<kl.size(); i++) {
@@ -103,8 +128,8 @@ public class CitationParser {
 		}		
 		
 		try{
-		    int issue = Integer.parseInt(getNode(pubRoot,"issued",dcterms).getText());
-		    citation.setPublishYear(issue);			
+		    int issued = Integer.parseInt(getNode(pubRoot,"issued",dcterms).getText());
+		    citation.setPublishYear(issued);			
 		}catch(Exception e){
 			
 		}
