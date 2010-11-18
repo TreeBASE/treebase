@@ -29,7 +29,8 @@ public class DryadUtil {
 			 
 			 File[] nexus = files[i].listFiles(new FilenameFilter() {
 		            public boolean accept(File file, String name) {
-		            boolean ret = (name.endsWith("nexus")); 
+		            boolean ret = name.endsWith("nexus")
+		            		   || name.endsWith("nex"); 
 		            return ret;
 		     }});
 			 

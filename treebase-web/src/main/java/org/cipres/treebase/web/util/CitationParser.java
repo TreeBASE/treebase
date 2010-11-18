@@ -101,8 +101,6 @@ public class CitationParser {
 			citation.setPages(pageStart.getText() + "-" + pageEnd.getText()); 
 //end VG 2010-11-18		
 		
-		
-		
 		List<Node> kl = getNodes(pkgRoot,"subject",dcterms);
 		String keywords="";
 		for(int i = 0; i<kl.size(); i++) {
