@@ -18,9 +18,18 @@
 <dc:creator>${person.lastName}, ${person.firstName}</dc:creator>
 #end 
 #end     
+## VG 2010-11-17  fixing SF:3079602 (multiple keywords into multiple <dc:subject> elements)
+#*--
 #if($record.subject)
 <dc:subject>${record.subject}</dc:subject> 
 #end 
+*#
+#if($record.subject)
+#foreach ($keyword in $record.subject)
+<dc:subject>${keyword}</dc:subject> 
+#end
+#end 
+## end VG 2010-11-17 
 #if($record.description)
 <dc:description>${record.description}</dc:description>
 #end 

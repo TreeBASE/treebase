@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -233,8 +234,10 @@ public class OAIPMHController extends AbstractCommandController{
 			 
 		
 			map.put("title", IdentifyUtil.escape4XML(study.getId(),citation.getTitle()));
-			map.put("creator", authors);			
-			map.put("subject", IdentifyUtil.escape4XML(study.getId(),citation.getKeywords()));
+			map.put("creator", authors);	
+			//VG 2010-11-17  fixing SF:3079602 (multiple keywords into multiple <dc:subject> elements)
+			//--map.put("subject", IdentifyUtil.escape4XML(study.getId(),citation.getKeywords()));
+			map.put("subject", splitKeywords(study.getId(),citation.getKeywords())); 
 		    if(study.getName()!=null&study.getNotes()!=null)			
 		    	map.put("description", IdentifyUtil.escape4XML(study.getId(),study.getName()+" "+study.getNotes()));
 		    else if(study.getNotes()==null)
@@ -262,6 +265,21 @@ public class OAIPMHController extends AbstractCommandController{
 			
 			return map;
 		}  
+		
+		//VG 2010-11-17  fixing SF:3079602 (multiple keywords into multiple <dc:subject> elements)
+		private List<String> splitKeywords(long study_id, String kwstring) {
+			List<String> kwlist = new java.util.ArrayList<String>(); 
+			if (null == kwstring) return kwlist; 
+			StringTokenizer tokenizer = new StringTokenizer(kwstring, ",;");
+			while (tokenizer.hasMoreTokens()) {
+				String token = tokenizer.nextToken().trim();               
+				if (!token.equals("")) {
+					kwlist.add(IdentifyUtil.escape4XML(study_id, token));
+				}
+			}	
+			return kwlist; 
+		}
+
 		
 		private List getRecordList(List<Submission> sList)
 		{
