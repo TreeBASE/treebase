@@ -99,6 +99,19 @@
 		</tr>
 		<tr>
 			<td>
+			<p><a href="http://www.blackwellpublishing.com/journal.asp?ref=0962-1083"> 
+			<img class="journal" src="images/journal_files/image021.jpg" alt="Molecular Ecology" /></a></p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Molecular+Ecology%22"
+				title="Find records in TreeBASE for articles published in Molecular Ecology">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Molecular+Ecology%22</a>
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
 			<p><a href="http://www.msafungi.org/"> 
 			<img class="journal" src="images/journal_files/image005.gif" alt="Mycologia" /></a></p>
 			</td>
@@ -226,6 +239,19 @@
 		</tr>
 		<tr>
 			<td>
+			<p><a href="http://currents.plos.org/treeoflife"><img
+				class="journal"
+				src="images/journal_files/image020.jpg" alt="PLoS Currents ToL"/></a></p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22PLoS+Currents:+Tree+of+Life%22"
+				title="Find records in TreeBASE for articles published in PLoS Currents: Tree of Life">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22PLoS+Currents:+Tree+of+Life%22</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
 			<p><a href="http://www.rhodora.org/Rhodora.html"><img
 				class="journal"
 				src="images/journal_files/image014.gif" alt="Rhodora"/></a></p>
@@ -330,8 +356,6 @@
 		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Molecular+Biology+and+Evolution%22"
 		title="Molecular Biology and Evolution">Molecular Biology and
 	Evolution</a>; <a
-		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Molecular+Ecology%22"
-		title="Molecular Ecology">Molecular Ecology</a>; <a
 		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Molecular+Phylogenetics+and+Evolution%22"
 		title="Molecular Phylogenetics and Evolution">Molecular
 	Phylogenetics and Evolution</a>; <a
