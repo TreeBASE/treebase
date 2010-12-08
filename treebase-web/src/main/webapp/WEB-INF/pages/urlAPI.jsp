@@ -22,11 +22,12 @@
 			title="PhyloWS">PhyloWS</a> RESTful API. A detailed description
 			of <a href="https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API"
 			title="TreeBASE's PhyloWS implementation">TreeBASE's PhyloWS
-			implementation</a> is at the TreeBASE wiki.
+			implementation</a> is on the TreeBASE wiki.
 		</li>
 		<li>
 			<a href="http://www.openarchives.org/pmh/" title="OAI-PMH">OAI-PMH</a>
-			harvesting interface, coming soon.
+			metadata harvesting interface is available, though under development. 
+			A detailed description is on the <a href="http://sourceforge.net/apps/mediawiki/treebase/index.php?title=OAI-PMH" title="OAI-PMH">TreeBASE wiki</a>.
 		</li>
 		<li>SQL data dumps, coming soon.</li>
 	</ul>
