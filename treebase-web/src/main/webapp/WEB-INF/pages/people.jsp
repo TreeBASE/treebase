@@ -16,11 +16,6 @@
 					<br/>Deployment Maintainer
 				</td>
 				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Youjun Guo"/>
-					<br/><strong>Youjun Guo</strong>
-					<br/>Developer
-				</td>			
-				<td>
 					<img src="images/people/hlapp.jpeg" width="81" height="108" alt="Hilmar Lapp"/>
 					<br/><strong>Hilmar Lapp</strong>
 					<br/>Deployment Manager
@@ -32,16 +27,21 @@
 					<br/>Prototype Dev
 				</td>
 				<td>
-					<img src="http://www.treebase.org/treebase-web/images/people/jping.jpg" width="81" height="108" alt="Junli Ping"/>
+					<img src="images/people/jping.jpg" width="81" height="108" alt="Junli Ping"/>
 					<br/><strong>Junli Ping</strong>
+					<br/>Metadata Editor
+				</td>
+				<td>
+					<img src="images/people/mplaza.jpg" width="81" height="108" alt="Melanie Plaza"/>
+					<br/><strong>Melanie Plaza</strong>
 					<br/>Metadata Editor
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<img src="http://www.treebase.org/treebase-web/images/people/mplaza.jpg" width="81" height="108" alt="Melanie Plaza"/>
-					<br/><strong>Melanie Plaza</strong>
-					<br/>Metadata Editor
+					<img src="images/people/hshyket.gif" width="81" height="108" alt="Harry Shyket"/>
+					<br/><strong>Harry Shyket</strong>
+					<br/>Developer
 				</td>
 				<td>
 					<img src="images/people/vtannen.jpeg" width="81" height="108" alt="Val Tannen"/>
@@ -107,6 +107,11 @@
 			</td>
 		</tr>
 		<tr>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Youjun Guo"/>
+					<br/><strong>Youjun Guo</strong>
+					<br/>Developer
+				</td>			
 			<td>
 				<img src="images/people/anon.jpg" width="81" height="108" alt="Chris Henze"/>
 				<br/><strong>Chris Henze</strong>
@@ -133,19 +138,43 @@
 				<br/><strong>Can van Tran</strong>
 				<br/>Developer
 			</td>
+		</tr>
+		<tr>
 			<td>
 				<img src="images/people/anon.jpg" width="81" height="108" alt="Tracy Zhao"/>
 				<br/><strong>Tracy Zhao</strong>
 				<br/>Developer
 			</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
+				<td>
+					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
+					<br/><strong>Volunteeers?</strong>
+					<br/>Please sign up!
+				</td>
 		</tr>
 	</table>
 	
 	<h2>Phyloinformatics Research Foundation Inc, Board</h2>
 	<ul>
-		<li>Michael Donoghue</li>
-		<li>David Maddison</li>
-		<li>William Piel</li>
-		<li>Val Tannen</li>		
+		<li>See <a href="http://www.phylorf.org" title="Phyloinformatics Research Foundation Inc">here</a> for the list of officers and members of the board.</li>		
 	</ul>
 </div>
