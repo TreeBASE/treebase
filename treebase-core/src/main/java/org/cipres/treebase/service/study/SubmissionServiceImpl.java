@@ -934,6 +934,12 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 
 		return getSubmissionHome().findByCreateDateRange(from, until);
 	}
+	
+	public Collection<Submission> findSubmissionByLastModifiedDateRange(Date from, Date until) {
+		
+
+		return getSubmissionHome().findByLastModifiedDateRange(from, until);
+	}
 
 	
 	

@@ -72,4 +72,5 @@ public interface SubmissionHome extends DomainHome {
 
 	Collection<Submission> findByInProgressState();
 	Collection<Submission> findByCreateDateRange(Date from, Date until);
+	Collection<Submission> findByLastModifiedDateRange(Date from, Date until);
 }

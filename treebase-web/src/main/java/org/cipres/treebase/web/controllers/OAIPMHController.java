@@ -122,7 +122,7 @@ public class OAIPMHController extends AbstractCommandController{
 			
 			List<Submission> list=null;
 			try {
-				list = (List)submissionService.findSubmissionByCreateDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getModifiedFrom()), 
+				list = (List)submissionService.findSubmissionByLastModifiedDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getModifiedFrom()), 
 						IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getModifiedUntil()));
 			} catch (ParseException e) {
 				model.put("error_code", "badArgument");
@@ -139,7 +139,7 @@ public class OAIPMHController extends AbstractCommandController{
 			
 			List<Submission> list=null;
 			try {
-				list = (List)submissionService.findSubmissionByCreateDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getModifiedFrom()), 
+				list = (List)submissionService.findSubmissionByLastModifiedDateRange(IdentifyUtil.parseGranularity(identify.getGranularityPattern(),params.getModifiedFrom()), 
 						IdentifyUtil.parseGranularity(identify.getGranularityPattern(), params.getModifiedUntil()));
 			} catch (ParseException e) {
 				model.put("error_code", "badArgument");

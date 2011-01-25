@@ -184,6 +184,24 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 		}
 	}
 	
+	public void testFindByLastModifiedDateRange() {
+		String testName = "testFindByLastModifiedDateRange";
+		if (logger.isInfoEnabled()) {
+			logger.info("\n\t\tRunning Test: " + testName);
+		}
+		
+		Date from = (new GregorianCalendar(2011,1,1)).getTime();
+		Date until = (new GregorianCalendar(2011,3,1)).getTime();
+		
+		Collection<Submission> s = getFixture().findByLastModifiedDateRange(from, until);
+		
+		
+		
+		assertTrue(s.size() > 0);
+		if (logger.isInfoEnabled()) {
+			logger.info("\n\t\tRunning Test: found " + s.size());
+		}
+	}	
 	
 }
 

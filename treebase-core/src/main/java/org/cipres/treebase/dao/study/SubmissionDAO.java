@@ -192,6 +192,16 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 		q.setDate("end", until);
 		return q.list();
 	}
+	
+	public Collection<Submission> findByLastModifiedDateRange(Date from, Date until) {
+		Query q = getSession().createQuery(
+		"from Submission sub where sub.study.lastModifiedDate between :begin and :end");
+
+		q.setDate("begin", from);
+		q.setDate("end", until);
+		return q.list();
+
+	}
 
 	public Submission findByStudyID(Long pID) {
 		// TODO Auto-generated method stub
