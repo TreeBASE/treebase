@@ -45,7 +45,7 @@
 	</display:column>
 	
 	<display:column class="iconColumn noBreak" headerClass="iconColumn" sortable="false">
-		<c:if test="${study.citation.doi != null}">
+		<c:if test="${not empty study.citation.doi}">
 			<c:set var="DOIResource" value="${DOIResolver}${study.citation.doi}"/>
 			<a href="${DOIResource}" target="_blank">
 			<img class="iconButton" src="<fmt:message key="icons.weblink"/>" />
