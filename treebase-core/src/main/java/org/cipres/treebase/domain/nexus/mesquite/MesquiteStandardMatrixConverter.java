@@ -507,7 +507,10 @@ public class MesquiteStandardMatrixConverter extends MesquiteMatrixConverter {
 		}
 
 		discreteMatrixJDBC.batchUpdateRowSymbol(pCon);
-		DiscreteMatrixElementJDBC.batchDiscreteElements(elements, pCon);
+		if (!(discreteMatrixJDBC.getCharacterMatrix().getDataType().isSequence())
+			&& !(discreteMatrixJDBC.getCharacterMatrix().getDataType().isStandard())) {
+			DiscreteMatrixElementJDBC.batchDiscreteElements(elements, pCon);
+		}
 	}
 
 	/**
