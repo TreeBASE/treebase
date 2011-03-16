@@ -28,6 +28,23 @@
 		</tr>
 		<tr>
 			<td>
+				<p><a href="http://www.amjbot.org/"
+					title="American Journal of Botany"> 
+						<img class="journal"
+						src="images/journal_files/image022.gif" alt="AJB"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22American%20Journal%20of%20Botany%22"
+				title="Find records in TreeBASE for articles published in the American Journal of Botany">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22American%20Journal%20of%20Botany%22
+			</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
 				<p><a href="http://www.wiley.com/bw/journal.asp?ref=0014-3820"
 					title="Evolution"> 
 						<img class="journal"
@@ -332,8 +349,6 @@
 	</table>
 	
 	<p><b>Other Journals with a Significant Presence in TreeBASE</b>: <a
-		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%2American+Journal+of+Botany%22"
-		title="American Journal of Botany">American Journal of Botany</a>; <a
 		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Annals+of+the+Missouri+Botanical+Garden%22"
 		title="Annals of the Missouri Botanical Garden">Annals of the
 	Missouri Botanical Garden</a>; <a
