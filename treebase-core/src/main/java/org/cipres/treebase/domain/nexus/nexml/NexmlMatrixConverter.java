@@ -358,9 +358,9 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			ContinuousMatrix tbMatrix) {
 		List<org.nexml.model.Character> characterList = xmlMatrix.getCharacters();
 		OTUs xmlOTUs = xmlMatrix.getOTUs();
-		for ( MatrixRow row : tbMatrix.getRowsReadOnly() ) {
-			List<MatrixElement> elements = row.getElements();
-			OTU xmlOTU = getOTUById(xmlOTUs, row.getTaxonLabel().getId());
+		for ( MatrixRow tbRow : tbMatrix.getRowsReadOnly() ) {			
+			List<MatrixElement> elements = tbRow.getElements();
+			OTU xmlOTU = getOTUById(xmlOTUs, tbRow.getTaxonLabel().getId());
 			if ( characterList.size() <= MAX_GRANULAR_NCHAR && xmlOTUs.getAllOTUs().size() <= MAX_GRANULAR_NTAX ) {
 				for ( int elementIndex = 0; elementIndex < tbMatrix.getnChar(); elementIndex++ ) {
 					ContinuousMatrixElement tbCell = (ContinuousMatrixElement)elements.get(elementIndex);
@@ -370,9 +370,20 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 				}
 			}
 			else {
-				String seq = row.buildElementAsString();
+				String seq = tbRow.buildElementAsString();
 				xmlMatrix.setSeq(seq,xmlOTU);
 			}
+			Set<RowSegment> tbSegments = tbRow.getSegmentsReadOnly();
+			for ( RowSegment tbSegment : tbSegments ) {
+				Double latitude = tbSegment.getSpecimenLabel().getLatitude();
+				Double longitude = tbSegment.getSpecimenLabel().getLongitude();
+				if ( null != latitude ) {
+					xmlOTU.addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, latitude);
+				}
+				if ( null != longitude ) {
+					xmlOTU.addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, longitude);
+				}
+			}			
 		}		
 	}
 	
