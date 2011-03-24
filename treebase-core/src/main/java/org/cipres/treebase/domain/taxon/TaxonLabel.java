@@ -277,7 +277,12 @@ public class TaxonLabel extends AbstractPersistedObject {
 				}
 				if ( null != tv.getTB1LegacyId() ) {
 					annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonVariant.tb1", tv.getTB1LegacyId()));
-				}				
+				}	
+				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonVariant", tv.getId()));
+				Taxon taxon = tv.getTaxon();
+				if ( null != taxon ) {
+					annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxon", taxon.getId()));
+				}
 			}
 		}
 		catch ( Exception e) {
