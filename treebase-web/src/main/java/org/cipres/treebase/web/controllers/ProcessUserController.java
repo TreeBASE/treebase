@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -91,10 +92,24 @@ public class ProcessUserController implements Controller {
 					study.setCitation(citation);					
 			        citation.setStudy(study);					
 					Submission submission = mSubmissionService.createSubmission(user, study);
+					long unixTime = System.currentTimeMillis() / 1000L;
 					
 					List<File> files = DryadUtil.getDataFiles(dataPath);							
-			        for(int i=0; i<files.size(); i++ )
-			        	submission.getStudy().addNexusFile(files.get(i).getName(), "NEXUS");			        	
+			        for(int i=0; i<files.size(); i++ ) {       	
+			        	String copyDir = request.getSession().getServletContext()
+			        	.getRealPath(TreebaseUtil.FILESEP + "NexusFileUpload")
+						+ TreebaseUtil.FILESEP + request.getRemoteUser();
+
+			        	File originalFile = new File(files.get(i).getAbsolutePath());
+			        	File copyFile = new File(copyDir + TreebaseUtil.FILESEP + unixTime + "_" + files.get(i).getName());
+			        	
+			        	FileUtils.copyFile(originalFile, copyFile);
+			        
+			        	files.remove(i);
+			        	files.add(i,copyFile);
+
+			        	submission.getStudy().addNexusFile(files.get(i).getName(), TreebaseUtil.readFileToString(files.get(i)));
+			        }
 					MyProgressionListener listener = new MyProgressionListener();
 					getSubmissionService().addNexusFilesJDBC(submission, files, listener);
 					

@@ -167,13 +167,19 @@ public class UploadFileController extends BaseFormController {
 		List<File> files = new ArrayList<File>();
 
 		String firstFile = null;
+		
+		long unixTime = System.currentTimeMillis() / 1000L;
+			
 		for (FileBean file : getFiles(request)) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER
 					.debug("Uploading file to =>" + uploadDir + TreebaseUtil.FILESEP + file.getName()); //$NON-NLS-1$
 			}
+			
+			file.setName(unixTime + "_" + file.getName());
 
 			File uploadedFile = new File(uploadDir + TreebaseUtil.FILESEP + file.getName());
+
 			FileCopyUtils.copy(file.getData(), uploadedFile);
 			files.add(uploadedFile);
 
