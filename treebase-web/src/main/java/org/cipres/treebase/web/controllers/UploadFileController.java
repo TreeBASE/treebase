@@ -3,6 +3,7 @@ package org.cipres.treebase.web.controllers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -169,14 +170,29 @@ public class UploadFileController extends BaseFormController {
 		String firstFile = null;
 		
 		long unixTime = System.currentTimeMillis() / 1000L;
-			
+		HashMap<String, Integer> filenamesHash = new HashMap<String, Integer>();
+		
 		for (FileBean file : getFiles(request)) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER
 					.debug("Uploading file to =>" + uploadDir + TreebaseUtil.FILESEP + file.getName()); //$NON-NLS-1$
 			}
 			
-			file.setName(unixTime + "_" + file.getName());
+			/* This keeps a hashmap of the files so that going through it knows the count of each file
+        	 * Each file then has a prefix of the count and unix timestamp of the upload
+        	 */
+			
+			int filecount = 1;
+			
+			if (filenamesHash.containsKey(file.getName())) {
+				filecount = filenamesHash.get(file.getName()) + 1;
+        		filenamesHash.put(file.getName(), filecount);
+			}
+			else {
+				filenamesHash.put(file.getName(), filecount);
+			}
+			
+			file.setName(filecount + "_" + unixTime + "_" + file.getName());
 
 			File uploadedFile = new File(uploadDir + TreebaseUtil.FILESEP + file.getName());
 

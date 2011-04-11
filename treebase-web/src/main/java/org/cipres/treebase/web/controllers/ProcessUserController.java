@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Collection;
 import java.util.List;
+import java.util.HashMap;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,14 +96,38 @@ public class ProcessUserController implements Controller {
 					Submission submission = mSubmissionService.createSubmission(user, study);
 					long unixTime = System.currentTimeMillis() / 1000L;
 					
-					List<File> files = DryadUtil.getDataFiles(dataPath);							
-			        for(int i=0; i<files.size(); i++ ) {       	
+					List<File> files = DryadUtil.getDataFiles(dataPath);
+					HashMap<String, Integer> filenamesHash = new HashMap<String, Integer>();
+			        for(int i=0; i<files.size(); i++ ) {
+			        	
+			        	int filecount = 1;
+			        	
+			        	File originalFile = new File(files.get(i).getAbsolutePath());
+			        	
+			        	/* This keeps a hashmap of the files so that going through it knows the count of each file
+			        	 * Each file then has a prefix of the count and unix timestamp of the upload
+			        	 */
+			        	
+			        	if (filenamesHash.containsKey(originalFile.getName())) {
+			        		filecount = filenamesHash.get(originalFile.getName()) + 1;
+			        		filenamesHash.put(originalFile.getName(), filecount);
+			        	}
+			        	else {
+			        		filenamesHash.put(originalFile.getName(), filecount);
+			        	}
+
 			        	String copyDir = request.getSession().getServletContext()
 			        	.getRealPath(TreebaseUtil.FILESEP + "NexusFileUpload")
 						+ TreebaseUtil.FILESEP + request.getRemoteUser();
 
-			        	File originalFile = new File(files.get(i).getAbsolutePath());
-			        	File copyFile = new File(copyDir + TreebaseUtil.FILESEP + unixTime + "_" + files.get(i).getName());
+			        	
+			        	File copyFile = new File(copyDir + 
+			        							TreebaseUtil.FILESEP +
+			        							filenamesHash.get(originalFile.getName()) +
+			        							"_" + 
+			        							unixTime + 
+			        							"_" + 
+			        							files.get(i).getName());
 			        	
 			        	FileUtils.copyFile(originalFile, copyFile);
 			        
