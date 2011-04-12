@@ -91,9 +91,17 @@ public class ProcessUserController implements Controller {
 			        Citation citation = cparser.getCitation();
 					Study study = new Study();
 					study.setName(bagitPath.getName());
-					study.setCitation(citation);					
-			        citation.setStudy(study);					
+					study.setCitation(citation);
+			        citation.setStudy(study);
+
+					study.setNotes("Please enter these author names into the TreeBASE citation " +
+		 					 	   "by clicking on the highlighted \"Authors\" item in the Tool Box." +
+		 					 	   "\n\n" + citation.getAuthorsDryadNotes());
+
+					citation.setAuthors(null);		
+			            
 					Submission submission = mSubmissionService.createSubmission(user, study);
+	
 					long unixTime = System.currentTimeMillis() / 1000L;
 					
 					List<File> files = DryadUtil.getDataFiles(dataPath);

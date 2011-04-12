@@ -470,6 +470,30 @@ public class Citation extends AbstractPersistedObject {
 		getDetailedPublicationInformation(authorsCitationStyle, true);
 		return authorsCitationStyle.toString();
 	}
+	
+	@Transient
+	public String getAuthorsDryadNotes() {
+
+		StringBuilder authorsDryad = new StringBuilder();
+		List<Person> authors = getAuthors();
+		int size = authors.size();
+
+		if (size > 0) {
+
+			for (int i = 0; i < size; i++) {
+				authorsDryad.append(authors.get(i).getLastName());
+				authorsDryad.append(", ");
+				authorsDryad.append(authors.get(i).getFirstName());
+
+				if (size > 1) {
+					authorsDryad.append("\n");
+				}
+			}
+
+		}
+
+		return authorsDryad.toString();
+	}
 
 	@Transient
 	public String getAuthorsCitationStyleWithoutHtml() {
