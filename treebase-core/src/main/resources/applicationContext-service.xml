@@ -243,6 +243,7 @@
                 <property name="taxonHome" ref="taxonHome"/>
                 <property name="taxonLabelHome" ref="taxonLabelHome"/>
                 <property name="userHome" ref="userHome"/>
+                <property name="maxTreeCount" value="${treeblock.trees.max_count}"/>
 			</bean>
 		</property>
 	</bean>

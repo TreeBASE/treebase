@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.dao.jdbc.MatrixJDBC;
@@ -65,6 +68,8 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 	private CitationService mCitationService;
 	private StudyService mStudyService;
 	private NexusService mNexusService;
+	
+	private int mMaxTreeCount;
 
 	/**
 	 * Constructor.
@@ -297,6 +302,23 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 
 		return sub;
 	}
+	
+	/**
+	 * Return the MaxTreeCount field.
+	 * 
+	 * @return MatrixDataTypeHome mMatrixDataTypeHome
+	 */
+	private int getMaxTreeCount() {
+		return mMaxTreeCount;
+	}
+
+	/**
+	 * Set the MaxTreeCount field.
+	 */
+	public void setMaxTreeCount(int maxTreeCount) {
+		mMaxTreeCount = maxTreeCount;
+	}
+
 
 	/**
 	 * 
@@ -680,8 +702,30 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 			// alltrees.addAll(block.getTreeList());
 			// }
 			// getPhyloTreeHome().storeAll(alltrees);
+			
+			
+			//If there are more than the number of trees in getMaxTreeCount trees in a TreeBlock we need to remove them
+			for (TreeBlock treeblock : data.getTreeBlocks()) {
+					if (treeblock.getTreeCount() > getMaxTreeCount()) {
+						Iterator tree = treeblock.getTreeListIterator();
+						int treecount = 1;
+						
+						while(tree.hasNext()) {
+							if (treecount > getMaxTreeCount()) {
+								tree.remove();
+							}
+							tree.next();
+							treecount++;
+						}
+					}
+			}
+			
 			getPhyloTreeHome().storeAll(data.getTreeBlocks());
 			sub.addPhyloTreeBlocks(data.getTreeBlocks());
+			
+			
+			
+		
 			getPhyloTreeHome().flush();
 			update(sub);
 
