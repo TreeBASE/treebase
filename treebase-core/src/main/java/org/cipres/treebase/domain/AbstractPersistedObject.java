@@ -111,10 +111,9 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 	@Transient
 	public List<Annotation> getAnnotations() {
 		// This is called by child classes using super.getAnnotations()
-		// to get the common annotations out of the way
+		// to get the common annotations out of the way. We no longer need
+		// to do owl:sameAs because we use TreeBASE ID strings as XML IDs.
 		List<Annotation> annotations = new ArrayList<Annotation>();
-		URI uri = URI.create(TreebaseUtil.getPurlBase()+getPhyloWSPath());
-		annotations.add(new Annotation(Constants.OWLURI,"owl:sameAs",uri));
 		TBPersistable context = getContext();
 		if ( null != context ) {
 			URI contextUri = URI.create(TreebaseUtil.getPurlBase()+context.getPhyloWSPath());
