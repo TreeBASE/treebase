@@ -5,8 +5,6 @@ import org.apache.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Transient;
-
 import org.cipres.treebase.domain.study.ArticleCitation;
 import org.cipres.treebase.domain.study.BookCitation;
 import org.cipres.treebase.domain.study.Citation;
@@ -101,7 +99,6 @@ public class CitationCommand extends Citation {
 	 * @see org.cipres.treebase.domain.study.Citation#getRealCitationType()
 	 */
 	@Override
-	@Transient
 	protected String getRealCitationType() {
 		return "CitationCommand";
 	}
