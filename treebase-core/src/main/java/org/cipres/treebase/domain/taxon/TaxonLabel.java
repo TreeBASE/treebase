@@ -270,13 +270,15 @@ public class TaxonLabel extends AbstractPersistedObject {
 						if ( ! fullName.equals(taxonName) ) {
 							annotations.add(new Annotation(Constants.SKOSURI, "skos:prefLabel",taxonName));
 						}
-						if ( null != taxon.getTB1LegacyId() ) {
-							annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxon.tb1", taxon.getTB1LegacyId()));
+						Integer tb1LegacyID = taxon.getTB1LegacyId();
+						if ( null != tb1LegacyID && taxon.getId() != tb1LegacyID.longValue() ) {
+							annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxon.tb1", tb1LegacyID.longValue()));
 						}						
 					}					
 				}
-				if ( null != tv.getTB1LegacyId() ) {
-					annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonVariant.tb1", tv.getTB1LegacyId()));
+				Integer tb1TvId = tv.getTB1LegacyId();
+				if ( null != tb1TvId && tv.getId() != tb1TvId.longValue() ) {
+					annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonVariant.tb1", tb1TvId.longValue() ));
 				}	
 				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.taxonVariant", tv.getId()));
 				Taxon taxon = tv.getTaxon();
