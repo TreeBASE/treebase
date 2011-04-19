@@ -26,6 +26,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected URI mTaxonBaseURI = URI.create(mBaseURI.toString() + "taxon/TB2:");
 	protected URI mMatrixBaseURI = URI.create(mBaseURI.toString() + "matrix/TB2:");
 	protected URI mTreeBaseURI = URI.create(mBaseURI.toString() + "tree/TB2:");
+	protected static URI mStudyBaseURI = URI.create(Constants.BaseURI.toString() + "study/TB2:");
 //	private static String mBaseURIString = "http://purl.org/PHYLO/TREEBASE/PHYLOWS/";
 //	private static String mDCIdentifier = "dcterms:identifier";	
 	public static String TreeBASE2Prefix = "TreeBASE2";
@@ -38,8 +39,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 */
 	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document, String baseURI) {
 		if ( null != baseURI ) {
-			mBaseURI = URI.create(baseURI);
-			document.setBaseURI(mBaseURI);
+			document.setBaseURI(URI.create(baseURI));
 		}
 		document.setId(study.getTreebaseIDString().toString());
 		setTaxonLabelHome(taxonLabelHome);
@@ -48,7 +48,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	}
 	
 	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document) {
-		this(study,taxonLabelHome,document,Constants.BaseURI.toString());
+		this(study,taxonLabelHome,document,mStudyBaseURI.toString());
 	}
 
 	
