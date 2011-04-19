@@ -23,6 +23,9 @@ import org.nexml.model.OTUs;
 public class NexmlObjectConverter extends AbstractNexusConverter {
 	private Logger logger = Logger.getLogger(NexmlObjectConverter.class);
 	protected URI mBaseURI = Constants.BaseURI;
+	protected URI mTaxonBaseURI = URI.create(mBaseURI.toString() + "taxon/TB2:");
+	protected URI mMatrixBaseURI = URI.create(mBaseURI.toString() + "matrix/TB2:");
+	protected URI mTreeBaseURI = URI.create(mBaseURI.toString() + "tree/TB2:");
 //	private static String mBaseURIString = "http://purl.org/PHYLO/TREEBASE/PHYLOWS/";
 //	private static String mDCIdentifier = "dcterms:identifier";	
 	public static String TreeBASE2Prefix = "TreeBASE2";
@@ -38,13 +41,14 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 			mBaseURI = URI.create(baseURI);
 			document.setBaseURI(mBaseURI);
 		}
+		document.setId(study.getTreebaseIDString().toString());
 		setTaxonLabelHome(taxonLabelHome);
 		setStudy(study);
 		setDocument(document);
 	}
 	
 	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document) {
-		this(study,taxonLabelHome,document,null);
+		this(study,taxonLabelHome,document,Constants.BaseURI.toString());
 	}
 
 	
@@ -65,10 +69,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 */
 	protected void attachTreeBaseID(Annotatable annotatable,TBPersistable tbPersistable,Class<?> persistableClass) {
 		if ( null != tbPersistable.getId() ) {
-			//attachAnnotation(mDCIdentifier,makeNamespacedID(tbPersistable,persistableClass),mDCURI,annotatable);			
-//			String uriString = getDocument().getBaseURI().toString() + tbPersistable.getPhyloWSPath().toString();
-//			annotatable.addAnnotationValue("owl:sameAs",Constants.OWLURI, URI.create(uriString));
-//			annotatable.addAnnotationValue("dcterms:relation",Constants.DCURI, URI.create(uriString));
+			annotatable.setId(tbPersistable.getTreebaseIDString().toString());
 			for ( org.cipres.treebase.domain.Annotation anno : tbPersistable.getAnnotations() ) {
 				annotatable.addAnnotationValue(anno.getProperty(), anno.getURI(), anno.getValue());
 			}
@@ -93,27 +94,15 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @return
 	 */
 	protected Long readTreeBaseID(Annotatable annotatable) {
-		
-		// this will return the value object associated with a
-		// dc:identifier predicate in a nexml meta annotation,
-		// e.g. <meta property="dc:identifier" content="TB2:Tr231"/>
-		// this will return something that stringifies to TB2:Tr231
-		Set<Object> dublinCoreRelationObjects = annotatable.getRelValues("owl:sameAs");
-		Iterator<Object> objectIterator = dublinCoreRelationObjects.iterator();
-		while ( objectIterator.hasNext() ) {
-			URI relationURI = (URI)objectIterator.next();
-			String urlFragment = getDocument().getBaseURI().toString() + "taxon/TB2:";
-			if ( relationURI.toString().startsWith(urlFragment) ) {
-				String rawTreebaseIDString = relationURI.toString().substring(urlFragment.length());
-				try {
-					TreebaseIDString treebaseIDString = new TreebaseIDString(rawTreebaseIDString);
-					return treebaseIDString.getId();
-				} catch ( MalformedTreebaseIDString e ) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return null;
+		// we no longer need to read owl:sameAs annotations because we
+		// use the TreebaseIDString objects as xml IDs
+		try {
+			TreebaseIDString treebaseIDString = new TreebaseIDString(annotatable.getId());
+			return treebaseIDString.getId();
+		} catch (MalformedTreebaseIDString e) {
+			e.printStackTrace();
+		}				
+		return null;		
 	}
 	
 	protected OTUs getOTUsById(Long taxonLabelSetId) {
