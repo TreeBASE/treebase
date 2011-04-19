@@ -483,7 +483,7 @@ public class TreebaseUtil {
 	 */
 	public static String getPurlBase() {
 		if (null == mPurlBase) 
-			mPurlBase = lookupJndiEnvironmentString("tb2/PurlBase", "http://DUMMY_PURL_BASE/"); 
+			mPurlBase = lookupJndiEnvironmentString("tb2/PurlBase", Constants.BaseURI.toString()); 
 		return mPurlBase; 
 	}
 	
