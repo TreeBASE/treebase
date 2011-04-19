@@ -595,9 +595,15 @@ public class PhyloTreeNode extends AbstractPersistedObject implements TreeNode {
 		return getTaxonLabelAsString();
 	}
 	
+	
+	/*
+	 * If there are no annotations on individual nodes there is no good reason to have them
+	 * be "seen" in the RDF anyway, which they would be if we state them as being defined by
+	 * their containing tree. So let's skip that for now.
 	@Override
 	@Transient
 	public PhyloTree getContext() {
 		return getTree();
 	}
+	*/
 }
