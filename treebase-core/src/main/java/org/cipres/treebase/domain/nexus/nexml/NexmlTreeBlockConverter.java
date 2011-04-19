@@ -99,6 +99,7 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 		TaxonLabelSet taxonLabelSet = treeBlock.getTaxonLabelSet();
 		OTUs xmlOTUs = getOTUsById(taxonLabelSet.getId());
 		org.nexml.model.TreeBlock xmlTreeBlock = getDocument().createTreeBlock(xmlOTUs);
+		xmlTreeBlock.setBaseURI(mTreeBaseURI);
 		if ( null != treeBlock.getTitle() ) {
 			xmlTreeBlock.setLabel(treeBlock.getTitle());
 		}
@@ -143,6 +144,7 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 		}
 		for ( PhyloTreeNode tbChildNode : tbNode.getChildNodes() ) {
 			Node xmlChildNode = xmlTree.createNode();
+			xmlChildNode.setId(tbChildNode.getTreebaseIDString().toString());
 			FloatEdge xmlEdge = xmlTree.createEdge(xmlNode, xmlChildNode);
 			if ( null != tbChildNode.getBranchLength() ) {
 				xmlEdge.setLength(tbChildNode.getBranchLength());
