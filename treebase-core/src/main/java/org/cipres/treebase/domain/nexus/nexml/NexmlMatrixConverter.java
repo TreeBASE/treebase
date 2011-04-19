@@ -171,6 +171,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 	public CategoricalMatrix fromTreeBaseToXml(StandardMatrix tbMatrix) {
 		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
 		CategoricalMatrix xmlMatrix = getDocument().createCategoricalMatrix(xmlOTUs);
+		xmlMatrix.setBaseURI(mMatrixBaseURI);
 		List<List<DiscreteCharState>> tbStateLabels = tbMatrix.getStateLabels();
 		List<MatrixColumn> tbColumns = tbMatrix.getColumnsReadOnly();
 		for ( int i = 0; i < tbColumns.size(); i++ ) {
@@ -219,6 +220,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			xmlMatrix = getDocument().createMolecularMatrix(xmlOTUs, MolecularMatrix.Protein);
 			xmlStateSet = ((MolecularMatrix)xmlMatrix).getProteinCharacterStateSet();
 		}
+		xmlMatrix.setBaseURI(mMatrixBaseURI);
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
 			PhyloChar tbCharacter = tbColumn.getCharacter();
@@ -242,6 +244,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 	public org.nexml.model.ContinuousMatrix fromTreeBaseToXml(ContinuousMatrix tbMatrix) {
 		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
 		org.nexml.model.ContinuousMatrix xmlMatrix = getDocument().createContinuousMatrix(xmlOTUs);
+		xmlMatrix.setBaseURI(mMatrixBaseURI);
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter();
 			PhyloChar tbCharacter = tbColumn.getCharacter();
