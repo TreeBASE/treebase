@@ -42,9 +42,6 @@
 		<property name="studyService"><ref bean="studyService"></ref></property>
 	</bean>
 	
-	<bean id="phyloWSController" class="org.cipres.treebase.web.controllers.PhyloWSController">		 
-	</bean>
-	
 	<bean id="phyloWSStudyController" class="org.cipres.treebase.web.controllers.PhyloWSStudyController">
 		<property name="studyService"><ref bean="studyService"></ref></property>		 
 	</bean>	
@@ -916,7 +913,6 @@
 			<property name="mappings">
 			<props>
 			    <prop key="/top/**">OAIPMHController</prop>
-				<prop key="/phylows/**">phyloWSController</prop>
 				<prop key="/phylows/study/**">phyloWSStudyController</prop>
 				<prop key="/phylows/taxon/**">phyloWSTaxonController</prop>
 				<prop key="/phylows/tree/**">phyloWSTreeController</prop>
