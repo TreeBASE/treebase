@@ -48,6 +48,30 @@
 		<property name="studyService"><ref bean="studyService"></ref></property>		 
 	</bean>
 	
+	<bean id="phyloWSStudyController" class="org.cipres.treebase.web.controllers.PhyloWSStudyController">
+		<property name="matrixService"><ref bean="matrixService"></ref></property>	
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>		 
+	</bean>	
+	
+	<bean id="phyloWSTaxonController" class="org.cipres.treebase.web.controllers.PhyloWSTaxonController">
+		<property name="matrixService"><ref bean="matrixService"></ref></property>	
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>		 
+	</bean>	
+	
+	<bean id="phyloWSMatrixController" class="org.cipres.treebase.web.controllers.PhyloWSMatrixController">
+		<property name="matrixService"><ref bean="matrixService"></ref></property>	
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>		 
+	</bean>	
+	
+	<bean id="phyloWSTreeController" class="org.cipres.treebase.web.controllers.PhyloWSTreeController">
+		<property name="matrixService"><ref bean="matrixService"></ref></property>	
+		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+		<property name="studyService"><ref bean="studyService"></ref></property>		 
+	</bean>	
+	
 	<bean id="filenameController" class="org.cipres.treebase.web.controllers.ShortPathUrlFilenameViewController"/>
 	<!--bean id="filenameController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/ -->
 	
@@ -905,6 +929,10 @@
 			<props>
 			    <prop key="/top/**">OAIPMHController</prop>
 				<prop key="/phylows/**">phyloWSController</prop>
+				<prop key="/phylows/study/**">phyloWSStudyController</prop>
+				<prop key="/phylows/taxon/**">phyloWSTaxonController</prop>
+				<prop key="/phylows/tree/**">phyloWSTreeController</prop>
+				<prop key="/phylows/matrix/**">phyloWSMatrixController</prop>
 				<prop key="/about.html">filenameController</prop>
 				<prop key="/home.html">filenameController</prop>
 				<prop key="/login.html">filenameController</prop>
