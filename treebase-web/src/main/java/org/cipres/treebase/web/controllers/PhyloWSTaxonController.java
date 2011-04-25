@@ -3,8 +3,6 @@ package org.cipres.treebase.web.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cipres.treebase.domain.taxon.TaxonLabel;
-
 public class PhyloWSTaxonController extends PhyloWSController {
 
 	@Override
@@ -30,8 +28,8 @@ public class PhyloWSTaxonController extends PhyloWSController {
 	}
 
 	@Override
-	boolean hasWebPage(Class<?> theClass) {
-		return TaxonLabel.class.isAssignableFrom(theClass);
+	boolean hasWebPage(String prefix) {
+		return false;
 	}
 
 }

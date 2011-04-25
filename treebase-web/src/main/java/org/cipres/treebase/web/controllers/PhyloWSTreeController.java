@@ -43,8 +43,8 @@ public class PhyloWSTreeController extends PhyloWSController {
 	}
 
 	@Override
-	boolean hasWebPage(Class<?> theClass) {
-		return PhyloTree.class.isAssignableFrom(theClass);
+	boolean hasWebPage(String prefix) {
+		return "Tr".equals(prefix);
 	}
 	
 	public PhyloTreeService getPhyloTreeService() {

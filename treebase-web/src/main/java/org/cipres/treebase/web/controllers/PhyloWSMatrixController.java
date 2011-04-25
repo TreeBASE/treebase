@@ -43,8 +43,8 @@ public class PhyloWSMatrixController extends PhyloWSController {
 	}
 
 	@Override
-	boolean hasWebPage(Class<?> theClass) {
-		return Matrix.class.isAssignableFrom(theClass);
+	boolean hasWebPage(String prefix) {
+		return "M".equals(prefix);
 	}
 	
 	public MatrixService getMatrixService() {

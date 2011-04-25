@@ -37,8 +37,8 @@ public class PhyloWSStudyController extends PhyloWSController {
 	}
 
 	@Override
-	boolean hasWebPage(Class<?> theClass) {
-		return Study.class.isAssignableFrom(theClass);
+	boolean hasWebPage(String prefix) {
+		return "S".equals(prefix);
 	}
 
 	public StudyService getStudyService() {

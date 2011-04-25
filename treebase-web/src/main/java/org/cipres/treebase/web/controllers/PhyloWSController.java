@@ -58,7 +58,7 @@ public abstract class PhyloWSController implements Controller {
 	            NamespacedGUID namespacedGUID = new NamespacedGUID(substr);
 	            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
 	        	String serializationFormat = createSerializationFormat(req);	            
-	            if ( hasWebPage(tbID.getClass()) && ! TreebaseUtil.isEmpty(serializationFormat) ) {
+	            if ( hasWebPage(tbID.getTypePrefix()) && ! TreebaseUtil.isEmpty(serializationFormat) ) {
 	            	
 	            	// output format is html, re-direct to display services
 	            	if ( serializationFormat.equals("html") ) {
@@ -149,7 +149,7 @@ public abstract class PhyloWSController implements Controller {
 	 * @param pathComponents
 	 * @return true of web page exists, false otherwise
 	 */
-	abstract boolean hasWebPage(Class<?> theClass);
+	abstract boolean hasWebPage(String prefix);
 	
 	/**
 	 * 
