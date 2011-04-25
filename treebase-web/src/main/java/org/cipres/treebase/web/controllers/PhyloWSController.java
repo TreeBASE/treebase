@@ -53,8 +53,9 @@ public abstract class PhyloWSController implements Controller {
         	url = createSearchUrl(req);
         }
         else {
+        	String substr = pathInfo.replaceAll(".*/", "");
             try {
-	            NamespacedGUID namespacedGUID = new NamespacedGUID(pathInfo);
+	            NamespacedGUID namespacedGUID = new NamespacedGUID(substr);
 	            TreebaseIDString tbID = namespacedGUID.getTreebaseIDString();
 	        	String serializationFormat = createSerializationFormat(req);	            
 	            if ( hasWebPage(tbID.getClass()) && ! TreebaseUtil.isEmpty(serializationFormat) ) {
@@ -75,7 +76,7 @@ public abstract class PhyloWSController implements Controller {
 	            	url = createResourceUrl(namespacedGUID, req);
 	            }
             } catch ( MalformedTreebaseIDString e ) {
-            	res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad ID string from path info '" + pathInfo + "' message: " + e.getMessage());
+            	res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad ID string from path info '" + substr + "' message: " + e.getMessage());
             } catch ( ObjectNotFoundException e ) {        	        	
             	res.sendError(HttpServletResponse.SC_NOT_FOUND, "Object not found: " + e.getMessage());
             }	            
