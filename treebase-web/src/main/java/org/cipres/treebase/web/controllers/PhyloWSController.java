@@ -75,7 +75,7 @@ public abstract class PhyloWSController implements Controller {
 	            	url = createResourceUrl(namespacedGUID, req);
 	            }
             } catch ( MalformedTreebaseIDString e ) {
-            	res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad ID string: " + e.getMessage());
+            	res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Bad ID string from path info '" + pathInfo + "' message: " + e.getMessage());
             } catch ( ObjectNotFoundException e ) {        	        	
             	res.sendError(HttpServletResponse.SC_NOT_FOUND, "Object not found: " + e.getMessage());
             }	            
@@ -127,9 +127,18 @@ public abstract class PhyloWSController implements Controller {
 		StringBuffer sb = new StringBuffer(searchBase);
 		sb.append(getSearchPage());
 		Map<String,String> params = new HashMap<String,String>();
-		params.put("query", request.getParameter("query"));
-		params.put("format", createSerializationFormat(request));
-		params.put("recordSchema", request.getParameter("recordSchema"));		
+		String query = request.getParameter("query");
+		if ( ! TreebaseUtil.isEmpty(query) ) {
+			params.put("query", query);
+		}
+		String format = createSerializationFormat(request);
+		if ( ! TreebaseUtil.isEmpty(format) ) {
+			params.put("format", format);
+		}
+		String recordSchema = request.getParameter("recordSchema");
+		if ( ! TreebaseUtil.isEmpty(recordSchema) ) {
+			params.put("recordSchema", recordSchema);	
+		}
 		return createUrl(sb,params,request);
 	}
 
@@ -168,7 +177,7 @@ public abstract class PhyloWSController implements Controller {
 			base.append(key).append('=').append(params.get(key)).append('&');
 		}
 		String url = base.toString();
-		return url.substring(0, url.length() - 2 );
+		return url.substring(0, url.length() - 1 );
 	}
 	
 	
