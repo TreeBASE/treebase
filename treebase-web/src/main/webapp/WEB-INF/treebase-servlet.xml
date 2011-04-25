@@ -42,34 +42,22 @@
 		<property name="studyService"><ref bean="studyService"></ref></property>
 	</bean>
 	
-	<bean id="phyloWSController" class="org.cipres.treebase.web.controllers.PhyloWSController">
-		<property name="matrixService"><ref bean="matrixService"></ref></property>	
-		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
-		<property name="studyService"><ref bean="studyService"></ref></property>		 
+	<bean id="phyloWSController" class="org.cipres.treebase.web.controllers.PhyloWSController">		 
 	</bean>
 	
 	<bean id="phyloWSStudyController" class="org.cipres.treebase.web.controllers.PhyloWSStudyController">
-		<property name="matrixService"><ref bean="matrixService"></ref></property>	
-		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
 		<property name="studyService"><ref bean="studyService"></ref></property>		 
 	</bean>	
 	
-	<bean id="phyloWSTaxonController" class="org.cipres.treebase.web.controllers.PhyloWSTaxonController">
-		<property name="matrixService"><ref bean="matrixService"></ref></property>	
-		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
-		<property name="studyService"><ref bean="studyService"></ref></property>		 
+	<bean id="phyloWSTaxonController" class="org.cipres.treebase.web.controllers.PhyloWSTaxonController">		 
 	</bean>	
 	
 	<bean id="phyloWSMatrixController" class="org.cipres.treebase.web.controllers.PhyloWSMatrixController">
-		<property name="matrixService"><ref bean="matrixService"></ref></property>	
-		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
-		<property name="studyService"><ref bean="studyService"></ref></property>		 
+		<property name="matrixService"><ref bean="matrixService"></ref></property>		 
 	</bean>	
 	
 	<bean id="phyloWSTreeController" class="org.cipres.treebase.web.controllers.PhyloWSTreeController">
-		<property name="matrixService"><ref bean="matrixService"></ref></property>	
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
-		<property name="studyService"><ref bean="studyService"></ref></property>		 
 	</bean>	
 	
 	<bean id="filenameController" class="org.cipres.treebase.web.controllers.ShortPathUrlFilenameViewController"/>
