@@ -97,12 +97,23 @@ public class ReadyStateController extends BaseFormController {
 
 	}
 
-	protected Map<String, Boolean> referenceData(HttpServletRequest pRequest) {
+	/*protected Map<String, Boolean> referenceData(HttpServletRequest pRequest) {
 		String subid = ServletRequestUtils.getStringParameter(pRequest, "submissionid", null);
 		Study study = mStudyService.findBySubmissionID(Long.parseLong(subid));
 
 		HashMap<String, Boolean> validatedProperties = new HashMap<String, Boolean>();
 		validatedProperties.put("AnalysesStatus", study.getAnalysesStatus());
+
+		return validatedProperties;
+	}*/
+	
+	protected Map<String, Object> referenceData(HttpServletRequest pRequest) {
+		String subid = ServletRequestUtils.getStringParameter(pRequest, "submissionid", null);
+		Study study = mStudyService.findBySubmissionID(Long.parseLong(subid));
+
+		HashMap<String, Object> validatedProperties = new HashMap<String, Object>();
+		validatedProperties.put("AnalysesStatus", study.getAnalysesStatus());
+		validatedProperties.put("submissionNumber", Long.parseLong(subid));
 
 		return validatedProperties;
 	}

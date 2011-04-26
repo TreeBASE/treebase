@@ -142,7 +142,7 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 	    if ( TreeBASE.study && TreeBASE.study.analyses ) {
 	        writeAnalyses(); 
 	        writeNexusFileNames();       
-	        decorateNotes();   
+	        //decorateNotes();   
 	        decorateCitation();
 	        decorateAuthors();  
 	        decorateUpload();
@@ -247,6 +247,44 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     		citationLi.addClassName('notAnalyzed');
     		citationLi.select('a.Citation')[0].title = 'No citation information has been entered yet';
     	}
+    	else {
+    		var isCitationError = false;
+    		var citationErrorMessage = '';
+    		switch( TreeBASE.study.citation.citationType ){
+	    		case 'Article':
+	    		if ( TreeBASE.study.citation.journal.length == 0 ) {
+	    			isCitationError = true;
+	    			citationErrorMessage = 'No journal name has been entered';
+	    		}
+	    		break
+	    		case 'Book':
+	    			if ( TreeBASE.study.citation.booktitle.length == 0 ) {
+		    			isCitationError = true;
+		    			citationErrorMessage = 'No book title has been entered';
+		    		}
+	    		break
+	    		case 'Book Section':
+	    		if (TreeBASE.study.citation.booktitle.length == 0) {
+	    			isCitationError = true;
+	    			citationErrorMessage = 'No book title has been entered';
+	    		}
+	    		if (TreeBASE.study.citation.sectiontitle.length == 0) {
+	    			if ( isCitationError ) {
+	    				citationErrorMessage += '; ';
+	    			}
+	    			isCitationError = true;
+	    			citationErrorMessage += 'No book section has been entered';
+	    		} 
+	    		break
+    		}
+    		
+    		if ( isCitationError ){
+    			var citationLi = $('menuList').select('li.Citation')[0];
+        		citationLi.addClassName('notAnalyzed');
+        		citationLi.select('a.Citation')[0].title = citationErrorMessage;
+    		}
+    	}
+    	
     }
     function decorateAuthors() {
     	if ( TreeBASE.study.authors.length == 0 ) {
@@ -352,7 +390,7 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     		ul = createUnorderedList(taxonLabels,'taxonLabel','taxonLabel');
     		ul.style.display = 'none';
     		taxaLi.appendChild(ul);  
-    		var taxonLabelLis = ul.select('li'); 
+    		/*var taxonLabelLis = ul.select('li'); 
     		var analyzed = 'analyzed';	
     		for ( var i = 0; i < taxonLabelLis.length; i++ ) {
     			var id = taxonLabelLis[i].id;
@@ -369,7 +407,7 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     		taxaLi.addClassName(analyzed);
     		if ( analyzed == 'notAnalyzed' ) {
     			taxaLi.select('a.Taxa')[0].title = 'Some taxa have not been linked to external taxonomy yet';
-    		}
+    		}*/
     	}
     	else {
     		taxaLi.addClassName('emptyList');
@@ -466,4 +504,13 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 	});
 	TreeBASE.register(initializeMenus);    
 })()
+
+var submitButton = $('submitReadyState');
+if (submitButton != null && submitButton != undefined) {
+	var notAnalyzed = $$('li.notAnalyzed');
+	if (notAnalyzed != null && notAnalyzed != undefined) {
+		submitButton.disable();
+		$$('p.readyStateError').invoke('setStyle', { display: 'block' });
+	}
+};
 /* end of closure */
