@@ -11,16 +11,28 @@ public class PhyloWSMatrixController extends PhyloWSController {
 
 	private MatrixService mMatrixService;
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.web.controllers.PhyloWSController#getSearchPage()
+	 */
 	@Override
 	String getSearchPage() {
 		return "matrixSearch.html";
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.web.controllers.PhyloWSController#getDownloadPage()
+	 */
 	@Override
 	String getDownloadPage() {
 		return "downloadAMatrix.html";
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.web.controllers.PhyloWSController#getObjectQueryParameters(java.lang.Long)
+	 */
 	@Override
 	Map<String,String> getObjectQueryParameters(Long objectId) throws ObjectNotFoundException {
 		Matrix matrix = getMatrixService().findByID(objectId);
@@ -37,11 +49,19 @@ public class PhyloWSMatrixController extends PhyloWSController {
 		return params;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.web.controllers.PhyloWSController#getDisplayPage()
+	 */
 	@Override
 	String getDisplayPage() {
 		return "matrix.html";
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.web.controllers.PhyloWSController#hasWebPage(java.lang.String)
+	 */
 	@Override
 	boolean hasWebPage(String prefix) {
 		return "M".equals(prefix);
