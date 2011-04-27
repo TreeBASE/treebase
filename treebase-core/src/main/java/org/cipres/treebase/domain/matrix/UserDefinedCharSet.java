@@ -76,8 +76,8 @@ public class UserDefinedCharSet extends CharSet {
 	@Override
 	public String getNexusString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(getNexusPrefix()).append(getTitle()).append(" (CHARACTERS = ").append(StringUtil.tokenize(getMatrix().getTitle())).append(") = ");
-		// sb.append(getNexusPrefix()).append(StringUtil.tokenize(getTitle())).append(" (CHARACTERS = ").append(StringUtil.tokenize(getMatrix().getTitle())).append(") = ");
+		//sb.append(getNexusPrefix()).append(getTitle()).append(" (CHARACTERS = ").append(StringUtil.tokenize(getMatrix().getTitle())).append(") = ");
+		sb.append(getNexusPrefix()).append(StringUtil.tokenize(getTitle())).append(" (CHARACTERS = ").append(StringUtil.tokenize(getMatrix().getTitle())).append(") = ");
 
 		for (ColumnRange colRange : getColumns()) {
 			sb.append(" ");
