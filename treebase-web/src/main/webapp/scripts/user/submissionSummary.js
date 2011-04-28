@@ -390,7 +390,7 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     		ul = createUnorderedList(taxonLabels,'taxonLabel','taxonLabel');
     		ul.style.display = 'none';
     		taxaLi.appendChild(ul);  
-    		/*var taxonLabelLis = ul.select('li'); 
+    		var taxonLabelLis = ul.select('li'); 
     		var analyzed = 'analyzed';	
     		for ( var i = 0; i < taxonLabelLis.length; i++ ) {
     			var id = taxonLabelLis[i].id;
@@ -407,7 +407,7 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     		taxaLi.addClassName(analyzed);
     		if ( analyzed == 'notAnalyzed' ) {
     			taxaLi.select('a.Taxa')[0].title = 'Some taxa have not been linked to external taxonomy yet';
-    		}*/
+    		}
     	}
     	else {
     		taxaLi.addClassName('emptyList');
