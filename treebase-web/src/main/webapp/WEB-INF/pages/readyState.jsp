@@ -14,15 +14,10 @@
 	</p>
 </c:if>
 --%>
-<p style="font-weight:bold">
-	Are you sure that you want to change the status of this study to 'Ready State'?
-	This means that you are ready for the review process. If yes press Submit,
-	else choose the Cancel button.
+<p class="readyStateError" style="font-weight:bold">
+	Sorry! Errors in your submission prevent you from changing the status to 'Ready State' at this time. 
 </p> 
-<p>
-	Please note: after you press the Submit button you will no longer be able to make any further changes to this study.
-	The study will be available in 'READ ONLY' mode.
-</p>
+
 <p class="readyStateError" style="display:none;">
 	The items in the Tool Box on the right that are highlighted in yellow indicate that the item either has not been visited or there is an error. Hovering your mouse over the item will indicate the nature of the problem. Your submission cannot be changed to "Ready" state until all highlighted items are addressed. Please return to your submission to complete it. If you think this request is in error, please contact <a href='mailto:help@treebase.org?subject=TreeBASE Submission S<c:out value="${submissionNumber}"/>'>help</a>. 
 	<br /><br />
@@ -33,6 +28,17 @@
 	(3) The output tree of an analysis has taxon labels that do not match with the input matrix (i.e. there are taxon labels in the tree that are missing from the matrix or matrices that produced the tree). Preparing your submission using <a href='http://mesquiteproject.org/'>Mesquite</a>, in which both matrices and trees are part of the same Mesquite project and share a common taxon block, will avoid the problem of mismatched taxon labels.<br />
 	(4) The submitter has not attempted to validate the taxon labels by clicking the "Validate Taxon Labels" button in the Taxa section. 
 </p>
+
+<p style="font-weight:bold">
+	Are you sure that you want to change the status of this study to 'Ready State'?
+</p> 
+
+<p>
+	Changing the status of your study to 'Ready State' means that you are ready for the review process. If yes press Submit,
+	else choose the Cancel button. Note that after you press the Submit button you will no longer be able to make any further changes to this study.
+	The study will be available in 'READ ONLY' mode.
+</p>
+
 <p>
 	<input type="submit" name="Submit" value="Submit" id="submitReadyState"/>
 	<input type="submit" name="_cancel" value = "Cancel"/>
