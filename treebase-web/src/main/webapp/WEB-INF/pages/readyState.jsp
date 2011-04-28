@@ -14,7 +14,7 @@
 	</p>
 </c:if>
 --%>
-<p class="readyStateError" style="font-weight:bold">
+<p class="readyStateError" style="color:red; font-weight:bold; display:none;">
 	Sorry! Errors in your submission prevent you from changing the status to 'Ready State' at this time. 
 </p> 
 
