@@ -487,6 +487,16 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     	}
     	return a;
     }
+    function checkSubmitButton() {
+    	var submitButton = $('submitReadyState');
+    	if (submitButton != null && submitButton != undefined) {
+    		var notAnalyzed = $('menuList').select('li.notAnalyzed');
+    		if (notAnalyzed != '') {
+    			submitButton.disable();
+    			$$('p.readyStateError').invoke('setStyle', { display: 'block' });
+    		}
+    	};
+    }
     //TreeBASE.writeSummary = writeSummary;
     TreeBASE.register(decorateMenu);
 	TreeBASE.register(function(){
@@ -499,18 +509,11 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 				TreeBASE.submission = tmp.submission;
 				//TreeBASE.writeSummary();
 				writeSummary();
+				checkSubmitButton();
 			}
 		});
 	});
-	TreeBASE.register(initializeMenus);    
+	TreeBASE.register(initializeMenus); 
 })()
 
-var submitButton = $('submitReadyState');
-if (submitButton != null && submitButton != undefined) {
-	var notAnalyzed = $$('li.notAnalyzed');
-	if (notAnalyzed != null && notAnalyzed != undefined) {
-		submitButton.disable();
-		$$('p.readyStateError').invoke('setStyle', { display: 'block' });
-	}
-};
 /* end of closure */
