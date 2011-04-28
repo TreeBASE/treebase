@@ -116,7 +116,7 @@ public class TreeSearchController extends SearchController {
 		}
 	}
 
-	private Set<PhyloTree> doCQLQuery(
+	protected Set<PhyloTree> doCQLQuery(
 			CQLNode node, 
 			Set<PhyloTree> results, 
 			HttpServletRequest request, 

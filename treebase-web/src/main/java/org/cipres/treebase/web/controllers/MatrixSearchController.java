@@ -120,7 +120,7 @@ public class MatrixSearchController extends SearchController {
 		}
 	}
 	
-	private Set<Matrix> doCQLQuery(
+	protected Set<Matrix> doCQLQuery(
 			CQLNode node, 
 			Set<Matrix> results, 
 			HttpServletRequest request, 

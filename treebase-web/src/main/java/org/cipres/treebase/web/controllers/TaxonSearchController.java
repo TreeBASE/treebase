@@ -97,7 +97,7 @@ public class TaxonSearchController extends SearchController {
 		}
 	}
 	
-	private Set<Taxon> doCQLQuery(CQLNode node, Set<Taxon> results, HttpServletRequest request) {
+	protected Set<Taxon> doCQLQuery(CQLNode node, Set<Taxon> results, HttpServletRequest request) {
 		if ( node instanceof CQLBooleanNode ) {
 			Set<Taxon> resultsLeft = doCQLQuery(((CQLBooleanNode)node).left,results, request);
 			Set<Taxon> resultsRight = doCQLQuery(((CQLBooleanNode)node).right,results, request);

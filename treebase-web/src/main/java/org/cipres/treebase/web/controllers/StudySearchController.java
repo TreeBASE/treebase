@@ -149,7 +149,7 @@ public class StudySearchController extends SearchController {
 		}
 	}
 	
-	private Set<Study> doCQLQuery(
+	protected Set<Study> doCQLQuery(
 			CQLNode node, 
 			Set<Study> results, 
 			HttpServletRequest request, 

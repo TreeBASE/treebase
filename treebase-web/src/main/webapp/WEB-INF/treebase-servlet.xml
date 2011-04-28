@@ -743,10 +743,14 @@
         <property name="searchService"><ref bean="searchService"></ref></property>
   	</bean>
  
+ 	<bean id="mainSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.MainSearchController">
+        <property name="formView"><value>search/mainSearch</value></property>
+        <property name="successView"><value>search/mainSearch</value></property>        
+    </bean>
+ 
 	<bean id="studySearchController" parent="searchController" class="org.cipres.treebase.web.controllers.StudySearchController">
         <property name="formView"><value>search/studySearch</value></property>
-        <property name="successView"><value>search/studySearch</value></property>
-        
+        <property name="successView"><value>search/studySearch</value></property>        
     </bean>
     
     <bean id="treeSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.TreeSearchController">
@@ -1005,6 +1009,7 @@
 				<prop key="/search/treeTopSearch.html">treeTopSearchController</prop>
 				<prop key="/search/matrixSearch.html">matrixSearchController</prop>	
 				<prop key="/search/taxonSearch.html">taxonSearchController</prop>
+				<prop key="/search/mainSearch.html">mainSearchController</prop>
 				
 				<!-- SEARCH RESULTS SECTION -->
 			    <prop key="/search/study/summary.html">searchSummaryController</prop>								
