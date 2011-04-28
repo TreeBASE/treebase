@@ -108,7 +108,7 @@ public class MainSearchController extends SearchController {
 
 	@Override
 	SearchResultsType currentSearchType() {
-		return SearchResultsType.MAIN;
+		return SearchResultsType.STUDY;
 	}
 
 }
