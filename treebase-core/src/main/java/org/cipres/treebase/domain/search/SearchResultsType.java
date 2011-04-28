@@ -10,4 +10,5 @@ public enum SearchResultsType {
 	MATRIX,
 	TREE,
 	TAXON, 
+	MAIN,
 }
