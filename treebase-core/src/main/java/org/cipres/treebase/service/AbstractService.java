@@ -100,6 +100,16 @@ public interface AbstractService {
 			String attributeName,
 			String target);
 	
+	
+	/**
+	 * Find all persistent objects of a certain class
+	 * 
+	 * @param <T>
+	 * @param T
+	 * @return
+	 */
+	public <T extends TBPersistable> Collection<T> findAll(Class T);
+	
 	/**
 	 * Search all persistent objects of a certain class for those that contain a string in a particular attribute field.
 	 * 

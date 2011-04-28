@@ -217,6 +217,11 @@ public class AuxDataTest extends TestCase {
 		public Matrix findByTB1StudyID(String pTB1MatrixID) {
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		public <T extends TBPersistable> Collection<T> findAll(Class T) {
+			// TODO Auto-generated method stub
+			return null;
 		}	
 	}
 	
@@ -290,6 +295,11 @@ public class AuxDataTest extends TestCase {
 				Boolean caseSensitive) {
 			// TODO Auto-generated method stub
 			return null;
+		}
+
+		public <T extends TBPersistable> Collection<T> findAll(Class T) {
+			// TODO Auto-generated method stub
+			return null;
 		}	
 	}
 	
@@ -344,6 +354,11 @@ public class AuxDataTest extends TestCase {
 
 		public Collection<Study> findByJournal(String pJournal,
 				boolean pCaseSensitive) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public <T extends TBPersistable> Collection<T> findAll(Class T) {
 			// TODO Auto-generated method stub
 			return null;
 		}

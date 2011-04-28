@@ -100,6 +100,14 @@ public abstract class AbstractServiceImpl implements AbstractService {
 		return findSomethingByString(T, attributeName, target, true);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.service.AbstractService#findAll(java.lang.Class)
+	 */
+	public <T extends TBPersistable> Collection<T> findAll(Class T) {
+		return getDomainHome().findAll(T);
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.cipres.treebase.service.AbstractService#findSomethingByString(java.lang.Class, java.lang.String, java.lang.String)
 	 */
