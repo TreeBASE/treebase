@@ -31,7 +31,6 @@ import org.z3950.zing.cql.CQLNotNode;
 import org.z3950.zing.cql.CQLOrNode;
 import org.z3950.zing.cql.CQLParseException;
 import org.z3950.zing.cql.CQLParser;
-import org.z3950.zing.cql.CQLRelation;
 import org.z3950.zing.cql.CQLTermNode;
 
 /**

@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
-import org.cipres.treebase.domain.search.MatrixSearchResults;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.SearchService;
@@ -36,7 +35,6 @@ import org.z3950.zing.cql.CQLNotNode;
 import org.z3950.zing.cql.CQLOrNode;
 import org.z3950.zing.cql.CQLParseException;
 import org.z3950.zing.cql.CQLParser;
-import org.z3950.zing.cql.CQLRelation;
 import org.z3950.zing.cql.CQLTermNode;
 
 public class TaxonSearchController extends SearchController {

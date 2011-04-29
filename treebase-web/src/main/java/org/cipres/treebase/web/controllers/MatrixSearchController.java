@@ -20,7 +20,6 @@ import org.cipres.treebase.domain.matrix.MatrixService;
 import org.cipres.treebase.domain.search.MatrixSearchResults;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
-import org.cipres.treebase.domain.search.TreeSearchResults;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.util.RequestMessageSetter;
 import org.cipres.treebase.web.util.SearchMessageSetter;
@@ -33,7 +32,6 @@ import org.z3950.zing.cql.CQLNotNode;
 import org.z3950.zing.cql.CQLOrNode;
 import org.z3950.zing.cql.CQLParseException;
 import org.z3950.zing.cql.CQLParser;
-import org.z3950.zing.cql.CQLRelation;
 import org.z3950.zing.cql.CQLTermNode;
 
 /**
