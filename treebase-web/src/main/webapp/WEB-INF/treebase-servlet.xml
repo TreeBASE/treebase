@@ -922,6 +922,7 @@
 				<prop key="/phylows/tree/**">phyloWSTreeController</prop>
 				<prop key="/phylows/matrix/**">phyloWSMatrixController</prop>
 				<prop key="/about.html">filenameController</prop>
+				<prop key="/dataMan.html">filenameController</prop>
 				<prop key="/home.html">filenameController</prop>
 				<prop key="/login.html">filenameController</prop>
 				<prop key="/urlAPI.html">filenameController</prop>

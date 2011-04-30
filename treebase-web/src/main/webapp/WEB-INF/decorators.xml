@@ -7,6 +7,7 @@
 	<!-- decoration page for the main opening page -->
     <decorator name="main" page="mainTemplate.jsp">
         <pattern>/home.html</pattern>
+        <pattern>/dataMan.html</pattern>
         <pattern>/about.html</pattern>
         <pattern>/urlAPI.html</pattern>
         <pattern>/people.html</pattern>
