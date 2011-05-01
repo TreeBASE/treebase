@@ -14,6 +14,7 @@
 						<li><a href="<c:url value="/reference.html"/>"><fmt:message key="nav.references"/></a></li>
 					</ul>
 				</li>			
+				<li><a href="<c:url value="/dataMan.html"/>"><fmt:message key="nav.dataman"/></a></li>
 				<li><a href="<c:url value="/urlAPI.html"/>"><fmt:message key="nav.dataaccess"/></a></li>
 				<li><a href="<c:url value="/journal.html"/>"><fmt:message key="nav.journals"/></a></li>
 				<li><a href="<c:url value="/contact.html"/>"><fmt:message key="nav.contact"/></a></li>			
