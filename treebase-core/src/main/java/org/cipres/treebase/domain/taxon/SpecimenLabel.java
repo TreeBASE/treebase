@@ -217,7 +217,7 @@ public class SpecimenLabel {
 	@Transient
 	public String getLongitudeString() {
 		if (mLongitude == null) return "";
-		else return abs(mLongitude) + mLongitude < 0 ? "S" : "N";
+		else return abs(mLongitude) + (mLongitude < 0 ? "S" : "N");
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class SpecimenLabel {
 	@Transient
 	public String getLatitudeString() {
 		if (mLatitude == null) return "";
-		else return abs(mLatitude) + mLatitude < 0 ? "W" : "E";
+		else return abs(mLatitude) + (mLatitude < 0 ? "W" : "E");
 	}
 
 	/**

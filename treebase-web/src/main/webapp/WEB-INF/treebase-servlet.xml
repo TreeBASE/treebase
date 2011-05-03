@@ -256,6 +256,10 @@
 		<property name="taxonLabelService"><ref bean="taxonLabelService"></ref></property>
 	</bean>
 	
+	<bean id="downloadRowSegmentDataController" class="org.cipres.treebase.web.controllers.DownloadRowSegmentDataController">
+		<property name="rowSegmentService"><ref bean="rowSegmentService"></ref></property>	
+	</bean>
+	
 	<!--  MultiActionController to display sumbissions by different criteria -->
 	<bean id="listSubmissionController" class="org.cipres.treebase.web.controllers.ListSubmissionController">
 		<property name="methodNameResolver"><ref bean="methodNameResolver"/></property>
@@ -1024,6 +1028,7 @@
 			    <prop key="/search/study/analysis.html">searchSummaryController</prop>
 			    <prop key="/search/study/taxa.html">searchSummaryController</prop>
 			    <prop key="/search/study/rowSegments.html">searchSummaryController</prop>
+			    <prop key="/search/study/rowSegmentsTSV.html">downloadRowSegmentDataController</prop>
 			    <prop key="/search/study/anyObjectAsRDF.rdf">anyObjectAsRDFController</prop>
 			    
 			    <prop key="/search/searchResultsAsRDF.rdf">searchResultsAsRDFController</prop>

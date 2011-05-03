@@ -11,8 +11,9 @@
 <c:url var="matricesURL" value="matrices.html">
 <c:param name="id" value="${study.id}"/>
 </c:url>
-
-
+<c:url var="rowSegmentsTSV" value="rowSegmentsTSV.html">
+	<c:param name="matrixid" value="${matrix.id}" />
+</c:url>
 
 <title>Matrix ${matrix.id} of study ${study.id}</title>
 <body id="s-matrix"/>
@@ -23,6 +24,18 @@
 
 <c:if test="${ not empty matrix.description }">
 	<p><strong>Description</strong>: ${matrix.description}</p>
+</c:if>
+
+<c:set var="rowSegmentCount" value="false" />
+
+<c:forEach var="row" items="${matrix.rowsReadOnly}" varStatus="status">
+	<c:if test="${fn:length(row.segmentsReadOnly) gt 0}">
+		<c:set var="rowSegmentCount" value="true" />
+	</c:if>
+</c:forEach>
+
+<c:if test="${rowSegmentCount}">
+	<a href="${rowSegmentsTSV}">Download all Row Segment Metadata</a>
 </c:if>
 
 <h2>Rows</h2>

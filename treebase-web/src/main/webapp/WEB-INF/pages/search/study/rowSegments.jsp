@@ -19,6 +19,7 @@ String specimenInfoXXX(SpecimenLabel sl) {
 	<c:param name="id" value="${study.id}" />
 	<c:param name="matrixid" value="${matrix.id}" />
 </c:url>
+
 <c:forEach var="row" items="${matrix.rowsReadOnly}" varStatus="status">
    <c:if test="${row.id == matrixrow.id}">
    	<c:set var="rownum" value="${status.count}"/>
@@ -61,7 +62,28 @@ String specimenInfoXXX(SpecimenLabel sl) {
 		sortable="true"
 		style="text-align:left;  font-family:Courier; width:20%;">
 		${seg.specimenInfo}
-		</display:column>
+	</display:column>
+	
+	<display:column title="Google Map"
+		style="text-align:left;  font-family:Courier; width:20%;">
+		<c:if test="${not empty(seg.specimenLabel.latitude) && not empty(seg.specimenLabel.longitude)}">
+			 <c:url var="googleMapURL" value="http://www.google.com/maps">
+				<c:param name="f" value="q" />
+				<c:param name="source" value="s_q" />
+				<c:param name="hl" value="en" />
+				<c:param name="geocode" value="" />
+				<c:param name="q" value="${seg.specimenLabel.latitude},${seg.specimenLabel.longitude}" />
+				<c:param name="sll" value="${seg.specimenLabel.latitude},${seg.specimenLabel.longitude}" />
+				<c:param name="aq" value="" />
+				<c:param name="sspn" value="0.199959,0.445976" />
+				<c:param name="ie" value="UTF8" />
+				<c:param name="z" value="16" />
+			</c:url>
+			<a href='<c:out value="${googleMapURL}"/>' target="_blank">View Map</a>
+			</c:if>
+	</display:column>
+	
+
 	<%-- 
 	<display:column title="Segment data" property="segmentData"
 		sortable="false"
