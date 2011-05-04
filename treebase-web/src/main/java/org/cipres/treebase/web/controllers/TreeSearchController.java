@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
+import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.TreeSearchResults;
@@ -101,6 +102,16 @@ public class TreeSearchController extends SearchController {
 			} else {
 				throw new Error("Unknown search button name '" + buttonName + "'");
 			}
+			
+			// XXX need to filter out orphaned matrices or matrices whose studies are unpublished
+			Collection<PhyloTree> orphanedTrees = new HashSet<PhyloTree>();
+			for ( PhyloTree t : matches ) {
+				if (t.getStudy() == null || (t.getStudy().isPublished() == false)){
+					orphanedTrees.add(t);
+				}		
+			}
+			matches.removeAll(orphanedTrees);
+
 			SearchResults<PhyloTree> newRes = intersectSearchResults(oldRes, new TreeSearchResults(matches), 
 			new RequestMessageSetter(request), "No matching trees found");	
 			saveSearchResults(request, newRes);	
