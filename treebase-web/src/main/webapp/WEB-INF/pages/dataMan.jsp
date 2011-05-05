@@ -33,8 +33,8 @@
 <hr /></p>
 <table width="100%" border="0">
   <tr>
-    <td width="50%" valign="top">Data storage contribution for sponsored research:</td>
-    <td width="50%" valign="top">Alternatively, please consider a donation towards TreeBASE activities:</td>
+    <td width="50%" valign="top">Data storage fee for submissions resulting from sponsored research where TreeBASE provides added validation to help with data preparation and to ensure compliance with NSF directives:</td>
+    <td width="50%" valign="top">Alternatively, for sponsored research that had not budgeted for data sharing with TreeBASE, please consider making a voluntary donation:</td>
   </tr>
   <tr>
     <td><form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
