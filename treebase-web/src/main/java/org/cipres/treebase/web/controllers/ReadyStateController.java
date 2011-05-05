@@ -13,10 +13,13 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.admin.UserRole.TBPermission;
+import org.cipres.treebase.domain.study.ArticleCitation;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.SubmissionService;
+import org.cipres.treebase.web.util.ControllerUtil;
 
 /**
  * ReadyStateController.java
@@ -87,6 +90,46 @@ public class ReadyStateController extends BaseFormController {
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
 
 		String subid = ServletRequestUtils.getStringParameter(request, "submissionid", null);
+		
+		String username = request.getRemoteUser();
+		Study study;
+		if (TreebaseUtil.isEmpty(subid)) {
+			study = ControllerUtil.findStudy(request, mStudyService);
+			LOGGER.info("setAuthorizationChecked(true)");
+			setAuthorizationChecked(true);// This is needed in case one is clicking at Summary
+			// link at the bottom of the menu list on the right hand
+			// side.
+		} else {
+			study = mStudyService.findBySubmissionID(Long.parseLong(subid));
+		}
+		if (!TreebaseUtil.isEmpty(subid)) {
+
+			TBPermission perm2 = getSubmissionService().getPermission(
+				username,
+				Long.parseLong(subid));
+			if (perm2 == TBPermission.WRITE || perm2 == TBPermission.READ_ONLY
+				|| perm2 == TBPermission.SUBMITTED_WRITE) {
+				LOGGER.info("setAuthorizationChecked(true)");
+				setAuthorizationChecked(true);
+			} else {
+				LOGGER.info("setAuthorizationChecked(false)");
+				setAuthorizationChecked(false);
+				return new ArticleCitation();
+			}
+
+			ControllerUtil.saveStudy(request, study); // user has made selection
+			// Added by Madhu to set the session variables
+			if (study.isReady()) {
+				request.getSession().setAttribute("publicationState", "Ready");
+			} else if (study.isPublished()) {
+				request.getSession().setAttribute("publicationState", "Published");
+			} else {
+				request.getSession().setAttribute("publicationState", "NotReady");
+			}
+
+		} else {
+			request.getSession().setAttribute("publicationState", "NotReady");
+		}
 
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("VALUE OF SUBMISSION ID in FORM BACKING =" + subid);
