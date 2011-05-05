@@ -34,6 +34,17 @@ public class TaxonSearchResults extends SearchResults<Taxon> {
 		for (Taxon m : getResults()) {
 			matrices.addAll(getTaxonLabelService().findMatrices(m));
 		}
+		
+		// XXX need to filter out orphaned matrices or matrices whose studies are unpublished
+		Collection<Matrix> orphanedMatrices = new HashSet<Matrix>();
+		for ( Matrix mat : matrices ) {
+			if ( mat.getStudy() == null || (mat.getStudy().isPublished() == false)  ) {
+				orphanedMatrices.add(mat);
+			}		
+		}
+		
+		matrices.removeAll(orphanedMatrices);
+		
 		return new MatrixSearchResults(matrices);
 	}
 
@@ -60,6 +71,17 @@ public class TaxonSearchResults extends SearchResults<Taxon> {
 		for (Taxon t : getResults()) {
 			trees.addAll(getTaxonLabelService().findTrees(t));
 		}
+		
+		// XXX need to filter out orphaned matrices or matrices whose studies are unpublished
+		Collection<PhyloTree> orphanedTrees = new HashSet<PhyloTree>();
+		for ( PhyloTree tree : trees ) {
+			if (tree.getStudy() == null || (tree.getStudy().isPublished() == false)){
+				orphanedTrees.add(tree);
+			}		
+		}
+		
+		trees.removeAll(orphanedTrees);
+		
 		return new TreeSearchResults(trees);
 	}
 
