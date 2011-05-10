@@ -226,7 +226,7 @@ public class TreeBlock extends AbstractPersistedObject {
 		}
 		pBuilder.append("BEGIN TREES;\n");
 		pBuilder.append("      TITLE " + StringUtil.tokenize(getTitle()) + ";\n");
-		//pBuilder.append("      LINK TAXA = " + StringUtil.tokenize(getTaxobLabelSetTitle()) + ";\n");
+		pBuilder.append("      LINK TAXA = " + StringUtil.tokenize(tlSet.getTitle().replaceAll("Input|Output", "")) + ";\n");
 		pBuilder.append("         TRANSLATE\n");
 
 		tlSet.buildTaxonWithLineNumber(pBuilder);
