@@ -25,10 +25,10 @@ function show_or_hide(layer_ref, state) {
 
 <body id="submissions"/>
 <p>Use the following form to upload your Nexus files for <b>submission ${studyMap['id']} - ${studyMap['name']}</b><br>
-Please limit the number of trees you upload for parsing to  ~30, otherwise  large numbers of trees resulting from the 
+Please note that only the first ~30 trees will be parsed, otherwise large numbers of trees resulting from the 
 same analysis will overwhelm the user experience in TreeBASE's search interface with what are largely redundant trees. 
-If you have a large number of trees, please either select a few preferred trees and upload those for parsing, or upload 
-a consensus tree. For information on making large numbers of trees available to users, please see the help 
+If you have a large number of trees, please put your preferred trees, or a consensus tree, within the first ~30  
+trees in the tree block. For more information, please see the help 
 <a href="#" class="openHelp" onclick="openHelp('uploadFile')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>.</p>	
 <!--form method="post" enctype="multipart/form-data" onsubmit="setTimeout('queryStatus()', 200);"-->
 <!-- Line above is needed to show the actal amount of data uploaded using Ajax -->
