@@ -262,4 +262,10 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 		return null;
 	}
 
+	public String serialize(NexusDataSet pNexusDataSet, Properties pProperties,
+			Study study) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
