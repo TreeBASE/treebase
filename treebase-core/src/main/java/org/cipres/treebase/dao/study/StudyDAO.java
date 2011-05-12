@@ -402,16 +402,19 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 	}
 
 	public Collection<Study> findByPublicationDateRange(Date from, Date until) {
-		Query q = getSession().createQuery(
-		"from Citation where publishyear between :begin and :end");
-		q.setInteger("begin", from.getYear());
-		q.setInteger("end", until.getYear());
-		Collection<Citation> citations = q.list();
-		Set<Study> results = new HashSet<Study>();
-		for ( Citation citation : citations ) {
-			results.add(citation.getStudy());
+		int begin = from.getYear();
+		int end = until.getYear();
+		if ( begin != end ) {
+			Query q = getSession().createQuery("select study from Citation where publishyear between :begin and :end");
+			q.setInteger("begin", begin);
+			q.setInteger("end", end);
+			return q.list();
 		}
-		return results;
+		else {
+			Query q = getSession().createQuery("select study from Citation where publishyear = :begin");
+			q.setInteger("begin",begin);
+			return q.list();
+		}
 	}
 
 
