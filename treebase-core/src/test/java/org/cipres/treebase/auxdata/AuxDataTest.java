@@ -362,6 +362,12 @@ public class AuxDataTest extends TestCase {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+		public Collection<Study> findByPublicationDateRange(Date from,
+				Date until) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 }
 
