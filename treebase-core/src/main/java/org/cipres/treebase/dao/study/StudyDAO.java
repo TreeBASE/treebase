@@ -3,6 +3,7 @@ package org.cipres.treebase.dao.study;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.dao.AbstractDAO;
 import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.admin.User;
+import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyCriteria;
 import org.cipres.treebase.domain.study.StudyHome;
@@ -397,6 +399,19 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 		studyCrit.add(Restrictions.eq("cit.journal", pJournal));
 		studies = (Collection<Study>) studyCrit.list();
 		return studies;
+	}
+
+	public Collection<Study> findByPublicationDateRange(Date from, Date until) {
+		Query q = getSession().createQuery(
+		"from Citation where publishyear between :begin and :end");
+		q.setInteger("begin", from.getYear());
+		q.setInteger("end", until.getYear());
+		Collection<Citation> citations = q.list();
+		Set<Study> results = new HashSet<Study>();
+		for ( Citation citation : citations ) {
+			results.add(citation.getStudy());
+		}
+		return results;
 	}
 
 
