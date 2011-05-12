@@ -53,6 +53,7 @@ public class DirectMapToPhyloWidgetController implements Controller {
 		String defaultNewick = "";
 		String separator = "@";
 		Map<String, String> treeMap = new HashMap<String, String>();
+		Map<String,String> phylowsMap = new HashMap<String,String>();
 		String newickStringName = null;
 
 		if (pRequest.getParameter("treeblockid") != null) {
@@ -71,6 +72,7 @@ public class DirectMapToPhyloWidgetController implements Controller {
 			for (PhyloTree aTree : TB.getTreeList()) {
 				treeMap.put(getMapKey(aTree), aTree.getId() + separator + aTree.getNewickString()
 					+ separator + "T");
+				phylowsMap.put(getMapKey(aTree), aTree.getPhyloWSPath().getPath());
 				if ( defaultNewick.equals("") ) {
 					defaultNewick = aTree.getNewickString();
 				}
@@ -96,6 +98,7 @@ public class DirectMapToPhyloWidgetController implements Controller {
 			// use "T" to enable the edit menu items.
 			treeMap.put(getMapKey(aTree), TreeId + separator + aTree.getNewickString() + separator
 				+ "T");
+			phylowsMap.put(getMapKey(aTree), aTree.getPhyloWSPath().getPath());
 			newickStringName = aTree.getTitle();
 			Study study = aTree.getStudy();
 			if ( study != null && study.isPublished() ) {
@@ -107,6 +110,7 @@ public class DirectMapToPhyloWidgetController implements Controller {
 		
 		pRequest.getSession().setAttribute("DEFAULTNEWICK", defaultNewick);
 		pRequest.getSession().setAttribute("NEWICKSTRINGSMAP", treeMap);
+		pRequest.getSession().setAttribute("PHYLOWSMAP", phylowsMap);
 		pRequest.getSession().setAttribute("NEWICKSTRINGNAME", newickStringName);
 
 		return new ModelAndView(getDefaultView());
