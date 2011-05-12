@@ -8,8 +8,8 @@
 <title>-Tree viewer</title>
 
 <script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/scripts/phylowidget/lib.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/scripts/phylowidget.js'/>"></script>
+<!-- script type="text/javascript" src="<c:url value='/scripts/phylowidget/lib.js'/>"></script-->
+<!-- script type="text/javascript" src="<c:url value='/scripts/phylowidget.js'/>"></script-->
 <script type="text/javascript" src="<c:url value='/scripts/raphael-min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/jsphylosvg-min.js'/>"></script>
 
@@ -85,7 +85,7 @@ table .val {
 </style>
 </head>
 <body>
-	<script type="text/javascript">		
+	<!-- script type="text/javascript">		
 	    TreeBASE.register(			
 	        function () {		
 	            var treeList = $('treeList');
@@ -95,7 +95,7 @@ table .val {
 	            updateJavaTree();			
 	        }		
 	    );	
-	</script>
+	</script -->
 	<form name="TreeForm">
 		<table id="content" style="margin-top: 5px">
 			<tr>
@@ -189,7 +189,7 @@ table .val {
 					 		</c:forEach>
 					 	</select>
 					</fieldset>
-                    <input 
+                    <!-- input 
                         type="hidden" 
                         name="treeText" 
                         id="treeText" 
@@ -200,7 +200,7 @@ table .val {
                         name="clipText" 
                         id="clipText" 
                         onchange="updateJavaClip();" 
-                        value="" />                    
+                        value="" /-->                    
                     <div id="comments" style="margin: 5px">
                         Make a selection by clicking on the tree list.
                     </div>
