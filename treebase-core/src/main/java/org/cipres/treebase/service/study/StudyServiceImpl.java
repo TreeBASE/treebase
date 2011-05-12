@@ -1,20 +1,14 @@
 
 package org.cipres.treebase.service.study;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Clob;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Hibernate;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -534,5 +528,9 @@ public class StudyServiceImpl extends AbstractServiceImpl implements StudyServic
 	public Collection<Study> findByJournal(String pJournal,
 			boolean pCaseSensitive) {
 		return getStudyHome().findByJournal(pJournal,pCaseSensitive);
+	}
+
+	public Collection<Study> findByPublicationDateRange(Date from, Date until) {
+		return getStudyHome().findByPublicationDateRange(from, until);
 	}
 }
