@@ -8,8 +8,6 @@
 <title>-Tree viewer</title>
 
 <script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
-<!-- script type="text/javascript" src="<c:url value='/scripts/phylowidget/lib.js'/>"></script-->
-<!-- script type="text/javascript" src="<c:url value='/scripts/phylowidget.js'/>"></script-->
 <script type="text/javascript" src="<c:url value='/scripts/raphael-min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/jsphylosvg-min.js'/>"></script>
 
@@ -85,64 +83,21 @@ table .val {
 </style>
 </head>
 <body>
-	<!-- script type="text/javascript">		
-	    TreeBASE.register(			
-	        function () {		
-	            var treeList = $('treeList');
-	            var option = treeList.select('option');
-	            var treeText = $('treeText');
-	           	treeText.value = option[0].value;				
-	            updateJavaTree();			
-	        }		
-	    );	
-	</script -->
 	<form name="TreeForm">
 		<table id="content" style="margin-top: 5px">
 			<tr>
                 <td style="vertical-align:top">
-                    <%-- fieldset>
-                        <legend>PhyloWidget
-<a href="#" class="openHelp" onclick="openHelp('newPhyloWidget')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>                        
-                        </legend>
-                        <applet 
-                            code="org.phylowidget.PhyloWidget"
-                            id="PhyloWidget"
-                            name="PhyloWidget"
-                            codebase="./phylowidget" 
-                            archive="PhyloWidget.jar,core.jar,itext.jar,jgrapht-jdk1.5.jar,pdf.jar"
-                            mayscript="true"
-                            width="600" height="600">
-                        	<param name="tree" value="<c:out value="${DEFAULTNEWICK}"/>"/>
-                        	
-                        	
-                        	<!-- 
-                        		Additional parameters can be passed to the widget, which
-                        		are parsed out by PhyloUI.java, e.g.:
-                        		<param name="showBranchLengths" value="true"/>
-                        		<param name="useBranchLengths" value="true"/>                        	
-                        	-->
-                        	<param name="menuFile" value="limited-menus.xml" />
-                            <param name="image" value="loading.gif" />
-                            <param name="boxmessage" value="Loading PhyloWidget software..." />
-                            <param name="boxbgcolor" value="#FFFFFF" />
-                            <param name="progressbar" value="true" />
-                            <param name="subapplet.classname" value="org.phylowidget.PhyloWidget" />
-                            <param name="subapplet.displayname" value="PhyloWidget" />
-                            <param name="cache_archive" value="PhyloWidget.jar,core.jar,itext.jar,jgrapht-jdk1.5.jar,pdf.jar"/>
-                            <param name="cache_archive_ex" value="PhyloWidget.jar;preload,core.jar;preload,itext.jar;preload,jgrapht-jdk1.5.jar;preload,pdf.jar;preload"/>
-                            
-                            
-                            <!-- This is the message that shows up when people don't have
-                                 Java installed in their browser. -->
-                            To view this content, you need to install Java from 
-                            <a href="http://java.com">java.com</a>                        
-                        </applet>
-                    </fieldset --%>
                     <fieldset>
                     	<legend>Tree window</legend>
 						<script type="text/javascript">
-						function drawjsPhyloSVGTree(){
-							var uri = "/treebase-web/phylows/tree/"+document.TreeForm.treeList.value+"?format=nexml";
+						function drawjsPhyloSVGTree(namespacedGUID,ntax){
+							var uri = "/treebase-web/phylows/tree/";
+							if ( null != namespacedGUID ) {
+								uri = uri + namespacedGUID + "?format=nexml";
+							}
+							else {
+								uri = uri + document.TreeForm.treeList.value + "?format=nexml";
+							}
 							new Ajax.Request(uri,{
 								method     : 'get',
 								onComplete : function(transport) {
@@ -165,15 +120,7 @@ table .val {
                     	<div id="svgCanvas" style="width:600px;height:600px"></div>
                     </fieldset>
                 </td>
-                <td style="vertical-align:top">	                	               		
-					<fieldset style="margin-left:5px;margin-right:5px">
-						<legend>Node Info</legend>
-						<div id="nodeText" style="background:white;margin:5px;padding:5px;">
-							Mouse over a node to view its detailed information here. 
-							Node details will be displayed if they were described in 
-							the uploaded tree.
-						</div>
-					</fieldset>
+                <td style="vertical-align:top">
 					<fieldset  style="margin-top:10px;margin-left:5px;margin-right:5px">
 						<legend><c:out value="${NEWICKSTRINGNAME}"/></legend>
 						<select 
@@ -181,29 +128,19 @@ table .val {
 						    size="10" 
 						    onclick="javascript:drawjsPhyloSVGTree();" 
 						    id="treeList">
-							<%--c:forEach var="x" items="${NEWICKSTRINGSMAP}" > 
-					  			<option value="${x.value}">${x.key}</option>
-					 		</c:forEach --%>
 					 		<c:forEach var="x" items="${PHYLOWSMAP}">
 					 			<option value="${x.value}">${x.key}</option>
 					 		</c:forEach>
 					 	</select>
+					 	<ol>
+					 		<c:forEach var="tree" items="${TREELIST}">
+					 			<li>
+					 				<a href="javascript:drawjsPhyloSVGTree(${tree.treebaseIDString.namespacedGUID},${tree.nTax})">${tree.label} ${tree.title}</a>
+					 			</li>
+					 			<option value="${x.value}">${x.key}</option>
+					 		</c:forEach>
+					 	</ol>
 					</fieldset>
-                    <!-- input 
-                        type="hidden" 
-                        name="treeText" 
-                        id="treeText" 
-                        onfocus="selectOnce(this);" 
-                        value="" />
-                    <input 
-                        type="hidden" 
-                        name="clipText" 
-                        id="clipText" 
-                        onchange="updateJavaClip();" 
-                        value="" /-->                    
-                    <div id="comments" style="margin: 5px">
-                        Make a selection by clicking on the tree list.
-                    </div>
 					<c:if test="${treeBlockID != null}">
 						<fieldset style="margin-left:5px;margin-right:5px;background-color:white">		
 							<legend>Quick links</legend>								
