@@ -719,7 +719,7 @@ public class Study extends AbstractPersistedObject {
 			annotations.add(new Annotation(Constants.DCURI,"dc:date",getReleaseDate().toString()));
 		}
 		if ( null != getLastModifiedDate() ) {
-			annotations.add(new Annotation(Constants.TBTermsURI, "tb:lastModifiedDate", getLastModifiedDate().toString()));
+			annotations.add(new Annotation(Constants.PrismURI, "prism:modificationDate", getLastModifiedDate().toString()));
 		}
 		if ( null != getSubmission() ) {
 			if ( null != getSubmission().getSubmitter() ) {
