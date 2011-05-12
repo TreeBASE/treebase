@@ -96,7 +96,7 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 			treeBlock.setTaxonLabelSet(tls);
 			treeBlock.addPhyloTree(tree);
 			nds.getTreeBlocks().add(treeBlock);
-			return getNexmlService().serialize(nds,getDefaultProperties(request));
+			return getNexmlService().serialize(nds,getDefaultProperties(request),tree.getStudy());
 		}
 		else if ( getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet nds = new NexusDataSet();
@@ -105,7 +105,7 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 			treeBlock.setTaxonLabelSet(tls);
 			treeBlock.addPhyloTree(tree);
 			nds.getTreeBlocks().add(treeBlock);			
-			return getRdfaService().serialize(nds,getDefaultProperties(request));			
+			return getRdfaService().serialize(nds,getDefaultProperties(request),tree.getStudy());			
 		}		
 		else {
 			StringBuilder builder = new StringBuilder();
