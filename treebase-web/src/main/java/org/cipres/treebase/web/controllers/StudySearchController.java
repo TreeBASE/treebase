@@ -2,7 +2,9 @@
 package org.cipres.treebase.web.controllers;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,6 +22,8 @@ import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.StudySearchResults;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
+import org.cipres.treebase.domain.study.Submission;
+import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.util.RequestMessageSetter;
 import org.springframework.validation.BindException;
@@ -31,7 +35,10 @@ import org.z3950.zing.cql.CQLNotNode;
 import org.z3950.zing.cql.CQLOrNode;
 import org.z3950.zing.cql.CQLParseException;
 import org.z3950.zing.cql.CQLParser;
+import org.z3950.zing.cql.CQLRelation;
 import org.z3950.zing.cql.CQLTermNode;
+
+import com.ibm.icu.text.DateFormat;
 
 /**
  * StudySearchController.java
@@ -78,7 +85,11 @@ public class StudySearchController extends SearchController {
 		byLegacyID,
 		byTitle,
 		byKeyword,
-		byJournal
+		byJournal,
+		byCreationDate,
+		byPublicationDate,
+		byReleaseDate,
+		byLastModifiedDate
 	}
 
 	protected ModelAndView onSubmit(
@@ -132,7 +143,7 @@ public class StudySearchController extends SearchController {
 			}
 			// XXX we now never do an exact match with terms provided through the web app. We can change
 			// this, e.g. by adding a check box whose value is the boolean argument of doSearch()
-			Collection<Study> matches = doSearch(request, response, searchType, errors,searchTerm,false);	
+			Collection<Study> matches = doSearch(request, response, searchType, errors,searchTerm,false,null);	
 			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {				
 				SearchResults<Study> newRes = intersectSearchResults(oldRes, new StudySearchResults(matches), 
 				new RequestMessageSetter(request), "No matching studies found");	
@@ -154,7 +165,7 @@ public class StudySearchController extends SearchController {
 			HttpServletRequest request, 
 			HttpServletResponse response, 
 			BindException errors
-		) throws InstantiationException {
+		) throws InstantiationException, ParseException {
 		if ( node instanceof CQLBooleanNode ) {
 			Set<Study> resultsLeft = doCQLQuery(((CQLBooleanNode)node).left,results, request, response, errors);
 			Set<Study> resultsRight = doCQLQuery(((CQLBooleanNode)node).right,results, request, response, errors);
@@ -182,23 +193,32 @@ public class StudySearchController extends SearchController {
 		else if ( node instanceof CQLTermNode ) {
 			CQLTermNode term = (CQLTermNode)node;
 			boolean exactMatch = term.getRelation().getBase().equals("==");
+			CQLRelation relation = term.getRelation();
 			String index = term.getIndex();
 			if ( index.startsWith("tb.title") ) {
-				results.addAll(doSearch(request, response, SearchType.byTitle, errors, term.getTerm(),exactMatch));
+				results.addAll(doSearch(request, response, SearchType.byTitle, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.equals("tb.identifier.study") ) {
-				results.addAll(doSearch(request, response, SearchType.byID, errors, term.getTerm(),exactMatch));
+				results.addAll(doSearch(request, response, SearchType.byID, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.startsWith("dcterms.contributor") ) {
-				results.addAll(doSearch(request, response, SearchType.byAuthorName, errors, term.getTerm(),exactMatch));
+				results.addAll(doSearch(request, response, SearchType.byAuthorName, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.startsWith("dcterms.abstract") ) {
-				results.addAll(doSearch(request, response, SearchType.inAbstract, errors, term.getTerm(),exactMatch));
+				results.addAll(doSearch(request, response, SearchType.inAbstract, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.startsWith("dcterms.subject") ) {
-				results.addAll(doSearch(request, response, SearchType.byKeyword, errors, term.getTerm(),exactMatch));
+				results.addAll(doSearch(request, response, SearchType.byKeyword, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.startsWith("dcterms.bibliographicCitation") ) {
-				results.addAll(doSearch(request, response, SearchType.inCitation, errors, term.getTerm(),exactMatch));				
+				results.addAll(doSearch(request, response, SearchType.inCitation, errors, term.getTerm(),exactMatch,relation));				
 			} else if ( index.equals("tb.identifier.study.tb1") ) {
-				results.addAll(doSearch(request, response, SearchType.byLegacyID, errors, term.getTerm(),exactMatch));
+				results.addAll(doSearch(request, response, SearchType.byLegacyID, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.startsWith("prism.publicationName") ) {
-				results.addAll(doSearch(request, response, SearchType.byJournal, errors, term.getTerm(),exactMatch));
+				results.addAll(doSearch(request, response, SearchType.byJournal, errors, term.getTerm(),exactMatch,relation));
+			} else if ( index.startsWith("dc.date") ) {
+				results.addAll(doSearch(request,response, SearchType.byReleaseDate, errors, term.getTerm(),exactMatch,relation));
+			} else if ( index.startsWith("prism.creationDate") ) {
+				results.addAll(doSearch(request,response, SearchType.byCreationDate, errors, term.getTerm(),exactMatch,relation));
+			} else if ( index.startsWith("prism.publicationDate") ) {
+				results.addAll(doSearch(request,response, SearchType.byPublicationDate, errors, term.getTerm(),exactMatch,relation));	
+			} else if ( index.startsWith("tb.lastModifiedDate") ) {
+				results.addAll(doSearch(request,response, SearchType.byLastModifiedDate, errors, term.getTerm(),exactMatch,relation));								
 			} else {
 				// issue warnings
 				addMessage(request, "Unsupported index: " + index);
@@ -215,11 +235,12 @@ public class StudySearchController extends SearchController {
 			SearchType searchType,
 			BindException errors,
 			String searchTerm,
-			boolean exactMatch) throws InstantiationException {
+			boolean exactMatch, CQLRelation relation) throws InstantiationException, ParseException {
 		
 		String keywordSearchTerm = "%" + searchTerm + "%";
 		Collection<Study> matches;
-		StudyService studyService = getSearchService().getStudyService();	
+		StudyService studyService = getSearchService().getStudyService();
+		SubmissionService submissionService =  getSearchService().getSubmissionService();
 				
 		switch (searchType) {
 			case byID:
@@ -257,6 +278,15 @@ public class StudySearchController extends SearchController {
 			case byKeyword:
 				matches = studyService.findByKeyword(keywordSearchTerm);
 				break;
+			case byLastModifiedDate:
+				matches = findByLastModified(searchTerm, relation, submissionService);
+				break;
+			case byPublicationDate:
+				matches = findByPublicationDate(searchTerm, relation, studyService);
+				break;
+			case byCreationDate:
+				matches = findByCreationDate(searchTerm, relation, submissionService);
+				break;
 			case byJournal:
 			{
 				if ( exactMatch ) {
@@ -273,6 +303,67 @@ public class StudySearchController extends SearchController {
 		return matches;
 	}
 
+	private Collection<Study> findByCreationDate(String searchTerm,
+			CQLRelation relation, SubmissionService submissionService) throws ParseException {
+		Collection<Study> matches;
+		Date from = null;
+		Date until = null;
+		DateFormat df = DateFormat.getDateInstance();
+		if ( relation.getBase().startsWith(">") ) {
+			from = df.parse(searchTerm);
+			until = new Date(); // i.e. now
+		}
+		else if ( relation.getBase().startsWith("<") ) {
+			from = new Date(0); // i.e. epoch
+			until = df.parse(searchTerm);
+		}
+		Collection<Submission> submissions = submissionService.findSubmissionByCreateDateRange(from, until);
+		matches = new HashSet<Study>();
+		for ( Submission submission : submissions ) {
+			matches.add(submission.getStudy());
+		}
+		return matches;
+	}
+
+	private Collection<Study> findByPublicationDate(String searchTerm,
+			CQLRelation relation, StudyService studyService) throws ParseException {
+		Date from = null;
+		Date until = null;
+		DateFormat df = DateFormat.getDateInstance();
+		if ( relation.getBase().startsWith(">") ) {
+			from = df.parse(searchTerm);
+			until = new Date(); // i.e. now
+		}
+		else if ( relation.getBase().startsWith("<") ) {
+			from = new Date(0); // i.e. epoch
+			until = df.parse(searchTerm);
+		}
+		return studyService.findByPublicationDateRange(from, until);
+	}
+
+	private Collection<Study> findByLastModified(String searchTerm,
+			CQLRelation relation, SubmissionService submissionService)
+			throws ParseException {
+		Collection<Study> matches;
+		Date from = null;
+		Date until = null;
+		DateFormat df = DateFormat.getDateInstance();
+		if ( relation.getBase().startsWith(">") ) {
+			from = df.parse(searchTerm);
+			until = new Date(); // i.e. now
+		}
+		else if ( relation.getBase().startsWith("<") ) {
+			from = new Date(0); // i.e. epoch
+			until = df.parse(searchTerm);
+		}
+		Collection<Submission> submissions = submissionService.findSubmissionByLastModifiedDateRange(from, until);
+		matches = new HashSet<Study>();
+		for ( Submission submission : submissions ) {
+			matches.add(submission.getStudy());
+		}
+		return matches;
+	}
+
 	@Override
 	SearchResultsType currentSearchType() {
 		return SearchResultsType.STUDY;
@@ -286,7 +377,7 @@ public class StudySearchController extends SearchController {
 	@Override
 	protected ModelAndView handleQueryRequest(HttpServletRequest request,
 			HttpServletResponse response, BindException errors,String query)
-			throws CQLParseException, IOException, InstantiationException {
+			throws CQLParseException, IOException, InstantiationException, ParseException {
 		//String query = request.getParameter("query");						
 		CQLParser parser = new CQLParser();
 		CQLNode root = parser.parse(query);
