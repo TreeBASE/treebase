@@ -6,6 +6,7 @@ package org.cipres.treebase.web.controllers;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public abstract class SearchController extends BaseFormController {
 	protected String formView;
 	private TaxonLabelService mTaxonLabelService;
 	
-	protected abstract ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors,String query) throws CQLParseException, IOException, InstantiationException;
+	protected abstract ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors,String query) throws CQLParseException, IOException, InstantiationException, ParseException;
 	
 	/**
 	 * Recursively traverses a CQL parse tree (presumably starting from its
