@@ -8,6 +8,7 @@ import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.SearchService;
 import org.cipres.treebase.domain.search.UnknownSearchResultsTypeError;
 import org.cipres.treebase.domain.study.StudyService;
+import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.domain.taxon.TaxonLabelService;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.service.AbstractService;
@@ -22,6 +23,7 @@ public class SearchServiceImpl extends AbstractServiceImpl implements SearchServ
 	MatrixService matrixService;
 	PhyloTreeService phyloTreeService;
 	TaxonLabelService taxonLabelService;
+	SubmissionService mSubmissionService;
 
 	@SuppressWarnings("serial")
 	public class UnimplementedLayerException extends RuntimeException {
@@ -86,6 +88,14 @@ public class SearchServiceImpl extends AbstractServiceImpl implements SearchServ
 	@Override
 	public Class defaultResultClass() {
 		return null;
+	}
+
+	public SubmissionService getSubmissionService() {
+		return mSubmissionService;
+	}
+
+	public void setSubmissionService(SubmissionService submissionService) {
+		mSubmissionService = submissionService;
 	}
 
 
