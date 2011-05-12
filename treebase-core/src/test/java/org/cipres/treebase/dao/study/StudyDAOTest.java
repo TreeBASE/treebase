@@ -3,6 +3,7 @@ package org.cipres.treebase.dao.study;
 import java.sql.Clob;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Hibernate;
@@ -13,6 +14,8 @@ import org.cipres.treebase.domain.study.StudyCriteria;
 import org.cipres.treebase.domain.study.StudyHome;
 import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
+
+import com.ibm.icu.text.DateFormat;
 
 /**
  * The class <code>StudyDAOTest</code> contains tests for the class {@link <code>StudyDAO</code>}
@@ -277,6 +280,23 @@ public class StudyDAOTest extends AbstractDAOTest {
 		if (logger.isInfoEnabled()) {
 			logger.info(testName + " verified.");
 		}
+	}
+	
+	public void testFindByPublicationDateRange() {
+		String testName = "findByPublicationDateRange";
+		logger.info("\n\t\tRunning Test: " + testName);
+		Date j2010 = null; 
+		Date j2011 = null;
+		DateFormat df = DateFormat.getDateInstance();
+		try {
+			j2010 = df.parse("Jan 1, 2011");
+			j2011 = df.parse("Jan 1, 2011");
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		}
+		Collection<Study> results = getFixture().findByPublicationDateRange(j2010, j2011);
+		logger.info("Found this many results: " + results.size());
+		assertTrue(results.size() > 0);
 	}
 
 	/**
