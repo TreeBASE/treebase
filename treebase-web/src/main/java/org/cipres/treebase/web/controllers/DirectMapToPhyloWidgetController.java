@@ -1,6 +1,8 @@
 package org.cipres.treebase.web.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import java.util.Map;
@@ -54,6 +56,7 @@ public class DirectMapToPhyloWidgetController implements Controller {
 		String separator = "@";
 		Map<String, String> treeMap = new HashMap<String, String>();
 		Map<String,String> phylowsMap = new HashMap<String,String>();
+		List<PhyloTree> treeList = new ArrayList<PhyloTree>();
 		String newickStringName = null;
 
 		if (pRequest.getParameter("treeblockid") != null) {
@@ -76,6 +79,7 @@ public class DirectMapToPhyloWidgetController implements Controller {
 				if ( defaultNewick.equals("") ) {
 					defaultNewick = aTree.getNewickString();
 				}
+				treeList.add(aTree);
 			}					
 			// XXX ok, so this mess started when we somehow combined phylowidget for searching
 			// with phylowidget for submission (why???) -- rvosa
@@ -94,6 +98,7 @@ public class DirectMapToPhyloWidgetController implements Controller {
 
 			String TreeId = pRequest.getParameter("treeid");
 			PhyloTree aTree = getPhyloTreeService().findByID(Long.parseLong(TreeId));
+			treeList.add(aTree);
 
 			// use "T" to enable the edit menu items.
 			treeMap.put(getMapKey(aTree), TreeId + separator + aTree.getNewickString() + separator
@@ -112,6 +117,7 @@ public class DirectMapToPhyloWidgetController implements Controller {
 		pRequest.getSession().setAttribute("NEWICKSTRINGSMAP", treeMap);
 		pRequest.getSession().setAttribute("PHYLOWSMAP", phylowsMap);
 		pRequest.getSession().setAttribute("NEWICKSTRINGNAME", newickStringName);
+		pRequest.getSession().setAttribute("TREELIST", treeList);
 
 		return new ModelAndView(getDefaultView());
 	}
