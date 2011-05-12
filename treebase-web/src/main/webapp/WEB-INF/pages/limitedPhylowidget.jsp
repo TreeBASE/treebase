@@ -145,7 +145,7 @@ table .val {
 						<script type="text/javascript">
 						function drawTree(){
 							YUI().use('oop', 'json-stringify', 'io-base', 'event', 'event-delegate', function(Y){
-								var uri = "/treebase-web/"+document.TreeForm.treeList.value+"?format=nexml";
+								var uri = "/treebase-web/phylows/tree/"+document.TreeForm.treeList.value+"?format=nexml";
 								function complete(id, o, args) {
 									var data = o.responseXML; // Response data.
 									var dataObject = {
@@ -163,7 +163,7 @@ table .val {
 							});
 						};
 						</script>                    	
-                    	<div id="svgCanvas"></div>
+                    	<div id="svgCanvas" style="width:600px;height:600px"></div>
                     </fieldset>
                 </td>
                 <td style="vertical-align:top">	                	               		
