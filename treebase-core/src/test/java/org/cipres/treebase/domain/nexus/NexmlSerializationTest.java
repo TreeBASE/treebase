@@ -14,6 +14,9 @@ import org.cipres.treebase.Constants;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
+import org.cipres.treebase.domain.taxon.TaxonLabelSet;
+import org.cipres.treebase.domain.tree.PhyloTree;
+import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
 import org.nexml.model.DocumentFactory;
 import org.nexml.model.Document;
@@ -26,18 +29,24 @@ public class NexmlSerializationTest extends AbstractDAOTest  {
 		Study study = (Study)loadObject(Study.class, studyId);
 		Document doc = DocumentFactory.safeCreateDocument();
 		NexmlDocumentConverter conv = new NexmlDocumentConverter(study,getTaxonLabelHome(),doc);
-		String xml = conv.fromTreeBaseToXml(study).getXmlString();
-//		File file = new File("/Users/rvosa/Desktop/NexmlSerializationTest.xml");
-//		try {
-//			Writer output = new BufferedWriter(new FileWriter(file));
-//			output.write(xml);
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}		
+		String xml = conv.fromTreeBaseToXml(study).getXmlString();		
+		System.out.println(xml);
+		Assert.assertNotNull(xml);
+	}
+	
+	public void testSerializeTree() {
+		long treeId = 4816;
+		Document doc = DocumentFactory.safeCreateDocument();		
+		PhyloTree tree = (PhyloTree)loadObject(PhyloTree.class,treeId);
+		TaxonLabelSet tls = tree.getTreeBlock().getTaxonLabelSet();
+		NexusDataSet nds = new NexusDataSet();
+		nds.getTaxonLabelSets().add(tls);
+		TreeBlock treeBlock = new TreeBlock();
+		treeBlock.setTaxonLabelSet(tls);
+		treeBlock.addPhyloTree(tree);
+		nds.getTreeBlocks().add(treeBlock);
+		NexmlDocumentConverter conv = new NexmlDocumentConverter(tree.getStudy(),getTaxonLabelHome(),doc);
+		String xml = conv.fromTreeBaseToXml(nds).getXmlString();
 		System.out.println(xml);
 		Assert.assertNotNull(xml);
 	}
