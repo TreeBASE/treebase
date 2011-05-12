@@ -27,7 +27,6 @@ import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.Constants;
-import org.cipres.treebase.ContextManager;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
 import org.cipres.treebase.domain.Annotation;
@@ -41,8 +40,6 @@ import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.TreeBlock;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -51,7 +48,6 @@ import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.IndexColumn;
 import org.jdom.Element;
-import org.nexml.model.Document;
 
 @Entity
 @Table(name = "STUDY")
@@ -721,6 +717,9 @@ public class Study extends AbstractPersistedObject {
 		}			
 		if ( null != getReleaseDate() ) {
 			annotations.add(new Annotation(Constants.DCURI,"dc:date",getReleaseDate().toString()));
+		}
+		if ( null != getLastModifiedDate() ) {
+			annotations.add(new Annotation(Constants.TBTermsURI, "tb:lastModifiedDate", getLastModifiedDate().toString()));
 		}
 		if ( null != getSubmission() ) {
 			if ( null != getSubmission().getSubmitter() ) {
