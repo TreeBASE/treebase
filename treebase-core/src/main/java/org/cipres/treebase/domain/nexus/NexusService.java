@@ -47,6 +47,7 @@ public interface NexusService {
 	 */
 	String serialize(NexusDataSet pNexusDataSet);
 	String serialize(NexusDataSet pNexusDataSet, Properties pProperties);
+	String serialize(NexusDataSet pNexusDataSet, Properties pProperties,Study study);
 	
 	/**
 	 * Write the NexusDataSet to a string that represents the object.
