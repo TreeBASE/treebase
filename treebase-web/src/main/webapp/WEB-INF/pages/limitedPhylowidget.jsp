@@ -145,7 +145,7 @@ table .val {
 							var uri = "/treebase-web/phylows/tree/"+document.TreeForm.treeList.value+"?format=nexml";
 							new Ajax.Request(uri,{
 								method     : 'get',
-								onSuccess  : function(transport) {
+								onComplete : function(transport) {
 									var dataObject = {
 											nexml      : transport.responseXML,
 											fileSource : true
