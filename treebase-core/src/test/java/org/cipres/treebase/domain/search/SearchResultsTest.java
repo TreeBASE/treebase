@@ -51,6 +51,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 		assertNotNull(ssr.getSearchService());
 		assertNotNull(ssr.getSearchService().getStudyService());
 		assertNotNull(ssr.getStudyService());
+		assertNotNull(ssr.getSearchService().getSubmissionService());
 		assertNotNull(tsr.getSearchService());
 		assertNotNull(tsr.getSearchService().getPhyloTreeService());
 		assertNotNull(tsr.getPhyloTreeService());
