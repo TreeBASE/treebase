@@ -2,6 +2,7 @@
 package org.cipres.treebase.domain.study;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 import org.cipres.treebase.domain.DomainHome;
@@ -108,4 +109,13 @@ public interface StudyHome extends DomainHome {
 	 * @author mjd 20080813
 	 */
 	Collection<Study> findByTaxonLabelName(String taxonLabel);
+	
+	/**
+	 * Find the studies that were published within the specified date range
+	 * @param from
+	 * @param until
+	 * @return
+	 */
+	Collection<Study> findByPublicationDateRange(Date from, Date until);
+
 }
