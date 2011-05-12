@@ -286,6 +286,7 @@
                 <property name="matrixService" ref="matrixService"/>
                 <property name="studyService" ref="studyService"/>
                 <property name="taxonLabelService" ref="taxonLabelService"/>
+                <property name="submissionService" ref="submissionService"/>
  			</bean>
 		</property>
 	</bean>
