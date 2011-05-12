@@ -96,6 +96,11 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, properties);
 		return ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
 	}
+	
+	public String serialize(NexusDataSet nexusDataSet, Properties properties,Study study) {
+		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
+		return ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
+	}	
 
 	public String serialize(Study study, Properties properties) {
 		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);

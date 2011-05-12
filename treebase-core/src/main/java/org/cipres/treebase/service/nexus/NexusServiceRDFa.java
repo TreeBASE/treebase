@@ -56,6 +56,14 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 	/**
 	 * 
 	 */
+	public String serialize(NexusDataSet nexusDataSet,Properties properties,Study study) {
+		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
+		return transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());
+	}	
+	
+	/**
+	 * 
+	 */
 	public String serialize(NexusDataSet nexusDataSet) {
 		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, null);
 		return transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());		
