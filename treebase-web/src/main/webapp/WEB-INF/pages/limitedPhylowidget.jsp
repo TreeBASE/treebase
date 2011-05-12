@@ -144,10 +144,9 @@ table .val {
                     	</legend>
 						<script type="text/javascript">
 						function drawjsPhyloSVGTree(){
-							var uri = "/treebase-web/phylows/tree/"+document.TreeForm.treeList.value;
+							var uri = "/treebase-web/phylows/tree/"+document.TreeForm.treeList.value+"?format=nexml";
 							new Ajax.Request(uri,{
 								method     : 'get',
-								parameters : { format : 'nexml' },
 								onSuccess  : function(transport){
 									var dataObject = {
 											nexml      : transport.responseXML,
@@ -159,7 +158,9 @@ table .val {
 										600, 600				
 									);
 								},
-								onFailure: function(){ alert('Something went wrong while attempting to fetch '+uri) }
+								onFailure: function(){ 
+									alert('Something went wrong while attempting to fetch '+uri) 
+								}
 							});						
 						};
 						</script>                    	
