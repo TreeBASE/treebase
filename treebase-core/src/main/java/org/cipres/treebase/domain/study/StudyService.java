@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.study;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 import org.cipres.treebase.domain.admin.UserRole.TBPermission;
@@ -124,6 +125,14 @@ public interface StudyService extends AbstractService {
 	 */
 	String generateReconstructedNexusFile(Long pSubmissionId, String pFileName);
 
+	/**
+	 * Find studies whose citation publication date is within the range
+	 * @param from - a starting date
+	 * @param until - a closing date
+	 * @return
+	 */
+	Collection<Study> findByPublicationDateRange(Date from, Date until);
+	
 	/**
 	 * Find studies whose text contains the keyword anywhere
 	 * @param keyword - target word
