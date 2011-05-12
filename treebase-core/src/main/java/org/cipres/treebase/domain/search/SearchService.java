@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.search;
 
 import org.cipres.treebase.domain.matrix.MatrixService;
 import org.cipres.treebase.domain.study.StudyService;
+import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.domain.taxon.TaxonLabelService;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.service.AbstractService;
@@ -14,6 +15,8 @@ import org.cipres.treebase.service.AbstractService;
 public interface SearchService extends AbstractService {
 	public StudyService getStudyService();
 	public void setStudyService(StudyService studyService);
+	public SubmissionService getSubmissionService();
+	public void setSubmissionService(SubmissionService submissionService);
 	public PhyloTreeService getPhyloTreeService();
 	public void setPhyloTreeService(PhyloTreeService phyloTreeService);
 	public MatrixService getMatrixService();
