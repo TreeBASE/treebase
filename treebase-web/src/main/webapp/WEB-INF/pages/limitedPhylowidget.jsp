@@ -139,15 +139,13 @@ table .val {
                         </applet>
                     </fieldset --%>
                     <fieldset>
-                    	<legend>jsPhyloSVG 
-                    	<a href="#" class="openHelp" onclick="openHelp('jsPhyloSVG')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>                    	
-                    	</legend>
+                    	<legend>Tree window</legend>
 						<script type="text/javascript">
 						function drawjsPhyloSVGTree(){
 							var uri = "/treebase-web/phylows/tree/"+document.TreeForm.treeList.value+"?format=nexml";
 							new Ajax.Request(uri,{
 								method     : 'get',
-								onSuccess  : function(transport){
+								onSuccess  : function(transport) {
 									var dataObject = {
 											nexml      : transport.responseXML,
 											fileSource : true
