@@ -5,11 +5,13 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>-Tree viewer/editor (PhyloWidget)</title>
+<title>-Tree viewer</title>
 
 <script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/phylowidget/lib.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/phylowidget.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/raphael-min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/jsphylosvg-min.js'/>"></script>
 
 <style type="text/css">
 body {
@@ -98,7 +100,7 @@ table .val {
 		<table id="content" style="margin-top: 5px">
 			<tr>
                 <td style="vertical-align:top">
-                    <fieldset>
+                    <%-- fieldset>
                         <legend>PhyloWidget
 <a href="#" class="openHelp" onclick="openHelp('newPhyloWidget')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>                        
                         </legend>
@@ -135,6 +137,33 @@ table .val {
                             To view this content, you need to install Java from 
                             <a href="http://java.com">java.com</a>                        
                         </applet>
+                    </fieldset --%>
+                    <fieldset>
+                    	<legend>jsPhyloSVG 
+                    	<a href="#" class="openHelp" onclick="openHelp('jsPhyloSVG')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>                    	
+                    	</legend>
+						<script type="text/javascript">
+						function drawTree(){
+							YUI().use('oop', 'json-stringify', 'io-base', 'event', 'event-delegate', function(Y){
+								var uri = "/treebase-web/"+document.TreeForm.treeList.value+"?format=nexml";
+								function complete(id, o, args) {
+									var data = o.responseXML; // Response data.
+									var dataObject = {
+										nexml:	data,
+										fileSource: true
+									};		
+									phylocanvas = new Smits.PhyloCanvas(
+										dataObject,
+										'svgCanvas', 
+										600, 600				
+									);
+								};
+								Y.on('io:complete', complete, Y);
+								var request = Y.io(uri);
+							});
+						};
+						</script>                    	
+                    	<div id="svgCanvas"></div>
                     </fieldset>
                 </td>
                 <td style="vertical-align:top">	                	               		
@@ -151,10 +180,13 @@ table .val {
 						<select 
 						    name="treeList" 
 						    size="10" 
-						    onclick="javascript:pickTree();" 
+						    onclick="javascript:drawTree();" 
 						    id="treeList">
-							<c:forEach var="x" items="${NEWICKSTRINGSMAP}" > 
+							<%--c:forEach var="x" items="${NEWICKSTRINGSMAP}" > 
 					  			<option value="${x.value}">${x.key}</option>
+					 		</c:forEach --%>
+					 		<c:forEach var="x" items="${PHYLOWSMAP}">
+					 			<option value="${x.value}">${x.key}</option>
 					 		</c:forEach>
 					 	</select>
 					</fieldset>
