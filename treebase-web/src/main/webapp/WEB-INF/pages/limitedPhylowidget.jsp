@@ -143,24 +143,24 @@ table .val {
                     	<a href="#" class="openHelp" onclick="openHelp('jsPhyloSVG')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>                    	
                     	</legend>
 						<script type="text/javascript">
-						function drawTree(){
-							YUI().use('oop', 'json-stringify', 'io-base', 'event', 'event-delegate', function(Y){
-								var uri = "/treebase-web/phylows/tree/"+document.TreeForm.treeList.value+"?format=nexml";
-								function complete(id, o, args) {
-									var data = o.responseXML; // Response data.
+						function drawjsPhyloSVGTree(){
+							var uri = "/treebase-web/phylows/tree/"+document.TreeForm.treeList.value;
+							new Ajax.Request(uri,{
+								method     : 'get',
+								parameters : { format : 'nexml' },
+								onSuccess  : function(transport){
 									var dataObject = {
-										nexml:	data,
-										fileSource: true
+											nexml      : transport.responseXML,
+											fileSource : true
 									};		
 									phylocanvas = new Smits.PhyloCanvas(
 										dataObject,
 										'svgCanvas', 
 										600, 600				
 									);
-								};
-								Y.on('io:complete', complete, Y);
-								var request = Y.io(uri);
-							});
+								},
+								onFailure: function(){ alert('Something went wrong while attempting to fetch '+uri) }
+							});						
 						};
 						</script>                    	
                     	<div id="svgCanvas" style="width:600px;height:600px"></div>
@@ -180,7 +180,7 @@ table .val {
 						<select 
 						    name="treeList" 
 						    size="10" 
-						    onclick="javascript:drawTree();" 
+						    onclick="javascript:drawjsPhyloSVGTree();" 
 						    id="treeList">
 							<%--c:forEach var="x" items="${NEWICKSTRINGSMAP}" > 
 					  			<option value="${x.value}">${x.key}</option>
