@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.dao.AbstractDAO;
 import org.cipres.treebase.domain.admin.Person;
@@ -402,19 +403,20 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 	}
 
 	public Collection<Study> findByPublicationDateRange(Date from, Date until) {
-		int begin = from.getYear();
-		int end = until.getYear();
-		if ( begin != end ) {
-			Query q = getSession().createQuery("select study from Citation where publishyear between :begin and :end");
-			q.setInteger("begin", begin);
-			q.setInteger("end", end);
-			return q.list();
+		int begin = from.getYear() + 1900;
+		int end = until.getYear() + 1900;
+		String range = begin + ".." + end;
+		Collection<Citation> citations = null;
+		try {
+			citations = this.findSomethingByRangeExpression(Citation.class, "publishYear", range);
+		} catch (MalformedRangeExpression e) {
+			e.printStackTrace();
 		}
-		else {
-			Query q = getSession().createQuery("select study from Citation where publishyear = :begin");
-			q.setInteger("begin",begin);
-			return q.list();
+		Collection<Study> studies = new HashSet<Study>();
+		for ( Citation citation : citations ) {
+			studies.add(citation.getStudy());
 		}
+		return studies;
 	}
 
 
