@@ -2,7 +2,15 @@
 {
 id:${study.id},
 name:'<c:out value="${study.name}"/>',
-notes:'<c:out value="${study.notes}"/>',
+<% pageContext.setAttribute("returnLineChar", "\r"); %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
+<c:set var="notes">
+	${fn:replace(study.notes,returnLineChar, "\\r")}
+</c:set>
+<c:set var="notes">
+	${fn:replace(notes,newLineChar, "\\n")}
+</c:set>
+notes:'<c:out value="${notes}"/>',
 authors:[<c:forEach var="author" items="${study.authors}" varStatus="status_analysis">
 {id:${author.id},fullNameCitationStyle:'<c:out value="${author.fullNameCitationStyle}"/>'},
 </c:forEach>],
