@@ -52,9 +52,7 @@ input {
 
 fieldset {
   display:block;
-  background:#CEE3F6;
   margin:auto;
-  text-align:center;
 }
 
 legend {
@@ -91,13 +89,7 @@ table .val {
                     	<legend>Tree window</legend>
 						<script type="text/javascript">
 						function drawjsPhyloSVGTree(namespacedGUID,ntax){
-							var uri = "/treebase-web/phylows/tree/";
-							if ( null != namespacedGUID ) {
-								uri = uri + namespacedGUID + "?format=nexml";
-							}
-							else {
-								uri = uri + document.TreeForm.treeList.value + "?format=nexml";
-							}
+							var uri = "/treebase-web/phylows/tree/" + namespacedGUID + "?format=nexml";
 							new Ajax.Request(uri,{
 								method     : 'get',
 								onComplete : function(transport) {
@@ -108,7 +100,7 @@ table .val {
 									phylocanvas = new Smits.PhyloCanvas(
 										dataObject,
 										'svgCanvas', 
-										600, 600				
+										600, ntax * 20				
 									);
 								},
 								onFailure: function(){ 
@@ -117,40 +109,30 @@ table .val {
 							});						
 						};
 						</script>                    	
-                    	<div id="svgCanvas" style="width:600px;height:600px"></div>
+                    	<div id="svgCanvas" style="width:600px"></div>
                     </fieldset>
                 </td>
                 <td style="vertical-align:top">
-					<fieldset  style="margin-top:10px;margin-left:5px;margin-right:5px">
+					<fieldset>
 						<legend><c:out value="${NEWICKSTRINGNAME}"/></legend>
-						<select 
-						    name="treeList" 
-						    size="10" 
-						    onclick="javascript:drawjsPhyloSVGTree();" 
-						    id="treeList">
-					 		<c:forEach var="x" items="${PHYLOWSMAP}">
-					 			<option value="${x.value}">${x.key}</option>
-					 		</c:forEach>
-					 	</select>
 					 	<ol>
 					 		<c:forEach var="tree" items="${TREELIST}">
-					 			<li>
-					 				<a href="javascript:drawjsPhyloSVGTree(${tree.treebaseIDString.namespacedGUID},${tree.nTax})">${tree.label} ${tree.title}</a>
+					 			<li onclick="drawjsPhyloSVGTree('${tree.treebaseIDString.namespacedGUID}',${tree.nTax})">
+					 				${tree.label} ${tree.title}
 					 			</li>
-					 			<option value="${x.value}">${x.key}</option>
 					 		</c:forEach>
 					 	</ol>
 					</fieldset>
 					<c:if test="${treeBlockID != null}">
-						<fieldset style="margin-left:5px;margin-right:5px;background-color:white">		
+						<fieldset>		
 							<legend>Quick links</legend>								
-							<p style="text-align:left">							
+							<p>							
 								<a href="/treebase-web/search/study/trees.html?id=${studyID}" target="_new">
 									<img class="iconButton" style="vertical-align:middle" src="<fmt:message key="icons.trees"/>" />
 									Containing tree set
 								</a>
 							</p>
-							<p style="text-align:left">							
+							<p>							
 								<a href="/treebase-web/search/study/summary.html?id=${studyID}" target="_new">
 									<img class="iconButton" style="vertical-align:middle" src="<fmt:message key="icons.citation"/>" />
 									Containing study
