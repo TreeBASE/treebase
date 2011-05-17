@@ -378,6 +378,7 @@ public abstract class SearchController extends BaseFormController {
 	protected void saveSearchResults(HttpServletRequest request, SearchResults<?> results) {
 		request.getSession().setAttribute("searchResults", results == null ? null : results.freeze());
 		request.getSession().setAttribute("searchTerm", request.getParameter("searchTerm"));
+		request.getSession().setAttribute("searchButton", request.getParameter("searchButton"));
 	}
 
 	abstract SearchResultsType currentSearchType() ;
@@ -475,6 +476,17 @@ public abstract class SearchController extends BaseFormController {
 			addMessage(req, "Malformed ID number expression: '" + e.getMessage() + "'");
 		}
 		return matches;
+	}
+	
+	protected Map<String,Object> referenceData(HttpServletRequest pRequest) throws Exception {
+		LOGGER.info("in referenceData");
+	
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		
+		resultMap.put("buttonName", pRequest.getSession().getAttribute("searchButton"));
+		
+		return resultMap;
+		
 	}
 	
 	public SearchService getSearchService() {

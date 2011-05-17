@@ -1,16 +1,30 @@
 <%@ include file="/common/taglibs.jsp"%>
+<%
+	java.util.LinkedHashMap searchOptions = new java.util.LinkedHashMap();
+	searchOptions.put("studyID", "Study ID");
+	searchOptions.put("legacyStudyID", "Legacy Study ID");
+	searchOptions.put("authorKeyword", "Author");
+	searchOptions.put("titleKeyword", "Title");
+	searchOptions.put("abstractKeyword", "Abstract");
+	searchOptions.put("citationKeyword", "Entire citation");
+	searchOptions.put("textKeyword", "All text");
+	
+	pageContext.setAttribute("searchOptions", searchOptions);
+
+%> 
   <form id="searchSimple" method="post">
   <fieldset>
   For study IDs with values less than 3000, please search using the &quot;Legacy Study ID&quot; button.<br>
   Search: <input type="hidden" name="formName" value="searchKeyword"/>
     <input type="text" class="textCell" style="width:150px" name="searchTerm" id="keyword" value="${searchTerm}"/>
-   <button type="submit" name="searchButton" value="studyID">Study ID</button>
-      <button type="submit" name="searchButton" value="legacyStudyID">Legacy Study ID</button>
-     <button type="submit" name="searchButton" value="authorKeyword">Author</button>
-   <button type="submit" name="searchButton" value="titleKeyword">Title</button>
-    <button type="submit" name="searchButton" value="abstractKeyword">Abstract</button>
-    <button type="submit" name="searchButton" value="citationKeyword">Entire citation</button>
-    <button type="submit" name="searchButton" value="textKeyword">All text</button>
+	<select name="searchButton">
+  		<c:forEach var="options" items="${searchOptions}">
+  			<option value="${options.key}" <c:if test="${options.key == searchButton}">selected="selected"</c:if> />
+    			${options.value}
+			</option>
+		</c:forEach>
+	</select>
+	<button type="submit" name="submit" >Search</button>
 	  		<a href="#" class="openHelp" onclick="openHelp('studyKeywordSearchForm')">
 	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
 	  		</a>     
