@@ -104,6 +104,6 @@
 	<!-- BEING FOOTER -->
 	<div id="footer"><c:import url="/common/footer.jsp" /></div>
 </div> <!-- END WRAP -->
-
+<jsp:include page="/common/googleAnalytics.jsp"/>
 </body>
 </html>

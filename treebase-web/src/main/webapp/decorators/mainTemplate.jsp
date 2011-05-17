@@ -28,6 +28,6 @@
 	<!-- BEING FOOTER -->
 	<div id="footer"><jsp:include page="/common/footer.jsp"/></div>
 </div> <!-- END WRAP -->
-
+<jsp:include page="/common/googleAnalytics.jsp"/>
 </body>
 </html>
