@@ -757,7 +757,7 @@ Smits.PhyloCanvas.PhyloxmlParse.prototype = {
 		
 		// RAV: it is more robust to search for the root by the tree topology
 		// then by looking for a @root attribute. Valid NeXML tree structures
-		// always have one node with fewer than 2 edges pointing into it. The
+		// always have one node without normal edges pointing into it. The
 		// root attribute is used to indicate that this tree is actually rooted.
 		// Compare this with nexus/newick: newick strings are always implicitly
 		// rooted, even if the tree is called a utree or the [&U] token is used.
@@ -769,7 +769,7 @@ Smits.PhyloCanvas.PhyloxmlParse.prototype = {
 						targetCount++;
 					}
 				}
-				if ( targetCount < 2 ) {
+				if ( targetCount == 0 ) {
 					root = nexNodes[i];					
 				}
 			}
