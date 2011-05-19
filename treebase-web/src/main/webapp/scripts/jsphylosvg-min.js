@@ -761,6 +761,27 @@ Smits.PhyloCanvas.PhyloxmlParse.prototype = {
 			}
 		}
 		
+		// RAV: the root attribute is used to indicate whether an implicitly rooted
+		// topology should, from a biological p.o.v., be considered as such. However,
+		// valid NeXML tree structures are always rooted, even if they don't have
+		// the root attribute, in the sense that there's always going to be one node
+		// that doesn't have two edges pointing into it. It seems to me that we can
+		// still render these trees, we just have to find which node is the one that
+		// doesn't have two edges pointing in. This loop does that.
+		if (!root){
+			for(i = 0; i < nexNodes.length; i++) {
+				var targetCount = 0;
+				for(j = 0; j < nexEdges.length; j++) {
+					if(nexEdges[j].target == nexNodes[i].id) {
+						targetCount++;
+					}
+				}
+				if ( targetCount < 2 ) {
+					root = nexNodes[i];					
+				}
+			}
+		}
+		
 		if(root){
 			root = recursiveParse(root);
 		
