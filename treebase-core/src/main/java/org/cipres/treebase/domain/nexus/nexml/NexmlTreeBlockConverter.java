@@ -3,7 +3,6 @@ package org.cipres.treebase.domain.nexus.nexml;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.cipres.treebase.Constants;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -129,6 +128,9 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 	private void traverseTreeBaseTree(PhyloTree tbTree,PhyloTreeNode tbNode,Node xmlNode,Tree<FloatEdge> xmlTree) {
 		if ( null != tbNode.getName() ) {
 			xmlNode.setLabel(tbNode.getName());
+		}
+		if ( tbNode.isRootNode() ) {
+			xmlNode.setRoot(true);
 		}
 		attachTreeBaseID(xmlNode, tbNode,PhyloTreeNode.class);	
 		TaxonLabel taxonLabel = tbNode.getTaxonLabel();
