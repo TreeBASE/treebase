@@ -25,7 +25,7 @@ if (document.getElementsByTagName) {
 	                        if (isDoc) {
 	                                startListening(hrefs[l],"click",trackExternalLinks);
 	                        }
-	                } else if (!hrefs[l].href.match(/^javascript:/)) {
+	                } else if (hrefs[l].hostname != location.hostname) {
 	                        startListening(hrefs[l],"click",trackExternalLinks);
 	                }
 			}
@@ -46,7 +46,7 @@ function startListening (obj,evnt,func) {
 function trackMailto (evnt) {
         var href = (evnt.srcElement) ? evnt.srcElement.href : this.href;
         var mailto = "/mailto/" + href.substring(7);
-        if (typeof(pageTracker) == "object") pageTracker._trackPageview(mailto);
+        if (typeof( _gat._getTrackerByName()) == "object")  _gat._getTrackerByName()._trackPageview(mailto);
 }
 
 function trackExternalLinks (evnt) {
@@ -56,6 +56,6 @@ function trackExternalLinks (evnt) {
         }
         var lnk = (e.pathname.charAt(0) == "/") ? e.pathname : "/" + e.pathname;
         if (e.search && e.pathname.indexOf(e.search) == -1) lnk += e.search;
-        if (e.hostname != location.host) lnk = "/external/" + e.hostname + lnk;
-        if (typeof(pageTracker) == "object") pageTracker._trackPageview(lnk); 
+        if (e.hostname != location.hostname) lnk = e.hostname + lnk;
+        if (typeof( _gat._getTrackerByName()) == "object")  _gat._getTrackerByName()._trackPageview(lnk); 
 }
