@@ -755,20 +755,13 @@ Smits.PhyloCanvas.PhyloxmlParse.prototype = {
 			nexNodes = jsonString.trees[0].tree[0].node;
 		}
 		
+		// RAV: it is more robust to search for the root by the tree topology
+		// then by looking for a @root attribute. Valid NeXML tree structures
+		// always have one node with fewer than 2 edges pointing into it. The
+		// root attribute is used to indicate that this tree is actually rooted.
+		// Compare this with nexus/newick: newick strings are always implicitly
+		// rooted, even if the tree is called a utree or the [&U] token is used.
 		for(i = 0; i < nexNodes.length; i++){
-			if(nexNodes[i].root && nexNodes[i].root == "true"){
-				root = nexNodes[i];
-			}
-		}
-		
-		// RAV: the root attribute is used to indicate whether an implicitly rooted
-		// topology should, from a biological p.o.v., be considered as such. However,
-		// valid NeXML tree structures are always rooted, even if they don't have
-		// the root attribute, in the sense that there's always going to be one node
-		// that doesn't have two edges pointing into it. It seems to me that we can
-		// still render these trees, we just have to find which node is the one that
-		// doesn't have two edges pointing in. This loop does that.
-		if (!root){
 			for(i = 0; i < nexNodes.length; i++) {
 				var targetCount = 0;
 				for(j = 0; j < nexEdges.length; j++) {
