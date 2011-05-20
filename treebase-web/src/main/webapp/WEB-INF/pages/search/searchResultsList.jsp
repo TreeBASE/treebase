@@ -45,7 +45,7 @@
 <script type="text/javascript">
       function doAction(action) {
     	$('action').value = action;
-    	if (!(location.search == "") && action == 'discardResults')
+    	if (!(location.search == ""))
     	{
     		var url = location.href;
     		var url_parts = url.split('?');
