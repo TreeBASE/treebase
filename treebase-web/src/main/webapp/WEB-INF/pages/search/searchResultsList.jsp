@@ -43,9 +43,14 @@
 <div id="output"></div>
   
 <script type="text/javascript">
-    
-    function doAction(action) {
+      function doAction(action) {
     	$('action').value = action;
+    	if (!(location.search == "") && action == 'discardResults')
+    	{
+    		var url = location.href;
+    		var url_parts = url.split('?');
+    		$('resultsActionForm').writeAttribute('action', url_parts[0]);
+    	}
     	$('resultsActionForm').submit();
     }
  
