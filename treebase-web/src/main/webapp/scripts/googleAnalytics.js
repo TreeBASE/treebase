@@ -23,7 +23,7 @@ if (document.getElementsByTagName) {
 	                        var path = hrefs[l].pathname + hrefs[l].search;
 							var isDoc = path.match(/\.(?:doc|eps|jpg|png|svg|xls|ppt|pdf|xls|zip|txt|vsd|vxd|js|css|rar|exe|wma|mov|avi|wmv|mp3|nex)($|\&|\?)/);
 	                        if (isDoc) {
-	                                startListening(hrefs[l],"click",trackExternalLinks);
+	                                startListening(hrefs[l],"click",trackDownloads);
 	                        }
 	                } else if (hrefs[l].hostname != location.hostname) {
 	                        startListening(hrefs[l],"click",trackExternalLinks);
@@ -46,7 +46,7 @@ function startListening (obj,evnt,func) {
 function trackMailto (evnt) {
         var href = (evnt.srcElement) ? evnt.srcElement.href : this.href;
         var mailto = "/mailto/" + href.substring(7);
-        if (typeof( _gat._getTrackerByName()) == "object")  _gat._getTrackerByName()._trackPageview(mailto);
+        if (typeof( _gat._getTrackerByName()) == "object")  _gat._getTrackerByName()._trackEvent("Email",mailto);
 }
 
 function trackExternalLinks (evnt) {
@@ -57,5 +57,16 @@ function trackExternalLinks (evnt) {
         var lnk = (e.pathname.charAt(0) == "/") ? e.pathname : "/" + e.pathname;
         if (e.search && e.pathname.indexOf(e.search) == -1) lnk += e.search;
         if (e.hostname != location.hostname) lnk = e.hostname + lnk;
-        if (typeof( _gat._getTrackerByName()) == "object")  _gat._getTrackerByName()._trackPageview(lnk); 
+        if (typeof( _gat._getTrackerByName()) == "object")  _gat._getTrackerByName()._trackEvent("Outgoing Links",lnk); 
+}
+
+function trackDownloads (evnt) {
+    var e = (evnt.srcElement) ? evnt.srcElement : this;
+    while (e.tagName != "A") {
+            e = e.parentNode;
+    }
+    var lnk = (e.pathname.charAt(0) == "/") ? e.pathname : "/" + e.pathname;
+    if (e.search && e.pathname.indexOf(e.search) == -1) lnk += e.search;
+    if (e.hostname != location.hostname) lnk = e.hostname + lnk;
+    if (typeof( _gat._getTrackerByName()) == "object")  _gat._getTrackerByName()._trackEvent("Downloads", lnk); 
 }
