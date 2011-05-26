@@ -38,7 +38,7 @@ import org.z3950.zing.cql.CQLParser;
 import org.z3950.zing.cql.CQLRelation;
 import org.z3950.zing.cql.CQLTermNode;
 
-import com.ibm.icu.text.DateFormat;
+import java.text.DateFormat;
 
 /**
  * StudySearchController.java
