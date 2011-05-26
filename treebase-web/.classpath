@@ -107,5 +107,8 @@
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v5.5"/>
 	<classpathentry kind="var" path="M2_REPO/zing/z3950/org/cql-java/1.0/cql-java-1.0.jar"/>
 	<classpathentry kind="var" path="M2_REPO/postgresql/postgresql/8.3-603.jdbc3/postgresql-8.3-603.jdbc3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/ant/ant/1.8.0/ant-1.8.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/contribs/jersey-multipart/1.1.0-ea/jersey-multipart-1.1.0-ea.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/ws/rs/jsr311-api/1.0/jsr311-api-1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
