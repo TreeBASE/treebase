@@ -15,7 +15,7 @@ import org.cipres.treebase.domain.study.StudyHome;
 import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 
-import com.ibm.icu.text.DateFormat;
+import java.text.DateFormat;
 
 /**
  * The class <code>StudyDAOTest</code> contains tests for the class {@link <code>StudyDAO</code>}
