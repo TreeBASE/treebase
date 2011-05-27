@@ -25,6 +25,8 @@ GETCMD="curl -s -o /dev/null"
 WEBAPPS="$CATALINA_HOME/webapps"
 TARGET_DIR="treebase-web"
 IP_ADDR=`curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'`
+PORT_NUMBER=8080
+PHYLOWIDGET=$HOME/PhyloWidget.jar
 
 # Flag to suppress sourre update and rebuilding
 update_sources=true
@@ -32,7 +34,7 @@ if [ "$1" == "-r" ]; then
   update_sources=false
 fi
 
-TOMCAT_URL=http://$IP_ADDR:6666/treebase-web/
+TOMCAT_URL=http://${IP_ADDR}:${PORT_NUMBER}/treebase-web/
 VERSIONFILE=${TREEBASE_HOME}/treebase-core/src/main/java/org/cipres/treebase/Version.java
 
 # Rebuild the application WAR file, if requested
@@ -87,7 +89,7 @@ phyloWidgetTarget=$WEBAPPS/$TARGET_DIR/test/phylowidget
 while [ '!' -d $phyloWidgetTarget ]; do
   sleep 1;
 done
-cp -pv $HOME/PhyloWidget.jar $phyloWidgetTarget || warn "Couldn't install phyloWidget"
+cp -pv $PHYLOWIDGET $phyloWidgetTarget || warn "Couldn't install phyloWidget"
 
 echo "Publish operation complete"
 
