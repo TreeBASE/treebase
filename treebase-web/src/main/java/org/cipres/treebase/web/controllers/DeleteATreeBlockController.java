@@ -3,6 +3,7 @@ package org.cipres.treebase.web.controllers;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import org.cipres.treebase.domain.admin.UserRole.TBPermission;
+import org.cipres.treebase.domain.study.Analysis;
+import org.cipres.treebase.domain.study.AnalysisStep;
+import org.cipres.treebase.domain.study.AnalyzedData;
+import org.cipres.treebase.domain.study.AnalyzedTree;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.domain.tree.PhyloTree;
@@ -140,9 +145,9 @@ public class DeleteATreeBlockController extends BaseFormController {
 		TreeBlock pTreeBlock = getPhyloTreeHome().findTreeBlockById(treeBlockID);
 
 		Collection<PhyloTree> pTreeCollection = pTreeBlock.getTreeList();
-
+		
 		for (PhyloTree pTree : pTreeCollection) {
-			if (pTree.getStudy() != null) { // It means this tree is tied to analysis step
+			/*if (pTree.getStudy() != null) { // It means this tree is tied to analysis step
 				setTestVariable(true);
 				referenceMap
 					.put(
@@ -150,6 +155,29 @@ public class DeleteATreeBlockController extends BaseFormController {
 						"Either this TreeBlock or atleast one of the Tree in this Block is tied to an Analysis Step.");
 				break; // Even if one tree of the block is ties to Analysis step, we can exit the
 				// for loop.
+			}*/
+	
+			for (Analysis analysis : pTree.getStudy().getAnalyses()) {
+				
+				List<AnalysisStep> analysisStepList = analysis.getAnalysisStepsReadOnly();
+				
+				for (AnalysisStep analysisStep : analysisStepList) {
+					
+					List<AnalyzedData> analyzedDataSet = analysisStep.getDataSetReadOnly();
+					
+					for (AnalyzedData analyzedData : analyzedDataSet) {
+						
+						if (analyzedData instanceof AnalyzedTree) {
+	
+							if ( pTreeCollection.contains(((AnalyzedTree) analyzedData).getTree())) {
+								
+								referenceMap.put("generalmessage", "Either this TreeBlock or at least one of the Tree in this Block is tied to an Analysis Step.");
+								break; // Even if one tree of the block is ties to Analysis step, we can exit the
+							 }
+						 }
+					}
+					
+				}
 			}
 		}
 

@@ -4,6 +4,7 @@
 package org.cipres.treebase.web.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,10 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.cipres.treebase.domain.admin.UserRole.TBPermission;
+import org.cipres.treebase.domain.study.Analysis;
+import org.cipres.treebase.domain.study.AnalysisStep;
+import org.cipres.treebase.domain.study.AnalyzedData;
+import org.cipres.treebase.domain.study.AnalyzedTree;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.domain.tree.PhyloTree;
@@ -114,8 +119,31 @@ public class DeleteATreeController extends BaseFormController {
 		Long treeID = Long.parseLong(request.getParameter("treeid"));
 		PhyloTree pTree = getPhyloTreeService().findByID(treeID);
 
-		if (pTree.getStudy() != null) { // It means this tree is tied to analysis step
+		/*if (pTree.getStudy() != null) { // It means this tree is tied to analysis step
 			referenceMap.put("generalmessage", "This PhyloTree is tied to an Analysis Step.");
+		}*/
+		
+		for (Analysis analysis : pTree.getStudy().getAnalyses()) {
+			
+			List<AnalysisStep> analysisStepList = analysis.getAnalysisStepsReadOnly();
+			
+			for (AnalysisStep analysisStep : analysisStepList) {
+				
+				List<AnalyzedData> analyzedDataSet = analysisStep.getDataSetReadOnly();
+				
+				for (AnalyzedData analyzedData : analyzedDataSet) {
+					
+					if (analyzedData instanceof AnalyzedTree) {
+						 
+						if (pTree.getId() == ((AnalyzedTree) analyzedData).getTree().getId()) {
+							
+							referenceMap.put("generalmessage", "This PhyloTree is tied to an Analysis Step.");
+						 }
+					 }
+				}
+				
+			}
+			
 		}
 
 		referenceMap.put("deleteid", "Tree ID : " + treeID);
