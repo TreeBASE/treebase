@@ -94,13 +94,13 @@ public class DownloadAMatrixController extends AbstractDownloadController implem
 			NexusDataSet pNexusDataSet = new NexusDataSet();
 			pNexusDataSet.getTaxonLabelSets().add(taxa);
 			pNexusDataSet.getMatrices().add(matrix);
-			return getNexmlService().serialize(pNexusDataSet,getDefaultProperties(request));
+			return getNexmlService().serialize(pNexusDataSet,getDefaultProperties(request),matrix.getStudy());
 		}
 		else if ( getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet pNexusDataSet = new NexusDataSet();
 			pNexusDataSet.getTaxonLabelSets().add(taxa);
 			pNexusDataSet.getMatrices().add(matrix);
-			return getRdfaService().serialize(pNexusDataSet,getDefaultProperties(request));			
+			return getRdfaService().serialize(pNexusDataSet,getDefaultProperties(request),matrix.getStudy());			
 		}
 		else { // FORMAT_NEXUS or none
 			StringBuilder matrixContent = new StringBuilder();
