@@ -340,15 +340,31 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 				xmlMatrix.setSeq(seq,xmlOTU);
 			}
 			for ( RowSegment tbSegment : tbSegments ) {
+				String accessionNumber = tbSegment.getSpecimenLabel().getGenBankAccession();
 				Double latitude = tbSegment.getSpecimenLabel().getLatitude();
 				Double longitude = tbSegment.getSpecimenLabel().getLongitude();
+				Double elevation = tbSegment.getSpecimenLabel().getElevation();
+				String collector = tbSegment.getSpecimenLabel().getCollector();
+				String country = tbSegment.getSpecimenLabel().getCountry();
+				if ( null != accessionNumber) {
+					xmlOTU.addAnnotationValue("DwC:StringGenbankAcessionNumber", Constants.DwCURI, accessionNumber);
+				}
 				if ( null != latitude ) {
 					xmlOTU.addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, latitude);
 				}
 				if ( null != longitude ) {
 					xmlOTU.addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, longitude);
 				}
-			}			
+				if ( null != elevation ) {
+					xmlOTU.addAnnotationValue("DwC:DecimalElevation", Constants.DwCURI, elevation);
+				}
+				if ( null != collector ) {
+					xmlOTU.addAnnotationValue("DwC:StringCollector", Constants.DwCURI, collector);
+				}
+				if ( null != country ) {
+					xmlOTU.addAnnotationValue("DwC:StringCountry", Constants.DwCURI, country);
+				}
+			}
 		}	
 	}
 	
@@ -378,16 +394,32 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			}
 			Set<RowSegment> tbSegments = tbRow.getSegmentsReadOnly();
 			for ( RowSegment tbSegment : tbSegments ) {
+				String accessionNumber = tbSegment.getSpecimenLabel().getGenBankAccession();
 				Double latitude = tbSegment.getSpecimenLabel().getLatitude();
 				Double longitude = tbSegment.getSpecimenLabel().getLongitude();
+				Double elevation = tbSegment.getSpecimenLabel().getElevation();
+				String collector = tbSegment.getSpecimenLabel().getCollector();
+				String country = tbSegment.getSpecimenLabel().getCountry();
+				if ( null != accessionNumber) {
+					xmlOTU.addAnnotationValue("DwC:StringGenbankAcessionNumber", Constants.DwCURI, accessionNumber);
+				}
 				if ( null != latitude ) {
 					xmlOTU.addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, latitude);
 				}
 				if ( null != longitude ) {
 					xmlOTU.addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, longitude);
 				}
-			}			
+				if ( null != elevation ) {
+					xmlOTU.addAnnotationValue("DwC:DecimalElevation", Constants.DwCURI, elevation);
+				}
+				if ( null != collector ) {
+					xmlOTU.addAnnotationValue("DwC:StringCollector", Constants.DwCURI, collector);
+				}
+				if ( null != country ) {
+					xmlOTU.addAnnotationValue("DwC:StringCountry", Constants.DwCURI, country);
+				}
+			}
 		}		
 	}
-	
+
 }
