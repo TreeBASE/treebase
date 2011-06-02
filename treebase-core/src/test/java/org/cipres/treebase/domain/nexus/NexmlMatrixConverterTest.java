@@ -4,7 +4,10 @@ import junit.framework.Assert;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
+import org.cipres.treebase.domain.matrix.Matrix;
+import org.cipres.treebase.domain.matrix.StandardMatrix;
 import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
 import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -29,8 +32,11 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		NexusDataSet nexusDataSet = new NexusDataSet();
 		
 		Document doc = DocumentFactory.safeCreateDocument();
+		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),doc);
+		NexmlMatrixConverter nmc = new NexmlMatrixConverter (study,getTaxonLabelHome(),ndc.fromTreeBaseToXml(study));
+		nexusDataSet = ndc.fromXmlToTreeBase(doc);
 		nexusDataSet.setNexmlProject(doc);
-		NexmlMatrixConverter nmc = new NexmlMatrixConverter(study,getTaxonLabelHome(),doc);
+		
 		for (org.cipres.treebase.domain.matrix.Matrix matrix : nexusDataSet.getMatrices() ) {
 			if ( matrix instanceof CharacterMatrix ) {
 				//fromTreeBaseToXml(CharacterMatrix) is main method being tested here--it uses populateXmlMatrix() function
@@ -38,7 +44,11 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 				System.out.println(xml);
 				Assert.assertNotNull(xml);
 			}
+			else {
+				System.out.println("im not working");
+			}
 		}
+		
 		//signal that test is over
 		if (logger.isInfoEnabled()) {
 			logger.info(testName + " - end ");
