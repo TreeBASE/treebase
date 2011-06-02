@@ -190,6 +190,11 @@
 		<property name="submissionService"><ref bean="submissionService"></ref></property>				
 	</bean>
 	
+	<!-- View SiteMap -->	
+	<bean id="siteMapController" class="org.cipres.treebase.web.controllers.SiteMapController">		
+		<property name="submissionService"><ref bean="submissionService"></ref></property>				
+	</bean>
+	
 	<!-- View Taxa -->	
 	<bean id="listTaxaController" class="org.cipres.treebase.web.controllers.ListTaxaController">
 		<property name="studyService"><ref bean="studyService"></ref></property>
@@ -1041,6 +1046,8 @@
 				<prop key="/search/downloadAnAnalysisStep.html">downloadAnAnalysisStepController</prop>
 				<prop key="/search/downloadANexusFile.html">downloadANexusFileController</prop>
 				<prop key="/search/downloadANexusRCTFile.html">downloadANexusRCTFileController</prop>
+				
+				<prop key="/sitemap.xml">siteMapController</prop>
 				
 				<!-- SUBMISSION SECTION -->
 				<prop key="/user/updateProfile.html">userFormController</prop>

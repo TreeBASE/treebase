@@ -276,6 +276,10 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>treebase</servlet-name>
+		<url-pattern>*.xml</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>treebase</servlet-name>
 		<url-pattern>*.rdf</url-pattern>
 	</servlet-mapping>	
 	<servlet-mapping>
