@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 
@@ -37,7 +38,10 @@ public class SiteMapController implements Controller{
 		Collection<Submission> submissions = mSubmissionService.findPublishedSubmissions();
 		
 		for ( Submission submission : submissions ) {
-			phyloURL.add(submission.getStudy().getPhyloWSPath().getPurl().toString());
+			//Google web crawler does not like external links in the sitemap
+			//phyloURL.add(submission.getStudy().getPhyloWSPath().getPurl().toString());
+			phyloURL.add(TreebaseUtil.getSiteUrl() + "search/study/summary.html?id=" + submission.getStudy().getId().toString());
+			
 		}
 
 		return new ModelAndView("sitemap", "phyloURL", phyloURL);

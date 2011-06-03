@@ -4,7 +4,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<c:forEach var="url" items="${phyloURL}" varStatus="status">
 	<url>
-		<loc><c:out value="${url}"/>?format=html</loc>
+		<loc><c:out value="${url}"/></loc>
 	</url>
 	</c:forEach>
 </urlset>
