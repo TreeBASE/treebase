@@ -28,6 +28,23 @@
 		</tr>
 		<tr>
 			<td>
+				<p><a href="http://www.rsabg.org/research-department/scientific-publications"
+					title="Aliso"> 
+						<img class="journal"
+						src="images/journal_files/aliso.jpg" alt="Aliso"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Aliso%22"
+				title="Find records in TreeBASE for articles published in Aliso">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Aliso%22
+			</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
 				<p><a href="http://www.amjbot.org/"
 					title="American Journal of Botany"> 
 						<img class="journal"
@@ -40,6 +57,23 @@
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22American%20Journal%20of%20Botany%22"
 				title="Find records in TreeBASE for articles published in the American Journal of Botany">
 			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22American%20Journal%20of%20Botany%22
+			</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p><a href="http://192.104.39.110/bryologist.html"
+					title="The Bryologist"> 
+						<img class="journal"
+						src="images/journal_files/bry.jpg" alt="Bryologist"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22The%20Bryologist%22"
+				title="Find records in TreeBASE for articles published in The Bryologist">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22The%20Bryologist%22
 			</a></p>
 			</td>
 		</tr>
@@ -99,6 +133,24 @@
 		<tr>
 			<td>
 				<p>
+					<a
+						href="http://www.imafungus.org/">
+						<img class="journal"
+						src="images/journal_files/ima.jpg" alt="IMA Fungus"/>
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22IMA+Fungus%22"
+				title="Find records in TreeBASE for articles published in IMA Fungus">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22IMA+Fungus%22
+			</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p>
 					<a href="http://www.publish.csiro.au/nid/120.htm">
 						<img class="journal"
 							src="images/journal_files/image004.gif"
@@ -111,6 +163,24 @@
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Invertebrate+Systematics%22"
 				title="Find records in TreeBASE for articles published in Invertebrate Systematics">
 			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Invertebrate+Systematics%22
+			</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p>
+					<a href="http://www.fws.gov/science/jfwm.html">
+						<img class="journal"
+							src="images/journal_files/jfwm.jpg"
+							alt="Journal of Fish and Wildlife Management" />
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Journal+of+Fish+and+Wildlife+Management%22"
+				title="Find records in TreeBASE for articles published in Journal of Fish and Wildlife Management">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Journal+of+Fish+and+Wildlife+Management%22
 			</a></p>
 			</td>
 		</tr>
@@ -173,6 +243,21 @@
 		<tr>
 			<td>
 			<p><a
+				href="http://www.tandf.co.uk/journals/journal.asp?issn=2150-1203">
+			<img class="journal"
+				src="images/journal_files/myc.jpg" alt="Mycology"/>
+			</a></p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycology%22"
+				title="Find records in TreeBASE for articles published in Mycology">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycology%22</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p><a
 				href="http://www.springer.com/life+sciences/microbiology/journal/10267">
 			<img class="journal"
 				src="images/journal_files/image008.gif" alt="Mycoscience"/></a></p>
@@ -194,6 +279,21 @@
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DMycosphere"
 				title="Find records in TreeBASE for articles published in Mycosphere">
 			<%=purlBase%>study/find?query=prism.publicationName%3D%3DMycosphere</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p><a
+				href="http://www.fws.gov/science/naf.html">
+			<img class="journal"
+				src="images/journal_files/naf.gif"
+				alt="North American Fauna"/></a></p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22North+American+Fauna%22"
+				title="Find records in TreeBASE for articles published in North American Fauna">
+			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22North+American+Fauna%22</a></p>
 			</td>
 		</tr>
 		<tr>
