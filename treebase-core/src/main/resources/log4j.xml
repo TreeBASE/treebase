@@ -50,7 +50,7 @@
 
  	<!-- show SQL statement -->
 	<logger name="org.hibernate.SQL">
-		<level value="debug"/>
+		<level value="warn"/>
 	</logger>
 
  	<!-- show jdbc -->
