@@ -48,6 +48,11 @@ import org.cipres.treebase.domain.taxon.TaxonLabel;
 @DiscriminatorValue("C")
 public abstract class CharacterMatrix extends Matrix {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected List<MatrixRow> mRows = new ArrayList<MatrixRow>();
 
 	private AncStateSet mDefaultAncSet;
@@ -58,7 +63,7 @@ public abstract class CharacterMatrix extends Matrix {
 
 	private List<MatrixColumn> mColumns = new ArrayList<MatrixColumn>();
 	private Set<AncStateSet> mAncStateSets = new HashSet<AncStateSet>();
-	private Set mCharSets = new HashSet();
+	private Set<CharSet> mCharSets = new HashSet<CharSet>();
 	private Collection<CharWeightSet> mWeightSets = new ArrayList<CharWeightSet>();
 	private Collection<CodonPositionSet> mCodonPosSets = new ArrayList<CodonPositionSet>();
 	private Collection<GeneticCodeSet> mCodeSets = new ArrayList<GeneticCodeSet>();
@@ -158,9 +163,10 @@ public abstract class CharacterMatrix extends Matrix {
 	 * @param pExSet
 	 * @return
 	 */
-	private boolean isDefaultExcludedSet(ExcludedCharSet pExSet) {
-		return (pExSet == getDefaultExcludedSet());
-	}
+// this is never used locally, so I commented it out - maybe it shouldn't be here? -- rav, 8 June '11
+//	private boolean isDefaultExcludedSet(ExcludedCharSet pExSet) {
+//		return (pExSet == getDefaultExcludedSet());
+//	}
 	
 	/**
 	 * Return the DefaultTypeSet field.
@@ -258,14 +264,14 @@ public abstract class CharacterMatrix extends Matrix {
 	@OneToMany(mappedBy = "matrix", cascade = {CascadeType.MERGE, CascadeType.PERSIST,
 		CascadeType.REMOVE}, targetEntity = CharSet.class)
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "matrixCache")
-	public Set getCharSets() {
+	public Set<CharSet> getCharSets() {
 		return mCharSets;
 	}
 
 	/**
 	 * Set the CharSets field.
 	 */
-	public void setCharSets(Set pNewCharSets) {
+	public void setCharSets(Set<CharSet> pNewCharSets) {
 		mCharSets = pNewCharSets;
 	}
 
