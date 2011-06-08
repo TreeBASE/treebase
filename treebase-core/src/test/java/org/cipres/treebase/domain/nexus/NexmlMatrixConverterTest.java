@@ -1,11 +1,15 @@
 package org.cipres.treebase.domain.nexus;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
+import org.cipres.treebase.domain.matrix.CharSet;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
+import org.cipres.treebase.domain.matrix.ColumnRange;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -15,6 +19,7 @@ import org.nexml.model.DocumentFactory;
 import org.nexml.model.Document;
 import org.nexml.model.Matrix;
 import org.nexml.model.MolecularMatrix;
+import org.nexml.model.Subset;
 
 public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;
@@ -26,30 +31,85 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		String testName = "testNexmlMatrixConverter";
 		//signal beginning of test
 		if (logger.isInfoEnabled()) {
-			logger.info("\n\t\tRunning Test: " + testName);
+			logger.info("Running Test: " + testName);
 		}
 		
 		long studyId = 1787;
-		Study study = (Study)loadObject(Study.class, studyId);
 		
-		Document doc = DocumentFactory.safeCreateDocument();
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),doc);
-		Document document = ndc.fromTreeBaseToXml(study);
-		List<Matrix<?>> matrices = document.getMatrices();
-		Assert.assertTrue(matrices.size() != 0 );
-		for ( Matrix<?> matrix : matrices ) {
-			if ( matrix instanceof MolecularMatrix ) {
-				System.out.println(matrix.getId() + " is a molecular character state matrix");
+		// this is the full study as it is stored by the database
+		Study tbStudy = (Study)loadObject(Study.class, studyId);
+		
+		// these are the character state matrices that are part of the study
+		Set<org.cipres.treebase.domain.matrix.Matrix> tbMatrices = tbStudy.getMatrices();
+		
+		// this is an object representation of a NeXML document
+		Document nexDoc = DocumentFactory.safeCreateDocument();
+		
+		// the converter populates the NeXML document with the contents of the treebase study
+		NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
+		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
+		
+		// these are the NeXML matrices that were created from the study  		
+		List<Matrix<?>> nexMatrices = nexDoc.getMatrices();
+		
+		// there most be more than zero matrices because every treebase study has at least one matrix
+		Assert.assertTrue(nexMatrices.size() != 0 );
+		
+		// now we're going to match up the NeXML matrices with their equivalent treebase ones
+		for ( Matrix<?> nexMatrix : nexMatrices ) {
+			
+			// the xml id is the same as the primary key of the equivalent matrix stored by treebase
+			String nexId = nexMatrix.getId();
+			boolean foundEquivalentMatrix = false;
+			
+			// iterate over all treebase matrices for the study
+			for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
+				String tbId = "M" + tbMatrix.getId();
+				
+				// although there is a class DistanceMatrix, it is my belief that we don't actually have
+				// any distance matrices stored, nor can we convert them to NeXML
+				Assert.assertTrue("TreeBASE matrix "+tbId+" must be a character matrix, not a distance matrix", tbMatrix instanceof CharacterMatrix);
+				
+				// if true, the matrices are equivalent
+				if ( nexId.equals(tbId) ) {
+					foundEquivalentMatrix = true;
+					Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
+							nexMatrix instanceof CategoricalMatrix || nexMatrix instanceof MolecularMatrix || nexMatrix instanceof ContinuousMatrix);
+					
+					// we have to coerce the tbMatrix into a character matrix to get its character sets
+					CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
+					Set<CharSet> tbCharSets = tbCharacterMatrix.getCharSets();
+					
+					// a treebase matrix has zero or more character sets, we must iterate over them
+					for ( CharSet tbCharSet : tbCharSets ) {
+						
+						// the coordinates of the character set are defined by a collection of column ranges that we iterate over
+						Collection<ColumnRange> tbColumnRanges = tbCharSet.getColumns(tbCharacterMatrix);
+						for ( ColumnRange tbColumnRange : tbColumnRanges ) {
+							
+							// these are the beginning and end of the range
+							int start = tbColumnRange.getStartColIndex();
+							int stop = tbColumnRange.getEndColIndex();
+							
+							// this is how we increment from beginning to end. This number is probably either 1, for a
+							// contiguous range, or 3 for codon positions
+							int inc = tbColumnRange.getRepeatInterval();
+							
+							// this is how we create the equivalent nexml character set
+							Subset nexSubset = nexMatrix.createSubset(tbCharSet.getLabel());
+							
+							// we have to assign character objects to the subset. Here we get the full list
+							List<org.nexml.model.Character> nexCharacters = nexMatrix.getCharacters();
+							
+							// now we iterate over the coordinates and assign the nexml characters to the set
+							for ( int i = start; i <= stop; i += inc ) {
+								nexSubset.addThing(nexCharacters.get(i));
+							}
+						}
+					}
+				}
 			}
-			else if ( matrix instanceof ContinuousMatrix ) {
-				System.out.println(matrix.getId() + " is a continuous-valued character matrix");
-			}
-			else if ( matrix instanceof CategoricalMatrix ) {
-				System.out.println(matrix.getId() + " is a categorical character state matrix");
-			}
-			else {
-				System.out.println("This should not ever happen.");
-			}
+			Assert.assertTrue("Searched for equivalent to NeXML matrix "+nexId, foundEquivalentMatrix);
 		}
 	}
 	
