@@ -25,7 +25,9 @@ import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.Constants;
+import org.cipres.treebase.web.model.Identify;
 import org.cipres.treebase.web.util.RequestMessageSetter;
+import org.cipres.treebase.web.util.IdentifyUtil;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.z3950.zing.cql.CQLAndNode;
@@ -54,6 +56,7 @@ public class StudySearchController extends SearchController {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(StudySearchController.class);
 	protected String mValidateTaxaView;
+	private Identify identify;
 	
 	public String getValidateTaxaView() {
 		return mValidateTaxaView;
@@ -308,14 +311,17 @@ public class StudySearchController extends SearchController {
 		Collection<Study> matches;
 		Date from = null;
 		Date until = null;
-		DateFormat df = DateFormat.getDateInstance();
+		//DateFormat df = DateFormat.getDateInstance();
 		if ( relation.getBase().startsWith(">") ) {
-			from = df.parse(searchTerm);
+			//from = df.parse(searchTerm);
+			from = IdentifyUtil.parseGranularity(identify.getGranularityPattern(), searchTerm);
 			until = new Date(); // i.e. now
 		}
 		else if ( relation.getBase().startsWith("<") ) {
 			from = new Date(0); // i.e. epoch
-			until = df.parse(searchTerm);
+			//until = df.parse(searchTerm);
+			until = IdentifyUtil.parseGranularity(identify.getGranularityPattern(), searchTerm);
+			
 		}
 		Collection<Submission> submissions = submissionService.findSubmissionByCreateDateRange(from, until);
 		matches = new HashSet<Study>();
@@ -329,14 +335,17 @@ public class StudySearchController extends SearchController {
 			CQLRelation relation, StudyService studyService) throws ParseException {
 		Date from = null;
 		Date until = null;
-		DateFormat df = DateFormat.getDateInstance();
+		//DateFormat df = DateFormat.getDateInstance();
+
 		if ( relation.getBase().startsWith(">") ) {
-			from = df.parse(searchTerm);
+			//from = df.parse(searchTerm);
+			from = IdentifyUtil.parseGranularity(identify.getGranularityPattern(), searchTerm);
 			until = new Date(); // i.e. now
 		}
 		else if ( relation.getBase().startsWith("<") ) {
 			from = new Date(0); // i.e. epoch
-			until = df.parse(searchTerm);
+			//until = df.parse(searchTerm);
+			until = IdentifyUtil.parseGranularity(identify.getGranularityPattern(), searchTerm);
 		}
 		return studyService.findByPublicationDateRange(from, until);
 	}
@@ -347,14 +356,16 @@ public class StudySearchController extends SearchController {
 		Collection<Study> matches;
 		Date from = null;
 		Date until = null;
-		DateFormat df = DateFormat.getDateInstance();
+		//DateFormat df = DateFormat.getDateInstance();
 		if ( relation.getBase().startsWith(">") ) {
-			from = df.parse(searchTerm);
+			from = IdentifyUtil.parseGranularity(identify.getGranularityPattern(), searchTerm);
+			//from = df.parse(searchTerm);
 			until = new Date(); // i.e. now
 		}
 		else if ( relation.getBase().startsWith("<") ) {
 			from = new Date(0); // i.e. epoch
-			until = df.parse(searchTerm);
+			//until = df.parse(searchTerm);
+			until = IdentifyUtil.parseGranularity(identify.getGranularityPattern(), searchTerm);
 		}
 		Collection<Submission> submissions = submissionService.findSubmissionByLastModifiedDateRange(from, until);
 		matches = new HashSet<Study>();
@@ -414,5 +425,13 @@ public class StudySearchController extends SearchController {
 		mapping.put("dcterms.title", "tb.title.study");
 		mapping.put("dcterms.identifier", "tb.identifier.study");
 		return mapping;
+	}
+	
+	public Identify getIdentify() {
+		return identify;
+	}
+
+	public void setIdentify(Identify identify) {
+		this.identify = identify;
 	}
 }
