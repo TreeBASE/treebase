@@ -34,7 +34,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 			logger.info("Running Test: " + testName);
 		}
 		
-		long studyId = 1787;
+		long studyId = 794; // this study seems to have character sets
 		
 		// this is the full study as it is stored by the database
 		Study tbStudy = (Study)loadObject(Study.class, studyId);
@@ -91,12 +91,19 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 							int start = tbColumnRange.getStartColIndex();
 							int stop = tbColumnRange.getEndColIndex();
 							
-							// this is how we increment from beginning to end. This number is probably either 1, for a
-							// contiguous range, or 3 for codon positions
-							int inc = tbColumnRange.getRepeatInterval();
+							// this is how we increment from beginning to end. This number is probably either null, for a
+							// contiguous range, or perhaps 3 for codon positions
+							int inc = 1;
+							
+							// need to do this to prevent nullpointerexceptions
+							if ( null != tbColumnRange.getRepeatInterval() ) {
+								inc = tbColumnRange.getRepeatInterval();
+							}
 							
 							// this is how we create the equivalent nexml character set
-							Subset nexSubset = nexMatrix.createSubset(tbCharSet.getLabel());
+							// you will need to update CharSet to get the new implementation of getLabel(), which 
+							// returns the same value as getTitle()
+							Subset nexSubset = nexMatrix.createSubset(tbCharSet.getLabel()); 
 							
 							// we have to assign character objects to the subset. Here we get the full list
 							List<org.nexml.model.Character> nexCharacters = nexMatrix.getCharacters();
@@ -110,6 +117,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 				}
 			}
 			Assert.assertTrue("Searched for equivalent to NeXML matrix "+nexId, foundEquivalentMatrix);
+			System.out.println(nexDoc.getXmlString());
 		}
 	}
 	
