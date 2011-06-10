@@ -58,6 +58,16 @@ public abstract class CharSet extends AbstractPersistedObject {
 	public String getTitle() {
 		return mTitle;
 	}
+	
+	/**
+	 * This method is here to simplify NeXML generation. It overrides the 
+	 * method in AbstractPersistedObject
+	 * @return
+	 */
+	@Transient
+	public String getLabel() {
+		return getTitle();
+	}
 
 	/**
 	 * Set the Title field.
