@@ -569,6 +569,14 @@ public class PhyloTree extends AbstractPersistedObject {
 			}
 
 		}
+		
+		//check to see if the NewickString has a semicolon in it
+		String newWick = getNewickString();
+		
+		if (newWick.indexOf(';') == -1) {
+			newWick.concat(";");
+		}
+		
 		pBuilder.append(getNewickString()).append("\n");
 		pBuilder.append("[!  TreeBASE tree URI: ").append(getPhyloWSPath().getPurl()).append("]\n");
 
