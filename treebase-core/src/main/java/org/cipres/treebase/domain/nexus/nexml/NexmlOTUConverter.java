@@ -1,7 +1,5 @@
 package org.cipres.treebase.domain.nexus.nexml;
 
-import java.net.URI;
-
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
