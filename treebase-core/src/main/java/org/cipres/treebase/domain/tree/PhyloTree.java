@@ -577,7 +577,7 @@ public class PhyloTree extends AbstractPersistedObject {
 			newWick.concat(";");
 		}
 		
-		pBuilder.append(getNewickString()).append("\n");
+		pBuilder.append(newWick).append("\n");
 		pBuilder.append("[!  TreeBASE tree URI: ").append(getPhyloWSPath().getPurl()).append("]\n");
 
 		pBuilder.append("\n\nEND;\n");
