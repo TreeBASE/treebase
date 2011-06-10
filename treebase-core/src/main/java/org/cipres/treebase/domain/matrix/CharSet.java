@@ -38,6 +38,11 @@ import org.cipres.treebase.domain.TBPersistable;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "matrixCache")
 public abstract class CharSet extends AbstractPersistedObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String mTitle;
 
 	private CharacterMatrix mMatrix;
