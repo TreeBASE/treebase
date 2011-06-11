@@ -89,16 +89,28 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 		mVersion = pNewVersion;
 	}
 	
+	/**
+	 * Returns an object whose string representation is of the format
+	 * S1787
+	 */
 	@Transient
 	public TreebaseIDString getTreebaseIDString () {
 		return new TreebaseIDString(this);
 	}
 	
+	/**
+	 * Returns an object whose string representation is of the format
+	 * TB2:S1787
+	 */
 	@Transient
 	public NamespacedGUID getNamespacedGUID () {
 		return getTreebaseIDString().getNamespacedGUID();
 	}
 	
+	/**
+	 * Returns an object whose string representation is of the format
+	 * study/TB2:1787
+	 */
 	@Transient
 	public PhyloWSPath getPhyloWSPath() {
 		return new PhyloWSPath(this);
