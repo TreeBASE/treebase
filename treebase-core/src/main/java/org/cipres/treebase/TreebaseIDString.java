@@ -8,9 +8,11 @@ import org.cipres.treebase.domain.matrix.DiscreteCharState;
 import org.cipres.treebase.domain.matrix.DiscreteMatrixElement;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.matrix.PhyloChar;
+import org.cipres.treebase.domain.study.Algorithm;
 import org.cipres.treebase.domain.study.Analysis;
 import org.cipres.treebase.domain.study.AnalysisStep;
 import org.cipres.treebase.domain.study.AnalyzedData;
+import org.cipres.treebase.domain.study.Software;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.Taxon;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
@@ -57,6 +59,8 @@ public class TreebaseIDString {
 		val.put(Analysis.class, "A");
 		val.put(AnalysisStep.class, "As");
 		val.put(AnalyzedData.class, "Ad");
+		val.put(Algorithm.class, "Al");
+		val.put(Software.class, "So");
 		return val;
 	}
 
