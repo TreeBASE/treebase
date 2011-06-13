@@ -1,12 +1,12 @@
 <%@ include file="/common/taglibs.jsp"%>
-<title>Taxa for <c:choose>
+<title>Taxa in <c:choose>
 	<c:when test="${not empty matrix}">
 		matrix ${matrix.id} of
 	</c:when>
 	<c:when test="${not empty tree}">
 		tree ${tree.id} of
 	</c:when>
-</c:choose> study ${study.id}</title>
+</c:choose> the phylogeny or phylogenetic data in study ${study.id}</title>
 <body id="s-taxon" />
 
 <c:set var="ncbiTaxonomyURL" value="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=" />
@@ -52,7 +52,7 @@
 <display:table id="taxon" name="${taxa}" class="list">
 	<%--display:column titleKey="taxonlabel.row.id">${taxon_rowNum}</display:column --%>
 	<display:column property="id" title="ID" />
-	<display:column property="taxonLabel" />
+	<display:column property="taxonLabel" title="Taxon Label" />
 	
 	<display:column titleKey="taxon.ncbiTaxID">
 		<c:if test="${taxon.taxonVariant!=null}">
