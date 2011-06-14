@@ -574,10 +574,11 @@ public class PhyloTree extends AbstractPersistedObject {
 		String newWick = getNewickString();
 		
 		if (newWick.indexOf(';') == -1) {
-			newWick.concat(";");
+			newWick = newWick + ";";
 		}
 		
 		pBuilder.append(newWick).append("\n");
+		
 		pBuilder.append("[!  TreeBASE tree URI: ").append(getPhyloWSPath().getPurl()).append("]\n");
 
 		pBuilder.append("\n\nEND;\n");
