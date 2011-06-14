@@ -161,7 +161,6 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 			
 			// the xml id is the same as the primary key of the equivalent matrix stored by treebase
 			String nexId = nexMatrix.getId();
-			boolean foundEquivalentMatrix = false;
 
 			// iterate over all treebase matrices for the study
 			for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
@@ -169,7 +168,6 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		
 				// if true, the matrices are equivalent
 				if ( nexId.equals(tbId) ) {
-					foundEquivalentMatrix = true;
 					Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
 							nexMatrix instanceof CategoricalMatrix || nexMatrix instanceof MolecularMatrix || nexMatrix instanceof ContinuousMatrix);
 					
@@ -219,12 +217,8 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 									
 									//declare coordinate index
 									int nexCharSetCoordinate = nexCharacters.indexOf(nexCharacters.get(i));							
-									int tbCharSetCoordinate = tbColumnRange.getStartColIndex() + i;
-									
-									//Assert.assertTrue( nexCharSetCoordinate == tbCharSetCoordinate );
-									//if (nexCharSetCoordinate == tbCharSetCoordinate){
-									//	System.out.println("I work");
-									//}
+									int tbCharSetCoordinate = i; // you added the offset twice									
+									Assert.assertTrue( nexCharSetCoordinate == tbCharSetCoordinate );
 								}
 						}
 					}
