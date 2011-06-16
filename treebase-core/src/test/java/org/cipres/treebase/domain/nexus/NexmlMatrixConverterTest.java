@@ -135,48 +135,46 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		if (logger.isInfoEnabled()) {
 			logger.info("Running Test: " + testName);
 		}
-		long studyId = 794;
+		long studyId = 1787;
 
 		// this is the full study as it is stored by the database
 		Study tbStudy = (Study)loadObject(Study.class, studyId);
 
-		//check if study has character state matrices exist
-		if (tbStudy.getMatrices() != null) {
-			// these are the character state matrices that are part of the study
-			Set<org.cipres.treebase.domain.matrix.Matrix> tbMatrices = tbStudy.getMatrices();
+		// these are the character state matrices that are part of the study
+		Set<org.cipres.treebase.domain.matrix.Matrix> tbMatrices = tbStudy.getMatrices();
 
-			// this is an object representation of a NeXML document
-			Document nexDoc = DocumentFactory.safeCreateDocument();
+		// this is an object representation of a NeXML document
+		Document nexDoc = DocumentFactory.safeCreateDocument();
 		
-			// the converter populates the NeXML document with the contents of the treebase study
-			NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
-			ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
+		// the converter populates the NeXML document with the contents of the treebase study
+		NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
+		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
 		
-			// these are the NeXML matrices that were created from the study  		
-			List<Matrix<?>> nexMatrices = nexDoc.getMatrices();
+		// these are the NeXML matrices that were created from the study  		
+		List<Matrix<?>> nexMatrices = nexDoc.getMatrices();
 		
-			// there most be more than zero matrices because every treebase study has at least one matrix
-			Assert.assertTrue(nexMatrices.size() != 0 );
+		// there most be more than zero matrices because every treebase study has at least one matrix
+		Assert.assertTrue(nexMatrices.size() != 0 );
 		
-			// now we're going to match up the NeXML matrices with their equivalent treebase ones
-			for ( Matrix<?> nexMatrix : nexMatrices ) {
+		// now we're going to match up the NeXML matrices with their equivalent treebase ones
+		for ( Matrix<?> nexMatrix : nexMatrices ) {
 			
-				// the xml id is the same as the primary key of the equivalent matrix stored by treebase
-				String nexId = nexMatrix.getId();
+			// the xml id is the same as the primary key of the equivalent matrix stored by treebase
+			String nexId = nexMatrix.getId();
 
-				// iterate over all treebase matrices for the study
-				for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
-					String tbId = "M" + tbMatrix.getId();
+			// iterate over all treebase matrices for the study
+			for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
+				String tbId = "M" + tbMatrix.getId();
 		
-					// if true, the matrices are equivalent
-					if ( nexId.equals(tbId) ) {
-						Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
-							nexMatrix instanceof CategoricalMatrix || nexMatrix instanceof MolecularMatrix || nexMatrix instanceof ContinuousMatrix);
+				// if true, the matrices are equivalent
+				if ( nexId.equals(tbId) ) {
+					Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
+					nexMatrix instanceof CategoricalMatrix || nexMatrix instanceof MolecularMatrix || nexMatrix instanceof ContinuousMatrix);
 					
-						// we have to coerce the tbMatrix into a character matrix to get its character sets
-						CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
-						Set<CharSet> tbCharSets = tbCharacterMatrix.getCharSets();
-					
+					// we have to coerce the tbMatrix into a character matrix to get its character sets
+					CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
+					Set<CharSet> tbCharSets = tbCharacterMatrix.getCharSets();
+					if (tbCharSets.isEmpty() != true) {
 						// a treebase matrix has zero or more character sets, we must iterate over them
 						for ( CharSet tbCharSet : tbCharSets ) {
 						
@@ -225,12 +223,13 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 							}
 						}
 					}
+					else {
+						System.out.println("This study has no associated character sets!");
+					}
 				}
 			}
 		}
-		else {
-			System.out.println("This study has no associated character sets!");
-		}
+		
 	}
 	/**
 	 * Return the TaxonLabelHome field.
