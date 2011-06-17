@@ -933,6 +933,7 @@
 				<prop key="/about.html">filenameController</prop>
 				<prop key="/dataMan.html">filenameController</prop>
 				<prop key="/home.html">filenameController</prop>
+				<prop key="/submitTutorial.html">filenameController</prop>
 				<prop key="/login.html">filenameController</prop>
 				<prop key="/urlAPI.html">filenameController</prop>
 				<prop key="/people.html">filenameController</prop>

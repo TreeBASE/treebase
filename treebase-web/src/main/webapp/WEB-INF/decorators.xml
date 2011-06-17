@@ -8,6 +8,7 @@
     <decorator name="main" page="mainTemplate.jsp">
         <pattern>/home.html</pattern>
         <pattern>/dataMan.html</pattern>
+        <pattern>/submitTutorial.html</pattern>
         <pattern>/about.html</pattern>
         <pattern>/urlAPI.html</pattern>
         <pattern>/people.html</pattern>

@@ -4,6 +4,7 @@
 		<div id="navcontainer">
 			<ul id="navlist">
 				<li><a href="<c:url value="/search/studySearch.html"/>"><fmt:message key="nav.search.treebase"/></a></li>
+				<li><a href="<c:url value="/submitTutorial.html"/>"><fmt:message key="nav.submittutorial"/></a></li>
 				<li><a href="<c:url value="/user/processUser.html"/>"><fmt:message key="nav.submit"/></a></li>					
 				<li><span class="navlistHeading"><fmt:message key="nav.about"/></span>
 					<ul id="innerNavlist">
