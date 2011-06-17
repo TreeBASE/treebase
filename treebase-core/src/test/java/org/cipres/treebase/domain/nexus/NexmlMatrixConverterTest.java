@@ -188,6 +188,13 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 							Subset nexSubset = nexMatrix.getSubset(tbCharSet.getLabel());
 							Assert.assertNotNull("If NexmlMatrixConverter works correctly, a Subset is returned", nexSubset);							
 						
+							//get names of TreeBASE and NeXML character set
+							String tbCharSetName = tbCharSet.getLabel();
+							String nexCharSetName = nexSubset.getLabel();
+								
+							//verify that the names are the same
+							Assert.assertEquals("The NeXML character set must have copied the label of the TreeBASE character set",tbCharSetName,nexCharSetName);							
+							
 							// the coordinates of the character set are defined by a collection of column ranges that we iterate over
 							Collection<ColumnRange> tbColumnRanges = tbCharSet.getColumns(tbCharacterMatrix);
 						
@@ -208,14 +215,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 								}
 								
 								// The NexmlMatrixConverter should have created a Subset for each tbCharSet
-								if ( null != nexSubset ) {
-									
-									//get names of TreeBASE and NeXML character set
-									String tbCharSetName = tbCharSet.getLabel();
-									String nexCharSetName = nexSubset.getLabel();
-										
-									//verify that the names are the same
-									Assert.assertTrue("The NeXML character set must have copied the label of the TreeBASE character set",tbCharSetName.equals(nexCharSetName));										
+								if ( null != nexSubset ) {																		
 								
 									// now we iterate over the coordinates in this column range
 									//and verify whether correct character objects are returned
