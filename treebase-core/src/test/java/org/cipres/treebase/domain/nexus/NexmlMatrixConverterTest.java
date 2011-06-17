@@ -10,6 +10,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.CharSet;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.ColumnRange;
+import org.cipres.treebase.domain.matrix.PhyloChar;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -135,7 +136,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		if (logger.isInfoEnabled()) {
 			logger.info("Running Test: " + testName);
 		}
-		long studyId = 1787;
+		long studyId = 794;
 
 		// this is the full study as it is stored by the database
 		Study tbStudy = (Study)loadObject(Study.class, studyId);
@@ -174,9 +175,18 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 					// we have to coerce the tbMatrix into a character matrix to get its character sets
 					CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
 					Set<CharSet> tbCharSets = tbCharacterMatrix.getCharSets();
+					
+					// NexmlMatrixConverter must have assigned character objects to zero or more subsets. Here we get the full list of characters
+					List<org.nexml.model.Character> nexCharacters = nexMatrix.getCharacters();
+					Assert.assertEquals("The number of characters in the NeXML matrix must match that of the TreeBASE matrix", (Integer)tbMatrix.getnChar(), (Integer)nexCharacters.size());
+					
 					if (tbCharSets.isEmpty() != true) {
 						// a treebase matrix has zero or more character sets, we must iterate over them
 						for ( CharSet tbCharSet : tbCharSets ) {
+							
+							// this is how we fetch the equivalent nexml character set
+							Subset nexSubset = nexMatrix.getSubset(tbCharSet.getLabel());
+							Assert.assertNotNull("If NexmlMatrixConverter works correctly, a Subset is returned", nexSubset);							
 						
 							// the coordinates of the character set are defined by a collection of column ranges that we iterate over
 							Collection<ColumnRange> tbColumnRanges = tbCharSet.getColumns(tbCharacterMatrix);
@@ -196,29 +206,34 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 										
 									tbInc = tbColumnRange.getRepeatInterval();
 								}
-								// this is how we create the equivalent nexml character set
-								Subset nexSubset = nexMatrix.createSubset(tbCharSet.getLabel());
+								
+								// The NexmlMatrixConverter should have created a Subset for each tbCharSet
+								if ( null != nexSubset ) {
 									
-								//get names of TreeBASE and NeXML character set
-								String tbCharSetName = tbCharSet.getLabel();
-								String nexCharSetName = nexSubset.getLabel();
-									
-								//verify that the names are the same
-								Assert.assertTrue(tbCharSetName.equals(nexCharSetName));
-									
-								// we have to assign character objects to the subset. Here we get the full list
-								List<org.nexml.model.Character> nexCharacters = nexMatrix.getCharacters();
-							
-								// now we iterate over the coordinates and assign the nexml characters to the set
-								//and verify coordinates of TreeBASE characterset and nexml characterset
-								//are the same
-								for ( int i = tbStart; i <= tbStop; i += tbInc ) {
-									nexSubset.addThing(nexCharacters.get(i));
-									
-									//declare coordinate index
-									int nexCharSetCoordinate = nexCharacters.indexOf(nexCharacters.get(i));							
-									int tbCharSetCoordinate = i;								
-									Assert.assertTrue( nexCharSetCoordinate == tbCharSetCoordinate );
+									//get names of TreeBASE and NeXML character set
+									String tbCharSetName = tbCharSet.getLabel();
+									String nexCharSetName = nexSubset.getLabel();
+										
+									//verify that the names are the same
+									Assert.assertTrue("The NeXML character set must have copied the label of the TreeBASE character set",tbCharSetName.equals(nexCharSetName));										
+								
+									// now we iterate over the coordinates in this column range
+									//and verify whether correct character objects are returned
+									for ( int i = tbStart; i <= tbStop; i += tbInc ) {
+										
+										// get the nexml character that should have been created
+										org.nexml.model.Character nexCharacter = nexCharacters.get(i);
+										Assert.assertNotNull("The NeXML Character should not be null if there as an index into it in this set", nexCharacter);
+										Assert.assertTrue("The Subset should contain the character at index i", nexSubset.containsThing(nexCharacter));
+										
+										//get the treebase character for the index in this column range
+										PhyloChar tbCharacter = tbCharacterMatrix.getCharacter(i);
+										Assert.assertNotNull("The TreeBASE PhyloChar should not be null if there as an index into it in this set", tbCharacter);										
+										Assert.assertEquals("If the TreeBASE character has a label, then the NeXML character's label should match it", tbCharacter.getLabel(), nexCharacter.getLabel());
+									}
+								}
+								else {
+									System.out.println("NexmlMatrixConverter failed to create a Subset");
 								}
 							}
 						}
