@@ -1,8 +1,11 @@
 package org.cipres.treebase.domain.nexus.nexml;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import junit.framework.Assert;
 
 import org.cipres.treebase.Constants;
 import org.cipres.treebase.dao.jdbc.ContinuousMatrixElementJDBC;
@@ -10,7 +13,9 @@ import org.cipres.treebase.dao.jdbc.ContinuousMatrixJDBC;
 import org.cipres.treebase.dao.jdbc.DiscreteMatrixElementJDBC;
 import org.cipres.treebase.dao.jdbc.DiscreteMatrixJDBC;
 import org.cipres.treebase.dao.jdbc.MatrixColumnJDBC;
+import org.cipres.treebase.domain.matrix.CharSet;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
+import org.cipres.treebase.domain.matrix.ColumnRange;
 import org.cipres.treebase.domain.matrix.ContinuousChar;
 import org.cipres.treebase.domain.matrix.ContinuousMatrix;
 import org.cipres.treebase.domain.matrix.ContinuousMatrixElement;
@@ -38,6 +43,7 @@ import org.nexml.model.MatrixCell;
 import org.nexml.model.MolecularMatrix;
 import org.nexml.model.OTUs;
 import org.nexml.model.OTU;
+import org.nexml.model.Subset;
 
 public class NexmlMatrixConverter extends NexmlObjectConverter {
 
@@ -224,6 +230,9 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
 			PhyloChar tbCharacter = tbColumn.getCharacter();
+			if ( null != tbCharacter.getDescription() ) {
+				xmlCharacter.setLabel(tbCharacter.getDescription());
+			}
 			if ( null != tbCharacter.getDescription() && ! tbCharacter.getDescription().equals(tbDataType) ) {
 				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", Constants.DCTermsURI, tbCharacter.getDescription());
 			}			
@@ -249,10 +258,41 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter();
 			PhyloChar tbCharacter = tbColumn.getCharacter();
 			if ( null != tbCharacter.getDescription() ) {
+				xmlCharacter.setLabel(tbCharacter.getDescription());
 				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", Constants.DCTermsURI, tbCharacter.getDescription());
 			}			
-			attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);			
-		}		
+			attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);
+			
+			//coerce the tbMatrix into a character matrix to get its character sets
+			CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
+			Set<CharSet> tbCharSets = tbCharacterMatrix.getCharSets();
+			for ( CharSet tbCharSet : tbCharSets ) {
+				Collection<ColumnRange> tbColumnRanges = tbCharSet.getColumns(tbCharacterMatrix);
+				
+				for ( ColumnRange tbColumnRange : tbColumnRanges ) {
+					
+					// these are the beginning and end of the range
+					int tbStart = tbColumnRange.getStartColIndex();
+					int tbStop = tbColumnRange.getEndColIndex();
+						
+					// increment from beginning to end. This number is probably either null, for a
+					// contiguous range, or perhaps 3 for codon positions
+					int tbInc = 1;
+					// create the equivalent nexml character set
+					Subset nexSubset = xmlMatrix.createSubset(tbCharSet.getLabel());
+				
+					// assign character objects to the subset. Here we get the full list
+					List<org.nexml.model.Character> nexCharacters = xmlMatrix.getCharacters();
+			
+					// now we iterate over the coordinates and assign the nexml characters to the set
+					for ( int i = tbStart; i <= tbStop; i += tbInc ) {
+						nexSubset.addThing(nexCharacters.get(i));
+					}
+				}
+			}
+			
+		}
+		
 		return xmlMatrix;
 	}
 	
@@ -283,6 +323,32 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		if ( null != tb1MatrixID ) {
 			((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix.tb1", Constants.TBTermsURI, tb1MatrixID);
 		}
+		Set<CharSet> tbCharSets = tbMatrix.getCharSets();
+		for ( CharSet tbCharSet : tbCharSets ) {
+			Collection<ColumnRange> tbColumnRanges = tbCharSet.getColumns(tbMatrix);
+			
+			for ( ColumnRange tbColumnRange : tbColumnRanges ) {
+				
+				// these are the beginning and end of the range
+				int tbStart = tbColumnRange.getStartColIndex();
+				int tbStop = tbColumnRange.getEndColIndex();
+					
+				// increment from beginning to end. This number is probably either null, for a
+				// contiguous range, or perhaps 3 for codon positions
+				int tbInc = 1;
+				// create the equivalent nexml character set
+				Subset nexSubset = xmlMatrix.createSubset(tbCharSet.getLabel());
+			
+				// assign character objects to the subset. Here we get the full list
+				List<org.nexml.model.Character> nexCharacters = xmlMatrix.getCharacters();
+		
+				// now we iterate over the coordinates and assign the nexml characters to the set
+				for ( int i = tbStart; i <= tbStop; i += tbInc ) {
+					nexSubset.addThing(nexCharacters.get(i));
+				}
+			}
+		}
+		
 		return xmlMatrix;
 	}
 
