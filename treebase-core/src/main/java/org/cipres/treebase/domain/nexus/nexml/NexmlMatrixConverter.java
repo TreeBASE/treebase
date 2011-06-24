@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.Assert;
-
 import org.cipres.treebase.Constants;
 import org.cipres.treebase.dao.jdbc.ContinuousMatrixElementJDBC;
 import org.cipres.treebase.dao.jdbc.ContinuousMatrixJDBC;
