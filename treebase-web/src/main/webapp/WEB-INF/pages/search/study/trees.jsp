@@ -61,7 +61,7 @@
 		<a href="${taxaURL}">View Taxa</a>
 	</display:column>
 	
-	<c:set var="baseURL" scope="request" value="/phylows/${tree.phyloWSPath}"/>	
+	<c:set var="baseURL" scope="request" value="${tree.phyloWSPath.purl}"/>	
 	
 	<display:column 
 		sortable="false"
