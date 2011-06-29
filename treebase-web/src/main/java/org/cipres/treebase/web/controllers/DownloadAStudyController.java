@@ -48,8 +48,16 @@ public class DownloadAStudyController extends AbstractDownloadController
 			// header:
 			TreebaseUtil.attachStudyHeader(study, builder);
 	
-			// taxa:			
+			// taxa:
+			
+			//set a unique number for each block when the title is Taxa
+			Integer taxa = 1;
 			for ( TaxonLabelSet tls : study.getTaxonLabelSets() ) {
+				if (tls.getTitle().equals("Taxa")) {
+					tls.setTitle(tls.getTitle() + taxa.toString());
+					taxa++;
+				}
+				
 				// one taxon label per line, no line number. 
 				tls.buildNexusBlockTaxa(builder, true, false);
 			}
