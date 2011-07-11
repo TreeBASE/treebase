@@ -377,13 +377,97 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 					attachTreeBaseID((Annotatable)xmlCell,tbCell,DiscreteMatrixElement.class);
 					for ( RowSegment tbSegment : tbSegments ) {
 						if ( tbSegment.getStartIndex() <= charIndex && charIndex <= tbSegment.getEndIndex() ) {
+							//declare variables for row-segment annotations
+							String title = tbSegment.getTitle();
+							String institutionCode = tbSegment.getSpecimenLabel().getInstAcronym();
+							String collectionCode = tbSegment.getSpecimenLabel().getCollectionCode();
+							String catalogNumber = tbSegment.getSpecimenLabel().getCatalogNumber();
+							String accessionNumber = tbSegment.getSpecimenLabel().getGenBankAccession();
+							String otherAccessionNumber = tbSegment.getSpecimenLabel().getOtherAccession();
+							String dateSampled = tbSegment.getSpecimenLabel().getSampleDateString();
+							String scientificName = tbSegment.getSpecimenTaxonLabelAsString();
+							String collector = tbSegment.getSpecimenLabel().getCollector();
 							Double latitude = tbSegment.getSpecimenLabel().getLatitude();
 							Double longitude = tbSegment.getSpecimenLabel().getLongitude();
+							Double elevation = tbSegment.getSpecimenLabel().getElevation();
+							String country = tbSegment.getSpecimenLabel().getCountry();
+							String state = tbSegment.getSpecimenLabel().getState();
+							String locality = tbSegment.getSpecimenLabel().getLocality();
+							String notes = tbSegment.getSpecimenLabel().getNotes();
+							
+							//if the value is not null, output the xmlOTU annotation.
+							//DwC refers to the Darwin Core term vocabulary for the associated annotation
+							if (null != title){
+								//output name identifying the data set from which the record was derived
+								((Annotatable)xmlCell).addAnnotationValue("DwC:datasetName", Constants.DwCURI, title);
+							}
+							if ( null != institutionCode ) {
+								//output name or acronym of institution that has custody of information referred to in record
+								((Annotatable)xmlCell).addAnnotationValue("DwC:institutionCode", Constants.DwCURI, institutionCode);
+							}
+							if ( null != collectionCode ) {
+								//output name or code that identifies collection or data set from which record was derived
+								((Annotatable)xmlCell).addAnnotationValue ("DwC:collectionCode", Constants.DwCURI, collectionCode);
+							}
+							if ( null != catalogNumber ){
+								//output unique (usually) identifier for the record within data set or collection
+								((Annotatable)xmlCell).addAnnotationValue("DwC:catalogNumber", Constants.DwCURI, catalogNumber);
+							}
+							if ( null != accessionNumber) {
+								//output a list of genetic sequence information associated with occurrence
+								((Annotatable)xmlCell).addAnnotationValue("DwC:associatedSequences", Constants.DwCURI, accessionNumber);
+							}
+							if ( null != otherAccessionNumber ) {
+								//list of previous or alternate fully catalog numbers (i.e. Genbank) or human-used identifiers 
+								((Annotatable)xmlCell).addAnnotationValue("DwC:otherCatalogNumbers", Constants.DwCURI, otherAccessionNumber);
+							}
+							if ( null != dateSampled ) {
+								//output date sampled in ISO 8601 format
+								((Annotatable)xmlCell).addAnnotationValue("DwC:eventDate", Constants.DwCURI, dateSampled);
+							}
+							if ( null != scientificName ) {
+								//output full scientific name
+								((Annotatable)xmlCell).addAnnotationValue("DwC:scientificName", Constants.DwCURI, scientificName);
+							}
+							if ( null != collector ) {
+								//output names of people associated with recording of original occurrence 
+								((Annotatable)xmlCell).addAnnotationValue("DwC:recordedBy", Constants.DwCURI, collector);
+							}
 							if ( null != latitude ) {
-								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, latitude);
+								//output geographic latitude in decimal degrees using geodeticDatum spatial reference system
+								((Annotatable)xmlCell).addAnnotationValue("DwC:decimalLatitude", Constants.DwCURI, latitude);
 							}
 							if ( null != longitude ) {
-								((Annotatable)xmlCell).addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, longitude);
+								//output geographic longitude in decimal degrees using geodeticDatum spatial reference system
+								((Annotatable)xmlCell).addAnnotationValue("DwC:decimalLongitude", Constants.DwCURI, longitude);
+							}
+							if ( null != elevation ) {
+								//there are two different Darwin Core terms for elevation depending on elevation value
+								//outputs geographic elevation of sample
+								if ( elevation >= 0) {
+									//above local surface in meters
+									((Annotatable)xmlCell).addAnnotationValue("DwC:verbatimElevation", Constants.DwCURI, elevation);
+								}
+								else {
+									//below local surface in meters
+									((Annotatable)xmlCell).addAnnotationValue("DwC:verbatimDepth", Constants.DwCURI, elevation);
+								}
+							}
+							if ( null != country ) {
+								//output country in which location occurs
+								((Annotatable)xmlCell).addAnnotationValue("DwC:country", Constants.DwCURI, country);
+							}
+							if ( null != state ) {
+								//output name of next smaller administrative region than country (i.e. state, province, region)
+								((Annotatable)xmlCell).addAnnotationValue ("DwC:stateProvince", Constants.DwCURI, state);
+							}
+							if ( null != locality) {
+								//output brief description of sample location
+								((Annotatable)xmlCell).addAnnotationValue("DwC:locality", Constants.DwCURI, locality);
+							}
+							if ( null != notes ) {
+								//output any additional information about specimen
+								((Annotatable)xmlCell).addAnnotationValue("DwC:occurenceRemarks", Constants.DwCURI, notes);
 							}
 						}
 					}
@@ -404,29 +488,97 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 				xmlMatrix.setSeq(seq,xmlOTU);
 			}
 			for ( RowSegment tbSegment : tbSegments ) {
+				//declare variables for row-segment annotations
+				String title = tbSegment.getTitle();
+				String institutionCode = tbSegment.getSpecimenLabel().getInstAcronym();
+				String collectionCode = tbSegment.getSpecimenLabel().getCollectionCode();
+				String catalogNumber = tbSegment.getSpecimenLabel().getCatalogNumber();
 				String accessionNumber = tbSegment.getSpecimenLabel().getGenBankAccession();
+				String otherAccessionNumber = tbSegment.getSpecimenLabel().getOtherAccession();
+				String dateSampled = tbSegment.getSpecimenLabel().getSampleDateString();
+				String scientificName = tbSegment.getSpecimenTaxonLabelAsString();
+				String collector = tbSegment.getSpecimenLabel().getCollector();
 				Double latitude = tbSegment.getSpecimenLabel().getLatitude();
 				Double longitude = tbSegment.getSpecimenLabel().getLongitude();
 				Double elevation = tbSegment.getSpecimenLabel().getElevation();
-				String collector = tbSegment.getSpecimenLabel().getCollector();
 				String country = tbSegment.getSpecimenLabel().getCountry();
+				String state = tbSegment.getSpecimenLabel().getState();
+				String locality = tbSegment.getSpecimenLabel().getLocality();
+				String notes = tbSegment.getSpecimenLabel().getNotes();
+				
+				//if the value is not null, output the xmlOTU annotation.
+				//DwC refers to the Darwin Core term vocabulary for the associated annotation
+				if (null != title){
+					//output name identifying the data set from which the record was derived
+					xmlOTU.addAnnotationValue("DwC:datasetName", Constants.DwCURI, title);
+				}
+				if ( null != institutionCode ) {
+					//output name or acronym of institution that has custody of information referred to in record
+					xmlOTU.addAnnotationValue("DwC:institutionCode", Constants.DwCURI, institutionCode);
+				}
+				if ( null != collectionCode ) {
+					//output name or code that identifies collection or data set from which record was derived
+					xmlOTU.addAnnotationValue ("DwC:collectionCode", Constants.DwCURI, collectionCode);
+				}
+				if ( null != catalogNumber ){
+					//output unique (usually) identifier for the record within data set or collection
+					xmlOTU.addAnnotationValue("DwC:catalogNumber", Constants.DwCURI, catalogNumber);
+				}
 				if ( null != accessionNumber) {
-					xmlOTU.addAnnotationValue("DwC:StringGenbankAcessionNumber", Constants.DwCURI, accessionNumber);
+					//output a list of genetic sequence information associated with occurrence
+					xmlOTU.addAnnotationValue("DwC:associatedSequences", Constants.DwCURI, accessionNumber);
 				}
-				if ( null != latitude ) {
-					xmlOTU.addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, latitude);
+				if ( null != otherAccessionNumber ) {
+					//list of previous or alternate fully catalog numbers (i.e. Genbank) or human-used identifiers 
+					xmlOTU.addAnnotationValue("DwC:otherCatalogNumbers", Constants.DwCURI, otherAccessionNumber);
 				}
-				if ( null != longitude ) {
-					xmlOTU.addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, longitude);
+				if ( null != dateSampled ) {
+					//output date sampled in ISO 8601 format
+					xmlOTU.addAnnotationValue("DwC:eventDate", Constants.DwCURI, dateSampled);
 				}
-				if ( null != elevation ) {
-					xmlOTU.addAnnotationValue("DwC:DecimalElevation", Constants.DwCURI, elevation);
+				if ( null != scientificName ) {
+					//output full scientific name
+					xmlOTU.addAnnotationValue("DwC:scientificName", Constants.DwCURI, scientificName);
 				}
 				if ( null != collector ) {
-					xmlOTU.addAnnotationValue("DwC:StringCollector", Constants.DwCURI, collector);
+					//output names of people associated with recording of original occurrence 
+					xmlOTU.addAnnotationValue("DwC:recordedBy", Constants.DwCURI, collector);
+				}
+				if ( null != latitude ) {
+					//output geographic latitude in decimal degrees using geodeticDatum spatial reference system
+					xmlOTU.addAnnotationValue("DwC:decimalLatitude", Constants.DwCURI, latitude);
+				}
+				if ( null != longitude ) {
+					//output geographic longitude in decimal degrees using geodeticDatum spatial reference system
+					xmlOTU.addAnnotationValue("DwC:decimalLongitude", Constants.DwCURI, longitude);
+				}
+				if ( null != elevation ) {
+					//there are two different Darwin Core terms for elevation depending on elevation value
+					//outputs geographic elevation of sample
+					if ( elevation >= 0) {
+						//above local surface in meters
+						xmlOTU.addAnnotationValue("DwC:verbatimElevation", Constants.DwCURI, elevation);
+					}
+					else {
+						//below local surface in meters
+						xmlOTU.addAnnotationValue("DwC:verbatimDepth", Constants.DwCURI, elevation);
+					}
 				}
 				if ( null != country ) {
-					xmlOTU.addAnnotationValue("DwC:StringCountry", Constants.DwCURI, country);
+					//output country in which location occurs
+					xmlOTU.addAnnotationValue("DwC:country", Constants.DwCURI, country);
+				}
+				if ( null != state ) {
+					//output name of next smaller administrative region than country (i.e. state, province, region)
+					xmlOTU.addAnnotationValue ("DwC:stateProvince", Constants.DwCURI, state);
+				}
+				if ( null != locality) {
+					//output brief description of sample location
+					xmlOTU.addAnnotationValue("DwC:locality", Constants.DwCURI, locality);
+				}
+				if ( null != notes ) {
+					//output any additional information about specimen
+					xmlOTU.addAnnotationValue("DwC:occurenceRemarks", Constants.DwCURI, notes);
 				}
 			}
 		}	
@@ -458,29 +610,97 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			}
 			Set<RowSegment> tbSegments = tbRow.getSegmentsReadOnly();
 			for ( RowSegment tbSegment : tbSegments ) {
+				//declare variables for row-segment annotations
+				String title = tbSegment.getTitle();
+				String institutionCode = tbSegment.getSpecimenLabel().getInstAcronym();
+				String collectionCode = tbSegment.getSpecimenLabel().getCollectionCode();
+				String catalogNumber = tbSegment.getSpecimenLabel().getCatalogNumber();
 				String accessionNumber = tbSegment.getSpecimenLabel().getGenBankAccession();
+				String otherAccessionNumber = tbSegment.getSpecimenLabel().getOtherAccession();
+				String dateSampled = tbSegment.getSpecimenLabel().getSampleDateString();
+				String scientificName = tbSegment.getSpecimenTaxonLabelAsString();
+				String collector = tbSegment.getSpecimenLabel().getCollector();
 				Double latitude = tbSegment.getSpecimenLabel().getLatitude();
 				Double longitude = tbSegment.getSpecimenLabel().getLongitude();
 				Double elevation = tbSegment.getSpecimenLabel().getElevation();
-				String collector = tbSegment.getSpecimenLabel().getCollector();
 				String country = tbSegment.getSpecimenLabel().getCountry();
+				String state = tbSegment.getSpecimenLabel().getState();
+				String locality = tbSegment.getSpecimenLabel().getLocality();
+				String notes = tbSegment.getSpecimenLabel().getNotes();
+				
+				//if the value is not null, output the xmlOTU annotation.
+				//DwC refers to the Darwin Core term vocabulary for the associated annotation
+				if (null != title){
+					//output name identifying the data set from which the record was derived
+					xmlOTU.addAnnotationValue("DwC:datasetName", Constants.DwCURI, title);
+				}
+				if ( null != institutionCode ) {
+					//output name or acronym of institution that has custody of information referred to in record
+					xmlOTU.addAnnotationValue("DwC:institutionCode", Constants.DwCURI, institutionCode);
+				}
+				if ( null != collectionCode ) {
+					//output name or code that identifies collection or data set from which record was derived
+					xmlOTU.addAnnotationValue ("DwC:collectionCode", Constants.DwCURI, collectionCode);
+				}
+				if ( null != catalogNumber ){
+					//output unique (usually) identifier for the record within data set or collection
+					xmlOTU.addAnnotationValue("DwC:catalogNumber", Constants.DwCURI, catalogNumber);
+				}
 				if ( null != accessionNumber) {
-					xmlOTU.addAnnotationValue("DwC:StringGenbankAcessionNumber", Constants.DwCURI, accessionNumber);
+					//output a list of genetic sequence information associated with occurrence
+					xmlOTU.addAnnotationValue("DwC:associatedSequences", Constants.DwCURI, accessionNumber);
 				}
-				if ( null != latitude ) {
-					xmlOTU.addAnnotationValue("DwC:DecimalLatitude", Constants.DwCURI, latitude);
+				if ( null != otherAccessionNumber ) {
+					//list of previous or alternate fully catalog numbers (i.e. Genbank) or human-used identifiers 
+					xmlOTU.addAnnotationValue("DwC:otherCatalogNumbers", Constants.DwCURI, otherAccessionNumber);
 				}
-				if ( null != longitude ) {
-					xmlOTU.addAnnotationValue("DwC:DecimalLongitude", Constants.DwCURI, longitude);
+				if ( null != dateSampled ) {
+					//output date sampled in ISO 8601 format
+					xmlOTU.addAnnotationValue("DwC:eventDate", Constants.DwCURI, dateSampled);
 				}
-				if ( null != elevation ) {
-					xmlOTU.addAnnotationValue("DwC:DecimalElevation", Constants.DwCURI, elevation);
+				if ( null != scientificName ) {
+					//output full scientific name
+					xmlOTU.addAnnotationValue("DwC:scientificName", Constants.DwCURI, scientificName);
 				}
 				if ( null != collector ) {
-					xmlOTU.addAnnotationValue("DwC:StringCollector", Constants.DwCURI, collector);
+					//output names of people associated with recording of original occurrence 
+					xmlOTU.addAnnotationValue("DwC:recordedBy", Constants.DwCURI, collector);
+				}
+				if ( null != latitude ) {
+					//output geographic latitude in decimal degrees using geodeticDatum spatial reference system
+					xmlOTU.addAnnotationValue("DwC:decimalLatitude", Constants.DwCURI, latitude);
+				}
+				if ( null != longitude ) {
+					//output geographic longitude in decimal degrees using geodeticDatum spatial reference system
+					xmlOTU.addAnnotationValue("DwC:decimalLongitude", Constants.DwCURI, longitude);
+				}
+				if ( null != elevation ) {
+					//there are two different Darwin Core terms for elevation depending on elevation value
+					//outputs geographic elevation of sample
+					if ( elevation >= 0) {
+						//above local surface in meters
+						xmlOTU.addAnnotationValue("DwC:verbatimElevation", Constants.DwCURI, elevation);
+					}
+					else {
+						//below local surface in meters
+						xmlOTU.addAnnotationValue("DwC:verbatimDepth", Constants.DwCURI, elevation);
+					}
 				}
 				if ( null != country ) {
-					xmlOTU.addAnnotationValue("DwC:StringCountry", Constants.DwCURI, country);
+					//output country in which location occurs
+					xmlOTU.addAnnotationValue("DwC:country", Constants.DwCURI, country);
+				}
+				if ( null != state ) {
+					//output name of next smaller administrative region than country (i.e. state, province, region)
+					xmlOTU.addAnnotationValue ("DwC:stateProvince", Constants.DwCURI, state);
+				}
+				if ( null != locality) {
+					//output brief description of sample location
+					xmlOTU.addAnnotationValue("DwC:locality", Constants.DwCURI, locality);
+				}
+				if ( null != notes ) {
+					//output any additional information about specimen
+					xmlOTU.addAnnotationValue("DwC:occurenceRemarks", Constants.DwCURI, notes);
 				}
 			}
 		}		
