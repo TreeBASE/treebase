@@ -681,7 +681,7 @@ CREATE TABLE phylotree
   rootedtree smallint,
   title character varying(255),
   rootnode_id bigint,
-  study_id bigint,
+  study_id bigint NOT NULL,
   treeattribute_id bigint,
   treeblock_id bigint,
   treekind_id bigint,
