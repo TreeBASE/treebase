@@ -759,7 +759,8 @@
  
 	<bean id="studySearchController" parent="searchController" class="org.cipres.treebase.web.controllers.StudySearchController">
         <property name="formView"><value>search/studySearch</value></property>
-        <property name="successView"><value>search/studySearch</value></property>        
+        <property name="successView"><value>search/studySearch</value></property>
+        <property name="identify"><ref bean="top.identify"></ref></property>        
     </bean>
     
     <bean id="treeSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.TreeSearchController">
