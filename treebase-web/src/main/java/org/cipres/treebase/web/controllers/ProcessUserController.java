@@ -90,13 +90,18 @@ public class ProcessUserController implements Controller {
 			        CitationParser cparser= new CitationParser(dataPath);
 			        Citation citation = cparser.getCitation();
 					Study study = new Study();
-					study.setName(bagitPath.getName());
+					//study.setName(bagitPath.getName());
+					study.setName(citation.getTitle());
+				
 					study.setCitation(citation);
 			        citation.setStudy(study);
 
-					study.setNotes("Please enter these author names into the TreeBASE citation " +
+					study.setNotes(bagitPath.getName() +
+								   ": Please enter these author names into the TreeBASE citation " +
 		 					 	   "by clicking on the highlighted \"Authors\" item in the Tool Box." +
 		 					 	   "\n\n" + citation.getAuthorsDryadNotes());
+					
+					
 
 					citation.setAuthors(null);		
 			            

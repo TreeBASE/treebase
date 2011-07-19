@@ -101,6 +101,12 @@ public class CitationParser {
 			citation.setPages(pageStart.getText() + "-" + pageEnd.getText()); 
 //end VG 2010-11-18		
 		
+		//set the URL to use the DOI passed by Dryad
+		Node doiUrl = getNode(pkgRoot,"identifier",dcterms);
+		if (doiUrl!=null) {
+			citation.setURL("http://dx.doi.org/" + doiUrl.getText());
+		}
+
 		List<Node> kl = getNodes(pkgRoot,"subject",dcterms);
 		String keywords="";
 		for(int i = 0; i<kl.size(); i++) {
