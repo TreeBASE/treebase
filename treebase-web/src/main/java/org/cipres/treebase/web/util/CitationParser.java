@@ -104,7 +104,7 @@ public class CitationParser {
 		//set the URL to use the DOI passed by Dryad
 		Node doiUrl = getNode(pkgRoot,"identifier",dcterms);
 		if (doiUrl!=null) {
-			citation.setURL("http://dx.doi.org/" + doiUrl.getText());
+			citation.setURL("http://dx.doi.org/" + doiUrl.getText().replaceAll("doi:", ""));
 		}
 
 		List<Node> kl = getNodes(pkgRoot,"subject",dcterms);
