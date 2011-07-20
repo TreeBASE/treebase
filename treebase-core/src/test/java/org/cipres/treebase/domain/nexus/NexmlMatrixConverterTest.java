@@ -6,24 +6,46 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import mesquite.lib.Annotatable;
+
 import org.cipres.treebase.dao.AbstractDAOTest;
+import org.cipres.treebase.dao.jdbc.DiscreteMatrixElementJDBC;
+import org.cipres.treebase.dao.jdbc.MatrixColumnJDBC;
+import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.matrix.CharSet;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.ColumnRange;
+import org.cipres.treebase.domain.matrix.ContinuousMatrixElement;
+import org.cipres.treebase.domain.matrix.DiscreteChar;
+import org.cipres.treebase.domain.matrix.DiscreteMatrix;
+import org.cipres.treebase.domain.matrix.DiscreteMatrixElement;
+import org.cipres.treebase.domain.matrix.MatrixColumn;
+import org.cipres.treebase.domain.matrix.MatrixElement;
+import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.matrix.PhyloChar;
+import org.cipres.treebase.domain.matrix.RowSegment;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlObjectConverter;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.nexml.model.CategoricalMatrix;
+import org.nexml.model.Character;
+import org.nexml.model.CharacterState;
 import org.nexml.model.ContinuousMatrix;
 import org.nexml.model.DocumentFactory;
 import org.nexml.model.Document;
 import org.nexml.model.Matrix;
+import org.nexml.model.MatrixCell;
 import org.nexml.model.MolecularMatrix;
+import org.nexml.model.OTU;
+import org.nexml.model.OTUs;
 import org.nexml.model.Subset;
 
 public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;
+	private static final int MAX_GRANULAR_NCHAR = 1000;
+	private static final int MAX_GRANULAR_NTAX = 30;
+
 
 	/**
 	 * Test  for {@link org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter#fromTreeBaseToXml(CharacterMatrix)}.
@@ -51,6 +73,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		// the converter populates the NeXML document with the contents of the treebase study
 		NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
 		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
+		
 		
 		// these are the NeXML matrices that were created from the study  		
 		List<Matrix<?>> nexMatrices = nexDoc.getMatrices();
@@ -125,6 +148,86 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		}
 	}
 	
+	
+	
+	/**
+	 * Test for {@link org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter#}.
+	 * This verfies that all row-segment annotation are expressed for a particular study.
+	 */
+	public void testNexmlEmptyMatrix() {
+		String testName = "testNexmlEmptyMatrix()";
+		//signal beginning of test
+		if (logger.isInfoEnabled()) {
+			logger.info("Running Test: " + testName);
+		}
+		
+		long studyId = 586; //this study is known to output an empty Nexml matrix
+		
+		// this is the full study as it is stored by the database
+		Study tbStudy = (Study)loadObject(Study.class, studyId);
+
+		// these are the character state matrices that are part of the study
+		Set<org.cipres.treebase.domain.matrix.Matrix> tbMatrices = tbStudy.getMatrices();
+		
+
+		// this is an object representation of a NeXML document
+		Document nexDoc = DocumentFactory.safeCreateDocument();
+		
+		// the converter populates the NeXML document with the contents of the treebase study
+		NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
+		
+		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
+		
+		
+		// these are the NeXML matrices that were created from the study  		
+		List<Matrix<?>> nexMatrices = nexDoc.getMatrices();
+		
+		//returns true if matrix contains no elements
+		boolean nexTest = nexMatrices.isEmpty();
+		
+		//should be false if the matrix contains elements
+		Assert.assertFalse(nexTest);
+		
+		// there most be more than zero matrices because every treebase study has at least one matrix
+		Assert.assertTrue(nexMatrices.size() != 0 );
+
+		// now we're going to match up the NeXML matrices with their equivalent treebase ones
+		for ( Matrix<?> nexMatrix : nexMatrices ) {
+			
+			// the xml id is the same as the primary key of the equivalent matrix stored by treebase
+			String nexId = nexMatrix.getId();
+			
+			for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
+				String tbId = "M" + tbMatrix.getId();
+				// if true, the matrices are equivalent
+				
+				System.out.println(tbMatrix.getClass());
+				System.out.println(nexMatrix.getClass().toString() + "hi");
+				
+				if ( nexId.equals(tbId) ) {
+					Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
+					nexMatrix instanceof CategoricalMatrix || nexMatrix instanceof MolecularMatrix || nexMatrix instanceof ContinuousMatrix);
+					
+					Assert.assertNotNull(nexMatrix);
+					Assert.assertNotNull(tbMatrix);
+					
+					
+					for ( MatrixRow tbRow : ((CharacterMatrix) tbMatrix).getRowsReadOnly() ) {
+					System.out.println (tbRow.buildElementAsString());
+					}
+				}
+				//print out the rows of the nexml matrix to see if there are sequences
+
+			}
+			
+		}
+		
+		//System.out.println(nexDoc.getXmlString());
+	}
+
+	
+	
+	
 	/**
 	 * Test  for {@link org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter#}.
 	 * It verifies that NexmlCharSets have the same name and coordinates as those in the 
@@ -166,7 +269,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 			// iterate over all treebase matrices for the study
 			for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
 				String tbId = "M" + tbMatrix.getId();
-		
+			
 				// if true, the matrices are equivalent
 				if ( nexId.equals(tbId) ) {
 					Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
@@ -191,7 +294,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 							//get names of TreeBASE and NeXML character set
 							String tbCharSetName = tbCharSet.getLabel();
 							String nexCharSetName = nexSubset.getLabel();
-								
+							
 							//verify that the names are the same
 							Assert.assertEquals("The NeXML character set must have copied the label of the TreeBASE character set",tbCharSetName,nexCharSetName);							
 							
@@ -230,6 +333,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 										PhyloChar tbCharacter = tbCharacterMatrix.getCharacter(i);
 										Assert.assertNotNull("The TreeBASE PhyloChar should not be null if there as an index into it in this set", tbCharacter);										
 										Assert.assertEquals("If the TreeBASE character has a label, then the NeXML character's label should match it", tbCharacter.getLabel(), nexCharacter.getLabel());
+										
 									}
 								}
 								else {
