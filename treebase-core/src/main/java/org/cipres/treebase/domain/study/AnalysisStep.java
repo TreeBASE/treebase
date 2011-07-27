@@ -248,7 +248,8 @@ public class AnalysisStep extends AbstractPersistedObject {
 	public void removeAnalyzedData(AnalyzedData pData) {
 		if (pData != null) {
 			getDataSet().remove(pData);
-			pData.registerAnalysisStep(null);
+			pData.setAnalysisStep(null);
+			//pData.registerAnalysisStep(null);
 			
 			if (getAnalysis() != null) {
 				getAnalysis().setValidated(false);
