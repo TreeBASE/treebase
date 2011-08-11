@@ -17,6 +17,7 @@ import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.ColumnRange;
 import org.cipres.treebase.domain.matrix.ContinuousMatrixElement;
 import org.cipres.treebase.domain.matrix.DiscreteChar;
+import org.cipres.treebase.domain.matrix.DiscreteCharState;
 import org.cipres.treebase.domain.matrix.DiscreteMatrix;
 import org.cipres.treebase.domain.matrix.DiscreteMatrixElement;
 import org.cipres.treebase.domain.matrix.MatrixColumn;
@@ -152,7 +153,11 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	
 	/**
 	 * Test for {@link org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter#}.
-	 * This verfies that all row-segment annotation are expressed for a particular study.
+	 * This ensures that a matrix prints for a DiscreteMatrix matrices that
+	 * suit the condition : if ( characterList.size() <= MAX_GRANULAR_NCHAR && xmlOTUs.getAllOTUs().size() <= MAX_GRANULAR_NTAX ) 
+	 * in populateXmlMatrix() of NexmlMatrixConverter.
+	 * 
+	 * This is in response to bug #3303002
 	 */
 	public void testNexmlEmptyMatrix() {
 		String testName = "testNexmlEmptyMatrix()";
@@ -191,38 +196,57 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		// there most be more than zero matrices because every treebase study has at least one matrix
 		Assert.assertTrue(nexMatrices.size() != 0 );
 
+		
 		// now we're going to match up the NeXML matrices with their equivalent treebase ones
 		for ( Matrix<?> nexMatrix : nexMatrices ) {
 			
 			// the xml id is the same as the primary key of the equivalent matrix stored by treebase
 			String nexId = nexMatrix.getId();
+	
 			
 			for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
 				String tbId = "M" + tbMatrix.getId();
 				// if true, the matrices are equivalent
+				System.out.println(tbId);
+				int otuIndex = 0;
+				for ( MatrixRow tbRow : ((CharacterMatrix) tbMatrix).getRowsReadOnly() ) {
+					OTUs xmlOTUs = nexMatrix.getOTUs();
+					
+					//need to make an OTU list because getOTUByID cannot be is private
+					List<OTU> xmlOTUList = xmlOTUs.getAllOTUs();//getOTUById(xmlOTUs, tbRow.getTaxonLabel().getId());
+					OTU xmlOTU = xmlOTUList.get(otuIndex); //get xmlOTUs
+					List<org.nexml.model.Character> characterList = nexMatrix.getCharacters();
 				
-				System.out.println(tbMatrix.getClass());
-				System.out.println(nexMatrix.getClass().toString() + "hi");
+					int charIndex = 0;
+					if ( characterList.size() <= MAX_GRANULAR_NCHAR && xmlOTUs.getAllOTUs().size() <= MAX_GRANULAR_NTAX ) { 
+					
+						//tbColumn is not used, but is in the actual NexmlMatrixConverter class. 
+						//it is necessary so the for loop does not crash
+						for ( MatrixColumn tbColumn : ((CharacterMatrix)tbMatrix).getColumns() ) {
+							
+							//this builds the matrix
+							String string = tbRow.buildElementAsString();
+							nexMatrix.setSeq(string, xmlOTU);
+							
+							//in NexmlMatrixConverter attachTreeBASEID would be called here. Not necessary for the test.
+						}
+					charIndex++;
+					otuIndex++;
+					
+				}
 				
 				if ( nexId.equals(tbId) ) {
 					Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
 					nexMatrix instanceof CategoricalMatrix || nexMatrix instanceof MolecularMatrix || nexMatrix instanceof ContinuousMatrix);
-					
 					Assert.assertNotNull(nexMatrix);
 					Assert.assertNotNull(tbMatrix);
-					
-					
-					for ( MatrixRow tbRow : ((CharacterMatrix) tbMatrix).getRowsReadOnly() ) {
-					System.out.println (tbRow.buildElementAsString());
-					}
+							
 				}
-				//print out the rows of the nexml matrix to see if there are sequences
 
+				}
 			}
-			
 		}
-		
-		//System.out.println(nexDoc.getXmlString());
+		System.out.println(nexDoc.getXmlString());
 	}
 
 	
