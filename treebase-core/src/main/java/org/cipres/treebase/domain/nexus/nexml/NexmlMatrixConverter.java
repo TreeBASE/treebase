@@ -177,7 +177,11 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 	public CategoricalMatrix fromTreeBaseToXml(StandardMatrix tbMatrix) {
 		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
 		CategoricalMatrix xmlMatrix = getDocument().createCategoricalMatrix(xmlOTUs);
+		
+		// attach base uri and history note
+		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
 		xmlMatrix.setBaseURI(mMatrixBaseURI);
+		
 		List<List<DiscreteCharState>> tbStateLabels = tbMatrix.getStateLabels();
 		List<MatrixColumn> tbColumns = tbMatrix.getColumnsReadOnly();
 		for ( int i = 0; i < tbColumns.size(); i++ ) {
@@ -226,8 +230,9 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			xmlStateSet = ((MolecularMatrix)xmlMatrix).getProteinCharacterStateSet();
 		}
 		
-		// attach base uri
+		// attach base uri and history note
 		xmlMatrix.setBaseURI(mMatrixBaseURI);
+		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
 		
 		// lookup the equivalent state in tb and attach identifiers
 		for(StateSet tbStateSet : tbMatrix.getStateSets() ) {
@@ -259,7 +264,11 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 	public org.nexml.model.ContinuousMatrix fromTreeBaseToXml(ContinuousMatrix tbMatrix) {
 		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
 		org.nexml.model.ContinuousMatrix xmlMatrix = getDocument().createContinuousMatrix(xmlOTUs);
+		
+		// attach base uri and history note
 		xmlMatrix.setBaseURI(mMatrixBaseURI);
+		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
+		
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter();
 			PhyloChar tbCharacter = tbColumn.getCharacter();
