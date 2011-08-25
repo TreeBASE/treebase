@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.nexus.nexml;
 
 //import org.cipres.treebase.Constants;
 //import org.cipres.treebase.domain.admin.Person;
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.nexus.NexusDataSet;
 //import org.cipres.treebase.domain.study.ArticleCitation;
@@ -97,6 +98,7 @@ public class NexmlDocumentConverter extends NexmlObjectConverter {
 	 */
 	public Document fromTreeBaseToXml(Study pStudy) {
 		attachTreeBaseID(getDocument(), pStudy,Study.class);
+		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlDocumentConverter $Rev$");
 		
 		NexmlOTUConverter noc = new NexmlOTUConverter(getStudy(),getTaxonLabelHome(),getDocument());
 		for ( TaxonLabelSet taxonLabelSet : pStudy.getTaxonLabelSets() ) {
