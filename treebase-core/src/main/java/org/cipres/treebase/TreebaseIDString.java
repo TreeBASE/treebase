@@ -7,6 +7,7 @@ import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.matrix.DiscreteCharState;
 import org.cipres.treebase.domain.matrix.DiscreteMatrixElement;
 import org.cipres.treebase.domain.matrix.Matrix;
+import org.cipres.treebase.domain.matrix.MatrixColumn;
 import org.cipres.treebase.domain.matrix.PhyloChar;
 import org.cipres.treebase.domain.study.Algorithm;
 import org.cipres.treebase.domain.study.Analysis;
@@ -47,6 +48,7 @@ public class TreebaseIDString {
 		val.put(Study.class, "S");
 		val.put(Matrix.class, "M");
 		val.put(PhyloChar.class, "C");
+		val.put(MatrixColumn.class, "Col");
 		val.put(DiscreteCharState.class, "Dcs");
 		val.put(DiscreteMatrixElement.class, "Dme");
 		val.put(PhyloTree.class, "Tr");
