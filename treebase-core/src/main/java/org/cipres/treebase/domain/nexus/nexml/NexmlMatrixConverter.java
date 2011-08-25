@@ -195,7 +195,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			if ( null != tbCharacter.getDescription() ) {
 				xmlCharacter.setLabel(tbCharacter.getDescription());
 			}			
-			attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);
+			attachTreeBaseID((Annotatable)xmlCharacter,tbColumns.get(i),MatrixColumn.class);
 		}		
 		return xmlMatrix;
 	}
@@ -233,10 +233,8 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			}
 			if ( null != tbCharacter.getDescription() && ! tbCharacter.getDescription().equals(tbDataType) ) {
 				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", Constants.DCTermsURI, tbCharacter.getDescription());
-			}			
-			if ( null != tbCharacter.getId() && tbCharacter.getId() != 2 ) { // XXX is PhyloChar.id 2 some sort of magic number?
-				attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);
 			}
+			attachTreeBaseID((Annotatable)xmlCharacter,tbColumn,MatrixColumn.class);
 		}
 		return xmlMatrix;
 	}
@@ -259,7 +257,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 				xmlCharacter.setLabel(tbCharacter.getDescription());
 				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", Constants.DCTermsURI, tbCharacter.getDescription());
 			}			
-			attachTreeBaseID((Annotatable)xmlCharacter,tbCharacter,PhyloChar.class);
+			attachTreeBaseID((Annotatable)xmlCharacter,tbColumn,MatrixColumn.class);
 			
 			//coerce the tbMatrix into a character matrix to get its character sets
 			CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
