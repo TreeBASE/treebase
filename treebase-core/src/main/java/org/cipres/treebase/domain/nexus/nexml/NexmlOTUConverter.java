@@ -50,7 +50,7 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 		
 		// attach base uri and skos:historyNote
 		xmlOTUs.setBaseURI(mTaxonBaseURI);
-		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlOTUConverter $Rev$");
+		xmlOTUs.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlOTUConverter $Rev$");
 		
 		xmlOTUs.setLabel(taxonLabelSet.getTitle());
 		attachTreeBaseID(xmlOTUs,taxonLabelSet,TaxonLabelSet.class);
