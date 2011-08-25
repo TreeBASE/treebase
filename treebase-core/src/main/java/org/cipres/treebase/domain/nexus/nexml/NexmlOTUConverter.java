@@ -1,5 +1,6 @@
 package org.cipres.treebase.domain.nexus.nexml;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -46,7 +47,11 @@ public class NexmlOTUConverter extends NexmlObjectConverter {
 	 */
 	public OTUs fromTreeBaseToXml(TaxonLabelSet taxonLabelSet) {
 		OTUs xmlOTUs = getDocument().createOTUs();
+		
+		// attach base uri and skos:historyNote
 		xmlOTUs.setBaseURI(mTaxonBaseURI);
+		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlOTUConverter $Rev$");
+		
 		xmlOTUs.setLabel(taxonLabelSet.getTitle());
 		attachTreeBaseID(xmlOTUs,taxonLabelSet,TaxonLabelSet.class);
 		for ( TaxonLabel taxonLabel : taxonLabelSet.getTaxonLabelsReadOnly() ) {
