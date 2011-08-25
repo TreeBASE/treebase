@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.nexus.nexml;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.cipres.treebase.Constants;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -98,7 +99,11 @@ public class NexmlTreeBlockConverter extends NexmlObjectConverter {
 		TaxonLabelSet taxonLabelSet = treeBlock.getTaxonLabelSet();
 		OTUs xmlOTUs = getOTUsById(taxonLabelSet.getId());
 		org.nexml.model.TreeBlock xmlTreeBlock = getDocument().createTreeBlock(xmlOTUs);
+		
+		// attach base uri and skos:historyNote
+		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlTreeBlockConverter $Rev$");
 		xmlTreeBlock.setBaseURI(mTreeBaseURI);
+		
 		if ( null != treeBlock.getTitle() ) {
 			xmlTreeBlock.setLabel(treeBlock.getTitle());
 		}
