@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.nexus.nexml;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +30,7 @@ import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.matrix.PhyloChar;
 import org.cipres.treebase.domain.matrix.RowSegment;
 import org.cipres.treebase.domain.matrix.StandardMatrix;
+import org.cipres.treebase.domain.matrix.StateSet;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
@@ -184,10 +186,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 				CharacterState xmlState = xmlStateSet.createCharacterState(tbState.getSymbol().toString());
 				if ( null != tbState.getDescription() ) {
 					xmlState.setLabel(tbState.getDescription());
-				}	
-//				if ( null != tbState.getNotes() ) {
-//					((Annotatable)xmlState).addAnnotationValue("dcterms:description", Constants.DCURI, tbState.getNotes());
-//				}
+				}
 				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
 			}			
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
@@ -212,6 +211,8 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		String tbDataType = tbMatrix.getDataType().getDescription();
 		MolecularMatrix xmlMatrix = null;
 		CharacterStateSet xmlStateSet = null;
+		
+		// create the matrix and constant state set
 		if ( tbDataType.equals(MatrixDataType.MATRIX_DATATYPE_DNA) ) {
 			xmlMatrix = getDocument().createMolecularMatrix(xmlOTUs, MolecularMatrix.DNA);
 			xmlStateSet = ((MolecularMatrix)xmlMatrix).getDNACharacterStateSet();
@@ -224,16 +225,28 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			xmlMatrix = getDocument().createMolecularMatrix(xmlOTUs, MolecularMatrix.Protein);
 			xmlStateSet = ((MolecularMatrix)xmlMatrix).getProteinCharacterStateSet();
 		}
+		
+		// attach base uri
 		xmlMatrix.setBaseURI(mMatrixBaseURI);
+		
+		// lookup the equivalent state in tb and attach identifiers, only keep those in matrix
+		Set<CharacterState> seenStates = new HashSet<CharacterState>();
+		for(StateSet tbStateSet : tbMatrix.getStateSets() ) {
+			for (DiscreteCharState tbState : tbStateSet.getStates() ) {
+				String tbSymbol = tbState.getSymbol().toString().toUpperCase();
+				CharacterState xmlState = xmlStateSet.lookupCharacterStateBySymbol(tbSymbol);
+				if ( null == xmlState ) {
+					xmlState = xmlStateSet.createCharacterState(tbSymbol);
+				}
+				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
+				seenStates.add(xmlState);
+			}
+		}
+		xmlStateSet.setCharacterStates(seenStates);
+		
+		// create columns and attach identifiers
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
-			PhyloChar tbCharacter = tbColumn.getCharacter();
-			if ( null != tbCharacter.getDescription() ) {
-				xmlCharacter.setLabel(tbCharacter.getDescription());
-			}
-			if ( null != tbCharacter.getDescription() && ! tbCharacter.getDescription().equals(tbDataType) ) {
-				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", Constants.DCTermsURI, tbCharacter.getDescription());
-			}
 			attachTreeBaseID((Annotatable)xmlCharacter,tbColumn,MatrixColumn.class);
 		}
 		return xmlMatrix;
