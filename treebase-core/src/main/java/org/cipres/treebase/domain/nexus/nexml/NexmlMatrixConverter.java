@@ -179,7 +179,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		CategoricalMatrix xmlMatrix = getDocument().createCategoricalMatrix(xmlOTUs);
 		
 		// attach base uri and history note
-		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
+		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
 		xmlMatrix.setBaseURI(mMatrixBaseURI);
 		
 		List<List<DiscreteCharState>> tbStateLabels = tbMatrix.getStateLabels();
@@ -232,7 +232,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		
 		// attach base uri and history note
 		xmlMatrix.setBaseURI(mMatrixBaseURI);
-		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
+		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
 		
 		// lookup the equivalent state in tb and attach identifiers
 		for(StateSet tbStateSet : tbMatrix.getStateSets() ) {
@@ -267,7 +267,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		
 		// attach base uri and history note
 		xmlMatrix.setBaseURI(mMatrixBaseURI);
-		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
+		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
 		
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter();
