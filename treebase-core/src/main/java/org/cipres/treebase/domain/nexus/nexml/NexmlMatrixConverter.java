@@ -229,8 +229,7 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 		// attach base uri
 		xmlMatrix.setBaseURI(mMatrixBaseURI);
 		
-		// lookup the equivalent state in tb and attach identifiers, only keep those in matrix
-		Set<CharacterState> seenStates = new HashSet<CharacterState>();
+		// lookup the equivalent state in tb and attach identifiers
 		for(StateSet tbStateSet : tbMatrix.getStateSets() ) {
 			for (DiscreteCharState tbState : tbStateSet.getStates() ) {
 				String tbSymbol = tbState.getSymbol().toString().toUpperCase();
@@ -239,10 +238,8 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 					xmlState = xmlStateSet.createCharacterState(tbSymbol);
 				}
 				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
-				seenStates.add(xmlState);
 			}
 		}
-		xmlStateSet.setCharacterStates(seenStates);
 		
 		// create columns and attach identifiers
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
