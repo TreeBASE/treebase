@@ -80,7 +80,7 @@
 		<% request.setAttribute("isEditable","yes");%>
 	<% } %>
   	  
-  	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
+  	  <c:if test="${publicationState eq 'NotReady'|| publicationState eq 'Published' || isEditable eq 'yes'}">
     	<th></th>
     	<td colspan="5" align="center">    	  
     		<c:choose>
