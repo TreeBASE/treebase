@@ -163,17 +163,19 @@ Trees
 	</c:if>		
 	
 	<display:footer>
-	  <c:if test="${publicationState eq 'NotReady'}">	
+	  <%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+		<% request.setAttribute("isEditable","yes");%>
+	<% } %>
+
+	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
 		<tr>
     		<td colspan="10" align="center">
 	        	<input type="submit" class="button" name="Update" value="<fmt:message key="button.update"/>" />
 	        	<input type="submit" class="button" name="_cancel" value="<fmt:message key="button.cancel"/>" />
         	</td>
-        
     	</tr>
       </c:if>	
 	</display:footer>	
-
     <display:setProperty name="export.pdf" value="true" />	
 	<display:setProperty name="basic.empty.showtable" value="true"/>
 	
