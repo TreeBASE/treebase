@@ -5,7 +5,12 @@
 <body id="submissions"/>
 <c:url var="nexusdownloadURL" value="/user/downloadANexusFile.html" />
 <c:url var="nexusrctdownloadURL" value="/user/downloadANexusRCTFile.html" />
-<p>The table below shows a list of all the nexus files for the current study.</p>
+<p>The table below shows a list of all the NEXUS files uploaded to the submission. 
+These files cannot be deleted unless the entire submission is deleted, however 
+they are not visible to the public unless trees or matrices brought in by them 
+are published. Consequently, if all trees and matrices are deleted, the original 
+file is only visible to the submitter and to the editors of TreeBASE. Retaining 
+these files is useful for TreeBASE staff as a record of prior submission activity.</p>
 <form method="post">
 <fieldset>
 <legend>

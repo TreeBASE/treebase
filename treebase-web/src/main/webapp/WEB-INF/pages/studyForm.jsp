@@ -5,7 +5,7 @@
 <c:choose>
 	<c:when test="${empty study.submission.id}">
 		<content tag="heading">Create New Submission</content>
-		<p>Please provide a brief title for your study. Usually this is the same title as the title of your pubication.</p>
+		<p>Please provide a brief title for your study. Usually this is the same title as the title of your publication.</p>
 		<p>The notes for your study are not for the public, but are there for your own benefit and for communicating with TreeBASE staff once your submission status is ready to be made public. </p>
 		<p>If your submission is part of a sponsored research data management plan, please indicate this in the Notes so that TreeBASE staff know to provide added attention and to assist in making your submission fully compliant with the expectations of the sponsor. For more information, see the <a href="/treebase-web/dataMan.html" target="_blank">NSF Data Management Plan instructions</a>. </p>
 	</c:when>

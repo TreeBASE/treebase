@@ -12,7 +12,7 @@
 <legend>Submissions 
 <a href="#" class="openHelp" onclick="openHelp('submissionList')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>	
 </legend>
-The table below shows a list of your Treebase submissions.
+The table below shows a list of your Treebase submissions. Submissions can only be deleted after all trees and matrices are deleted first.
 <display:table 
 	name="${submissionList}" 
 	requestURI=""
