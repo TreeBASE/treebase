@@ -384,6 +384,17 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 			OTU xmlOTU = getOTUById(xmlOTUs, tbRow.getTaxonLabel().getId());
 			int charIndex = 0;
 			if ( characterList.size() <= MAX_GRANULAR_NCHAR && xmlOTUs.getAllOTUs().size() <= MAX_GRANULAR_NTAX ) {
+				for ( MatrixColumn tbColumn : ((CharacterMatrix)tbMatrix).getColumns() ) {
+					String seq = tbRow.buildElementAsString();
+					xmlMatrix.setSeq(seq, xmlOTU);
+					org.nexml.model.Character xmlCharacter = characterList.get(charIndex);
+					MatrixCell<CharacterState> xmlCell = xmlMatrix.getCell(xmlOTU, xmlCharacter);							
+		
+					attachTreeBaseID ((Annotatable) xmlCell,  tbColumn , DiscreteMatrixElement.class);
+				
+				//The following is commented out as tbRow.getElements() does not work directly and crashes the loop. 
+				//The above for loop fixes this issue. 
+				/*
 				for ( MatrixElement tbCell : tbRow.getElements() ) {
 					org.nexml.model.Character xmlCharacter = characterList.get(charIndex);
 					MatrixCell<CharacterState> xmlCell = xmlMatrix.getCell(xmlOTU, xmlCharacter);				
@@ -392,6 +403,8 @@ public class NexmlMatrixConverter extends NexmlObjectConverter {
 					CharacterState xmlState = xmlCharacter.getCharacterStateSet().lookupCharacterStateBySymbol(tbSymbolString);								
 					xmlCell.setValue(xmlState);								
 					attachTreeBaseID((Annotatable)xmlCell,tbCell,DiscreteMatrixElement.class);
+				*/
+					
 					for ( RowSegment tbSegment : tbSegments ) {
 						if ( tbSegment.getStartIndex() <= charIndex && charIndex <= tbSegment.getEndIndex() ) {
 							//declare variables for row-segment annotations
