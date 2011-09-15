@@ -26,6 +26,7 @@
 			it in your favorite RSS reader)</p>
 			</td>
 		</tr>
+<!-- aliso -->
 		<tr>
 			<td>
 				<p><a href="http://www.rsabg.org/research-department/scientific-publications"
@@ -39,10 +40,11 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Aliso%22"
 				title="Find records in TreeBASE for articles published in Aliso">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Aliso%22
+			<%=purlBase%>study/find?query=prism.publicationName==&quotAliso&quot
 			</a></p>
 			</td>
 		</tr>
+<!-- american journal of botany -->
 		<tr>
 			<td>
 				<p><a href="http://www.amjbot.org/"
@@ -56,10 +58,29 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22American%20Journal%20of%20Botany%22"
 				title="Find records in TreeBASE for articles published in the American Journal of Botany">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22American%20Journal%20of%20Botany%22
+			<%=purlBase%>study/find?query=prism.publicationName==&quotAmerican+Journal+of+Botany&quot
 			</a></p>
 			</td>
 		</tr>
+<!-- american naturalist -->
+		<tr>
+			<td>
+				<p><a href="http://www.asnamnat.org/"
+					title="American Naturalist"> 
+						<img class="journal"
+						src="images/journal_files/amnat.gif" alt="American Naturalist"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22American%20Naturalist%22"
+				title="Find records in TreeBASE for articles published in the American Naturalist">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotAmerican+Naturalist&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- the bryologist -->
 		<tr>
 			<td>
 				<p><a href="http://192.104.39.110/bryologist.html"
@@ -73,10 +94,83 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22The%20Bryologist%22"
 				title="Find records in TreeBASE for articles published in The Bryologist">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22The%20Bryologist%22
+			<%=purlBase%>study/find?query=prism.publicationName==&quotThe+Bryologist&quot
 			</a></p>
 			</td>
 		</tr>
+<!-- cryptogamie algologie -->
+		<tr>
+			<td>
+				<p><a href="http://www.cryptogamie.com/pagint_en/editeur/revues.php"
+					title="Cryptogamie Algologie"> 
+						<img class="journal"
+						src="images/journal_files/fd_algo.gif" alt="Cryptogamie Algologie"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Cryptogamie%20Algologie%22"
+				title="Find records in TreeBASE for articles published in the Cryptogamie Algologie">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotCryptogamie+Algologie&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- cryptogamie bryologie -->
+		<tr>
+			<td>
+				<p><a href="http://www.cryptogamie.com/pagint_en/editeur/revue_bryo.php"
+					title="Cryptogamie Bryologie"> 
+						<img class="journal"
+						src="images/journal_files/fd_algo.gif" alt="Cryptogamie Bryologie"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Cryptogamie%20Bryologie%22"
+				title="Find records in TreeBASE for articles published in the Cryptogamie Bryologie">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotCryptogamie+Bryologie&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- cryptogamie mycologie -->
+		<tr>
+			<td>
+				<p><a href="http://www.cryptogamie.com/pagint_en/editeur/revue_bryo.php"
+					title="Cryptogamie Mycologie"> 
+						<img class="journal"
+						src="images/journal_files/fd_algo.gif" alt="Cryptogamie Mycologie"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Cryptogamie%20Mycologie%22"
+				title="Find records in TreeBASE for articles published in the Cryptogamie Mycologie">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotCryptogamie+Mycologie&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- european journal of plant pathology" -->
+		<tr>
+			<td>
+				<p><a href="http://www.springer.com/life+sciences/plant+sciences/journal/10658"
+					title=""European Journal of Plant Pathology"> 
+						<img class="journal"
+						src="images/journal_files/ejpp.gif" alt="European Journal of Plant Pathology"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22European%20Journal%20of%20Plant%20Pathology%22"
+				title="Find records in TreeBASE for articles published in the European Journal of Plant Pathology">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotEuropean+Journal+of+Plant+Pathology&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- evolution -->
 		<tr>
 			<td>
 				<p><a href="http://www.wiley.com/bw/journal.asp?ref=0014-3820"
@@ -90,10 +184,11 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DEvolution"
 				title="Find records in TreeBASE for articles published in Evolution">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3DEvolution
+			<%=purlBase%>study/find?query=prism.publicationName==Evolution
 			</a></p>
 			</td>
 		</tr>
+<!-- evolutionary applications -->
 		<tr>
 			<td>
 				<p>
@@ -108,10 +203,11 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Evolutionary+Applications%22"
 				title="Find records in TreeBASE for articles published in Evolutionary Applications">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Evolutionary+Applications%22
+			<%=purlBase%>study/find?query=prism.publicationName==&quotEvolutionary+Applications&quot
 			</a></p>
 			</td>
 		</tr>
+<!-- fungal biology -->
 		<tr>
 			<td>
 				<p>
@@ -126,10 +222,11 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Fungal+Biology%22"
 				title="Find records in TreeBASE for articles published in Fungal Biology">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Fungal+Biology%22
+			<%=purlBase%>study/find?query=prism.publicationName==&quotFungal+Biology&quot
 			</a></p>
 			</td>
 		</tr>
+<!-- ima fungus -->
 		<tr>
 			<td>
 				<p>
@@ -144,10 +241,11 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22IMA+Fungus%22"
 				title="Find records in TreeBASE for articles published in IMA Fungus">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22IMA+Fungus%22
+			<%=purlBase%>study/find?query=prism.publicationName==&quotIMA+Fungus&quot
 			</a></p>
 			</td>
 		</tr>
+<!-- invertebrate systmatics -->
 		<tr>
 			<td>
 				<p>
@@ -162,10 +260,11 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Invertebrate+Systematics%22"
 				title="Find records in TreeBASE for articles published in Invertebrate Systematics">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Invertebrate+Systematics%22
+			<%=purlBase%>study/find?query=prism.publicationName==&quotInvertebrate+Systematics&quot
 			</a></p>
 			</td>
 		</tr>
+<!-- journal of fish and wildlife management -->
 		<tr>
 			<td>
 				<p>
@@ -180,10 +279,29 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Journal+of+Fish+and+Wildlife+Management%22"
 				title="Find records in TreeBASE for articles published in Journal of Fish and Wildlife Management">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Journal+of+Fish+and+Wildlife+Management%22
+			<%=purlBase%>study/find?query=prism.publicationName==&quotJournal+of+Fish+and+Wildlife+Management&quot
 			</a></p>
 			</td>
 		</tr>
+<!-- journal of heredity -->
+		<tr>
+			<td>
+				<p><a href="http://jhered.oxfordjournals.org/"
+					title="Journal of Heredity"> 
+						<img class="journal"
+						src="images/journal_files/jh.gif" alt="Journal of Heredity"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Journal%20of%20Heredity%22"
+				title="Find records in TreeBASE for articles published in the Journal of Heredity">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotJournal+of+Heredity&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- molecular ecology -->
 		<tr>
 			<td>
 			<p><a href="http://www.blackwellpublishing.com/journal.asp?ref=0962-1083"> 
@@ -193,10 +311,29 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Molecular+Ecology%22"
 				title="Find records in TreeBASE for articles published in Molecular Ecology">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Molecular+Ecology%22</a>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotMolecular+Ecology&quot</a>
 			</p>
 			</td>
 		</tr>
+<!-- molecular ecology resources -->
+		<tr>
+			<td>
+				<p><a href="http://www.wiley.com/bw/journal.asp?ref=1755-098X"
+					title="Molecular Ecology Resources"> 
+						<img class="journal"
+						src="images/journal_files/mer.gif" alt="Molecular Ecology Resources"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Molecular%20Ecology%20Resources%22"
+				title="Find records in TreeBASE for articles published in the Molecular Ecology Resources">
+			<%=purlBase%>study/find?query=prism.publicationName==Molecular+&quotEcology+Resources&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- mycologia -->
 		<tr>
 			<td>
 			<p><a href="http://www.msafungi.org/"> 
@@ -206,10 +343,11 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DMycologia"
 				title="Find records in TreeBASE for articles published in Mycologia">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3DMycologia</a>
+			<%=purlBase%>study/find?query=prism.publicationName==Mycologia</a>
 			</p>
 			</td>
 		</tr>
+<!-- mycological progress -->
 		<tr>
 			<td>
 			<p><a
@@ -219,12 +357,13 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycologial+Progress%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycologial%20Progress%22"
 				title="Find records in TreeBASE for articles published in Mycologial Progress">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycologial+Progress%22</a>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotMycologial+Progress&quot</a>
 			</p>
 			</td>
 		</tr>
+<!-- mycological research -->
 		<tr>
 			<td>
 			<p><a
@@ -235,11 +374,12 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycologial+Research%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycologial%20Research%22"
 				title="Find records in TreeBASE for articles published in Mycologial Research">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycologial+Research%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotMycologial+Research&quot</a></p>
 			</td>
 		</tr>
+<!-- mycology -->
 		<tr>
 			<td>
 			<p><a
@@ -252,9 +392,10 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycology%22"
 				title="Find records in TreeBASE for articles published in Mycology">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Mycology%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotMycology&quot</a></p>
 			</td>
 		</tr>
+<!-- mycoscience -->
 		<tr>
 			<td>
 			<p><a
@@ -266,9 +407,10 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DMycoscience"
 				title="Find records in TreeBASE for articles published in Mycoscience">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3DMycoscience</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==Mycoscience</a></p>
 			</td>
 		</tr>
+<!-- mycosphere -->
 		<tr>
 			<td>
 			<p><a href="http://www.mycosphere.org/">
@@ -278,9 +420,10 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DMycosphere"
 				title="Find records in TreeBASE for articles published in Mycosphere">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3DMycosphere</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==Mycosphere</a></p>
 			</td>
 		</tr>
+<!-- north american fauna -->
 		<tr>
 			<td>
 			<p><a
@@ -291,11 +434,12 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22North+American+Fauna%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22North%20American%20Fauna%22"
 				title="Find records in TreeBASE for articles published in North American Fauna">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22North+American+Fauna%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotNorth+American+Fauna&quot</a></p>
 			</td>
 		</tr>
+<!-- organisms, diversity, and evolution -->
 		<tr>
 			<td>
 			<p><a
@@ -306,11 +450,12 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Organisms+Diversity+&amp;+Evolution%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Organisms%20Diversity%20&amp;%20Evolution%22"
 				title="Find records in TreeBASE for articles published in Organisms Diversity &amp; Evolution">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Organisms+Diversity+&amp;+Evolution%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotOrganisms+Diversity+&amp;+Evolution&quot</a></p>
 			</td>
 		</tr>
+<!-- persoonia -->
 		<tr>
 			<td>
 			<p><a href="http://www.persoonia.org/">
@@ -320,9 +465,10 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DPersoonia"
 				title="Find records in TreeBASE for articles published in Persoonia">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3DPersoonia</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==Persoonia</a></p>
 			</td>
 		</tr>
+<!-- phytopathology -->
 		<tr>
 			<td>
 				<p>
@@ -330,17 +476,18 @@
 						<img 
 							class="journal"
 							src="images/journal_files/image012.jpg" 
-							alt="Phytopahology"/>
+							alt="Phytopathology"/>
 					</a>
 				</p>
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DPhytopahology"
-				title="Find records in TreeBASE for articles published in Phytopahology">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3DPhytopahology</a></p>
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DPhytopathology"
+				title="Find records in TreeBASE for articles published in Phytopathology">
+			<%=purlBase%>study/find?query=prism.publicationName==Phytopathology</a></p>
 			</td>
 		</tr>
+<!-- plant disease -->
 		<tr>
 			<td>
 			<p><a href="http://www.apsnet.org/pd/">
@@ -349,11 +496,12 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Plant+Disease%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Plant%20Disease%22"
 				title="Find records in TreeBASE for articles published in Plant Disease">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Plant+Disease%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotPlant+Disease&quot</a></p>
 			</td>
 		</tr>
+<!-- plos currents tol -->
 		<tr>
 			<td>
 			<p><a href="http://currents.plos.org/treeoflife"><img
@@ -362,11 +510,12 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22PLoS+Currents:+Tree+of+Life%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22PLoS%20Currents:%20Tree%20of%20Life%22"
 				title="Find records in TreeBASE for articles published in PLoS Currents: Tree of Life">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22PLoS+Currents:+Tree+of+Life%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotPLoS+Currents:+Tree+of+Life&quot</a></p>
 			</td>
 		</tr>
+<!-- rhodora -->
 		<tr>
 			<td>
 			<p><a href="http://www.rhodora.org/Rhodora.html"><img
@@ -377,9 +526,10 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DRhodora"
 				title="Find records in TreeBASE for articles published in Rhodora">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3DRhodora</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==Rhodora</a></p>
 			</td>
 		</tr>
+<!-- muelleria -->
 		<tr>
 			<td>
 			<p><a
@@ -391,9 +541,10 @@
 			<p><a
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DMuelleria"
 				title="Find records in TreeBASE for articles published in Muelleria">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3DMuelleria</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==Muelleria</a></p>
 			</td>
 		</tr>
+<!-- studies in mycology -->
 		<tr>
 			<td>
 			<p><a href="http://www.studiesinmycology.org/">
@@ -402,11 +553,12 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Studies+in+Mycology%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Studies%20in%20Mycology%22"
 				title="Find records in TreeBASE for articles published in Studies in Mycology">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Studies+in+Mycology%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotStudies+in+Mycology&quot</a></p>
 			</td>
 		</tr>
+<!-- systematic biology -->
 		<tr>
 			<td>
 			<p><a href="http://systbiol.org/">
@@ -415,11 +567,12 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Systematic+Biology%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Systematic%20Biology%22"
 				title="Find records in TreeBASE for articles published in Systematic Biology">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Systematic+Biology%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotSystematic+Biology&quot</a></p>
 			</td>
 		</tr>
+<!-- systematic botany -->
 		<tr>
 			<td>
 			<p><a href="http://www.sysbot.org/">
@@ -428,11 +581,12 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Systematic+Botany%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Systematic%20Botany%22"
 				title="Find records in TreeBASE for articles published in Systematic Botany">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Systematic+Botany%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotSystematic+Botany&quot</a></p>
 			</td>
 		</tr>
+<!-- tropical bryology -->
 		<tr>
 			<td>
 			<p><a href="http://tropical-bryology.org/">
@@ -441,15 +595,15 @@
 			</td>
 			<td>
 			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Tropical+Bryology%22"
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Tropical%20Bryology%22"
 				title="Find records in TreeBASE for articles published in Tropical Bryology">
-			<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Tropical+Bryology%22</a></p>
+			<%=purlBase%>study/find?query=prism.publicationName==&quotTropical+Bryology&quot</a></p>
 			</td>
 		</tr>
 	</table>
 	
 	<p><b>Other Journals with a Significant Presence in TreeBASE</b>: <a
-		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Annals+of+the+Missouri+Botanical+Garden%22"
+		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Annals%20of%20the%20Missouri%20Botanical%20Garden%22"
 		title="Annals of the Missouri Botanical Garden">Annals of the
 	Missouri Botanical Garden</a>; <a
 		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Biological+Journal+of+the+Linnean+Society%22"
