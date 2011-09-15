@@ -34,9 +34,10 @@
 </p> 
 
 <p>
-	Changing the status of your study to 'Ready State' means that you are ready for the review process. If yes press Submit,
-	else choose the Cancel button. Note that after you press the Submit button you will no longer be able to make any further changes to this study.
-	The study will be available in 'READ ONLY' mode.
+	Changing the status of your study to 'Ready State' means that you are ready for the review process. If yes, please press Submit,
+	otherwise choose the Cancel button. Note that after you press the Submit button you will no longer be able to make any further 
+	changes to your study, <b>except</b> for updating your citation information. We strongly encourage you to return to your 
+	submission to update citation metadata, such as volume, issue, page numbers, or DOI, as needed.
 </p>
 
 <p>
