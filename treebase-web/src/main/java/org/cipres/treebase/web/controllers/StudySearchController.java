@@ -215,7 +215,7 @@ public class StudySearchController extends SearchController {
 			} else if ( index.startsWith("prism.publicationName") ) {
 				results.addAll(doSearch(request, response, SearchType.byJournal, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.startsWith("dc.date") ) {
-				results.addAll(doSearch(request,response, SearchType.byReleaseDate, errors, term.getTerm(),exactMatch,relation));
+				results.addAll(doSearch(request,response, SearchType.byLastModifiedDate, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.startsWith("prism.creationDate") ) {
 				results.addAll(doSearch(request,response, SearchType.byCreationDate, errors, term.getTerm(),exactMatch,relation));
 			} else if ( index.startsWith("prism.publicationDate") ) {
