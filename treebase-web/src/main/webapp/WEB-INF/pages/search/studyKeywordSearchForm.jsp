@@ -24,10 +24,18 @@
 			</option>
 		</c:forEach>
 	</select>
+	<c:set var="basePurl" scope="request" value='${treebase.purl.domain}'/>
 	<button type="submit" name="submit" >Search</button>
 	  		<a href="#" class="openHelp" onclick="openHelp('studyKeywordSearchForm')">
 	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
-	  		</a>     
+	  		</a>    
+			<a href="${basePurl}study/find?query=prism.modificationDate%3E%221996-01-01T05:00:00Z%22&format=rss1">
+				<img 
+					class="iconButton" 
+					src="<fmt:message key="icons.rss"/>" 
+					title="<fmt:message key="download.rss"/>" 
+					alt="<fmt:message key="download.rss"/>"/>				
+			</a>	
     </fieldset>
     <jsp:include page="querySearchBox.jsp"/>  
   </form>
