@@ -12,6 +12,8 @@
 	pageContext.setAttribute("searchOptions", searchOptions);
 
 %> 
+<%@page import="org.cipres.treebase.TreebaseUtil"%>
+<% String purlBase = TreebaseUtil.getPurlBase(); %>
   <form id="searchSimple" method="post">
   <fieldset>
   For study IDs with values less than 3000, please search using the &quot;Legacy Study ID&quot; button.<br>
@@ -23,13 +25,12 @@
     			${options.value}
 			</option>
 		</c:forEach>
-	</select>
-	<c:set var="basePurl" scope="request" value='${treebase.purl.domain}'/>
+	</select>	
 	<button type="submit" name="submit" >Search</button>
 	  		<a href="#" class="openHelp" onclick="openHelp('studyKeywordSearchForm')">
 	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
 	  		</a>    
-			<a href="${basePurl}study/find?query=prism.modificationDate%3E%221996-01-01T05:00:00Z%22&format=rss1">
+			<a href="<%=purlBase%>study/find?query=prism.modificationDate%3E%221996-01-01T05:00:00Z%22&format=rss1">
 				<img 
 					class="iconButton" 
 					src="<fmt:message key="icons.rss"/>" 
