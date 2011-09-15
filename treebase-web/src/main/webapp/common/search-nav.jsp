@@ -1,4 +1,6 @@
 <%@ include file="/common/taglibs.jsp"%>
+<%@page import="org.cipres.treebase.TreebaseUtil"%>
+<% String purlBase = TreebaseUtil.getPurlBase(); %>
 
 <ul id="s-nav">
 	<li id="s-navlabel">Search</li>
@@ -48,6 +50,15 @@
   				class="iconButton" 
   				src="<fmt:message key="icons.help"/>" alt="?"/>
   		</a>		
+	</li>	
+	<li style="background-color:transparent">		
+		<a href="<%=purlBase%>study/find?query=prism.modificationDate%3E%221996-01-01T05:00:00Z%22&format=rss1" style="background-color:transparent; border:none">
+			<img 
+				class="iconButton" 
+				src="<fmt:message key="icons.rss"/>" 
+				title="<fmt:message key="download.rss"/>" 
+				alt="<fmt:message key="download.rss"/>"/>				
+		</a>	
 	</li>	
 	<!-- 
 	<li id="st-taxonView"><a href="<c:url value="/search/taxonView.html"/>"><fmt:message key="search.nav.taxonViewTab"/></a></li>
