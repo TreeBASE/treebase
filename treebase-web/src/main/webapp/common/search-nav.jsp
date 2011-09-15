@@ -1,6 +1,16 @@
 <%@ include file="/common/taglibs.jsp"%>
 <%@page import="org.cipres.treebase.TreebaseUtil"%>
+<%@page import="java.util.Date" %>
+<%@page import="java.util.Calendar" %> 
+<%@page import="java.text.SimpleDateFormat;" %> 
+
 <% String purlBase = TreebaseUtil.getPurlBase(); %>
+
+<%
+	Calendar cal = Calendar.getInstance();
+	cal.add(Calendar.MONTH, -6);
+	SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd");  
+%>
 
 <ul id="s-nav">
 	<li id="s-navlabel">Search</li>
@@ -52,7 +62,7 @@
   		</a>		
 	</li>	
 	<li style="background-color:transparent">		
-		<a href="<%=purlBase%>study/find?query=prism.modificationDate%3E%221996-01-01T05:00:00Z%22&format=rss1" style="background-color:transparent; border:none">
+		<a href="<%=purlBase%>study/find?query=prism.modificationDate%3E%22<%=isoFormat.format(cal.getTime())%>T05:00:00Z%22&format=rss1" style="background-color:transparent; border:none" target="_blank">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.rss"/>" 
