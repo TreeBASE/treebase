@@ -395,7 +395,9 @@ public class StudySearchController extends SearchController {
 		root = normalizeParseTree(root);
 		Set<Study> queryResults = doCQLQuery(root, new HashSet<Study>(),request, response, errors);
 		StudySearchResults tsr = new StudySearchResults(queryResults);
-		saveSearchResults(request, tsr);
+		if (! request.getParameter("format").equals("rss1")) {
+			saveSearchResults(request, tsr);
+		}
 		if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
 			return new ModelAndView("search/studySearch", Constants.RESULT_SET, tsr);
 		}
@@ -414,7 +416,9 @@ public class StudySearchController extends SearchController {
 					res = tsr.convertToTaxa();
 				}
 			}
-			this.saveSearchResults(request, res);
+			if (! request.getParameter("format").equals("rss1")) {
+				this.saveSearchResults(request, res);
+			}
 			return this.searchResultsAsRDF(res, request, root, schema, "study");
 		}		
 	}
