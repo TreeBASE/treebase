@@ -276,7 +276,20 @@ public class RowSegmentServiceImpl extends AbstractServiceImpl implements RowSeg
 		
 		TSVFileParser parser = new TSVFileParser();
 		List<List<String>> values = parser.parseFile(pFile, pSkipFirstRow, returnVal);
-
+		
+		//checks to make sure there are 19 tabs present in each list
+		for (int x = 0; x < values.size(); x++) {
+						
+			if (values.get(x).size() < 19) {
+				
+				for (int y = values.get(x).size(); y < 19; y++ ) {
+					
+					values.get(x).add("");
+					
+				}
+			}
+		}
+			
 		// check whether parsing is successful:
 		if (returnVal.isSuccessful()) {
 			List<RowSegment> newRS = new ArrayList<RowSegment>();
