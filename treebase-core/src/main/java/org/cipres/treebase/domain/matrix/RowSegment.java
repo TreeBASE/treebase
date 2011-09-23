@@ -1,5 +1,6 @@
 package org.cipres.treebase.domain.matrix;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -335,54 +336,152 @@ public class RowSegment extends AbstractPersistedObject {
 
 		for (int i = 0; i < pMappedFields.size(); i++) {
 			RowSegmentField mappedField = pMappedFields.get(i);
+			
+			try {
 
-			if (mappedField == RowSegmentField.TITLE) {
-				setTitle(pValues.get(i));
-			} else if (mappedField == RowSegmentField.TAXONLABEL) {
-				String rowTaxonLabel = pValues.get(i);
+				if (mappedField == RowSegmentField.TITLE) {
+					setTitle(pValues.get(i));
+				} else if (mappedField == RowSegmentField.TAXONLABEL) {
+					String rowTaxonLabel = pValues.get(i);
 
-				if (rowTaxonLabel != null) {
-					MatrixRow row = pTaxonLabelRowMap.get(rowTaxonLabel);
-					setMatrixRow(row);
+					if (rowTaxonLabel != null) {
+						MatrixRow row = pTaxonLabelRowMap.get(rowTaxonLabel);
+						setMatrixRow(row);
+					}
+				} else if (mappedField == RowSegmentField.START_INDEX) {
+					setStartIndex(Integer.parseInt(pValues.get(i)));
+				} else if (mappedField == RowSegmentField.END_INDEX) {
+					setEndIndex(Integer.parseInt(pValues.get(i)));
+				} else if (mappedField == RowSegmentField.INST_ACRONYM) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getInstAcronym");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The Institutional Acroynm field was truncated due to its length");
+					}
+					
+					getSpecimenLabel().setInstAcronym(pValues.get(i));
+					
+				} else if (mappedField == RowSegmentField.COLLECTION_CODE) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getCollectionCode");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The Collection Code field was truncated due to its length");
+					}
+						
+					getSpecimenLabel().setCollectionCode(pValues.get(i));
+					
+				} else if (mappedField == RowSegmentField.CATALOG_NUM) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getCatalogNumber");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The Catalog Number field was truncated due to its length");
+					}
+					
+					getSpecimenLabel().setCatalogNumber(pValues.get(i));
+					
+				} else if (mappedField == RowSegmentField.GENBANK_ACC_NUM) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getGenBankAccession");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The GenBank Accession Number field was truncated due to its length");
+					}
+	
+					getSpecimenLabel().setGenBankAccession(pValues.get(i));
+					
+				} else if (mappedField == RowSegmentField.OTHER_ACC_NUM) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getOtherAccession");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The Other Accession Number field was truncated due to its length");
+					}
+					
+					getSpecimenLabel().setOtherAccession(pValues.get(i));
+					
+				} else if (mappedField == RowSegmentField.SAMPLE_DATE) {
+					getSpecimenLabel().setSampleDate(
+						TreebaseUtil.parseDate(pValues.get(i), true, pExecution));
+				} else if (mappedField == RowSegmentField.SAMPLE_TAXONLABEL) {
+					setSpecimenTaxonLabelStr(pValues.get(i));
+				} else if (mappedField == RowSegmentField.COLLECTOR) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getCollector");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The Collector field was truncated due to its length");
+					}
+					
+					getSpecimenLabel().setCollector(pValues.get(i));
+					
+				} else if (mappedField == RowSegmentField.LATITUDE) {
+					getSpecimenLabel()
+						.setLatitude(TreebaseUtil.parseDouble(pValues.get(i), pExecution));
+				} else if (mappedField == RowSegmentField.LONGITUDE) {
+					getSpecimenLabel().setLongitude(
+						TreebaseUtil.parseDouble(pValues.get(i), pExecution));
+				} else if (mappedField == RowSegmentField.ELEVATION) {
+					getSpecimenLabel().setElevation(
+						TreebaseUtil.parseDouble(pValues.get(i), pExecution));
+				} else if (mappedField == RowSegmentField.COUNTRY) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getCountry");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					int length = getColumn.length();
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The Country field was truncated due to its length");
+					}
+
+					getSpecimenLabel().setCountry(pValues.get(i));
+					
+				} else if (mappedField == RowSegmentField.STATE) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getState");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The State field was truncated due to its length");
+					}
+
+					getSpecimenLabel().setState(pValues.get(i));
+					
+				} else if (mappedField == RowSegmentField.LOCALITY) {
+					
+					Method getMethod = SpecimenLabel.class.getMethod("getLocality");
+					Column getColumn = getMethod.getAnnotation(Column.class);
+					
+					if (pValues.get(i).length() > getColumn.length()) {
+						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
+						pExecution.addErrorMessage("The Locality field was truncated due to its length");
+					}
+
+					getSpecimenLabel().setLocality(pValues.get(i));
 				}
-			} else if (mappedField == RowSegmentField.START_INDEX) {
-				setStartIndex(Integer.parseInt(pValues.get(i)));
-			} else if (mappedField == RowSegmentField.END_INDEX) {
-				setEndIndex(Integer.parseInt(pValues.get(i)));
-			} else if (mappedField == RowSegmentField.INST_ACRONYM) {
-				getSpecimenLabel().setInstAcronym(pValues.get(i));
-			} else if (mappedField == RowSegmentField.COLLECTION_CODE) {
-				getSpecimenLabel().setCollectionCode(pValues.get(i));
-			} else if (mappedField == RowSegmentField.CATALOG_NUM) {
-				getSpecimenLabel().setCatalogNumber(pValues.get(i));
-			} else if (mappedField == RowSegmentField.GENBANK_ACC_NUM) {
-				getSpecimenLabel().setGenBankAccession(pValues.get(i));
-			} else if (mappedField == RowSegmentField.OTHER_ACC_NUM) {
-				getSpecimenLabel().setOtherAccession(pValues.get(i));
-			} else if (mappedField == RowSegmentField.SAMPLE_DATE) {
-				getSpecimenLabel().setSampleDate(
-					TreebaseUtil.parseDate(pValues.get(i), true, pExecution));
-			} else if (mappedField == RowSegmentField.SAMPLE_TAXONLABEL) {
-				setSpecimenTaxonLabelStr(pValues.get(i));
-			} else if (mappedField == RowSegmentField.COLLECTOR) {
-				getSpecimenLabel().setCollector(pValues.get(i));
-			} else if (mappedField == RowSegmentField.LATITUDE) {
-				getSpecimenLabel()
-					.setLatitude(TreebaseUtil.parseDouble(pValues.get(i), pExecution));
-			} else if (mappedField == RowSegmentField.LONGITUDE) {
-				getSpecimenLabel().setLongitude(
-					TreebaseUtil.parseDouble(pValues.get(i), pExecution));
-			} else if (mappedField == RowSegmentField.ELEVATION) {
-				getSpecimenLabel().setElevation(
-					TreebaseUtil.parseDouble(pValues.get(i), pExecution));
-			} else if (mappedField == RowSegmentField.COUNTRY) {
-				getSpecimenLabel().setCountry(pValues.get(i));
-			} else if (mappedField == RowSegmentField.STATE) {
-				getSpecimenLabel().setState(pValues.get(i));
-			} else if (mappedField == RowSegmentField.LOCALITY) {
-				getSpecimenLabel().setLocality(pValues.get(i));
-			}
 
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 
@@ -439,6 +538,7 @@ public class RowSegment extends AbstractPersistedObject {
 	 * Returns a string representation of the segment.
 	 * 
 	 * @return
+
 	 */
 	@Transient
 	public String getSegmentData() {
