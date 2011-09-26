@@ -395,10 +395,8 @@ public class StudySearchController extends SearchController {
 		root = normalizeParseTree(root);
 		Set<Study> queryResults = doCQLQuery(root, new HashSet<Study>(),request, response, errors);
 		StudySearchResults tsr = new StudySearchResults(queryResults);
-		if (! request.getParameter("format").equals("rss1")) {
+		if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
 			saveSearchResults(request, tsr);
-		}
-		if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
 			return new ModelAndView("search/studySearch", Constants.RESULT_SET, tsr);
 		}
 		else {
