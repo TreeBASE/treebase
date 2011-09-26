@@ -122,7 +122,7 @@
 				<p><a href="http://www.cryptogamie.com/pagint_en/editeur/revue_bryo.php"
 					title="Cryptogamie Bryologie"> 
 						<img class="journal"
-						src="images/journal_files/fd_algo.gif" alt="Cryptogamie Bryologie"/> 
+						src="images/journal_files/fd_bryo.gif" alt="Cryptogamie Bryologie"/> 
 					</a>
 				</p>
 			</td>
@@ -140,7 +140,7 @@
 				<p><a href="http://www.cryptogamie.com/pagint_en/editeur/revue_bryo.php"
 					title="Cryptogamie Mycologie"> 
 						<img class="journal"
-						src="images/journal_files/fd_algo.gif" alt="Cryptogamie Mycologie"/> 
+						src="images/journal_files/fd_myco.gif" alt="Cryptogamie Mycologie"/> 
 					</a>
 				</p>
 			</td>
