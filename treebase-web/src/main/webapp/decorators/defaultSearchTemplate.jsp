@@ -141,7 +141,7 @@
 
 	
 	<!-- BEGIN RIGHT COLUMN -->
-	<div id="content">
+	<div id="content" class="contentsearch">
 		<div class="gutter">
 		<c:if test="${not empty page.heading}">
 		<h2><decorator:getProperty property="page.heading"/></h2>

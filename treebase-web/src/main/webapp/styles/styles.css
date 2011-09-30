@@ -94,6 +94,11 @@ dt { font-weight: bold }
 	width: 67%
 }
 
+.contentsearch {
+	float: left;
+	width: 100% !important;	
+}
+
 /* This sidebar ID is also used for the 3column right sidebar */
 
 #sidebar {
