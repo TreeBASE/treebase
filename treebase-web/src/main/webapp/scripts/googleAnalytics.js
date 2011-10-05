@@ -20,7 +20,7 @@ if (document.getElementsByTagName) {
 	                if (hrefs[l].protocol == "mailto:") {
 	                        startListening(hrefs[l],"click",trackMailto);
 	                //} else if (hrefs[l].hostname == location.host) {
-	                } else if (true) {
+	                } else if (hrefs[l].hostname == location.host) {
 	                        var path = hrefs[l].pathname + hrefs[l].search;
 	                        var pathFile = hrefs[l].pathname;
 							var isDoc = path.match(/\.(?:doc|eps|jpg|png|svg|xls|ppt|pdf|xls|zip|txt|vsd|vxd|js|css|rar|exe|wma|mov|avi|wmv|mp3|nex)($|\&|\?)/);
