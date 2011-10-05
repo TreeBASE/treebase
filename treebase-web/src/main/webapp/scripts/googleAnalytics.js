@@ -19,10 +19,13 @@ if (document.getElementsByTagName) {
 	                //protocol, host, hostname, port, pathname, search, hash
 	                if (hrefs[l].protocol == "mailto:") {
 	                        startListening(hrefs[l],"click",trackMailto);
-	                } else if (hrefs[l].hostname == location.host) {
+	                //} else if (hrefs[l].hostname == location.host) {
+	                } else if (true) {
 	                        var path = hrefs[l].pathname + hrefs[l].search;
-							var isDoc = path.match(/\.(?:doc|eps|jpg|png|svg|xls|ppt|pdf|xls|zip|txt|vsd|vxd|js|css|rar|exe|wma|mov|avi|wmv|mp3|nex|downloadATree|downloadANexusFile|downloadAMatrix|downloadANexusFile|downloadAnAnalysisStep)($|\&|\?)/);
-	                        if (isDoc) {
+	                        var pathFile = hrefs[l].pathname;
+							var isDoc = path.match(/\.(?:doc|eps|jpg|png|svg|xls|ppt|pdf|xls|zip|txt|vsd|vxd|js|css|rar|exe|wma|mov|avi|wmv|mp3|nex)($|\&|\?)/);
+							var isDownload = pathFile.match(/(?:downloadATree|downloadANexusFile|downloadAMatrix|downloadANexusFile|downloadAnAnalysisStep)/);
+							if (isDoc || isDownload) {
 	                                startListening(hrefs[l],"click",trackDownloads);
 	                        }
 	                } else if (hrefs[l].hostname != location.hostname) {
