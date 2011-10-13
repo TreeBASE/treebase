@@ -61,7 +61,7 @@ public class NexmlDocumentWriter extends NexmlObjectConverter {
 	 */
 	public Document fromTreeBaseToXml(Study pStudy) {
 		attachTreeBaseID(getDocument(), pStudy,Study.class);
-		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlDocumentConverter $Rev$");
+		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
 		
 		NexmlOTUWriter noc = new NexmlOTUWriter(getStudy(),getTaxonLabelHome(),getDocument());
 		for ( TaxonLabelSet taxonLabelSet : pStudy.getTaxonLabelSets() ) {

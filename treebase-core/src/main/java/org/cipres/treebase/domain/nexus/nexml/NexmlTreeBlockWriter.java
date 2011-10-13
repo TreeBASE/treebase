@@ -54,7 +54,7 @@ public class NexmlTreeBlockWriter extends NexmlObjectConverter {
 		org.nexml.model.TreeBlock xmlTreeBlock = getDocument().createTreeBlock(xmlOTUs);
 		
 		// attach base uri and skos:historyNote
-		xmlTreeBlock.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlTreeBlockConverter $Rev$");
+		xmlTreeBlock.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
 		xmlTreeBlock.setBaseURI(mTreeBaseURI);
 		
 		if ( null != treeBlock.getTitle() ) {
