@@ -59,15 +59,13 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 */
 	private CategoricalMatrix fromTreeBaseToXml(StandardMatrix tbMatrix) {
 		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
-		CategoricalMatrix xmlMatrix = getDocument().createCategoricalMatrix(xmlOTUs);
-		
-		// attach base uri and history note
-		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
-		xmlMatrix.setBaseURI(mMatrixBaseURI);
+		CategoricalMatrix xmlMatrix = getDocument().createCategoricalMatrix(xmlOTUs);		
+		setMatrixAttributes(xmlMatrix,tbMatrix);
 		
 		List<List<DiscreteCharState>> tbStateLabels = tbMatrix.getStateLabels();
 		List<MatrixColumn> tbColumns = tbMatrix.getColumnsReadOnly();
 		for ( int i = 0; i < tbColumns.size(); i++ ) {
+			MatrixColumn tbColumn = tbColumns.get(i);
 			CharacterStateSet xmlStateSet = xmlMatrix.createCharacterStateSet();
 			for ( DiscreteCharState tbState : tbStateLabels.get(i) ) {
 				CharacterState xmlState = xmlStateSet.createCharacterState(tbState.getSymbol().toString());
@@ -77,14 +75,31 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
 			}			
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
-			PhyloChar tbCharacter = tbColumns.get(i).getCharacter();
-			if ( null != tbCharacter.getDescription() ) {
-				xmlCharacter.setLabel(tbCharacter.getDescription());
-			}			
-			attachTreeBaseID((Annotatable)xmlCharacter,tbColumns.get(i),MatrixColumn.class);
+			setCharacterAttributes(tbColumn, xmlCharacter);
 		}		
 		return xmlMatrix;
 	}
+
+	private void setCharacterAttributes(MatrixColumn tbColumn,org.nexml.model.Character xmlCharacter) {
+		PhyloChar tbCharacter = tbColumn.getCharacter();
+		if ( null != tbCharacter.getDescription() ) {
+			xmlCharacter.setLabel(tbCharacter.getLabel());
+		}			
+		attachTreeBaseID((Annotatable)xmlCharacter,tbColumn,MatrixColumn.class);
+	}
+
+	private void setMatrixAttributes(org.nexml.model.Matrix<?> xmlMatrix,CharacterMatrix tbMatrix) {
+		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
+		xmlMatrix.setBaseURI(mMatrixBaseURI);
+		xmlMatrix.setLabel(tbMatrix.getLabel());
+		
+		// attach matrix identifiers
+		attachTreeBaseID((Annotatable)xmlMatrix, tbMatrix,Matrix.class);
+		String tb1MatrixID = tbMatrix.getTB1MatrixID();
+		if ( null != tb1MatrixID ) {
+			((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix.tb1", Constants.TBTermsURI, tb1MatrixID);
+		}		
+	}	
 	
 	/**
 	 * Creates and populates characters (i.e. columns) with their annotations,
@@ -112,10 +127,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			xmlMatrix = getDocument().createMolecularMatrix(xmlOTUs, MolecularMatrix.Protein);
 			xmlStateSet = ((MolecularMatrix)xmlMatrix).getProteinCharacterStateSet();
 		}
-		
-		// attach base uri and history note
-		xmlMatrix.setBaseURI(mMatrixBaseURI);
-		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
+		setMatrixAttributes(xmlMatrix,tbMatrix);
 		
 		// lookup the equivalent state in tb and attach identifiers
 		for(StateSet tbStateSet : tbMatrix.getStateSets() ) {
@@ -132,7 +144,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 		// create columns and attach identifiers
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
-			attachTreeBaseID((Annotatable)xmlCharacter,tbColumn,MatrixColumn.class);
+			setCharacterAttributes(tbColumn, xmlCharacter);
 		}
 		return xmlMatrix;
 	}
@@ -147,19 +159,11 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	private org.nexml.model.ContinuousMatrix fromTreeBaseToXml(ContinuousMatrix tbMatrix) {
 		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
 		org.nexml.model.ContinuousMatrix xmlMatrix = getDocument().createContinuousMatrix(xmlOTUs);
-		
-		// attach base uri and history note
-		xmlMatrix.setBaseURI(mMatrixBaseURI);
-		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using NexmlMatrixConverter $Rev$");
+		setMatrixAttributes(xmlMatrix,tbMatrix);
 		
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter();
-			PhyloChar tbCharacter = tbColumn.getCharacter();
-			if ( null != tbCharacter.getDescription() ) {
-				xmlCharacter.setLabel(tbCharacter.getDescription());
-				((Annotatable)xmlCharacter).addAnnotationValue("dcterms:description", Constants.DCTermsURI, tbCharacter.getDescription());
-			}			
-			attachTreeBaseID((Annotatable)xmlCharacter,tbColumn,MatrixColumn.class);
+			setCharacterAttributes(tbColumn, xmlCharacter);
 			
 			//coerce the tbMatrix into a character matrix to get its character sets
 			CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
@@ -215,12 +219,8 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			xmlMatrix = fromTreeBaseToXml((ContinuousMatrix) tbMatrix);			
 			populateXmlMatrix((org.nexml.model.ContinuousMatrix)xmlMatrix,(ContinuousMatrix)tbMatrix);
 		}
-		xmlMatrix.setLabel(tbMatrix.getTitle());
-		attachTreeBaseID((Annotatable)xmlMatrix, tbMatrix,Matrix.class);
-		String tb1MatrixID = tbMatrix.getTB1MatrixID();
-		if ( null != tb1MatrixID ) {
-			((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix.tb1", Constants.TBTermsURI, tb1MatrixID);
-		}
+		
+		// here we copy the character sets for all matrix types
 		Set<CharSet> tbCharSets = tbMatrix.getCharSets();
 		for ( CharSet tbCharSet : tbCharSets ) {
 			Collection<ColumnRange> tbColumnRanges = tbCharSet.getColumns(tbMatrix);
@@ -234,6 +234,12 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 				// increment from beginning to end. This number is probably either null, for a
 				// contiguous range, or perhaps 3 for codon positions
 				int tbInc = 1;
+				
+				// need to do this to prevent nullpointerexceptions
+				if ( null != tbColumnRange.getRepeatInterval()) {						
+					tbInc = tbColumnRange.getRepeatInterval();
+				}				
+				
 				// create the equivalent nexml character set
 				Subset nexSubset = xmlMatrix.createSubset(tbCharSet.getLabel());
 			
