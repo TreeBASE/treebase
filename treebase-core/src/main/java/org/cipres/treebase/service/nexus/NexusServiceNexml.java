@@ -13,7 +13,7 @@ import org.cipres.treebase.domain.DomainHome;
 import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.nexus.NexusService;
 import org.cipres.treebase.domain.nexus.nexml.NexmlConverter;
-import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.event.ProgressionListener;
@@ -74,7 +74,7 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 		mTaxonLabelHome = taxonLabelHome;
 	}
 	
-	protected NexmlDocumentConverter getNexmlDocumentConverter(Study study,Properties properties) {
+	protected NexmlDocumentWriter getNexmlDocumentConverter(Study study,Properties properties) {
 		String baseURI = null;
 		if ( null != properties ) {
 			baseURI = properties.getProperty("nexml.uri.base");
@@ -88,22 +88,22 @@ public class NexusServiceNexml extends AbstractServiceImpl implements NexusServi
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(study,getTaxonLabelHome(),document,baseURI);
+		NexmlDocumentWriter ndc = new NexmlDocumentWriter(study,getTaxonLabelHome(),document,baseURI);
 		return ndc;
 	}
 
 	public String serialize(NexusDataSet nexusDataSet, Properties properties) {
-		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, properties);
+		NexmlDocumentWriter ndc = getNexmlDocumentConverter(null, properties);
 		return ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
 	}
 	
 	public String serialize(NexusDataSet nexusDataSet, Properties properties,Study study) {
-		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
+		NexmlDocumentWriter ndc = getNexmlDocumentConverter(study, properties);
 		return ndc.fromTreeBaseToXml(nexusDataSet).getXmlString();
 	}	
 
 	public String serialize(Study study, Properties properties) {
-		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
+		NexmlDocumentWriter ndc = getNexmlDocumentConverter(study, properties);
 		return ndc.fromTreeBaseToXml(study).getXmlString();
 	}
 

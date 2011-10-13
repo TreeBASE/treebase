@@ -17,7 +17,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.TreeBlock;
-import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.nexml.model.DocumentFactory;
 import org.nexml.model.Document;
 
@@ -28,7 +28,7 @@ public class NexmlSerializationTest extends AbstractDAOTest  {
 		long studyId = 1787;
 		Study study = (Study)loadObject(Study.class, studyId);
 		Document doc = DocumentFactory.safeCreateDocument();
-		NexmlDocumentConverter conv = new NexmlDocumentConverter(study,getTaxonLabelHome(),doc);
+		NexmlDocumentWriter conv = new NexmlDocumentWriter(study,getTaxonLabelHome(),doc);
 		String xml = conv.fromTreeBaseToXml(study).getXmlString();		
 		System.out.println(xml);
 		Assert.assertNotNull(xml);
@@ -45,7 +45,7 @@ public class NexmlSerializationTest extends AbstractDAOTest  {
 		treeBlock.setTaxonLabelSet(tls);
 		treeBlock.addPhyloTree(tree);
 		nds.getTreeBlocks().add(treeBlock);
-		NexmlDocumentConverter conv = new NexmlDocumentConverter(tree.getStudy(),getTaxonLabelHome(),doc);
+		NexmlDocumentWriter conv = new NexmlDocumentWriter(tree.getStudy(),getTaxonLabelHome(),doc);
 		String xml = conv.fromTreeBaseToXml(nds).getXmlString();
 		System.out.println(xml);
 		Assert.assertNotNull(xml);

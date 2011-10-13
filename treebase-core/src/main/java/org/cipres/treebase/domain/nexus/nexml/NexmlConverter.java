@@ -42,13 +42,13 @@ public class NexmlConverter extends AbstractNexusConverter implements
 		}
 		
 		// Taxa
-		NexmlOTUConverter noc = new NexmlOTUConverter(pStudy,getTaxonLabelHome(),document);
+		NexmlOTUReader noc = new NexmlOTUReader(pStudy,getTaxonLabelHome(),document);
 		for ( OTUs xmlOTUs : document.getOTUsList() ) {
 			pDataSet.addTaxonLabelSet(xmlOTUs, noc.fromXmlToTreeBase(xmlOTUs));
 		}
 	
 		// Matrices
-		NexmlMatrixConverter nmc = new NexmlMatrixConverter(pStudy,getTaxonLabelHome(),document);
+		NexmlMatrixReader nmc = new NexmlMatrixReader(pStudy,getTaxonLabelHome(),document);
 		for ( org.nexml.model.Matrix<?> xmlMatrix : document.getMatrices() ) {
 			Matrix tbMatrix = nmc.fromXmlToTreeBase(xmlMatrix);
 			tbMatrix.setNexusFileName(pFile.getName());
@@ -56,7 +56,7 @@ public class NexmlConverter extends AbstractNexusConverter implements
 		}		
 		
 		// Trees
-		NexmlTreeBlockConverter ntbc = new NexmlTreeBlockConverter(pStudy,getTaxonLabelHome(),document);
+		NexmlTreeBlockReader ntbc = new NexmlTreeBlockReader(pStudy,getTaxonLabelHome(),document);
 		for ( org.nexml.model.TreeBlock xmlTreeBlock : document.getTreeBlockList() ) {
 			TreeBlock tbTreeBlock = ntbc.fromXmlToTreeBase(xmlTreeBlock);
 			for ( PhyloTree phyloTree : tbTreeBlock.getTreeList() ) {

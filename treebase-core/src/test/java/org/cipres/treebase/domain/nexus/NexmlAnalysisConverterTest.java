@@ -11,7 +11,7 @@ import java.util.Map;
 import org.cipres.treebase.Constants;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
-import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.cipres.treebase.domain.study.Algorithm;
 import org.cipres.treebase.domain.study.Analysis;
 import org.cipres.treebase.domain.study.AnalysisStep;
@@ -32,7 +32,7 @@ public class NexmlAnalysisConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;
 
 	/**
-	 * Test  for {@link org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter#fromTreeBaseToXml(CharacterMatrix)}.
+	 * Test  for {@link org.cipres.treebase.domain.nexus.nexml.NexmlMatrixWriter#fromTreeBaseToXml(CharacterMatrix)}.
 	 * @throws URISyntaxException 
 	 * @throws IOException 
 	 */
@@ -52,7 +52,7 @@ public class NexmlAnalysisConverterTest extends AbstractDAOTest {
 		Document nexDoc = DocumentFactory.safeCreateDocument();
 		
 		// the converter populates the NeXML document with the contents of the treebase study
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
+		NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
 		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens		
 		
 		attachAnalysisMetadata(analyzedDataForData, tbStudy, nexDoc);		

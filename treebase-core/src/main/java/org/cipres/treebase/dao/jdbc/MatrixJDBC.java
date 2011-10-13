@@ -19,7 +19,8 @@ import org.springframework.jdbc.UncategorizedSQLException;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.ContinuousMatrix;
 import org.cipres.treebase.domain.nexus.mesquite.MesquiteMatrixConverter;
-import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixWriter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixReader;
 
 /**
  * Helper class for direct Matrix related SQL operations. Bypass the hibernate framework for high
@@ -69,7 +70,7 @@ public abstract class MatrixJDBC {
 	private List<MatrixColumnJDBC> mMatrixColumnJDBCs;
 
 	private MesquiteMatrixConverter mMesqMatrixConverter;
-	private NexmlMatrixConverter mNexmlMatrixConverter;
+	private NexmlMatrixReader mNexmlMatrixConverter;
 	private Matrix mNexmlCharacterData;
 
 	/**
@@ -295,7 +296,7 @@ public abstract class MatrixJDBC {
 	}
 
 	protected void setNexmlMatrixConverter(
-			NexmlMatrixConverter nexmlMatrixConverter) {
+			NexmlMatrixReader nexmlMatrixConverter) {
 		mNexmlMatrixConverter = nexmlMatrixConverter;				
 	}
 

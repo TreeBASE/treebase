@@ -6,37 +6,21 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import mesquite.lib.Annotatable;
-
 import org.cipres.treebase.dao.AbstractDAOTest;
-import org.cipres.treebase.dao.jdbc.DiscreteMatrixElementJDBC;
-import org.cipres.treebase.dao.jdbc.MatrixColumnJDBC;
-import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.matrix.CharSet;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.ColumnRange;
-import org.cipres.treebase.domain.matrix.ContinuousMatrixElement;
-import org.cipres.treebase.domain.matrix.DiscreteChar;
-import org.cipres.treebase.domain.matrix.DiscreteCharState;
-import org.cipres.treebase.domain.matrix.DiscreteMatrix;
-import org.cipres.treebase.domain.matrix.DiscreteMatrixElement;
 import org.cipres.treebase.domain.matrix.MatrixColumn;
-import org.cipres.treebase.domain.matrix.MatrixElement;
 import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.matrix.PhyloChar;
-import org.cipres.treebase.domain.matrix.RowSegment;
-import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
-import org.cipres.treebase.domain.nexus.nexml.NexmlObjectConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.nexml.model.CategoricalMatrix;
-import org.nexml.model.Character;
-import org.nexml.model.CharacterState;
 import org.nexml.model.ContinuousMatrix;
 import org.nexml.model.DocumentFactory;
 import org.nexml.model.Document;
 import org.nexml.model.Matrix;
-import org.nexml.model.MatrixCell;
 import org.nexml.model.MolecularMatrix;
 import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
@@ -72,7 +56,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		Document nexDoc = DocumentFactory.safeCreateDocument();
 		
 		// the converter populates the NeXML document with the contents of the treebase study
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
+		NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
 		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
 		
 		
@@ -179,7 +163,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		Document nexDoc = DocumentFactory.safeCreateDocument();
 		
 		// the converter populates the NeXML document with the contents of the treebase study
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
+		NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
 		
 		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
 		
@@ -275,7 +259,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		Document nexDoc = DocumentFactory.safeCreateDocument();
 		
 		// the converter populates the NeXML document with the contents of the treebase study
-		NexmlDocumentConverter ndc = new NexmlDocumentConverter(tbStudy,getTaxonLabelHome(),nexDoc);
+		NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
 		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
 		
 		// these are the NeXML matrices that were created from the study  		

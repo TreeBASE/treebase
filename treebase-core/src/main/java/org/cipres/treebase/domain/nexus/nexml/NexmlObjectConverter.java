@@ -3,8 +3,6 @@ package org.cipres.treebase.domain.nexus.nexml;
 import java.net.URI;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
-import java.util.Iterator;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.Constants;
@@ -15,7 +13,6 @@ import org.cipres.treebase.domain.nexus.AbstractNexusConverter;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.nexml.model.Annotatable;
-import org.nexml.model.Annotation;
 import org.nexml.model.Document;
 import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
@@ -26,9 +23,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected URI mTaxonBaseURI = URI.create(mBaseURI.toString() + "taxon/TB2:");
 	protected URI mMatrixBaseURI = URI.create(mBaseURI.toString() + "matrix/TB2:");
 	protected URI mTreeBaseURI = URI.create(mBaseURI.toString() + "tree/TB2:");
-	protected static URI mStudyBaseURI = URI.create(Constants.BaseURI.toString() + "study/TB2:");
-//	private static String mBaseURIString = "http://purl.org/PHYLO/TREEBASE/PHYLOWS/";
-//	private static String mDCIdentifier = "dcterms:identifier";	
+	protected static URI mStudyBaseURI = URI.create(Constants.BaseURI.toString() + "study/TB2:");	
 	public static String TreeBASE2Prefix = "TreeBASE2";
 	private Document mDocument;
 		
@@ -84,7 +79,7 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @param annotatable
 	 */
 	protected void attachAnnotation(String key,String value,URI namespace,Annotatable annotatable) {
-		Annotation annotation = annotatable.addAnnotationValue(key, namespace, value);
+		annotatable.addAnnotationValue(key, namespace, value);
 	}
 	
 	/**

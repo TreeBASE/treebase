@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Properties;
 
 import org.cipres.treebase.domain.nexus.NexusDataSet;
-import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.cipres.treebase.domain.study.Study;
 import org.dom4j.DocumentException;
 import org.dom4j.io.DocumentResult;
@@ -27,7 +27,7 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 	 * 
 	 */
 	public String serialize(NexusDataSet nexusDataSet,Properties properties) {
-		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, properties);
+		NexmlDocumentWriter ndc = getNexmlDocumentConverter(null, properties);
 		String result = null;
 		try {
 			result = transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());
@@ -45,7 +45,7 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 	 * 
 	 */
 	public String serialize(NexusDataSet nexusDataSet,Properties properties,Study study) {
-		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
+		NexmlDocumentWriter ndc = getNexmlDocumentConverter(study, properties);
 		String result = null;
 		try {
 			result = transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());
@@ -63,7 +63,7 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 	 * 
 	 */
 	public String serialize(NexusDataSet nexusDataSet) {
-		NexmlDocumentConverter ndc = getNexmlDocumentConverter(null, null);
+		NexmlDocumentWriter ndc = getNexmlDocumentConverter(null, null);
 		String result = null;
 		try {
 			result = transform(ndc.fromTreeBaseToXml(nexusDataSet).getXmlString());
@@ -81,7 +81,7 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 	 * 
 	 */
 	public String serialize(Study study,Properties properties) {
-		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, properties);
+		NexmlDocumentWriter ndc = getNexmlDocumentConverter(study, properties);
 		String result = null;
 		try {
 			result = transform(ndc.fromTreeBaseToXml(study).getXmlString());
@@ -99,7 +99,7 @@ public class NexusServiceRDFa extends NexusServiceNexml {
 	 * 
 	 */
 	public String serialize(Study study) {
-		NexmlDocumentConverter ndc = getNexmlDocumentConverter(study, null);
+		NexmlDocumentWriter ndc = getNexmlDocumentConverter(study, null);
 		String result = null;
 		try {
 			result = transform(ndc.fromTreeBaseToXml(study).getXmlString());

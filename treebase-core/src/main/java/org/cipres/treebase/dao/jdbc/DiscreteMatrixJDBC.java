@@ -23,7 +23,8 @@ import org.cipres.treebase.domain.matrix.ContinuousMatrix;
 import org.cipres.treebase.domain.matrix.DiscreteChar;
 import org.cipres.treebase.domain.matrix.DiscreteCharState;
 import org.cipres.treebase.domain.nexus.mesquite.MesquiteMatrixConverter;
-import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixConverter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixWriter;
+import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixReader;
 
 /**
  * Helper class for direct Matrix related SQL operations. Bypass the hibernate framework for high
@@ -107,7 +108,7 @@ public class DiscreteMatrixJDBC extends MatrixJDBC {
 	
 	public DiscreteMatrixJDBC(CharacterMatrix tbMatrix,
 			org.nexml.model.CategoricalMatrix xmlMatrix,
-			NexmlMatrixConverter nexmlMatrixConverter) {
+			NexmlMatrixReader nexmlMatrixConverter) {
 		this();
 		setCharacterMatrix(tbMatrix);
 		setNexmlCharacterData(xmlMatrix);
