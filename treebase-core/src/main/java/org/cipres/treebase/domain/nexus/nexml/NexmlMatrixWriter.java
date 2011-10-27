@@ -57,8 +57,10 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 * @param tbMatrix
 	 * @return an xml matrix with empty rows
 	 */
-	private CategoricalMatrix fromTreeBaseToXml(StandardMatrix tbMatrix) {
-		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
+	private CategoricalMatrix fromTreeBaseToXml(StandardMatrix tbMatrix,OTUs xmlOTUs) {
+		if ( null == xmlOTUs ) {
+			xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
+		}
 		CategoricalMatrix xmlMatrix = getDocument().createCategoricalMatrix(xmlOTUs);		
 		setMatrixAttributes(xmlMatrix,tbMatrix);
 		
@@ -108,8 +110,10 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 * @param tbMatrix
 	 * @return an xml matrix with empty rows
 	 */	
-	private MolecularMatrix fromTreeBaseToXml(DiscreteMatrix tbMatrix) {
-		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
+	private MolecularMatrix fromTreeBaseToXml(DiscreteMatrix tbMatrix,OTUs xmlOTUs) {
+		if ( null == xmlOTUs ) {
+			xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
+		}
 		String tbDataType = tbMatrix.getDataType().getDescription();
 		MolecularMatrix xmlMatrix = null;
 		CharacterStateSet xmlStateSet = null;
@@ -156,8 +160,10 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 * @param tbMatrix
 	 * @return an xml matrix with empty rows
 	 */		
-	private org.nexml.model.ContinuousMatrix fromTreeBaseToXml(ContinuousMatrix tbMatrix) {
-		OTUs xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
+	private org.nexml.model.ContinuousMatrix fromTreeBaseToXml(ContinuousMatrix tbMatrix,OTUs xmlOTUs) {
+		if ( null == xmlOTUs ) {
+			xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
+		}
 		org.nexml.model.ContinuousMatrix xmlMatrix = getDocument().createContinuousMatrix(xmlOTUs);
 		setMatrixAttributes(xmlMatrix,tbMatrix);
 		
@@ -204,19 +210,19 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 //	public static final String MATRIX_DATATYPE_DISTANCE = "Distance";
 //	public static final String MATRIX_DATATYPE_MIXED = "Mixed";		
 	@SuppressWarnings("unchecked")
-	public org.nexml.model.Matrix<?> fromTreeBaseToXml(CharacterMatrix tbMatrix) {
+	public org.nexml.model.Matrix<?> fromTreeBaseToXml(CharacterMatrix tbMatrix,OTUs xmlOTUs) {
 		org.nexml.model.Matrix<?> xmlMatrix = null;
 		if ( tbMatrix instanceof DiscreteMatrix ) {
 			if ( tbMatrix.getDataType().getDescription().equals(MatrixDataType.MATRIX_DATATYPE_STANDARD) ) {
-				xmlMatrix = fromTreeBaseToXml((StandardMatrix) tbMatrix);
+				xmlMatrix = fromTreeBaseToXml((StandardMatrix) tbMatrix,xmlOTUs);
 			}
 			else {
-				xmlMatrix = fromTreeBaseToXml((DiscreteMatrix) tbMatrix);				
+				xmlMatrix = fromTreeBaseToXml((DiscreteMatrix) tbMatrix,xmlOTUs);				
 			}
 			populateXmlMatrix((org.nexml.model.Matrix<CharacterState>)xmlMatrix,(DiscreteMatrix)tbMatrix);
 		}
 		else if ( tbMatrix instanceof ContinuousMatrix ) {
-			xmlMatrix = fromTreeBaseToXml((ContinuousMatrix) tbMatrix);			
+			xmlMatrix = fromTreeBaseToXml((ContinuousMatrix) tbMatrix,xmlOTUs);			
 			populateXmlMatrix((org.nexml.model.ContinuousMatrix)xmlMatrix,(ContinuousMatrix)tbMatrix);
 		}
 		

@@ -33,7 +33,7 @@ public class NexmlTreeBlockWriter extends NexmlObjectConverter {
 	 * @param phyloTree
 	 * @return
 	 */
-	private Tree<?> fromTreeBaseToXml(PhyloTree phyloTree,org.nexml.model.TreeBlock xmlTreeBlock) {
+	protected Tree<?> fromTreeBaseToXml(PhyloTree phyloTree,org.nexml.model.TreeBlock xmlTreeBlock) {
 		Tree<FloatEdge> xmlTree = xmlTreeBlock.createFloatTree();
 		if ( null != phyloTree.getLabel() ) {
 			xmlTree.setLabel(phyloTree.getLabel());

@@ -36,7 +36,9 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		if ( null != baseURI ) {
 			document.setBaseURI(URI.create(baseURI));
 		}
-		document.setId(study.getTreebaseIDString().toString());
+		if ( null != study ) {
+			document.setId(study.getTreebaseIDString().toString());
+		}
 		setTaxonLabelHome(taxonLabelHome);
 		setStudy(study);
 		setDocument(document);
