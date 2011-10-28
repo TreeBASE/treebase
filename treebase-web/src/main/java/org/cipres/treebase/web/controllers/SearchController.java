@@ -3,6 +3,8 @@
 
 package org.cipres.treebase.web.controllers;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -12,6 +14,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -23,16 +26,31 @@ import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
 import org.cipres.treebase.domain.TBPersistable;
+import org.cipres.treebase.domain.nexus.NexusDataSet;
+import org.cipres.treebase.domain.nexus.NexusService;
+import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsFrozen;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.SearchService;
 import org.cipres.treebase.domain.search.StudySearchResults;
+import org.cipres.treebase.domain.search.TaxonSearchResults;
+import org.cipres.treebase.domain.search.TreeSearchResults;
+import org.cipres.treebase.domain.taxon.Taxon;
+import org.cipres.treebase.domain.taxon.TaxonLabel;
+import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelService;
+import org.cipres.treebase.domain.taxon.TaxonLabelSet;
+import org.cipres.treebase.domain.taxon.TaxonVariant;
+import org.cipres.treebase.domain.tree.PhyloTree;
+import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.service.AbstractService;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.model.SearchCommand;
 import org.cipres.treebase.web.util.SearchMessageSetter;
+import org.cipres.treebase.web.util.WebUtil;
+import org.nexml.model.Document;
+import org.nexml.model.DocumentFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -54,6 +72,12 @@ public abstract class SearchController extends BaseFormController {
 	protected SearchService searchService;
 	protected String formView;
 	private TaxonLabelService mTaxonLabelService;
+	
+	protected static final int FORMAT_NEXUS = 1;
+	protected static final int FORMAT_NEXML = 2;
+	private static String mNexmlContentType = "application/xml; charset=UTF-8";
+	protected String mFormatParameter = "format";
+	private TaxonLabelHome mTaxonLabelHome;	
 	
 	protected abstract ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors,String query) throws CQLParseException, IOException, InstantiationException, ParseException;
 	
@@ -122,7 +146,11 @@ public abstract class SearchController extends BaseFormController {
 					onSubmitDiscardResults(request, response, command, errors);
 				} else if ( action.equals("refineSearch") ){
 					onSubmitRefineSearch(request,response,command,errors);					
-				} else {
+				} else if ( action.equals("downloadAllTrees") ) {
+					downloadAllTrees(request, response, errors);
+					return null;
+				}
+				else {
 					throw new Error("Unknown action '" + action + "'");
 				}
 			} else {
@@ -138,6 +166,116 @@ public abstract class SearchController extends BaseFormController {
 		
 		LOGGER.debug("using selectResultsView to determine view");
 		return selectResultsView(request);
+	}
+	
+	protected void downloadAllTrees(HttpServletRequest request,
+			HttpServletResponse response, BindException errors) {
+		// TODO Auto-generated method stub
+		
+		try {
+			java.util.Date date= new java.util.Date();
+
+			TreeSearchResults treeResults = searchResults(request).convertToTrees();
+
+			String fileName = "TB" + date.getTime();
+			StringBuilder builder = new StringBuilder();
+			
+			if ( getFormat(request) == FORMAT_NEXML ) {
+				Document doc = DocumentFactory.safeCreateDocument();
+				NexmlDocumentWriter ndw = new NexmlDocumentWriter(null,getTaxonLabelHome(), doc);		
+				ndw.fromTreeBaseToXml(treeResults);
+				builder.append(doc.getXmlString());
+			}
+			else {
+				Set<PhyloTree> trees =  treeResults.getResults();
+				TreeBlock treeBlock = new TreeBlock();
+				TaxonLabelSet taxonLabelSet = new TaxonLabelSet();
+				
+				for (PhyloTree pTree : trees) {
+					for (TaxonLabel pTaxLabel : pTree.getTreeBlock().getTaxonLabelList()) {
+						if (! taxonLabelSet.getTaxonLabelsReadOnly().contains(pTaxLabel)) {
+							taxonLabelSet.addPhyloTaxonLabel(pTaxLabel);	
+						}
+					}
+					treeBlock.addPhyloTree(pTree);	
+				}
+				
+				treeBlock.setTaxonLabelSet(taxonLabelSet);
+				taxonLabelSet.setTitle("TB" + date.getTime());
+
+				
+				builder.append("#NEXUS\n\n");
+			
+				taxonLabelSet.buildNexusBlockTaxa(builder, true, false);
+			
+				treeBlock.generateAFileDynamically(builder);
+				fileName += ".nex";
+			}
+			
+				String downloadDirName = request.getSession().getServletContext().getRealPath(
+					TreebaseUtil.FILESEP + "NexusFileDownload")
+					+ TreebaseUtil.FILESEP + request.getRemoteUser();
+			
+			
+			File file = new File(downloadDirName + TreebaseUtil.FILESEP + fileName);
+			FileWriter out = new FileWriter(file);
+			out.write(builder.toString());
+			out.close();
+			
+			if ( getFormat(request) == FORMAT_NEXML ) {
+				WebUtil.downloadFile(response, downloadDirName, fileName, mNexmlContentType);
+			}			
+			else {
+				WebUtil.downloadFile(response, downloadDirName, fileName);
+			}	
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+		
+		/**
+		 * 
+		 * @param request
+		 * @return
+		 */
+	protected int getFormat (HttpServletRequest request) {
+			String requestedFormat = request.getParameter(mFormatParameter);
+			if ( null != requestedFormat ) {
+				if ( requestedFormat.equalsIgnoreCase("nexml") ) {
+					return FORMAT_NEXML;
+				}
+				else {
+					return FORMAT_NEXUS; // default
+				}
+			}
+			else {
+				return FORMAT_NEXUS; // default
+			}
+	}
+	
+	protected Properties getDefaultProperties(HttpServletRequest request) {
+		Properties properties = new Properties();
+
+		properties.setProperty("nexml.uri.base", TreebaseUtil.getPurlBase());
+		return properties;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public TaxonLabelHome getTaxonLabelHome() {
+		return mTaxonLabelHome;
+	}
+
+	/**
+	 * 
+	 * @param nexmlService
+	 */
+	public void setTaxonLabelHome(TaxonLabelHome taxonLabelHome) {
+		mTaxonLabelHome = taxonLabelHome;
 	}
 	
 	protected ModelAndView searchResultsAsRDF (SearchResults<?> searchResults,HttpServletRequest request,CQLNode root, String schema, String original) throws UnsupportedEncodingException {

@@ -750,6 +750,7 @@
         <property name="commandClass"><value>org.cipres.treebase.web.model.SearchCommand</value></property>
         <property name="taxonLabelService"><ref bean="taxonLabelService"></ref></property>
         <property name="searchService"><ref bean="searchService"></ref></property>
+        <property name="taxonLabelHome"><ref bean="taxonLabelHome"></ref></property>
   	</bean>
  
  	<!-- bean id="mainSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.MainSearchController">

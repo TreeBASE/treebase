@@ -409,7 +409,10 @@ public class TaxonSearchController extends SearchController {
 		Set<Taxon> queryResults = doCQLQuery(root, new HashSet<Taxon>(),request);
 		TaxonSearchResults tsr = new TaxonSearchResults(queryResults);
 		saveSearchResults(request, tsr);
-		if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
+		if ( TreebaseUtil.isEmpty(request.getParameter("format")) || 
+				(! request.getParameter("format").equals("rss1") && 
+				! request.getParameter("format").equals("nexus") && 
+				! request.getParameter("format").equals("nexml")) ) {
 			return samePage(request);
 		}
 		else {
@@ -428,7 +431,16 @@ public class TaxonSearchController extends SearchController {
 				}
 			}
 			this.saveSearchResults(request, res);
-			return this.searchResultsAsRDF(res, request, root,schema,"taxon");
+			
+			if (schema.equals("tree") && 
+					( request.getParameter("format").equals("nexus") || 
+					  request.getParameter("format").equals("nexml") )) {
+				super.downloadAllTrees(request, response, errors);
+				return null;
+			}
+			else {
+				return this.searchResultsAsRDF(res, request, root,schema,"taxon");
+			}
 		}
 	}
 

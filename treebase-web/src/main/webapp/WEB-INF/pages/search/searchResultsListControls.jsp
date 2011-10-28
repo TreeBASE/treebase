@@ -24,5 +24,8 @@
   <input style="align: right;" type="submit" id="discardResults" value="Discard All Results" onclick="confirmDiscard()"/>
   <a href="#" class="openHelp" onclick="openHelp('s+res+discard-these-results+btn')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
 
-
+  <c:if test="${resultSet.resultType == 'TREE'}">
+  	<input style="align: right;" type="submit" id="downloadAllTrees" value="Download All Trees" onclick="doAction('downloadAllTrees')"/>
+  	<a href="#" class="openHelp" onclick="openHelp('s+res+download-all-treess+btn')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+  </c:if>
 </c:if>
