@@ -214,8 +214,12 @@ public abstract class SearchController extends BaseFormController {
 			
 				String downloadDirName = request.getSession().getServletContext().getRealPath(
 					TreebaseUtil.FILESEP + "NexusFileDownload")
-					+ TreebaseUtil.FILESEP + request.getRemoteUser();
+					+ TreebaseUtil.FILESEP
+					+ "TreeDownload";
 			
+			
+			File directory = new File(downloadDirName);
+			directory.mkdir();
 			
 			File file = new File(downloadDirName + TreebaseUtil.FILESEP + fileName);
 			FileWriter out = new FileWriter(file);
