@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -247,6 +248,51 @@ public class TreeBlock extends AbstractPersistedObject {
 				String label = StringUtil.tokenize(txnlbllist.get(z).getTaxonLabel());
 				tmpnewick = newick.replace(label, String.valueOf(z + 1));
 				newick = tmpnewick;
+			}
+			// out.append(atree.getNewickString());
+			pBuilder.append(newick);
+			pBuilder.append("\n");
+		}
+		pBuilder.append("\n\n\nEND;\n");
+
+		// File did not exist and was created
+		// } else {
+		// File already exists
+		// }
+
+	}
+	
+	@Transient
+	public void generateAFileDynamicallyNoTranslate(StringBuilder pBuilder) {
+
+		TaxonLabelSet tlSet = getTaxonLabelSet();
+		List<TaxonLabel> txnlbllist = tlSet.getTaxonLabelsReadOnly();
+		int numoftxnlbls = getTaxonNumber();
+
+		String title = getTitle(); 
+		if (TreebaseUtil.isEmpty(title)) {
+			//use the default title:
+			//title = "List of Uploaded Tree Block";
+		}
+		pBuilder.append("BEGIN TREES;\n");
+		pBuilder.append("      TITLE " + StringUtil.tokenize(getTitle()) + ";\n");
+		pBuilder.append("      LINK TAXA = " + StringUtil.tokenize(tlSet.getTitle().replaceAll("Input|Output", "")) + ";\n");
+
+
+		for (PhyloTree atree : getTreeList()) {
+			pBuilder.append("      TREE " + StringUtil.tokenize(atree.getLabel()) + " = ");
+
+			if (atree.getRootedTree() != null) {
+				if (atree.getRootedTree().booleanValue()) {
+					pBuilder.append("[&R] ");
+				} else {
+					pBuilder.append("[&U] ");
+				}
+
+			}
+			String newick = atree.getNewickString();
+			for (int z = 0; z < numoftxnlbls; z++) {
+				newick.concat(StringUtil.tokenize(txnlbllist.get(z).getTaxonLabel()));
 			}
 			// out.append(atree.getNewickString());
 			pBuilder.append(newick);

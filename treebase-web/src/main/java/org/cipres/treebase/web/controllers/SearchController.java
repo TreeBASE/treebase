@@ -190,11 +190,14 @@ public abstract class SearchController extends BaseFormController {
 				Set<PhyloTree> trees =  treeResults.getResults();
 				TreeBlock treeBlock = new TreeBlock();
 				TaxonLabelSet taxonLabelSet = new TaxonLabelSet();
+				List<String> taxonLabels = new ArrayList<String>();
+
 				
 				for (PhyloTree pTree : trees) {
 					for (TaxonLabel pTaxLabel : pTree.getTreeBlock().getTaxonLabelList()) {
-						if (! taxonLabelSet.getTaxonLabelsReadOnly().contains(pTaxLabel)) {
-							taxonLabelSet.addPhyloTaxonLabel(pTaxLabel);	
+						if (! taxonLabels.contains(pTaxLabel.getTaxonLabel())) {
+							taxonLabelSet.addPhyloTaxonLabel(pTaxLabel);
+							taxonLabels.add(pTaxLabel.getTaxonLabel());				
 						}
 					}
 					treeBlock.addPhyloTree(pTree);	
@@ -208,7 +211,7 @@ public abstract class SearchController extends BaseFormController {
 			
 				taxonLabelSet.buildNexusBlockTaxa(builder, true, false);
 			
-				treeBlock.generateAFileDynamically(builder);
+				treeBlock.generateAFileDynamicallyNoTranslate(builder);
 				fileName += ".nex";
 			}
 			
