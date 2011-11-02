@@ -275,7 +275,9 @@ public class TreeBlock extends AbstractPersistedObject {
 			//title = "List of Uploaded Tree Block";
 		}
 		pBuilder.append("BEGIN TREES;\n");
-		pBuilder.append("      TITLE " + StringUtil.tokenize(getTitle()) + ";\n");
+		//pBuilder.append("      TITLE " + StringUtil.tokenize(getTitle()) + ";\n");
+		
+		pBuilder.append("      TITLE " + StringUtil.tokenize(Integer.toString(getTreeList().size())) + "Trees;\n");
 		pBuilder.append("      LINK TAXA = " + StringUtil.tokenize(tlSet.getTitle().replaceAll("Input|Output", "")) + ";\n");
 
 
