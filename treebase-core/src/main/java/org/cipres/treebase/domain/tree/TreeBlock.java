@@ -280,7 +280,7 @@ public class TreeBlock extends AbstractPersistedObject {
 
 
 		for (PhyloTree atree : getTreeList()) {
-			pBuilder.append("      TREE " + StringUtil.tokenize(atree.getLabel()) + " = ");
+			pBuilder.append("      TREE Tr" + atree.getId() + " = ");
 
 			if (atree.getRootedTree() != null) {
 				if (atree.getRootedTree().booleanValue()) {
