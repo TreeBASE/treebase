@@ -16,7 +16,9 @@
 </head>
 	
 <body id="info" onload="TreeBASE.initialize()">
-
+<% if( isOldMSIE ){ %>
+<c:import url="/common/updateBrowser.jsp"/>
+<% } %>
 <!-- BEGIN WRAP -->
 <div id="wrap">
 	<!--  BEGIN HEADER -->

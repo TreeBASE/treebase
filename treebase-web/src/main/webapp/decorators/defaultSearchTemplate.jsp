@@ -117,7 +117,9 @@
 </head>
 	
 <body <decorator:getProperty property="body.id" writeEntireProperty="true"/> onload="TreeBASE.initialize()">
-
+<% if( isOldMSIE ){ %>
+<c:import url="/common/updateBrowser.jsp"/>
+<% } %>
 <!-- BEGIN WRAP -->
 <div id="wrap">
 	<!--  BEGIN HEADER -->

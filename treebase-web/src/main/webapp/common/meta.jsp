@@ -11,21 +11,23 @@
 <meta name="msvalidate.01" content="D931446190993D0D2D719F2978AC44EB" />
 <link rel="icon" href="<c:url value="/images/favicon.ico"/>"/>
 <%
+	String browsername = "";
+	String browserversion = "";
 	String ua = request.getHeader( "User-Agent" );
 	boolean isMSIE = ( ua != null && ua.indexOf( "MSIE" ) != -1 );
 	boolean isOldMSIE = false;
 	if ( isMSIE ) {
-		isOldMSIE = ua.indexOf("MSIE 8.0") == -1;
+		//isOldMSIE = ua.indexOf("MSIE 8.0") == -1;
+        String subsString = ua.substring( ua.indexOf("MSIE"));
+        String Info[] = (subsString.split(";")[0]).split(" ");
+        browsername = Info[0];
+        browserversion = Info[1];
+        float version = Float.parseFloat(browserversion);
+        if (version < 8) {
+        	isOldMSIE = true;
+        
+        }
 		
 	}
 %>
 <!-- <%= ua %> -->
-<% if( isOldMSIE ){ %>
-	<script type="text/javascript">
-		alert("Please upgrade your browser!\n\n"+
-			"The TreeBASE team simply do not have the resources to support\n"+
-			"old versions of Internet Explorer. There are many good, free\n"+
-			"browsers available (IE8, FireFox, Safari, Chrome, Opera, etc.),\n"+
-			"please use one of those instead.");			 
-	</script>
-<% } %>

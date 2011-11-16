@@ -64,6 +64,19 @@ dt { font-weight: bold }
 	border-top: 1px solid #3d649f
 }
 
+#browserupdate {
+	background-color: #FFFFC1;
+	text-align: center;
+	margin-bottom: -18px;
+}
+
+#browserupdate a:link, #browserupdate a:visited, #browserupdate a:hover, #browserupdate a:active {
+	color: #003366;
+	text-decoration: none;
+	font-weight: bold;
+	margin-right: 20px;
+}
+
 /* Page Structure/Layout 
 *******************************************************************************************/
 
