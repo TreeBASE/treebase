@@ -1113,6 +1113,7 @@
 				<prop key="org.springframework.dao.DataAccessException">/errors/dataAccessFailure</prop>
 				<prop key="org.springframework.transaction.TransactionException">/errors/dataAccessFailure</prop>
 				<prop key="org.cipres.treebase.web.exceptions.EmptyStudyException">/errors/studyAccessFailure</prop>
+				<prop key="org.cipres.treebase.web.exceptions.NoStudySpecifiedError">/errors/itemNotFound</prop>
 			</props>
 		</property>
 	</bean>

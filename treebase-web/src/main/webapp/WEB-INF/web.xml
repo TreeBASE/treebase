@@ -112,6 +112,16 @@
     	<filter-name>UrlRewriteFilter</filter-name>
     	<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
   	</filter>
+  	
+	<filter>
+		<filter-name>monitoring</filter-name>
+        <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+		<init-param>
+			<param-name>system-actions-enabled</param-name>
+    		<param-value>true</param-value>
+  		</init-param>
+	</filter>
+  	
  
     
 	
@@ -201,6 +211,12 @@
     	<url-pattern>/*</url-pattern>
     </filter-mapping>
     
+	<filter-mapping>
+		<filter-name>monitoring</filter-name>
+        <url-pattern>/*</url-pattern>
+	</filter-mapping>
+    
+    
  
     
 	<!-- ========================================================== -->
@@ -215,6 +231,9 @@
 	<listener>
 		<listener-class>net.sf.navigator.menu.MenuContextListener</listener-class>
 	</listener>
+	<listener>
+    	<listener-class>net.bull.javamelody.SessionListener</listener-class>
+    </listener>
 	<!--  listener>
   		<listener-class>org.cipres.treebase.web.listeners.EventListener</listener-class>
 	</listener -->	
@@ -352,6 +371,10 @@
 	<!-- ========================================================== -->
 	<!-- Error Pages											 	-->
 	<!-- ========================================================== -->
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/WEB-INF/pages/errors/uncaughtException.jsp</location>
+	</error-page>
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/WEB-INF/pages/errors/uncaughtException.jsp</location>

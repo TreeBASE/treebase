@@ -239,7 +239,7 @@ public class TaxonSearchController extends SearchController {
 		switch(namingAuthority) {
 			case TREEBASE :
 				LOGGER.debug("Going to search for TreeBASE IDs");	
-				if ( ! index.endsWith(".tb1") ) {
+				if (null != index && ! index.endsWith(".tb1") ) {
 					TreebaseIDString idstr;
 					try {
 						idstr = new TreebaseIDString(identifier, Taxon.class, true);
@@ -261,7 +261,7 @@ public class TaxonSearchController extends SearchController {
 						addMessage(request, "Ignoring malformed TreeBASE1 ID string '" + identifier + "', because: " + e.getMessage());
 						LOGGER.error("Couldn't parse legacy ID: "+e.getMessage());
 					}
-					if ( null != tb1LegacyId && index.matches(".*taxonVariant.*") ) {
+					if ( null != tb1LegacyId && null != index && index.matches(".*taxonVariant.*") ) {
 						TaxonVariant tv = getTaxonHome().findVariantByTB1LegacyId(tb1LegacyId);
 						LOGGER.debug("Found taxon variant: " + tv.getId());
 						if ( null != tv.getTaxon() ) {

@@ -50,6 +50,7 @@ import org.cipres.treebase.web.model.StudyCommand;
 import org.cipres.treebase.web.util.AnalyzedDataComparator;
 import org.cipres.treebase.web.util.ControllerUtil;
 
+import org.cipres.treebase.web.exceptions.NoStudySpecifiedError;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -71,7 +72,6 @@ class SearchSummaryController extends BaseFormController {
 	String defaultPage = null;
 	private static final Logger LOGGER = Logger.getLogger(SearchSummaryController.class);
 	
-	class NoStudySpecifiedError extends Error { }
 	class UnknownStudyError extends Error { }
 	class RestrictedStudyError extends Error { }
 	
@@ -90,7 +90,7 @@ class SearchSummaryController extends BaseFormController {
 		theStudy = null;
 		{
 			Long studyID = getIDParam(param, "id");
-			if (studyID == null) { throw new NoStudySpecifiedError(); }
+			if (studyID == null) { throw new NoStudySpecifiedError("No study was found"); }
 			theStudy = getStudyService().findByID(studyID);
 			if (theStudy == null) { throw new UnknownStudyError(); }
 			LOGGER.debug("formBackingObject found study " + theStudy);
@@ -268,7 +268,17 @@ class SearchSummaryController extends BaseFormController {
 	 */
 	private Long getIDParam(Map<String, String []> params, String paramName) {
 		String [] IDParam = params.get(paramName);
-		return IDParam.length == 0 ? null : Long.parseLong(IDParam[0]);
+		if (IDParam == null || IDParam.length == 0) {	
+			return null;
+		}
+		else {
+			try {
+				return Long.parseLong(IDParam[0]);
+			}
+			catch(Exception e) {
+				return null;
+			}
+		}
 	}
 	
 	@Override
