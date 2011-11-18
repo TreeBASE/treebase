@@ -90,18 +90,18 @@ public class DownloadAMatrixController extends AbstractDownloadController implem
 		Study pStudy = ControllerUtil.findStudy(request, getStudyService());
 		Matrix matrix = getMatrixService().findByID(objectId);
 		TaxonLabelSet taxa = matrix.getTaxa();		
-		if ( getFormat(request) == FORMAT_NEXML ) {
+		if ( getFormat(request) == FORMAT_NEXML || getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet pNexusDataSet = new NexusDataSet();
 			pNexusDataSet.getTaxonLabelSets().add(taxa);
 			pNexusDataSet.getMatrices().add(matrix);
 			return getNexmlService().serialize(pNexusDataSet,getDefaultProperties(request),matrix.getStudy());
 		}
-		else if ( getFormat(request) == FORMAT_RDF ) {
+		/*else if ( getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet pNexusDataSet = new NexusDataSet();
 			pNexusDataSet.getTaxonLabelSets().add(taxa);
 			pNexusDataSet.getMatrices().add(matrix);
 			return getRdfaService().serialize(pNexusDataSet,getDefaultProperties(request),matrix.getStudy());			
-		}
+		}*/
 		else { // FORMAT_NEXUS or none
 			StringBuilder matrixContent = new StringBuilder();
 			matrixContent.append("#NEXUS\n");

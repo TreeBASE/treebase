@@ -98,18 +98,18 @@ public class DownloadATreeBlockController extends AbstractDownloadController imp
 	@Override
 	protected String getFileContent(long blockid, HttpServletRequest request) {
 		TreeBlock treeBlock = getPhyloTreeHome().findTreeBlockById(blockid);		
-		if ( getFormat(request) == FORMAT_NEXML ) {
+		if ( getFormat(request) == FORMAT_NEXML || getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet nexusDataSet = new NexusDataSet();
 			nexusDataSet.getTaxonLabelSets().add(treeBlock.getTaxonLabelSet());
 			nexusDataSet.getTreeBlocks().add(treeBlock);
 			return getNexmlService().serialize(nexusDataSet,getDefaultProperties(request));
 		}
-		else if ( getFormat(request) == FORMAT_RDF ) {
+		/*else if ( getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet nexusDataSet = new NexusDataSet();
 			nexusDataSet.getTaxonLabelSets().add(treeBlock.getTaxonLabelSet());
 			nexusDataSet.getTreeBlocks().add(treeBlock);			
 			return getRdfaService().serialize(nexusDataSet,getDefaultProperties(request));			
-		}		
+		}*/		
 		else {
 			StringBuilder bldr = new StringBuilder("#NEXUS\n\n");
 			treeBlock.generateAFileDynamically(bldr);

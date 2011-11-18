@@ -77,7 +77,7 @@
 		</a>
 	</display:column>	
 
-	<display:column 
+	<%--<display:column 
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
@@ -89,7 +89,7 @@
 				title="<fmt:message key="download.rdf"/>" 
 				alt="<fmt:message key="download.rdf"/>"/>				
 		</a>
-	</display:column>	
+	</display:column>	--%>
 	
 	<display:column 
 		sortable="false"

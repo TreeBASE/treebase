@@ -58,12 +58,12 @@
     <dc:format>text/plain</dc:format>
   </item>
   </c:if>   
-  <c:if test="${hasRdf}">
+<%-- <c:if test="${hasRdf}">
   <item rdf:about="${baseURL}${phyloWSPath}?format=rdf">
     <title>RDF file</title>
     <link>${baseURL}${phyloWSPath}?format=rdf</link>
     <description>An RDF/XML serialization of the resource</description>
     <dc:format>application/rdf+xml</dc:format>
   </item>
-  </c:if>   
+  </c:if>  --%> 
 </rdf:RDF>

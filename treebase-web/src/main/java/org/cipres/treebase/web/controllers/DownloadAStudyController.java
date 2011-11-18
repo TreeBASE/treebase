@@ -35,12 +35,12 @@ public class DownloadAStudyController extends AbstractDownloadController
 	@Override
 	protected String getFileContent(long pStudyID, HttpServletRequest request) {
 		Study study = getStudyService().findByID(pStudyID);
-		if ( getFormat(request) == FORMAT_NEXML ) {
+		if ( getFormat(request) == FORMAT_NEXML || getFormat(request) == FORMAT_RDF ) {
 			return getNexmlService().serialize(study,getDefaultProperties(request));
 		}
-		else if ( getFormat(request) == FORMAT_RDF ) {
+		/*else if ( getFormat(request) == FORMAT_RDF ) {
 			return getRdfaService().serialize(study,getDefaultProperties(request));			
-		}		
+		}*/		
 		else {
 			StringBuilder builder = new StringBuilder();
 			builder.append("#NEXUS\n\n");

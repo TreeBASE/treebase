@@ -89,7 +89,7 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 		tree = getPhyloTreeService().resurrect(tree);
 		TreeBlock enclosingTreeBlock = getPhyloTreeService().resurrect(tree.getTreeBlock());
 		TaxonLabelSet tls = getPhyloTreeService().resurrect(enclosingTreeBlock.getTaxonLabelSet());
-		if ( getFormat(request) == FORMAT_NEXML ) {
+		if ( getFormat(request) == FORMAT_NEXML || getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet nds = new NexusDataSet();
 			nds.getTaxonLabelSets().add(tls);
 			TreeBlock treeBlock = new TreeBlock();
@@ -98,7 +98,7 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 			nds.getTreeBlocks().add(treeBlock);
 			return getNexmlService().serialize(nds,getDefaultProperties(request),tree.getStudy());
 		}
-		else if ( getFormat(request) == FORMAT_RDF ) {
+		/*else if ( getFormat(request) == FORMAT_RDF ) {
 			NexusDataSet nds = new NexusDataSet();
 			nds.getTaxonLabelSets().add(tls);
 			TreeBlock treeBlock = new TreeBlock();
@@ -106,7 +106,7 @@ public class DownloadATreeController extends AbstractDownloadController implemen
 			treeBlock.addPhyloTree(tree);
 			nds.getTreeBlocks().add(treeBlock);			
 			return getRdfaService().serialize(nds,getDefaultProperties(request),tree.getStudy());			
-		}		
+		}	*/	
 		else {
 			StringBuilder builder = new StringBuilder();
 			builder.append("#NEXUS\n\n");
