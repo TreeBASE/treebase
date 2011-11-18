@@ -48,7 +48,7 @@
   			-->
   		<init-param>
     		<param-name>system-actions-enabled</param-name>
-    		<param-value>true</param-value>
+    		<param-value>false</param-value>
   		</init-param>
 	</filter>
 	<filter-mapping>
