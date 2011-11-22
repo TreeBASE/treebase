@@ -58,7 +58,25 @@
 	<listener>
   		<listener-class>net.bull.javamelody.SessionListener</listener-class>
 	</listener>
- 	
+	
+	<filter>
+    	<filter-name>CacheFilter</filter-name>
+    	<filter-class>com.opensymphony.oscache.web.filter.CacheFilter</filter-class>
+    	<init-param>
+        	<param-name>expires</param-name>
+        	<param-value>time</param-value>
+    	</init-param>
+    	<init-param>
+        	<param-name>time</param-name>
+        	<param-value>2592000</param-value> <!-- one month -->
+    	</init-param>
+	</filter>
+
+	<filter-mapping>
+    	<filter-name>CacheFilter</filter-name>
+    	<url-pattern>/search/downloadAStudy.html*</url-pattern>
+	</filter-mapping>
+
 
 	<!-- =================================================================== -->
 	<!-- Declarations of JNDI Resources expected from the Tomcat container   -->
