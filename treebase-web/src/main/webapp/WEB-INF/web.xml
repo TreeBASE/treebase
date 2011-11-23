@@ -74,7 +74,7 @@
 
 	<filter-mapping>
     	<filter-name>CacheFilter</filter-name>
-    	<url-pattern>/search/downloadAStudy.html*</url-pattern>
+    	<url-pattern>search/downloadAStudy.html</url-pattern>
 	</filter-mapping>
 
 
