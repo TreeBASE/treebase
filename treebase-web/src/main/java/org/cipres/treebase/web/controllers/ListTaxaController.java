@@ -148,11 +148,20 @@ public class ListTaxaController extends BaseFormController {
 						
 						// no variants were found by uBio
 						if ( variant == null ) {
-							ubioResultMessages.add(taxonlabel.getTaxonLabel() + " is **UNRECOGNIZED**.");
-							ubioResultErrors.add(taxonlabel.getTaxonLabel()
-								+ " is **UNRECOGNIZED** try <a href=" + UBIOSEARCHTAXONLABEL
-								+ taxonlabel.getTaxonLabel().replace(EMPTYSPACE, "%20")
-								+ " target=_blank>UBIO</a> site.");
+							if (getTaxonLabelService().getuBioTimeOutError()) {
+								ubioResultMessages.add("uBio service was unavailable when checking " + taxonlabel.getTaxonLabel() + ".");
+								ubioResultErrors.add("uBio service was unavailable when checking " + taxonlabel.getTaxonLabel() + 
+										" try <a href=" + UBIOSEARCHTAXONLABEL
+									+ taxonlabel.getTaxonLabel().replace(EMPTYSPACE, "%20")
+									+ " target=_blank>UBIO</a> site.");
+							}
+							else {
+								ubioResultMessages.add(taxonlabel.getTaxonLabel() + " is **UNRECOGNIZED**.");
+								ubioResultErrors.add(taxonlabel.getTaxonLabel()
+									+ " is **UNRECOGNIZED** try <a href=" + UBIOSEARCHTAXONLABEL
+									+ taxonlabel.getTaxonLabel().replace(EMPTYSPACE, "%20")
+									+ " target=_blank>UBIO</a> site.");
+							}
 						}
 						
 						// variants stored by uBio,TODO now check for homonyms

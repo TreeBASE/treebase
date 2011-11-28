@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -52,18 +53,22 @@ public class TaxonLabelServiceImpl extends AbstractServiceImpl implements TaxonL
 	private static final String NMBKID = "namebankID";
 	private static final String NAMESTR = "nameString";
 	private static final int TIMEOUT = 10000;
+	private static final int READTIMEOUT = 30000;
 	private static final String VALUETAG = "value";
 	private static final String DETAILSSERVICEURLPART = "http://www.ubio.org/browser/details.php?namebankID=";
 
 	private TaxonLabelHome mTaxonLabelHome;
 	private PhyloTreeHome mPhyloTreeHome;
 	private TaxonHome mTaxonHome;
+	
+	private boolean muBioTimeOutError;
 
 	/**
 	 * constructor.
 	 */
 	public TaxonLabelServiceImpl() {
 		super();
+		setuBioTimeOutError(false);
 	}
 
 	/**
@@ -459,7 +464,7 @@ public class TaxonLabelServiceImpl extends AbstractServiceImpl implements TaxonL
 		booleanplaceholder bph = new booleanplaceholder();
 		longplaceholder lph = new longplaceholder();
 		TaxonVariant firstVariant = null;
-
+		
 		// XXX 1. Turn label into tri- or binomial, no var./ex./etc.
 		testString = normalizeLabelString(pTaxonLabel.getTaxonLabel());
 
@@ -468,6 +473,9 @@ public class TaxonLabelServiceImpl extends AbstractServiceImpl implements TaxonL
 		String result = getStringFromURL(taxonFinderFullURL, null, null);
 		
 		// XXX 3. Process TaxonFinder result
+		if (getuBioTimeOutError()) {
+			return null;
+		}
 		if (result == null || result.indexOf(NMBKID) < 0 || result.indexOf(testString) < 0 || result.indexOf(NAMESTR) < 0) {
 			LOGGER.warn("Problem: uBio result is garbled or doesn't contain our testString");
 			return null;
@@ -755,6 +763,7 @@ public class TaxonLabelServiceImpl extends AbstractServiceImpl implements TaxonL
 			URL url = new URL(urlString);
 			URLConnection urlconn = url.openConnection();
 			urlconn.setConnectTimeout(TIMEOUT);
+			urlconn.setReadTimeout(READTIMEOUT);
 			BufferedReader in = new BufferedReader(new InputStreamReader(urlconn.getInputStream()));
 			StringBuilder results = new StringBuilder();
 			String str;
@@ -780,7 +789,11 @@ public class TaxonLabelServiceImpl extends AbstractServiceImpl implements TaxonL
 			return results.toString();
 		} catch (MalformedURLException mfe) {
 			mfe.printStackTrace();
-		} catch (IOException ioe) {
+		} catch (InterruptedIOException iioe) {
+			iioe.printStackTrace();
+			setuBioTimeOutError(true);
+		}
+		catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 		return null;
@@ -807,6 +820,14 @@ public class TaxonLabelServiceImpl extends AbstractServiceImpl implements TaxonL
 			LOGGER.debug("NCBI Preferred Name: " + result.substring(start + 1, end));
 		}
 		return result.substring(start + 1, end);
+	}
+	
+	public boolean getuBioTimeOutError() {
+		return muBioTimeOutError;
+	}
+	
+	public void setuBioTimeOutError(Boolean pTimeOutError) {
+		muBioTimeOutError = pTimeOutError;
 	}
 
 	/**
@@ -1019,5 +1040,5 @@ public class TaxonLabelServiceImpl extends AbstractServiceImpl implements TaxonL
 	@Override
 	public Class defaultResultClass() {
 		return TaxonLabel.class;
-	}
+	}	
 }

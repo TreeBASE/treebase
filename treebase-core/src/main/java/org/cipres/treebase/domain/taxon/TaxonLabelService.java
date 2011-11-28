@@ -372,4 +372,6 @@ public interface TaxonLabelService extends AbstractService {
 	 */
 	Set<TaxonVariant> findTaxonVariantByName(String s);
 
+	boolean getuBioTimeOutError();
+
 }
