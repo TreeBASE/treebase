@@ -8,7 +8,7 @@
 <!-- Prevents caching at the Proxy Server -->
 <%  Calendar expires = Calendar.getInstance();
 	expires.add(Calendar.DATE,7);
-	SimpleDateFormat expiresFormat = new SimpleDateFormat("E, d MMM yyyy kk:mm:ss");
+	SimpleDateFormat expiresFormat = new SimpleDateFormat("E, dd MMM yyyy kk:mm:ss");
     if (request.getRequestURI().equals("/treebase-web/search/study/summary.html")) {
 %><meta http-equiv="Expires" content="<%=expiresFormat.format(expires.getTime())%> GMT"/>
 <%}else {
