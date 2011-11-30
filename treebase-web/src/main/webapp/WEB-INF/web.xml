@@ -76,6 +76,40 @@
     	<filter-name>CacheFilter</filter-name>
     	<url-pattern>/search/downloadAStudy.html</url-pattern>
 	</filter-mapping>
+	
+	<filter-mapping>
+    	<filter-name>CacheFilter</filter-name>
+    	<url-pattern>/search/study/anyObjectAsRDF.rdf</url-pattern>
+	</filter-mapping>
+	
+	
+	<filter-mapping>
+    	<filter-name>CacheFilter</filter-name>
+    	<url-pattern>/search/study/summary.html</url-pattern>
+	</filter-mapping>
+	
+	
+	<filter-mapping>
+    	<filter-name>CacheFilter</filter-name>
+    	<url-pattern>/search/downloadANexusFile.html</url-pattern>
+	</filter-mapping>
+	
+	
+	<filter-mapping>
+    	<filter-name>CacheFilter</filter-name>
+    	<url-pattern>/search/downloadAMatrix.html</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+    	<filter-name>CacheFilter</filter-name>
+    	<url-pattern>/search/downloadATree.html</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+    	<filter-name>CacheFilter</filter-name>
+    	<url-pattern>/search/downloadATree.html</url-pattern>
+	</filter-mapping>
+	
 
 
 	<!-- =================================================================== -->
