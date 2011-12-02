@@ -35,9 +35,13 @@ public class PhyloWSStudyController extends PhyloWSController {
 	@Override
 	Map<String,String> getObjectQueryParameters(Long objectId) throws ObjectNotFoundException {
 		Study study = getStudyService().findByID(objectId);
+		
 		if ( study == null ) {
 			throw new ObjectNotFoundException("Can't find study " + objectId);
-		}		
+		}
+		
+		checkAccess(study.isPublished());
+		
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("id", ""+objectId);
 		return params;

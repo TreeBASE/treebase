@@ -40,9 +40,13 @@ public class PhyloWSTreeController extends PhyloWSController {
 			throw new ObjectNotFoundException("Can't find tree " + objectId);
 		}
 		Study study = phyloTree.getStudy();
+		
 		if ( study == null ) {
 			throw new ObjectNotFoundException("Can't find study for tree "+objectId);
 		}
+		
+		checkAccess(study.isPublished());
+		
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("id",""+study.getId());
 		params.put("treeid", ""+objectId);

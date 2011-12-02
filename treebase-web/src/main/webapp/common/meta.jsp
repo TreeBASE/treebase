@@ -1,19 +1,10 @@
-<%@page import="java.util.Date" %>
-<%@page import="java.util.Calendar" %> 
-<%@page import="java.text.SimpleDateFormat;" %>
 <!-- HTTP 1.1 -->
 <meta http-equiv="Cache-Control" content="no-store"/>
 <!-- HTTP 1.0 -->
 <meta http-equiv="Pragma" content="no-cache"/>
 <!-- Prevents caching at the Proxy Server -->
-<%  Calendar expires = Calendar.getInstance();
-	expires.add(Calendar.DATE,7);
-	SimpleDateFormat expiresFormat = new SimpleDateFormat("E, dd MMM yyyy kk:mm:ss");
-    if (request.getRequestURI().equals("/treebase-web/search/study/summary.html")) {
-%><meta http-equiv="Expires" content="<%=expiresFormat.format(expires.getTime())%> GMT"/>
-<%}else {
-%><meta http-equiv="Expires" content="0"/>
-<% } %><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/> 
+<meta http-equiv="Expires" content="0"/>        
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/> 
 <meta name="author" content="Rutger A. Vos (rutgeraldo@gmail.com)"/>
 <meta name="google-site-verification" content="9Lr7BwyD6VMDIk5dENnSt_2YsUdpq_aEhnee0mMTxrw" />
 <meta name="y_key" content="8c736195266b5ebb" />

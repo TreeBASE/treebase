@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import org.cipres.treebase.web.exceptions.NoStudySpecifiedError;
+
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
+import org.cipres.treebase.domain.study.Study;
+import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.web.Constants;
 
 /**
@@ -58,6 +62,8 @@ import org.cipres.treebase.web.Constants;
 public abstract class PhyloWSController implements Controller {
 	private static final long serialVersionUID = 1L;
 	private static String searchBase = "/treebase-web/search/";
+	
+	private boolean redirectDownload = true;
     
 	/**
 	 * Child classes return the display page for the focal type
@@ -108,7 +114,10 @@ public abstract class PhyloWSController implements Controller {
 	            	
 	            	// output format is something else, re-direct to download services
 	            	else {
-	            		url = createDownloadUrl(tbID.getId(),serializationFormat,req);
+	                    url = createDownloadUrl(tbID.getId(),serializationFormat,req);
+	                    if (!redirectDownload) {
+	                    	url = "/treebase-web/accessviolation.html";
+	                    }
 	            	}
 	            }
 	            
@@ -122,6 +131,7 @@ public abstract class PhyloWSController implements Controller {
             	res.sendError(HttpServletResponse.SC_NOT_FOUND, "Object not found: " + e.getMessage());
             }	            
         }
+        
 
         if ( ! TreebaseUtil.isEmpty(url) ) {
         	res.setContentType("text/plain");
@@ -273,6 +283,10 @@ public abstract class PhyloWSController implements Controller {
 		public ObjectNotFoundException(String message) {
 			super(message);
 		}
+	}
+	
+	public void checkAccess(boolean isPublished) {
+		redirectDownload = isPublished;
 	}
 
 }
