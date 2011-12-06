@@ -1,0 +1,18 @@
+The script delete_orphaned_taxonlabelsets.pl is intended to delete orphaned taxonlabelsets.
+
+As of Dec 6 2012, orphans were being generated as a result of a bug. Our delete treeblock 
+function inadvertently failed to include a cleanup step to delete related, but now orphaned, 
+taxonlabelset records. The result is studies that (sometimes) generate a "yikes" error when 
+you try to get a list of taxa. 
+
+For example, this page generates a Yikes:
+
+http://treebase.org/treebase-web/search/study/taxa.html?id=12037
+
+While this page (after fixing the data with delete_orphaned_taxonlabelsets.pl) does not:
+
+http://treebase-dev.nescent.org/treebase-web/search/study/taxa.html?id=12037
+
+To run the script, first edit lines 12-15 to point to production, then execute. It takes no 
+parameters. Example output is provided with "output.txt". 
+
