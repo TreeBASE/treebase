@@ -45,7 +45,7 @@ public class PhyloWSMatrixController extends PhyloWSController {
 			throw new ObjectNotFoundException("Can't find study for matrix "+objectId);
 		}
 		
-		checkAccess(study.isPublished());
+		checkAccess(matrix.getStudy().isPublished());
 		
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("id", ""+study.getId());
