@@ -125,9 +125,9 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 				block.removePhyloTree(pTree);
 
 				if (block.isEmpty()) {
-					TaxonLabelSet tSet=block.getTaxonLabelSet();
+					//TaxonLabelSet tSet=block.getTaxonLabelSet();
 					deleteTreeBlock(block);
-					getTaxonLabelHome().clean(tSet);
+					//getTaxonLabelHome().clean(tSet);
 				}
 			}
 
@@ -172,7 +172,9 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 	 */
 	public void deleteTreeBlock(TreeBlock pTreeBlock) {
 		if (pTreeBlock != null && pTreeBlock.getId() != null) {
-
+			
+			TaxonLabelSet tSet=pTreeBlock.getTaxonLabelSet();
+			
 			// bi-directional relationships:
 			// * submission -> treeblock
 			Submission sub = getSubmissionHome().findByTreeBlock(pTreeBlock);
@@ -187,7 +189,9 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 				realDelete(tree);
 			}
 
-			getHibernateTemplate().delete(pTreeBlock);
+			;getHibernateTemplate().delete(pTreeBlock);
+			
+			getTaxonLabelHome().clean(tSet);
 		}
 	}
 
