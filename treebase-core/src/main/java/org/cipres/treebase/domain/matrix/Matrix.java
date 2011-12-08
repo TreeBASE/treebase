@@ -23,6 +23,8 @@ import mesquite.lib.StringUtil;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
@@ -320,6 +322,7 @@ public abstract class Matrix extends AbstractPersistedObject {
 	 */
 	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "STUDY_ID")
+	@Fetch(FetchMode.JOIN)
 	public Study getStudy() {
 		return mStudy;
 	}
