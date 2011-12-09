@@ -692,10 +692,10 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 			sub.getStudy().getTaxonLabelSets().addAll(data.getTaxonLabelSets());
 
 			// Store matrice:
-			getMatrixHome().persistAll(data.getMatrices());
 			for (Matrix uploadMatrix : data.getMatrices()) {
 				uploadMatrix.setStudy(sub.getStudy());
 			}
+			getMatrixHome().persistAll(data.getMatrices());
 			sub.addMatrices(data.getMatrices());
 			getMatrixHome().flush();
 
