@@ -526,7 +526,7 @@ CREATE TABLE matrix
   casesensitive smallint,
   matrixdatatype_id bigint,
   matrixkind_id bigint,
-  study_id bigint,
+  study_id bigint NOT NULL,
   taxonlabelset_id bigint,
   ancstateset_id bigint,
   codonpositionset_id bigint,

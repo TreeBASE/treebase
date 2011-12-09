@@ -693,6 +693,9 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 
 			// Store matrice:
 			getMatrixHome().persistAll(data.getMatrices());
+			for (Matrix uploadMatrix : data.getMatrices()) {
+				uploadMatrix.setStudy(sub.getStudy());
+			}
 			sub.addMatrices(data.getMatrices());
 			getMatrixHome().flush();
 
