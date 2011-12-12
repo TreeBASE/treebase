@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.taxon;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.dao.AbstractDAOTest;
@@ -112,17 +113,49 @@ public class TaxonLabelTest extends AbstractDAOTest {
 		}
 		assertTrue(matricesOkay);
 	}
+		
+	public void testTaxonLabelLengthSorting() {
+		int x = 0;
+		boolean isTaxonSorted = false;
+		
+		List<TaxonLabel> res = (List<TaxonLabel>) findHomoSapiensTL();
+		LOGGER.info("Homo matrices: " + res.size() + " result(s)");
+		assertNotNull(res);
+		TaxonLabel newTaxon = new TaxonLabel();
+		newTaxon.setTaxonLabel("Homo Sapiens ABCD");
+		res.add(newTaxon);
+		//res.get(1).setTaxonLabel("Homo Sapiens ABCD");
+		TaxonLabelSet tlSet = new TaxonLabelSet();
+		tlSet.sortByTaxonLabelLength(res);
+		
+		//for (TaxonLabel tLabel : res) {
+		for (x = 0; x < res.size(); x++) {
+			if (x > 0) {
+				if (res.get(x-1).getTaxonLabel().length() >= res.get(x).getTaxonLabel().length()) {		
+					isTaxonSorted = true;
+				}
+				else {
+					LOGGER.debug("Taxon Labels are not sorted");
+					isTaxonSorted = false;
+					break;
+				}
+			}
+		}	
+		assertTrue(isTaxonSorted);
+	}
 	
 	
 	private Collection<TaxonLabel> findHomoSapiensTL() {
 		return getTaxonLabelHome().findByExactString("Homo sapiens");
 	}
-	
+		
 	private TaxonVariant findHomoSapiensTV() {
 		Collection<TaxonVariant> hSap = getTaxonLabelHome().findTaxonVariantByFullName("Homo sapiens");
 		if (hSap == null) return null;
 		if (hSap.isEmpty()) return null;
 		return hSap.iterator().next();
 	}
+	
+
 }
 

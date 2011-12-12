@@ -260,7 +260,7 @@ public class TaxonLabelSet extends AbstractPersistedObject {
 		return getTitle();
 	}
 
-	private void sortByTaxonLabel(List<TaxonLabel> tList)
+	public void sortByTaxonLabel(List<TaxonLabel> tList)
 	{
 		java.util.Collections.sort(tList, new Comparator<TaxonLabel>() {
 			
@@ -268,6 +268,18 @@ public class TaxonLabelSet extends AbstractPersistedObject {
 				String id1 = pObject1.getTaxonLabel();
 				String id2 = pObject2.getTaxonLabel();
 				return id1.compareTo(id2);
+			}
+		
+		});
+		
+	}
+	
+	public void sortByTaxonLabelLength(List<TaxonLabel> tList)
+	{
+		java.util.Collections.sort(tList, new Comparator<TaxonLabel>() {
+			
+			public int compare(TaxonLabel pObject1, TaxonLabel pObject2) {
+				return pObject2.getTaxonLabel().length() - pObject1.getTaxonLabel().length();
 			}
 		
 		});

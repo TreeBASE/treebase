@@ -244,11 +244,18 @@ public class TreeBlock extends AbstractPersistedObject {
 
 			}
 			String tmpnewick, newick = atree.getNewickString();
+			List<TaxonLabel> txnlbllistclone = new ArrayList<TaxonLabel>(txnlbllist);
+			tlSet.sortByTaxonLabelLength(txnlbllistclone);
+			HashMap<String, Integer> txnOrder = new HashMap<String, Integer>();
+			for (int y = 0; y < numoftxnlbls; y++) {
+				txnOrder.put(txnlbllist.get(y).getTaxonLabel(), y);
+			}
 			for (int z = 0; z < numoftxnlbls; z++) {
-				String label = StringUtil.tokenize(txnlbllist.get(z).getTaxonLabel());
-				tmpnewick = newick.replace(label, String.valueOf(z + 1));
+				String label = StringUtil.tokenize(txnlbllistclone.get(z).getTaxonLabel());
+				tmpnewick = newick.replace(label, String.valueOf(txnOrder.get(txnlbllistclone.get(z).getTaxonLabel())+1));
 				newick = tmpnewick;
 			}
+			txnlbllistclone = null;
 			// out.append(atree.getNewickString());
 			pBuilder.append(newick);
 			pBuilder.append("\n");
