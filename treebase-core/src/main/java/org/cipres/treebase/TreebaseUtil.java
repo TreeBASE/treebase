@@ -519,7 +519,7 @@ public class TreebaseUtil {
 	public static void attachStudyHeader(Study pStudy, StringBuilder pBuilder) {
 		pBuilder
 			.append(
-				"[!This data set was downloaded from TreeBASE, a relational database of phylogenetic knowledge. TreeBASE has been supported by the NSF, Harvard University, Yale University, SDSC and UC Davis. Please do not remove this acknowledgment from the Nexus file.\n\n\nDownloaded on "
+				"[!This data set was downloaded from TreeBASE, a relational database of phylogenetic knowledge. TreeBASE has been supported by the NSF, Harvard University, Yale University, SDSC and UC Davis. Please do not remove this acknowledgment from the Nexus file.\n\n\nGenerated on "
 					+ getTimeAndDateAtGMT()).append(TreebaseUtil.LINESEP).append(
 				"\nTreeBASE (cc) 1994-2008").append(TreebaseUtil.LINESEP);
 
