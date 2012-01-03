@@ -19,6 +19,7 @@ import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.web.Constants;
+import org.cipres.treebase.web.util.ControllerUtil;
 
 /**
  * This class re-directs clients to one of a number of other controllers depending
@@ -115,7 +116,7 @@ public abstract class PhyloWSController implements Controller {
 	            	// output format is something else, re-direct to download services
 	            	else {
 	                    url = createDownloadUrl(tbID.getId(),serializationFormat,req);
-	                    if (!redirectDownload) {
+	                    if (!redirectDownload && !ControllerUtil.isReviewerAccessGranted(req, tbID)) {
 	                    	url = "/treebase-web/accessviolation.html";
 	                    }
 	            	}

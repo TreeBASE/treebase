@@ -322,6 +322,37 @@ public class ControllerUtil {
 			}
 		}		
 		return passedHashedIDCheck;
-	}	
+	}
+	
+	/**
+	 * 
+	 * This method passes an ID into the function
+	 * 
+	 */
+	public static boolean isReviewerAccessGranted(HttpServletRequest req, TreebaseIDString tbidstr ) {
+		boolean passedHashedIDCheck = false;
+		HttpSession session = req.getSession();
+	
+		Object xAccesCodeObject = session.getAttribute(Constants.X_ACCESS_CODE);
+		if ( xAccesCodeObject != null ) {
+			String suppliedHashedID = xAccesCodeObject.toString();
+			//TreebaseIDString tbidstr = new TreebaseIDString(Study.class,Long.parseLong((String) id));
+			if ( suppliedHashedID.equals(tbidstr.getNamespacedGUID().getHashedIDString()) ) {
+				passedHashedIDCheck = true;
+				Object agreementAccepted = session.getAttribute(Constants.REVIEWER_AGREEMENT_ACCEPTED);
+				if ( agreementAccepted == null || ((Boolean)agreementAccepted).booleanValue() == false ) {
+					LOGGER.info("Going to display object/file: "+agreementAccepted);
+					session.setAttribute("displayAgreement",true);
+				}
+				else {
+					LOGGER.info("Not going to display object/file");					
+					session.setAttribute("displayAgreement",false);
+				}				
+			}
+		}		
+		return passedHashedIDCheck;
+	}
+	
+	
 
 }
