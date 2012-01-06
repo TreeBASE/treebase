@@ -9,10 +9,13 @@
 <c:url var="studyURL" value="summary.html">
 <c:param name="id" value="${study.id}"/>
 </c:url>
+<%
+	pageContext.setAttribute("accesscode",request.getSession().getAttribute("x-access-code"));
+%>
 <script type="text/javascript">
 		function openPhylowidget(tree_id)
 		{
-			 var realURL = "http://www.phylowidget.org/full/?tree='http://"+location.host+"/treebase-web/tree_for_phylowidget/"+"TB2:Tr"+tree_id+"'";
+			 var realURL = "http://www.phylowidget.org/full/?tree='http://"+location.host+"/treebase-web/tree_for_phylowidget/"+"TB2:Tr"+tree_id<c:if test="${!empty accesscode}">+"?x-access-code=<c:out value='${accesscode}' />"</c:if>+"'";
 			 window.open(realURL,'myplwidget')
 		}
 </script>
@@ -67,7 +70,14 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${baseURL}"><c:param name="format">nexml</c:param></c:url>
+		<c:url var="url" value="${baseURL}">
+			<c:param name="format">nexml</c:param>
+			<c:if test="${!empty accesscode}">
+				<c:param name="x-access-code">
+					<c:out value='${accesscode}' />
+				</c:param>
+			</c:if>
+		</c:url>
 		<a href="${url}">
 			<img 
 				class="iconButton" 
@@ -95,7 +105,14 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${baseURL}"><c:param name="format">nexus</c:param></c:url>
+		<c:url var="url" value="${baseURL}">
+			<c:param name="format">nexus</c:param>
+			<c:if test="${!empty accesscode}">
+				<c:param name="x-access-code">
+					<c:out value='${accesscode}' />
+				</c:param>
+			</c:if>
+		</c:url>
 		<a href="${url}">
 			<img 
 				class="iconButton" 
@@ -111,7 +128,12 @@
 		headerClass="iconColumn">
 		<c:url value="/search/downloadANexusFile.html" var="originalTreeURL">
 			<c:param name="id">${study.id}</c:param>
-			<c:param name="treeid">${tree.id}</c:param>		
+			<c:param name="treeid">${tree.id}</c:param>
+			<c:if test="${!empty accesscode}">
+				<c:param name="x-access-code">
+					<c:out value='${accesscode}' />
+				</c:param>
+			</c:if>		
 		</c:url>
 		<a href="${originalTreeURL}">
 			<img 

@@ -69,7 +69,7 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 	</c:if>
 	<c:if test="${not empty cit.URL && cit.URL != 'http://' }">
 		<li>
-			Other URL:
+			Other URL: 
 			<a href="<c:out value="${cit.URL}"/>">
 				<img class="iconButton" src="<fmt:message key="icons.weblink"/>" />
 				<c:out value="${cit.URL}"/>
@@ -87,7 +87,10 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 		</a>
 	</li>
 	<li>Other versions:
-		<a href="${baseLink}?format=nexus">
+	<%
+	pageContext.setAttribute("accesscode",request.getSession().getAttribute("x-access-code"));
+	%>
+		<a href="${baseLink}?format=nexus<c:if test="${!empty accesscode}">&x-access-code=<c:out value='${accesscode}' /></c:if>">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.download.reconstructed"/>" 
@@ -95,7 +98,7 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 				alt="<fmt:message key="download.reconstructedfile"/>"/>	
 			Nexus			
 		</a>
-		<a href="${baseLink}?format=nexml">
+		<a href="${baseLink}?format=nexml<c:if test="${!empty accesscode}">&x-access-code=<c:out value='${accesscode}' /></c:if>">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.xml"/>" 

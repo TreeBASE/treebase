@@ -13,7 +13,9 @@
 </c:url>
 
 <c:set var="counter" value="0"/>
-
+<%
+	pageContext.setAttribute("accesscode",request.getSession().getAttribute("x-access-code"));
+%>
 <display:table name="matrices"
 			   requestURI=""
 			   class="list"
@@ -67,7 +69,14 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${matrix.phyloWSPath.purl}"><c:param name="format">nexml</c:param></c:url>		
+		<c:url var="url" value="${matrix.phyloWSPath.purl}">
+			<c:param name="format">nexml</c:param>
+			<c:if test="${!empty accesscode}">
+				<c:param name="x-access-code">
+					<c:out value='${accesscode}' />
+				</c:param>
+			</c:if>
+		</c:url>		
 		<a href="${url}">
 			<img 
 				class="iconButton" 
@@ -95,7 +104,14 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${matrix.phyloWSPath.purl}"><c:param name="format">nexus</c:param></c:url>
+		<c:url var="url" value="${matrix.phyloWSPath.purl}">
+			<c:param name="format">nexus</c:param>
+			<c:if test="${!empty accesscode}">
+				<c:param name="x-access-code">
+					<c:out value='${accesscode}' />
+				</c:param>
+			</c:if>
+		</c:url>
 		<a href="${url}">
 			<img 
 				class="iconButton" 
@@ -111,7 +127,8 @@
 		headerClass="iconColumn">
 		<c:url value="/search/downloadANexusFile.html" var="originalMatrixURL">
 			<c:param name="id">${study.id}</c:param>
-			<c:param name="matrixid">${matrix.id}</c:param>		
+			<c:param name="matrixid">${matrix.id}</c:param>
+			<c:if test="${!empty accesscode}"><c:param name="x-access-code"><c:out value='${accesscode}' /></c:param></c:if>		
 		</c:url>
 		<a href="${originalMatrixURL}">
 			<img 
@@ -126,7 +143,14 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<c:url var="url" value="${matrix.phyloWSPath.purl}"><c:param name="format">html</c:param></c:url>
+		<c:url var="url" value="${matrix.phyloWSPath.purl}">
+			<c:param name="format">html</c:param>
+			<c:if test="${!empty accesscode}">
+				<c:param name="x-access-code">
+					<c:out value='${accesscode}' />
+				</c:param>
+			</c:if>
+		</c:url>
 		<a href="${url}">		
 			<img 
 				class="iconButton" 
