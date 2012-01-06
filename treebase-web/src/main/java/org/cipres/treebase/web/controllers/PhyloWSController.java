@@ -65,6 +65,7 @@ public abstract class PhyloWSController implements Controller {
 	private static String searchBase = "/treebase-web/search/";
 	
 	private boolean redirectDownload = true;
+	private Study TBStudy = null;
     
 	/**
 	 * Child classes return the display page for the focal type
@@ -116,8 +117,15 @@ public abstract class PhyloWSController implements Controller {
 	            	// output format is something else, re-direct to download services
 	            	else {
 	                    url = createDownloadUrl(tbID.getId(),serializationFormat,req);
-	                    if (!redirectDownload && !ControllerUtil.isReviewerAccessGranted(req, tbID)) {
-	                    	url = "/treebase-web/accessviolation.html";
+	                    if (!redirectDownload ) {
+	                    	if (TBStudy != null) {
+	                    		if (!ControllerUtil.isReviewerAccessGranted(req, TBStudy.getTreebaseIDString())) {
+	                    			url = "/treebase-web/accessviolation.html";
+	                    		}
+	                    	}
+	                    	else {
+	                    		url = "/treebase-web/accessviolation.html";
+	                    	}
 	                    }
 	            	}
 	            }
@@ -286,8 +294,9 @@ public abstract class PhyloWSController implements Controller {
 		}
 	}
 	
-	public void checkAccess(boolean isPublished) {
-		redirectDownload = isPublished;
+	public void setStudy(Study study) {
+		TBStudy = study;
+		redirectDownload = study.isPublished();
 	}
 
 }

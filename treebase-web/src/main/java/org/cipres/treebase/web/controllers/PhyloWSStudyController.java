@@ -40,7 +40,7 @@ public class PhyloWSStudyController extends PhyloWSController {
 			throw new ObjectNotFoundException("Can't find study " + objectId);
 		}
 		
-		checkAccess(study.isPublished());
+		setStudy(study);
 		
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("id", ""+objectId);

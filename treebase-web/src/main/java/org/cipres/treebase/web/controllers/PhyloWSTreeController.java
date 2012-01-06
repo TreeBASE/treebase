@@ -44,10 +44,7 @@ public class PhyloWSTreeController extends PhyloWSController {
 		if ( study == null ) {
 			throw new ObjectNotFoundException("Can't find study for tree "+objectId);
 		}
-		
-		//not checking access due to need for Phloywidget to access tree when in review 
-		//checkAccess(phyloTree.getStudy().isPublished());
-		
+				
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("id",""+study.getId());
 		params.put("treeid", ""+objectId);
