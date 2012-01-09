@@ -60,8 +60,8 @@
 		Computational Phylogenetics"). 
 	</p>
 	<p>
-		TreeBASE was released in March 2010 as one of the main products of <a href="http://www.phylorf.org" title="Phyloinformatics Research Foundation, Inc.">The 
-		Phyloinformatics Research Foundation, Inc.</a>, a Connecticut non-profit 
+		TreeBASE was released in March 2010 as one of the main products of <a href="http://www.phylofoundation.org" title="Phyloinformatics Research Foundation, Inc.">The 
+		Phyloinformatics Research Foundation, Inc.</a>, a Connecticut non-stock 
 		corporation. The Foundation provides direction, governance, and continuity for 
 		software, data sharing, and communication standards to promote phyloinformatic 
 		research for the scientific community.

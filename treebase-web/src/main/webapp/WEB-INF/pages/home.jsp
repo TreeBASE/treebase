@@ -2,7 +2,14 @@
 	<div class="gutter">
 		<h1>Welcome to TreeBASE</h1>	
 		<p>
-		TreeBASE is a repository of phylogenetic information, specifically user-submitted phylogenetic trees and the data used to generate them. TreeBASE accepts all types of phylogenetic data (e.g., trees of species, trees of populations, trees of genes) representing all biotic taxa. Data in TreeBASE are exposed to the public if they are used in a publication that is in press or published in a peer-reviewed scientific journal, book, conference proceedings, or thesis. Data used in publications that are in preparation or in review can be submitted to TreeBASE but are only available to the publication editors or reviewers using a special access code.</p>
+		TreeBASE is a repository of phylogenetic information, specifically user-submitted phylogenetic 
+		trees and the data used to generate them. TreeBASE accepts all types of phylogenetic data (e.g., 
+		trees of species, trees of populations, trees of genes) representing all biotic taxa. Data in 
+		TreeBASE are exposed to the public if they are used in a publication that is in press or published 
+		in a peer-reviewed scientific journal, book, conference proceedings, or thesis. Data used in 
+		publications that are in preparation or in review can be submitted to TreeBASE but are only available 
+		to the authors, publication editors, or reviewers using a special access code. TreeBASE is produced and 
+		governed by the <a href="http://www.phylofoundation.org" title="Phyloinformatics Research Foundation, Inc.">The Phyloinformatics Research Foundation, Inc.</a></p>
         <p>Some recent additions:</p>
         <script language="JavaScript" src="http://landmark-project.com/feed2js/feed2js.php?src=http%3A%2F%2Fpipes.yahoo.com%2Fpipes%2Fpipe.run%3F_id%3D41dc2d1544150c1b8e69367059f26950%26_render%3Drss&amp;date=y&amp;utf=y"  charset="UTF-8" type="text/javascript">
         </script>
