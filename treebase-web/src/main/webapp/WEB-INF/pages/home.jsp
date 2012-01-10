@@ -11,11 +11,11 @@
 		to the authors, publication editors, or reviewers using a special access code. TreeBASE is produced and 
 		governed by the <a href="http://www.phylofoundation.org" title="Phyloinformatics Research Foundation, Inc.">The Phyloinformatics Research Foundation, Inc.</a></p>
         <p>Some recent additions:</p>
-        <script language="JavaScript" src="http://landmark-project.com/feed2js/feed2js.php?src=http%3A%2F%2Fpipes.yahoo.com%2Fpipes%2Fpipe.run%3F_id%3D41dc2d1544150c1b8e69367059f26950%26_render%3Drss&amp;date=y&amp;utf=y"  charset="UTF-8" type="text/javascript">
-        </script>
-        <noscript>
-        <a href="http://landmark-project.com/feed2js/feed2js.php?src=http%3A%2F%2Fpipes.yahoo.com%2Fpipes%2Fpipe.run%3F_id%3D41dc2d1544150c1b8e69367059f26950%26_render%3Drss&amp;date=y&amp;utf=y&amp;html=y">View RSS feed</a>
-        </noscript>
+		<script language="JavaScript" src="http://landmark-project.com/feed2js/feed2js.php?src=http%3A%2F%2Fpipes.yahoo.com%2Fpipes%2Fpipe.run%3F_id%3D41dc2d1544150c1b8e69367059f26950%26_render%3Drss&amp;num=8&amp;date=y"  type="text/javascript">
+		</script>
+		<noscript>
+		<a href="http://landmark-project.com/feed2js/feed2js.php?src=http%3A%2F%2Fpipes.yahoo.com%2Fpipes%2Fpipe.run%3F_id%3D41dc2d1544150c1b8e69367059f26950%26_render%3Drss&amp;num=8&amp;date=y&amp;html=y">View RSS feed</a>
+		</noscript>
 		<p>The current release includes a host of new features and improvements over the previous TreeBASE prototype. New features include:</p>
 		<ul>
 		  <li>Richer annotation of metadata (journal DOIs, specimen georeferences, Genbank accession numbers, etc) </li>
