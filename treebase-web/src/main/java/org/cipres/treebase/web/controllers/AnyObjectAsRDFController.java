@@ -70,7 +70,8 @@ public class AnyObjectAsRDFController implements Controller {
 					
 					TBPersistable theObject = getStudyService().findByID(theClass, treebaseIDString.getId());
 					if ( null != theObject ) {
-						if (! getStudyService().findByID(treebaseIDString.getId()).isPublished()) {
+						Study theContainingStudy = theObject.getStudy();
+						if (null != theContainingStudy && ! theContainingStudy.isPublished()) {
 				        	response.setContentType("text/plain");
 				        	response.setStatus(HttpServletResponse.SC_SEE_OTHER);        
 				        	response.setHeader("Location", "/treebase-web/accessviolation.html");
