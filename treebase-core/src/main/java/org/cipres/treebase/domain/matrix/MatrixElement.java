@@ -25,6 +25,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.study.Study;
 
 /**
  * MatrixElement.java
@@ -156,5 +157,10 @@ public abstract class MatrixElement extends AbstractPersistedObject {
 	@Transient
 	public CharacterMatrix getContext() {
 		return getColumn().getMatrix();
+	}
+	
+	@Transient
+	public Study getStudy() {
+		return getContext().getStudy();
 	}
 }

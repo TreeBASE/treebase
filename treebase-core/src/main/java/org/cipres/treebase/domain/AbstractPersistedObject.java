@@ -18,6 +18,7 @@ import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
+import org.cipres.treebase.domain.study.Study;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -163,6 +164,14 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 	@Transient
 	public String getDescription() {
 		return this.getNamespacedGUID().toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.TBPersistable#getStudy()
+	 */
+	public Study getStudy() {
+		return null;
 	}
 
 }

@@ -24,6 +24,7 @@ import org.hibernate.annotations.Index;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
 import org.cipres.treebase.domain.TBPersistable;
+import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 
 /**
@@ -606,4 +607,9 @@ public class PhyloTreeNode extends AbstractPersistedObject implements TreeNode {
 		return getTree();
 	}
 	*/
+	
+	@Transient
+	public Study getStudy() {
+		return getTree().getStudy();
+	}
 }

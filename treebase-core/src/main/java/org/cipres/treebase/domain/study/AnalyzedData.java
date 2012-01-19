@@ -161,4 +161,9 @@ public abstract class AnalyzedData extends AbstractPersistedObject {
 	 */
 	@Transient
 	public abstract String getDisplayName();
+	
+	@Transient
+	public Study getStudy() {
+		return getAnalysisStep().getStudy();
+	}
 }

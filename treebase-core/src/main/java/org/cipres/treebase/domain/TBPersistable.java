@@ -4,6 +4,7 @@ package org.cipres.treebase.domain;
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
+import org.cipres.treebase.domain.study.Study;
 
 /**
  * A tagging interface for all persisted treebase objects.
@@ -31,11 +32,6 @@ public interface TBPersistable extends NexmlWritable {
 	public static final int CITATION_TITLE_COLUMN_LENGTH = 500;
 	public static final int CITATION_ABSTRACT_COLUMN_LENGTH = 10000;
 
-	/**
-	 * Return the id.
-	 * 
-	 * @return
-	 */
 	public Long getId();
 	
 	public TreebaseIDString getTreebaseIDString ();
@@ -44,6 +40,20 @@ public interface TBPersistable extends NexmlWritable {
 	
 	public PhyloWSPath getPhyloWSPath ();
 	
+	/**
+	 * Is an object that implements this is logically
+	 * part of a containing object (e.g. a node is part
+	 * of a tree), this method returns that containing
+	 * object.
+	 * @return
+	 */
 	public TBPersistable getContext ();
+	
+	/**
+	 * If an object that implements this logically belongs to a Study,
+	 * this method returns that Study. Otherwise returns null. 
+	 * @return
+	 */
+	public Study getStudy();
 
 }

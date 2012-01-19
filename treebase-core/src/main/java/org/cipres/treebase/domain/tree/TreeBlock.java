@@ -346,5 +346,10 @@ public class TreeBlock extends AbstractPersistedObject {
 		}		
 		return null;
 	}
+	
+	@Transient
+	public Study getStudy() {
+		return getContext();
+	}
 
 }

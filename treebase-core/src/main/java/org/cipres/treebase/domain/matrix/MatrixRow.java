@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -28,6 +29,7 @@ import org.hibernate.annotations.IndexColumn;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 
 /**
@@ -149,9 +151,13 @@ public class MatrixRow extends AbstractPersistedObject {
 
 	/**
 	 * Represents all the elements as symbols in one string. 
-	 * For one character one symbol, This can handle 512k size of characters in a matrix.
+	 * This can handle 512k size of characters in a matrix.
 	 * 
 	 * It is precalculated and stored for faster generating nexus blocks. 
+	 * 
+	 * Note that for ambiguous states (e.g. N in a DNA sequence) this
+	 * returns a list of all fundamental states that comprise the ambiguous
+	 * state, i.e. instead of N, this returns {ACGT}
 	 * 
 	 * @return String 
 	 */
@@ -159,6 +165,51 @@ public class MatrixRow extends AbstractPersistedObject {
 	@Column(name = "SymbolString", length = 524288)
 	public String getSymbolString() {
 		return mSymbolString;
+	}
+	
+	
+	/**
+	 * Represents all the elements as symbols in one string. 
+	 *  
+	 * Note that this method post-processes the output of getSymbolString(), i.e.
+	 * if that method returns an {ACGT} this method replaces that with whatever
+	 * ambiguity mapping was provided. E.g. if the map pMapping holds a slot for 
+	 * "ACGT" => "N" this method will return that N instead.
+	 * 
+	 * @return String 
+	 */	
+	@Transient
+	public String getSymbolString(Map<String,String> pMapping) {
+		String inputString = getSymbolString();
+		StringBuffer outputString = new StringBuffer();
+		List<Character> ambiguous = new ArrayList<Character>();
+		boolean isAmbiguous = false;
+		for ( int i = 0; i < inputString.length(); i++ ) {
+			char current = inputString.charAt(i);
+			if ( current == '{' ) {
+				isAmbiguous = true;
+				ambiguous.clear();
+				continue;
+			}
+			if ( current == '}' ) {
+				isAmbiguous = false;
+				Collections.sort(ambiguous);
+				StringBuffer ambigBuffer = new StringBuffer();
+				ambigBuffer.append(ambiguous.toArray(new Character[ambiguous.size()]));
+				String ambigString = ambigBuffer.toString();
+				if ( pMapping.containsKey(ambigString) ) {
+					outputString.append(pMapping.get(ambigString));
+				}
+				continue;
+			}
+			if ( isAmbiguous ) {
+				ambiguous.add(current);
+			}
+			else {
+				outputString.append(current);
+			}
+		}
+		return outputString.toString();
 	}
 
 	/**
@@ -355,5 +406,10 @@ public class MatrixRow extends AbstractPersistedObject {
 		String syms = getSymbolString();
 		if (syms == null) { return "(no data)"; }
 		return syms.length() >= DISPLAY_STRING_LENGTH ? syms.substring(0, DISPLAY_STRING_LENGTH) : syms; 
+	}
+	
+	@Transient
+	public Study getStudy() {
+		return getMatrix().getStudy();
 	}
 }

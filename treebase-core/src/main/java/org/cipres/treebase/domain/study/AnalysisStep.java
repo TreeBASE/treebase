@@ -354,5 +354,10 @@ public class AnalysisStep extends AbstractPersistedObject {
 		if (index == -1) return null;
 		return index;
 	}
+	
+	@Transient
+	public Study getStudy() {
+		return getAnalysis().getStudy();
+	}
 
 }

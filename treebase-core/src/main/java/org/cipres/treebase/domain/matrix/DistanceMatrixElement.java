@@ -12,6 +12,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import org.cipres.treebase.domain.AbstractPersistedObject;
+import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 
 /**
@@ -112,6 +113,10 @@ public class DistanceMatrixElement extends AbstractPersistedObject {
 	 */
 	public void setMatrix(DistanceMatrix pNewMatrix) {
 		mMatrix = pNewMatrix;
+	}
+	
+	public Study getStudy() {
+		return getMatrix().getStudy();
 	}
 
 }

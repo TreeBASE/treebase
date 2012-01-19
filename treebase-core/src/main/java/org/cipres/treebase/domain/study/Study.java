@@ -748,5 +748,10 @@ public class Study extends AbstractPersistedObject {
 		}		
 		return annotations;
 	}
+	
+	@Transient
+	public Study getStudy() {
+		return this;
+	}
 		
 }

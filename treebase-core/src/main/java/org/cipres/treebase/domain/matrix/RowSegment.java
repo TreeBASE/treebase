@@ -23,6 +23,7 @@ import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.matrix.RowSegmentService.RowSegmentField;
+import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.SpecimenLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.framework.ExecutionResult;
@@ -562,5 +563,10 @@ public class RowSegment extends AbstractPersistedObject {
 	@Transient
 	public void setChecked(boolean pChecked) {
 		mChecked = pChecked;
+	}
+	
+	@Transient
+	public Study getStudy() {
+		return getMatrixRow().getStudy();
 	}
 }
