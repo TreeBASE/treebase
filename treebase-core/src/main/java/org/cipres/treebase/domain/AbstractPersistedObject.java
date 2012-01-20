@@ -170,6 +170,7 @@ public class AbstractPersistedObject implements TBPersistable, Serializable {
 	 * (non-Javadoc)
 	 * @see org.cipres.treebase.domain.TBPersistable#getStudy()
 	 */
+	@Transient
 	public Study getStudy() {
 		return null;
 	}
