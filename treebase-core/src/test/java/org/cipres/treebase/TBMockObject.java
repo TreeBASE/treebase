@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
+import org.cipres.treebase.domain.study.Study;
 
 /**
  * A trivial, nonpersistent TBPersistable object, useful for incorporation into test classes.
@@ -81,6 +82,11 @@ public class TBMockObject extends Object implements TBPersistable {
 	}
 
 	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Study getStudy() {
 		// TODO Auto-generated method stub
 		return null;
 	}
