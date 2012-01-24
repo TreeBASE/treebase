@@ -71,7 +71,7 @@
 	</display:column>		
 
 	<display:column 
-		class="iconColumn"
+		class="iconColumn noBreak"
 		headerClass="iconColumn"
 		sortable="false">
 		<c:set var="baseLink" value="${study.phyloWSPath.purl}"/>
@@ -82,6 +82,13 @@
 			title="<fmt:message key="download.reconstructedfile"/>" 
 			alt="<fmt:message key="download.reconstructedfile"/>"/>
 		</a> 
+	</display:column>
+
+	<display:column 
+		class="iconColumn"
+		headerClass="iconColumn"
+		sortable="false">
+		<c:set var="baseLink" value="${study.phyloWSPath.purl}"/>
 		<a href="${baseLink}?format=nexml" target="_blank">
 		<img
 			class="iconButton"
