@@ -48,7 +48,10 @@
 		<c:if test="${not empty study.citation.doi}">
 			<c:set var="DOIResource" value="${DOIResolver}${study.citation.doi}"/>
 			<a href="${DOIResource}" target="_blank">
-			<img class="iconButton" src="<fmt:message key="icons.weblink"/>" />
+			<img class="iconButton" 
+			src="<fmt:message key="icons.weblink"/>" 
+			title="<fmt:message key="citation.weblink"/>"
+			alt="<fmt:message key="citation.weblink"/>"/>
 			<!-- ${study.citation.doi} --></a>			
 		</c:if>
 	</display:column>
@@ -58,7 +61,7 @@
 		url="/search/study/summary.html" 
 		paramId="id" 
 		paramProperty="id" 
-		class="iconColumn" 
+		class="iconColumn noBreak" 
 		headerClass="iconColumn">
 			<img 
 				class="iconButton" 
@@ -66,6 +69,27 @@
 				title="<fmt:message key="study.title"/>" 
 				alt="<fmt:message key="study.title"/>"/>				
 	</display:column>		
+
+	<display:column 
+		class="iconColumn"
+		headerClass="iconColumn"
+		sortable="false">
+		<c:set var="baseLink" value="${study.phyloWSPath.purl}"/>
+		<a href="${baseLink}?format=nexus" target="_blank">
+		<img
+			class="iconButton"
+			src="<fmt:message key="icons.download.reconstructed"/>"
+			title="<fmt:message key="download.reconstructedfile"/>" 
+			alt="<fmt:message key="download.reconstructedfile"/>"/>
+		</a> 
+		<a href="${baseLink}?format=nexml" target="_blank">
+		<img
+			class="iconButton"
+			src="<fmt:message key="icons.xml"/>"
+			title="<fmt:message key="download.nexml"/>" 
+			alt="<fmt:message key="download.nexml"/>"/>
+		</a>
+	</display:column>
 			 
 	<display:footer>
 		<tr>
