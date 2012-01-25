@@ -75,7 +75,7 @@
 		headerClass="iconColumn"
 		sortable="false">
 		<c:set var="baseLink" value="${study.phyloWSPath.purl}"/>
-		<a href="${baseLink}?format=nexus" target="_blank">
+		<a href="${baseLink}?format=nexus">
 		<img
 			class="iconButton"
 			src="<fmt:message key="icons.download.reconstructed"/>"
