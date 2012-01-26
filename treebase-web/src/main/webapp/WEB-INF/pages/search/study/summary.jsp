@@ -116,16 +116,19 @@ document.write(makeLink([<c:forEach var="code" items="${author.emailAddressCodeP
 			RDF			
 		</a> */ %>
 	</li>
-</ul>
-<h3>BibTeX reference</h3>
-<pre style="width:100%;overflow:scroll">
-<c:out value="${cit.bibtexReference}"/>
-</pre>
 
-<h3>RIS reference</h3>
-<pre style="width:100%;overflow:scroll">
-<c:out value="${cit.risReference}"/>
-</pre>
+	<li><a onclick="toggle_visibility('bibtexfoo');">Show BibTeX reference</a>
+		<pre id="bibtexfoo" style="display:none;width:100%;overflow:scroll">
+		<c:out value="${cit.bibtexReference}"/>
+		</pre>
+	</li>
+	
+	<li><a onclick="toggle_visibility('risfoo');">Show RIS reference</a>
+		<pre id="risfoo" style="display:none;width:100%;overflow:scroll">
+		<c:out value="${cit.risReference}"/>
+		</pre>
+	</li>
+</ul>
 
 
 </body>
