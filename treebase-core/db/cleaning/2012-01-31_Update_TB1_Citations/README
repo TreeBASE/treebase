@@ -1,0 +1,11 @@
+This script is intended to update citation information from a UTF8-encoded tab-separated 
+export of EndNote citation metadata. The records are identified by the legacy study_id. 
+Author names are unaffected. The order of the columns in the input file is as follows:
+
+ legacyID, authors, year, title, journal, vol, num, pages, doi, url, keywords, abstract, citation_id
+
+To apply, edit the database credentials on lines 18-21, and then type:
+
+      perl update_citations.pl citationdata.txt
+
+ ... where citationdata.txt is the citation metadata file.
