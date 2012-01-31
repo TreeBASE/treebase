@@ -82,20 +82,28 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 		
 		// then create the single state set out of the map, assigning all non-missing characters to missing
 		Set<CharacterState> xmlMissingStates = new HashSet<CharacterState>();
+		UncertainCharacterState missing = null;
 		for ( Character symbol : stateForSymbol.keySet() ) {
-			if ( symbol.charValue() != '?' && symbol.charValue() != '-' ) {
-				CharacterState xmlState = xmlStateSet.createCharacterState(symbol.toString());
-				DiscreteCharState tbState = stateForSymbol.get(symbol);
-				xmlState.setLabel(tbState.getLabel());
-				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
+			char sym = symbol.charValue();
+			CharacterState xmlState = null;
+			String symString = symbol.toString();
+			if ( sym == '-' ) {
+				xmlState = xmlStateSet.createUncertainCharacterState(symString, new HashSet<CharacterState>());
 				xmlMissingStates.add(xmlState);
 			}
-		}		
-		UncertainCharacterState gap = xmlStateSet.createUncertainCharacterState("-", new HashSet<CharacterState>());
-		xmlMissingStates.add(gap);
-		UncertainCharacterState missing = xmlStateSet.createUncertainCharacterState("?", xmlMissingStates);
-		missing.setLabel("?");
-		gap.setLabel("-");		
+			else if ( sym == '?' ) {
+				xmlState = xmlStateSet.createUncertainCharacterState(symString, new HashSet<CharacterState>());
+				missing = (UncertainCharacterState) xmlState;
+			}
+			else {
+				xmlState = xmlStateSet.createCharacterState(symString);
+				xmlMissingStates.add(xmlState);
+			}				
+			DiscreteCharState tbState = stateForSymbol.get(symbol);
+			xmlState.setLabel(symString);
+			attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
+		}
+		missing.setStates(xmlMissingStates);
 		
 		// then create the XML characters, assigning them all the same state set
 		List<MatrixColumn> tbColumns = tbMatrix.getColumnsReadOnly();
