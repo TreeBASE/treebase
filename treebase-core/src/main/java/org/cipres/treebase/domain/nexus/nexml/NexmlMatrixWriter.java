@@ -1,7 +1,10 @@
 package org.cipres.treebase.domain.nexus.nexml;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.cipres.treebase.Constants;
@@ -34,6 +37,7 @@ import org.nexml.model.MolecularMatrix;
 import org.nexml.model.OTUs;
 import org.nexml.model.OTU;
 import org.nexml.model.Subset;
+import org.nexml.model.UncertainCharacterState;
 
 public class NexmlMatrixWriter extends NexmlObjectConverter {
 
@@ -64,18 +68,43 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 		CategoricalMatrix xmlMatrix = getDocument().createCategoricalMatrix(xmlOTUs);		
 		setMatrixAttributes(xmlMatrix,tbMatrix);
 		
+		// first flatten the two-dimensional list into a map, we will always only create a single state set
 		List<List<DiscreteCharState>> tbStateLabels = tbMatrix.getStateLabels();
+		Map<Character,DiscreteCharState> stateForSymbol = new HashMap<Character,DiscreteCharState>();
+		CharacterStateSet xmlStateSet = xmlMatrix.createCharacterStateSet();
+		for ( int i = 0; i < tbStateLabels.size(); i++ ) {
+			for ( int j = 0; j < tbStateLabels.get(i).size(); j++ ) {
+				Character symbol = tbStateLabels.get(i).get(j).getSymbol();
+				DiscreteCharState state = tbStateLabels.get(i).get(j);
+				stateForSymbol.put(symbol, state);			
+			}
+		}
+		UncertainCharacterState missing = xmlStateSet.createUncertainCharacterState("?", new HashSet<CharacterState>());
+		UncertainCharacterState gap = xmlStateSet.createUncertainCharacterState("-", new HashSet<CharacterState>());
+		missing.getStates().add(gap);
+		
+		// then create the single state set out of the map, assigning all non-gap characters to missing
+		for ( Character symbol : stateForSymbol.keySet() ) {
+			CharacterState xmlState = null;
+			if ( symbol.charValue() == '?' ) {
+				xmlState = missing;
+			}
+			else if ( symbol.charValue() == '-' ) {
+				xmlState = gap;
+			}
+			else {
+				xmlState = xmlStateSet.createCharacterState(symbol.toString());
+				missing.getStates().add(xmlState);
+			}
+			DiscreteCharState tbState = stateForSymbol.get(symbol);
+			xmlState.setLabel(tbState.getLabel());
+			attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
+		}
+		
+		// then create the XML characters, assigning them all the same state set
 		List<MatrixColumn> tbColumns = tbMatrix.getColumnsReadOnly();
 		for ( int i = 0; i < tbColumns.size(); i++ ) {
-			MatrixColumn tbColumn = tbColumns.get(i);
-			CharacterStateSet xmlStateSet = xmlMatrix.createCharacterStateSet();
-			for ( DiscreteCharState tbState : tbStateLabels.get(i) ) {
-				CharacterState xmlState = xmlStateSet.createCharacterState(tbState.getSymbol().toString());
-				if ( null != tbState.getDescription() ) {
-					xmlState.setLabel(tbState.getDescription());
-				}
-				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
-			}			
+			MatrixColumn tbColumn = tbColumns.get(i);			
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
 			setCharacterAttributes(tbColumn, xmlCharacter);
 		}		
