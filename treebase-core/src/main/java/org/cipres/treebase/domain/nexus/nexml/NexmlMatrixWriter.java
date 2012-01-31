@@ -103,7 +103,9 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			xmlState.setLabel(symString);
 			attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
 		}
-		missing.setStates(xmlMissingStates);
+		if ( null != missing ) {
+			missing.setStates(xmlMissingStates);
+		}
 		
 		// then create the XML characters, assigning them all the same state set
 		List<MatrixColumn> tbColumns = tbMatrix.getColumnsReadOnly();
