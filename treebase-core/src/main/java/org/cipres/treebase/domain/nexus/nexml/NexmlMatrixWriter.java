@@ -79,27 +79,23 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 				stateForSymbol.put(symbol, state);			
 			}
 		}
-		UncertainCharacterState missing = xmlStateSet.createUncertainCharacterState("?", new HashSet<CharacterState>());
-		UncertainCharacterState gap = xmlStateSet.createUncertainCharacterState("-", new HashSet<CharacterState>());
-		missing.getStates().add(gap);
 		
-		// then create the single state set out of the map, assigning all non-gap characters to missing
+		// then create the single state set out of the map, assigning all non-missing characters to missing
+		Set<CharacterState> xmlMissingStates = new HashSet<CharacterState>();
 		for ( Character symbol : stateForSymbol.keySet() ) {
-			CharacterState xmlState = null;
-			if ( symbol.charValue() == '?' ) {
-				xmlState = missing;
+			if ( symbol.charValue() != '?' && symbol.charValue() != '-' ) {
+				CharacterState xmlState = xmlStateSet.createCharacterState(symbol.toString());
+				DiscreteCharState tbState = stateForSymbol.get(symbol);
+				xmlState.setLabel(tbState.getLabel());
+				attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
+				xmlMissingStates.add(xmlState);
 			}
-			else if ( symbol.charValue() == '-' ) {
-				xmlState = gap;
-			}
-			else {
-				xmlState = xmlStateSet.createCharacterState(symbol.toString());
-				missing.getStates().add(xmlState);
-			}
-			DiscreteCharState tbState = stateForSymbol.get(symbol);
-			xmlState.setLabel(tbState.getLabel());
-			attachTreeBaseID((Annotatable)xmlState,tbState,DiscreteCharState.class);
-		}
+		}		
+		UncertainCharacterState gap = xmlStateSet.createUncertainCharacterState("-", new HashSet<CharacterState>());
+		xmlMissingStates.add(gap);
+		UncertainCharacterState missing = xmlStateSet.createUncertainCharacterState("?", xmlMissingStates);
+		missing.setLabel("?");
+		gap.setLabel("-");		
 		
 		// then create the XML characters, assigning them all the same state set
 		List<MatrixColumn> tbColumns = tbMatrix.getColumnsReadOnly();
@@ -120,16 +116,16 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	}
 
 	private void setMatrixAttributes(org.nexml.model.Matrix<?> xmlMatrix,CharacterMatrix tbMatrix) {
-		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
-		xmlMatrix.setBaseURI(mMatrixBaseURI);
-		xmlMatrix.setLabel(tbMatrix.getLabel());
-		
 		// attach matrix identifiers
 		attachTreeBaseID((Annotatable)xmlMatrix, tbMatrix,Matrix.class);
 		String tb1MatrixID = tbMatrix.getTB1MatrixID();
 		if ( null != tb1MatrixID ) {
 			((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix.tb1", Constants.TBTermsURI, tb1MatrixID);
 		}		
+		
+		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
+		xmlMatrix.setBaseURI(mMatrixBaseURI);
+		xmlMatrix.setLabel(tbMatrix.getLabel());				
 	}	
 	
 	/**
