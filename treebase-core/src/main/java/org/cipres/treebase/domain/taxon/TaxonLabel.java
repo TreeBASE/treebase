@@ -1,7 +1,6 @@
 package org.cipres.treebase.domain.taxon;
 
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -18,11 +17,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.cipres.treebase.Constants;
-import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
 import org.cipres.treebase.domain.Annotation;
 import org.cipres.treebase.domain.TBPersistable;
-import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
 import org.hibernate.annotations.BatchSize;
@@ -31,7 +28,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
-import org.hibernate.annotations.IndexColumn;
 
 /**
  * TaxonLabel usually associates with one Taxon. If it does not, it usually means the referred
