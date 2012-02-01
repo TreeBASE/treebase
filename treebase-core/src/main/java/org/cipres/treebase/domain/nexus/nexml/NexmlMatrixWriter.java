@@ -308,7 +308,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			int charIndex = 0;
 			if ( characterList.size() <= MAX_GRANULAR_NCHAR && xmlOTUs.getAllOTUs().size() <= MAX_GRANULAR_NTAX ) {
 				for ( MatrixColumn tbColumn : ((CharacterMatrix)tbMatrix).getColumns() ) {
-					String seq = tbRow.buildElementAsString();
+					String seq = tbRow.getNormalizedSymbolString();
 					xmlMatrix.setSeq(seq, xmlOTU);
 					org.nexml.model.Character xmlCharacter = characterList.get(charIndex);
 					MatrixCell<CharacterState> xmlCell = xmlMatrix.getCell(xmlOTU, xmlCharacter);							
@@ -428,7 +428,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 				}
 			}
 			else {
-				String seq = tbRow.buildElementAsString();
+				String seq = tbRow.getNormalizedSymbolString();
 				if ( tbMatrix.getDataType().getDescription().equals(MatrixDataType.MATRIX_DATATYPE_STANDARD) ) {
 					StringBuilder sb = new StringBuilder();
 					for ( int i = 0; i < seq.length(); i++ ) {
