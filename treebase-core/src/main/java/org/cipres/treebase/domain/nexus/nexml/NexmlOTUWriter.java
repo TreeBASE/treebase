@@ -30,13 +30,12 @@ public class NexmlOTUWriter extends NexmlObjectConverter {
 	 */
 	public OTUs fromTreeBaseToXml(TaxonLabelSet taxonLabelSet) {
 		OTUs xmlOTUs = getDocument().createOTUs();
-		
-		// attach base uri and skos:historyNote
-		xmlOTUs.setBaseURI(mTaxonBaseURI);
-		xmlOTUs.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
-		
-		xmlOTUs.setLabel(taxonLabelSet.getTitle());
 		attachTreeBaseID(xmlOTUs,taxonLabelSet,TaxonLabelSet.class);
+		
+		xmlOTUs.setBaseURI(mTaxonBaseURI);
+		xmlOTUs.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");		
+		xmlOTUs.setLabel(taxonLabelSet.getTitle());
+		
 		for ( TaxonLabel taxonLabel : taxonLabelSet.getTaxonLabelsReadOnly() ) {
 			fromTreeBaseToXml(taxonLabel,xmlOTUs);
 		}

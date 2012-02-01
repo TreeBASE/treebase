@@ -52,15 +52,17 @@ public class NexmlTreeBlockWriter extends NexmlObjectConverter {
 		TaxonLabelSet taxonLabelSet = treeBlock.getTaxonLabelSet();
 		OTUs xmlOTUs = getOTUsById(taxonLabelSet.getId());
 		org.nexml.model.TreeBlock xmlTreeBlock = getDocument().createTreeBlock(xmlOTUs);
+		attachTreeBaseID((Annotatable)xmlTreeBlock,treeBlock,TreeBlock.class);
 		
 		// attach base uri and skos:historyNote
 		xmlTreeBlock.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
 		xmlTreeBlock.setBaseURI(mTreeBaseURI);
+		xmlTreeBlock.setLabel(treeBlock.getLabel());
 		
 		if ( null != treeBlock.getTitle() ) {
 			xmlTreeBlock.setLabel(treeBlock.getTitle());
 		}
-		attachTreeBaseID((Annotatable)xmlTreeBlock,treeBlock,TreeBlock.class);
+		
 		for ( PhyloTree phyloTree : treeBlock.getTreeList() ) {
 			fromTreeBaseToXml(phyloTree,xmlTreeBlock);
 		}
