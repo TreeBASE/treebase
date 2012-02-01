@@ -1,8 +1,6 @@
 
 package org.cipres.treebase.domain.taxon;
 
-import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -40,7 +38,6 @@ import org.cipres.treebase.domain.TBPersistable;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "taxonCache")
 @BatchSize(size = 10)
 public class Taxon extends AbstractPersistedObject {
-	private static final Logger LOGGER = Logger.getLogger(Taxon.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -169,63 +166,6 @@ public class Taxon extends AbstractPersistedObject {
 		mTB1LegacyId = legacyId;
 	}
 
-	//	/**
-//	 * Return the TaxonVariants field.
-//	 * 
-//	 * @return Collection<TaxonVariant> mTaxonVariants
-//	 */
-//	@OneToMany(mappedBy = "taxon", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//	// @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-//	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "taxonCache")
-//	protected Collection<TaxonVariant> getTaxonVariants() {
-//		return mTaxonVariants;
-//	}
-//
-//	/**
-//	 * Set the TaxonVariants field.
-//	 */
-//	public void setTaxonVariants(Collection<TaxonVariant> pNewTaxonVariants) {
-//		mTaxonVariants = pNewTaxonVariants;
-//	}
-//
-//	/**
-//	 * Append a new variant to the end of the list. Manage bi-directional relationship.
-//	 * 
-//	 * Creation date: Feb 22, 2006 12:06:25 PM
-//	 * 
-//	 * @param pVariant
-//	 */
-//	public void addTaxonVariant(TaxonVariant pVariant) {
-//		if (pVariant != null && !getTaxonVariants().contains(pVariant)) {
-//			getTaxonVariants().add(pVariant);
-//			pVariant.setTaxon(this);
-//		}
-//	}
-//
-//	/**
-//	 * Remove a new variant to the end of the list. Manage bi-directional relationship.
-//	 * 
-//	 * Creation date: Feb 22, 2006 12:06:25 PM
-//	 * 
-//	 * @param pVariant
-//	 */
-//	public void removeTaxonVariant(TaxonVariant pVariant) {
-//		if (pVariant != null && getTaxonVariants().contains(pVariant)) {
-//			getTaxonVariants().remove(pVariant);
-//			pVariant.setTaxon(null);
-//		}
-//	}
-//
-//	/**
-//	 * Return a read only list of taxon variants.
-//	 * 
-//	 * @return
-//	 */
-//	@Transient
-//	public Collection<TaxonVariant> getTaxonVariantsReadOnly() {
-//		return Collections.unmodifiableCollection(getTaxonVariants());
-//	}
-//
 	/**
 	 * Return the ForeignLinks field.
 	 * 
@@ -255,7 +195,7 @@ public class Taxon extends AbstractPersistedObject {
 		List<Annotation> annotations = super.getAnnotations();
 		try {
 			if ( null != getNcbiTaxId() ) {
-				annotations.add(new Annotation(Constants.SKOSURI,"skos:exactMatch",Constants.NCBITaxonomyBase + getNcbiTaxId()));
+				annotations.add(new Annotation(Constants.SKOSURI,"skos:exactMatch",String.format(Constants.NCBITaxonomyFormat, getNcbiTaxId())));
 				annotations.add(new Annotation(Constants.TBTermsURI, "tb:identifier.ncbi", getNcbiTaxId()));				
 			}
 			if ( null != getUBioNamebankId() ) {
