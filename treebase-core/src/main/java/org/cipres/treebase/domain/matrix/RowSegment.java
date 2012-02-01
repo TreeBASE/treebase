@@ -444,8 +444,6 @@ public class RowSegment extends AbstractPersistedObject {
 					Method getMethod = SpecimenLabel.class.getMethod("getCountry");
 					Column getColumn = getMethod.getAnnotation(Column.class);
 					
-					int length = getColumn.length();
-					
 					if (pValues.get(i).length() > getColumn.length()) {
 						pValues.set(i, pValues.get(i).substring(0, getColumn.length()));
 						pExecution.addErrorMessage("The Country field was truncated due to its length");
