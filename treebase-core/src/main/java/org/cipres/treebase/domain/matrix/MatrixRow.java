@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -52,6 +51,9 @@ public class MatrixRow extends AbstractPersistedObject {
 	private static final int DISPLAY_STRING_LENGTH = 30;
 
 	private String mSymbolString;
+	
+	@Transient
+	private String mNormalizedSymbolString = null;
 
 	private TaxonLabel mTaxonLabel;
 	private CharacterMatrix mMatrix;
@@ -173,16 +175,30 @@ public class MatrixRow extends AbstractPersistedObject {
 	 *  
 	 * Note that this method post-processes the output of getSymbolString(), i.e.
 	 * if that method returns an {ACGT} this method replaces that with whatever
-	 * ambiguity mapping was provided. E.g. if the map pMapping holds a slot for 
+	 * ambiguity mapping was provided. E.g. if the mapper holds a slot for 
 	 * "ACGT" => "N" this method will return that N instead.
 	 * 
 	 * @return String 
 	 */	
 	@Transient
-	public String getSymbolString(Map<String,String> pMapping) {
-		String inputString = getSymbolString();
+	public String getNormalizedSymbolString() {
+		if ( null == mNormalizedSymbolString ) {
+			StateSetMapper mapper = StateSetMapper.createMapperForDataType(getMatrix().getDataType().getDescription());
+			String inputString = getSymbolString();
+			if ( null != mapper ) {
+				mNormalizedSymbolString = buildNormalizedSymbolString(mapper,inputString);
+			}
+			else {
+				mNormalizedSymbolString = inputString;
+			}
+		}
+		return mNormalizedSymbolString;
+	}
+	
+	@Transient
+	public static String buildNormalizedSymbolString(StateSetMapper mapper,String inputString) {
 		StringBuffer outputString = new StringBuffer();
-		List<Character> ambiguous = new ArrayList<Character>();
+		HashSet<Character> ambiguous = new HashSet<Character>();
 		boolean isAmbiguous = false;
 		for ( int i = 0; i < inputString.length(); i++ ) {
 			char current = inputString.charAt(i);
@@ -191,14 +207,18 @@ public class MatrixRow extends AbstractPersistedObject {
 				ambiguous.clear();
 				continue;
 			}
-			if ( current == '}' ) {
+			else if ( current == '}' ) {
 				isAmbiguous = false;
-				Collections.sort(ambiguous);
-				StringBuffer ambigBuffer = new StringBuffer();
-				ambigBuffer.append(ambiguous.toArray(new Character[ambiguous.size()]));
-				String ambigString = ambigBuffer.toString();
-				if ( pMapping.containsKey(ambigString) ) {
-					outputString.append(pMapping.get(ambigString));
+				if ( null != mapper ) {
+					outputString.append(mapper.getSymbolForAmbiguousSet(ambiguous));
+				}
+				else {
+					Iterator<Character> charIter = ambiguous.iterator();
+					outputString.append('{');
+					while ( charIter.hasNext() ) {
+						outputString.append(charIter.next());
+					}
+					outputString.append('}');
 				}
 				continue;
 			}
@@ -209,7 +229,7 @@ public class MatrixRow extends AbstractPersistedObject {
 				outputString.append(current);
 			}
 		}
-		return outputString.toString();
+		return outputString.toString();		
 	}
 
 	/**
