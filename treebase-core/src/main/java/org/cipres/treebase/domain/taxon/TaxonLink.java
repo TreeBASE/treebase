@@ -35,6 +35,7 @@ import org.cipres.treebase.domain.AbstractPersistedObject;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "taxonCache")
 public abstract class TaxonLink extends AbstractPersistedObject {
 
+	private static final long serialVersionUID = -7574323206006350976L;
 	private TaxonAuthority mAuthority;
 
 	/**

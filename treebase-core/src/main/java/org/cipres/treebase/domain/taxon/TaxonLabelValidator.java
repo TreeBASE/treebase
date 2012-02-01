@@ -1,6 +1,5 @@
 package org.cipres.treebase.domain.taxon;
 
-import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import org.cipres.treebase.domain.study.Study;
 
 public class TaxonLabelValidator implements Validator {
 
+	@SuppressWarnings("rawtypes")
 	public boolean supports(Class pClass) {
 		return TaxonLabel.class.equals(pClass);
 	}
@@ -34,7 +34,7 @@ public class TaxonLabelValidator implements Validator {
 		String valueLabelUC = valueLabel.toUpperCase();
 //		 Check for integer values, float are acceptable			
 		try{
-			BigInteger bigint = new  BigInteger(valueLabel);
+//			BigInteger bigint = new  BigInteger(valueLabel);
 //			long tmp = Long.parseLong(txnLabel.getTaxonLabel());
 			pError.rejectValue("taxonLabel", null, "Taxon Label cannot consist of integers alone.");
 						
