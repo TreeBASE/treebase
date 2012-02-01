@@ -29,6 +29,10 @@ import org.cipres.treebase.domain.TBPersistable;
 @DiscriminatorValue("-")
 public abstract class UserType extends AbstractPersistedObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 316466165026222673L;
 	private String mTitle;
 
 	/**
