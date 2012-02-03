@@ -3,6 +3,8 @@ package org.cipres.treebase.domain.nexus.nexml;
 import java.net.URI;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.cipres.treebase.Constants;
@@ -26,6 +28,8 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	protected static URI mStudyBaseURI = URI.create(Constants.BaseURI.toString() + "study/TB2:");	
 	public static String TreeBASE2Prefix = "TreeBASE2";
 	private Document mDocument;
+	private Map<Long,OTU> otuById = new HashMap<Long,OTU>();
+	private Map<Long,OTUs> otusById = new HashMap<Long,OTUs>();
 		
 	/**
 	 * 
@@ -44,20 +48,16 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		setDocument(document);
 	}
 	
+	/**
+	 * 
+	 * @param study
+	 * @param taxonLabelHome
+	 * @param document
+	 */
 	public NexmlObjectConverter(Study study, TaxonLabelHome taxonLabelHome, Document document) {
 		this(study,taxonLabelHome,document,mStudyBaseURI.toString());
 	}
 
-	
-	/**
-	 * 
-	 * @param tbPersistable
-	 * @return
-	 */
-//	private String makeNamespacedID (TBPersistable tbPersistable,Class<?> persistableClass) {
-//		TreebaseIDString tbIDString = new TreebaseIDString(persistableClass,tbPersistable.getId());
-//		return tbIDString.getNamespacedGUID().toString();
-//	}
 	
 	/**
 	 * 
@@ -91,8 +91,6 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 	 * @return
 	 */
 	protected Long readTreeBaseID(Annotatable annotatable) {
-		// we no longer need to read owl:sameAs annotations because we
-		// use the TreebaseIDString objects as xml IDs
 		try {
 			TreebaseIDString treebaseIDString = new TreebaseIDString(annotatable.getId());
 			return treebaseIDString.getId();
@@ -102,36 +100,68 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		return null;		
 	}
 	
+	/**
+	 * 
+	 * @param taxonLabelSetId
+	 * @return
+	 */
 	protected OTUs getOTUsById(Long taxonLabelSetId) {
 		logger.debug("Going to look for taxa block "+taxonLabelSetId);
+		if ( otusById.containsKey(taxonLabelSetId) ) {
+			return otusById.get(taxonLabelSetId);
+		}
 		for ( OTUs otus : getDocument().getOTUsList() ) {			
 			Long annotatedID = readTreeBaseID(otus);
 			logger.debug("Seen taxa block "+annotatedID);
 			if ( taxonLabelSetId.equals(annotatedID) ) {
+				otusById.put(taxonLabelSetId, otus);
 				return otus;
 			}
 		}	
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param otus
+	 * @param taxonLabelId
+	 * @return
+	 */
 	protected OTU getOTUById(OTUs otus,Long taxonLabelId) {
+		if ( otuById.containsKey(taxonLabelId) ) {
+			return otuById.get(taxonLabelId);
+		}
 		for ( OTU otu : otus.getAllOTUs() ) {
 			Long annotatedID = readTreeBaseID(otu);
 			if ( taxonLabelId.equals(annotatedID) ) {
+				otuById.put(taxonLabelId, otu);
 				return otu;
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Document getDocument() {
 		return mDocument;
 	}
 
+	/**
+	 * 
+	 * @param document
+	 */
 	public void setDocument(Document document) {
 		mDocument = document;
 	}
 	
+	/**
+	 * Encodes some common x(ht)ml entities
+	 * @param aText
+	 * @return
+	 */
 	public static String forXML(String aText){
 		final StringBuilder result = new StringBuilder();
 		final StringCharacterIterator iterator = new StringCharacterIterator(aText);
@@ -157,10 +187,18 @@ public class NexmlObjectConverter extends AbstractNexusConverter {
 		return result.toString();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public URI getBaseURI() {
 		return mBaseURI;
 	}
 
+	/**
+	 * 
+	 * @param baseURI
+	 */
 	public void setBaseURI(URI baseURI) {
 		mBaseURI = baseURI;
 	}	
