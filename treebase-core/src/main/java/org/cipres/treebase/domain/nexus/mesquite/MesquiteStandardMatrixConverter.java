@@ -535,7 +535,6 @@ public class MesquiteStandardMatrixConverter extends MesquiteMatrixConverter {
 		for (int rowIndex = 0; rowIndex < rowIds.length; rowIndex++) {
 
 			StringBuffer rowSymbols = symbolBufs.get(rowIndex);
-			char symbol = pMissingSymbol;
 
 			// convert the mesquite character state to treebase state:
 			long statesLong = categoricalData.getState(pColIndex, rowIndex);
@@ -688,6 +687,7 @@ public class MesquiteStandardMatrixConverter extends MesquiteMatrixConverter {
 	 * @param pStateIndex
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	private DiscreteMatrixElement createElement(
 		DiscreteChar pColumnChar,
 		String pStateName,
