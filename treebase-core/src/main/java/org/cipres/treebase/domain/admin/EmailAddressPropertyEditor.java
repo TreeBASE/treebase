@@ -3,8 +3,6 @@ package org.cipres.treebase.domain.admin;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.log4j.Logger;
-
 /**
  * EmailAddressPropertyEditor.java
  * 
@@ -14,7 +12,6 @@ import org.apache.log4j.Logger;
  * 
  */
 public class EmailAddressPropertyEditor extends PropertyEditorSupport {
-	private static final Logger LOGGER = Logger.getLogger(EmailAddressPropertyEditor.class);
 
 	@Override
 	public String getAsText() {
