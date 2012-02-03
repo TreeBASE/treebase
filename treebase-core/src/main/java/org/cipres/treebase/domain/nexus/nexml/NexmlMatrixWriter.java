@@ -26,6 +26,7 @@ import org.cipres.treebase.domain.matrix.RowSegment;
 import org.cipres.treebase.domain.matrix.StandardMatrix;
 import org.cipres.treebase.domain.matrix.StateSet;
 import org.cipres.treebase.domain.study.Study;
+import org.cipres.treebase.domain.taxon.SpecimenLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.nexml.model.Annotatable;
 import org.nexml.model.CategoricalMatrix;
@@ -51,22 +52,85 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 */
 	public NexmlMatrixWriter(Study study,TaxonLabelHome taxonLabelHome,Document document) {
 		super(study,taxonLabelHome,document);	
+	}
+	
+	/**
+	 * This is the method that is called by the NexmlDocumentWriter when turning
+	 * a study or data set into a NeXML document 
+	 * @param tbMatrix
+	 * @param xmlOTUs
+	 * @return
+	 * XXX doesn't handle the following data types: 	
+	 * public static final String MATRIX_DATATYPE_NUCLEOTIDE = "Nucleotide";
+	 * public static final String MATRIX_DATATYPE_DISTANCE = "Distance";
+	 * public static final String MATRIX_DATATYPE_MIXED = "Mixed";
+	 */		
+	public org.nexml.model.Matrix<?> fromTreeBaseToXml(CharacterMatrix tbMatrix,OTUs xmlOTUs) {
+		
+		// here we decide what subtype of character matrix to instantiate
+		org.nexml.model.Matrix<?> xmlMatrix = createMatrix(tbMatrix, xmlOTUs);
+		
+		// here we create column/character sets
+		createCharacterSets(tbMatrix, xmlMatrix);
+		
+		return xmlMatrix;
+	}
+
+
+
+	/**
+	 * 
+	 * @param tbMatrix
+	 * @param xmlOTUs
+	 * @return
+	 */
+	private org.nexml.model.Matrix<?> createMatrix(CharacterMatrix tbMatrix, OTUs xmlOTUs) {
+		
+		// here we decide what (super-)type to instantiate: discrete or continuous
+		if ( tbMatrix instanceof DiscreteMatrix ) {
+			org.nexml.model.Matrix<CharacterState> xmlDiscreteMatrix = null;
+			
+			// 'standard' data is treated separately because we don't have an alphabet for it
+			if ( tbMatrix.getDataType().getDescription().equals(MatrixDataType.MATRIX_DATATYPE_STANDARD) ) {
+				
+				// standard categorical
+				xmlDiscreteMatrix = createStandardNexmlMatrix((StandardMatrix) tbMatrix,xmlOTUs);
+			}
+			else {
+				
+				// molecular
+				xmlDiscreteMatrix = createMolecularNexmlMatrix((DiscreteMatrix) tbMatrix,xmlOTUs);				
+			}
+			populateDiscreteNexmlMatrix(xmlDiscreteMatrix,(DiscreteMatrix)tbMatrix);
+			return xmlDiscreteMatrix;
+		}
+		else if ( tbMatrix instanceof ContinuousMatrix ) {
+			
+			// continuous
+			org.nexml.model.ContinuousMatrix xmlContinuousMatrix = createContinuousNexmlMatrix((ContinuousMatrix) tbMatrix,xmlOTUs);			
+			populateContinuousNexmlMatrix(xmlContinuousMatrix,(ContinuousMatrix)tbMatrix);
+			return xmlContinuousMatrix;
+		}
+		return null;
 	}	
 	
 	
 	/**
 	 * Creates and populates characters (i.e. columns) with their annotations,
-	 * and state sets, with their annotations
+	 * and state sets, with their annotations. For standard data (including 
+	 * those matrices that are actually mostly molecular) we flatten the 
+	 * (fictional, but modeled) stateset mapping of all state symbols, plus
+	 * missing ('?') and gap ('-').
 	 * 
 	 * @param tbMatrix
 	 * @return an xml matrix with empty rows
 	 */
-	private CategoricalMatrix fromTreeBaseToXml(StandardMatrix tbMatrix,OTUs xmlOTUs) {
+	private CategoricalMatrix createStandardNexmlMatrix(StandardMatrix tbMatrix,OTUs xmlOTUs) {
 		if ( null == xmlOTUs ) {
 			xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
 		}
 		CategoricalMatrix xmlMatrix = getDocument().createCategoricalMatrix(xmlOTUs);		
-		setMatrixAttributes(xmlMatrix,tbMatrix);
+		copyMatrixAttributes(tbMatrix,xmlMatrix);
 		
 		// first flatten the two-dimensional list into a map, we will always only create a single state set
 		List<List<DiscreteCharState>> tbStateLabels = tbMatrix.getStateLabels();
@@ -94,6 +158,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			}				
 		}
 		
+		// the missing symbol ("?") includes all others, including gap ("-")
 		UncertainCharacterState gap = xmlStateSet.createUncertainCharacterState("-", new HashSet<CharacterState>());
 		gap.setLabel("-");
 		xmlMissingStates.add(gap);
@@ -105,31 +170,12 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 		for ( int i = 0; i < tbColumns.size(); i++ ) {
 			MatrixColumn tbColumn = tbColumns.get(i);			
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
-			setCharacterAttributes(tbColumn, xmlCharacter);
+			copyCharacterAttributes(tbColumn, xmlCharacter);
 		}		
 		return xmlMatrix;
 	}
-
-	private void setCharacterAttributes(MatrixColumn tbColumn,org.nexml.model.Character xmlCharacter) {
-		PhyloChar tbCharacter = tbColumn.getCharacter();
-		if ( null != tbCharacter.getDescription() ) {
-			xmlCharacter.setLabel(tbCharacter.getLabel());
-		}			
-		attachTreeBaseID((Annotatable)xmlCharacter,tbColumn,MatrixColumn.class);
-	}
-
-	private void setMatrixAttributes(org.nexml.model.Matrix<?> xmlMatrix,CharacterMatrix tbMatrix) {
-		// attach matrix identifiers
-		attachTreeBaseID((Annotatable)xmlMatrix, tbMatrix,Matrix.class);
-		String tb1MatrixID = tbMatrix.getTB1MatrixID();
-		if ( null != tb1MatrixID ) {
-			((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix.tb1", Constants.TBTermsURI, tb1MatrixID);
-		}		
-		
-		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
-		xmlMatrix.setBaseURI(mMatrixBaseURI);
-		xmlMatrix.setLabel(tbMatrix.getLabel());				
-	}	
+	
+	
 	
 	/**
 	 * Creates and populates characters (i.e. columns) with their annotations,
@@ -138,7 +184,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 * @param tbMatrix
 	 * @return an xml matrix with empty rows
 	 */	
-	private MolecularMatrix fromTreeBaseToXml(DiscreteMatrix tbMatrix,OTUs xmlOTUs) {
+	private MolecularMatrix createMolecularNexmlMatrix(DiscreteMatrix tbMatrix,OTUs xmlOTUs) {
 		if ( null == xmlOTUs ) {
 			xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
 		}
@@ -146,7 +192,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 		MolecularMatrix xmlMatrix = null;
 		CharacterStateSet xmlStateSet = null;
 		
-		// create the matrix and constant state set
+		// create the matrix and constant (IUPAC) state set
 		if ( tbDataType.equals(MatrixDataType.MATRIX_DATATYPE_DNA) ) {
 			xmlMatrix = getDocument().createMolecularMatrix(xmlOTUs, MolecularMatrix.DNA);
 			xmlStateSet = ((MolecularMatrix)xmlMatrix).getDNACharacterStateSet();
@@ -159,7 +205,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			xmlMatrix = getDocument().createMolecularMatrix(xmlOTUs, MolecularMatrix.Protein);
 			xmlStateSet = ((MolecularMatrix)xmlMatrix).getProteinCharacterStateSet();
 		}
-		setMatrixAttributes(xmlMatrix,tbMatrix);
+		copyMatrixAttributes(tbMatrix,xmlMatrix);
 		
 		// lookup the equivalent state in tb and attach identifiers
 		for(StateSet tbStateSet : tbMatrix.getStateSets() ) {
@@ -176,7 +222,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 		// create columns and attach identifiers
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter(xmlStateSet);
-			setCharacterAttributes(tbColumn, xmlCharacter);
+			copyCharacterAttributes(tbColumn, xmlCharacter);
 		}
 		return xmlMatrix;
 	}
@@ -188,16 +234,16 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 * @param tbMatrix
 	 * @return an xml matrix with empty rows
 	 */		
-	private org.nexml.model.ContinuousMatrix fromTreeBaseToXml(ContinuousMatrix tbMatrix,OTUs xmlOTUs) {
+	private org.nexml.model.ContinuousMatrix createContinuousNexmlMatrix(ContinuousMatrix tbMatrix,OTUs xmlOTUs) {
 		if ( null == xmlOTUs ) {
 			xmlOTUs = getOTUsById(tbMatrix.getTaxa().getId());
 		}
 		org.nexml.model.ContinuousMatrix xmlMatrix = getDocument().createContinuousMatrix(xmlOTUs);
-		setMatrixAttributes(xmlMatrix,tbMatrix);
+		copyMatrixAttributes(tbMatrix,xmlMatrix);
 		
 		for ( MatrixColumn tbColumn : tbMatrix.getColumnsReadOnly() ) {
 			org.nexml.model.Character xmlCharacter = xmlMatrix.createCharacter();
-			setCharacterAttributes(tbColumn, xmlCharacter);
+			copyCharacterAttributes(tbColumn, xmlCharacter);
 			
 			//coerce the tbMatrix into a character matrix to get its character sets
 			CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
@@ -225,35 +271,18 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 						nexSubset.addThing(nexCharacters.get(i));
 					}
 				}
-			}
-			
+			}			
 		}
 		
 		return xmlMatrix;
 	}
 	
-
-// XXX doesn't handle the following data types: 	
-//	public static final String MATRIX_DATATYPE_NUCLEOTIDE = "Nucleotide";
-//	public static final String MATRIX_DATATYPE_DISTANCE = "Distance";
-//	public static final String MATRIX_DATATYPE_MIXED = "Mixed";		
-	@SuppressWarnings("unchecked")
-	public org.nexml.model.Matrix<?> fromTreeBaseToXml(CharacterMatrix tbMatrix,OTUs xmlOTUs) {
-		org.nexml.model.Matrix<?> xmlMatrix = null;
-		if ( tbMatrix instanceof DiscreteMatrix ) {
-			if ( tbMatrix.getDataType().getDescription().equals(MatrixDataType.MATRIX_DATATYPE_STANDARD) ) {
-				xmlMatrix = fromTreeBaseToXml((StandardMatrix) tbMatrix,xmlOTUs);
-			}
-			else {
-				xmlMatrix = fromTreeBaseToXml((DiscreteMatrix) tbMatrix,xmlOTUs);				
-			}
-			populateXmlMatrix((org.nexml.model.Matrix<CharacterState>)xmlMatrix,(DiscreteMatrix)tbMatrix);
-		}
-		else if ( tbMatrix instanceof ContinuousMatrix ) {
-			xmlMatrix = fromTreeBaseToXml((ContinuousMatrix) tbMatrix,xmlOTUs);			
-			populateXmlMatrix((org.nexml.model.ContinuousMatrix)xmlMatrix,(ContinuousMatrix)tbMatrix);
-		}
-		
+	/**
+	 * 
+	 * @param tbMatrix
+	 * @param xmlMatrix
+	 */
+	private void createCharacterSets(CharacterMatrix tbMatrix, org.nexml.model.Matrix<?> xmlMatrix) {
 		// here we copy the character sets for all matrix types
 		Set<CharSet> tbCharSets = tbMatrix.getCharSets();
 		for ( CharSet tbCharSet : tbCharSets ) {
@@ -270,25 +299,24 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 				int tbInc = 1;
 				
 				// need to do this to prevent nullpointerexceptions
-				if ( null != tbColumnRange.getRepeatInterval()) {						
-					tbInc = tbColumnRange.getRepeatInterval();
+				Integer tbRepeatInterval = tbColumnRange.getRepeatInterval();
+				if ( null != tbRepeatInterval ) {						
+					tbInc = tbRepeatInterval;
 				}				
 				
 				// create the equivalent nexml character set
-				Subset nexSubset = xmlMatrix.createSubset(tbCharSet.getLabel());
+				Subset xmlSubset = xmlMatrix.createSubset(tbCharSet.getLabel());
 			
 				// assign character objects to the subset. Here we get the full list
-				List<org.nexml.model.Character> nexCharacters = xmlMatrix.getCharacters();
+				List<org.nexml.model.Character> xmlCharacters = xmlMatrix.getCharacters();
 		
 				// now we iterate over the coordinates and assign the nexml characters to the set
 				for ( int i = tbStart; i <= tbStop; i += tbInc ) {
-					nexSubset.addThing(nexCharacters.get(i));
+					xmlSubset.addThing(xmlCharacters.get(i));
 				}
 			}
 		}
-		
-		return xmlMatrix;
-	}
+	}	
 
 	/**
 	 * 
@@ -297,135 +325,17 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 * @param xmlOTUs
 	 * @param stateSet
 	 */
-	private void populateXmlMatrix(
-			org.nexml.model.Matrix<CharacterState> xmlMatrix,
-			DiscreteMatrix tbMatrix) {	
+	private void populateDiscreteNexmlMatrix(org.nexml.model.Matrix<CharacterState> xmlMatrix, DiscreteMatrix tbMatrix) {	
+		
 		OTUs xmlOTUs = xmlMatrix.getOTUs();
-		List<org.nexml.model.Character> characterList = xmlMatrix.getCharacters();
+		List<org.nexml.model.Character> xmlCharacters = xmlMatrix.getCharacters();
+		
+		// iterates over all matrix rows, i.e. ntax times
 		for ( MatrixRow tbRow : tbMatrix.getRowsReadOnly() ) {
 			Set<RowSegment> tbSegments = tbRow.getSegmentsReadOnly();
 			OTU xmlOTU = getOTUById(xmlOTUs, tbRow.getTaxonLabel().getId());
-			int charIndex = 0;
-			if ( characterList.size() <= MAX_GRANULAR_NCHAR && xmlOTUs.getAllOTUs().size() <= MAX_GRANULAR_NTAX ) {
-				for ( MatrixColumn tbColumn : ((CharacterMatrix)tbMatrix).getColumns() ) {
-					String seq = tbRow.getNormalizedSymbolString();
-					xmlMatrix.setSeq(seq, xmlOTU);
-					org.nexml.model.Character xmlCharacter = characterList.get(charIndex);
-					MatrixCell<CharacterState> xmlCell = xmlMatrix.getCell(xmlOTU, xmlCharacter);							
-		
-					attachTreeBaseID ((Annotatable) xmlCell,  tbColumn , DiscreteMatrixElement.class);
-				
-				//The following is commented out as tbRow.getElements() does not work directly and crashes the loop. 
-				//The above for loop fixes this issue. 
-				/*
-				for ( MatrixElement tbCell : tbRow.getElements() ) {
-					org.nexml.model.Character xmlCharacter = characterList.get(charIndex);
-					MatrixCell<CharacterState> xmlCell = xmlMatrix.getCell(xmlOTU, xmlCharacter);				
-					DiscreteCharState tbState = ((DiscreteMatrixElement)tbCell).getCharState();
-					String tbSymbolString = ( null == tbState ) ? "?" : tbState.getSymbol().toString();
-					CharacterState xmlState = xmlCharacter.getCharacterStateSet().lookupCharacterStateBySymbol(tbSymbolString);								
-					xmlCell.setValue(xmlState);								
-					attachTreeBaseID((Annotatable)xmlCell,tbCell,DiscreteMatrixElement.class);
-				*/
-					
-					for ( RowSegment tbSegment : tbSegments ) {
-						if ( tbSegment.getStartIndex() <= charIndex && charIndex <= tbSegment.getEndIndex() ) {
-							//declare variables for row-segment annotations
-							String title = tbSegment.getTitle();
-							String institutionCode = tbSegment.getSpecimenLabel().getInstAcronym();
-							String collectionCode = tbSegment.getSpecimenLabel().getCollectionCode();
-							String catalogNumber = tbSegment.getSpecimenLabel().getCatalogNumber();
-							String accessionNumber = tbSegment.getSpecimenLabel().getGenBankAccession();
-							String otherAccessionNumber = tbSegment.getSpecimenLabel().getOtherAccession();
-							String dateSampled = tbSegment.getSpecimenLabel().getSampleDateString();
-							String scientificName = tbSegment.getSpecimenTaxonLabelAsString();
-							String collector = tbSegment.getSpecimenLabel().getCollector();
-							Double latitude = tbSegment.getSpecimenLabel().getLatitude();
-							Double longitude = tbSegment.getSpecimenLabel().getLongitude();
-							Double elevation = tbSegment.getSpecimenLabel().getElevation();
-							String country = tbSegment.getSpecimenLabel().getCountry();
-							String state = tbSegment.getSpecimenLabel().getState();
-							String locality = tbSegment.getSpecimenLabel().getLocality();
-							String notes = tbSegment.getSpecimenLabel().getNotes();
-							
-							//if the value is not null, output the xmlOTU annotation.
-							//DwC refers to the Darwin Core term vocabulary for the associated annotation
-							if (null != title){
-								//output name identifying the data set from which the record was derived
-								((Annotatable)xmlCell).addAnnotationValue("DwC:datasetName", Constants.DwCURI, title);
-							}
-							if ( null != institutionCode ) {
-								//output name or acronym of institution that has custody of information referred to in record
-								((Annotatable)xmlCell).addAnnotationValue("DwC:institutionCode", Constants.DwCURI, institutionCode);
-							}
-							if ( null != collectionCode ) {
-								//output name or code that identifies collection or data set from which record was derived
-								((Annotatable)xmlCell).addAnnotationValue ("DwC:collectionCode", Constants.DwCURI, collectionCode);
-							}
-							if ( null != catalogNumber ){
-								//output unique (usually) identifier for the record within data set or collection
-								((Annotatable)xmlCell).addAnnotationValue("DwC:catalogNumber", Constants.DwCURI, catalogNumber);
-							}
-							if ( null != accessionNumber) {
-								//output a list of genetic sequence information associated with occurrence
-								((Annotatable)xmlCell).addAnnotationValue("DwC:associatedSequences", Constants.DwCURI, accessionNumber);
-							}
-							if ( null != otherAccessionNumber ) {
-								//list of previous or alternate fully catalog numbers (i.e. Genbank) or human-used identifiers 
-								((Annotatable)xmlCell).addAnnotationValue("DwC:otherCatalogNumbers", Constants.DwCURI, otherAccessionNumber);
-							}
-							if ( null != dateSampled ) {
-								//output date sampled in ISO 8601 format
-								((Annotatable)xmlCell).addAnnotationValue("DwC:eventDate", Constants.DwCURI, dateSampled);
-							}
-							if ( null != scientificName ) {
-								//output full scientific name
-								((Annotatable)xmlCell).addAnnotationValue("DwC:scientificName", Constants.DwCURI, scientificName);
-							}
-							if ( null != collector ) {
-								//output names of people associated with recording of original occurrence 
-								((Annotatable)xmlCell).addAnnotationValue("DwC:recordedBy", Constants.DwCURI, collector);
-							}
-							if ( null != latitude ) {
-								//output geographic latitude in decimal degrees using geodeticDatum spatial reference system
-								((Annotatable)xmlCell).addAnnotationValue("DwC:decimalLatitude", Constants.DwCURI, latitude);
-							}
-							if ( null != longitude ) {
-								//output geographic longitude in decimal degrees using geodeticDatum spatial reference system
-								((Annotatable)xmlCell).addAnnotationValue("DwC:decimalLongitude", Constants.DwCURI, longitude);
-							}
-							if ( null != elevation ) {
-								//there are two different Darwin Core terms for elevation depending on elevation value
-								//outputs geographic elevation of sample
-								if ( elevation >= 0) {
-									//above local surface in meters
-									((Annotatable)xmlCell).addAnnotationValue("DwC:verbatimElevation", Constants.DwCURI, elevation);
-								}
-								else {
-									//below local surface in meters
-									((Annotatable)xmlCell).addAnnotationValue("DwC:verbatimDepth", Constants.DwCURI, elevation);
-								}
-							}
-							if ( null != country ) {
-								//output country in which location occurs
-								((Annotatable)xmlCell).addAnnotationValue("DwC:country", Constants.DwCURI, country);
-							}
-							if ( null != state ) {
-								//output name of next smaller administrative region than country (i.e. state, province, region)
-								((Annotatable)xmlCell).addAnnotationValue ("DwC:stateProvince", Constants.DwCURI, state);
-							}
-							if ( null != locality) {
-								//output brief description of sample location
-								((Annotatable)xmlCell).addAnnotationValue("DwC:locality", Constants.DwCURI, locality);
-							}
-							if ( null != notes ) {
-								//output any additional information about specimen
-								((Annotatable)xmlCell).addAnnotationValue("DwC:occurenceRemarks", Constants.DwCURI, notes);
-							}
-						}
-					}
-					charIndex++;
-				}
+			if ( xmlCharacters.size() <= MAX_GRANULAR_NCHAR && xmlOTUs.getAllOTUs().size() <= MAX_GRANULAR_NTAX ) {
+				populateDiscreteVerboseNexmlMatrix(xmlMatrix,tbMatrix,xmlCharacters,tbRow,tbSegments,xmlOTU);
 			}
 			else {
 				String seq = tbRow.getNormalizedSymbolString();
@@ -439,102 +349,49 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 					}
 				}				
 				xmlMatrix.setSeq(seq,xmlOTU);
-			}
-			for ( RowSegment tbSegment : tbSegments ) {
-				//declare variables for row-segment annotations
-				String title = tbSegment.getTitle();
-				String institutionCode = tbSegment.getSpecimenLabel().getInstAcronym();
-				String collectionCode = tbSegment.getSpecimenLabel().getCollectionCode();
-				String catalogNumber = tbSegment.getSpecimenLabel().getCatalogNumber();
-				String accessionNumber = tbSegment.getSpecimenLabel().getGenBankAccession();
-				String otherAccessionNumber = tbSegment.getSpecimenLabel().getOtherAccession();
-				String dateSampled = tbSegment.getSpecimenLabel().getSampleDateString();
-				String scientificName = tbSegment.getSpecimenTaxonLabelAsString();
-				String collector = tbSegment.getSpecimenLabel().getCollector();
-				Double latitude = tbSegment.getSpecimenLabel().getLatitude();
-				Double longitude = tbSegment.getSpecimenLabel().getLongitude();
-				Double elevation = tbSegment.getSpecimenLabel().getElevation();
-				String country = tbSegment.getSpecimenLabel().getCountry();
-				String state = tbSegment.getSpecimenLabel().getState();
-				String locality = tbSegment.getSpecimenLabel().getLocality();
-				String notes = tbSegment.getSpecimenLabel().getNotes();
 				
-				//if the value is not null, output the xmlOTU annotation.
-				//DwC refers to the Darwin Core term vocabulary for the associated annotation
-				if (null != title){
-					//output name identifying the data set from which the record was derived
-					xmlOTU.addAnnotationValue("DwC:datasetName", Constants.DwCURI, title);
-				}
-				if ( null != institutionCode ) {
-					//output name or acronym of institution that has custody of information referred to in record
-					xmlOTU.addAnnotationValue("DwC:institutionCode", Constants.DwCURI, institutionCode);
-				}
-				if ( null != collectionCode ) {
-					//output name or code that identifies collection or data set from which record was derived
-					xmlOTU.addAnnotationValue ("DwC:collectionCode", Constants.DwCURI, collectionCode);
-				}
-				if ( null != catalogNumber ){
-					//output unique (usually) identifier for the record within data set or collection
-					xmlOTU.addAnnotationValue("DwC:catalogNumber", Constants.DwCURI, catalogNumber);
-				}
-				if ( null != accessionNumber) {
-					//output a list of genetic sequence information associated with occurrence
-					xmlOTU.addAnnotationValue("DwC:associatedSequences", Constants.DwCURI, accessionNumber);
-				}
-				if ( null != otherAccessionNumber ) {
-					//list of previous or alternate fully catalog numbers (i.e. Genbank) or human-used identifiers 
-					xmlOTU.addAnnotationValue("DwC:otherCatalogNumbers", Constants.DwCURI, otherAccessionNumber);
-				}
-				if ( null != dateSampled ) {
-					//output date sampled in ISO 8601 format
-					xmlOTU.addAnnotationValue("DwC:eventDate", Constants.DwCURI, dateSampled);
-				}
-				if ( null != scientificName ) {
-					//output full scientific name
-					xmlOTU.addAnnotationValue("DwC:scientificName", Constants.DwCURI, scientificName);
-				}
-				if ( null != collector ) {
-					//output names of people associated with recording of original occurrence 
-					xmlOTU.addAnnotationValue("DwC:recordedBy", Constants.DwCURI, collector);
-				}
-				if ( null != latitude ) {
-					//output geographic latitude in decimal degrees using geodeticDatum spatial reference system
-					xmlOTU.addAnnotationValue("DwC:decimalLatitude", Constants.DwCURI, latitude);
-				}
-				if ( null != longitude ) {
-					//output geographic longitude in decimal degrees using geodeticDatum spatial reference system
-					xmlOTU.addAnnotationValue("DwC:decimalLongitude", Constants.DwCURI, longitude);
-				}
-				if ( null != elevation ) {
-					//there are two different Darwin Core terms for elevation depending on elevation value
-					//outputs geographic elevation of sample
-					if ( elevation >= 0) {
-						//above local surface in meters
-						xmlOTU.addAnnotationValue("DwC:verbatimElevation", Constants.DwCURI, elevation);
-					}
-					else {
-						//below local surface in meters
-						xmlOTU.addAnnotationValue("DwC:verbatimDepth", Constants.DwCURI, elevation);
-					}
-				}
-				if ( null != country ) {
-					//output country in which location occurs
-					xmlOTU.addAnnotationValue("DwC:country", Constants.DwCURI, country);
-				}
-				if ( null != state ) {
-					//output name of next smaller administrative region than country (i.e. state, province, region)
-					xmlOTU.addAnnotationValue ("DwC:stateProvince", Constants.DwCURI, state);
-				}
-				if ( null != locality) {
-					//output brief description of sample location
-					xmlOTU.addAnnotationValue("DwC:locality", Constants.DwCURI, locality);
-				}
-				if ( null != notes ) {
-					//output any additional information about specimen
-					xmlOTU.addAnnotationValue("DwC:occurenceRemarks", Constants.DwCURI, notes);
-				}
+				// this often only happens once, when the row has only 1 segment
+				for ( RowSegment tbSegment : tbSegments ) {
+					copyDarwinCoreAnnotations(tbSegment, xmlOTU);
+				}				
 			}
 		}	
+	}
+
+	/**
+	 * 
+	 * @param xmlMatrix
+	 * @param tbMatrix
+	 * @param xmlCharacterList
+	 * @param tbRow
+	 * @param tbSegments
+	 * @param xmlOTU
+	 */
+	private void populateDiscreteVerboseNexmlMatrix(
+			org.nexml.model.Matrix<CharacterState> xmlMatrix,
+			DiscreteMatrix tbMatrix,
+			List<org.nexml.model.Character> xmlCharacterList,MatrixRow tbRow,
+			Set<RowSegment> tbSegments, OTU xmlOTU) {
+				
+		// iterates over all characters, i.e. nchar times
+		int charIndex = 0;
+		String seq = tbRow.getSymbolString();
+		for ( MatrixColumn tbColumn : ((CharacterMatrix)tbMatrix).getColumns() ) {
+			
+			org.nexml.model.Character xmlCharacter = xmlCharacterList.get(charIndex);
+			MatrixCell<CharacterState> xmlCell = xmlMatrix.getCell(xmlOTU, xmlCharacter);
+			String value = "" + seq.charAt(charIndex);
+			CharacterState xmlState = xmlMatrix.parseSymbol(value);
+			xmlCell.setValue(xmlState);
+			attachTreeBaseID ((Annotatable) xmlCell,  tbColumn , DiscreteMatrixElement.class);
+			
+			for ( RowSegment tbSegment : tbSegments ) {
+				if ( tbSegment.getStartIndex() <= charIndex && charIndex <= tbSegment.getEndIndex() ) {
+					copyDarwinCoreAnnotations(tbSegment, (Annotatable)xmlCell);
+				}
+			}
+			charIndex++;
+		}
 	}
 	
 	/**
@@ -542,7 +399,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 	 * @param xmlMatrix
 	 * @param tbMatrix
 	 */
-	private void populateXmlMatrix(org.nexml.model.ContinuousMatrix xmlMatrix,
+	private void populateContinuousNexmlMatrix(org.nexml.model.ContinuousMatrix xmlMatrix,
 			ContinuousMatrix tbMatrix) {
 		List<org.nexml.model.Character> characterList = xmlMatrix.getCharacters();
 		OTUs xmlOTUs = xmlMatrix.getOTUs();
@@ -563,100 +420,100 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			}
 			Set<RowSegment> tbSegments = tbRow.getSegmentsReadOnly();
 			for ( RowSegment tbSegment : tbSegments ) {
-				//declare variables for row-segment annotations
-				String title = tbSegment.getTitle();
-				String institutionCode = tbSegment.getSpecimenLabel().getInstAcronym();
-				String collectionCode = tbSegment.getSpecimenLabel().getCollectionCode();
-				String catalogNumber = tbSegment.getSpecimenLabel().getCatalogNumber();
-				String accessionNumber = tbSegment.getSpecimenLabel().getGenBankAccession();
-				String otherAccessionNumber = tbSegment.getSpecimenLabel().getOtherAccession();
-				String dateSampled = tbSegment.getSpecimenLabel().getSampleDateString();
-				String scientificName = tbSegment.getSpecimenTaxonLabelAsString();
-				String collector = tbSegment.getSpecimenLabel().getCollector();
-				Double latitude = tbSegment.getSpecimenLabel().getLatitude();
-				Double longitude = tbSegment.getSpecimenLabel().getLongitude();
-				Double elevation = tbSegment.getSpecimenLabel().getElevation();
-				String country = tbSegment.getSpecimenLabel().getCountry();
-				String state = tbSegment.getSpecimenLabel().getState();
-				String locality = tbSegment.getSpecimenLabel().getLocality();
-				String notes = tbSegment.getSpecimenLabel().getNotes();
-				
-				//if the value is not null, output the xmlOTU annotation.
-				//DwC refers to the Darwin Core term vocabulary for the associated annotation
-				if (null != title){
-					//output name identifying the data set from which the record was derived
-					xmlOTU.addAnnotationValue("DwC:datasetName", Constants.DwCURI, title);
-				}
-				if ( null != institutionCode ) {
-					//output name or acronym of institution that has custody of information referred to in record
-					xmlOTU.addAnnotationValue("DwC:institutionCode", Constants.DwCURI, institutionCode);
-				}
-				if ( null != collectionCode ) {
-					//output name or code that identifies collection or data set from which record was derived
-					xmlOTU.addAnnotationValue ("DwC:collectionCode", Constants.DwCURI, collectionCode);
-				}
-				if ( null != catalogNumber ){
-					//output unique (usually) identifier for the record within data set or collection
-					xmlOTU.addAnnotationValue("DwC:catalogNumber", Constants.DwCURI, catalogNumber);
-				}
-				if ( null != accessionNumber) {
-					//output a list of genetic sequence information associated with occurrence
-					xmlOTU.addAnnotationValue("DwC:associatedSequences", Constants.DwCURI, accessionNumber);
-				}
-				if ( null != otherAccessionNumber ) {
-					//list of previous or alternate fully catalog numbers (i.e. Genbank) or human-used identifiers 
-					xmlOTU.addAnnotationValue("DwC:otherCatalogNumbers", Constants.DwCURI, otherAccessionNumber);
-				}
-				if ( null != dateSampled ) {
-					//output date sampled in ISO 8601 format
-					xmlOTU.addAnnotationValue("DwC:eventDate", Constants.DwCURI, dateSampled);
-				}
-				if ( null != scientificName ) {
-					//output full scientific name
-					xmlOTU.addAnnotationValue("DwC:scientificName", Constants.DwCURI, scientificName);
-				}
-				if ( null != collector ) {
-					//output names of people associated with recording of original occurrence 
-					xmlOTU.addAnnotationValue("DwC:recordedBy", Constants.DwCURI, collector);
-				}
-				if ( null != latitude ) {
-					//output geographic latitude in decimal degrees using geodeticDatum spatial reference system
-					xmlOTU.addAnnotationValue("DwC:decimalLatitude", Constants.DwCURI, latitude);
-				}
-				if ( null != longitude ) {
-					//output geographic longitude in decimal degrees using geodeticDatum spatial reference system
-					xmlOTU.addAnnotationValue("DwC:decimalLongitude", Constants.DwCURI, longitude);
-				}
-				if ( null != elevation ) {
-					//there are two different Darwin Core terms for elevation depending on elevation value
-					//outputs geographic elevation of sample
-					if ( elevation >= 0) {
-						//above local surface in meters
-						xmlOTU.addAnnotationValue("DwC:verbatimElevation", Constants.DwCURI, elevation);
-					}
-					else {
-						//below local surface in meters
-						xmlOTU.addAnnotationValue("DwC:verbatimDepth", Constants.DwCURI, elevation);
-					}
-				}
-				if ( null != country ) {
-					//output country in which location occurs
-					xmlOTU.addAnnotationValue("DwC:country", Constants.DwCURI, country);
-				}
-				if ( null != state ) {
-					//output name of next smaller administrative region than country (i.e. state, province, region)
-					xmlOTU.addAnnotationValue ("DwC:stateProvince", Constants.DwCURI, state);
-				}
-				if ( null != locality) {
-					//output brief description of sample location
-					xmlOTU.addAnnotationValue("DwC:locality", Constants.DwCURI, locality);
-				}
-				if ( null != notes ) {
-					//output any additional information about specimen
-					xmlOTU.addAnnotationValue("DwC:occurenceRemarks", Constants.DwCURI, notes);
-				}
+				copyDarwinCoreAnnotations(tbSegment,xmlOTU);
 			}
 		}		
+	}	
+
+	/**
+	 * 
+	 * @param tbSegment
+	 * @param xmlAnnotatable
+	 */
+	private void copyDarwinCoreAnnotations(RowSegment tbSegment, Annotatable xmlAnnotatable) {
+		
+		SpecimenLabel tbSpec = tbSegment.getSpecimenLabel();		
+		Map<String,String> predicateToObjectMap = new HashMap<String,String>();
+		
+		predicateToObjectMap.put("DwC:institutionCode", tbSpec.getInstAcronym());
+		predicateToObjectMap.put("DwC:collectionCode", tbSpec.getCollectionCode());
+		predicateToObjectMap.put("DwC:catalogNumber", tbSpec.getCatalogNumber());
+		predicateToObjectMap.put("DwC:associatedSequences", tbSpec.getGenBankAccession());
+		predicateToObjectMap.put("DwC:otherCatalogNumbers", tbSpec.getOtherAccession());
+		predicateToObjectMap.put("DwC:eventDate", tbSpec.getSampleDateString());
+		predicateToObjectMap.put("DwC:scientificName", tbSegment.getSpecimenTaxonLabelAsString());
+		predicateToObjectMap.put("DwC:recordedBy", tbSpec.getCollector());
+		predicateToObjectMap.put("DwC:country", tbSpec.getCountry());
+		predicateToObjectMap.put("DwC:locality", tbSpec.getLocality());
+		predicateToObjectMap.put("DwC:stateProvince", tbSpec.getState());
+		predicateToObjectMap.put("DwC:datasetName", tbSegment.getTitle());
+		predicateToObjectMap.put("DwC:occurenceRemarks", tbSpec.getNotes());
+		
+		for ( String predicate : predicateToObjectMap.keySet() ) {
+			String objectString = predicateToObjectMap.get(predicate);
+			if ( null != objectString ) {
+				xmlAnnotatable.addAnnotationValue(predicate, Constants.DwCURI, objectString);
+			}
+		}
+
+		//output geographic latitude in decimal degrees using geodeticDatum spatial reference system
+		Double latitude = tbSpec.getLatitude();
+		if ( null != latitude ) {			
+			xmlAnnotatable.addAnnotationValue("DwC:decimalLatitude", Constants.DwCURI, latitude);
+		}
+		
+		//output geographic longitude in decimal degrees using geodeticDatum spatial reference system
+		Double longitude = tbSpec.getLongitude();
+		if ( null != longitude ) {			
+			xmlAnnotatable.addAnnotationValue("DwC:decimalLongitude", Constants.DwCURI, longitude);
+		}
+		
+		//there are two different Darwin Core terms for elevation depending on elevation value
+		//outputs geographic elevation of sample		
+		Double elevation = tbSpec.getElevation();
+		if ( null != elevation ) {
+			if ( elevation >= 0) {
+				//above local surface in meters
+				xmlAnnotatable.addAnnotationValue("DwC:verbatimElevation", Constants.DwCURI, elevation);
+			}
+			else {
+				//below local surface in meters
+				xmlAnnotatable.addAnnotationValue("DwC:verbatimDepth", Constants.DwCURI, elevation);
+			}
+		}
 	}
+	
+	/**
+	 * 
+	 * @param tbColumn
+	 * @param xmlCharacter
+	 */
+
+	private void copyCharacterAttributes(MatrixColumn tbColumn,org.nexml.model.Character xmlCharacter) {
+		PhyloChar tbCharacter = tbColumn.getCharacter();
+		if ( null != tbCharacter.getDescription() ) {
+			xmlCharacter.setLabel(tbCharacter.getLabel());
+		}			
+		attachTreeBaseID((Annotatable)xmlCharacter,tbColumn,MatrixColumn.class);
+	}
+
+	/**
+	 * 
+	 * @param tbMatrix
+	 * @param xmlMatrix
+	 */
+	private void copyMatrixAttributes(CharacterMatrix tbMatrix,org.nexml.model.Matrix<?> xmlMatrix) {
+		// attach matrix identifiers
+		attachTreeBaseID((Annotatable)xmlMatrix, tbMatrix,Matrix.class);
+		String tb1MatrixID = tbMatrix.getTB1MatrixID();
+		if ( null != tb1MatrixID ) {
+			((Annotatable)xmlMatrix).addAnnotationValue("tb:identifier.matrix.tb1", Constants.TBTermsURI, tb1MatrixID);
+		}		
+		
+		xmlMatrix.addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
+		xmlMatrix.setBaseURI(mMatrixBaseURI);
+		xmlMatrix.setLabel(tbMatrix.getLabel());				
+	}		
+
 
 }
