@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-import org.apache.log4j.Logger;
 import org.cipres.treebase.domain.AbstractPersistedObject;
 
 /**
@@ -22,7 +21,6 @@ import org.cipres.treebase.domain.AbstractPersistedObject;
 // @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "staticCache")
 public class Help extends AbstractPersistedObject {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(Help.class);
 
 	private String tag;	// Convenient short identifier for this help text
 
