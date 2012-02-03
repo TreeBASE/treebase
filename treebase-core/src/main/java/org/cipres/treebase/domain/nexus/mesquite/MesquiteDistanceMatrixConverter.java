@@ -6,7 +6,6 @@ import java.sql.Connection;
 import mesquite.lib.characters.CharacterData;
 
 import org.cipres.treebase.dao.jdbc.MatrixJDBC;
-import org.cipres.treebase.domain.matrix.DistanceMatrix;
 import org.cipres.treebase.domain.matrix.MatrixRow;
 
 /**
@@ -33,8 +32,6 @@ public class MesquiteDistanceMatrixConverter extends MesquiteMatrixConverter {
 	@Override
 	protected MatrixJDBC createMatrix(CharacterData pMesqMatrix) {
 		// TODO: createMatrix
-		DistanceMatrix m = new DistanceMatrix();
-
 		return null;
 	}
 
