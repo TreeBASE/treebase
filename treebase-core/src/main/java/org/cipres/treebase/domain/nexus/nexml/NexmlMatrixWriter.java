@@ -43,8 +43,8 @@ import org.nexml.model.UncertainCharacterState;
 
 public class NexmlMatrixWriter extends NexmlObjectConverter {
 
-	private static final int MAX_GRANULAR_NCHAR = 1000;
-	private static final int MAX_GRANULAR_NTAX = 30;
+	private static final int MAX_GRANULAR_NCHAR = 0;
+	private static final int MAX_GRANULAR_NTAX = 0;
 
 	/**
 	 * 
