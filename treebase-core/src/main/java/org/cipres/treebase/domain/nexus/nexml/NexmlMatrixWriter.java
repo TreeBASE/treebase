@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.cipres.treebase.Constants;
+import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.matrix.CharSet;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.ColumnRange;
@@ -451,7 +452,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 		
 		for ( String predicate : predicateToObjectMap.keySet() ) {
 			String objectString = predicateToObjectMap.get(predicate);
-			if ( null != objectString ) {
+			if ( ! TreebaseUtil.isEmpty(objectString) ) {
 				xmlAnnotatable.addAnnotationValue(predicate, Constants.DwCURI, objectString);
 			}
 		}
