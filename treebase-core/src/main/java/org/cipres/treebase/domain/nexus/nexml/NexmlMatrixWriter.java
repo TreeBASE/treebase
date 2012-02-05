@@ -353,10 +353,11 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 					}
 				}
 				xmlMatrix.setSeq(seq,xmlOTU);
+				org.nexml.model.MatrixRow<CharacterState> xmlRow = xmlMatrix.getRowObject(xmlOTU);
+				attachTreeBaseID(xmlRow, tbRow, MatrixRow.class);
 				
 				// this often only happens once, when the row has only 1 segment
-				for ( RowSegment tbSegment : tbSegments ) {
-					org.nexml.model.MatrixRow<CharacterState> xmlRow = xmlMatrix.getRowObject(xmlOTU);
+				for ( RowSegment tbSegment : tbSegments ) {					
 					Annotation xmlSegment = xmlRow.addAnnotationValue("tb:rowSegment", Constants.TBTermsURI, new String());
 					xmlSegment.addAnnotationValue("tb:startIndex", Constants.TBTermsURI, tbSegment.getStartIndex());
 					xmlSegment.addAnnotationValue("tb:endIndex", Constants.TBTermsURI, tbSegment.getEndIndex());
@@ -427,8 +428,9 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 				xmlMatrix.setSeq(seq,xmlOTU);
 			}
 			Set<RowSegment> tbSegments = tbRow.getSegmentsReadOnly();
-			for ( RowSegment tbSegment : tbSegments ) {
-				org.nexml.model.MatrixRow<Double> xmlRow = xmlMatrix.getRowObject(xmlOTU);
+			org.nexml.model.MatrixRow<Double> xmlRow = xmlMatrix.getRowObject(xmlOTU);
+			attachTreeBaseID(xmlRow, tbRow, MatrixRow.class);
+			for ( RowSegment tbSegment : tbSegments ) {				
 				Annotation xmlSegment = xmlRow.addAnnotationValue("tb:rowSegment", Constants.TBTermsURI, new String());
 				xmlSegment.addAnnotationValue("tb:startIndex", Constants.TBTermsURI, tbSegment.getStartIndex());
 				xmlSegment.addAnnotationValue("tb:endIndex", Constants.TBTermsURI, tbSegment.getEndIndex());				
