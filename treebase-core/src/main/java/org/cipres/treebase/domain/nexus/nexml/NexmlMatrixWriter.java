@@ -30,6 +30,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.SpecimenLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.nexml.model.Annotatable;
+import org.nexml.model.Annotation;
 import org.nexml.model.CategoricalMatrix;
 import org.nexml.model.CharacterState;
 import org.nexml.model.CharacterStateSet;
@@ -340,6 +341,8 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			}
 			else {
 				String seq = tbRow.getNormalizedSymbolString();
+				
+				// In NeXML, 'standard' data needs to be space-separated
 				if ( tbMatrix.getDataType().getDescription().equals(MatrixDataType.MATRIX_DATATYPE_STANDARD) ) {
 					StringBuilder sb = new StringBuilder();
 					for ( int i = 0; i < seq.length(); i++ ) {
@@ -348,19 +351,23 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 							sb.append(' ');
 						}
 					}
-				}				
+				}
 				xmlMatrix.setSeq(seq,xmlOTU);
 				
 				// this often only happens once, when the row has only 1 segment
 				for ( RowSegment tbSegment : tbSegments ) {
-					copyDarwinCoreAnnotations(tbSegment, xmlOTU);
+					org.nexml.model.MatrixRow<CharacterState> xmlRow = xmlMatrix.getRowObject(xmlOTU);
+					Annotation xmlSegment = xmlRow.addAnnotationValue("tb:rowSegment", Constants.TBTermsURI, new String());
+					xmlSegment.addAnnotationValue("tb:startIndex", Constants.TBTermsURI, tbSegment.getStartIndex());
+					xmlSegment.addAnnotationValue("tb:endIndex", Constants.TBTermsURI, tbSegment.getEndIndex());
+					copyDarwinCoreAnnotations(tbSegment, xmlSegment);
 				}				
 			}
 		}	
 	}
 
 	/**
-	 * 
+	 * XXX this never executes, we always make compact matrices - RAV 5/2/2012
 	 * @param xmlMatrix
 	 * @param tbMatrix
 	 * @param xmlCharacterList
@@ -421,7 +428,11 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			}
 			Set<RowSegment> tbSegments = tbRow.getSegmentsReadOnly();
 			for ( RowSegment tbSegment : tbSegments ) {
-				copyDarwinCoreAnnotations(tbSegment,xmlOTU);
+				org.nexml.model.MatrixRow<Double> xmlRow = xmlMatrix.getRowObject(xmlOTU);
+				Annotation xmlSegment = xmlRow.addAnnotationValue("tb:rowSegment", Constants.TBTermsURI, new String());
+				xmlSegment.addAnnotationValue("tb:startIndex", Constants.TBTermsURI, tbSegment.getStartIndex());
+				xmlSegment.addAnnotationValue("tb:endIndex", Constants.TBTermsURI, tbSegment.getEndIndex());				
+				copyDarwinCoreAnnotations(tbSegment,xmlSegment);
 			}
 		}		
 	}	
