@@ -203,10 +203,6 @@ public class RangeExpression {
 			type = t;
 		}
 
-		public String getToken() {
-			return token;
-		}
-
 		public Integer getInteger() {
 			return type == tokenType.Num ? new Integer(token) : null;
 		}
