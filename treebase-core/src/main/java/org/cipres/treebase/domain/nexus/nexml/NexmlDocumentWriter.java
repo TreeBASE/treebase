@@ -1,5 +1,6 @@
 package org.cipres.treebase.domain.nexus.nexml;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -77,7 +78,10 @@ public class NexmlDocumentWriter extends NexmlObjectConverter {
 	 */
 	public Document fromTreeBaseToXml(Study pStudy) {
 		attachTreeBaseID(getDocument(), pStudy,Study.class);
+		Date d = new Date();
 		getDocument().addAnnotationValue("skos:historyNote", Constants.SKOSURI, "Mapped from TreeBASE schema using "+this.toString()+" $Rev$");
+		getDocument().addAnnotationValue("skos:changeNote", Constants.SKOSURI, "Generated on "+d.toString());
+		getDocument().setAbout("#" + pStudy.getTreebaseIDString().toString());
 		
 		NexmlOTUWriter noc = new NexmlOTUWriter(getStudy(),getTaxonLabelHome(),getDocument());
 		for ( TaxonLabelSet taxonLabelSet : pStudy.getTaxonLabelSets() ) {
