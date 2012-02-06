@@ -3,14 +3,8 @@ package org.cipres.treebase;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CodingErrorAction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -18,7 +12,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Properties;
 import java.util.TimeZone;
 
 import javax.naming.InitialContext;
@@ -244,14 +237,14 @@ public class TreebaseUtil {
 	 * @param pAllElement
 	 * @return
 	 */
-	public static String printElement(Collection pCollection, boolean pAllElement) {
+	public static String printElement(Collection<?> pCollection, boolean pAllElement) {
 		int size = pCollection.size();
 		if (!pAllElement && size > 10) {
 			size = 10;
 		}
 
 		StringBuffer buf = new StringBuffer();
-		Iterator iter = pCollection.iterator();
+		Iterator<?> iter = pCollection.iterator();
 		for (int i = 0; i < size; i++) {
 			buf.append(i).append("= ").append(iter.next()).append(ANEMPTYSPACE);
 		}
