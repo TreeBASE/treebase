@@ -25,13 +25,6 @@
 	</display:column>
 
 				
-	<display:column property="name" title="Taxon Label"
-		sortable="true"/>
-				
-	
-	<%-- display:column property="title" title="uBIO Full Name" 
-		sortable="true" style="text-align:center; width:10%"/ --%>
-	
 	<display:column property="name" title="Taxon Name" 
 		sortable="true"/>
 
@@ -59,7 +52,7 @@
 	<display:footer>
 		<tr>
 			<!--  this id is important, because we might add additional buttons here -->
-    		<td colspan="5" align="center" id="buttonContainer">
+    		<td colspan="4" align="center" id="buttonContainer">
 				<!--  insert additional controls here -->
         	</td>
     	</tr>
