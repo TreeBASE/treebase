@@ -20,6 +20,14 @@
 				<li><a href="<c:url value="/journal.html"/>"><fmt:message key="nav.journals"/></a></li>
 				<li><a href="<c:url value="/contact.html"/>"><fmt:message key="nav.contact"/></a></li>			
 			</ul>
+			<center>
+				<a href="http://twitter.com/treebase" title="Follow @TreeBASE on Twitter">
+					<img src="<c:url value="images/twitter-logo.png" alt="Follow @TreeBASE on twitter"/>
+				</a>
+				<a href="http://www.mendeley.com/groups/734351/treebase/" title="All publications in TreeBASE on Mendeley">
+					<img src="<c:url value="images/mendeley-logo.png" alt="All publications in TreeBASE on Mendeley">
+				</a>
+			</center>
 		</div>
 	</div>
 	<img src="<c:url value="images/footer_bg.gif"/>" style="width:100%" alt="" />
