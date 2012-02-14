@@ -20,7 +20,8 @@
 				<li><a href="<c:url value="/journal.html"/>"><fmt:message key="nav.journals"/></a></li>
 				<li><a href="<c:url value="/contact.html"/>"><fmt:message key="nav.contact"/></a></li>			
 			</ul>
-		</div>			
+		</div>	
+		<br />		
 		<center>
 			<a href="http://www.mendeley.com/groups/734351/treebase/" title="All publications in TreeBASE on Mendeley">
 				<img src="<c:url value="images/mendeley-logo.png"/>" alt="All publications in TreeBASE on Mendeley" />
