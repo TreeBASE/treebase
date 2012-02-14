@@ -101,7 +101,8 @@
 	<display:footer>
 		<tr>
 			<!--  this id is important, because we might add additional buttons here -->
-    		<td colspan="7" align="center" id="buttonContainer">
+			<!--  also, the colspan number should match the number of preceding display:column elements -->
+    		<td colspan="9" align="center" id="buttonContainer">
 				<!--  insert additional controls here -->
         	</td>
     	</tr>
