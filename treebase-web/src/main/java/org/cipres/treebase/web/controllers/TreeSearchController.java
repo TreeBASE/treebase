@@ -203,7 +203,7 @@ public class TreeSearchController extends SearchController {
 			
 		case byQuality:
 			matches = phyloTreeService
-	  		.findSomethingByItsDescription(PhyloTree.class, "quality", searchTerm, true);
+	  		.findSomethingByItsDescription(PhyloTree.class, "treeQuality", searchTerm, true);
 			break;
 
 		case byTitle:
