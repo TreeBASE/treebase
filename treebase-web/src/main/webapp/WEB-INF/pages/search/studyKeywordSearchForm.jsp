@@ -8,6 +8,7 @@
 	searchOptions.put("abstractKeyword", "Abstract");
 	searchOptions.put("citationKeyword", "Entire citation");
 	searchOptions.put("textKeyword", "All text");
+	searchOptions.put("doiKeyword", "DOI");
 	
 	pageContext.setAttribute("searchOptions", searchOptions);
 
