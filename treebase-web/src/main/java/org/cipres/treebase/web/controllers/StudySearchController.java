@@ -92,7 +92,8 @@ public class StudySearchController extends SearchController {
 		byCreationDate,
 		byPublicationDate,
 		byReleaseDate,
-		byLastModifiedDate
+		byLastModifiedDate,
+		byDOI
 	}
 
 	protected ModelAndView onSubmit(
@@ -141,7 +142,10 @@ public class StudySearchController extends SearchController {
 				searchType = SearchType.inCitation;
 			} else if (buttonName.equals("abstractKeyword")) {
 				searchType = SearchType.inAbstract;
-			} else {
+			} else if (buttonName.equals("doiKeyword")) {
+				searchType = SearchType.byDOI;
+			}
+			else {
 				throw new Error("Unknown search button name '" + buttonName + "'");
 			}
 			// XXX we now never do an exact match with terms provided through the web app. We can change
@@ -222,7 +226,10 @@ public class StudySearchController extends SearchController {
 				results.addAll(doSearch(request,response, SearchType.byPublicationDate, errors, term.getTerm(),exactMatch,relation));	
 			} else if ( index.startsWith("prism.modificationDate") ) {
 				results.addAll(doSearch(request,response, SearchType.byLastModifiedDate, errors, term.getTerm(),exactMatch,relation));								
-			} else {
+			} else if ( index.startsWith("prism.doi") ) {
+				results.addAll(doSearch(request,response,SearchType.byDOI, errors, term.getTerm(), exactMatch,relation));
+			}
+			else {
 				// issue warnings
 				addMessage(request, "Unsupported index: " + index);
 			}		
@@ -241,7 +248,7 @@ public class StudySearchController extends SearchController {
 			boolean exactMatch, CQLRelation relation) throws InstantiationException, ParseException {
 		
 		String keywordSearchTerm = "%" + searchTerm + "%";
-		Collection<Study> matches;
+		Collection<Study> matches = new HashSet<Study>();
 		StudyService studyService = getSearchService().getStudyService();
 		SubmissionService submissionService =  getSearchService().getSubmissionService();
 				
@@ -290,6 +297,14 @@ public class StudySearchController extends SearchController {
 			case byCreationDate:
 				matches = findByCreationDate(searchTerm, relation, submissionService);
 				break;
+			case byDOI:
+			{
+				Study result = studyService.findByDOI(searchTerm);
+				if ( null != result ) {
+					matches.add(result);
+				}
+				break;
+			}
 			case byJournal:
 			{
 				if ( exactMatch ) {
