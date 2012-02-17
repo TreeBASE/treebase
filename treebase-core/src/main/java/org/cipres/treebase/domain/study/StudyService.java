@@ -204,4 +204,11 @@ public interface StudyService extends AbstractService {
 	 * @author mjd 20080813
 	 */
 	Collection<Study> findByTaxonLabelName(String taxonLabel);
+	
+	/**
+	 * Return the study for publication with provided DOI
+	 * @param doi
+	 * @return
+	 */
+	Study findByDOI(String doi);
 }

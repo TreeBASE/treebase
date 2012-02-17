@@ -368,6 +368,11 @@ public class AuxDataTest extends TestCase {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+		public Study findByDOI(String doi) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 }
 

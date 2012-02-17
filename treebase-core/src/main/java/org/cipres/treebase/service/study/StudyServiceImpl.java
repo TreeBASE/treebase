@@ -19,6 +19,7 @@ import org.cipres.treebase.domain.admin.UserRole.TBPermission;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.matrix.MatrixHome;
 import org.cipres.treebase.domain.study.AnalysisService;
+import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.CitationService;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyCriteria;
@@ -532,5 +533,15 @@ public class StudyServiceImpl extends AbstractServiceImpl implements StudyServic
 
 	public Collection<Study> findByPublicationDateRange(Date from, Date until) {
 		return getStudyHome().findByPublicationDateRange(from, until);
+	}
+
+	public Study findByDOI(String doi) {
+		Citation citation = getCitationService().findByDOI(doi);
+		if ( null != citation ) {
+			return citation.getStudy();
+		}
+		else {
+			return null;
+		}
 	}
 }

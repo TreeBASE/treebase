@@ -2,6 +2,7 @@
 package org.cipres.treebase.service.study;
 
 import java.util.Calendar;
+import java.util.Collection;
 
 import org.cipres.treebase.domain.DomainHome;
 import org.cipres.treebase.domain.study.Citation;
@@ -159,6 +160,20 @@ public class CitationServiceImpl extends AbstractServiceImpl implements Citation
 	@Override
 	public Class defaultResultClass() {
 		return Citation.class;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.cipres.treebase.domain.study.CitationService#findByDOI(java.lang.String)
+	 */
+	public Citation findByDOI(String doi) {
+		Collection<Citation> results = findSomethingByString(Citation.class, "doi", doi);
+		if ( null != results && ! results.isEmpty() ) {
+			return results.iterator().next();
+		}
+		else {
+			return null;
+		}
 	}
 
 }

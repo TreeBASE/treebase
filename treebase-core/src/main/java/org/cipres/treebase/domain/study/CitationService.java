@@ -44,5 +44,12 @@ public interface CitationService extends AbstractService {
 	 * @param pCitation
 	 */
 	void replaceCitation(Study pStudy, Citation pCitation);
+	
+	/**
+	 * Find the citation with the provided doi
+	 * @param doi
+	 * @return
+	 */
+	Citation findByDOI(String doi);
 
 }
