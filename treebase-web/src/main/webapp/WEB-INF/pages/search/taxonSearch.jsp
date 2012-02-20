@@ -25,8 +25,9 @@
 
 <c:set var="searchType" value="taxon" scope="request"/>
 
-<jsp:include page="taxonSearchForm.jsp"/>
+<%--jsp:include page="taxonSearchForm.jsp"/ --%>
 
+<jsp:include page="simpleSearchForm.jsp"/>
 
 <div id="s-clear"></div>
 
