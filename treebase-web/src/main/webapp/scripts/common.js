@@ -244,7 +244,8 @@ TreeBASE.expandQuery = function () {
 
 // splits a string on words (including curies) and quoted phrases
 TreeBASE.splitWords = function(query){
-  return query.match(/[A-Za-z0-9:]+|"[^"]+"|'[^']+'/g);
+  //return query.match(/[A-Za-z0-9: ]+|"[^"]+"|'[^']+'|/g);
+	return query.split(",");
 };
 
 // infers whether a search word is an identifier or a string
