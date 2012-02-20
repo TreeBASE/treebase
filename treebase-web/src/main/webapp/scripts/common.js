@@ -222,3 +222,52 @@ TreeBASE.collapseExpand = function(id,displayAs,link) {
 		link.title='expand';
 	}
 }
+//expands what a user types in the text box into a PhyloWS query
+TreeBASE.expandQuery = function () {
+  var query = $('query').value;
+  var split = TreeBASE.splitWords(query);
+  var terms = new Array();
+  for ( var i = 0; i < split.length; i++ ) {
+    var type = TreeBASE.inferType(split[i]);
+    var index = predicates[type];
+    for ( var j = 0; j < index.length; j++ ) {
+      terms.push( index[j] + '=' + split[i] );
+    }
+  }
+  var joiner = ' or ';
+  if ( $('all').checked ) {
+    joiner = ' and ';
+  }
+  $('expanded').value = terms.join(joiner);
+  return false;
+};
+
+// splits a string on words (including curies) and quoted phrases
+TreeBASE.splitWords = function(query){
+  return query.match(/[A-Za-z0-9:]+|"[^"]+"|'[^']+'/g);
+};
+
+// infers whether a search word is an identifier or a string
+TreeBASE.inferType = function(word) {
+  if ( word.match(/^([A-Z][a-z]*)\d+$/) ) {
+    return 'id';
+  }
+  else if ( word.match(/^\d+$/) ) {
+    return 'integer';
+  }
+  else if ( word.match(/^doi:.+$/) ) {
+    return 'doi';
+  }
+  else if ( word.match(/^pmid:.+$/) ) {
+    return 'pubmed';
+  }
+  else {
+    return 'word';
+  }
+};
+
+// redirects to the phylows api
+TreeBASE.redirect = function(newLocation){
+  window.location = newLocation;
+  return false;
+};
