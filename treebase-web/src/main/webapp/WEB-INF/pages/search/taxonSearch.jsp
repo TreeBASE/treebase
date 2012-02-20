@@ -27,7 +27,15 @@
 
 <%--jsp:include page="taxonSearchForm.jsp"/ --%>
 
+<fieldset>
+	<legend>
+	  	Taxon search
+		<a href="#" class="openHelp" onclick="openHelp('taxonSearchTextSearch')">
+			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
+		</a>	  		
+	</legend>
 <jsp:include page="simpleSearchForm.jsp"/>
+</fieldset>
 
 <div id="s-clear"></div>
 
