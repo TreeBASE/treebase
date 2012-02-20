@@ -8,6 +8,21 @@
 
 <div id="s-clear"></div>
 
+<script type="text/javascript">
+  //<![CDATA[
+    // These are the mappings from inferred search term types to search predicates for this scope
+    var predicates = {
+      'integer' : [ 'tb.identifier.ncbi', 'tb.identifier.ubio', 'tb.identifier.taxon', 'tb.identifier.taxon.tb1' ],
+      'id' : [ 'tb.identifier.ncbi', 'tb.identifier.ubio', 'tb.identifier.taxon', 'tb.identifier.taxon.tb1' ],
+      'word' : [ 'tb.title.taxon', 'tb.title.taxonLabel', 'tb.title.taxonVariant' ],
+      'doi' : [ 'prism.doi' ] // this doesn't work yet, we have no search on doi
+    };
+    
+ 	// purlBase is assigned in /common/search-nav.jsp
+    var phyloWSURI = purlBase + 'taxon/find?query=';
+  //]]>
+</script>
+
 <c:set var="searchType" value="taxon" scope="request"/>
 
 <jsp:include page="taxonSearchForm.jsp"/>

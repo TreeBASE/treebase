@@ -6,6 +6,10 @@
 
 <% String purlBase = TreebaseUtil.getPurlBase(); %>
 
+<script type="text/javascript">
+	var purlBase = '<%= purlBase %>';
+</script>
+
 <%
 	Calendar cal = Calendar.getInstance();
 	cal.add(Calendar.MONTH, -6);

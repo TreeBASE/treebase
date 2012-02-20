@@ -8,12 +8,24 @@
 
 <div id="s-clear"></div>
 
+<script type="text/javascript">
+  //<![CDATA[
+    // These are the mappings from inferred search term types to search predicates for this scope
+    var predicates = {
+      'integer' : [ 'tb.identifier.matrix', 'tb.identifier.matrix.tb1', 'tb.ntax.matrix', 'tb.nchar.matrix' ],
+      'id' : [ 'tb.identifier.matrix', 'tb.identifier.matrix.tb1' ],
+      'word' : [ 'tb.title.matrix', 'tb.type.matrix' ],
+      'doi' : [ 'prism.doi' ] // this doesn't work yet, we have no search on doi
+    };
+    
+ 	// purlBase is assigned in /common/search-nav.jsp
+    var phyloWSURI = purlBase + 'matrix/find?query=';
+  //]]>
+</script>
 
 <jsp:include page="matrixSimpleSearchForm.jsp"/>
 
 <c:set var="searchType" value="matrix" scope="request"/>
-
-<%-- <jsp:include page="studyTaxonLabelSearchForm.jsp"/> --%>
 
 <div id="s-clear"></div>
 

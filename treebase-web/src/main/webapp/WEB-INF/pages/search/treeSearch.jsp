@@ -10,12 +10,23 @@
 
 <div id="s-clear"></div>
 
+<script type="text/javascript">
+  //<![CDATA[
+    // These are the mappings from inferred search term types to search predicates for this scope
+    var predicates = {
+      'integer' : [ 'tb.identifier.tree', 'tb.ntax.tree' ],
+      'id' : [ 'tb.identifier.tree' ],
+      'word' : [ 'tb.title.tree', 'tb.type.tree', 'tb.kind.tree', 'tb.quality.tree' ],
+    };
+    
+ 	// purlBase is assigned in /common/search-nav.jsp
+    var phyloWSURI = purlBase + 'tree/find?query=';
+  //]]>
+</script>
+
 <jsp:include page="treeSimpleSearchForm.jsp"/>
 
 <c:set var="searchType" value="tree" scope="request"/>
-
-
-<%-- <jsp:include page="studyTaxonLabelSearchForm.jsp"/> --%>
 
 <div id="s-clear"></div>
 
