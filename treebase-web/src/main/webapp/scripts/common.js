@@ -249,7 +249,7 @@ TreeBASE.splitWords = function(query){
 	for ( var i = 0; i < words.length; i++ ) {
 		var word = words[i].replace(/^ */,'');
 		word = word.replace(/ *$/,'';)
-		if ( word.match(/ /) ) {
+		if ( word.match(/ /) && ! word.match(/^".*"$/) ) {
 			split.push('"' + word + '"');
 		}
 		else {
