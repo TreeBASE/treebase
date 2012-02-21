@@ -248,7 +248,7 @@ TreeBASE.splitWords = function(query){
 	var split = new Array();
 	for ( var i = 0; i < words.length; i++ ) {
 		var word = words[i].replace(/^ */,'');
-		word = word.replace(/ *$/,'';)
+		word = word.replace(/ *$/,'');
 		if ( word.match(/ /) && ! word.match(/^".*"$/) ) {
 			split.push('"' + word + '"');
 		}
