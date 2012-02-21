@@ -263,16 +263,20 @@ public class TaxonSearchController extends SearchController {
 					}
 					if ( null != tb1LegacyId && null != index && index.matches(".*taxonVariant.*") ) {
 						TaxonVariant tv = getTaxonHome().findVariantByTB1LegacyId(tb1LegacyId);
-						LOGGER.debug("Found taxon variant: " + tv.getId());
-						if ( null != tv.getTaxon() ) {
-							taxaFound.add(tv.getTaxon());
+						if ( null != tv ) {
+							LOGGER.debug("Found taxon variant: " + tv.getId());
+							if ( null != tv.getTaxon() ) {
+								taxaFound.add(tv.getTaxon());
+							}
 						}
 					}
 					else if ( null != tb1LegacyId ){
 						Taxon taxon = getTaxonHome().findByTB1LegacyId(tb1LegacyId);
-						LOGGER.debug("Found taxon: " + taxon.getId());
 						if ( null != taxon ) {
-							taxaFound.add(taxon);
+							LOGGER.debug("Found taxon: " + taxon.getId());
+							if ( null != taxon ) {
+								taxaFound.add(taxon);
+							}
 						}
 					}					
 				}
