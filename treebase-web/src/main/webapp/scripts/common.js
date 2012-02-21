@@ -242,10 +242,21 @@ TreeBASE.expandQuery = function () {
   return false;
 };
 
-// splits a string on words (including curies) and quoted phrases
+// splits a string on commas, strip leading and trailing white space, quote words with spaces in them
 TreeBASE.splitWords = function(query){
-  //return query.match(/[A-Za-z0-9: ]+|"[^"]+"|'[^']+'|/g);
-	return query.split(",");
+	var words = query.split(",");
+	var split = new Array();
+	for ( var i = 0; i < words.length; i++ ) {
+		var word = words[i].replace(/^ */,'');
+		word = word.replace(/ *$/,'';)
+		if ( word.match(/ /) ) {
+			split.push('"' + word + '"');
+		}
+		else {
+			split.push(word);
+		}
+	}
+	return split;
 };
 
 // infers whether a search word is an identifier or a string
