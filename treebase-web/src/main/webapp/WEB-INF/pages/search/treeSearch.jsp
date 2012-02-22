@@ -19,12 +19,22 @@
       'word' : [ 'tb.title.tree', 'tb.type.tree', 'tb.kind.tree', 'tb.quality.tree' ],
     };
     
- 	// purlBase is assigned in /common/search-nav.jsp
+    // purlBase is assigned in /common/search-nav.jsp
     var phyloWSURI = purlBase + 'tree/find?query=';
   //]]>
 </script>
 
-<jsp:include page="treeSimpleSearchForm.jsp"/>
+<%-- jsp:include page="treeSimpleSearchForm.jsp"/ --%>
+
+<fieldset>
+	<legend>
+	  	Tree search
+		<a href="#" class="openHelp" onclick="openHelp('treeSimpleSearchForm')">
+			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
+		</a>	  		
+	</legend>
+<jsp:include page="simpleSearchForm.jsp"/>
+</fieldset>
 
 <c:set var="searchType" value="tree" scope="request"/>
 

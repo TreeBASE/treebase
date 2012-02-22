@@ -20,14 +20,24 @@
       'doi' : [ 'prism.doi' ]
     };
     
- 	// purlBase is assigned in /common/search-nav.jsp
+    // purlBase is assigned in /common/search-nav.jsp
     var phyloWSURI = purlBase + 'study/find?query=';
   //]]>
 </script>
 
 <c:set var="searchType" value="study" scope="request"/>
 
-<jsp:include page="studyKeywordSearchForm.jsp"/>
+<%-- jsp:include page="studyKeywordSearchForm.jsp"/ --%>
+
+<fieldset>
+	<legend>
+	  	Study search
+		<a href="#" class="openHelp" onclick="openHelp('studyKeywordSearchForm')">
+			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
+		</a>	  		
+	</legend>
+<jsp:include page="simpleSearchForm.jsp"/>
+</fieldset>
 
 <div id="s-clear"></div>
 
