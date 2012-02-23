@@ -59,7 +59,7 @@ public class MatrixSearchController extends SearchController {
 		LOGGER.info("in matrixSearchController.onSubmit");
 		clearMessages(req);
 		String query = req.getParameter("query");
-		if ( null != query ) {
+		if ( ! TreebaseUtil.isEmpty(query) ) {
 			return handleQueryRequest(req, res, err, query);
 		}
 		else {

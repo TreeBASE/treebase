@@ -97,7 +97,7 @@ public class StudySearchController extends SearchController {
 		LOGGER.info("in StudySearchController.onSubmit");
 		clearMessages(req);
 		String query = req.getParameter("query");
-		if ( null != query ) {
+		if ( ! TreebaseUtil.isEmpty(query) ) {
 			return handleQueryRequest(req, res, err, query);
 		}
 		else {

@@ -58,7 +58,7 @@ public class TreeSearchController extends SearchController {
 		LOGGER.info("in TreeSearchController.onSubmit");
 		clearMessages(req);
 		String query = req.getParameter("query");
-		if ( null != query ) {
+		if ( ! TreebaseUtil.isEmpty(query) ) {
 			return handleQueryRequest(req, res, err, query);
 		}
 		else {

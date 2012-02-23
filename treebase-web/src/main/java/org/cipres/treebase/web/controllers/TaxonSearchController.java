@@ -50,7 +50,7 @@ public class TaxonSearchController extends SearchController {
 	protected ModelAndView onSubmit(HttpServletRequest req, HttpServletResponse res, Object comm, BindException err) throws Exception {
 		clearMessages(req);
 		String query = req.getParameter("query");
-		if ( null != query ) {
+		if ( ! TreebaseUtil.isEmpty(query) ) {
 			return handleQueryRequest(req, res, err, query);
 		}
 		else {
