@@ -21,8 +21,6 @@ import org.cipres.treebase.domain.search.MatrixSearchResults;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.web.Constants;
-import org.cipres.treebase.web.util.RequestMessageSetter;
-import org.cipres.treebase.web.util.SearchMessageSetter;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.z3950.zing.cql.CQLAndNode;
@@ -57,14 +55,16 @@ public class MatrixSearchController extends SearchController {
 		byTB1ID
 	}
 	
-	protected ModelAndView onSubmit(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			Object command,
-			BindException errors) throws Exception {
+	protected ModelAndView onSubmit(HttpServletRequest req,HttpServletResponse res,Object comm,BindException err) throws Exception {
 		LOGGER.info("in matrixSearchController.onSubmit");
-		clearMessages(request);
-		return handleQueryRequest(request, response, errors, request.getParameter("query"));
+		clearMessages(req);
+		String query = req.getParameter("query");
+		if ( null != query ) {
+			return handleQueryRequest(req, res, err, query);
+		}
+		else {
+			return super.onSubmit(req, res, comm, err);
+		}
 	}
 	
 	protected Set<Matrix> doCQLQuery(

@@ -47,11 +47,15 @@ public class TaxonSearchController extends SearchController {
 	private enum NamingAuthority { TREEBASE, UBIO, NCBI };
 	
 	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request,
-			HttpServletResponse response, Object searchCommand, BindException errors)
-	throws Exception {
-		clearMessages(request);
-		return handleQueryRequest(request, response, errors, request.getParameter("query"));
+	protected ModelAndView onSubmit(HttpServletRequest req, HttpServletResponse res, Object comm, BindException err) throws Exception {
+		clearMessages(req);
+		String query = req.getParameter("query");
+		if ( null != query ) {
+			return handleQueryRequest(req, res, err, query);
+		}
+		else {
+			return super.onSubmit(req, res, comm, err);
+		}
 	}
 	
 	protected Set<Taxon> doCQLQuery(CQLNode node, Set<Taxon> results, HttpServletRequest request) {
@@ -125,31 +129,6 @@ public class TaxonSearchController extends SearchController {
 		logger.debug(node);
 		return results;		
 	}
-	
-	private ModelAndView modifySearchResults(HttpServletRequest request,
-			HttpServletResponse response, BindException errors) throws InstantiationException {
-		TaxonSearchResults results = searchResults(request).convertToTaxa();
-		
-		String buttonName = request.getParameter("taxonResultsaction");
-		if (buttonName.equals("addCheckedToResults")) {
-//			Map<String,String> parameterMap = request.getParameterMap();
-			Collection<Taxon> newTaxa = new HashSet<Taxon> ();
-			for (String taxonIdString : request.getParameterValues("selection")) {
-				Taxon tx;
-				try {
-					tx = getTaxonLabelService().findTaxonByIDString(taxonIdString);
-				} catch (MalformedTreebaseIDString e) {
-					// This can only occur if the ID numbers in our web form are
-					// malformed, so it represents a programming error.  20090312 MJD
-					throw new Error(e);
-				}
-				if (tx != null) newTaxa.add(tx);
-			}
-			results.union(newTaxa);
-			saveSearchResults(request, results);
-		}
-		return samePage(request);
-	}
 
 	protected Collection<Taxon> doTaxonSearch(HttpServletRequest request,
 			SearchCommand searchCommand, String searchTerm, SearchIndex searchIndex, NamingAuthority namingAuthority) throws Exception {
@@ -182,9 +161,6 @@ public class TaxonSearchController extends SearchController {
 		getTaxonLabelService().resurrectAll(taxa);
 		LOGGER.debug("Found " + taxa.size() + " taxa");
 		return taxa;
-//		TaxonSearchResults tsr = new TaxonSearchResults(taxa);
-//		saveSearchResults(request, tsr);
-//		return samePage(request);	
 	}
 	
 	/**

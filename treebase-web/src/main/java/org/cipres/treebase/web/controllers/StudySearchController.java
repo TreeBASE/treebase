@@ -26,7 +26,6 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.model.Identify;
-import org.cipres.treebase.web.util.RequestMessageSetter;
 import org.cipres.treebase.web.util.IdentifyUtil;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,8 +38,6 @@ import org.z3950.zing.cql.CQLParseException;
 import org.z3950.zing.cql.CQLParser;
 import org.z3950.zing.cql.CQLRelation;
 import org.z3950.zing.cql.CQLTermNode;
-
-import java.text.DateFormat;
 
 /**
  * StudySearchController.java
@@ -96,14 +93,16 @@ public class StudySearchController extends SearchController {
 		byDOI
 	}
 
-	protected ModelAndView onSubmit(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			Object command,
-			BindException errors) throws Exception {
+	protected ModelAndView onSubmit(HttpServletRequest req,HttpServletResponse res,Object comm,BindException err) throws Exception {
 		LOGGER.info("in StudySearchController.onSubmit");
-		clearMessages(request);
-		return handleQueryRequest(request, response, errors, request.getParameter("query"));
+		clearMessages(req);
+		String query = req.getParameter("query");
+		if ( null != query ) {
+			return handleQueryRequest(req, res, err, query);
+		}
+		else {
+			return super.onSubmit(req, res, comm, err);
+		}
 	}
 	
 	protected Set<Study> doCQLQuery(

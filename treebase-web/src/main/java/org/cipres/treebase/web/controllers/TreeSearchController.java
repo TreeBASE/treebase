@@ -14,14 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
-import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.TreeSearchResults;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.web.Constants;
-import org.cipres.treebase.web.util.RequestMessageSetter;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.z3950.zing.cql.CQLAndNode;
@@ -56,16 +54,16 @@ public class TreeSearchController extends SearchController {
 		byNTAX
 	}
 	
-	protected ModelAndView onSubmit(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			Object command,
-			BindException errors) throws Exception {
-
+	protected ModelAndView onSubmit(HttpServletRequest req,HttpServletResponse res,Object comm,BindException err) throws Exception {
 		LOGGER.info("in TreeSearchController.onSubmit");
-
-		clearMessages(request);
-		return handleQueryRequest(request, response, errors, request.getParameter("query"));
+		clearMessages(req);
+		String query = req.getParameter("query");
+		if ( null != query ) {
+			return handleQueryRequest(req, res, err, query);
+		}
+		else {
+			return super.onSubmit(req, res, comm, err);
+		}
 	}
 
 	protected Set<PhyloTree> doCQLQuery(
