@@ -62,60 +62,9 @@ public class MatrixSearchController extends SearchController {
 			HttpServletResponse response,
 			Object command,
 			BindException errors) throws Exception {
-
 		LOGGER.info("in matrixSearchController.onSubmit");
-
 		clearMessages(request);
-		String formName = request.getParameter("formName");
-		String query = request.getParameter("query");
-		
-		LOGGER.info("formName is '" + formName + "'");
-		
-		if ( ! TreebaseUtil.isEmpty(query) ) {
-			return this.handleQueryRequest(request, response, errors, query);
-		}		
-		
-		if (formName.equals("matrixSimple")) {
-			String buttonName = request.getParameter("searchButton");
-			Set<Matrix> matches = new HashSet<Matrix>();
-			String searchTerm = convertStars(request.getParameter("searchTerm"));
-		 	SearchMessageSetter mSetter = new RequestMessageSetter(request);
-			MatrixSearchResults oldRes;	
-			{
-				SearchResults<?> sr = searchResults(request);
-				if (sr != null) {
-					oldRes = (MatrixSearchResults) sr.convertToMatrices();
-				} else {
-					oldRes = new MatrixSearchResults ();   // TODO: Convert existing search results to new type	
-				}
-			}			
-			if (buttonName.equals("matrixID")) {
-				matches.addAll(doSearch(request, response, SearchType.byID, errors,searchTerm));
-			} else if  (buttonName.equals("matrixTitle")) {
-				matches.addAll(doSearch(request, response, SearchType.byTitle, errors,searchTerm));
-			} else if  (buttonName.equals("matrixType")) {
-				matches.addAll(doSearch(request, response, SearchType.byType, errors,searchTerm));
-			} else if  (buttonName.equals("matrixNTAX")) {
-				matches.addAll(doSearch(request, response, SearchType.byNTAX, errors,searchTerm));	
-			} else if  (buttonName.equals("matrixNCHAR")) {
-				matches.addAll(doSearch(request, response, SearchType.byNCHAR, errors,searchTerm));
-			} else {
-				throw new Error("Unknown search button name '" + buttonName + "'");
-			}
-			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
-				SearchResults<Matrix> newRes = intersectSearchResults(oldRes, 
-						new MatrixSearchResults(matches), mSetter, "No matching matrices found");
-				saveSearchResults(request, newRes);	
-				return new ModelAndView("search/matrixSearch", Constants.RESULT_SET, newRes); 
-			}
-			else {
-				return this.searchResultsAsRDF(new MatrixSearchResults(matches), request, null, "matrix", "matrix");
-			}			
-		} 
-		
-		else { 
-			return super.onSubmit(request, response, command, errors);
-		}
+		return handleQueryRequest(request, response, errors, request.getParameter("query"));
 	}
 	
 	protected Set<Matrix> doCQLQuery(
@@ -161,7 +110,7 @@ public class MatrixSearchController extends SearchController {
 			} else if ( index.startsWith("tb.ntax") ) {
 				results.addAll(doSearch(request, response, SearchType.byNTAX, errors, term.getTerm()));
 			} else if ( index.startsWith("tb.nchar") ) {
-				results.addAll(doSearch(request, response, SearchType.byNTAX, errors, term.getTerm()));
+				results.addAll(doSearch(request, response, SearchType.byNCHAR, errors, term.getTerm()));
 			} else {
 				// issue warnings
 				addMessage(request, "Unsupported index: " + index);
@@ -246,7 +195,6 @@ public class MatrixSearchController extends SearchController {
 
 	@Override
 	protected ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors, String query) throws CQLParseException, IOException, InstantiationException {
-		//String query = request.getParameter("query");				
 		CQLParser parser = new CQLParser();
 		CQLNode root = parser.parse(query);
 		root = normalizeParseTree(root);

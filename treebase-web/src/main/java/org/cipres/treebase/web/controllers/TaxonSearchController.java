@@ -51,48 +51,7 @@ public class TaxonSearchController extends SearchController {
 			HttpServletResponse response, Object searchCommand, BindException errors)
 	throws Exception {
 		clearMessages(request);
-		String formName = request.getParameter("formName");
-		String query = request.getParameter("query");
-		if ( ! TreebaseUtil.isEmpty(query) ) {
-			return this.handleQueryRequest(request, response, errors, query);
-		}
-		if (formName.equals("searchByTaxonLabel")) {
-			SearchCommand newSearchCommand = (SearchCommand)searchCommand;
-			String searchOn = request.getParameter("searchOn");
-			String searchTerm = convertStars(request.getParameter("searchTerm"));
-			String[] searchTerms = searchTerm.split("\\r\\n");	
-			Collection<Taxon> taxa = new HashSet<Taxon>();
-			for ( int i = 0; i < searchTerms.length; i++ ) {
-				if ( searchOn.equals("TextSearch") ) {
-					taxa.addAll(doTaxonSearch(request, newSearchCommand, searchTerms[i], SearchIndex.LABEL, null));
-				}
-				else if ( searchOn.equals("Identifiers") ) {
-					String objectIdentifier = request.getParameter("objectIdentifier");
-					if ( objectIdentifier.equals("TreeBASE") ) {
-						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.TREEBASE));
-					}
-					else if ( objectIdentifier.equals("NCBI") ) {
-						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.NCBI));
-					}
-					else if ( objectIdentifier.equals("uBio") ) {
-						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.UBIO));
-					}								
-				}	
-			}
-			TaxonSearchResults tsr = new TaxonSearchResults(taxa);
-			saveSearchResults(request, tsr);
-			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
-				return samePage(request);
-			}
-			else {
-				return this.searchResultsAsRDF(tsr, request, null,"taxon","taxon");
-			}			
-			
-		} else if (formName.equals("taxonResultsAction")) {
-			return modifySearchResults(request, response, errors);
-		} else {
-			return super.onSubmit(request, response, (SearchCommand) searchCommand, errors);
-		}
+		return handleQueryRequest(request, response, errors, request.getParameter("query"));
 	}
 	
 	protected Set<Taxon> doCQLQuery(CQLNode node, Set<Taxon> results, HttpServletRequest request) {
