@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
+import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.matrix.MatrixService;
@@ -120,7 +121,6 @@ public class MatrixSearchController extends SearchController {
 		return results;		
 	}
 	
-	@SuppressWarnings("unchecked")
 	private Collection<Matrix> doSearch(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -128,62 +128,66 @@ public class MatrixSearchController extends SearchController {
 			BindException errors,
 			String searchTerm) throws InstantiationException {
 
-		Collection<Matrix> matches = null;
+		Collection<Matrix> results = new HashSet<Matrix>();
 		MatrixService matrixService = getSearchService().getMatrixService();	
 
 		switch(searchType) {
-		case byID:
-			matches = (Collection<Matrix>) doSearchByIDString(request, matrixService, Matrix.class, searchTerm);
-			break;
-		
-		case byTB1ID:
-			matches = new HashSet<Matrix>();
-			matches.add(matrixService.findByTB1StudyID(searchTerm));
-			break;
-			
-		case byTitle:
-			matches = matrixService
-	  		.findSomethingBySubstring(Matrix.class, "title", searchTerm);
-			break;
-
-		case byType:
-			matches = matrixService
-	  		.findSomethingByItsDescription(Matrix.class, "matrixKind", searchTerm, false);
-			break;
-
-		case byNCHAR:
-			try {
-				matches = matrixService
-				.findSomethingByRangeExpression(CharacterMatrix.class, "nChar", searchTerm);
-			} catch (MalformedRangeExpression e) {
-				addMessage(request, "Malformed range expression: " + e.getMessage());
+			case byID: {
+				addMatchesToResults(doSearchByIDString(request, matrixService, Matrix.class, searchTerm), results);
+				break;
 			}
-			break;
-
-
-		case byNTAX:
-			try {
-				matches = matrixService
-				.findSomethingByRangeExpression(CharacterMatrix.class, "nTax", searchTerm);
-			} catch (MalformedRangeExpression e) {
-				addMessage(request, "Malformed range expression: " + e.getMessage());
+			case byTB1ID: {
+				Matrix match = matrixService.findByTB1StudyID(searchTerm);
+				if ( null != match ) {
+					results.add(match);
+				}
+				break;
 			}
-			break;
+			case byTitle: {
+				addMatchesToResults(matrixService.findSomethingBySubstring(Matrix.class, "title", searchTerm), results);
+				break;
+			}
+			case byType: {
+				addMatchesToResults(matrixService.findSomethingByItsDescription(Matrix.class, "matrixKind", searchTerm, false),results);
+				break;
+			}
+			case byNCHAR: {
+				try {
+					addMatchesToResults(matrixService.findSomethingByRangeExpression(CharacterMatrix.class, "nChar", searchTerm),results);
+				} catch (MalformedRangeExpression e) {
+					addMessage(request, "Malformed range expression: " + e.getMessage());
+				}
+				break;	
+			}
+			case byNTAX: {
+				try {
+					addMatchesToResults(matrixService.findSomethingByRangeExpression(CharacterMatrix.class, "nTax", searchTerm),results);
+				} catch (MalformedRangeExpression e) {
+					addMessage(request, "Malformed range expression: " + e.getMessage());
+				}
+				break;
+			}
 
 		}
 		
 		// XXX need to filter out orphaned matrices or matrices whose studies are unpublished
 		Collection<Matrix> orphanedMatrices = new HashSet<Matrix>();
-		for ( Matrix m : matches ) {
-			if ( null != m ) {
-				if ( m.getStudy() == null || m.getStudy().isPublished() == false ) {
-					orphanedMatrices.add(m);
-				}	
-			}
+		for ( Matrix m : results ) {
+			if ( m.getStudy() == null || m.getStudy().isPublished() == false ) {
+				orphanedMatrices.add(m);
+			}	
 		}
-		matches.removeAll(orphanedMatrices);
-		return matches;
+		results.removeAll(orphanedMatrices);
+		return results;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private void addMatchesToResults(Collection<? extends TBPersistable> matches,
+			Collection<Matrix> results) {
+		if ( null != matches && ! matches.isEmpty() ) {
+			results.addAll((Collection<? extends Matrix>) matches);
+		}
 	}
 
 	SearchResultsType currentSearchType() {
