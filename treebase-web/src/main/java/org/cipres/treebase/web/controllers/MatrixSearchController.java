@@ -175,9 +175,11 @@ public class MatrixSearchController extends SearchController {
 		// XXX need to filter out orphaned matrices or matrices whose studies are unpublished
 		Collection<Matrix> orphanedMatrices = new HashSet<Matrix>();
 		for ( Matrix m : matches ) {
-			if ( m.getStudy() == null || (m.getStudy().isPublished() == false)  ) {
-				orphanedMatrices.add(m);
-			}		
+			if ( null != m ) {
+				if ( m.getStudy() == null || m.getStudy().isPublished() == false ) {
+					orphanedMatrices.add(m);
+				}	
+			}
 		}
 		matches.removeAll(orphanedMatrices);
 		return matches;
