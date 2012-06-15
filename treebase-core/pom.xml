@@ -127,7 +127,7 @@
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>8.3-603.jdbc3</version>
+			<version>8.4-702.jdbc3</version>
 		</dependency>
 		
 		<dependency>
@@ -171,6 +171,8 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-jdk14</artifactId>
 				</exclusion>
+				
+					
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -185,6 +187,10 @@
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-jdk14</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.geronimo.specs</groupId>
+					<artifactId>geronimo-servlet_2.5_spec</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
