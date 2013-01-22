@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
-import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.matrix.MatrixService;
@@ -22,6 +21,8 @@ import org.cipres.treebase.domain.search.MatrixSearchResults;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.web.Constants;
+import org.cipres.treebase.web.util.RequestMessageSetter;
+import org.cipres.treebase.web.util.SearchMessageSetter;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.z3950.zing.cql.CQLAndNode;
@@ -56,15 +57,64 @@ public class MatrixSearchController extends SearchController {
 		byTB1ID
 	}
 	
-	protected ModelAndView onSubmit(HttpServletRequest req,HttpServletResponse res,Object comm,BindException err) throws Exception {
+	protected ModelAndView onSubmit(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Object command,
+			BindException errors) throws Exception {
+
 		LOGGER.info("in matrixSearchController.onSubmit");
-		clearMessages(req);
-		String query = req.getParameter("query");
+
+		clearMessages(request);
+		String formName = request.getParameter("formName");
+		String query = request.getParameter("query");
+		
+		LOGGER.info("formName is '" + formName + "'");
+		
 		if ( ! TreebaseUtil.isEmpty(query) ) {
-			return handleQueryRequest(req, res, err, query);
-		}
-		else {
-			return super.onSubmit(req, res, comm, err);
+			return this.handleQueryRequest(request, response, errors, query);
+		}		
+		
+		if (formName.equals("matrixSimple")) {
+			String buttonName = request.getParameter("searchButton");
+			Set<Matrix> matches = new HashSet<Matrix>();
+			String searchTerm = convertStars(request.getParameter("searchTerm"));
+		 	SearchMessageSetter mSetter = new RequestMessageSetter(request);
+			MatrixSearchResults oldRes;	
+			{
+				SearchResults<?> sr = searchResults(request);
+				if (sr != null) {
+					oldRes = (MatrixSearchResults) sr.convertToMatrices();
+				} else {
+					oldRes = new MatrixSearchResults ();   // TODO: Convert existing search results to new type	
+				}
+			}			
+			if (buttonName.equals("matrixID")) {
+				matches.addAll(doSearch(request, response, SearchType.byID, errors,searchTerm));
+			} else if  (buttonName.equals("matrixTitle")) {
+				matches.addAll(doSearch(request, response, SearchType.byTitle, errors,searchTerm));
+			} else if  (buttonName.equals("matrixType")) {
+				matches.addAll(doSearch(request, response, SearchType.byType, errors,searchTerm));
+			} else if  (buttonName.equals("matrixNTAX")) {
+				matches.addAll(doSearch(request, response, SearchType.byNTAX, errors,searchTerm));	
+			} else if  (buttonName.equals("matrixNCHAR")) {
+				matches.addAll(doSearch(request, response, SearchType.byNCHAR, errors,searchTerm));
+			} else {
+				throw new Error("Unknown search button name '" + buttonName + "'");
+			}
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
+				SearchResults<Matrix> newRes = intersectSearchResults(oldRes, 
+						new MatrixSearchResults(matches), mSetter, "No matching matrices found");
+				saveSearchResults(request, newRes);	
+				return new ModelAndView("search/matrixSearch", Constants.RESULT_SET, newRes); 
+			}
+			else {
+				return this.searchResultsAsRDF(new MatrixSearchResults(matches), request, null, "matrix", "matrix");
+			}			
+		} 
+		
+		else { 
+			return super.onSubmit(request, response, command, errors);
 		}
 	}
 	
@@ -111,7 +161,7 @@ public class MatrixSearchController extends SearchController {
 			} else if ( index.startsWith("tb.ntax") ) {
 				results.addAll(doSearch(request, response, SearchType.byNTAX, errors, term.getTerm()));
 			} else if ( index.startsWith("tb.nchar") ) {
-				results.addAll(doSearch(request, response, SearchType.byNCHAR, errors, term.getTerm()));
+				results.addAll(doSearch(request, response, SearchType.byNTAX, errors, term.getTerm()));
 			} else {
 				// issue warnings
 				addMessage(request, "Unsupported index: " + index);
@@ -121,6 +171,7 @@ public class MatrixSearchController extends SearchController {
 		return results;		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Collection<Matrix> doSearch(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -128,66 +179,60 @@ public class MatrixSearchController extends SearchController {
 			BindException errors,
 			String searchTerm) throws InstantiationException {
 
-		Collection<Matrix> results = new HashSet<Matrix>();
+		Collection<Matrix> matches = null;
 		MatrixService matrixService = getSearchService().getMatrixService();	
 
 		switch(searchType) {
-			case byID: {
-				addMatchesToResults(doSearchByIDString(request, matrixService, Matrix.class, searchTerm), results);
-				break;
+		case byID:
+			matches = (Collection<Matrix>) doSearchByIDString(request, matrixService, Matrix.class, searchTerm);
+			break;
+		
+		case byTB1ID:
+			matches = new HashSet<Matrix>();
+			matches.add(matrixService.findByTB1StudyID(searchTerm));
+			break;
+			
+		case byTitle:
+			matches = matrixService
+	  		.findSomethingBySubstring(Matrix.class, "title", searchTerm);
+			break;
+
+		case byType:
+			matches = matrixService
+	  		.findSomethingByItsDescription(Matrix.class, "matrixKind", searchTerm, false);
+			break;
+
+		case byNCHAR:
+			try {
+				matches = matrixService
+				.findSomethingByRangeExpression(CharacterMatrix.class, "nChar", searchTerm);
+			} catch (MalformedRangeExpression e) {
+				addMessage(request, "Malformed range expression: " + e.getMessage());
 			}
-			case byTB1ID: {
-				Matrix match = matrixService.findByTB1StudyID(searchTerm);
-				if ( null != match ) {
-					results.add(match);
-				}
-				break;
+			break;
+
+
+		case byNTAX:
+			try {
+				matches = matrixService
+				.findSomethingByRangeExpression(CharacterMatrix.class, "nTax", searchTerm);
+			} catch (MalformedRangeExpression e) {
+				addMessage(request, "Malformed range expression: " + e.getMessage());
 			}
-			case byTitle: {
-				addMatchesToResults(matrixService.findSomethingBySubstring(Matrix.class, "title", searchTerm), results);
-				break;
-			}
-			case byType: {
-				addMatchesToResults(matrixService.findSomethingByItsDescription(Matrix.class, "matrixKind", searchTerm, false),results);
-				break;
-			}
-			case byNCHAR: {
-				try {
-					addMatchesToResults(matrixService.findSomethingByRangeExpression(CharacterMatrix.class, "nChar", searchTerm),results);
-				} catch (MalformedRangeExpression e) {
-					addMessage(request, "Malformed range expression: " + e.getMessage());
-				}
-				break;	
-			}
-			case byNTAX: {
-				try {
-					addMatchesToResults(matrixService.findSomethingByRangeExpression(CharacterMatrix.class, "nTax", searchTerm),results);
-				} catch (MalformedRangeExpression e) {
-					addMessage(request, "Malformed range expression: " + e.getMessage());
-				}
-				break;
-			}
+			break;
 
 		}
 		
 		// XXX need to filter out orphaned matrices or matrices whose studies are unpublished
 		Collection<Matrix> orphanedMatrices = new HashSet<Matrix>();
-		for ( Matrix m : results ) {
-			if ( m.getStudy() == null || m.getStudy().isPublished() == false ) {
+		for ( Matrix m : matches ) {
+			if ( m.getStudy() == null || (m.getStudy().isPublished() == false)  ) {
 				orphanedMatrices.add(m);
-			}	
+			}		
 		}
-		results.removeAll(orphanedMatrices);
-		return results;
+		matches.removeAll(orphanedMatrices);
+		return matches;
 
-	}
-
-	@SuppressWarnings("unchecked")
-	private void addMatchesToResults(Collection<? extends TBPersistable> matches,
-			Collection<Matrix> results) {
-		if ( null != matches && ! matches.isEmpty() ) {
-			results.addAll((Collection<? extends Matrix>) matches);
-		}
 	}
 
 	SearchResultsType currentSearchType() {
@@ -201,6 +246,7 @@ public class MatrixSearchController extends SearchController {
 
 	@Override
 	protected ModelAndView handleQueryRequest(HttpServletRequest request,HttpServletResponse response,BindException errors, String query) throws CQLParseException, IOException, InstantiationException {
+		//String query = request.getParameter("query");				
 		CQLParser parser = new CQLParser();
 		CQLNode root = parser.parse(query);
 		root = normalizeParseTree(root);

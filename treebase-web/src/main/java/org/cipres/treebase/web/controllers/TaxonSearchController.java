@@ -47,14 +47,51 @@ public class TaxonSearchController extends SearchController {
 	private enum NamingAuthority { TREEBASE, UBIO, NCBI };
 	
 	@Override
-	protected ModelAndView onSubmit(HttpServletRequest req, HttpServletResponse res, Object comm, BindException err) throws Exception {
-		clearMessages(req);
-		String query = req.getParameter("query");
+	protected ModelAndView onSubmit(HttpServletRequest request,
+			HttpServletResponse response, Object searchCommand, BindException errors)
+	throws Exception {
+		clearMessages(request);
+		String formName = request.getParameter("formName");
+		String query = request.getParameter("query");
 		if ( ! TreebaseUtil.isEmpty(query) ) {
-			return handleQueryRequest(req, res, err, query);
+			return this.handleQueryRequest(request, response, errors, query);
 		}
-		else {
-			return super.onSubmit(req, res, comm, err);
+		if (formName.equals("searchByTaxonLabel")) {
+			SearchCommand newSearchCommand = (SearchCommand)searchCommand;
+			String searchOn = request.getParameter("searchOn");
+			String searchTerm = convertStars(request.getParameter("searchTerm"));
+			String[] searchTerms = searchTerm.split("\\r\\n");	
+			Collection<Taxon> taxa = new HashSet<Taxon>();
+			for ( int i = 0; i < searchTerms.length; i++ ) {
+				if ( searchOn.equals("TextSearch") ) {
+					taxa.addAll(doTaxonSearch(request, newSearchCommand, searchTerms[i], SearchIndex.LABEL, null));
+				}
+				else if ( searchOn.equals("Identifiers") ) {
+					String objectIdentifier = request.getParameter("objectIdentifier");
+					if ( objectIdentifier.equals("TreeBASE") ) {
+						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.TREEBASE));
+					}
+					else if ( objectIdentifier.equals("NCBI") ) {
+						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.NCBI));
+					}
+					else if ( objectIdentifier.equals("uBio") ) {
+						taxa.addAll(doTaxonSearch(request,newSearchCommand,searchTerms[i],SearchIndex.ID,NamingAuthority.UBIO));
+					}								
+				}	
+			}
+			TaxonSearchResults tsr = new TaxonSearchResults(taxa);
+			saveSearchResults(request, tsr);
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {
+				return samePage(request);
+			}
+			else {
+				return this.searchResultsAsRDF(tsr, request, null,"taxon","taxon");
+			}			
+			
+		} else if (formName.equals("taxonResultsAction")) {
+			return modifySearchResults(request, response, errors);
+		} else {
+			return super.onSubmit(request, response, (SearchCommand) searchCommand, errors);
 		}
 	}
 	
@@ -129,6 +166,31 @@ public class TaxonSearchController extends SearchController {
 		logger.debug(node);
 		return results;		
 	}
+	
+	private ModelAndView modifySearchResults(HttpServletRequest request,
+			HttpServletResponse response, BindException errors) throws InstantiationException {
+		TaxonSearchResults results = searchResults(request).convertToTaxa();
+		
+		String buttonName = request.getParameter("taxonResultsaction");
+		if (buttonName.equals("addCheckedToResults")) {
+//			Map<String,String> parameterMap = request.getParameterMap();
+			Collection<Taxon> newTaxa = new HashSet<Taxon> ();
+			for (String taxonIdString : request.getParameterValues("selection")) {
+				Taxon tx;
+				try {
+					tx = getTaxonLabelService().findTaxonByIDString(taxonIdString);
+				} catch (MalformedTreebaseIDString e) {
+					// This can only occur if the ID numbers in our web form are
+					// malformed, so it represents a programming error.  20090312 MJD
+					throw new Error(e);
+				}
+				if (tx != null) newTaxa.add(tx);
+			}
+			results.union(newTaxa);
+			saveSearchResults(request, results);
+		}
+		return samePage(request);
+	}
 
 	protected Collection<Taxon> doTaxonSearch(HttpServletRequest request,
 			SearchCommand searchCommand, String searchTerm, SearchIndex searchIndex, NamingAuthority namingAuthority) throws Exception {
@@ -161,6 +223,9 @@ public class TaxonSearchController extends SearchController {
 		getTaxonLabelService().resurrectAll(taxa);
 		LOGGER.debug("Found " + taxa.size() + " taxa");
 		return taxa;
+//		TaxonSearchResults tsr = new TaxonSearchResults(taxa);
+//		saveSearchResults(request, tsr);
+//		return samePage(request);	
 	}
 	
 	/**
@@ -198,20 +263,16 @@ public class TaxonSearchController extends SearchController {
 					}
 					if ( null != tb1LegacyId && null != index && index.matches(".*taxonVariant.*") ) {
 						TaxonVariant tv = getTaxonHome().findVariantByTB1LegacyId(tb1LegacyId);
-						if ( null != tv ) {
-							LOGGER.debug("Found taxon variant: " + tv.getId());
-							if ( null != tv.getTaxon() ) {
-								taxaFound.add(tv.getTaxon());
-							}
+						LOGGER.debug("Found taxon variant: " + tv.getId());
+						if ( null != tv.getTaxon() ) {
+							taxaFound.add(tv.getTaxon());
 						}
 					}
 					else if ( null != tb1LegacyId ){
 						Taxon taxon = getTaxonHome().findByTB1LegacyId(tb1LegacyId);
+						LOGGER.debug("Found taxon: " + taxon.getId());
 						if ( null != taxon ) {
-							LOGGER.debug("Found taxon: " + taxon.getId());
-							if ( null != taxon ) {
-								taxaFound.add(taxon);
-							}
+							taxaFound.add(taxon);
 						}
 					}					
 				}

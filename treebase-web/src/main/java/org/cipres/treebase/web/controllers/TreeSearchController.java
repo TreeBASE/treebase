@@ -14,12 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
+import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.TreeSearchResults;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.cipres.treebase.web.Constants;
+import org.cipres.treebase.web.util.RequestMessageSetter;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.z3950.zing.cql.CQLAndNode;
@@ -54,15 +56,73 @@ public class TreeSearchController extends SearchController {
 		byNTAX
 	}
 	
-	protected ModelAndView onSubmit(HttpServletRequest req,HttpServletResponse res,Object comm,BindException err) throws Exception {
+	protected ModelAndView onSubmit(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Object command,
+			BindException errors) throws Exception {
+
 		LOGGER.info("in TreeSearchController.onSubmit");
-		clearMessages(req);
-		String query = req.getParameter("query");
+
+		clearMessages(request);
+		String formName = request.getParameter("formName");
+		String query = request.getParameter("query");
+		
+		LOGGER.info("formName is '" + formName + "'");
+		
 		if ( ! TreebaseUtil.isEmpty(query) ) {
-			return handleQueryRequest(req, res, err, query);
+			return this.handleQueryRequest(request, response, errors, query);
 		}
-		else {
-			return super.onSubmit(req, res, comm, err);
+		
+		if (formName.equals("treeSimple")) {
+			String buttonName = request.getParameter("searchButton");
+			String searchTerm = convertStars(request.getParameter("searchTerm"));
+			Collection<PhyloTree> matches = null;
+			TreeSearchResults oldRes;	
+			{
+				SearchResults<?> sr = searchResults(request);
+				if (sr != null) {
+					oldRes = (TreeSearchResults) sr.convertToTrees();
+				} else {
+					oldRes = new TreeSearchResults ();   // TODO: Convert existing search results to new type	
+				}
+			}			
+			if (buttonName.equals("treeID")) {
+				matches = doSearch(request, response, SearchType.byID, errors, searchTerm);
+			} else if  (buttonName.equals("treeTitle")) {
+				matches =  doSearch(request, response, SearchType.byTitle, errors, searchTerm);
+			} else if  (buttonName.equals("treeType")) {
+				matches = doSearch(request, response, SearchType.byType, errors, searchTerm);
+			} else if  (buttonName.equals("treeKind")) {
+				matches = doSearch(request, response, SearchType.byKind, errors, searchTerm);
+			} else if  (buttonName.equals("treeQuality")) {
+				matches = doSearch(request, response, SearchType.byQuality, errors, searchTerm);
+			} else if  (buttonName.equals("treeNTAX")) {
+				matches = doSearch(request, response, SearchType.byNTAX, errors, searchTerm);
+			} else {
+				throw new Error("Unknown search button name '" + buttonName + "'");
+			}
+			
+			// XXX need to filter out orphaned matrices or matrices whose studies are unpublished
+			Collection<PhyloTree> orphanedTrees = new HashSet<PhyloTree>();
+			for ( PhyloTree t : matches ) {
+				if (t.getStudy() == null || (t.getStudy().isPublished() == false)){
+					orphanedTrees.add(t);
+				}		
+			}
+			matches.removeAll(orphanedTrees);
+
+			SearchResults<PhyloTree> newRes = intersectSearchResults(oldRes, new TreeSearchResults(matches), 
+			new RequestMessageSetter(request), "No matching trees found");	
+			saveSearchResults(request, newRes);	
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {			
+				return new ModelAndView("search/treeSearch", Constants.RESULT_SET, newRes); 			
+			}
+			else {
+				return this.searchResultsAsRDF(newRes, request, null,"tree","tree");
+			}
+		} else { 
+			return super.onSubmit(request, response, command, errors);
 		}
 	}
 
@@ -188,6 +248,7 @@ public class TreeSearchController extends SearchController {
 	protected ModelAndView handleQueryRequest(HttpServletRequest request,
 			HttpServletResponse response, BindException errors, String query)
 			throws CQLParseException, IOException, InstantiationException {
+		//String query = request.getParameter("query");
 		CQLParser parser = new CQLParser();
 		CQLNode root = parser.parse(query);
 		root = normalizeParseTree(root);

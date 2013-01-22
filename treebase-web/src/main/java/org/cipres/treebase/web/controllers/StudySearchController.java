@@ -26,6 +26,7 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.web.Constants;
 import org.cipres.treebase.web.model.Identify;
+import org.cipres.treebase.web.util.RequestMessageSetter;
 import org.cipres.treebase.web.util.IdentifyUtil;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,6 +39,8 @@ import org.z3950.zing.cql.CQLParseException;
 import org.z3950.zing.cql.CQLParser;
 import org.z3950.zing.cql.CQLRelation;
 import org.z3950.zing.cql.CQLTermNode;
+
+import java.text.DateFormat;
 
 /**
  * StudySearchController.java
@@ -93,15 +96,73 @@ public class StudySearchController extends SearchController {
 		byDOI
 	}
 
-	protected ModelAndView onSubmit(HttpServletRequest req,HttpServletResponse res,Object comm,BindException err) throws Exception {
+	protected ModelAndView onSubmit(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Object command,
+			BindException errors) throws Exception {
+
 		LOGGER.info("in StudySearchController.onSubmit");
-		clearMessages(req);
-		String query = req.getParameter("query");
-		if ( ! TreebaseUtil.isEmpty(query) ) {
-			return handleQueryRequest(req, res, err, query);
-		}
+
+		clearMessages(request);
+		String formName = request.getParameter("formName");
+		String query = request.getParameter("query");
+		
+		LOGGER.info("formName is '" + formName + "'");
+		
+		if ( ! TreebaseUtil.isEmpty(query) && ! query.equals("")) {
+			LOGGER.info("query is '" + query + "'");
+			return this.handleQueryRequest(request, response, errors, query);
+		}		
+		
+		if (formName.equals("searchKeyword")) {
+			SearchType searchType;
+			String buttonName = request.getParameter("searchButton");
+			String searchTerm = convertStars(request.getParameter("searchTerm"));
+			StudySearchResults oldRes;
+			{
+				SearchResults<?> sr = searchResults(request);
+				if (sr != null) {
+					oldRes = (StudySearchResults) sr.convertToStudies();
+				} else {
+					oldRes = new StudySearchResults ();   // TODO: Convert existing search results to new type	
+				}
+			}			
+			if (buttonName.equals("authorKeyword")) {
+				searchType = SearchType.byAuthorName;
+			} else if (buttonName.equals("studyID")) {
+				searchType = SearchType.byID;
+			} else if (buttonName.equals("legacyStudyID")) {
+				searchType = SearchType.byLegacyID;
+			} else if (buttonName.equals("titleKeyword")) {
+				searchType = SearchType.byTitle;
+			} else if (buttonName.equals("textKeyword")) {
+				searchType = SearchType.byKeyword;
+			} else if (buttonName.equals("citationKeyword")) {
+				searchType = SearchType.inCitation;
+			} else if (buttonName.equals("abstractKeyword")) {
+				searchType = SearchType.inAbstract;
+			} else if (buttonName.equals("doiKeyword")) {
+				searchType = SearchType.byDOI;
+			}
+			else {
+				throw new Error("Unknown search button name '" + buttonName + "'");
+			}
+			// XXX we now never do an exact match with terms provided through the web app. We can change
+			// this, e.g. by adding a check box whose value is the boolean argument of doSearch()
+			Collection<Study> matches = doSearch(request, response, searchType, errors,searchTerm,false,null);	
+			if ( TreebaseUtil.isEmpty(request.getParameter("format")) || ! request.getParameter("format").equals("rss1") ) {				
+				SearchResults<Study> newRes = intersectSearchResults(oldRes, new StudySearchResults(matches), 
+				new RequestMessageSetter(request), "No matching studies found");	
+				saveSearchResults(request, newRes);
+				return new ModelAndView("search/studySearch", Constants.RESULT_SET, newRes); 		
+			}
+			else {
+				return this.searchResultsAsRDF(new StudySearchResults(matches), request, null,"study","study");
+			}
+		} 
 		else {
-			return super.onSubmit(req, res, comm, err);
+			return super.onSubmit(request, response, command, errors);
 		}
 	}
 	

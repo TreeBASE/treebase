@@ -15,24 +15,15 @@
       'integer' : [ 'tb.identifier.matrix', 'tb.identifier.matrix.tb1', 'tb.ntax.matrix', 'tb.nchar.matrix' ],
       'id' : [ 'tb.identifier.matrix', 'tb.identifier.matrix.tb1' ],
       'word' : [ 'tb.title.matrix', 'tb.type.matrix' ],
+      'doi' : [ 'prism.doi' ] // this doesn't work yet, we have no search on doi
     };
     
-    // purlBase is assigned in /common/search-nav.jsp
+ 	// purlBase is assigned in /common/search-nav.jsp
     var phyloWSURI = purlBase + 'matrix/find?query=';
   //]]>
 </script>
 
-<%-- jsp:include page="matrixSimpleSearchForm.jsp"/ --%>
-
-<fieldset>
-	<legend>
-	  	Matrix search
-		<a href="#" class="openHelp" onclick="openHelp('matrixSimpleSearchForm')">
-			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
-		</a>	  		
-	</legend>
-<jsp:include page="simpleSearchForm.jsp"/>
-</fieldset>
+<jsp:include page="matrixSimpleSearchForm.jsp"/>
 
 <c:set var="searchType" value="matrix" scope="request"/>
 
