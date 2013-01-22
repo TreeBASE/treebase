@@ -248,7 +248,7 @@ public class ListTaxaController extends BaseFormController {
 				errors.add(label.getTaxonLabel() + " has not been linked to the external taxonomy");
 			}
 			else if ( label.getAttemptedLinking() && label.getNcbiTaxID() == null ) {
-				errors.add(label.getTaxonLabel() + " - an unsuccessful attempt has been made to link this to the external taxonomy");
+				errors.add(label.getTaxonLabel() + " - an unsuccesful attempt has been made to link this to the external taxonomy");
 			}
 		}
 		
