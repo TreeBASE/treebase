@@ -48,13 +48,16 @@
 	
 	<bean id="phyloWSTaxonController" class="org.cipres.treebase.web.controllers.PhyloWSTaxonController">		 
 	</bean>	
-	
+		
 	<bean id="phyloWSMatrixController" class="org.cipres.treebase.web.controllers.PhyloWSMatrixController">
 		<property name="matrixService"><ref bean="matrixService"></ref></property>		 
 	</bean>	
 	
 	<bean id="phyloWSTreeController" class="org.cipres.treebase.web.controllers.PhyloWSTreeController">
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
+	</bean>	
+	
+	<bean id="phyloWSClassificationController" class="org.cipres.treebase.web.controllers.PhyloWSClassificationController">		 
 	</bean>	
 	
 	<bean id="filenameController" class="org.cipres.treebase.web.controllers.ShortPathUrlFilenameViewController"/>
@@ -785,6 +788,11 @@
         <property name="taxonHome"><ref bean="taxonHome"></ref></property>
         <property name="taxonLabelHome"><ref bean="taxonLabelHome"></ref></property>	
    	</bean>
+   	
+   	<bean id="classificationSearchController" parent="searchController" class="org.cipres.treebase.web.controllers.ClassificationSearchController">
+        <property name="formView"><value>search/classificationSearch</value></property>
+        <property name="successView"><value>search/classificationSearch</value></property>
+   	</bean>
       
     <bean id="searchBySubmissionIDController" class="org.cipres.treebase.web.controllers.SearchBySubmissionIDController">
         <property name="formView"><value>searchBySubmissionID</value></property>
@@ -932,6 +940,7 @@
 				<prop key="/phylows/taxon/**">phyloWSTaxonController</prop>
 				<prop key="/phylows/tree/**">phyloWSTreeController</prop>
 				<prop key="/phylows/matrix/**">phyloWSMatrixController</prop>
+				<prop key="/phylows/classification/**">phyloWSClassificationController</prop>
 				<prop key="/about.html">filenameController</prop>
 				<prop key="/dataMan.html">filenameController</prop>
 				<prop key="/home.html">filenameController</prop>
@@ -1022,6 +1031,7 @@
 				<prop key="/search/treeTopSearch.html">treeTopSearchController</prop>
 				<prop key="/search/matrixSearch.html">matrixSearchController</prop>	
 				<prop key="/search/taxonSearch.html">taxonSearchController</prop>
+				<prop key="/search/classificationSearch.html">classificationSearchController</prop>
 				<!-- prop key="/search/mainSearch.html">mainSearchController</prop-->
 				
 				<!-- SEARCH RESULTS SECTION -->

@@ -180,4 +180,13 @@ public interface PhyloTreeHome extends DomainHome {
 	 * @return all matching trees
 	 */
 	Collection<PhyloTree> findByTB1TreeID(String legacyID);
+	
+	/**
+	 * Find trees by the NCBI left and right nodes
+	 * @param pLeftId, the left node id
+	 * @param pRightId, the right node id
+	 * @return set of PhyloTrees
+	 * @author hs 
+	 */
+	public Collection<PhyloTree> findTreesByNCBINodes(String pNcbiId);
 }

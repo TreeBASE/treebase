@@ -4,9 +4,11 @@ package org.cipres.treebase.dao.tree;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.dao.AbstractDAO;
@@ -28,9 +30,12 @@ import org.cipres.treebase.domain.tree.TreeKind;
 import org.cipres.treebase.domain.tree.TreeQuality;
 import org.cipres.treebase.domain.tree.TreeType;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Expression;
+
 
 /**
  * PhyloTreeDAO.java
@@ -681,6 +686,46 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 				.list();
 			
 			return trees;
+	}
+	
+
+	public Collection<PhyloTree> findTreesByNCBINodes(String pNcbiId) {
+
+		
+		Set<PhyloTree> returnVal = new HashSet<PhyloTree>();
+		
+		Object[] ncbiNode =  (Object []) getSession()
+			.createSQLQuery("SELECT * FROM ncbi_nodes WHERE tax_id = ?")
+			.addScalar("left_id", Hibernate.INTEGER)
+			.addScalar("right_id", Hibernate.INTEGER)
+			.setInteger(0, Integer.parseInt(pNcbiId))
+			.uniqueResult();
+
+		
+		
+		
+		List phyloTreeNodes =  getSession()
+			.createSQLQuery("select ptn.phylotree_id " +
+			"from PhyloTreeNode ptn "+ 
+			"join TaxonLabel tl on (ptn.taxonlabel_id = tl.taxonlabel_id) "+ 
+			"join TaxonVariant tv on (tl.taxonvariant_id = tv.taxonvariant_id) "+ 
+			"join Taxon tx on (tv.taxon_id = tx.taxon_id) "+ 
+			"join ncbi_nodes nno on (tx.ncbitaxid = nno.tax_id) "+ 
+			"where nno.left_id >= "+ ncbiNode[0] + " " +
+			"and nno.right_id <= "+ ncbiNode[1] + " " +
+			"group by ptn.phylotree_id ")
+			.addScalar("phylotree_id", Hibernate.LONG)
+			.list();
+		
+		if (phyloTreeNodes.isEmpty()) {
+			return returnVal;
+		}
+		
+		Collection <PhyloTree> phylotrees = (Collection<PhyloTree>) getSession()
+				.createQuery("from PhyloTree where id in (:ids)")
+				.setParameterList("ids", phyloTreeNodes)
+				.list();
+		return phylotrees;
 	}
 
 }

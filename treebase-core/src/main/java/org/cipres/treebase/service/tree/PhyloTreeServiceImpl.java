@@ -149,6 +149,14 @@ public class PhyloTreeServiceImpl extends AbstractServiceImpl implements PhyloTr
 	public Collection<PhyloTree> findByStudies(Set<Study> results) {
 		return getPhyloTreeHome().findByStudies(results);
 	}
+	
+	public Collection<PhyloTree> findTreesByNCBINodes(String pNcbiId) {
+		if ( pNcbiId == null ) {
+			return null;
+		}
+		return getPhyloTreeHome().findTreesByNCBINodes(pNcbiId);
+	} 
+	
 
 	/**
 	 * @param pStudy - a study

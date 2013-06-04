@@ -82,7 +82,7 @@
 		</repository>
 		<repository>
 			<id>org.tuckey.urlrewritefilter</id>
-			<url>http://repository.jboss.org/maven2/org/tuckey/urlrewritefilter</url>
+			<url>https://repository.jboss.org/nexus/content/groups/public/org/tuckey/urlrewritefilter</url>
 		</repository>      
     	<repository>
       		<id>java.net</id>

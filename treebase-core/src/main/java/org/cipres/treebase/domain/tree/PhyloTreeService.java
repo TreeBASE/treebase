@@ -134,5 +134,7 @@ public interface PhyloTreeService extends AbstractService {
 
 	Collection<PhyloTree> findByStudies(Set<Study> results);
 	Collection<PhyloTree> findByStudy(Study pStudy);
+	
+	public Collection<PhyloTree> findTreesByNCBINodes(String pNcbiId);
 
  }
