@@ -41,14 +41,28 @@ public class ClassificationSearchController extends SearchController {
 	
 	@SuppressWarnings("unchecked")
 	private Collection<PhyloTree> doSearch(
-			String searchTerm
-		) {
-
+			HttpServletRequest request,
+			HttpServletResponse response,
+			BindException errors,
+			String searchTerm) throws InstantiationException {
+		
 		Collection<PhyloTree> matches = null;
-		PhyloTreeService phyloTreeService = getSearchService().getPhyloTreeService();	
-		matches = phyloTreeService.findTreesByNCBINodes(searchTerm);
+		PhyloTreeService phyloTreeService = getSearchService().getPhyloTreeService();
+		
+		try {
+			matches = phyloTreeService.findTreesByNCBINodes(searchTerm);
+		}
+		catch ( NumberFormatException e ) {
+			addMessage(request, "Malformed NCBI identifier '" + searchTerm );
+			LOGGER.error("Couldn't parse NCBI identifier: "+e.getMessage());
+		}
+		catch ( NullPointerException e) {
+			addMessage(request, "NCBI identifier not found '" + searchTerm );
+			LOGGER.error("Couldn't find NCBI identifier: "+e.getMessage());
+			
+		}
+		
 		return matches;
-
 	}
 	
 	@Override
@@ -59,7 +73,7 @@ public class ClassificationSearchController extends SearchController {
 		CQLParser parser = new CQLParser();
 		CQLNode root = parser.parse(query);
 		root = normalizeParseTree(root);
-		HashSet<PhyloTree> queryResults = doCQLQuery(root, new HashSet<PhyloTree>(),request);
+		HashSet<PhyloTree> queryResults = doCQLQuery(root, new HashSet<PhyloTree>(),request, response, errors);
 		TreeSearchResults tsr = new TreeSearchResults(queryResults);
 		saveSearchResults(request, tsr);
 		
@@ -86,10 +100,16 @@ public class ClassificationSearchController extends SearchController {
 		}
 	}
 	
-	protected HashSet<PhyloTree> doCQLQuery(CQLNode node, HashSet<PhyloTree> results, HttpServletRequest request) {
+	protected HashSet<PhyloTree> doCQLQuery(
+			CQLNode node, 
+			HashSet<PhyloTree> results, 
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			BindException errors
+			) throws InstantiationException {
 		if ( node instanceof CQLBooleanNode ) {
-			HashSet<PhyloTree> resultsLeft = doCQLQuery(((CQLBooleanNode)node).left,results, request);
-			HashSet<PhyloTree> resultsRight = doCQLQuery(((CQLBooleanNode)node).right,results, request);
+			HashSet<PhyloTree> resultsLeft = doCQLQuery(((CQLBooleanNode)node).left,results, request, response, errors);
+			HashSet<PhyloTree> resultsRight = doCQLQuery(((CQLBooleanNode)node).right,results, request, response, errors);
 			if ( node instanceof CQLNotNode ) {
 				for ( PhyloTree rightTree : resultsRight ) {
 					if ( resultsLeft.contains(rightTree) )
@@ -114,7 +134,10 @@ public class ClassificationSearchController extends SearchController {
 				String index = term.getIndex();
 				if ( index.startsWith("tb.identifier") ) {
 					if ( index.endsWith("ncbi") ) {
-						results.addAll(doSearch(term.getTerm()));
+						Collection<PhyloTree> trees = doSearch(request, response, errors, term.getTerm()); 
+						if ( null != trees ) {
+							results.addAll(trees);
+						}
 					}
 					else {
 						// issue warnings
