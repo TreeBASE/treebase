@@ -2,3 +2,4 @@ Options +FollowSymlinks
 RewriteEngine on
 RewriteCond $1 !^(feed2js\.php)
 RewriteRule ^(.*)$ /treebase-feed/feed2js.php/$1 [L]
+php_value date.timezone "America/New_York"
