@@ -67,7 +67,7 @@ or your tree block &quot;Set of 5 MP Trees from COI Analysis&quot;</li>
 <h3>Instructional Video on Preparing NEXUS Data in Mesquite</h3>
 
 <p>
-<object width="480" height="385"><param name="movie" value="http://www.youtube.com/p/3F38DFE2626A5234?hl=en_US&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/p/3F38DFE2626A5234?hl=en_US&fs=1" type="application/x-shockwave-flash" width="480" height="385" allowscriptaccess="always" allowfullscreen="true"></embed></object>
+<iframe width="560" height="315" src="//www.youtube.com/embed/0bdKW5-Lg7E?list=PL3F38DFE2626A5234" frameborder="0" allowfullscreen></iframe>
 </p>
 
 <h3>Preparation of taxon labels</h3>
@@ -90,7 +90,7 @@ or your tree block &quot;Set of 5 MP Trees from COI Analysis&quot;</li>
 <p>If you are sufficiently caffeinated, please consider watching this video to understand the process of submitting data to TreeBASE. The video is also available in high-definition if you view in &quot;Full screen&quot;</p>
 
 <p>
-<object width="480" height="385"><param name="movie" value="http://www.youtube.com/p/9AD9904B8782D600?hl=en_US&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/p/9AD9904B8782D600?hl=en_US&fs=1" type="application/x-shockwave-flash" width="480" height="385" allowscriptaccess="always" allowfullscreen="true"></embed></object>
+<iframe width="560" height="315" src="//www.youtube.com/embed/2npvFJX31hs?list=PL9AD9904B8782D600" frameborder="0" allowfullscreen></iframe>
 </p>
 
 </div>
