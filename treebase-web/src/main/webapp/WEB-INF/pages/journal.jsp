@@ -29,7 +29,7 @@
 <!-- aliso -->
 		<tr>
 			<td>
-				<p><a href="http://www.rsabg.org/research-department/scientific-publications"
+				<p><a href="http://www.rsabg.org/scientific-publications"
 					title="Aliso"> 
 						<img class="journal"
 						src="images/journal_files/aliso.jpg" alt="Aliso"/> 
@@ -101,7 +101,7 @@
 <!-- the bryologist -->
 		<tr>
 			<td>
-				<p><a href="http://192.104.39.110/bryologist.html"
+				<p><a href="http://www.bioone.org/loi/bryo"
 					title="The Bryologist"> 
 						<img class="journal"
 						src="images/journal_files/bry.jpg" alt="Bryologist"/> 
@@ -211,7 +211,7 @@
 			<td>
 				<p>
 					<a
-						href="http://www3.interscience.wiley.com/journal/119423602/home">
+						href="http://onlinelibrary.wiley.com/journal/10.1111/(ISSN)1752-4571">
 						<img class="journal"
 							src="images/journal_files/image002.jpg" alt="Evolutionary Applications"/> 
 					</a>
@@ -526,7 +526,7 @@
 		<tr>
 			<td>
 				<p>
-					<a href="http://apsjournals.apsnet.org/loi/phyto?cookieSet=1"> 
+					<a href="http://apsjournals.apsnet.org/loi/phyto"> 
 						<img 
 							class="journal"
 							src="images/journal_files/image012.jpg" 
@@ -544,7 +544,7 @@
 <!-- plant disease -->
 		<tr>
 			<td>
-			<p><a href="http://www.apsnet.org/pd/">
+			<p><a href="http://apsjournals.apsnet.org/loi/pdis">
 			<img class="journal" src="images/journal_files/image013.jpg" alt="Plant Disease"/>
 			</a></p>
 			</td>
@@ -572,7 +572,7 @@
 <!-- rhodora -->
 		<tr>
 			<td>
-			<p><a href="http://www.rhodora.org/Rhodora.html"><img
+			<p><a href="http://www.rhodora.org/rhodora/currentissues.html"><img
 				class="journal"
 				src="images/journal_files/image014.gif" alt="Rhodora"/></a></p>
 			</td>
@@ -629,7 +629,7 @@
 <!-- systematic botany -->
 		<tr>
 			<td>
-			<p><a href="http://www.sysbot.org/">
+			<p><a href="http://www.bioone.org/loi/sbot">
 			<img class="journal" src="images/journal_files/image018.gif"
 				alt="Systematic Botany"/></a></p>
 			</td>
