@@ -80,6 +80,24 @@
 			</a></p>
 			</td>
 		</tr>
+<!-- basic and applied ecology -->
+		<tr>
+			<td>
+				<p><a href="http://www.elsevier.com/locate/baae"
+					title="Basic and Applied Ecology"> 
+						<img class="journal"
+						src="images/journal_files/baae.jpg" alt="Basic and Applied Ecology"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Basic%20and%20Applied%20Ecology%22"
+				title="Find records in TreeBASE for articles published in Basic and Applied Ecology">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotBasic+and+Applied+Ecology&quot
+			</a></p>
+			</td>
+		</tr>
 <!-- the bryologist -->
 		<tr>
 			<td>
@@ -204,6 +222,24 @@
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Evolutionary+Applications%22"
 				title="Find records in TreeBASE for articles published in Evolutionary Applications">
 			<%=purlBase%>study/find?query=prism.publicationName==&quotEvolutionary+Applications&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- flora -->
+		<tr>
+			<td>
+				<p><a href="http://www.elsevier.com/locate/flora"
+					title="Flora - Morphology, Distribution, Functional Ecology of Plants"> 
+						<img class="journal"
+						src="images/journal_files/flora.jpg" alt="Flora"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Flora%22"
+				title="Find records in TreeBASE for articles published in Flora">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotFlora&quot
 			</a></p>
 			</td>
 		</tr>
@@ -466,6 +502,24 @@
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DPersoonia"
 				title="Find records in TreeBASE for articles published in Persoonia">
 			<%=purlBase%>study/find?query=prism.publicationName==Persoonia</a></p>
+			</td>
+		</tr>
+<!-- perspectives in ecology, evolution and systematics -->
+		<tr>
+			<td>
+				<p><a href="http://www.elsevier.com/locate/ppees"
+					title="Perspectives in Ecology, Evolution and Systematics"> 
+						<img class="journal"
+						src="images/journal_files/ppees.jpg" alt="Perspectives in Ecology, Evolution and Systematics"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Perspectives%20in%20Ecology,%20Evolution%20and%20Systematics%22"
+				title="Find records in TreeBASE for articles published in Perspectives in Ecology, Evolution and Systematics">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotPerspectives+in+Ecology,+Evolution+and+Systematics&quot
+			</a></p>
 			</td>
 		</tr>
 <!-- phytopathology -->
