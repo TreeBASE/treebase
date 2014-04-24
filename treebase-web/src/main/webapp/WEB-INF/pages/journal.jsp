@@ -80,6 +80,44 @@
 			</a></p>
 			</td>
 		</tr>
+<!-- Applications in Plant Sciences -->
+		<tr>
+			<td>
+				<p><a href="http://botany.org/APPS/"
+					title="Applications in Plant Sciences"> 
+						<img class="journal"
+						src="images/journal_files/apps.jpg" alt="APS"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Applications%20in%20Plant%20Sciences%22"
+				title="Find records in TreeBASE for articles published in Applications in Plant Sciences">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotApplications+in+Plant+Sciences&quot
+			</a></p>
+			</td>
+		</tr>
+
+<!-- Aquatic Biology -->
+		<tr>
+			<td>
+				<p><a href="http://www.int-res.com/journals/ab/ab-home"
+					title="Aquatic Biology"> 
+						<img class="journal"
+						src="images/journal_files/ab.jpg" alt="AB"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Aquatic%20Biology%22"
+				title="Find records in TreeBASE for articles published in the Aquatic Biology">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotAquatic+Biology&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- basic and applied ecology -->
 		<tr>
 			<td>
@@ -98,6 +136,26 @@
 			</a></p>
 			</td>
 		</tr>
+
+<!-- Biology Letters -->
+		<tr>
+			<td>
+				<p><a href="http://rsbl.royalsocietypublishing.org"
+					title="Biology Letters"> 
+						<img class="journal"
+						src="images/journal_files/bl.jpg" alt="BL"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Biology%20Letters%22"
+				title="Find records in TreeBASE for articles published in the Biology Letters">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotBiology+Letters&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- the bryologist -->
 		<tr>
 			<td>
@@ -243,6 +301,25 @@
 			</a></p>
 			</td>
 		</tr>
+<!-- Functional Ecology -->
+		<tr>
+			<td>
+				<p><a href="http://www.functionalecology.org"
+					title="Functional Ecology"> 
+						<img class="journal"
+						src="images/journal_files/fe.jpg" alt="FE"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Functional%20Ecology%22"
+				title="Find records in TreeBASE for articles published in the Functional Ecology">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotFunctional+Ecology&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- fungal biology -->
 		<tr>
 			<td>
@@ -262,6 +339,25 @@
 			</a></p>
 			</td>
 		</tr>
+<!-- International Association for Plant Taxonomy -->
+		<tr>
+			<td>
+				<p><a href="http://www.iapt-taxon.org"
+					title="Aquatic Biology"> 
+						<img class="journal"
+						src="images/journal_files/iapt.jpg" alt="IAPT"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22International%20Association%20for%20Plant%20Taxonomy%22"
+				title="Find records in TreeBASE for articles published in the International Association for Plant Taxonomy">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotInternational+Association+for+Plant+Taxonomy&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- ima fungus -->
 		<tr>
 			<td>
@@ -297,6 +393,24 @@
 				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Invertebrate+Systematics%22"
 				title="Find records in TreeBASE for articles published in Invertebrate Systematics">
 			<%=purlBase%>study/find?query=prism.publicationName==&quotInvertebrate+Systematics&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- Journal of Ecology -->
+		<tr>
+			<td>
+				<p><a href="http://www.journalofecology.org"
+					title="Journal of Ecology"> 
+						<img class="journal"
+						src="images/journal_files/je.jpg" alt="JE"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Journal%20of%20Ecology%22"
+				title="Find records in TreeBASE for articles published in the Journal of Ecology">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotJournal+of+Ecology&quot
 			</a></p>
 			</td>
 		</tr>
@@ -337,6 +451,61 @@
 			</a></p>
 			</td>
 		</tr>
+<!-- Journal of Neurochemistry -->
+		<tr>
+			<td>
+				<p><a href="http://onlinelibrary.wiley.com/journal/10.1111/(ISSN)1471-4159"
+					title="Journal of Neurochemistry"> 
+						<img class="journal"
+						src="images/journal_files/jn.jpg" alt="JN"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Journal%20of%20Neurochemistry%22"
+				title="Find records in TreeBASE for articles published in the Journal of Neurochemistry">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotJournal+of+Neurochemistry&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- Journal of Paleontology -->
+		<tr>
+			<td>
+				<p><a href="http://www.journalofpaleontology.org/"
+					title="Journal of Paleontology"> 
+						<img class="journal"
+						src="images/journal_files/jp.jpg" alt="JP"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Journal%20of%20Paleontology%22"
+				title="Find records in TreeBASE for articles published in the Journal of Paleontology">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotJournal+of+Paleontology&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- Methods in Ecology and Evolution -->
+		<tr>
+			<td>
+				<p><a href="http://www.methodsinecologyandevolution.org"
+					title="Methods in Ecology and Evolution"> 
+						<img class="journal"
+						src="images/journal_files/mee.jpg" alt="MEE"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Methods%20in%20Ecology%20and%20Evolution%22"
+				title="Find records in TreeBASE for articles published in the Methods in Ecology and Evolution">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotMethods+in+Ecology+and+Evolution&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- molecular ecology -->
 		<tr>
 			<td>
@@ -367,6 +536,21 @@
 				title="Find records in TreeBASE for articles published in the Molecular Ecology Resources">
 			<%=purlBase%>study/find?query=prism.publicationName==Molecular+&quotEcology+Resources&quot
 			</a></p>
+			</td>
+		</tr>
+<!-- muelleria -->
+		<tr>
+			<td>
+			<p><a
+				href="http://www.rbg.vic.gov.au/science/information-and-resources/science-publications/muelleria">
+			<img class="journal"
+				src="images/journal_files/image015.jpg" alt="Muelleria"/></a></p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DMuelleria"
+				title="Find records in TreeBASE for articles published in Muelleria">
+			<%=purlBase%>study/find?query=prism.publicationName==Muelleria</a></p>
 			</td>
 		</tr>
 <!-- mycologia -->
@@ -459,6 +643,7 @@
 			<%=purlBase%>study/find?query=prism.publicationName==Mycosphere</a></p>
 			</td>
 		</tr>
+
 <!-- north american fauna -->
 		<tr>
 			<td>
@@ -475,6 +660,25 @@
 			<%=purlBase%>study/find?query=prism.publicationName==&quotNorth+American+Fauna&quot</a></p>
 			</td>
 		</tr>
+<!-- Open Biology -->
+		<tr>
+			<td>
+				<p><a href="http://rsob.royalsocietypublishing.org"
+					title="Open Biology"> 
+						<img class="journal"
+						src="images/journal_files/ob.jpg" alt="OB"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Open%20Biology%22"
+				title="Find records in TreeBASE for articles published in Open Biology">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotOpen+Biology&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- organisms, diversity, and evolution -->
 		<tr>
 			<td>
@@ -522,6 +726,44 @@
 			</a></p>
 			</td>
 		</tr>
+<!-- Philosophical Transactions of the Royal Society A -->
+		<tr>
+			<td>
+				<p><a href="http://rsta.royalsocietypublishing.org"
+					title="Philosophical Transactions of the Royal Society A"> 
+						<img class="journal"
+						src="images/journal_files/pta.jpg" alt="PTA"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Philosophical%20Transactions%20of%20the%20Royal%20Society%20A%22"
+				title="Find records in TreeBASE for articles published in the Philosophical Transactions of the Royal Society A">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotPhilosophical+Transactions+of+the+Royal+Society+A&quot
+			</a></p>
+			</td>
+		</tr>
+
+<!-- Philosophical Transactions of the Royal Society B -->
+		<tr>
+			<td>
+				<p><a href="http://rstb.royalsocietypublishing.org"
+					title="Philosophical Transactions of the Royal Society B"> 
+						<img class="journal"
+						src="images/journal_files/ptb.jpg" alt="PTB"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Philosophical%20Transactions%20of%20the%20Royal%20Society%20B%22"
+				title="Find records in TreeBASE for articles published in the Philosophical Transactions of the Royal Society B">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotPhilosophical+Transactions+of+the+Royal+Society+B&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- phytopathology -->
 		<tr>
 			<td>
@@ -569,6 +811,43 @@
 			<%=purlBase%>study/find?query=prism.publicationName==&quotPLoS+Currents:+Tree+of+Life&quot</a></p>
 			</td>
 		</tr>
+<!-- Proceedings of the Royal Society B -->
+		<tr>
+			<td>
+				<p><a href="http://rspb.royalsocietypublishing.org"
+					title="Proceedings of the Royal Society B"> 
+						<img class="journal"
+						src="images/journal_files/prsb.jpg" alt="PRSB"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Proceedings%20of%20the%20Royal%20Society%20B%22"
+				title="Find records in TreeBASE for articles published in the Proceedings of the Royal Society B">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotProceedings+of+the+Royal+Society+B&quot
+			</a></p>
+			</td>
+		</tr>
+<!-- Revista Chilena de Historia Natural -->
+		<tr>
+			<td>
+				<p><a href="http://rchn.biologiachile.cl/"
+					title="Revista Chilena de Historia Natural"> 
+						<img class="journal"
+						src="images/journal_files/rchn.jpg" alt="RCHN"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Revista%20Chilena%20de%20Historia%20Natural%22"
+				title="Find records in TreeBASE for articles published in Revista Chilena de Historia Natural">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotRevista+Chilena+de+Historia+Natural&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- rhodora -->
 		<tr>
 			<td>
@@ -583,21 +862,7 @@
 			<%=purlBase%>study/find?query=prism.publicationName==Rhodora</a></p>
 			</td>
 		</tr>
-<!-- muelleria -->
-		<tr>
-			<td>
-			<p><a
-				href="http://www.rbg.vic.gov.au/science/information-and-resources/science-publications/muelleria">
-			<img class="journal"
-				src="images/journal_files/image015.jpg" alt="Muelleria"/></a></p>
-			</td>
-			<td>
-			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DMuelleria"
-				title="Find records in TreeBASE for articles published in Muelleria">
-			<%=purlBase%>study/find?query=prism.publicationName==Muelleria</a></p>
-			</td>
-		</tr>
+
 <!-- studies in mycology -->
 		<tr>
 			<td>
@@ -689,9 +954,6 @@
 		title="Proceeding of the National Academy of Sciences of the United States of America">
 	Proceeding of the National Academy of Sciences of the United States of
 	America</a>; <a
-		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Proceedings+of+the+Royal+Society+B%22"
-		title="Proceedings of the Royal Society B">Proceedings of the Royal
-	Society B</a>; <a
 		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DTaxon"
 		title="Taxon">Taxon</a>; <a
 		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DZootaxa"
