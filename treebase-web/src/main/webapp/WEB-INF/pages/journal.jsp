@@ -339,24 +339,6 @@
 			</a></p>
 			</td>
 		</tr>
-<!-- International Association for Plant Taxonomy -->
-		<tr>
-			<td>
-				<p><a href="http://www.iapt-taxon.org"
-					title="Aquatic Biology"> 
-						<img class="journal"
-						src="images/journal_files/iapt.jpg" alt="IAPT"/> 
-					</a>
-				</p>
-			</td>
-			<td>
-			<p><a
-				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22International%20Association%20for%20Plant%20Taxonomy%22"
-				title="Find records in TreeBASE for articles published in the International Association for Plant Taxonomy">
-			<%=purlBase%>study/find?query=prism.publicationName==&quotInternational+Association+for+Plant+Taxonomy&quot
-			</a></p>
-			</td>
-		</tr>
 
 <!-- ima fungus -->
 		<tr>
@@ -905,6 +887,25 @@
 			<%=purlBase%>study/find?query=prism.publicationName==&quotSystematic+Botany&quot</a></p>
 			</td>
 		</tr>
+<!-- Taxon -->
+		<tr>
+			<td>
+				<p><a href="http://www.iapt-taxon.org"
+					title="Taxon"> 
+						<img class="journal"
+						src="images/journal_files/taxon.jpg" alt="TAXON"/> 
+					</a>
+				</p>
+			</td>
+			<td>
+			<p><a
+				href="<%=purlBase%>study/find?query=prism.publicationName%3D%3D%22Taxon%22"
+				title="Find records in TreeBASE for articles published in Taxon, the International Association for Plant Taxonomy">
+			<%=purlBase%>study/find?query=prism.publicationName==&quotTaxon&quot
+			</a></p>
+			</td>
+		</tr>
+
 <!-- tropical bryology -->
 		<tr>
 			<td>
@@ -954,8 +955,6 @@
 		title="Proceeding of the National Academy of Sciences of the United States of America">
 	Proceeding of the National Academy of Sciences of the United States of
 	America</a>; <a
-		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DTaxon"
-		title="Taxon">Taxon</a>; <a
 		href="<%=purlBase%>study/find?query=prism.publicationName%3D%3DZootaxa"
 		title="Zootaxa">Zootaxa</a></p>
 
