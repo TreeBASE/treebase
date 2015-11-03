@@ -1,0 +1,10 @@
+treebase-core/target
+treebase-core/.includepath
+treebase-core/src/main/resources/jdbc.properties
+treebase-notebook/target
+treebase-phylowidget/.project
+treebase-web/target
+treebase-web/src/main/resources/jdbc.properties
+treebase-web/src/main/webapp/META-INF/context.xml
+treebase-web/src/main/webapp/images/treebase.ai
+treebase-web/src/main/webapp/images/treebase.psd
