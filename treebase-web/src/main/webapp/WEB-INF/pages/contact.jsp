@@ -10,31 +10,13 @@
 	<h2>Bugs</h2>
 	<p>
 		To report software bugs, browser conflicts, and ergonomic
-		inefficiencies, please email your issue report to the TreeBASE bug queue: 
-		<a href="m&#x61;&#105;lt&#111;:bugs&#64;treeb&#97;&#115;&#101;.o&#114;g">&#98;&#x75;&#103;s&#64;&#116;ree&#x62;a&#115;e.&#x6f;rg</a>
+		inefficiencies, please visit the <a
+		href="https://github.com/TreeBASE/treebase/issues">Github issue tracker for TreeBASE</a>.
+		If the problem you observed does not already appear in the list, please
+		<a href="https://github.com/TreeBASE/treebase/issues/new">file a new report</a>. If you
+		don't have a Github account yet, this may require you <a href="https://github.com/join">to 
+		create one</a>, which is very easy and can be done with minimal information.
 	</p>
-
-	<p>
-		Alternatively, you can enter a bug report directly into our
-		SourceForge online bug tracker. For that, please follow these steps:			
-	</p>
-	<ol style="list-style-type:upper-roman">
-		<li>If you have a SourceForge account, log in to it and
-		proceed to (II) below. Otherwise visit <a
-		href="http://sourceforge.net/account/registration/">
-		http://sourceforge.net/account/registration/</a>
-		and fill in the form. After you confirm the account creation by email, log in at <a
-		href="http://sourceforge.net/account/login.php">http://sourceforge.net/account/login.php
-		</a></li>
-		
-		<li> Visit <a
-		href="https://sourceforge.net/tracker2/?group_id=248804&amp;atid=1126676">
-		https://sourceforge.net/tracker2/?group_id=248804&amp;atid=1126676</a>. On this page you can browse the bug database.</li>
-
-		<li>Click the &quot;add new&quot; button. &nbsp;Add the
-		description of the bug. &nbsp;Long outputs or error messages can be attached as
-		separate files if you prefer. Click &quot;add artifact&quot; to submit the report.</li>
-	</ol>
 </div>
 
 
