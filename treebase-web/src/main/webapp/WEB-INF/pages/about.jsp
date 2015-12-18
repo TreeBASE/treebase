@@ -68,8 +68,9 @@
 	</p>
 	<p>
 		The current version of the database is 2.0 (released March 2010), and is hosted 
-		by the National Evolutionary Synthesis Center (<a href="http://www.nescent.org">
-		NESCent</a>). In previous years the database has been hosted by the 
+		by <a href="http://www.naturalis.nl">Naturalis Biodiversity Center</a>.
+		In previous years the database has been hosted by the 
+		<a href="http://www.nescent.org">National Evolutionary Synthesis Center</a>, the
 		<a href="http://www.peabody.yale.edu/">Yale Peabody Museum</a>, the 
 		<a href="http://www.sdsc.edu">San Diego Supercomputer Center</a>, the 
 		<a href="http://www.buffalo.edu">University at Buffalo</a>, 
