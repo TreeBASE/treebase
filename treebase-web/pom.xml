@@ -78,7 +78,7 @@
 		<repository>
 			<id>m2.nexml.repos</id>
 			<name>NeXML Remote Repository</name>
-			<url>http://nexml-dev.nescent.org/.m2/repository</url>
+			<url>http://nexml.github.io/maven/repository</url>
 		</repository>
 		<repository>
 			<id>org.tuckey.urlrewritefilter</id>
@@ -98,13 +98,9 @@
 	
 	<dependencies>		
 		<dependency>
-			
 			<groupId>org.nexml.model</groupId>
-			
 			<artifactId>nexml</artifactId>
-			
 			<version>1.5-SNAPSHOT</version>
-		
 		</dependency>
 		
 		<dependency>
@@ -309,13 +305,9 @@
 		</dependency>
 		
 		<dependency>
-			
 			<groupId>zing.z3950.org</groupId>
-			
 			<artifactId>cql-java</artifactId>
-			
 			<version>1.0</version>
-		
 		</dependency>
 		<dependency>
 			<groupId>org.tuckey</groupId>
