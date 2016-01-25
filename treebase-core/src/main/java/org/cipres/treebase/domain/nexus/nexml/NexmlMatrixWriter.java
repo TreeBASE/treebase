@@ -390,7 +390,7 @@ public class NexmlMatrixWriter extends NexmlObjectConverter {
 			org.nexml.model.Character xmlCharacter = xmlCharacterList.get(charIndex);
 			MatrixCell<CharacterState> xmlCell = xmlMatrix.getCell(xmlOTU, xmlCharacter);
 			String value = "" + seq.charAt(charIndex);
-			CharacterState xmlState = xmlMatrix.parseSymbol(value);
+			CharacterState xmlState = xmlMatrix.parseSymbol(value,xmlCharacter);
 			xmlCell.setValue(xmlState);
 			attachTreeBaseID ((Annotatable) xmlCell,  tbColumn , DiscreteMatrixElement.class);
 			
