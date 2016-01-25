@@ -235,6 +235,12 @@ public class AuxDataTest extends TestCase {
 			return results;
 		}
 
+		public Collection<PhyloTree> findTreesByNCBINodes(String pNcbiId) {
+			// TODO Auto-generated method stub
+			return null;		
+		}
+
+
 		public Set<PhyloTree> findByTopology3(TaxonVariant taxonVariant,
 				TaxonVariant taxonVariant2, TaxonVariant taxonVariant3) {
 			// TODO Auto-generated method stub
