@@ -41,7 +41,7 @@
 		<repository>
 			<id>m2.nexml.repos</id>
 			<name>NeXML Remote Repository</name>
-			<url>http://nexml-dev.nescent.org/.m2/repository</url>
+			<url>http://nexml.github.io/maven/repository</url>
 		</repository>
 
 	</repositories>
@@ -85,7 +85,7 @@
 			<artifactId>c3p0</artifactId>
 			<version>0.9.1.2</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.nexml.model</groupId>
 			<artifactId>nexml</artifactId>
@@ -123,7 +123,7 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.1</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -135,7 +135,6 @@
 			<artifactId>mesquite</artifactId>
 			<version>2.01.tb</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
