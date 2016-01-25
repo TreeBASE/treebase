@@ -24,7 +24,7 @@ import org.cipres.treebase.domain.tree.PhyloTreeService;
 
 
 /**
- * Façade class providing convenient access to frequently-used components of
+ * Facade class providing convenient access to frequently-used components of
  * a {@see ValueStudy} value.
  * 
  * For example:
@@ -83,7 +83,7 @@ public class AuxData {
 	Study theStudy = null;
 
 	/**
-	 * Constructor returns a façade object for the specified study value
+	 * Constructor returns a facade object for the specified study value
 	 * 
 	 * @param pStudyData
 	 */
