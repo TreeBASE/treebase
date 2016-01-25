@@ -7,16 +7,16 @@
   <artifactId>treebase</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
-  <url>https://sourceforge.net/projects/treebase/</url>
+  <url>https://github.com/TreeBASE/treebase</url>
   <issueManagement>
-    <system>SourceForge</system>
-    <url>https://sourceforge.net/tracker/?group_id=248804</url>
+    <system>GitHub issues</system>
+    <url>https://github.com/TreeBASE/treebase/issues</url>
   </issueManagement>
   <inceptionYear>2005</inceptionYear>
   <scm>
-    <connection>scm:svn:https://treebase.svn.sourceforge.net/svnroot/treebase/trunk</connection>
-    <developerConnection>scm:svn:https://treebase.svn.sourceforge.net/svnroot/treebase/trunk</developerConnection>
-    <url>http://treebase.svn.sourceforge.net/viewvc/treebase/trunk</url>
+    <connection>scm:git:git://github.com/TreeBASE/treebase.git</connection>
+    <developerConnection>scm:git:git@github.com:TreeBASE/treebase.git</developerConnection>
+    <url>https://github.com/TreeBASE/treebase</url>
   </scm>
   <mailingLists>
   
@@ -44,26 +44,16 @@
   </mailingLists>
   <developers>
   
-    <developer>
-    	
+    <developer>    	
      <id>rvosa</id>
-    	
      <name>Rutger Vos</name>
-    	
      <email>rutgeraldo@gmail.com</email>
-    	
-     <organization>University of Reading</organization>
-    	
-     <organizationUrl>http://www.reading.ac.uk</organizationUrl>
-    	
+     <organization>Naturalis Biodiversity Center</organization>
+     <organizationUrl>http://www.naturalis.nl</organizationUrl>
      <timezone>0</timezone>
-    	
      <roles>
-    	  
       <role>developer</role>
-    	
      </roles>
-    
     </developer>
     
   </developers>
@@ -168,8 +158,8 @@
      </dependencies>
   </dependencyManagement>
   <organization>
-    <name>NESCent</name>
-    <url>http://www.nescent.org</url>
+    <name>Naturalis Biodiversity Center</name>
+    <url>http://www.naturalis.nl</url>
   </organization>
   
   <!-- order of repositories used to compile the project -->
