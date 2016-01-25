@@ -72,7 +72,7 @@
 		<repository>
 			<id>m2.remote.repos</id>
 			<name>Maven 2 Remote Repository</name>
-			<url>http://treebase.sourceforge.net/maven2</url>
+			<url>http://treebase.github.io/treebase/repository</url>
 		</repository>
 
 		<repository>
