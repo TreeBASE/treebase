@@ -9,13 +9,15 @@ subprojects, which are described below. For more high-level documentation about 
 
 ### Essential subprojects for TreeBASE v.2
 
-The following are subprojects that jointly comprise the TreeBASE v.2 database bindings, web application, and browser widgets 
-(tree viewer and news feed).
+The following are subprojects that jointly comprise the TreeBASE v.2 MVC application of a data **Model** that persists on a PostgreSQL
+database via Hibernate, multiple **Views** (namely, a JSP/HTML GUI, an oai-pmh web service interface, a tree viewing and editing
+applet, and a news feed), linked together by a **Controller** API in Java 1.5 using the Spring framework.
 
 - [treebase-core](treebase-core) - Java 1.5 API to access the underlying relational database based on PostgreSQL
 - [treebase-phylowidget](treebase-phylowidget) - Java 1.5 browser applet for tree viewing and editing
 - [treebase-web](treebase-web) - Java 1.5 MVC web application that is the TreeBASE (v.2) GUI
 - [treebase_feed](treebase_feed) - PHP feed with newest studies, to embed in the GUI
+- [oai-pmh_data_provider](oai-pmh_data_provider) - additional Java 1.5 MVC functionality for OAI-PMH interface
 
 ### Experiments, non-essential subprojects
 
