@@ -3,7 +3,7 @@ Installation instructions for the web application
 
 Instructions and scripts for installing the TreeBASE v.2 web application. Contributors to these instructions:
 
-- Mark-Jason Dominus, at UPenn, wrote an initial version and Java data loading tools (see doc-mjd.txt) for the SDSC install
+- Mark-Jason Dominus wrote an initial version (doc-mjd.txt) and Java data loading tools for the SDSC install
 - Vladimir Gapeyev updated this in Feb-Mar 2010 for the NESCent install
 - Rutger Vos ported the instructions to the install at Naturalis
 
