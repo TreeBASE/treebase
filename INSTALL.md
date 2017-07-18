@@ -1,10 +1,11 @@
-Installation instructions for the web application
-=================================================
+Installation instructions for data loading environment
+======================================================
 
-The goal of these instructions is to guide you through the process of building the TreeBASE v.2 web application
-on a Linux/Unix-like server. As such, these instructions DO NOT cover how to set up a local development environment 
-(which would involve wrestling with Eclipse) or provisioning the server, which is automated in 
-[puppet](http://github.com/naturalis/role_treebase).
+The goal of these instructions is to guide you through the process of building a TreeBASE v.2 application on a 
+Linux/Unix-like server. As such, these instructions DO NOT cover how to set up a local development environment 
+(which would involve wrestling with Eclipse) or provisioning a web application server, which is automated in 
+[puppet](http://github.com/naturalis/role_treebase) based on 
+[pre-compiled artifacts](https://github.com/naturalis/treebase-artifact).
 
 Contributors to these instructions:
 
