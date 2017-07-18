@@ -39,22 +39,21 @@ This directory (treebase-core/db/tb1load) is a part of
 this environment and some of the following instructions rely on its relative location.  
 -->
 
-Bring in necessary TreeBASE classes
------------------------------------
+Copy compiled TreeBASE classes and JARs to target directories
+-------------------------------------------------------------
 
 Assuming TreeBASE has been built, the script [copy_tb2code.sh](treebase-core/db/tb1load/scripts/copy_tb2code.sh)
 copies pre-requisite JARS from `treebase-web/target/treebase-web/WEB-INF/lib/` to `tb2jars` and the compiled contents 
 of `treebase-core/target/classes/` to `tb2classes`
 
-Bring in Mesquite code 
-----------------------
+Copy headless Mesquite classes to target directories
+----------------------------------------------------
 
-Copy contents of your Mesquite installation to `mesquite`
-
-- If you already have a working TB2 instance running under tomcat, it should point to a Mesquite installation from its config 
-  file `$CATALINA_HOME/conf/Catalina/localhost/treebase-web.xml`. Copy the contents of that directory into `mesquite`.  
-- Alternatively, if you have successfully built TB2 with Maven, you will have Mesquite in 
-  `~/.m2/repository/mesquite/mesquite/2.01.tb/mesquite-2.01.tb.jar`. Unzip this archive and place its *contents* into `mesquite`.
+Copy contents of your Mesquite installation to `mesquite`. If you have successfully built TB2 with Maven, you will have 
+Mesquite in `~/.m2/repository/mesquite/mesquite/2.01.tb/mesquite-2.01.tb.jar`. Unzip this archive and place its *contents* 
+into `mesquite`. Alternatively, if you already have a working TB2 instance running under tomcat, it should point to a 
+Mesquite installation from its config file `$CATALINA_HOME/conf/Catalina/localhost/treebase-web.xml`. Copy the contents of 
+that directory into `mesquite`.  
 
 Bring in Apple JARs
 -------------------
@@ -91,7 +90,7 @@ mesquite.folder_dir should contain a path to the mesquite/ directory populated a
    full DDL rights, as it creates and removes several tables, constraints and functions. 
 
 Stage 2: Prepare the data 
-========================
+=========================
 
 Download the data to be migrated and place it in the data/ directory, under the exact file names as listed below. The scripts expect these locations and file names. 
 
