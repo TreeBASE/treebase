@@ -1,10 +1,10 @@
 Installation instructions for the web application
 =================================================
 
-The goal of these instructions is to guide you through the process of setting up the TreeBASE v.2 web application
-on a Linux/Unix-like server and importing data into it. As such, these instructions DO NOT cover how to set up a
-development environment (which would involve wrestling with Eclipse) or a continuous integration environment, where
-something like Travis and JUnit would come into play.
+The goal of these instructions is to guide you through the process of building the TreeBASE v.2 web application
+on a Linux/Unix-like server. As such, these instructions DO NOT cover how to set up a local development environment 
+(which would involve wrestling with Eclipse) or provisioning the server, which is automated in 
+[puppet](http://github.com/naturalis/role_treebase).
 
 Contributors to these instructions:
 
@@ -12,8 +12,8 @@ Contributors to these instructions:
 - Vladimir Gapeyev updated this in Feb-Mar 2010 for the NESCent install
 - Rutger Vos ported the instructions to the install at Naturalis in July 2017
 
-The goal of the instructions is to extract a subset of the TB2 development environment sufficient to run loading on the 
-server. This circumvents the more complex task of re-creating a full-fledged development environment on the server. 
+The goal of the steps below is to extract a subset of the TB2 development environment sufficient to run [LOADING.md](LOADING.md) 
+on the server. This circumvents the more complex task of re-creating a full-fledged development environment on the server. 
 
 Set up working environment
 --------------------------
