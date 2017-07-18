@@ -1,24 +1,26 @@
-This directory keeps track of schema patches applied to the DB as the application evolves, 
-as well as occasional snapshots of the schema and pre-loaded dictionary-like data. 
+Schema versioning
+=================
+
+This directory keeps track of schema patches applied to the TreeBASE DB as the application evolves, as well as occasional snapshots 
+of the schema and pre-loaded dictionary-like data. 
 
 Outline
-======= 
+-------
 
 The setup is inspired by database migrations in Ruby and Python, but is not nearly as comprehensive. 
 
-The 'patches' directory stores SQL scripts (nnnn_descr_label.sql) that move the schema 
-from one version to the next.  Occasionally, we put into the 'snaphots' subdirectory 
-nnnn_SCHEMA...sql and nnnn_DATA...sql that capture the state of the DB after the 
-patches/nnnn.sql patch has been applied.
+The `patches` directory stores SQL scripts (`nnnn_descr_label.sql`) that move the schema 
+from one version to the next.  Occasionally, we put into the `snaphots` subdirectory 
+`nnnn_SCHEMA...sql` and `nnnn_DATA...sql` that capture the state of the DB after the 
+`patches/nnnn.sql` patch has been applied.
 
-Patches are sequentially numbered (by hand). If a snapshot nnnn is present, it reflects 
+Patches are sequentially numbered (by hand). If a `snapshot/nnnn_*.sql` is present, it reflects 
 the state of the DB after patch nnnn was applied. 
 
-The schema (staring with the very first 0000 snapshot) contains the 'versionhistory' table, 
+The schema (staring with the very first 0000 snapshot) contains the `versionhistory` table, 
 which is used to keep track which patches have already been applied to a particular DB instance. 
 This is particularly useful in multi-instance installations (e.g., when there are 
 development, staging, production, etc., instances).  [See versionhistory.sql for the table's definition.]
-
 
 Task-specific instructions
 ==========================
@@ -26,8 +28,8 @@ Task-specific instructions
 Creating a patch 
 ----------------
 
-A patch is generally committed into SVN together with Java code for the application.  
-It is expected that, for a given SVN version, the application code expects to work
+A patch is generally committed into version control together with Java code for the application.  
+It is expected that, for a given commit, the application code expects to work
 w.r.t. the database containing all the patches from this version.  
 
 Use the next sequential number and a short descriptive label to name a patch. 
@@ -49,17 +51,18 @@ instances to conform with the new patch version.  This can be doable when the pa
 was only applied to the development DB instance.  When the patch with an error was already 
 applied to production databases, it could be more prudent to develop a new, error-fixing patch. 
 
-When adding a patch, add a line into init_db_uptodate.pg as well. 
+When adding a patch, add a line into `init_db_uptodate.pg` as well. 
 
 
 Applying a patch
 ----------------
 
-Apply each patch within a transaction, e.g.,  
-psql -d yourdb -U yourusername
-yourdb=> begin transaction;
-yourdb=> \i nnnn_your_patch.sql
-yourdb=> commit;  OR rollback;
+Apply each patch within a transaction, e.g.:
+
+    psql -d yourdb -U yourusername
+    yourdb=> begin transaction;
+    yourdb=> \i nnnn_your_patch.sql
+    yourdb=> commit;  OR rollback;
 
 After that, adjust ownership and permissions on newly created objects, if any, 
 as required by the DB instance.  
@@ -74,45 +77,43 @@ Creating a current snapshot
 Schema snapshots must not include any ownership or permissions commands, since these 
 are installation-specific.  This command,  
 
-pg_dump -h your.host.url -U your_username --format=p --no-owner --no-privileges --schema-only  yourdb >  nnnn_your_label.sql
+    pg_dump -h your.host.url -U your_username --format=p --no-owner --no-privileges --schema-only  yourdb >  nnnn_your_label.sql
 
 creates a reasonably lean dump of the schema.  However, if the DB contained any objects 
 not created by prior snapshots and patches, they should be removed by hand. 
 
-Data snapshot is trickier.  The best bet right now is probably by hand-modifying the previous data snapshot. 
-
-After creating a new snapshot, update init_db_uptodate.pg: change the names of the snapshot scripts
+Data snapshot is trickier. The best bet right now is probably by hand-modifying the previous data snapshot. 
+After creating a new snapshot, update `init_db_uptodate.pg`: change the names of the snapshot scripts
 and remove all \i commands for the patch scripts. 
 
 
 Creating a fresh DB
 ------------------
 
-Use the init_db_uptodate.pg script, which should create the DB from the most recent snapshot 
+Use the `init_db_uptodate.pg` script, which should create the DB from the most recent snapshot 
 and apply all the subsequent patches: 
 
 Use the most recent snapshot: 
 
-psql -d yourdb -U yourusername -f init_db_uptodate.pg
+    psql -d yourdb -U yourusername -f init_db_uptodate.pg
 
 OR 
 
-psql -d yourdb -U yourusername
-yourdb=> begin transaction;
-yourdb=> \i init_db_uptodate.pg
-yourdb=> commit;  
-
+    psql -d yourdb -U yourusername
+    yourdb=> begin transaction;
+    yourdb=> \i init_db_uptodate.pg
+    yourdb=> commit;  
 
 Recommended development - production - staging workflow 
 =======================================================
 
 Local instances:  It is recommended that each developer has his own DB instance to use for writing 
 and initially testing new versions of the application and schema patches. This ensures 
-at least some basic compatibility between SQL and Java within a given SVN commit. 
+at least some basic compatibility between SQL and Java within a given commit. 
 These instances may contain only minimal data, as useful for the developer. 
 
 Development instance:  The dev DB instance is frequently re-built to track 
-the most recent SVN version of the application and DB patches. It is used to verify correctness 
+the most recent commit of the application and DB patches. It is used to verify correctness 
 of new versions and to communicate with non-programmer project participants. 
 This instance should contain sizable and representative amount of data, 
 but not necessarily as much or as good quality as the production instance. 
