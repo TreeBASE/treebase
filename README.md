@@ -15,10 +15,10 @@ The following are subprojects that jointly comprise the TreeBASE v.2 MVC applica
 database via Hibernate, multiple **Views** (namely, a JSP/HTML GUI, an oai-pmh web service interface, a tree viewing and editing
 applet, and a news feed), linked together by a **Controller** API in Java 1.5 using the Spring framework.
 
-- [treebase-core](treebase-core) - Java 1.5 API to access the underlying relational database based on PostgreSQL
+- [treebase-core](treebase-core) - Java 1.5 ORM API to access the underlying relational database based on PostgreSQL
 - [treebase-phylowidget](treebase-phylowidget) - Java 1.5 browser applet for tree viewing and editing
-- [treebase-web](treebase-web) - Java 1.5 MVC web application that is the TreeBASE (v.2) GUI
-- [treebase_feed](treebase_feed) - PHP feed with newest studies, to embed in the GUI
+- [treebase-web](treebase-web) - Java 1.5 MVC web application for the JSP/HTML GUI
+- [treebase_feed](treebase_feed) - PHP feed with newest studies, to embed in the JSP/HTML GUI
 - [oai-pmh_data_provider](oai-pmh_data_provider) - additional Java 1.5 MVC functionality for OAI-PMH interface
 
 ### Experiments, non-essential subprojects
