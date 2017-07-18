@@ -1,10 +1,21 @@
-Instructions and scripts for performing data loading from TB1 dumps to a TB2 postrges instance. 
-[Put together by Vladimir Gapeyev in Feb-Mar 2010, based on Java tools developed Mark-Jason Dominus (see doc-mjd.txt)]
+Installation instructions for the web application
+=================================================
 
-The are two stages to the process: (1) setting up working environment and (2) running the loading scripts. The goal of the 
-first stage is to extract a subset of the TB2 development environment sufficient to run loading on the server -- this 
-circumvents the more complex task of re-creating a full-fledged development environment on the server. 
+Instructions and scripts for installing the TreeBASE v.2 web application. Contributors to these instructions:
 
+- Mark-Jason Dominus, at UPenn, wrote an initial version and Java data loading tools (see doc-mjd.txt) for the SDSC install
+- Vladimir Gapeyev updated this in Feb-Mar 2010 for the NESCent install
+- Rutger Vos ported the instructions to the install at Naturalis
+
+The are two stages to the installation process: 
+
+1. setting up working environment; and 
+2. running the loading scripts 
+
+The goal of the first stage is to extract a subset of the TB2 development environment sufficient to run loading on the server.
+This circumvents the more complex task of re-creating a full-fledged development environment on the server. 
+
+<!--
 Contents of this directory
 ==========================
 
@@ -15,6 +26,7 @@ Contents of this directory
 - [data](data) - placeholder for the data files to be migrated 
 - [scripts](scripts) - shell and SQL scripts to run for loading; the scripts invoke code from tb2classes, which relies on jars 
   in `tb2jars`, `mesquite`, and `apple`.
+-->
 
 Stage 1: Set up working environment
 ===================================
