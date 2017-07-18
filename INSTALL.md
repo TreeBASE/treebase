@@ -31,9 +31,13 @@ Contents of this directory
 Stage 1: Set up working environment
 ===================================
 
-You must have checked out from the code repository and configured a working TB2 build environment (for the [treebase](../../../), 
-[treebase-core](../../), and [treebase-web](../../treebase-web) projects). This directory (treebase-core/db/tb1load) is a part of 
+You must have checked out from the code repository and configured a working TB2 build environment (for the [treebase](./), 
+[treebase-core](treebase-core), and [treebase-web](treebase-web) projects). 
+
+<!--
+This directory (treebase-core/db/tb1load) is a part of 
 this environment and some of the following instructions rely on its relative location.  
+-->
 
 Bring in necessary Treebase2 code 
 ---------------------------------
