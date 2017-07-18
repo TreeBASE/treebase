@@ -5,7 +5,7 @@ Instructions and scripts for installing the TreeBASE v.2 web application. Contri
 
 - Mark-Jason Dominus wrote an initial version (doc-mjd.txt) and Java data loading tools for the SDSC install
 - Vladimir Gapeyev updated this in Feb-Mar 2010 for the NESCent install
-- Rutger Vos ported the instructions to the install at Naturalis
+- Rutger Vos ported the instructions to the install at Naturalis in July 2017
 
 The are two stages to the installation process: 
 
@@ -15,59 +15,56 @@ The are two stages to the installation process:
 The goal of the first stage is to extract a subset of the TB2 development environment sufficient to run loading on the server.
 This circumvents the more complex task of re-creating a full-fledged development environment on the server. 
 
-<!--
-Contents of this directory
-==========================
-
-- [tb2jars](tb2jars) - placeholder for dependent JARs of Treebase2
-- [tb2classes](tb2classes) - placeholder for Treebase2 classes
-- [apple](apple) - placeholder for MacOSX-specific JARs 
-- [mesquite](mesquite) - placeholder for Mesquite code 
-- [data](data) - placeholder for the data files to be migrated 
-- [scripts](scripts) - shell and SQL scripts to run for loading; the scripts invoke code from tb2classes, which relies on jars 
-  in `tb2jars`, `mesquite`, and `apple`.
--->
-
 Stage 1: Set up working environment
 ===================================
 
-You must have checked out from the code repository and configured a working TB2 build environment (for the [treebase](./), 
-[treebase-core](treebase-core), and [treebase-web](treebase-web) projects). 
+You must have checked out from the code repository and configured a working TB2 build environment (for the [treebase](#), 
+[treebase-core](treebase-core), and [treebase-web](treebase-web) projects). This will involve setting up a Java build 
+environment, i.e. compilers and `maven`; installing and configuring PostgreSQL.
+
+Target directory layout
+-----------------------
+For the remainder of the installation, it is assumed that the following directory layout exists:
+
+- `tb2jars` - placeholder for pre-requisite JARs
+- `tb2classes` - placeholder for compiled TreeBASE v.2 classes
+- `mesquite` - placeholder for headless Mesquite code 
+- `apple` - placeholder for MacOSX-specific JARs, needed by Mesquite, even on other platforms
+- `data` - placeholder for the data files to be migrated 
+- `scripts` - shell and SQL scripts to run for loading; the scripts invoke code from tb2classes, which relies on jars 
+  in `tb2jars`, `mesquite`, and `apple`.
 
 <!--
 This directory (treebase-core/db/tb1load) is a part of 
 this environment and some of the following instructions rely on its relative location.  
 -->
 
-Bring in necessary Treebase2 code 
----------------------------------
+Bring in necessary TreeBASE classes
+-----------------------------------
 
-    cd scripts; ./copy_tb2code.sh 
-
-Assuming Treebase has been built, this script copies JARS from treebase-web/target/treebase-web/WEB-INF/lib/ to tb2jars/ copies contents 
-of treebase-core/target/classes/ to tb2classes/
+Assuming TreeBASE has been built, the script [copy_tb2code.sh](treebase-core/db/tb1load/scripts/copy_tb2code.sh)
+copies pre-requisite JARS from `treebase-web/target/treebase-web/WEB-INF/lib/` to `tb2jars` and the compiled contents 
+of `treebase-core/target/classes/` to `tb2classes`
 
 Bring in Mesquite code 
 ----------------------
 
-Copy contents of your Mesquite installation to mesquite/
+Copy contents of your Mesquite installation to `mesquite`
 
 - If you already have a working TB2 instance running under tomcat, it should point to a Mesquite installation from its config 
-  file $CATALINA_HOME/conf/Catalina/localhost/treebase-web.xml.  Copy the contents of that directory into mesquite/.  
+  file `$CATALINA_HOME/conf/Catalina/localhost/treebase-web.xml`. Copy the contents of that directory into `mesquite`.  
 - Alternatively, if you have successfully built TB2 with Maven, you will have Mesquite in 
-  ~/.m2/repository/mesquite/mesquite/2.01.tb/mesquite-2.01.tb.jar. Unzip this archive and place its *contents* into mesquite/.
+  `~/.m2/repository/mesquite/mesquite/2.01.tb/mesquite-2.01.tb.jar`. Unzip this archive and place its *contents* into `mesquite`.
 
 Bring in Apple JARs
 -------------------
 
-Only if the run location will not be a Mac OSX unix: JARs MRJToolkit.jar and ui.jar should be placed in tb2apple/
-
-[These are Apple-specific JARs, apparently loaded by Mesquite.  Since Mesquite runs in "headless" mode, code from these JARs 
-probably is not executed, so they are harmless.]
-
+Regardless the OS on which it runs, Mesquite requires two MacOSX-specific Java jars: `MRJToolkit.jar` and `ui.jar`. Since Mesquite 
+runs in "headless" mode, code from these JARs probably is not executed, so they are harmless but they have to be present in `apple`.
 On a Mac OSX machine, these could be at: 
 
-/System/Library/Java/Extensions/MRJToolkit.jar  /System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/ui.jar 
+- `/System/Library/Java/Extensions/MRJToolkit.jar`
+- `/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/ui.jar`
 
 Relocate to the run location 
 ----------------------------
