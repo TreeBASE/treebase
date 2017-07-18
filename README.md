@@ -11,7 +11,7 @@ subprojects, which are described below.
 The following are subprojects that jointly comprise the TreeBASE v.2 database bindings, web application, and browser widgets 
 (tree viewer and news feed).
 
-- [treebase-core](treebase-core) - Java 1.5 API to access the underlying data model, i.e. a relational database based on PostgreSQL
+- [treebase-core](treebase-core) - Java 1.5 API to access the underlying relational database based on PostgreSQL
 - [treebase-phylowidget](treebase-phylowidget) - Java 1.5 browser applet for tree viewing and editing
 - [treebase-web](treebase-web) - Java 1.5 MVC web application that is the TreeBASE (v.2) GUI
 - [treebase_feed](treebase_feed) - PHP feed with newest studies, to embed in the GUI
@@ -30,7 +30,7 @@ The following subprojects are not needed for the web application.
 - [.gitignore](.gitignore) - filters out certain files from committing to `git`
 - [.travis.yml](.travis.yml) - intended for setting up continuous integration using Travis, but does nothing
 - [LICENSE.txt](LICENSE.txt) - the BSD license, which applies to all artefacts in this project
-- [README.md](README.md) - this file.
+- [README.md](README.md) - this file
 
 Useful links
 ------------
