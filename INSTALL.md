@@ -9,8 +9,8 @@ Instructions and scripts for installing the TreeBASE v.2 web application. Contri
 
 The are two stages to the installation process: 
 
-1. setting up working environment; and 
-2. running the loading scripts 
+1. [Setting up working environment](#stage-1-set-up-working-environment)
+2. Running the loading scripts 
 
 The goal of the first stage is to extract a subset of the TB2 development environment sufficient to run loading on the server.
 This circumvents the more complex task of re-creating a full-fledged development environment on the server. 
