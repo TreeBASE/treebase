@@ -30,13 +30,18 @@ The following subprojects are not needed for the web application.
 - [.gitignore](.gitignore) - filters out certain files from committing to `git`
 - [.travis.yml](.travis.yml) - intended for setting up continuous integration using Travis, but does nothing
 - [LICENSE.txt](LICENSE.txt) - the BSD license, which applies to all artefacts in this project
+- [INSTALL.md](INSTALL.md) - installation instructions for server with web application and database
+- [LOADING.md](LOADING.md) - instructions for loading data files (nexus+metadata) from TreeBASE v.1
 - [README.md](README.md) - this file
 
-Useful links
-------------
+Documentation roadmap
+---------------------
 
-The following external links should be of additional use to understand the project:
-
-- [Technology](https://treebase.org/treebase-web/technology.html) birds eye view of the software stack for the TreeBASE web application.
-- [Data access](https://treebase.org/treebase-web/urlAPI.html) describes ways in which TreeBASE data can be accessed and retrieved.
+1. [Technology](https://treebase.org/treebase-web/technology.html) - gives a bird's eye view of the software stack for the 
+   TreeBASE web application.
+2. [naturalis/role_treebase](https://github.com/naturalis/role_treebase) - tools for provisioning a web application server.
+3. [INSTALL.md](INSTALL.md) - contains installation instructions for the web application on a server.
+4. [Data access](https://treebase.org/treebase-web/urlAPI.html) - describes APIs by which TreeBASE data can be accessed and retrieved.
+5. [supertreebase](http://github.com/TreeBASE/supertreebase) - pipelines that access the API.
+6. [LOADING.md](LOADING.md) - describes how to import TreeBASE v.1 files.
 
