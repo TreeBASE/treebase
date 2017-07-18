@@ -13,8 +13,8 @@ Contents of this directory
 - [apple](apple) - placeholder for MacOSX-specific JARs 
 - [mesquite](mesquite) - placeholder for Mesquite code 
 - [data](data) - placeholder for the data files to be migrated 
-- [scripts](scripts) - shell and SQL scripts to run for loading; the scripts invoke code from tb2classes, which relies on jars in   
-  `tb2jars`, `mesquite`, and `apple`.
+- [scripts](scripts) - shell and SQL scripts to run for loading; the scripts invoke code from tb2classes, which relies on jars 
+  in `tb2jars`, `mesquite`, and `apple`.
 
 Stage 1: Set up working environment
 ===================================
