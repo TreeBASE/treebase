@@ -1,8 +1,10 @@
 TreeBASE
 ========
 
-This is the source code repository of [TreeBASE](http://treebase.org), the community repository of published estimates of phylogeny. 
-This source code repository is organized in a number of subprojects, which are described below.
+TreeBASE, the community repository of published estimates of phylogeny, is an initiative whose 
+[history](https://treebase.org/treebase-web/about.html) dates back to the early 1990s. In its current iteration it is an open source 
+project implemented in Java and released under a BSD license. This is its source code repository. It is organized in a number of 
+subprojects, which are described below.
 
 ### Essential subprojects for TreeBASE v.2
 
@@ -24,6 +26,6 @@ The following are subprojects that jointly comprise the TreeBASE v.2 database bi
 
 The following external links should be of additional use to understand the project:
 
-- [Technology](https://treebase.org/treebase-web/technology.html) describes the software stack for the TreeBASE web application.
-- [Data access](https://treebase.org/treebase-web/urlAPI.html) lists ways in which TreeBASE data can be accessed and retrieved.
+- [Technology](https://treebase.org/treebase-web/technology.html) birds eye view of the software stack for the TreeBASE web application.
+- [Data access](https://treebase.org/treebase-web/urlAPI.html) describes ways in which TreeBASE data can be accessed and retrieved.
 
