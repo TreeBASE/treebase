@@ -1,7 +1,12 @@
 Installation instructions for the web application
 =================================================
 
-Instructions and scripts for installing the TreeBASE v.2 web application. Contributors to these instructions:
+The goal of these instructions is to guide you through the process of setting up the TreeBASE v.2 web application
+on a Linux/Unix-like server and importing data into it. As such, these instructions DO NOT cover how to set up a
+development environment (which would involve wrestling with Eclipse) or a continuous integration environment, where
+something like Travis and JUnit would come into play.
+
+Contributors to these instructions:
 
 - Mark-Jason Dominus wrote an initial version (doc-mjd.txt) and Java data loading tools for the SDSC install
 - Vladimir Gapeyev updated this in Feb-Mar 2010 for the NESCent install
