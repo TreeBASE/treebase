@@ -37,6 +37,9 @@ This is addressed by re-installing the JDK, e.g. `sudo apt install openjdk-8-jdk
     Default locale: en_US, platform encoding: UTF-8
     OS name: "linux", version: "4.4.0-83-generic", arch: "amd64", family: "unix"
 
+Compiling
+---------
+
 Then, check out and compile the source tree:
 
     $ sudo su
