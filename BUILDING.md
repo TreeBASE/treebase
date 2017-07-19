@@ -68,8 +68,11 @@ This should result in a successful build:
     [INFO] Final Memory: 34M/390M
     [INFO] ------------------------------------------------------------------------
 
-Then, we need to make a JAR of `treebase-core`. This is so that we can then include
-it in the WAR of `treebase-web`. Like so:
+Bundling
+--------
+
+We need to make a JAR of `treebase-core`. This is so that we can then bundle it in the 
+WAR of `treebase-web`. Like so:
 
     # cd treebase-core
     # mvn jar:jar
@@ -95,4 +98,14 @@ WAR building process can find it. The JAR is identified as follows:
     <artifactId>treebase-core</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
+```
+This is installed into the local maven repository like so:
+
+```shell
+mvn install:install-file \
+    -Dfile=target/treebase-core-1.0-SNAPSHOT.jar \
+    -DgroupId=org.cipres.treebase \
+    -DartifactId=treebase-core \
+    -Dversion=1.0-SNAPSHOT \
+    -Dpackaging=JAR
 ```
