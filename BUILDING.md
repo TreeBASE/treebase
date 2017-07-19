@@ -1,17 +1,20 @@
+![Logo of Treebase](https://treebase.org/treebase-web/images/TreeBASE.png)
+
 How to re-compile the artifacts in this repository
 ==================================================
 
-This document describes the steps taken to re-compile the binary classes needed to deploy the TreeBASE web application.
-Specifically, this includes:
+This document describes the steps taken to re-compile the binary classes needed to deploy the 
+TreeBASE web application. Specifically, this includes:
 
-- The key subprojects from the [treebase](https://github.com/TreeBASE/treebase) code repository, i.e. the object-relational 
-  mappings implemented in `treebase-core` and the web application proper, i.e. `treebase-web`, both bundled into a WAR archive 
-  for the Tomcat servlet container.
+- The key subprojects from the [treebase](https://github.com/TreeBASE/treebase) code repository, 
+  i.e. the object-relational mappings implemented in `treebase-core` and the web application proper, 
+  i.e. `treebase-web`, both bundled into a WAR archive for the Tomcat servlet container.
 - The `PhyloWidget` applet for tree viewing and editing.
 
-In addition, the headless mesquite library packaged as `mesquite-2.01.tb.jar` is made available, but it is not 
-re-compiled because its maintenance doesn't fall under the TreeBASE project. All these artifacts, if successfully rebuilt,
-should be committed to [treebase-artifact](https://github.com/naturalis/treebase-artifact) so that the server provisioning
+In addition, the headless mesquite library packaged as `mesquite-2.01.tb.jar` is made available, 
+but it is not re-compiled because its maintenance doesn't fall under the TreeBASE project. All 
+these artifacts, if successfully rebuilt, should be committed to 
+[treebase-artifact](https://github.com/naturalis/treebase-artifact) so that the server provisioning
 process can make use of it.
 
 Setting up the building environment
