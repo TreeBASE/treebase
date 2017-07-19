@@ -3,6 +3,21 @@
 	<p style="clear:both;border-top: 1px solid #3d649f;padding-top:15px">
 		<img 
 			width="160" 
+			src="images/naturalis_logo.png" 
+			style="display:inline;float:left;margin-right:15px"
+			alt="Naturalis"/>
+		<a 
+			href="http://www.naturalis.nl" 
+			title="Naturalis Biodiversity Center">
+			Naturalis Biodiversity Center
+		</a> is the natural history museum of the Netherlands and the
+		national center for biodiversity research. Since 2016, Naturalis
+		graciously hosts the TreeBASE web application and database on
+		its computing infrastructure.
+	</p>
+	<p style="clear:both;border-top: 1px solid #3d649f;padding-top:15px">
+		<img 
+			width="160" 
 			src="images/nescent_logo.jpg" 
 			style="display:inline;float:left;margin-right:15px"
 			alt="NESCent"/>The
@@ -12,7 +27,8 @@
 			Evolutionary Synthesis Center (NESCent)
 		</a> is a national center sponsored by NSF with the mission of facilitating 
 		synthetic research in evolutionary biology. Through a partnership with CIPRES 
-		and TreeBASE, NESCent is serving to deploy, maintain, and host TreeBASE.
+		and TreeBASE, NESCent has served, deploy, maintained, and hosted TreeBASE until
+		its move to Naturalis.
 	</p>
 	<p style="clear:both;border-top: 1px solid #3d649f;padding-top:15px">
 		<img 
