@@ -37,11 +37,27 @@ This is addressed by re-installing the JDK, e.g. `sudo apt install openjdk-8-jdk
     Default locale: en_US, platform encoding: UTF-8
     OS name: "linux", version: "4.4.0-83-generic", arch: "amd64", family: "unix"
 
-Then, check out the source tree:
+Then, check out and compile the source tree:
 
     $ sudo su
     # cd /usr/local/src
     # git clone https://github.com/TreeBASE/treebase.git
     # cd treebase
     # mvn compiler:compile
-    
+
+This should result in a successful build:
+
+    ...previous omitted...
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Reactor Summary:
+    [INFO] 
+    [INFO] Treebase ........................................... SUCCESS [  0.396 s]
+    [INFO] treebase-core ...................................... SUCCESS [  3.234 s]
+    [INFO] treebase-web ....................................... SUCCESS [ 11.620 s]
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time: 15.445 s
+    [INFO] Finished at: 2017-07-19T11:58:57+00:00
+    [INFO] Final Memory: 34M/390M
+    [INFO] ------------------------------------------------------------------------
