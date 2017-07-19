@@ -100,3 +100,10 @@ This should produce an output like so:
     [INFO] Finished at: 2017-07-19T15:11:21+00:00
     [INFO] Final Memory: 35M/569M
     [INFO] ------------------------------------------------------------------------
+
+The salient result of this packaging process is the production of a web archive (WAR)
+that contains all the components, i.e. the compiled classes and HTML/JSP documents
+from `treebase-web`, the compiled classes of `treebase-core`, which are bundled into
+the WAR as a JAR archive (i.e. in WEB-INF/lib/treebase-core-1.0-SNAPSHOT.jar), and all
+the pre-requisite JARs, including headless Mesquite (WEB-INF/lib/mesquite-2.01.tb.jar).
+This means that the total size of the WAR archive should exceed 50Mb.
