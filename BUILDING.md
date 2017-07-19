@@ -104,9 +104,22 @@ This should produce an output like so:
 The salient result of this packaging process is the production of a web archive (WAR)
 that contains all the components, i.e.: 
 
-- the compiled classes and HTML/JSP documents from [treebase-web](treebase-web)
-- the compiled classes of [treebase-core](treebase-core), which are bundled into
+- the compiled classes, HTML/JSP documents, and any other assets such as CSS stylesheets
+  and JavaScript libraries from [treebase-web](treebase-web)
+- the compiled classes of [treebase-core](treebase-core), which should be bundled into
   the WAR as a JAR archive (i.e. in `WEB-INF/lib/treebase-core-1.0-SNAPSHOT.jar`), 
 - all the pre-requisite JARs, including headless Mesquite (`WEB-INF/lib/mesquite-2.01.tb.jar`).
 
 This means that the total size of the WAR archive should exceed 50Mb.
+
+Deployment
+----------
+
+The TreeBASE web application needs to be deployed in a 'servlet container', i.e. a web
+server that can invoke Java functionality. In practice, this means that the WAR file
+that was produced by the bundling procedure needs to be copied into a folder, which for
+the [Tomcat v.7](https://tomcat.apache.org/tomcat-7.0-doc/index.html) servlet container 
+is called `webapps`:
+
+    # cp /usr/local/src/treebase/treebase-web/target/treebase-web.war /var/lib/tomcat7/webapps/
+
