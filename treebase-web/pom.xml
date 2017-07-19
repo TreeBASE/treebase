@@ -118,7 +118,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.1.2</version>
-			<scope>provided</scope>
+			<!--scope>provided</scope-->
 		</dependency>
 
 		<!-- used by Spring framework -->
