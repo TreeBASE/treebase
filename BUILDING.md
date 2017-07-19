@@ -129,6 +129,11 @@ is called `webapps`:
 
     # cp /usr/local/src/treebase/treebase-web/target/treebase-web.war /var/lib/tomcat7/webapps/
 
+In addition, it is necessary to place the right JDBC driver jar for PostgreSQL in the
+library folder of Tomcat itself. Like so:
+
+    # cd /usr/share/tomcat7/lib && wget https://jdbc.postgresql.org/download/postgresql-42.1.3.jar
+
 Then, the server needs to be started:
 
 ```shell
