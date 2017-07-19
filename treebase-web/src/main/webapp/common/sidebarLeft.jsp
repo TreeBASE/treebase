@@ -5,7 +5,7 @@
 			<ul id="navlist">
 				<li><a href="<c:url value="/search/studySearch.html"/>"><fmt:message key="nav.search.treebase"/></a></li>
 				<li><a href="<c:url value="/user/processUser.html"/>"><fmt:message key="nav.submit"/></a></li>
-				<li><span class="navlistHeading"><fmt:message key="nav.documentation"></span>
+				<li><span class="navlistHeading"><fmt:message key="nav.documentation"/></span>
 					<ul id="innerNavlist">
 						<li><a href="<c:url value="/technology.html"/>"><fmt:message key="nav.technology"/></a></li>
 						<li><a href="<c:url value="/submitTutorial.html"/>"><fmt:message key="nav.submittutorial"/></a></li>						
