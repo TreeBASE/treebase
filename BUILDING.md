@@ -1,7 +1,7 @@
 ![Logo of Treebase](https://treebase.org/treebase-web/images/TreeBASE.png)
 
-How to re-compile the artifacts in this repository
-==================================================
+Building the artifacts in this repository
+=========================================
 
 This document describes the steps taken to re-compile the binary classes needed to deploy the 
 TreeBASE web application. Specifically, this includes:
