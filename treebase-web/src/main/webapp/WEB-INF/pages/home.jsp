@@ -28,7 +28,7 @@
 		  <li>The ability to search on tree topology</li>
 		  <li>Persistent and resolvable URIs for data objects in TreeBASE (i.e. studies, trees, matrices)  serve as both globally unique identification numbers and 
 		  resource locators.  These  can be included in articles and on researcher's websites, making access to TreeBASE data only a click away</li>
-		  <li>Data are delivered in several  serializations, including <a href="http:/hackathon.nescent.org/Supporting_NEXUS_Documentation" target="_blank">NEXUS</a> 
+		  <li>Data are delivered in several  serializations, including <a href="http://informatics.nescent.org/wiki/Supporting_NEXUS" target="_blank">NEXUS</a> 
 		  and <a href="http://www.nexml.org" target="_blank">NeXML</a></li>
 		  <li> A special URL  gives journal editors and reviewers anonymous advanced access to data</li>
 		  <li>Programmatic access to the data using the <a href="http://evoinfo.nescent.org/PhyloWS" target="_blank">PhyloWS API</a>.  Queries are expressed in  
