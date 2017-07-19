@@ -110,8 +110,8 @@
 			<groupId>org.cipres.treebase</groupId>
 			<artifactId>treebase-core</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/../treebase-core/target/treebase-core-1.0-SNAPSHOT.jar</systemPath>
+			<!--scope>system</scope>
+			<systemPath>${basedir}/../treebase-core/target/treebase-core-1.0-SNAPSHOT.jar</systemPath-->
 		</dependency>
 
 		<dependency>
