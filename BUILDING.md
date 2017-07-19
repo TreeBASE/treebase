@@ -9,10 +9,8 @@ Specifically, this includes:
 - the object-relational mappings implemented in [treebase-core](treebase-core), and 
 - the web application, i.e. [treebase-web](treebase-web)
 
-which are both bundled into a WAR archive for the Tomcat servlet container. (For a fully 
-functioning web application, the headless mesquite library packaged as `mesquite-2.01.tb.jar` 
-and the `PhyloWidget.zip` browser applet also need to be available to the web application.)
-All these artifacts, if successfully rebuilt, should be committed to 
+which are both bundled into a WAR archive for the Tomcat servlet container. These artifacts, once 
+successfully rebuilt, are intended to be committed to 
 [treebase-artifact](https://github.com/naturalis/treebase-artifact) so that the server provisioning
 process can make use of it.
 
