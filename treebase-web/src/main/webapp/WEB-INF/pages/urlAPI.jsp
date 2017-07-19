@@ -20,7 +20,7 @@
 		<li>
 			a <a href="http://evoinfo.nescent.org/PhyloWS"
 			title="PhyloWS">PhyloWS</a> RESTful API. A detailed description
-			of <a href="https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API"
+			of <a href="https://github.com/TreeBASE/treebase/wiki/API"
 			title="TreeBASE's PhyloWS implementation">TreeBASE's PhyloWS
 			implementation</a> is on the TreeBASE wiki.
 		</li>
