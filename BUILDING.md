@@ -71,8 +71,13 @@ This should result in a successful build:
 Bundling
 --------
 
-We need to make a JAR of `treebase-core`. This is so that we can then bundle it in the 
-WAR of `treebase-web`. Like so:
+Assuming we have compiled successfully, this means that all the dependencies were found
+and there were no errors in the code. What needs to happen next is to bundle the compiled
+code into artifacts that can be deployed. Because TreeBASE is (partly) a web application that 
+runs in the Tomcat servlet container we need to make a WAR archive, specifically from the
+subproject `treebase-web`. However, this web application in turn depends on the object 
+relational mappings of `treebase-core`, whose functionality is exposed to the web application
+by bundling the core into a JAR. So, we first bundle the core into a JAR like so:
 
     # cd treebase-core
     # mvn jar:jar
@@ -89,24 +94,27 @@ The output should look like this:
     [INFO] Final Memory: 16M/307M
     [INFO] ------------------------------------------------------------------------
 
-The JAR that we have produced now needs to end up in a maven repository so that the
-WAR building process can find it. The JAR is identified in the [pom.xml](treebase-web/pom.xml) 
-as follows:
+This JAR is referred to in the [treebase-web/pom.xml](treebase-web/pom.xml) by way of a 
+relative path so that, once it's been created, it can then be bundled into the WAR, which
+we build inside the web subproject, i.e.
 
-```xml
-<dependency>
-    <groupId>org.cipres.treebase</groupId>
-    <artifactId>treebase-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
-</dependency>
-```
-This is installed into the local maven repository like so:
+    # cd ../treebase-web
+    # mvn war:war
 
-```shell
-mvn install:install-file \
-    -Dfile=target/treebase-core-1.0-SNAPSHOT.jar \
-    -DgroupId=org.cipres.treebase \
-    -DartifactId=treebase-core \
-    -Dversion=1.0-SNAPSHOT \
-    -Dpackaging=JAR
-```
+Which should produce the following output:
+
+    ...previous omitted...
+    [INFO] Packaging webapp
+    [INFO] Assembling webapp [treebase-web] in [/usr/local/src/treebase/treebase-web/target/treebase-web]
+    [INFO] Processing war project
+    [INFO] Copying webapp resources [/usr/local/src/treebase/treebase-web/src/main/webapp]
+    [INFO] Webapp assembled in [420 msecs]
+    [INFO] Building war: /usr/local/src/treebase/treebase-web/target/treebase-web.war
+    [INFO] WEB-INF/web.xml already added, skipping
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time: 3.743 s
+    [INFO] Finished at: 2017-07-19T13:42:41+00:00
+    [INFO] Final Memory: 15M/298M
+    [INFO] ------------------------------------------------------------------------
