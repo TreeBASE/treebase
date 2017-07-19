@@ -7,8 +7,9 @@ This document describes the steps taken to re-compile the binary classes needed 
 TreeBASE web application. Specifically, this includes:
 
 - The key subprojects from the [treebase](https://github.com/TreeBASE/treebase) code repository, 
-  i.e. the object-relational mappings implemented in `treebase-core` and the web application proper, 
-  i.e. `treebase-web`, both bundled into a WAR archive for the Tomcat servlet container.
+  i.e. the object-relational mappings implemented in [treebase-core](treebase-core) and the web 
+  application proper, i.e. [treebase-web](treebase-web), both bundled into a WAR archive for the 
+  Tomcat servlet container.
 - The `PhyloWidget` applet for tree viewing and editing.
 
 In addition, the headless mesquite library packaged as `mesquite-2.01.tb.jar` is made available, 
