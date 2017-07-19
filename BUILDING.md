@@ -90,7 +90,8 @@ The output should look like this:
     [INFO] ------------------------------------------------------------------------
 
 The JAR that we have produced now needs to end up in a maven repository so that the
-WAR building process can find it. The JAR is identified as follows:
+WAR building process can find it. The JAR is identified in the [pom.xml](treebase-web/pom.xml) 
+as follows:
 
 ```xml
 <dependency>
