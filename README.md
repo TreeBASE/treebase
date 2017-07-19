@@ -25,7 +25,6 @@ applet, and a news feed), linked together by a **Controller** API in Java 1.5 us
 
 The following subprojects are not needed for the web application.
 
-- [treebase-notebook](treebase-notebook) - "Hello World"-level code experiment in Java 1.5
 - [treebase-derivatives](treebase-derivatives) - code experiments in Perl that build on the TB2 data model
 - [treebase-curation](treebase-curation) - a data repository that was used for migrating data from TB1 to TB2
 
