@@ -137,3 +137,5 @@ Then, the server needs to be started:
     -Djava.io.tmpdir=/tmp/tomcat7-tomcat7-tmp \
     org.apache.catalina.startup.Bootstrap start
 ```
+
+Successful deployment should result in a function website, e.g. at http://145.136.242.33/treebase-web
