@@ -8,8 +8,10 @@ Specifically, this includes:
   bundled into a WAR archive for the Tomcat servlet container.
 - The `PhyloWidget` applet for tree viewing and editing.
 
-In addition, the headless mesquite library packaged as `mesquite-2.01.tb.jar` is made available here, but it is not 
-re-compiled because its maintenance doesn't fall under the TreeBASE project.
+In addition, the headless mesquite library packaged as `mesquite-2.01.tb.jar` is made available, but it is not 
+re-compiled because its maintenance doesn't fall under the TreeBASE project. All these artifacts, if successfully rebuilt,
+should be committed to [treebase-artifact](https://github.com/naturalis/treebase-artifact) so that the server provisioning
+process can make use of it.
 
 Setting up the building environment
 -----------------------------------
