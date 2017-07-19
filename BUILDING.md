@@ -73,7 +73,12 @@ Bundling
 
 Assuming we have compiled successfully, this means that all the dependencies were found
 and there were no errors in the code. What needs to happen next is to bundle the compiled
-code into artifacts that can be deployed. This is done with the `package` goal, i.e.
+code into artifacts that can be deployed. This bundle will also include the configuration
+files to connect to the database. Specifically, you need to make a copy of the file 
+[context.xml.example](treebase-web/src/main/webapp/META-INF/context.xml.example) and name
+it `context.xml`. You then need to edit this file to insert the right values for the 
+variables, e.g. database passwords. Once that is done, the bundling is accomplished with 
+the `package` goal, i.e.
 
     # mvn package -Dmaven.test.skip=true
 
@@ -108,9 +113,10 @@ that contains all the components, i.e.:
   and JavaScript libraries from [treebase-web](treebase-web)
 - the compiled classes of [treebase-core](treebase-core), which should be bundled into
   the WAR as a JAR archive (i.e. in `WEB-INF/lib/treebase-core-1.0-SNAPSHOT.jar`), 
-- all the pre-requisite JARs, including headless Mesquite (`WEB-INF/lib/mesquite-2.01.tb.jar`).
+- all the pre-requisite JARs, including headless Mesquite (`WEB-INF/lib/mesquite-2.01.tb.jar`),
+- all configuration files, appropriately edited.
 
-This means that the total size of the WAR archive should exceed 50Mb.
+This means that the total size of the WAR archive should be around 52Mb.
 
 Deployment
 ----------
@@ -138,9 +144,5 @@ Then, the server needs to be started:
     org.apache.catalina.startup.Bootstrap start
 ```
 
-The WAR will be expanded, which will create a folder structure that includes the file
-[/var/lib/tomcat7/webapps/treebase-web/META-INF/context.xml.example](treebase-web/src/main/webapp/META-INF/context.xml.example).
-From this file you need to create a copy `context.xml`, which you need to edit to
-supply it with the right values to connect to the database and so on. Given the right
-values, restart the server. Successful deployment should result in a functioning website, 
+Successful deployment should result in a functioning website, 
 e.g. at http://145.136.242.33/treebase-web
