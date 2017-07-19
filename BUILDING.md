@@ -94,8 +94,9 @@ The output should look like this:
     [INFO] ------------------------------------------------------------------------
 
 This JAR is referred to in the [treebase-web/pom.xml](treebase-web/pom.xml) by way of a 
-relative path so that, once it's been created, it can then be bundled into the WAR, which
-we build inside the web subproject, i.e.
+relative path so that, once it's been created, it can then be bundled into the web archive 
+(WAR). This WAR file can be created after `compiler:compile` by invoking the 
+[war:war](http://maven.apache.org/plugins/maven-war-plugin/usage.html) maven goal, i.e.
 
     # cd ../treebase-web
     # mvn war:war
