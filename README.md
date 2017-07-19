@@ -21,13 +21,6 @@ applet, and a news feed), linked together by a **Controller** API in Java 1.5 us
 - [treebase_feed](treebase_feed) - PHP feed with newest studies, to embed in the JSP/HTML GUI
 - [oai-pmh_data_provider](oai-pmh_data_provider) - additional Java 1.5 MVC functionality for OAI-PMH interface
 
-### Experiments, non-essential subprojects
-
-The following subprojects are not needed for the web application.
-
-- [treebase-derivatives](treebase-derivatives) - code experiments in Perl that build on the TB2 data model
-- [treebase-curation](treebase-curation) - a data repository that was used for migrating data from TB1 to TB2
-
 ### Additional files
 
 - [pom.xml](pom.xml) - file for maven that operates on `treebase-core` and `treebase-web`
