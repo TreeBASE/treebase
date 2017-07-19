@@ -40,11 +40,14 @@ This is addressed by re-installing the JDK, e.g. `sudo apt install openjdk-8-jdk
 Compiling
 ---------
 
-Then, check out and compile the source tree:
+Then, check out the source tree:
 
     $ sudo su
     # cd /usr/local/src
     # git clone https://github.com/TreeBASE/treebase.git
+
+...and compile it using the `compiler:compile` maven goal executed in the top level directory:
+
     # cd treebase
     # mvn compiler:compile
 
