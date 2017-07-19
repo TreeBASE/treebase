@@ -24,12 +24,12 @@
 	</ul>
 	<h2>Source Code</h2>
 	<p>
-		Development of <a href="https://sourceforge.net/projects/treebase/">TreeBASE 
-		is hosted at SourceForge</a>. All source code can be downloaded from the 
-		<a href="https://sourceforge.net/projects/treebase/develop">TreeBASE 
-		subversion repository</a> at SourceForge under a BSD license. 
+		Code developed for the TreeBASE project is part of the 
+		<a href="https://github.com/TreeBASE/">TreeBASE GitHub organization</a>. 
+		The source code for the web application and the database can be downloaded from the 
+		<a href="https://github.com/TreeBASE/treebase">git repository</a> under a BSD license. 
 		Documentation on installing and running TreeBASE can be 
-		found at the <a href="https://sourceforge.net/apps/mediawiki/treebase/index.php?title=Main_Page"> 
+		found at the <a href="https://github.com/TreeBASE/treebase/wiki"> 
 		TreeBASE wiki</a>.	
 	</p>
 	<h2>Architecture</h2>
