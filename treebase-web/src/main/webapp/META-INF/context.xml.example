@@ -5,8 +5,8 @@
  -->
 
 <!-- Copy this file (context.xml.example) to context.xml and replace YOUR-XXX strings with suitable values. 
-     (Note that context.xml is set to be ignored by SVN, so placing passwords there is safe.)  
-     Make sure that $CATALINA_HOME/common/lib contains a postgres JDBC driver jar. 
+     (Note that context.xml is set to be ignored by git, so placing passwords there is safe.)  
+     Make sure that /usr/share/tomcat7/lib contains a postgres JDBC driver jar. 
      Now, dropping treebase-web.war to $CATALINA_HOME/webapps of a vanilla Tomcat should automatically create 
      config file $CATALINA_HOME/conf/Catalina/localhost/treebase-web.xml, 
      which instructs Tomcat to provide a JNDI DataSource. 
