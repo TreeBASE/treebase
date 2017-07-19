@@ -4,7 +4,7 @@
 		<img 
 			width="160" 
 			src="images/naturalis_logo.png" 
-			style="display:inline;float:left;margin-right:15px"
+			style="display:inline;float:left;margin-right:15px;margin-bottom:15px"
 			alt="Naturalis"/>
 		<a 
 			href="http://www.naturalis.nl" 
