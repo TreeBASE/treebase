@@ -138,4 +138,9 @@ Then, the server needs to be started:
     org.apache.catalina.startup.Bootstrap start
 ```
 
-Successful deployment should result in a function website, e.g. at http://145.136.242.33/treebase-web
+The WAR will be expanded, which will create a folder structure that includes the file
+[/var/lib/tomcat7/webapps/treebase-web/META-INF/context.xml.example](treebase-web/src/main/webapp/META-INF/context.xml.example).
+From this file you need to create a copy `context.xml`, which you need to edit to
+supply it with the right values to connect to the database and so on. Given the right
+values, restart the server. Successful deployment should result in a functioning website, 
+e.g. at http://145.136.242.33/treebase-web
