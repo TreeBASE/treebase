@@ -1,5 +1,5 @@
 <div class="gutter">
-	<h1>Overview</h1>
+	<h1>Background</h1>
 	<p>
 		TreeBASE is a relational database designed to manage and explore information on 
 		phylogenetic relationships (Sanderson et al., 1993, 1994; Piel et al., 1996; 
