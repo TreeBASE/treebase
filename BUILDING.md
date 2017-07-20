@@ -113,49 +113,7 @@ that contains all the components, i.e.:
   and JavaScript libraries from [treebase-web](treebase-web)
 - the compiled classes of [treebase-core](treebase-core), which should be bundled into
   the WAR as a JAR archive (i.e. in `WEB-INF/lib/treebase-core-1.0-SNAPSHOT.jar`), 
-- all the pre-requisite JARs, including headless Mesquite (`WEB-INF/lib/mesquite-2.01.tb.jar`),
+- all the pre-requisite JARs,
 - all configuration files, appropriately edited.
 
 This means that the total size of the WAR archive should be around 52Mb.
-
-Deployment
-----------
-
-The TreeBASE web application needs to be deployed in a 'servlet container', i.e. a web
-server that can invoke Java functionality. In practice, this means that the WAR file
-that was produced by the bundling procedure needs to be copied into a folder, which for
-the [Tomcat v.7](https://tomcat.apache.org/tomcat-7.0-doc/index.html) servlet container 
-is called `webapps`:
-
-    # cp /usr/local/src/treebase/treebase-web/target/treebase-web.war /var/lib/tomcat7/webapps/
-
-In addition, it is necessary to place the right JDBC driver jar for PostgreSQL in the
-library folder of Tomcat itself. Like so:
-
-    # cd /usr/share/tomcat7/lib && wget https://jdbc.postgresql.org/download/postgresql-42.1.3.jar
-
-Then, the server needs to be started:
-
-```shell
-TOM=/usr/share/tomcat7/bin
-APPLE=/usr/local/src/treebase-artifact/mesquite/apple
-/usr/lib/jvm/default-java/bin/java \
-    -Djava.util.logging.config.file=/var/lib/tomcat7/conf/logging.properties \
-    -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager \
-    -Djava.awt.headless=true -Xmx128m -XX:+UseConcMarkSweepGC \
-    -Djava.endorsed.dirs=/usr/share/tomcat7/endorsed \
-    -classpath $TOM/bootstrap.jar:$TOM/tomcat-juli.jar:$APPLE/MRJToolkit.jar:$APPLE/ui.jar \
-    -Dcatalina.base=/var/lib/tomcat7 \
-    -Dcatalina.home=/usr/share/tomcat7 \
-    -Djava.io.tmpdir=/tmp/tomcat7-tomcat7-tmp \
-    -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true \
-    org.apache.catalina.startup.Bootstrap start
-```
-
-Successful deployment should result in a functioning website, 
-e.g. at http://145.136.242.33/treebase-web, contingent on two more steps:
-
-1. [Loading](LOADING.md) data into the database, e.g. by loading a database dump or by reading 
-   in Nexus data files and metadadata tables.
-2. Deploying the [OAI-PMH](oai-pmh_data_provider/README.md) service interface, which is a
-   separate web application that needs to be injected separately in a servlet container.
