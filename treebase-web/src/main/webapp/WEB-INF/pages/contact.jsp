@@ -1,5 +1,5 @@
 <div class="gutter">
-	<h1>Contacts</h1>
+	<h1>Contact</h1>
 	<h2>Help</h2>
 	<p>
 		For questions about data submission and data content, please
