@@ -17,7 +17,12 @@ this process. It is assumed that you meet the following requirements:
 
 Except for the database loading, all of these requirements are met for the specific deployment
 at Naturalis in the [treebase-artifacts](https://github.com/naturalis/treebase-artifact)
-repository. The following steps are geared towards that specific deployment.
+repository. The following steps are geared towards that specific deployment. Specifically, the
+assumption is that we are working with Tomcat 7. This version is more strict with certain 
+constructs than previous versions, such that certain 
+[code fixes](https://github.com/TreeBASE/treebase/issues/267) have been necessary, and an 
+additional command line argument needs to be passed to Tomcat to reduce its severity 
+(see below).
 
 ### Installing the requirements
 
