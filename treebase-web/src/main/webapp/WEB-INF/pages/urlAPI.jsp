@@ -27,7 +27,8 @@
 		<li>
 			<a href="http://www.openarchives.org/pmh/" title="OAI-PMH">OAI-PMH</a>
 			metadata harvesting interface is available, though under development. 
-			A detailed description is on the <a href="http://sourceforge.net/apps/mediawiki/treebase/index.php?title=OAI-PMH" title="OAI-PMH">TreeBASE wiki</a>.
+			A description of the available operations is on the 
+			<a href="https://github.com/TreeBASE/treebase/wiki/OAI-PMH" title="OAI-PMH">TreeBASE wiki</a>.
 		</li>
 		<li>SQL data dumps, coming soon.</li>
 	</ul>
