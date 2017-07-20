@@ -3,11 +3,13 @@
 Installation instructions for data loading environment
 ======================================================
 
-The goal of these instructions is to guide you through the process of building a TreeBASE v.2 application on a 
-Linux/Unix-like server. As such, these instructions DO NOT cover how to set up a local development environment 
-(which would involve wrestling with Eclipse) or provisioning a web application server, which is automated in 
-[puppet](http://github.com/naturalis/role_treebase) based on 
-[pre-compiled artifacts](https://github.com/naturalis/treebase-artifact).
+The goal of these instructions is to guide you through the process of building a TreeBASE v.2 compatible command
+line environment on a Linux/Unix-like server. As such, these instructions DO NOT cover how to set up a local 
+development environment (which would involve wrestling with Eclipse) or provisioning a web application server, 
+which is automated in [puppet](http://github.com/naturalis/role_treebase) based on 
+[pre-compiled artifacts](https://github.com/naturalis/treebase-artifact). Unless you know that you need these
+instructions because you need to load Nexus data files in the database (you probably don't, because you're more
+likely to load a database dump) you can ignore these instructions.
 
 Contributors to these instructions:
 
