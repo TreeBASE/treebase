@@ -106,7 +106,7 @@ table .val {
                             code="org.phylowidget.PhyloWidget"
                             id="PhyloWidget"
                             name="PhyloWidget"
-                            codebase="./phylowidget" 
+                            codebase="./phylowidget/" 
                             archive="PhyloWidget.jar,core.jar,itext.jar,jgrapht-jdk1.5.jar,pdf.jar"
                             mayscript="true"
                             width="600" height="600">
