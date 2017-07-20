@@ -4,22 +4,11 @@
 			<thead><tr><th colspan="6"><h2>Current contributors</h2></th></tr></thead>
 			<tr>
 				<td>
-					<img src="images/people/jauman.jpg" width="81" height="108" alt="Jon Auman"/>
-					<br/><strong>Jon Auman</strong>
-					<br/>
-					DBA &amp;<br/>
-                    Systems Administrator
-				</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Vladimir Gapeyev"/>
-					<br/><strong>Vladimir Gapeyev</strong>
-					<br/>Deployment Maintainer
-				</td>
-				<td>
-					<img src="images/people/hlapp.jpeg" width="81" height="108" alt="Hilmar Lapp"/>
-					<br/><strong>Hilmar Lapp</strong>
-					<br/>Deployment Manager
-				</td>
+					<img src="images/people/rvos.jpg" width="81" height="108" alt="Rutger Vos"/>
+					<br/><strong>Rutger Vos</strong>
+					<br/>Developer
+					<br/>API Design
+				</td>				
 				<td>
 					<img src="images/people/bpiel.jpeg" width="81" height="108" alt="William Piel"/>
 					<br/><strong>William Piel</strong>
@@ -27,17 +16,10 @@
 					<br/>Prototype Dev
 				</td>
 				<td>
-					<img src="images/people/jping.jpg" width="81" height="108" alt="Junli Ping"/>
-					<br/><strong>Junli Ping</strong>
-					<br/>Metadata Editor
-				</td>
-				<td>
-					<img src="images/people/mplaza.jpg" width="81" height="108" alt="Melanie Plaza"/>
-					<br/><strong>Melanie Plaza</strong>
-					<br/>Metadata Editor
-				</td>
-			</tr>
-			<tr>
+					<img src="images/people/hlapp.jpeg" width="81" height="108" alt="Hilmar Lapp"/>
+					<br/><strong>Hilmar Lapp</strong>
+					<br/>Deployment Manager
+				</td>				
 				<td>
 					<img src="images/people/hshyket.gif" width="81" height="108" alt="Harry Shyket"/>
 					<br/><strong>Harry Shyket</strong>
@@ -49,32 +31,39 @@
 					<br/>Development Leader
 				</td>
 				<td>
-					<img src="images/people/rvos.jpg" width="81" height="108" alt="Rutger Vos"/>
-					<br/><strong>Rutger Vos</strong>
-					<br/>Developer
-					<br/>API Design
-				</td>
-				<td>
 					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
-				</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
-				</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
-				</td>
+					<br/><strong>You?</strong>
+					<br/>Contribute on
+					<br/><a href="https://github.com/TreeBASE/treebase">GitHub</a>!
+				</td>				
 			</tr>
 	</table>
 	
 	<table class="peopleTable">	
-		<thead><tr><th colspan="6"><h2>Past contributors</h2></th></tr></thead>	
+		<thead><tr><th colspan="6"><h2>Alumni</h2></th></tr></thead>	
 		<tr>
+			<td>
+				<img src="images/people/jauman.jpg" width="81" height="108" alt="Jon Auman"/>
+				<br/><strong>Jon Auman</strong>
+				<br/>
+				DBA &amp;<br/>
+                    		Systems Administrator
+			</td>	
+			<td>
+				<img src="images/people/jping.jpg" width="81" height="108" alt="Junli Ping"/>
+				<br/><strong>Junli Ping</strong>
+				<br/>Metadata Editor
+			</td>
+			<td>
+				<img src="images/people/mplaza.jpg" width="81" height="108" alt="Melanie Plaza"/>
+				<br/><strong>Melanie Plaza</strong>
+				<br/>Metadata Editor
+			</td>	
+			<td>
+				<img src="images/people/anon.jpg" width="81" height="108" alt="Vladimir Gapeyev"/>
+				<br/><strong>Vladimir Gapeyev</strong>
+				<br/>Deployment Maintainer
+			</td>			
 			<td>
 				<img src="images/people/anon.jpg" width="81" height="108" alt="Lucie Chan"/>
 				<br/><strong>Lucie Chan</strong>
@@ -85,6 +74,8 @@
 				<br/><strong>Shirley Cohen</strong>
 				<br/>Student Researcher
 			</td>
+		</tr>
+		<tr>
 			<td>
 				<img src="images/people/mjdominus.jpeg" width="81" height="108" alt="Mark J. Dominus"/>
 				<br/><strong>Mark J. Dominus</strong>
@@ -105,27 +96,22 @@
 				<br/><strong>Madhusudan Gujral</strong>
 				<br/>Developer
 			</td>
-		</tr>
-		<tr>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Youjun Guo"/>
-					<br/><strong>Youjun Guo</strong>
-					<br/>Developer
-				</td>			
+			<td>
+				<img src="images/people/anon.jpg" width="81" height="108" alt="Youjun Guo"/>
+				<br/><strong>Youjun Guo</strong>
+				<br/>Developer
+			</td>			
 			<td>
 				<img src="images/people/anon.jpg" width="81" height="108" alt="Chris Henze"/>
 				<br/><strong>Chris Henze</strong>
 				<br/>Prototype Developer
 			</td>
+		</tr>
+		<tr>			
 			<td>
 				<img src="images/people/krice.gif" width="81" height="108" alt="Ken Rice"/>
 				<br/><strong>Ken Rice</strong>
 				<br/>Prototype Developer
-			</td>
-			<td>
-				<img src="images/people/anon.jpg" width="81" height="108" alt="Jin Ruan"/>
-				<br/><strong>Jin Ruan</strong>
-				<br/>Developer
 			</td>
 			<td>
 				<img src="images/people/msanderson.gif" width="81" height="108" alt="Mike Sanderson"/>
@@ -134,42 +120,21 @@
 				<br/>Prototype Dev
 			</td>
 			<td>
+				<img src="images/people/anon.jpg" width="81" height="108" alt="Jin Ruan"/>
+				<br/><strong>Jin Ruan</strong>
+				<br/>Developer
+			</td>			
+			<td>
 				<img src="images/people/anon.jpg" width="81" height="108" alt="Can van Tran"/>
 				<br/><strong>Can van Tran</strong>
 				<br/>Developer
 			</td>
-		</tr>
-		<tr>
 			<td>
 				<img src="images/people/anon.jpg" width="81" height="108" alt="Tracy Zhao"/>
 				<br/><strong>Tracy Zhao</strong>
 				<br/>Developer
 			</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
-				</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
-				</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
-				</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
-				</td>
-				<td>
-					<img src="images/people/anon.jpg" width="81" height="108" alt="Volunteeers"/>
-					<br/><strong>Volunteeers?</strong>
-					<br/>Please sign up!
-				</td>
+			<td>&nbsp;</td>
 		</tr>
 	</table>
 	
