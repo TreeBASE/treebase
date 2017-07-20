@@ -10,6 +10,9 @@
 <script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/phylowidget/lib.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/phylowidget.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/newick.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/d3.phylogram.js'/>"></script>
+<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
 
 <style type="text/css">
 body {
@@ -171,8 +174,7 @@ table .val {
                         value="" />                    
                     <div id="comments" style="margin: 5px">
                         Make a selection by clicking on the tree list.
-                    </div>
-				                  
+                    </div>				                  
 		        </td>
 		    </tr>
         </table>	
