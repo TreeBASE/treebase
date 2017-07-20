@@ -146,6 +146,7 @@ Then, the server needs to be started:
     -Dcatalina.base=/var/lib/tomcat7 \
     -Dcatalina.home=/usr/share/tomcat7 \
     -Djava.io.tmpdir=/tmp/tomcat7-tomcat7-tmp \
+    -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true \
     org.apache.catalina.startup.Bootstrap start
 ```
 
