@@ -137,12 +137,14 @@ library folder of Tomcat itself. Like so:
 Then, the server needs to be started:
 
 ```shell
+TOM=/usr/share/tomcat7/bin
+APPLE=/usr/local/src/treebase-artifact/mesquite/apple
 /usr/lib/jvm/default-java/bin/java \
     -Djava.util.logging.config.file=/var/lib/tomcat7/conf/logging.properties \
     -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager \
     -Djava.awt.headless=true -Xmx128m -XX:+UseConcMarkSweepGC \
     -Djava.endorsed.dirs=/usr/share/tomcat7/endorsed \
-    -classpath /usr/share/tomcat7/bin/bootstrap.jar:/usr/share/tomcat7/bin/tomcat-juli.jar \
+    -classpath $TOM/bootstrap.jar:$TOM/tomcat-juli.jar:$APPLE/MRJToolkit.jar:$APPLE/ui.jar \
     -Dcatalina.base=/var/lib/tomcat7 \
     -Dcatalina.home=/usr/share/tomcat7 \
     -Djava.io.tmpdir=/tmp/tomcat7-tomcat7-tmp \
