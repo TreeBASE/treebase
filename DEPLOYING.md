@@ -51,6 +51,8 @@ forgotten:
 - The web application uses certain JSP constructs that Tomcat v.7 has become more strict than
   previous versions. This strictness is turned off using the 
   `-Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true`.
+- The web application needs more memory than is assigned by default. In the argument list below
+  the memory usage has been incremented fourfold from `-Xmx128m` to `-Xmx512m`.
 
 In the invocation below, all other arguments are default:
 
@@ -60,7 +62,7 @@ APPLE=/usr/local/src/treebase-artifact/mesquite/apple
 /usr/lib/jvm/default-java/bin/java \
     -Djava.util.logging.config.file=/var/lib/tomcat7/conf/logging.properties \
     -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager \
-    -Djava.awt.headless=true -Xmx128m -XX:+UseConcMarkSweepGC \
+    -Djava.awt.headless=true -Xmx512m -XX:+UseConcMarkSweepGC \
     -Djava.endorsed.dirs=/usr/share/tomcat7/endorsed \
     -classpath $TOM/bootstrap.jar:$TOM/tomcat-juli.jar:$APPLE/MRJToolkit.jar:$APPLE/ui.jar \
     -Dcatalina.base=/var/lib/tomcat7 \
