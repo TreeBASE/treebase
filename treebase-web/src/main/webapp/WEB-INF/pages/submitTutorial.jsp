@@ -3,7 +3,7 @@
 
 <div class="gutter">
 
-<h2>The Submission Process</h2>
+<h1>The Submission Process</h1>
 
 <p>Typically an author submits a paper to a journal for review 
 	and initiates a TreeBASE submission. At this stage, the 
