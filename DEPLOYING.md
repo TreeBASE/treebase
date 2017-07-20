@@ -1,3 +1,5 @@
+![Logo of Treebase](https://treebase.org/treebase-web/images/TreeBASE.png)
+
 Deployment
 ----------
 
