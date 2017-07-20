@@ -144,7 +144,7 @@ public class NexusServiceMesquite extends AbstractServiceImpl implements NexusSe
 			else { mesquiteFolder = mJndiMesquiteFolder; LOGGER.warn("Explicitly set Mesquite folder (" + mExplicitMesquiteFolder + 
 																	 ") is overwritten by the one from JNDI: " + mJndiMesquiteFolder); }
 		
-		mesquiteFolder = mesquiteFolder + "/foo";   //since the last path element is somehow dropped subsequently... VG 2010-02-07
+		//mesquiteFolder = mesquiteFolder + "/foo";   //since the last path element is somehow dropped subsequently... VG 2010-02-07
 		System.setProperty(MESQUITE_FOLDER_DIR_KEY, mesquiteFolder);
 		MesquiteModule.mesquiteDirectory = new File(mesquiteFolder);
 		MesquiteModule.mesquiteDirectoryPath = mesquiteFolder;				
