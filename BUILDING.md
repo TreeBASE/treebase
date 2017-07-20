@@ -150,4 +150,9 @@ Then, the server needs to be started:
 ```
 
 Successful deployment should result in a functioning website, 
-e.g. at http://145.136.242.33/treebase-web
+e.g. at http://145.136.242.33/treebase-web, contingent on two more steps:
+
+1. [Loading](LOADING.md) data into the database, e.g. by loading a database dump or by reading 
+   in Nexus data files and metadadata tables.
+2. Deploying the [OAI-PMH](oai-pmh_data_provider/README.md) service interface, which is a
+   separate web application that needs to be injected separately in a servlet container.
