@@ -2,7 +2,7 @@
 <%@page import="org.cipres.treebase.TreebaseUtil"%>
 <%@page import="java.util.Date" %>
 <%@page import="java.util.Calendar" %> 
-<%@page import="java.text.SimpleDateFormat;" %> 
+<%@page import="java.text.SimpleDateFormat" %> 
 
 <% String purlBase = TreebaseUtil.getPurlBase(); %>
 
