@@ -11,9 +11,9 @@ subprojects, which are described below. For more high-level documentation about 
 
 ### Essential subprojects for TreeBASE v.2
 
-The following are subprojects that jointly comprise the TreeBASE v.2 MVC application of a data **Model** that persists on a PostgreSQL
-database via Hibernate, multiple **Views** (namely, a JSP/HTML GUI, an oai-pmh web service interface, a tree viewing and editing
-applet, and a news feed), linked together by a **Controller** API in Java 1.5 using the Spring framework.
+The following are subprojects that jointly comprise the TreeBASE v.2 MVC application. The application is organized as a data **Model** 
+that persists on a PostgreSQL database via Hibernate, multiple **Views** (namely, a JSP/HTML GUI, an oai-pmh web service interface, a 
+tree viewing and editing applet, and a news feed), linked together by a **Controller** API in Java 1.5, which uses the Spring framework.
 
 - [treebase-core](treebase-core) - Java 1.5 ORM API to access the underlying relational database based on PostgreSQL
 - [treebase-phylowidget](treebase-phylowidget) - Java 1.5 browser applet for tree viewing and editing
@@ -21,10 +21,10 @@ applet, and a news feed), linked together by a **Controller** API in Java 1.5 us
 - [treebase_feed](treebase_feed) - PHP feed with newest studies, to embed in the JSP/HTML GUI
 - [oai-pmh_data_provider](oai-pmh_data_provider) - additional Java 1.5 MVC functionality for OAI-PMH interface
 
-### Additional files
+### Additional files in this directory
 
 - [pom.xml](pom.xml) - file for maven that operates on `treebase-core` and `treebase-web`
-- [.gitignore](.gitignore) - filters out certain files from committing to `git`
+- [.gitignore](.gitignore) - filters out certain files from being committed to `git`
 - [.travis.yml](.travis.yml) - intended for setting up continuous integration using Travis, but does nothing
 - [LICENSE.txt](LICENSE.txt) - the BSD license, which applies to all artefacts in this project
 - [BUILDING.md](BUILDING.md) - build instructions for the core artifacts, uses `pom.xml`
