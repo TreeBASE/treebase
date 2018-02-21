@@ -17,17 +17,23 @@ process can make use of it.
 Setting up the building environment
 -----------------------------------
 
-Assuming you are on a Ubuntu 16.04LTS operating system, have the following Java installed:
+Assuming you are on a Ubuntu 16.04LTS operating system, you need to have something very close to 
+the following Java installed (anything near `1.8.*` is probably fine, but at least all these 
+components need to be here):
 
     $ java -version
     openjdk version "1.8.0_131"
     OpenJDK Runtime Environment (build 1.8.0_131-8u131-b11-0ubuntu1.16.04.2-b11)
     OpenJDK 64-Bit Server VM (build 25.131-b11, mixed mode)
 
-Also, ensure you have the maven installed as tested below. **NOTE**: if you get a message about 
-`JAVA_HOME` not being set, or you get downstream error messages about `javac` missing once you're 
-trying to compile, it means that your JDK was not fully installed and you only have the JRE part.
-This is addressed by re-installing the JDK, e.g. `sudo apt install openjdk-8-jdk`.
+Also, ensure you have the maven installed as shown below (don't worry if there are any additional
+lines where maven tries to compile a project in the current location, e.g. `Scanning for projects...`
+and so on). 
+
+**NOTE**: if you get a message about `JAVA_HOME` not being set, or you get downstream error messages 
+about `javac` missing once you're trying to compile, it means that your JDK was not fully installed 
+and you only have the JRE part. This is addressed by (re-)installing the JDK, e.g. 
+`sudo apt install openjdk-8-jdk`.
 
     $ mvn -V
     Apache Maven 3.3.9
@@ -36,6 +42,15 @@ This is addressed by re-installing the JDK, e.g. `sudo apt install openjdk-8-jdk
     Java home: /usr/lib/jvm/java-8-openjdk-amd64/jre
     Default locale: en_US, platform encoding: UTF-8
     OS name: "linux", version: "4.4.0-83-generic", arch: "amd64", family: "unix"
+
+If there is no maven on your system, install it with `sudo apt install maven`.
+
+Finally, you will also need `git`, which you install with `sudo apt install git`, resulting in:
+
+    $ git --version
+    git version 2.7.4
+
+Any recent version of git is probably fine.
 
 Compiling
 ---------
