@@ -17,12 +17,11 @@ this process. It is assumed that you meet the following requirements:
 
 Except for the database loading, all of these requirements are met for the specific deployment
 at Naturalis in the [treebase-artifacts](https://github.com/naturalis/treebase-artifact)
-repository. The following steps are geared towards that specific deployment. Specifically, the
-assumption is that we are working with Tomcat 7. This version is more strict with certain 
-constructs than previous versions, such that certain 
-[code fixes](https://github.com/TreeBASE/treebase/issues/267) have been necessary, and an 
-additional command line argument needs to be passed to Tomcat to reduce its severity 
-(see below).
+repository. The following steps are geared towards that specific deployment. The assumption is 
+that we are working with Tomcat 7. This version is more strict with certain constructs than 
+previous versions, such that certain [code fixes](https://github.com/TreeBASE/treebase/issues/267) 
+have been necessary, and an additional command line argument needs to be passed to Tomcat to 
+reduce its severity (see below).
 
 ### Installing the requirements
 
@@ -38,7 +37,7 @@ By cloning in this location, the following is accomplished:
 - the WAR files for treebase and for the OAI-PMH service are ready to be deployed
 
 What needs to happen next is that the WAR files are copied into the webapps folder of the
-servlet container. On Ubuntu 16.04LTS with tomcat v.7, it would go like this:
+servlet container. On Ubuntu 16.04LTS with tomcat v.7, the paths go like this:
 
     # cp /usr/local/src/treebase-artifact/treebase-web.war /var/lib/tomcat7/webapps/
     # cp /usr/local/src/treebase-artifact/data_provider_web.war /var/lib/tomcat7/webapps/
@@ -55,8 +54,8 @@ forgotten:
 
 - The Apple JARs that mesquite needs (`MRJToolkit.jar` and `ui.jar`) must be added to the class 
   path, note the argument `-classpath` below.
-- The web application uses certain JSP constructs that Tomcat v.7 has become more strict than
-  previous versions. This strictness is turned off using the 
+- The web application uses certain JSP constructs that Tomcat v.7, which is more strict than
+  previous versions, doesn't like. This strictness is turned off using the 
   `-Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true`.
 - The web application needs more memory than is assigned by default. In the argument list below
   the memory usage has been incremented fourfold from `-Xmx128m` to `-Xmx512m`.
