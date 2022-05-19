@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>treebase-core</name>
-	<url>https://sourceforge.net/projects/treebase/</url>
+	<url>https://github.com/TreeBASE/treebase</url>
 	<parent>
 		<groupId>org.cipres.treebase</groupId>
 		<artifactId>treebase</artifactId>
@@ -30,13 +30,13 @@
 		<repository>
 			<id>maven2</id>
 			<name>Default Maven2 Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
+			<url>https://repo1.maven.org/maven2</url>
 		</repository>
 
 		<repository>
 			<id>m2.remote.repos</id>
 			<name>Maven 2 Remote Repository</name>
-			<url>http://treebase.github.io/treebase/repository</url>
+			<url>https://treebase.github.io/treebase/repository</url>
 		</repository>
 
 		<repository>
@@ -48,19 +48,12 @@
 		<repository>
 			<id>download.osgeo.org</id>
 			<name>Geotools Maven2 repo</name>
-			<url>http://download.osgeo.org/webdav/geotools</url>
+			<url>https://download.osgeo.org/webdav/geotools</url>
 		</repository>
 
 	</repositories>
 
 	<dependencies>
-        <!--dependency>
-			<groupId>org.cipres</groupId>
-			<artifactId>framework</artifactId>
-			<version>1.0.1</version>
-			<scope>compile</scope>
-		</dependency-->
-        
 		<dependency>
 			<groupId>org.acegisecurity</groupId>
 			<artifactId>acegi-security</artifactId>
@@ -86,25 +79,21 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>
 			<version>0.9.1.2</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.nexml.model</groupId>
 			<artifactId>nexml</artifactId>
 			<version>1.5-SNAPSHOT</version>
 		</dependency>
-		
 		<dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>jta</artifactId>
             <version>1.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
@@ -124,25 +113,16 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
 			<version>2.1_3</version>
 		</dependency>
-
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.1</version>
 		</dependency>
-		
-		<!-- XXX testing org.postgresql instead, see below -->
-		<!--dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>8.4-702.jdbc3</version>
-		</dependency-->
 		
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
@@ -150,7 +130,6 @@
 			<artifactId>postgresql</artifactId>
 			<version>42.1.3</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>mesquite</groupId>
 			<artifactId>mesquite</artifactId>
@@ -170,7 +149,6 @@
 					<groupId>asm</groupId>
 					<artifactId>asm</artifactId>
 				</exclusion>
-
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-jdk14</artifactId>
@@ -186,13 +164,10 @@
 					<groupId>asm</groupId>
 					<artifactId>asm</artifactId>
 				</exclusion>
-
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-jdk14</artifactId>
 				</exclusion>
-				
-					
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -224,16 +199,6 @@
 			<artifactId>jdbc-stdext</artifactId>
 			<version>2.0</version>
 		</dependency>
-		<!--dependency>
-			<groupId>ibm</groupId>
-			<artifactId>db2jcc_license_cu</artifactId>
-			<version>2.6.80</version>
-		</dependency>
-		<dependency>
-			<groupId>ibm</groupId>
-			<artifactId>db2jcc</artifactId>
-			<version>2.6.80</version>
-		</dependency-->
 		<dependency>
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
