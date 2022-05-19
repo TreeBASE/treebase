@@ -42,7 +42,7 @@
 		<repository>
 			<id>m2.nexml.repos</id>
 			<name>NeXML Remote Repository</name>
-			<url>http://nexml.github.io/maven/repository</url>
+			<url>https://nexml.github.io/nexml.java/maven_repo</url>
 		</repository>
 		
 		<repository>
