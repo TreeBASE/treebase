@@ -12,7 +12,7 @@
 	<packaging>war</packaging>
 	<name>treebase-web</name>
 	<version>1.0-SNAPSHOT</version>
-	<url>http://maven.apache.org</url>
+	<url>https://maven.apache.org</url>
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<resources>
@@ -66,19 +66,19 @@
 		<repository>
 			<id>maven2</id>
 			<name>Default Maven2 Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
+			<url>https://repo1.maven.org/maven2</url>
 		</repository>
 
 		<repository>
 			<id>m2.remote.repos</id>
 			<name>Maven 2 Remote Repository</name>
-			<url>http://treebase.github.io/treebase/repository</url>
+			<url>https://treebase.github.io/treebase/repository</url>
 		</repository>
 
 		<repository>
 			<id>m2.nexml.repos</id>
 			<name>NeXML Remote Repository</name>
-			<url>http://nexml.github.io/maven/repository</url>
+			<url>https://nexml.github.io/nexml.java/maven_repo</url>
 		</repository>
 		<repository>
 			<id>org.tuckey.urlrewritefilter</id>
@@ -86,11 +86,11 @@
 		</repository>      
     	<repository>
       		<id>java.net</id>
-      		<url>http://download.java.net/maven/2</url>
+      		<url>https://download.java.net/maven/2</url>
     	</repository>
     	<repository>
     		<id>maven.indexdata.com</id>
-    		<url>http://maven.indexdata.com/</url>
+    		<url>https://maven.indexdata.com/</url>
    		</repository>
         
 	</repositories>
