@@ -176,7 +176,7 @@
     <repository>
       <id>maven2</id>
       <name>Default Maven2 Repository</name>
-      <url>http://repo1.maven.org/maven2</url>
+      <url>https://repo1.maven.org/maven2</url>
     </repository>
 
     <repository>
