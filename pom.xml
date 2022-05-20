@@ -66,7 +66,6 @@
     </license>
   </licenses>
   <modules>
-    <module>oai-pmh_data_provider</module>
     <module>treebase-core</module>
     <module>treebase-web</module>
   </modules>
