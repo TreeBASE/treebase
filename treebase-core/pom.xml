@@ -21,13 +21,6 @@
 	<repositories>
 
 		<repository>
-			<id>repository.jboss.org</id>
-			<name>JBoss Maven Repository</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public/maven2</url>
-			<layout>default</layout>
-		</repository>
-
-		<repository>
 			<id>maven2</id>
 			<name>Default Maven2 Repository</name>
 			<url>https://repo1.maven.org/maven2</url>
