@@ -107,14 +107,14 @@ public class CitationParser {
 			citation.setURL("http://dx.doi.org/" + doiUrl.getText().replaceAll("doi:", ""));
 		}
 
-		List<Node> kl = getNodes(pkgRoot,"subject",dcterms);
+		List<Element> kl = getElements(pkgRoot,"subject",dcterms);
 		String keywords="";
 		for(int i = 0; i<kl.size(); i++) {
 		     keywords+= kl.get(i).getText()+",";			
 		}		
 		citation.setKeywords(keywords.substring(0, keywords.length()-1));
 				
-		List<Node> al = getNodes(pubRoot,"creator",dcterms);
+		List<Element> al = getElements(pubRoot,"creator",dcterms);
 		for(int i = 0; i<al.size(); i++) {
 		    String []names = al.get(i).getText().split(",");
 			if(names.length >1 ){
@@ -152,9 +152,8 @@ public class CitationParser {
 		return root.element(new QName(localName, namespace));
 	}
 
-	private List<Node> getNodes(Element root, String localName, Namespace namespace){
-
-		return root.elements(new QName(localName, namespace));	
+	private List<Element> getElements(Element root, String localName, Namespace namespace){
+		return root.elements(new QName(localName, namespace));
 	}
 
 	public ArticleCitation getCitation() {

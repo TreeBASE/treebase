@@ -11,3 +11,4 @@ treebase-web/src/main/webapp/images/treebase.psd
 oai-pmh_data_provider/data_provider_web/target/
 .idea
 **/*.log
+**/*.log.*

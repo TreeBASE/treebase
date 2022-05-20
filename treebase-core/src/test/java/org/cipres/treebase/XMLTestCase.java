@@ -90,11 +90,11 @@ public class XMLTestCase extends TestCase {
 		org.dom4j.Document docj = reader.read(nexusFile);
 		
 		//select all entity elements in the document:
-		Iterator<org.dom4j.Element> iter = docj.selectNodes("//entity").iterator();
+		Iterator<org.dom4j.Node> iter = docj.selectNodes("//entity").iterator();
 		
-		org.dom4j.Element ele = iter.next();
-		
-		logger.debug(" element : " + ele.elementText("nameString") + " : " + ele.elementText("namebankID"));
+		org.dom4j.Node ele = iter.next();
+
+		logger.debug(" element : " + ele.selectSingleNode("nameString").getText() + " : " + ele.selectSingleNode("namebankID").getText());
 		assertTrue("Failed to search.", ele != null);
 
 		if (logger.isInfoEnabled()) {
