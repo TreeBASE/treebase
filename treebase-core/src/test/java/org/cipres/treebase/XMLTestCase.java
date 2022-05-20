@@ -51,6 +51,7 @@ public class XMLTestCase extends TestCase {
 
 		//SAXBuilder builder = new SAXBuilder("org.apache.xerces.parsers.SAXParser");
 		SAXBuilder builder = new SAXBuilder();
+		builder.setExpandEntities(false); // defensive against CVE-2021-33813
 		
 		Document doc = builder.build(nexusFile);	
 		assertTrue("Empty doc.", doc != null);
