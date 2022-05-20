@@ -186,6 +186,13 @@
       <layout>default</layout>
     </repository>
 
+    <!-- GBIF host NexML, Mesquite and CQL-Java in order for this to build -->
+    <repository>
+      <id>gbif-third-party</id>
+      <name>GBIF hosted third party jars</name>
+      <url>https://repository.gbif.org/repository/thirdparty/</url>
+    </repository>
+
   </repositories>
   
   <!-- make sure java 1.5 is used for annotations support -->

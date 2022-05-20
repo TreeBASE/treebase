@@ -40,12 +40,6 @@
 		</repository>
 
 		<repository>
-			<id>m2.nexml.repos</id>
-			<name>NeXML Remote Repository</name>
-			<url>https://nexml.github.io/nexml.java/maven_repo</url>
-		</repository>
-		
-		<repository>
 			<id>download.osgeo.org</id>
 			<name>Geotools Maven2 repo</name>
 			<url>https://download.osgeo.org/webdav/geotools</url>
@@ -87,7 +81,7 @@
 		<dependency>
 			<groupId>org.nexml.model</groupId>
 			<artifactId>nexml</artifactId>
-			<version>1.5-SNAPSHOT</version>
+			<version>20220520-GBIF</version>
 		</dependency>
 		<dependency>
             <groupId>javax.transaction</groupId>

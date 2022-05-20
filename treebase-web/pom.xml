@@ -103,7 +103,7 @@
 		<dependency>
 			<groupId>org.nexml.model</groupId>
 			<artifactId>nexml</artifactId>
-			<version>1.5-SNAPSHOT</version>
+			<version>20220520-GBIF</version>
 		</dependency>
 		
 		<dependency>
