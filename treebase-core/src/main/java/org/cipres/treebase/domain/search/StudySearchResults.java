@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.taxon.Taxon;
@@ -13,7 +14,7 @@ import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.service.AbstractService;
 
 public class StudySearchResults extends SearchResults<Study> {
-	private static final Logger LOGGER = Logger.getLogger(StudySearchResults.class);
+	private static final Logger LOGGER = LogManager.getLogger(StudySearchResults.class);
 		
 	public StudySearchResults() { super(); }
 

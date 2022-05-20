@@ -27,7 +27,7 @@ public class SiteMapController implements Controller{
 	/**
 	 * Logger for this class
 	 */
-	//private static final Logger LOGGER = Logger.getLogger(SearchController.class);
+	//private static final Logger LOGGER = LogManager.getLogger(SearchController.class);
 	private SubmissionService mSubmissionService;
 
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)

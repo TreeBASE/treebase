@@ -1,7 +1,8 @@
 
 package org.cipres.treebase.service.admin;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.admin.Help;
 import org.cipres.treebase.domain.admin.HelpHome;
 import org.cipres.treebase.domain.admin.HelpService;
@@ -16,7 +17,7 @@ import org.cipres.treebase.service.AbstractServiceImpl;
  * 
  */
 public class HelpServiceImpl extends AbstractServiceImpl implements HelpService {
-	private static final Logger LOGGER = Logger.getLogger(HelpServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(HelpServiceImpl.class);
 
 	private HelpHome helpHome;
 

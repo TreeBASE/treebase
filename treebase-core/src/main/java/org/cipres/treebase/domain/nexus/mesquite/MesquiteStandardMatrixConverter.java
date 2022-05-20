@@ -12,7 +12,8 @@ import mesquite.categ.lib.CategoricalData;
 import mesquite.categ.lib.CategoricalState;
 import mesquite.lib.characters.CharacterData;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.dao.jdbc.CompoundElementJDBC;
@@ -41,7 +42,7 @@ import org.cipres.treebase.domain.matrix.StandardMatrix;
  */
 public class MesquiteStandardMatrixConverter extends MesquiteMatrixConverter {
 
-	private static final Logger LOGGER = Logger.getLogger(MesquiteStandardMatrixConverter.class);
+	private static final Logger LOGGER = LogManager.getLogger(MesquiteStandardMatrixConverter.class);
 
 	/**
 	 * Constructor.

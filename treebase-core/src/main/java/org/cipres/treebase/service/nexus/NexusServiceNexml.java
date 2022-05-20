@@ -8,7 +8,8 @@ import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.DomainHome;
 import org.cipres.treebase.domain.nexus.NexusDataSet;
 import org.cipres.treebase.domain.nexus.NexusService;
@@ -22,7 +23,7 @@ import org.nexml.model.Document;
 import org.nexml.model.DocumentFactory;
 
 public class NexusServiceNexml extends AbstractServiceImpl implements NexusService {
-	private static final Logger LOGGER = Logger.getLogger(NexusServiceNexml.class);
+	private static final Logger LOGGER = LogManager.getLogger(NexusServiceNexml.class);
 	private TaxonLabelHome mTaxonLabelHome;
 
 	@Override

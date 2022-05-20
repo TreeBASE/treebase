@@ -8,7 +8,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.study.BookCitation;
@@ -22,7 +23,7 @@ import org.cipres.treebase.domain.study.Citation;
  */
 public class EditorFormController extends PeopleFormController {
 
-	private static final Logger LOGGER = Logger.getLogger(EditorFormController.class);
+	private static final Logger LOGGER = LogManager.getLogger(EditorFormController.class);
 
 	@Override
 	protected List<Person> getPeople(Citation pCitation) {

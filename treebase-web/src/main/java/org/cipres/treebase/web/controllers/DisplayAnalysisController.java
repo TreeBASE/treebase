@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -47,7 +48,7 @@ import org.cipres.treebase.web.util.ControllerUtil;
  * 
  */
 public class DisplayAnalysisController implements Controller {
-	private static final Logger LOGGER = Logger.getLogger(DisplayAnalysisController.class);
+	private static final Logger LOGGER = LogManager.getLogger(DisplayAnalysisController.class);
 
 	private StudyService mStudyService;
 

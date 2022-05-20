@@ -6,7 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.web.exceptions.DeprecatedFeatureError;
@@ -21,7 +22,7 @@ public class SearchCommand {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(SearchCommand.class);
+	private static final Logger LOGGER = LogManager.getLogger(SearchCommand.class);
 	
 	SearchResults<?> results;
 	

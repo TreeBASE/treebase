@@ -1,7 +1,8 @@
 
 package org.cipres.treebase.web.model;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.domain.matrix.RowSegment;
 
@@ -14,7 +15,7 @@ import org.cipres.treebase.domain.matrix.RowSegment;
  * 
  */
 public class RowSegmentCommand {
-	private static final Logger LOGGER = Logger.getLogger(RowSegmentCommand.class);
+	private static final Logger LOGGER = LogManager.getLogger(RowSegmentCommand.class);
 
 	private String mTaxonLabel;
 	private String mMatrixRowData;

@@ -11,7 +11,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
@@ -38,7 +39,7 @@ import org.z3950.zing.cql.CQLParser;
 import org.z3950.zing.cql.CQLTermNode;
 
 public class TaxonSearchController extends SearchController {
-	static final Logger LOGGER = Logger.getLogger(TaxonSearchController.class);
+	static final Logger LOGGER = LogManager.getLogger(TaxonSearchController.class);
 	
 	private TaxonHome mTaxonHome;
 	private TaxonLabelHome mTaxonLabelHome;

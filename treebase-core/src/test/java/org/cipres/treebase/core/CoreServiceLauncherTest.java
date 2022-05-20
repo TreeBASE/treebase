@@ -7,7 +7,8 @@ import javax.sql.DataSource;
 
 import junit.framework.TestCase;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
@@ -22,7 +23,7 @@ import org.cipres.treebase.ContextManager;
  * @version $Revision: 1.0 $
  */
 public class CoreServiceLauncherTest extends TestCase {
-	private static final Logger LOGGER = Logger.getLogger(CoreServiceLauncherTest.class);
+	private static final Logger LOGGER = LogManager.getLogger(CoreServiceLauncherTest.class);
 
 	/**
 	 * An instance of the class being tested.

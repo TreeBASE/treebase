@@ -1,7 +1,8 @@
 
 package org.cipres.treebase.dao.jdbc;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ import org.springframework.jdbc.UncategorizedSQLException;
  * 
  */
 public class ContinuousMatrixElementJDBC {
-	private static final Logger LOGGER = Logger.getLogger(ContinuousMatrixElementJDBC.class);
+	private static final Logger LOGGER = LogManager.getLogger(ContinuousMatrixElementJDBC.class);
 
 	private short mGap = 0;
 	private double mValue;

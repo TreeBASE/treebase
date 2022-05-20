@@ -9,7 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +41,7 @@ public class UploadFileController extends BaseFormController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(UploadFileController.class);
+	private static final Logger LOGGER = LogManager.getLogger(UploadFileController.class);
 
 	private UserService mUserService;
 	private SubmissionService mSubmissionService;

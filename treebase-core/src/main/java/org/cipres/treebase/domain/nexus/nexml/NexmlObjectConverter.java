@@ -6,7 +6,8 @@ import java.text.StringCharacterIterator;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.Constants;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
@@ -20,7 +21,7 @@ import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
 
 public class NexmlObjectConverter extends AbstractNexusConverter {
-	private Logger logger = Logger.getLogger(NexmlObjectConverter.class);
+	private Logger logger = LogManager.getLogger(NexmlObjectConverter.class);
 	protected URI mBaseURI = Constants.BaseURI;
 	protected URI mTaxonBaseURI = URI.create(mBaseURI.toString() + "taxon/TB2:");
 	protected URI mMatrixBaseURI = URI.create(mBaseURI.toString() + "matrix/TB2:");

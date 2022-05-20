@@ -6,7 +6,8 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.cipres.treebase.TreebaseUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -29,7 +30,7 @@ public class UpdateAnalyzedDataListController implements Controller {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(UpdateAnalyzedDataListController.class);
+	private static final Logger LOGGER = LogManager.getLogger(UpdateAnalyzedDataListController.class);
 
 	private AnalyzedDataService mAnalyzedDataService;
 	private AnalysisStepService mAnalysisStepService;

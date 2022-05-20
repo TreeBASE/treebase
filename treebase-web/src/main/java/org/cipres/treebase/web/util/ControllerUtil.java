@@ -7,7 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.domain.admin.User;
@@ -38,7 +39,7 @@ import org.cipres.treebase.web.exceptions.EmptyStudyException;
  * 
  */
 public class ControllerUtil {
-	private static final Logger LOGGER = Logger.getLogger(ControllerUtil.class);
+	private static final Logger LOGGER = LogManager.getLogger(ControllerUtil.class);
 
 	public static final String DEL_STUDY_PAGE_KEY = "DEL_STUDY_PAGE";
 

@@ -5,7 +5,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.domain.admin.UserService;
@@ -29,7 +30,7 @@ import org.springframework.web.servlet.view.RedirectView;
  * 
  */
 public class StudyFormController extends BaseFormController {
-	private static final Logger LOGGER = Logger.getLogger(StudyFormController.class);
+	private static final Logger LOGGER = LogManager.getLogger(StudyFormController.class);
 
 	private StudyService mStudyService;
 	private SubmissionService mSubmissionService;

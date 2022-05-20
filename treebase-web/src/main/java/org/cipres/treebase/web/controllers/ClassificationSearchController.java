@@ -10,7 +10,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -37,7 +38,7 @@ public class ClassificationSearchController extends SearchController {
 	/**
 	 * Logger for this class
 	 */
-	static final Logger LOGGER = Logger.getLogger(ClassificationSearchController.class);
+	static final Logger LOGGER = LogManager.getLogger(ClassificationSearchController.class);
 	
 	@SuppressWarnings("unchecked")
 	private Collection<PhyloTree> doSearch(

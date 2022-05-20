@@ -10,7 +10,8 @@ import java.util.Set;
 import mesquite.lib.MesquiteProject;
 import mesquite.lib.Taxa;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.dao.jdbc.NexusDataSetJDBC;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -27,7 +28,7 @@ import org.nexml.model.OTUs;
  * @author Jin Ruan
  */
 public class NexusDataSet {
-	private static final Logger LOGGER = Logger.getLogger(NexusDataSet.class);
+	private static final Logger LOGGER = LogManager.getLogger(NexusDataSet.class);
 
 	private List<Matrix> mMatrices;
 	private List<PhyloTree> mPhyloTrees;

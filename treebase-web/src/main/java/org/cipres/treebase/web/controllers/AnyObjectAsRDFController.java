@@ -3,7 +3,8 @@ package org.cipres.treebase.web.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.PhyloWSPath;
 import org.cipres.treebase.TreebaseIDString;
@@ -21,7 +22,7 @@ import org.springframework.web.servlet.mvc.Controller;
  *
  */
 public class AnyObjectAsRDFController implements Controller {
-	private static final Logger LOGGER = Logger.getLogger(AnyObjectAsRDFController.class);
+	private static final Logger LOGGER = LogManager.getLogger(AnyObjectAsRDFController.class);
 
 	private StudyService mStudyService;
 

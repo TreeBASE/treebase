@@ -4,7 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.matrix.MatrixService;
 import org.cipres.treebase.domain.study.StudyService;
@@ -30,7 +31,7 @@ public abstract class SearchResults<E extends TBPersistable> {
 	Set<E> mResults = null;  
 
 	@SuppressWarnings("unused")
-	private static final Logger LOGGER = Logger.getLogger(StudySearchResults.class);
+	private static final Logger LOGGER = LogManager.getLogger(StudySearchResults.class);
 	
 	/* Makes a FULL search result set, not am empty one */
 	public SearchResults () { 

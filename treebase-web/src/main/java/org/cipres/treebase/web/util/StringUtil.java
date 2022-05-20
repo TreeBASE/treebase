@@ -2,7 +2,8 @@ package org.cipres.treebase.web.util;
 
 import java.security.MessageDigest;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author lcchan
@@ -10,7 +11,7 @@ import org.apache.log4j.Logger;
  */
 public class StringUtil {
 
-	private final static Logger LOGGER = Logger.getLogger(StringUtil.class);
+	private final static Logger LOGGER = LogManager.getLogger(StringUtil.class);
 
 	/**
 	 * 

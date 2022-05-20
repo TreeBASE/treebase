@@ -1,7 +1,8 @@
 
 package org.cipres.treebase.web.listeners;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -26,7 +27,7 @@ public class EventListener implements ServletContextListener, HttpSessionAttribu
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(EventListener.class);
+	private static final Logger LOGGER = LogManager.getLogger(EventListener.class);
 
 	private static final String USER_KEY = "user";
 	private static final String EVENT_KEY = HttpSessionContextIntegrationFilter.ACEGI_SECURITY_CONTEXT_KEY;

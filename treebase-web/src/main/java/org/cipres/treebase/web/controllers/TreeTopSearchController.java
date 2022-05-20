@@ -11,7 +11,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
 import org.cipres.treebase.domain.search.TreeSearchResults;
@@ -36,7 +37,7 @@ public class TreeTopSearchController extends SearchController {
 	/**
 	 * Logger for this class
 	 */
-	static final Logger LOGGER = Logger.getLogger(TreeTopSearchController.class);
+	static final Logger LOGGER = LogManager.getLogger(TreeTopSearchController.class);
 
 	private enum SearchType {
 		topology3Search,

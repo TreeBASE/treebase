@@ -12,7 +12,8 @@ import java.util.Map;
 import mesquite.cont.lib.ContinuousData;
 import mesquite.lib.characters.CharacterData;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.UncategorizedSQLException;
 
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
@@ -34,7 +35,7 @@ import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixReader;
  */
 public class ContinuousMatrixJDBC extends MatrixJDBC {
 
-	private static final Logger LOGGER = Logger.getLogger(ContinuousMatrixJDBC.class);
+	private static final Logger LOGGER = LogManager.getLogger(ContinuousMatrixJDBC.class);
 
 	// INSERT INTO ITEMDEFINITION(ITEMDEFINITION_ID, VERSION, DESCRIPTION)
 	// VALUES(default, 0, ?)

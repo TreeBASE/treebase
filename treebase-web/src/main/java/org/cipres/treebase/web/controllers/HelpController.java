@@ -4,7 +4,8 @@ package org.cipres.treebase.web.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.admin.Help;
 import org.cipres.treebase.domain.admin.HelpService;
 import org.cipres.treebase.domain.admin.User;
@@ -26,7 +27,7 @@ public class HelpController extends BaseFormController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(HelpController.class);
+	private static final Logger LOGGER = LogManager.getLogger(HelpController.class);
 	private HelpService helpService;
 	private UserService userService;
 	String failureView;

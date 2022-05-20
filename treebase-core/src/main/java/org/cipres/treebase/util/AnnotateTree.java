@@ -20,9 +20,6 @@ public class AnnotateTree extends AbstractStandalone implements AnnotateTreeInte
 		
 	private PhyloTreeService treeService;
 	
-	@SuppressWarnings(value = "unused")
-	private static final Logger LOGGER = Logger.getLogger("AnnotateTree");
-
 	public static void main(String[] args) {
 		
 		if (args.length != 1) {

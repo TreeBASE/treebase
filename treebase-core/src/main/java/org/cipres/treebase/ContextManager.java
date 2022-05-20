@@ -1,7 +1,8 @@
 
 package org.cipres.treebase;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.admin.PersonHome;
 import org.cipres.treebase.domain.admin.PersonService;
 import org.cipres.treebase.domain.admin.UserHome;
@@ -58,7 +59,7 @@ import org.springframework.orm.hibernate3.HibernateTransactionManager;
  * 
  */
 public class ContextManager {
-	private static final Logger LOGGER = Logger.getLogger(ContextManager.class);
+	private static final Logger LOGGER = LogManager.getLogger(ContextManager.class);
 
 	private static ApplicationContext sSpringContext;
 

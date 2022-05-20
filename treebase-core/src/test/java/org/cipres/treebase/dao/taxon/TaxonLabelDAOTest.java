@@ -2,7 +2,8 @@ package org.cipres.treebase.dao.taxon;
 
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
@@ -16,7 +17,7 @@ public class TaxonLabelDAOTest extends AbstractDAOTest {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(TaxonLabelDAOTest.class);
+	private static final Logger LOGGER = LogManager.getLogger(TaxonLabelDAOTest.class);
 
 	private TaxonLabelHome mFixture;
 

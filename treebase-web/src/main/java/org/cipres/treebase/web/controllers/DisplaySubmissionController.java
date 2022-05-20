@@ -5,7 +5,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +27,7 @@ public class DisplaySubmissionController extends BaseFormController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(DisplaySubmissionController.class);
+	private static final Logger LOGGER = LogManager.getLogger(DisplaySubmissionController.class);
 	
 	private StudyService mStudyService;
 	private SubmissionService mSubmissionService;

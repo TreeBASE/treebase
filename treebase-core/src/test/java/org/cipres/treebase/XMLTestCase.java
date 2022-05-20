@@ -1,7 +1,8 @@
 
 package org.cipres.treebase;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dom4j.io.SAXReader;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -25,7 +26,7 @@ import junit.framework.TestCase;
  */
 public class XMLTestCase extends TestCase {
 
-	private static final Logger logger = Logger.getLogger(XMLTestCase.class);
+	private static final Logger logger = LogManager.getLogger(XMLTestCase.class);
 
 	/**
 	 * Constructor.

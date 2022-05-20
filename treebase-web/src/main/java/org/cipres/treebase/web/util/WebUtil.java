@@ -22,7 +22,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * WebUtil.java
@@ -34,7 +35,7 @@ import org.apache.log4j.Logger;
  */
 public class WebUtil {
 
-	private static final Logger LOGGER = Logger.getLogger(WebUtil.class);
+	private static final Logger LOGGER = LogManager.getLogger(WebUtil.class);
 	private static final String separator = File.separator;
 
 	/**

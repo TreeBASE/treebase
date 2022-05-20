@@ -17,7 +17,8 @@ import java.util.TimeZone;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.framework.ExecutionResult;
@@ -40,7 +41,7 @@ public class TreebaseUtil {
 	public static final String ANEMPTYSPACE = " ";
 	public static final String LINESEP = System.getProperty("line.separator");
 	public static final int citationMaxLength = 5000;
-	private static final Logger LOGGER = Logger.getLogger(TreebaseUtil.class);
+	private static final Logger LOGGER = LogManager.getLogger(TreebaseUtil.class);
 	private static String mPurlBase;
 	private static String mSiteUrl; 
 	private static String mSmtpHost; 

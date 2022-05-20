@@ -1,7 +1,8 @@
 package org.cipres.treebase.service.admin;
 
 import junit.framework.TestCase;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.admin.HelpDAO;
 import org.cipres.treebase.domain.admin.Help;
 
@@ -12,7 +13,7 @@ import org.cipres.treebase.domain.admin.Help;
  * @author mjd 20081117
  */
 public class HelpServiceImplTest extends TestCase {
-	private static final Logger LOGGER = Logger.getLogger(HelpServiceImplTest.class);
+	private static final Logger LOGGER = LogManager.getLogger(HelpServiceImplTest.class);
 
 	private HelpServiceImpl mFixture;
 

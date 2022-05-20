@@ -15,7 +15,8 @@ import javax.persistence.Transient;
 
 import mesquite.lib.StringUtil;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
@@ -36,7 +37,7 @@ import org.cipres.treebase.TreebaseUtil;
 public class DiscreteChar extends PhyloChar {
 
 	private static final long serialVersionUID = 834258437080501833L;
-	private static final Logger LOGGER = Logger.getLogger(DiscreteChar.class);
+	private static final Logger LOGGER = LogManager.getLogger(DiscreteChar.class);
 
 	private Set<DiscreteCharState> mCharStates = new HashSet<DiscreteCharState>();
 
