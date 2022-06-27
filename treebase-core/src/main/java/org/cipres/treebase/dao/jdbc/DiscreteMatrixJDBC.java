@@ -15,7 +15,8 @@ import java.util.Set;
 
 import mesquite.lib.characters.CharacterData;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.UncategorizedSQLException;
 
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
@@ -37,7 +38,7 @@ import org.cipres.treebase.domain.nexus.nexml.NexmlMatrixReader;
  */
 public class DiscreteMatrixJDBC extends MatrixJDBC {
 
-	private static final Logger LOGGER = Logger.getLogger(DiscreteMatrixJDBC.class);
+	private static final Logger LOGGER = LogManager.getLogger(DiscreteMatrixJDBC.class);
 
 	//UPDATE MATRIXROW 
     //SET MATRIXROW_ID=0, VERSION=0, MATRIX_ID=0, TAXONLABEL_ID=0, ROW_ORDER=0, SYMBOLSTRING=''

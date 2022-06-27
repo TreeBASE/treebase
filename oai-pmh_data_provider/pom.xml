@@ -56,11 +56,20 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.13</version>
-    </dependency>
+     <!--
+       Replaced to satisfy the GitHub dependabot but not addressed in code... this entire module
+       is not built, but if it is added all logging needs to be addressed.
+     -->
+     <dependency>
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-api</artifactId>
+         <version>2.17.2</version>
+     </dependency>
+     <dependency>
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-core</artifactId>
+         <version>2.17.2</version>
+     </dependency>
 
  </dependencies>
  

@@ -4,7 +4,8 @@ package org.cipres.treebase.framework;
 import java.io.File;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.TreebaseUtil;
 
@@ -18,7 +19,7 @@ import junit.framework.TestCase;
  *
  */
 public class TSVFileParserTest extends TestCase {
-	private static final Logger logger = Logger.getLogger(TSVFileParserTest.class);
+	private static final Logger logger = LogManager.getLogger(TSVFileParserTest.class);
 
 	/**
 	 * Constructor.

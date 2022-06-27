@@ -10,7 +10,8 @@ import javax.naming.NamingException;
 
 import mesquite.lib.MesquiteModule;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.domain.DomainHome;
 import org.cipres.treebase.domain.matrix.ItemDefinitionHome;
@@ -33,7 +34,7 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  */
 public class NexusServiceMesquite extends AbstractServiceImpl implements NexusService, InitializingBean {
-	private static final Logger LOGGER = Logger.getLogger(NexusServiceMesquite.class);
+	private static final Logger LOGGER = LogManager.getLogger(NexusServiceMesquite.class);
 	private static final String MESQUITE_FOLDER_DIR_KEY = "mesquite.folder_dir";
 
 	private TaxonLabelHome mTaxonLabelHome;

@@ -3,7 +3,8 @@ package org.cipres.treebase;
 
 import junit.framework.TestSuite;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.core.CoreServiceLauncher;
 
@@ -16,7 +17,7 @@ import org.cipres.treebase.core.CoreServiceLauncher;
  * 
  */
 public class TestUtil {
-	private static final Logger LOGGER = Logger.getLogger(TestUtil.class);
+	private static final Logger LOGGER = LogManager.getLogger(TestUtil.class);
 
 	/**
 	 * Constructor.

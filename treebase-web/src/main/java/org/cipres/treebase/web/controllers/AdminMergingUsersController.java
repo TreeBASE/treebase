@@ -6,7 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -22,7 +23,7 @@ import org.cipres.treebase.domain.admin.UserService;
  */
 public class AdminMergingUsersController extends AbstractWizardFormController {
 
-	private static final Logger LOGGER = Logger.getLogger(AdminMergingUsersController.class);
+	private static final Logger LOGGER = LogManager.getLogger(AdminMergingUsersController.class);
 
 	private UserService mUserService;
 	private String mUserNameSource;

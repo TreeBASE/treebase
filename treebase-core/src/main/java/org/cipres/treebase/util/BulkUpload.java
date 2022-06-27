@@ -12,7 +12,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.ContextManager;
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -34,7 +35,7 @@ import org.hibernate.Transaction;
  */
 public class BulkUpload  extends AbstractStandalone implements BulkUploadInterface {
 	@SuppressWarnings(value = "unused")
-	private static final Logger LOGGER = Logger.getLogger(BulkUpload.class);
+	private static final Logger LOGGER = LogManager.getLogger(BulkUpload.class);
 
 	private MJDLogger mjdLog = null;
 	private boolean force = false;

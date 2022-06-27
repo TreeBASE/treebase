@@ -4,7 +4,8 @@ package org.cipres.treebase.web.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -29,7 +30,7 @@ public class SearchStudyController implements Controller {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(SearchStudyController.class);
+	private static final Logger LOGGER = LogManager.getLogger(SearchStudyController.class);
 
 	private StudyService mStudyService;
 	private UserService mUserService;

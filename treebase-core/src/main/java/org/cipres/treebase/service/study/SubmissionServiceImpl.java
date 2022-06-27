@@ -11,7 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.jdbc.MatrixJDBC;
 import org.cipres.treebase.dao.jdbc.NexusDataSetJDBC;
 import org.cipres.treebase.domain.DomainHome;
@@ -52,7 +53,7 @@ import org.cipres.treebase.service.AbstractServiceImpl;
  * 
  */
 public class SubmissionServiceImpl extends AbstractServiceImpl implements SubmissionService {
-	private static final Logger LOGGER = Logger.getLogger(SubmissionServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(SubmissionServiceImpl.class);
 
 	private MatrixHome mMatrixHome;
 	private MatrixDataTypeHome mMatrixDataTypeHome;

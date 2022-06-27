@@ -4,7 +4,8 @@ package org.cipres.treebase.web.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +25,7 @@ import org.cipres.treebase.web.util.StringUtil;
  * 
  */
 public class RegisterUserController extends AbstractUserController {
-	private static final Logger LOGGER = Logger.getLogger(RegisterUserController.class);
+	private static final Logger LOGGER = LogManager.getLogger(RegisterUserController.class);
 
 	/**
 	 * 

@@ -7,7 +7,8 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.context.ContextLoaderListener;
 
 import org.cipres.treebase.domain.tree.TreeKind;
@@ -32,7 +33,7 @@ import org.cipres.treebase.web.model.LabelValue;
  * 
  */
 public class StartupListener extends ContextLoaderListener {
-	private static final Logger LOGGER = Logger.getLogger(StartupListener.class);
+	private static final Logger LOGGER = LogManager.getLogger(StartupListener.class);
 
 	public void contextInitialized(ServletContextEvent event) {
 		if (LOGGER.isDebugEnabled()) {

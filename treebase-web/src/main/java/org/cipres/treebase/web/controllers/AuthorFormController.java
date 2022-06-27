@@ -5,7 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.study.Citation;
@@ -24,7 +25,7 @@ import org.cipres.treebase.domain.study.Citation;
  */
 public class AuthorFormController extends PeopleFormSearchController {
 
-	private static final Logger LOGGER = Logger.getLogger(AuthorFormController.class);
+	private static final Logger LOGGER = LogManager.getLogger(AuthorFormController.class);
 
 	@Override
 	public List<Person> getPeople(Citation pCitation) {

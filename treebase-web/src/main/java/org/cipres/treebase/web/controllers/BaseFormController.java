@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.NamespacedGUID;
 import org.cipres.treebase.TreebaseIDString;
 import org.cipres.treebase.TreebaseUtil;
@@ -36,7 +37,7 @@ import org.springframework.web.servlet.mvc.CancellableFormController;
  * 
  */
 public abstract class BaseFormController extends CancellableFormController {
-	private static final Logger LOGGER = Logger.getLogger(BaseFormController.class);
+	private static final Logger LOGGER = LogManager.getLogger(BaseFormController.class);
 
 	// Constants:
 	protected static final String ACTION_DELETE = "Delete";

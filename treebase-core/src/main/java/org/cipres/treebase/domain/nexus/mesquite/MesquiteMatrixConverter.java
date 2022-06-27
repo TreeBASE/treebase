@@ -34,7 +34,8 @@ import mesquite.lib.characters.CharactersGroup;
 import mesquite.lib.characters.CodonPositionsSet;
 import mesquite.parsimony.lib.ParsimonyModelSet;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.dao.jdbc.MatrixJDBC;
 import org.cipres.treebase.domain.matrix.CharGroup;
@@ -64,7 +65,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabelSet;
  * 
  */
 public abstract class MesquiteMatrixConverter {
-	private static final Logger LOGGER = Logger.getLogger(MesquiteMatrixConverter.class);
+	private static final Logger LOGGER = LogManager.getLogger(MesquiteMatrixConverter.class);
 
 	// Hard coded String values defined in Mesquite code:
 	// defined in CategoricalData.java:

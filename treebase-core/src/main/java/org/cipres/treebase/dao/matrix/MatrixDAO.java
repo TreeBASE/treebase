@@ -33,7 +33,8 @@ import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
@@ -49,7 +50,7 @@ import org.hibernate.criterion.Expression;
  */
 public class MatrixDAO extends AbstractDAO implements MatrixHome {
 
-	private static final Logger LOGGER = Logger.getLogger(MatrixDAO.class);
+	private static final Logger LOGGER = LogManager.getLogger(MatrixDAO.class);
 
 	private MatrixColumnHome mMatrixColumnHome;
 	private MatrixRowHome mMatrixRowHome;

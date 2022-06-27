@@ -7,7 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +19,7 @@ import org.cipres.treebase.domain.study.SubmissionService;
 
 public class AdminDeletingUserStepTwoController extends AbstractUserController {
 
-	private static Logger LOGGER = Logger.getLogger(AdminDeletingUserStepTwoController.class);
+	private static Logger LOGGER = LogManager.getLogger(AdminDeletingUserStepTwoController.class);
 
 	private SubmissionService mSubmissionService;
 

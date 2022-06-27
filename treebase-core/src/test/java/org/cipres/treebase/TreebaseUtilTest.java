@@ -3,7 +3,8 @@ package org.cipres.treebase;
 
 import junit.framework.TestCase;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * TestTreebaseUtil.java
@@ -14,7 +15,7 @@ import org.apache.log4j.Logger;
  * 
  */
 public class TreebaseUtilTest extends TestCase {
-	private static final Logger LOGGER = Logger.getLogger(TreebaseUtilTest.class);
+	private static final Logger LOGGER = LogManager.getLogger(TreebaseUtilTest.class);
 
 	/**
 	 * Constructor.

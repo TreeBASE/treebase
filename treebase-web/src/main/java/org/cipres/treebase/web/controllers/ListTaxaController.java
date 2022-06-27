@@ -12,7 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,7 +35,7 @@ import org.cipres.treebase.web.util.ControllerUtil;
  */
 
 public class ListTaxaController extends BaseFormController {
-	private static final Logger LOGGER = Logger.getLogger(ListTaxaController.class);
+	private static final Logger LOGGER = LogManager.getLogger(ListTaxaController.class);
 	private static final String UBIOSEARCHTAXONLABEL = "http://www.ubio.org/browser/search.php?search_all=";
 	private static final String UBIOTAXONRECORD = "http://www.ubio.org/browser/details.php?namebankID=";
 	private static final String EDITTAXONLABEL = "/treebase-web/user/editTaxonLabel.html?taxonlabelid=";

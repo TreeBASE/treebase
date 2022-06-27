@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -28,7 +29,7 @@ import org.cipres.treebase.web.Constants;
 
 public class ReadOnlyListTreeController implements Controller {
 
-	private static final Logger LOGGER = Logger.getLogger(ReadOnlyListTreeController.class);
+	private static final Logger LOGGER = LogManager.getLogger(ReadOnlyListTreeController.class);
 
 	private PhyloTreeService mPhyloTreeService;
 	private StudyService mStudyService;

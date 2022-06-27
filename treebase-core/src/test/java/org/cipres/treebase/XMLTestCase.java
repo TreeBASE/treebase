@@ -1,7 +1,8 @@
 
 package org.cipres.treebase;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dom4j.io.SAXReader;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -25,7 +26,7 @@ import junit.framework.TestCase;
  */
 public class XMLTestCase extends TestCase {
 
-	private static final Logger logger = Logger.getLogger(XMLTestCase.class);
+	private static final Logger logger = LogManager.getLogger(XMLTestCase.class);
 
 	/**
 	 * Constructor.
@@ -50,6 +51,7 @@ public class XMLTestCase extends TestCase {
 
 		//SAXBuilder builder = new SAXBuilder("org.apache.xerces.parsers.SAXParser");
 		SAXBuilder builder = new SAXBuilder();
+		builder.setExpandEntities(false); // defensive against CVE-2021-33813
 		
 		Document doc = builder.build(nexusFile);	
 		assertTrue("Empty doc.", doc != null);
@@ -90,11 +92,11 @@ public class XMLTestCase extends TestCase {
 		org.dom4j.Document docj = reader.read(nexusFile);
 		
 		//select all entity elements in the document:
-		Iterator<org.dom4j.Element> iter = docj.selectNodes("//entity").iterator();
+		Iterator<org.dom4j.Node> iter = docj.selectNodes("//entity").iterator();
 		
-		org.dom4j.Element ele = iter.next();
-		
-		logger.debug(" element : " + ele.elementText("nameString") + " : " + ele.elementText("namebankID"));
+		org.dom4j.Node ele = iter.next();
+
+		logger.debug(" element : " + ele.selectSingleNode("nameString").getText() + " : " + ele.selectSingleNode("namebankID").getText());
 		assertTrue("Failed to search.", ele != null);
 
 		if (logger.isInfoEnabled()) {

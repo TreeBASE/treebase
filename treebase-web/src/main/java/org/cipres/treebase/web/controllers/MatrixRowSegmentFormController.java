@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 import org.cipres.treebase.TreebaseUtil;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,7 +34,7 @@ public class MatrixRowSegmentFormController extends BaseFormController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(MatrixRowSegmentFormController.class);
+	private static final Logger LOGGER = LogManager.getLogger(MatrixRowSegmentFormController.class);
 
 	private RowSegmentService mRowSegmentService;
 	private MatrixRowService mMatrixRowService;

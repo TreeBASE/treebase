@@ -4,7 +4,8 @@ package org.cipres.treebase.domain.nexus;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.domain.nexus.mesquite.MesquiteConverter;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
@@ -21,7 +22,7 @@ import junit.framework.TestCase;
  * 
  */
 public class MesquiteConverterTest extends TestCase {
-	private static final Logger logger = Logger.getLogger(MesquiteConverterTest.class);
+	private static final Logger logger = LogManager.getLogger(MesquiteConverterTest.class);
 
 	/**
 	 * Constructor.

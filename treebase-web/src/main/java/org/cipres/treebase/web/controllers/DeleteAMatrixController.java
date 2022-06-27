@@ -9,7 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +28,7 @@ import org.cipres.treebase.domain.study.SubmissionService;
 
 public class DeleteAMatrixController extends BaseFormController {
 
-	private static final Logger LOGGER = Logger.getLogger(DeleteAMatrixController.class);
+	private static final Logger LOGGER = LogManager.getLogger(DeleteAMatrixController.class);
 
 	private MatrixService mMatrixService;
 	private SubmissionHome mSubmissionHome;

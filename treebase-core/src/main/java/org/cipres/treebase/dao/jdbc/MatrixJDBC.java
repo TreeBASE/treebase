@@ -10,7 +10,8 @@ import java.util.List;
 
 import mesquite.lib.characters.CharacterData;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.nexml.model.Matrix;
@@ -40,7 +41,7 @@ public abstract class MatrixJDBC {
 	//IBM JDBC driver has a 32k batch limit:
 	public static final int JDBC_BATCH_LIMIT = 30000;
 	
-	private static final Logger LOGGER = Logger.getLogger(MatrixJDBC.class);
+	private static final Logger LOGGER = LogManager.getLogger(MatrixJDBC.class);
 
 	//INSERT INTO MATRIXCOLUMN(MATRIXCOLUMN_ID, VERSION, PHYLOCHAR_ID, MATRIX_ID, STATEFORMAT_ID, COLUMN_ORDER) 
     //VALUES(default, 0, ?, ?, ?, ?)

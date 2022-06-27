@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.matrix.CharacterMatrix;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -70,7 +71,7 @@ class SearchSummaryController extends BaseFormController {
 	TaxonLabelService taxonLabelService;
 	
 	String defaultPage = null;
-	private static final Logger LOGGER = Logger.getLogger(SearchSummaryController.class);
+	private static final Logger LOGGER = LogManager.getLogger(SearchSummaryController.class);
 	
 	class UnknownStudyError extends Error { }
 	class RestrictedStudyError extends Error { }

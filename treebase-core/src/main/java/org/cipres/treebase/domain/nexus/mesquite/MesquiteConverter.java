@@ -29,7 +29,8 @@ import mesquite.lib.Tree;
 import mesquite.lib.TreeVector;
 import mesquite.lib.duties.TreesManager;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.matrix.ItemDefinitionHome;
@@ -53,7 +54,7 @@ import org.cipres.treebase.event.ProgressionListener;
  * 
  */
 public class MesquiteConverter extends AbstractNexusConverter implements NexusParserConverter {
-	private static final Logger LOGGER = Logger.getLogger(MesquiteConverter.class);
+	private static final Logger LOGGER = LogManager.getLogger(MesquiteConverter.class);
 
 	private static boolean mInitMesquite = false;
 

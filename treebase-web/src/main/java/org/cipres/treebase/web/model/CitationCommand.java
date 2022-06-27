@@ -1,7 +1,5 @@
 package org.cipres.treebase.web.model;
 
-import org.apache.log4j.Logger;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +22,6 @@ import org.cipres.treebase.domain.study.InBookCitation;
 @SuppressWarnings("serial")
 public class CitationCommand extends Citation {
 	
-	private static final Logger LOGGER = Logger
-			.getLogger(CitationCommand.class);
-
 	private Long id;
 	private String mCitationType;
 

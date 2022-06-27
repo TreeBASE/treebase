@@ -1,7 +1,8 @@
 
 package org.cipres.treebase.dao.admin;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
@@ -29,7 +30,7 @@ import org.cipres.treebase.domain.study.Submission;
  */
 public class UserDAO extends AbstractDAO implements UserHome {
 
-	private static final Logger LOGGER = Logger.getLogger(UserDAO.class);
+	private static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
 
 	/**
 	 * Constructor.

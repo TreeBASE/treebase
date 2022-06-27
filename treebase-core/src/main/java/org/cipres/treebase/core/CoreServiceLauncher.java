@@ -1,7 +1,8 @@
 
 package org.cipres.treebase.core;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.ContextManager;
 
@@ -15,7 +16,7 @@ import org.cipres.treebase.ContextManager;
  * 
  */
 public class CoreServiceLauncher {
-	private static final Logger LOGGER = Logger.getLogger(CoreServiceLauncher.class);
+	private static final Logger LOGGER = LogManager.getLogger(CoreServiceLauncher.class);
 
 	private static final String[] SPRING_CONFIG_FILES = new String[] {// "applicationContext.xml",
 	"applicationContext-db-standalone.xml",      // 2010-01-12 VG

@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.domain.matrix.GapMode;
 import org.cipres.treebase.domain.matrix.PolyTCount;
@@ -35,7 +36,7 @@ public class AnalysisStepCommand extends AnalysisStep {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger LOGGER = Logger.getLogger(AnalysisStepCommand.class);
+	private static final Logger LOGGER = LogManager.getLogger(AnalysisStepCommand.class);
 
 	private Long id;
 	private int order;

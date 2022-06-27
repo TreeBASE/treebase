@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.dao.AbstractDAO;
 import org.cipres.treebase.dao.jdbc.PhyloTreeJDBC;
@@ -47,7 +48,7 @@ import org.hibernate.criterion.Expression;
  */
 public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 
-	private static final Logger LOGGER = Logger.getLogger(PhyloTreeDAO.class);   
+	private static final Logger LOGGER = LogManager.getLogger(PhyloTreeDAO.class);
 	   
 	private SubmissionHome mSubmissionHome;
 	private AnalyzedDataHome mAnalyzedDataHome;

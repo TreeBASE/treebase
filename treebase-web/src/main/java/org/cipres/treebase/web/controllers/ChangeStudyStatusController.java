@@ -8,7 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,7 +29,7 @@ import org.cipres.treebase.web.util.ControllerUtil;
  */
 public class ChangeStudyStatusController extends BaseFormController {
 
-	private static final Logger LOGGER = Logger.getLogger(ChangeStudyStatusController.class);
+	private static final Logger LOGGER = LogManager.getLogger(ChangeStudyStatusController.class);
 
 	private UserService mUserService;
 	private SubmissionService mSubmissionService;

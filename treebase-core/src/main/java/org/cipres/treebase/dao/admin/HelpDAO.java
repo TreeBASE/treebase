@@ -3,7 +3,8 @@ package org.cipres.treebase.dao.admin;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.AbstractDAO;
 import org.cipres.treebase.domain.admin.Help;
 import org.cipres.treebase.domain.admin.HelpHome;
@@ -19,7 +20,7 @@ import org.hibernate.criterion.Expression;
  * 
  */
 public class HelpDAO extends AbstractDAO implements HelpHome {
-	private static final Logger LOGGER = Logger.getLogger(HelpDAO.class);
+	private static final Logger LOGGER = LogManager.getLogger(HelpDAO.class);
 
 	/**
 	 * Constructor.

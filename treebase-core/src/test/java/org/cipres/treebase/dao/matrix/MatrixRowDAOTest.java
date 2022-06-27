@@ -2,7 +2,8 @@ package org.cipres.treebase.dao.matrix;
 
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.MatrixRow;
@@ -21,7 +22,7 @@ import org.cipres.treebase.domain.matrix.MatrixRowHome;
  * @version $Revision$
  */
 public class MatrixRowDAOTest extends AbstractDAOTest {
-	private static final Logger LOGGER = Logger.getLogger(MatrixRowDAOTest.class);
+	private static final Logger LOGGER = LogManager.getLogger(MatrixRowDAOTest.class);
 
 	private MatrixRowHome mMatrixRowHome;
 

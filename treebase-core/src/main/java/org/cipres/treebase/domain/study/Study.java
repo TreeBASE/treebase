@@ -25,7 +25,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.Constants;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.AbstractPersistedObject;
@@ -57,7 +58,7 @@ public class Study extends AbstractPersistedObject {
 
 	private static final long serialVersionUID = -3985996848459154996L;
 	@SuppressWarnings("unused")
-	private static final Logger LOGGER = Logger.getLogger(Study.class);
+	private static final Logger LOGGER = LogManager.getLogger(Study.class);
 
 	private String mName;
 	private String mAccessionNumber;
