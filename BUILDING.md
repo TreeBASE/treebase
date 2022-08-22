@@ -1,5 +1,3 @@
-![Logo of Treebase](https://treebase.org/treebase-web/images/TreeBASE.png)
-
 Building the artifacts in this repository
 =========================================
 
