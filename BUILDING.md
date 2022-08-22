@@ -55,14 +55,12 @@ Compiling
 
 Then, check out the source tree:
 
-    $ sudo su
-    # cd /usr/local/src
-    # git clone https://github.com/TreeBASE/treebase.git
+    $ git clone https://github.com/TreeBASE/treebase.git
 
 ...and compile it using the `compiler:compile` maven goal executed in the top level directory:
 
-    # cd treebase
-    # mvn compiler:compile
+    $ cd treebase
+    $ mvn compiler:compile
 
 This should result in a successful build:
 
@@ -93,7 +91,7 @@ it `context.xml`. You then need to edit this file to insert the right values for
 variables, e.g. database passwords. Once that is done, the bundling is accomplished with 
 the `package` goal, i.e.
 
-    # mvn package -Dmaven.test.skip=true
+    $ mvn package -Dmaven.test.skip=true
 
 This should produce an output like so:
 
