@@ -128,4 +128,4 @@ that contains all the components, i.e.:
 - all the pre-requisite JARs,
 - all configuration files, appropriately edited.
 
-This means that the total size of the WAR archive should be around 53Mb.
+This means that the total size of the WAR archive should be around 59Mb.
