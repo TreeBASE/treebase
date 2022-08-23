@@ -88,8 +88,9 @@ code into artifacts that can be deployed. This bundle will also include the conf
 files to connect to the database. Specifically, you need to make a copy of the file 
 [context.xml.example](treebase-web/src/main/webapp/META-INF/context.xml.example) and name
 it `context.xml`. You then need to edit this file to insert the right values for the 
-variables, e.g. database passwords. Once that is done, the bundling is accomplished with 
-the `package` goal, i.e.
+variables, e.g. database passwords. The currently used configuration values are logged in 
+the private repo TreeBASE/treebase-config. Once that is done, the bundling is accomplished 
+with the `package` goal, i.e.
 
     $ mvn package -Dmaven.test.skip=true
 
