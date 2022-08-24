@@ -1,5 +1,3 @@
-![Logo of Treebase](https://treebase.org/treebase-web/images/TreeBASE.png)
-
 Installation instructions for data loading environment
 ======================================================
 
