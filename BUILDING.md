@@ -85,9 +85,10 @@ Bundling
 Assuming we have compiled successfully, this means that all the dependencies were found
 and there were no errors in the code. What needs to happen next is to bundle the compiled
 code into artifacts that can be deployed. This bundle will also include the configuration
-files to connect to the database. Specifically, you need to make a copy of the file 
-[context.xml.example](treebase-web/src/main/webapp/META-INF/context.xml.example) and name
-it `context.xml`. You then need to edit this file to insert the right values for the 
+files to connect to the database. Specifically, you need to make neighbouring copies of 
+the files [context.xml.example](treebase-web/src/main/webapp/META-INF/context.xml.example) 
+and [jdbc.properties.example](treebase-core/src/main/resources/jdbc.properties.example),
+remove the `.example` suffix, and edit them to insert the right values for the 
 variables, e.g. database passwords. The currently used configuration values are logged in 
 the private repo TreeBASE/treebase-config. Once that is done, the bundling is accomplished 
 with the `package` goal, i.e.
