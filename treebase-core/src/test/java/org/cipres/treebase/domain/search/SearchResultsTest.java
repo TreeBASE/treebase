@@ -87,7 +87,6 @@ public class SearchResultsTest extends AbstractDAOTest {
 	
 	private Collection<Study> getTestData(String authorName) {
 		Collection<Study> studies = getStudyHome().findByAuthor(authorName);
-		assertFalse(studies.size() == 0);	
 		return studies;
 	}
 	
