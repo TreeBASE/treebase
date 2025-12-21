@@ -8,18 +8,21 @@
   - `X-Content-Type-Options: nosniff` - Prevents MIME-sniffing attacks
   - `X-XSS-Protection: 1; mode=block` - Enables XSS protection in older browsers
   - `Content-Security-Policy` - Basic CSP to mitigate XSS and data injection attacks
-  - Cache control headers to prevent sensitive data caching
+    - **Note**: Currently includes `unsafe-inline` and `unsafe-eval` for compatibility with legacy libraries (Prototype.js, Script.aculo.us). Should be removed after JavaScript modernization.
+  - Cache control headers applied selectively to dynamic pages only (not static resources) for performance
 
 ### 2. XSS Vulnerability Fixes in JavaScript
 - **Fixed `eval()` vulnerabilities:**
   - `submissionSummary.js`: Replaced `eval()` with `JSON.parse()` for parsing JSON responses
-  - `xp_progress.js`: Replaced `eval()` with `Function` constructor with error handling
+  - `xp_progress.js`: Replaced `eval()` with `Function` constructor, added support for function callbacks
   
 - **Fixed `innerHTML` vulnerabilities:**
   - `submissionSummary.js`: Replaced `innerHTML` with `textContent` and DOM manipulation
   - `multiFileUpload.js`: Replaced `innerHTML` with proper DOM element creation
   - `ajaxProgress.js`: Replaced `innerHTML` with `textContent` for displaying progress
   - `analysisEditor.js`: Replaced string concatenation with proper DOM element creation
+
+**Note on xp_progress.js**: While Function constructor is used for legacy string-based actions, the code now prioritizes function callbacks. A deprecation warning is logged when string actions are used. Future development should migrate all usages to function callbacks.
 
 ### 3. Production Security Settings in web.xml
 - **Disabled JavaMelody system actions** (`system-actions-enabled: false`)
@@ -245,8 +248,13 @@
 ## Change Log
 
 - **2025-12-21**: Initial security audit and improvements
-  - Added SecurityHeadersFilter
+  - Added SecurityHeadersFilter with selective cache control
   - Fixed XSS vulnerabilities in JavaScript files
   - Disabled production debug modes
   - Fixed JSP XSS issues
   - Created security documentation
+  - Addressed code review feedback:
+    - Improved CSP documentation regarding unsafe-inline/unsafe-eval
+    - Made cache headers selective for performance
+    - Removed eval() fallback in submissionSummary.js
+    - Enhanced xp_progress.js to prefer function callbacks over strings

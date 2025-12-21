@@ -507,13 +507,9 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 			'method':'get',
 			'onSuccess':function(response){
 				var tmp; 
-				// Use JSON.parse instead of eval for security
-				try {
-					tmp = JSON.parse(response.responseText);
-				} catch(e) {
-					// Fallback for older browsers that might not have JSON.parse
-					tmp = eval('(' + response.responseText + ')');
-				}
+				// Use JSON.parse for security - modern browsers all support it
+				// TreeBASE requires modern browsers, so no fallback needed
+				tmp = JSON.parse(response.responseText);
 				TreeBASE.study = tmp.study;
 				TreeBASE.submission = tmp.submission;
 				//TreeBASE.writeSummary();

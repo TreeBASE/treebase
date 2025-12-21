@@ -46,6 +46,14 @@ bA.h=h;
 bA.speed=speed;
 bA.ctr=0;
 bA.count=count;
+// Support both string (legacy) and function (preferred) actions
+// String actions are converted to functions for safer execution
+if (typeof action === 'string') {
+    // Warn developers to use function callbacks instead
+    if (console && console.warn) {
+        console.warn('xp_progress: String actions are deprecated. Use function callbacks instead.');
+    }
+}
 bA.action=action;
 bA.togglePause=togglePause;
 bA.showBar=function(){
@@ -64,13 +72,27 @@ if(parseInt(t.style.left)+t.h+1-(t.blocks*t.h+t.blocks)>t.w){
 t.style.left=-(t.h*2+1)+'px';
 t.ctr++;
 if(t.ctr>=t.count){
-// Execute action using Function constructor instead of eval for better security
-if (t.action && typeof t.action === 'string') {
+// Execute action - prefer function callbacks over string evaluation
+if (typeof t.action === 'function') {
+    // Direct function call - safest option
+    try {
+        t.action();
+    } catch(e) {
+        if (console && console.error) {
+            console.error('xp_progress: Error executing action callback:', e);
+        }
+    }
+} else if (t.action && typeof t.action === 'string') {
+    // Legacy string-based action support (deprecated)
+    // Note: This still uses Function constructor which is safer than eval
+    // but developers should migrate to function callbacks
     try {
         var func = new Function(t.action);
         func();
     } catch(e) {
-        console.error('Error executing progress bar action:', e);
+        if (console && console.error) {
+            console.error('xp_progress: Error executing action string:', e);
+        }
     }
 }
 t.ctr=0;
