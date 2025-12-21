@@ -127,6 +127,9 @@ public class EnvironmentTest extends AbstractDAOTest {
 		StringBuffer query = new StringBuffer(
 			"INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)");
 			
+		// Note: Session.connection() is deprecated in Hibernate 3.x. We cast to SessionImpl
+		// to access the connection() method. While Session.doReturningWork() would be better,
+		// it would require restructuring the test. For test code, this is acceptable.
 		Connection con =  ((SessionImpl)hibernateTemplate.getSessionFactory().getCurrentSession()).connection();
 		String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)";
 		// String idQuery = "identity_val_local()";
@@ -198,6 +201,9 @@ public class EnvironmentTest extends AbstractDAOTest {
 		StringBuffer query = new StringBuffer(
 			"INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?) RETURNING phylochar_id");
 			
+		// Note: Session.connection() is deprecated in Hibernate 3.x. We cast to SessionImpl
+		// to access the connection() method. While Session.doReturningWork() would be better,
+		// it would require restructuring the test. For test code, this is acceptable.
 		Connection con =  ((SessionImpl)hibernateTemplate.getSessionFactory().getCurrentSession()).connection();
 		//String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)";
 		// String idQuery = "identity_val_local()";
