@@ -402,7 +402,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 */
 	public Set<TaxonLabelSet> findTaxonLabelSets(TaxonLabel taxonLabel) {
 		Query q = getSession()
-		.createQuery("select tls from TaxonLabelSet tls where :tl member of tls.taxonLabelList");
+		.createQuery("select tls from TaxonLabelSet tls join tls.taxonLabelList tl where tl = :tl");
 		q.setParameter("tl", taxonLabel);
 		Set<TaxonLabelSet> result = new HashSet<TaxonLabelSet> ();
 		result.addAll(q.list());
