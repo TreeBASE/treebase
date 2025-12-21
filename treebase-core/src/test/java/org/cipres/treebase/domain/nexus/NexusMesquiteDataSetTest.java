@@ -26,9 +26,9 @@ public class NexusMesquiteDataSetTest extends AbstractDAOTest {
 	/**
 	 * Return the Fixture field.
 	 * 
-	 * @return NexusService mFixture
+	 * @return NexusServiceMesquite mFixture
 	 */
-	public NexusService getFixture() {
+	public NexusServiceMesquite getFixture() {
 		return mFixture;
 	}
 
