@@ -30,6 +30,7 @@ public class TaxonLabelDAOTest extends AbstractDAOTest {
 	}
 
 	public void testFindTaxonLabelSets() {
+		String testName = "testFindTaxonLabelSets";
 		TaxonLabel tl = (TaxonLabel) loadObject(TaxonLabel.class);
 		
 		if (tl != null) {
@@ -41,7 +42,7 @@ public class TaxonLabelDAOTest extends AbstractDAOTest {
 			}
 		} else {
 			if (LOGGER.isInfoEnabled()) {
-				LOGGER.info("testFindTaxonLabelSets - empty database, test skipped");
+				LOGGER.info(testName + " - empty database, test skipped");
 			}
 		}
 	}
