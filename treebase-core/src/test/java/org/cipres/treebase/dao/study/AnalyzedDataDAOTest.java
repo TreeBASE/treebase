@@ -87,7 +87,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 		long dataId = data.iterator().next().getId();
 		String sqlStr = "select count(*) from analyzedData where AnalyzedData_id = " + dataId
 			+ " and matrix_id = " + m.getId();
-		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count > 0);
 
 		if (logger.isInfoEnabled()) {
@@ -123,7 +123,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 		long dataId = data.iterator().next().getId();
 		String sqlStr = "select count(*) from analyzedData where AnalyzedData_id = " + dataId
 			+ " and phylotree_id = " + m.getId();
-		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count > 0);
 
 		if (logger.isInfoEnabled()) {

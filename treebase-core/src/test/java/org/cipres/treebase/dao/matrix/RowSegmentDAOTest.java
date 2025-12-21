@@ -223,7 +223,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 		
 		// 4. verify
 	   String sqlStr = "select count(*) from ROWSEGMENT rs, MATRIXROW r where r.MATRIXROW_ID = rs.MATRIXROW_ID and r.MATRIX_ID =" + m.getId();
-	   int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+	   Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 	   assertTrue("verify succeed count", count == result.getSuccessfulCount());
 
 	   //5 test:
@@ -231,7 +231,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	   int end = 30;
 	   String colSizeStr = "select count(*) from ROWSEGMENT rs, MATRIXROW r where r.MATRIXROW_ID = rs.MATRIXROW_ID and r.MATRIX_ID =" + m.getId()
 	   + " and rs.startIndex between " + start + " and " + end + " and rs.endIndex between " + start + " and " + end;
-	   int colSizeJDBC = jdbcTemplate.queryForObject(colSizeStr, Integer.class);
+	   Integer colSizeJDBC = jdbcTemplate.queryForObject(colSizeStr, Integer.class);
 	   
 	   int deleteCount = getFixture().deleteByMatrixAndColumnRange(m.getId(), start, end);
 	   
@@ -248,7 +248,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 6. verify delete:
-		int countVerify = jdbcTemplate.queryForObject(subSQL, Integer.class);
+		Integer countVerify = jdbcTemplate.queryForObject(subSQL, Integer.class);
 		assertTrue("Submission deletion failed.", countVerify == 0);
 		countVerify = jdbcTemplate.queryForObject(studySQL, Integer.class);
 		assertTrue("Study deletion failed.", countVerify == 0);
