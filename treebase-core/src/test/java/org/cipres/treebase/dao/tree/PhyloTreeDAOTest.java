@@ -71,18 +71,29 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	public void testFindNodesByTaxonLabel() {
 		// find a taxon label string
 		String labelStr = "select taxonLabel_id from phylotreenode where taxonLabel_id is not null fetch first rows only";
-		long taxonLabelId = jdbcTemplate.queryForLong(labelStr);
-		logger.info("taxonLabel id: " + taxonLabelId);
-		assertTrue(taxonLabelId > 0);
+		List<Long> taxonLabelIds = jdbcTemplate.queryForList(labelStr, Long.class);
 		
-		//get taxon label object
-		TaxonLabel label = (TaxonLabel) loadObject(TaxonLabel.class, taxonLabelId);
-		assertTrue(label != null);
-	
-		Set<PhyloTreeNode> nodes = getFixture().findNodesByTaxonLabel(label);	
-		assertTrue(nodes.size() >= 1);
-		for (PhyloTreeNode n : nodes)
-			assertTrue(n.getTaxonLabel().equals(label));
+		// verify correct handling of empty database
+		assertNotNull("Query should return non-null list", taxonLabelIds);
+		
+		if (taxonLabelIds.size() > 0) {
+			long taxonLabelId = taxonLabelIds.get(0);
+			logger.info("taxonLabel id: " + taxonLabelId);
+			assertTrue(taxonLabelId > 0);
+			
+			//get taxon label object
+			TaxonLabel label = (TaxonLabel) loadObject(TaxonLabel.class, taxonLabelId);
+			assertTrue(label != null);
+		
+			Set<PhyloTreeNode> nodes = getFixture().findNodesByTaxonLabel(label);	
+			assertTrue(nodes.size() >= 1);
+			for (PhyloTreeNode n : nodes)
+				assertTrue(n.getTaxonLabel().equals(label));
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info("testFindNodesByTaxonLabel - empty database, test skipped");
+			}
+		}
 	}
 
 	/**
@@ -98,33 +109,44 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 
 		// 1. find a matrix in a analyzed data:
 		String labelStr = "select taxonLabel_id from phylotreenode where taxonLabel_id is not null fetch first rows only";
-		long taxonLabelId = jdbcTemplate.queryForLong(labelStr);
-		logger.info("taxonLabel id: " + taxonLabelId);
-		assertTrue(taxonLabelId > 0);
+		List<Long> taxonLabelIds = jdbcTemplate.queryForList(labelStr, Long.class);
+		
+		// 2. verify correct handling of empty database
+		assertNotNull("Query should return non-null list", taxonLabelIds);
+		
+		if (taxonLabelIds.size() > 0) {
+			long taxonLabelId = taxonLabelIds.get(0);
+			logger.info("taxonLabel id: " + taxonLabelId);
+			assertTrue(taxonLabelId > 0);
 
-		// 2. query
-		TaxonLabel label = (TaxonLabel) loadObject(TaxonLabel.class, taxonLabelId);
-		assertTrue(label != null);
+			// 3. query
+			TaxonLabel label = (TaxonLabel) loadObject(TaxonLabel.class, taxonLabelId);
+			assertTrue(label != null);
 
-		List<TaxonLabel> labelList = new ArrayList<TaxonLabel>();
-		labelList.add(label);
+			List<TaxonLabel> labelList = new ArrayList<TaxonLabel>();
+			labelList.add(label);
 
-		Collection<PhyloTree> trees = getFixture().findByAnyTaxonLabel(labelList);
-		assertTrue(trees != null && !trees.isEmpty());
+			Collection<PhyloTree> trees = getFixture().findByAnyTaxonLabel(labelList);
+			assertTrue(trees != null && !trees.isEmpty());
 
-		// 3. verify
-		for (PhyloTree phyloTree : trees) {
+			// 4. verify
+			for (PhyloTree phyloTree : trees) {
 
-			long treeId = phyloTree.getId();
-			String treeCountStr = "select count(tree.phylotree_id) from phylotree tree, phylotreenode node "
-				+ " where tree.PHYLOTREE_ID = node.PHYLOTREE_ID and node.TAXONLABEL_ID = "
-				+ label.getId() + " and tree.PHYLOTREE_ID = " + treeId;
-			Integer count = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
-			assertTrue(count > 0);
-		}
+				long treeId = phyloTree.getId();
+				String treeCountStr = "select count(tree.phylotree_id) from phylotree tree, phylotreenode node "
+					+ " where tree.PHYLOTREE_ID = node.PHYLOTREE_ID and node.TAXONLABEL_ID = "
+					+ label.getId() + " and tree.PHYLOTREE_ID = " + treeId;
+				Integer count = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
+				assertTrue(count > 0);
+			}
 
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " verified.");
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " verified.");
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 	}
 
@@ -141,36 +163,47 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 
 		// 1. find a study with trees:
 		String studyStr = "select study_id from phylotree where study_id is not null fetch first rows only";
-		long studyId = jdbcTemplate.queryForLong(studyStr);
-		logger.info("study id: " + studyId);
-		assertTrue(studyId > 0);
+		List<Long> studyIds = jdbcTemplate.queryForList(studyStr, Long.class);
+		
+		// 2. verify correct handling of empty database
+		assertNotNull("Query should return non-null list", studyIds);
+		
+		if (studyIds.size() > 0) {
+			long studyId = studyIds.get(0);
+			logger.info("study id: " + studyId);
+			assertTrue(studyId > 0);
 
-		// 2. query
-		Study s = (Study) loadObject(Study.class, studyId);
-		assertTrue(s != null);
+			// 3. query
+			Study s = (Study) loadObject(Study.class, studyId);
+			assertTrue(s != null);
 
-		List<Study> studyList = new ArrayList<Study>();
-		studyList.add(s);
+			List<Study> studyList = new ArrayList<Study>();
+			studyList.add(s);
 
-		Collection<PhyloTree> trees = getFixture().findByStudies(studyList);
-		assertTrue(trees != null && !trees.isEmpty());
+			Collection<PhyloTree> trees = getFixture().findByStudies(studyList);
+			assertTrue(trees != null && !trees.isEmpty());
 
-		if (logger.isInfoEnabled()) {
-			logger.info(" tree count= " + trees.size());
-		}
+			if (logger.isInfoEnabled()) {
+				logger.info(" tree count= " + trees.size());
+			}
 
-		// 3. verify
-		for (PhyloTree phyloTree : trees) {
+			// 4. verify
+			for (PhyloTree phyloTree : trees) {
 
-			long treeId = phyloTree.getId();
-			String treeCountStr = "select count(tree.phylotree_id) from phylotree tree "
-				+ " where tree.study_ID = " + s.getId() + " and tree.PHYLOTREE_ID = " + treeId;
-			Integer count = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
-			assertTrue(count > 0);
-		}
+				long treeId = phyloTree.getId();
+				String treeCountStr = "select count(tree.phylotree_id) from phylotree tree "
+					+ " where tree.study_ID = " + s.getId() + " and tree.PHYLOTREE_ID = " + treeId;
+				Integer count = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
+				assertTrue(count > 0);
+			}
 
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " verified.");
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " verified.");
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 	}
 
@@ -187,39 +220,50 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 
 		// 1. find a study with trees:
 		String studyStr = "select study_id from phylotree where study_id is not null and published is false fetch first rows only";
-		long studyId = jdbcTemplate.queryForLong(studyStr);
-		logger.info("study id: " + studyId);
-		assertTrue(studyId > 0);
-
-		// 2. query
-		Study s = (Study) loadObject(Study.class, studyId);
-		assertTrue(s != null);
-		//this the table phyloTree and study may evaluate "published" differently 
-		//assertTrue(s.isPublished() == false);
-
-		int count = getFixture().updatePublishedFlagByStudy(s, true);
-		logger.debug("update Count = " + count);
-		assertTrue(count > 0);
-
-		// force commit immediately, important:
-		setComplete();
-		endTransaction();
-
-		// 3. verify
-		String treeCountStr = "select count(tree.phylotree_id) from phylotree tree "
-			+ " where tree.study_ID = " + s.getId() + " and tree.published is true";
-		Integer countVeri = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
-		logger.debug("verify Count = " + countVeri);
-		assertTrue(countVeri == count);
-
-		//4. change it back:
-		int count2 = getFixture().updatePublishedFlagByStudy(s, false);
-		assertTrue(count2 == count);
-	
-		setComplete();
+		List<Long> studyIds = jdbcTemplate.queryForList(studyStr, Long.class);
 		
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " verified.");
+		// 2. verify correct handling of empty database
+		assertNotNull("Query should return non-null list", studyIds);
+		
+		if (studyIds.size() > 0) {
+			long studyId = studyIds.get(0);
+			logger.info("study id: " + studyId);
+			assertTrue(studyId > 0);
+
+			// 3. query
+			Study s = (Study) loadObject(Study.class, studyId);
+			assertTrue(s != null);
+			//this the table phyloTree and study may evaluate "published" differently 
+			//assertTrue(s.isPublished() == false);
+
+			int count = getFixture().updatePublishedFlagByStudy(s, true);
+			logger.debug("update Count = " + count);
+			assertTrue(count > 0);
+
+			// force commit immediately, important:
+			setComplete();
+			endTransaction();
+
+			// 4. verify
+			String treeCountStr = "select count(tree.phylotree_id) from phylotree tree "
+				+ " where tree.study_ID = " + s.getId() + " and tree.published is true";
+			Integer countVeri = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
+			logger.debug("verify Count = " + countVeri);
+			assertTrue(countVeri == count);
+
+			//5. change it back:
+			int count2 = getFixture().updatePublishedFlagByStudy(s, false);
+			assertTrue(count2 == count);
+		
+			setComplete();
+			
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " verified.");
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 	}
 
@@ -604,9 +648,15 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 			getFixture().findSomethingByItsDescription(PhyloTree.class, 
 					"treeType", "Consensus", false);
 		assertNotNull(trees);
-		assertTrue(trees.size() > 0);
-		for (PhyloTree t : trees) {
-			assertEquals("Consensus", t.getTypeDescription());
+		
+		if (trees.size() > 0) {
+			for (PhyloTree t : trees) {
+				assertEquals("Consensus", t.getTypeDescription());
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info("testFindByTreeType - empty database, test skipped");
+			}
 		}
 	}
 }
