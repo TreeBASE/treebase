@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import org.hibernate.Query;
+import org.hibernate.impl.SessionImpl;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -90,10 +91,10 @@ public class EnvironmentTest extends AbstractDAOTest {
 
 		// assertTrue(false);
 		StringBuffer query = new StringBuffer(
-			"delete from RowSegment r where r in (select r2 from RowSegment r2 join r2.matrixRow row " +
+//			"delete from RowSegment r where r in (select r2 from RowSegment r2 join r2.matrixRow row " +
+//			"where row.matrix = :matrixId and r2.startIndex between :start and :endIndex and r2.endIndex between :start and :endIndex)");
+			"delete from RowSegment where id in (select r2.id from RowSegment r2 join r2.matrixRow row " +
 			"where row.matrix = :matrixId and r2.startIndex between :start and :endIndex and r2.endIndex between :start and :endIndex)");
-//		"delete from RowSegment where id in (select id from RowSegment r2 join r2.matrixRow row " +
-//		"where row.matrix = :matrixId and r2.startIndex between :start and :endIndex and r2.endIndex between :start and :endIndex)");
 
 		Query q =  hibernateTemplate.getSessionFactory().getCurrentSession().createQuery(query.toString());
 
@@ -126,7 +127,10 @@ public class EnvironmentTest extends AbstractDAOTest {
 		StringBuffer query = new StringBuffer(
 			"INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)");
 			
-		Connection con =  hibernateTemplate.getSessionFactory().getCurrentSession().connection();
+		// Note: Session.connection() is deprecated in Hibernate 3.x. We cast to SessionImpl
+		// to access the connection() method. While Session.doReturningWork() would be better,
+		// it would require restructuring the test. For test code, this is acceptable.
+		Connection con =  ((SessionImpl)hibernateTemplate.getSessionFactory().getCurrentSession()).connection();
 		String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)";
 		// String idQuery = "identity_val_local()";
 
@@ -197,7 +201,10 @@ public class EnvironmentTest extends AbstractDAOTest {
 		StringBuffer query = new StringBuffer(
 			"INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?) RETURNING phylochar_id");
 			
-		Connection con =  hibernateTemplate.getSessionFactory().getCurrentSession().connection();
+		// Note: Session.connection() is deprecated in Hibernate 3.x. We cast to SessionImpl
+		// to access the connection() method. While Session.doReturningWork() would be better,
+		// it would require restructuring the test. For test code, this is acceptable.
+		Connection con =  ((SessionImpl)hibernateTemplate.getSessionFactory().getCurrentSession()).connection();
 		//String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)";
 		// String idQuery = "identity_val_local()";
 
