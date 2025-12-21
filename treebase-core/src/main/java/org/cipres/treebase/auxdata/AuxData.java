@@ -1,6 +1,5 @@
 
 
-
 package org.cipres.treebase.auxdata;
 
 import java.text.ParseException;
@@ -13,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -372,6 +372,7 @@ public class AuxData {
 		}
 		try {
 			SimpleDateFormat ds = new SimpleDateFormat("M/d/yy KK:mm:ss");
+			ds.setTimeZone(TimeZone.getTimeZone("EST"));
 			return ds.parse(creationDateString);
 		}  catch (ParseException e) { /* ignore it */ }
 		return null;

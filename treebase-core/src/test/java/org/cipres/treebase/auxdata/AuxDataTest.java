@@ -6,12 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
@@ -156,10 +159,9 @@ public class AuxDataTest extends TestCase {
 
 	public void testGetCreationDate() {
 		Date d = aux.getCreationDate();
-//		DateFormat df = new SimpleDateFormat("dd MMM yyyy hh:mm:ss zzz");
-//		df.setTimeZone(TimeZone.getTimeZone("GMT"));
-//		assertEquals("28 Jan 1996 19:14:16 GMT", df.format(d));
-		assertEquals("28 Jan 1996 19:14:16 GMT", d.toGMTString());
+		DateFormat df = new SimpleDateFormat("dd MMM yyyy HH:mm:ss zzz");
+		df.setTimeZone(TimeZone.getTimeZone("GMT"));
+		assertEquals("28 Jan 1996 19:14:16 GMT", df.format(d));
 	}
 	
 	public void testSkip() {
