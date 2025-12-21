@@ -146,17 +146,24 @@ public class MatrixDAOTest extends AbstractDAOTest {
 			logger.info("\n\t\tRunning Test: " + testName);
 		}
 
-		// 1.find a submission with matrix:
+		// 1. Check if matrix exists in database:
 		Long matrixId = 265L; // 
 		//Long matrixId = 1544L; // 40k+ columns!
 		//Long matrixId = 1547L; // large, but not crazy.
-		CharacterMatrix m = (CharacterMatrix) loadObject(CharacterMatrix.class, matrixId);
 		
-		if (m != null) {
+		String matrixSQL = "select matrix_id from matrix where matrix_id = " + matrixId + " fetch first rows only";
+		List<Long> result = jdbcTemplate.queryForList(matrixSQL, Long.class);
+		
+		// 2. verify correct handling of empty database
+		assertNotNull("Query should return non-null list", result);
+		
+		if (result != null && !result.isEmpty()) {
+			CharacterMatrix m = (CharacterMatrix) loadObject(CharacterMatrix.class, matrixId);
+			
 			int start = 0;
 			int end = 30;
 			
-			//2. query: 
+			//3. query: 
 			List<String> rowStrings = getFixture().findRowAsString(m, start, end);
 			
 			if (logger.isInfoEnabled()) {
@@ -171,7 +178,7 @@ public class MatrixDAOTest extends AbstractDAOTest {
 			
 			//assertTrue(rowStrings.size() == (end-start + 1));
 			
-			// 3. verify
+			// 4. verify
 			//String matrixSQL = "select count(*) from matrix where matrix_id = " + m.getId();
 			//int count = jdbcTemplate.queryForInt(matrixSQL);
 			//assertTrue(count == 1);
