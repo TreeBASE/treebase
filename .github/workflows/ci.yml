@@ -45,6 +45,7 @@ jobs:
     
     - name: Configure database properties for tests
       run: |
+        mkdir -p /tmp/mesquite
         cat > treebase-core/src/test/resources/jdbc.properties << EOF
         jdbc.driverClassName=org.postgresql.Driver
         jdbc.url=jdbc:postgresql://localhost:5432/treebasedb
