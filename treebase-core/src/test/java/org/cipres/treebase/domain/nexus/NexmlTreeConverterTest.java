@@ -35,43 +35,49 @@ public class NexmlTreeConverterTest extends AbstractDAOTest {
 		// this is the full study as it is stored by the database
 		Study tbStudy = (Study)loadObject(Study.class, studyId);
 
-		// this becomes an object representation of a NeXML document
-		Document nexDoc = DocumentFactory.safeCreateDocument();
-		
-		// the converter populates the NeXML document with the contents of the treebase study
-		NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
-		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
-				
-		// these are the NeXML tree blocks that were created from the study  		
-		List<org.nexml.model.TreeBlock> nexTreeBlocks = nexDoc.getTreeBlockList();
-		
-		// there most be more than zero tree blocks in this study
-		Assert.assertTrue(nexTreeBlocks.size() != 0 );
-		
-		// now we're going to match up the NeXML taxa in trees with their equivalent treebase ones
-		for ( org.nexml.model.TreeBlock nexTreeBlock : nexTreeBlocks ) {
+		if (tbStudy != null) {
+			// this becomes an object representation of a NeXML document
+			Document nexDoc = DocumentFactory.safeCreateDocument();
 			
-			// get the equivalent taxa block in treebase for the NeXML tree block's OTU set
-			TaxonLabelSet tbTls = (TaxonLabelSet)findEquivalentObject(nexTreeBlock.getOTUs().getId(),"Tls",tbStudy.getTaxonLabelSets());
-			
-			// now iterate over all nodes in all trees in the focal tree block
-			for ( Network<?> nexTree : nexTreeBlock ) {
-				for ( Node nexNode : nexTree.getNodes() ) {
+			// the converter populates the NeXML document with the contents of the treebase study
+			NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
+			ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
 					
-					// check to see if there is a taxon; this may be null because we also visit internal nodes
-					OTU nexOTU = nexNode.getOTU();
-					if ( null != nexOTU ) {
+			// these are the NeXML tree blocks that were created from the study  		
+			List<org.nexml.model.TreeBlock> nexTreeBlocks = nexDoc.getTreeBlockList();
+			
+			// there most be more than zero tree blocks in this study
+			Assert.assertTrue(nexTreeBlocks.size() != 0 );
+			
+			// now we're going to match up the NeXML taxa in trees with their equivalent treebase ones
+			for ( org.nexml.model.TreeBlock nexTreeBlock : nexTreeBlocks ) {
+				
+				// get the equivalent taxa block in treebase for the NeXML tree block's OTU set
+				TaxonLabelSet tbTls = (TaxonLabelSet)findEquivalentObject(nexTreeBlock.getOTUs().getId(),"Tls",tbStudy.getTaxonLabelSets());
+				
+				// now iterate over all nodes in all trees in the focal tree block
+				for ( Network<?> nexTree : nexTreeBlock ) {
+					for ( Node nexNode : nexTree.getNodes() ) {
 						
-						// populate a set to pass into findEquivalentObject()
-						Set<TaxonLabel> tbTlset = new HashSet<TaxonLabel>(); 
-						tbTlset.addAll(tbTls.getTaxonLabelsReadOnly());
-						
-						// this must not be null, though
-						TaxonLabel tbTl = (TaxonLabel)findEquivalentObject(nexOTU.getId(),"Tl",tbTlset);
-						Assert.assertNotNull("Have to find taxon "+nexNode.getId()+" for node "+nexNode.getId(), tbTl);
+						// check to see if there is a taxon; this may be null because we also visit internal nodes
+						OTU nexOTU = nexNode.getOTU();
+						if ( null != nexOTU ) {
+							
+							// populate a set to pass into findEquivalentObject()
+							Set<TaxonLabel> tbTlset = new HashSet<TaxonLabel>(); 
+							tbTlset.addAll(tbTls.getTaxonLabelsReadOnly());
+							
+							// this must not be null, though
+							TaxonLabel tbTl = (TaxonLabel)findEquivalentObject(nexOTU.getId(),"Tl",tbTlset);
+							Assert.assertNotNull("Have to find taxon "+nexNode.getId()+" for node "+nexNode.getId(), tbTl);
+						}
 					}
-				}
-			}		
+				}		
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 	}
 	

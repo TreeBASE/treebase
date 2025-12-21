@@ -49,87 +49,93 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 		// this is the full study as it is stored by the database
 		Study tbStudy = (Study)loadObject(Study.class, studyId);
 
-		// these are the character state matrices that are part of the study
-		Set<org.cipres.treebase.domain.matrix.Matrix> tbMatrices = tbStudy.getMatrices();
+		if (tbStudy != null) {
+			// these are the character state matrices that are part of the study
+			Set<org.cipres.treebase.domain.matrix.Matrix> tbMatrices = tbStudy.getMatrices();
 
-		// this is an object representation of a NeXML document
-		Document nexDoc = DocumentFactory.safeCreateDocument();
-		
-		// the converter populates the NeXML document with the contents of the treebase study
-		NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
-		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
-		
-		
-		// these are the NeXML matrices that were created from the study  		
-		List<Matrix<?>> nexMatrices = nexDoc.getMatrices();
-		
-		// there most be more than zero matrices because every treebase study has at least one matrix
-		Assert.assertTrue(nexMatrices.size() != 0 );
-		
-		// now we're going to match up the NeXML matrices with their equivalent treebase ones
-		for ( Matrix<?> nexMatrix : nexMatrices ) {
+			// this is an object representation of a NeXML document
+			Document nexDoc = DocumentFactory.safeCreateDocument();
 			
-			// the xml id is the same as the primary key of the equivalent matrix stored by treebase
-			String nexId = nexMatrix.getId();
-			boolean foundEquivalentMatrix = false;
-
-			// iterate over all treebase matrices for the study
-			for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
-				String tbId = "M" + tbMatrix.getId();
-		
-				// although there is a class DistanceMatrix, it is my belief that we don't actually have
-				// any distance matrices stored, nor can we convert them to NeXML
-				Assert.assertTrue("TreeBASE matrix "+tbId+" must be a character matrix, not a distance matrix", tbMatrix instanceof CharacterMatrix);
+			// the converter populates the NeXML document with the contents of the treebase study
+			NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
+			ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens
+			
+			
+			// these are the NeXML matrices that were created from the study  		
+			List<Matrix<?>> nexMatrices = nexDoc.getMatrices();
+			
+			// there most be more than zero matrices because every treebase study has at least one matrix
+			Assert.assertTrue(nexMatrices.size() != 0 );
+			
+			// now we're going to match up the NeXML matrices with their equivalent treebase ones
+			for ( Matrix<?> nexMatrix : nexMatrices ) {
 				
-				// if true, the matrices are equivalent
-				if ( nexId.equals(tbId) ) {
-					foundEquivalentMatrix = true;
-					Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
-							nexMatrix instanceof CategoricalMatrix || nexMatrix instanceof MolecularMatrix || nexMatrix instanceof ContinuousMatrix);
+				// the xml id is the same as the primary key of the equivalent matrix stored by treebase
+				String nexId = nexMatrix.getId();
+				boolean foundEquivalentMatrix = false;
+
+				// iterate over all treebase matrices for the study
+				for ( org.cipres.treebase.domain.matrix.Matrix tbMatrix : tbMatrices ) {				
+					String tbId = "M" + tbMatrix.getId();
+			
+					// although there is a class DistanceMatrix, it is my belief that we don't actually have
+					// any distance matrices stored, nor can we convert them to NeXML
+					Assert.assertTrue("TreeBASE matrix "+tbId+" must be a character matrix, not a distance matrix", tbMatrix instanceof CharacterMatrix);
 					
-					// we have to coerce the tbMatrix into a character matrix to get its character sets
-					CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
-					Set<CharSet> tbCharSets = tbCharacterMatrix.getCharSets();
-					
-					// a treebase matrix has zero or more character sets, we must iterate over them
-					for ( CharSet tbCharSet : tbCharSets ) {
+					// if true, the matrices are equivalent
+					if ( nexId.equals(tbId) ) {
+						foundEquivalentMatrix = true;
+						Assert.assertTrue("NeXML matrix "+nexId+ " is one of the known subclasses", 
+								nexMatrix instanceof CategoricalMatrix || nexMatrix instanceof MolecularMatrix || nexMatrix instanceof ContinuousMatrix);
 						
-						// the coordinates of the character set are defined by a collection of column ranges that we iterate over
-						Collection<ColumnRange> tbColumnRanges = tbCharSet.getColumns(tbCharacterMatrix);
+						// we have to coerce the tbMatrix into a character matrix to get its character sets
+						CharacterMatrix tbCharacterMatrix = (CharacterMatrix)tbMatrix;
+						Set<CharSet> tbCharSets = tbCharacterMatrix.getCharSets();
 						
-						for ( ColumnRange tbColumnRange : tbColumnRanges ) {
+						// a treebase matrix has zero or more character sets, we must iterate over them
+						for ( CharSet tbCharSet : tbCharSets ) {
 							
-							// these are the beginning and end of the range
-							int start = tbColumnRange.getStartColIndex();
-							int stop = tbColumnRange.getEndColIndex();
+							// the coordinates of the character set are defined by a collection of column ranges that we iterate over
+							Collection<ColumnRange> tbColumnRanges = tbCharSet.getColumns(tbCharacterMatrix);
 							
-							// this is how we increment from beginning to end. This number is probably either null, for a
-							// contiguous range, or perhaps 3 for codon positions
-							int inc = 1;
-							
-							// need to do this to prevent nullpointerexceptions
-							if ( null != tbColumnRange.getRepeatInterval() ) {
-								inc = tbColumnRange.getRepeatInterval();
-							}
-							
-							// this is how we create the equivalent nexml character set
-							// you will need to update CharSet to get the new implementation of getLabel(), which 
-							// returns the same value as getTitle()
-							Subset nexSubset = nexMatrix.createSubset(tbCharSet.getLabel()); 
-							
-							// we have to assign character objects to the subset. Here we get the full list
-							List<org.nexml.model.Character> nexCharacters = nexMatrix.getCharacters();
-							
-							// now we iterate over the coordinates and assign the nexml characters to the set
-							for ( int i = start; i <= stop; i += inc ) {
-								nexSubset.addThing(nexCharacters.get(i));
+							for ( ColumnRange tbColumnRange : tbColumnRanges ) {
+								
+								// these are the beginning and end of the range
+								int start = tbColumnRange.getStartColIndex();
+								int stop = tbColumnRange.getEndColIndex();
+								
+								// this is how we increment from beginning to end. This number is probably either null, for a
+								// contiguous range, or perhaps 3 for codon positions
+								int inc = 1;
+								
+								// need to do this to prevent nullpointerexceptions
+								if ( null != tbColumnRange.getRepeatInterval() ) {
+									inc = tbColumnRange.getRepeatInterval();
+								}
+								
+								// this is how we create the equivalent nexml character set
+								// you will need to update CharSet to get the new implementation of getLabel(), which 
+								// returns the same value as getTitle()
+								Subset nexSubset = nexMatrix.createSubset(tbCharSet.getLabel()); 
+								
+								// we have to assign character objects to the subset. Here we get the full list
+								List<org.nexml.model.Character> nexCharacters = nexMatrix.getCharacters();
+								
+								// now we iterate over the coordinates and assign the nexml characters to the set
+								for ( int i = start; i <= stop; i += inc ) {
+									nexSubset.addThing(nexCharacters.get(i));
+								}
 							}
 						}
 					}
 				}
+				Assert.assertTrue("Searched for equivalent to NeXML matrix "+nexId, foundEquivalentMatrix);
+				System.out.println(nexDoc.getXmlString());
 			}
-			Assert.assertTrue("Searched for equivalent to NeXML matrix "+nexId, foundEquivalentMatrix);
-			System.out.println(nexDoc.getXmlString());
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 	}
 	
