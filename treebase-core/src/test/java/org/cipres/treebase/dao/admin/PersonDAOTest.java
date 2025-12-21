@@ -247,7 +247,7 @@ public class PersonDAOTest extends AbstractDAOTest {
 			Collection<Person> results = fixture.findDuplicateWithFirstAndLastNames();
 
 			// 3. verify - result should not be null, but may be empty if no duplicates exist
-			assertTrue(results != null);
+			assertNotNull(results);
 
 			for (Person person : results) {
 				//assertTrue(person.getLastName().equalsIgnoreCase(lastName));
@@ -273,7 +273,7 @@ public class PersonDAOTest extends AbstractDAOTest {
 			Collection<Person> results = fixture.findDuplicateWithLastNames();
 
 			// 3. verify - result should not be null, but may be empty if no duplicates exist
-			assertTrue(results != null);
+			assertNotNull(results);
 
 			for (Person person : results) {
 				//assertTrue(person.getLastName().equalsIgnoreCase(lastName));
