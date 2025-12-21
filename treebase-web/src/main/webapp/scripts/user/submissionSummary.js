@@ -8,7 +8,10 @@ var debugContainer = $('debug');
 function debug(msg) {
     if ( debugging ) {    		
     	if ( debugContainer ) {
-    		debugContainer.innerHTML += '<pre>' + msg + '</pre>';
+    		// Use textContent to avoid XSS vulnerabilities
+    		var pre = document.createElement('pre');
+    		pre.textContent = msg;
+    		debugContainer.appendChild(pre);
     	}
     }
 }
@@ -504,7 +507,13 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 			'method':'get',
 			'onSuccess':function(response){
 				var tmp; 
-				eval('tmp='+response.responseText);
+				// Use JSON.parse instead of eval for security
+				try {
+					tmp = JSON.parse(response.responseText);
+				} catch(e) {
+					// Fallback for older browsers that might not have JSON.parse
+					tmp = eval('(' + response.responseText + ')');
+				}
 				TreeBASE.study = tmp.study;
 				TreeBASE.submission = tmp.submission;
 				//TreeBASE.writeSummary();

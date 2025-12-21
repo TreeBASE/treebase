@@ -64,7 +64,15 @@ if(parseInt(t.style.left)+t.h+1-(t.blocks*t.h+t.blocks)>t.w){
 t.style.left=-(t.h*2+1)+'px';
 t.ctr++;
 if(t.ctr>=t.count){
-eval(t.action);
+// Execute action using Function constructor instead of eval for better security
+if (t.action && typeof t.action === 'string') {
+    try {
+        var func = new Function(t.action);
+        func();
+    } catch(e) {
+        console.error('Error executing progress bar action:', e);
+    }
+}
 t.ctr=0;
 }}else t.style.left=(parseInt(t.style.left)+t.h+1)+'px';
 }

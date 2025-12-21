@@ -13,9 +13,9 @@
 			
 			document.getElementById("progressBarSuccessful").style.visibility = 'hidden';
 			document.getElementById("progressBar").style.display = "block";
-			document.getElementById("percentage").innerHTML= ' ' + status.percentage;
-//		document.getElementById("bytesRead").innerHTML= ' ' + status.bytesRead;
-//		document.getElementById("totalSize").innerHTML= ' ' + status.totalSize;
+			document.getElementById("percentage").textContent = ' ' + status.percentage;
+//		document.getElementById("bytesRead").textContent = ' ' + status.bytesRead;
+//		document.getElementById("totalSize").textContent = ' ' + status.totalSize;
 			document.getElementById("progressBarBoxContent").style.width = (status.percentage * 4) + "px";
 			setTimeout(queryStatus, 2000);
 		}
