@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import org.hibernate.Query;
+import org.hibernate.impl.SessionImpl;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -126,7 +127,7 @@ public class EnvironmentTest extends AbstractDAOTest {
 		StringBuffer query = new StringBuffer(
 			"INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)");
 			
-		Connection con =  hibernateTemplate.getSessionFactory().getCurrentSession().connection();
+		Connection con =  ((SessionImpl)hibernateTemplate.getSessionFactory().getCurrentSession()).connection();
 		String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)";
 		// String idQuery = "identity_val_local()";
 
@@ -197,7 +198,7 @@ public class EnvironmentTest extends AbstractDAOTest {
 		StringBuffer query = new StringBuffer(
 			"INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?) RETURNING phylochar_id");
 			
-		Connection con =  hibernateTemplate.getSessionFactory().getCurrentSession().connection();
+		Connection con =  ((SessionImpl)hibernateTemplate.getSessionFactory().getCurrentSession()).connection();
 		//String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)";
 		// String idQuery = "identity_val_local()";
 
