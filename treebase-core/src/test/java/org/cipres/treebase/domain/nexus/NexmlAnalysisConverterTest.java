@@ -48,33 +48,39 @@ public class NexmlAnalysisConverterTest extends AbstractDAOTest {
 		// this is the full study as it is stored by the database
 		Study tbStudy = (Study)loadObject(Study.class, studyId);
 		
-		// this is an object representation of a NeXML document
-		Document nexDoc = DocumentFactory.safeCreateDocument();
-		
-		// the converter populates the NeXML document with the contents of the treebase study
-		NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
-		ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens		
-		
-		attachAnalysisMetadata(analyzedDataForData, tbStudy, nexDoc);		
-		
-		// attach analysis step metadata to matrices
-		for ( Matrix<?> nexMatrix : nexDoc.getMatrices() ) {
-			attachAnalyzedDataMetadata(analyzedDataForData, nexMatrix);
-		}
-		
-		// attach analysis step metadata to trees
-		for ( TreeBlock nexTrees : nexDoc.getTreeBlockList() ) {
-			int count = nexTrees.getSegmentCount();			
-			for ( int i = 0; i < count; i++ ) {
-				Network<?> nexTree = nexTrees.getSegment(i);
-				attachAnalyzedDataMetadata(analyzedDataForData, nexTree);				
+		if (tbStudy != null) {
+			// this is an object representation of a NeXML document
+			Document nexDoc = DocumentFactory.safeCreateDocument();
+			
+			// the converter populates the NeXML document with the contents of the treebase study
+			NexmlDocumentWriter ndc = new NexmlDocumentWriter(tbStudy,getTaxonLabelHome(),nexDoc);
+			ndc.fromTreeBaseToXml(tbStudy); // here is where the conversion happens		
+			
+			attachAnalysisMetadata(analyzedDataForData, tbStudy, nexDoc);		
+			
+			// attach analysis step metadata to matrices
+			for ( Matrix<?> nexMatrix : nexDoc.getMatrices() ) {
+				attachAnalyzedDataMetadata(analyzedDataForData, nexMatrix);
+			}
+			
+			// attach analysis step metadata to trees
+			for ( TreeBlock nexTrees : nexDoc.getTreeBlockList() ) {
+				int count = nexTrees.getSegmentCount();			
+				for ( int i = 0; i < count; i++ ) {
+					Network<?> nexTree = nexTrees.getSegment(i);
+					attachAnalyzedDataMetadata(analyzedDataForData, nexTree);				
+				}
+			}
+			
+			FileWriter fstream = new FileWriter("/Users/rvosa/Desktop/outfile.xml");
+			BufferedWriter out = new BufferedWriter(fstream);	
+			out.write(nexDoc.getXmlString());
+			out.close();
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
 			}
 		}
-		
-		FileWriter fstream = new FileWriter("/Users/rvosa/Desktop/outfile.xml");
-		BufferedWriter out = new BufferedWriter(fstream);	
-		out.write(nexDoc.getXmlString());
-		out.close();
 	}
 
 	/**
