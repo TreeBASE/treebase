@@ -112,8 +112,6 @@ public class PhyloTreeTest extends AbstractDAOTest {
 			logger.info("SKIPPED: " + testName + " - No User data found in database. Test requires populated database.");
 			return;
 		}
-		
-		assertTrue("Empty user table.", submitter != null);
 
 		Study s = new Study();
 		s.setName(newName);

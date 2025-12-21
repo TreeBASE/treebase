@@ -52,7 +52,6 @@ public class TaxonLabelTest extends AbstractDAOTest {
 			return;
 		}
 		
-		assertTrue(res.size() != 0);
 		for (TaxonLabel tl : res) {
 			assertTrue(tl.getTaxonLabel().toLowerCase().contains("homo"));
 		}

@@ -149,7 +149,6 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 			return;
 		}
 		
-		assertTrue(matrices.size() > 0);
 		for (Matrix matrix : matrices) {
 			int n = matrix.getnTax();
 			assertTrue(n >= 37 && n <= 100);
