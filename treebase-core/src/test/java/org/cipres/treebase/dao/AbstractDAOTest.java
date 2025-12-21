@@ -144,7 +144,7 @@ public abstract class AbstractDAOTest extends AbstractTransactionalDataSourceSpr
 
 		TBPersistable obj = null;
 		try {
-			obj = (TBPersistable) hibernateTemplate.load(pClass, pID);
+			obj = (TBPersistable) hibernateTemplate.get(pClass, pID);
 		} catch (DataAccessException ex) {
 			obj = null;
 		}
