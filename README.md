@@ -22,8 +22,8 @@ tree viewing and editing applet, and a news feed), linked together by a **Contro
 ### Additional files in this directory
 
 - [pom.xml](pom.xml) - file for maven that operates on `treebase-core` and `treebase-web`
+- [.github/workflows](.github/workflows) - CI/CD workflows for building and testing the core
 - [.gitignore](.gitignore) - filters out certain files from being committed to `git`
-- [.travis.yml](.travis.yml) - intended for setting up continuous integration using Travis, but does nothing
 - [LICENSE.txt](LICENSE.txt) - the BSD license, which applies to all artefacts in this project
 - [BUILDING.md](BUILDING.md) - **build instructions for the core artifacts, uses `pom.xml`**
 - [DEPLOYING.md](DEPLOYING.md) - **instructions for deploying TreeBASE compiled artifacts on a web server**
