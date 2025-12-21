@@ -198,7 +198,7 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 		
 		for (PhyloTree tree : trees) {
 			int n = tree.getnTax();
-			assertTrue(n >= 37 && n <= 100);
+			assertTrue(n >= 37 && n <= 40);
 		}
 	}
 
