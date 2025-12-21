@@ -32,11 +32,17 @@ public class TaxonLabelDAOTest extends AbstractDAOTest {
 	public void testFindTaxonLabelSets() {
 		TaxonLabel tl = (TaxonLabel) loadObject(TaxonLabel.class);
 		
-		Set<TaxonLabelSet> tlSets = getFixture().findTaxonLabelSets(tl);
-		assertFalse(tlSets.isEmpty());
-		
-		for (TaxonLabelSet tls : tlSets) {
-			assertTrue(tls.getTaxonLabelsReadOnly().contains(tl));
+		if (tl != null) {
+			Set<TaxonLabelSet> tlSets = getFixture().findTaxonLabelSets(tl);
+			assertFalse(tlSets.isEmpty());
+			
+			for (TaxonLabelSet tls : tlSets) {
+				assertTrue(tls.getTaxonLabelsReadOnly().contains(tl));
+			}
+		} else {
+			if (LOGGER.isInfoEnabled()) {
+				LOGGER.info("testFindTaxonLabelSets - empty database, test skipped");
+			}
 		}
 	}
 }
