@@ -244,6 +244,11 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	
 	// TODO: This is way too slow.   mjd 20080911
 	public Collection<Matrix> findMatricesWithTaxonLabels(Collection<TaxonLabel> taxonLabels) {
+		// Return empty collection if input is null or empty to avoid invalid HQL query
+		if (taxonLabels == null || taxonLabels.isEmpty()) {
+			return new ArrayList<Matrix>();
+		}
+		
 		Query q = getSession().createQuery("select distinct mr.matrix from MatrixRow mr where mr.taxonLabel in (:tl)");
 		q.setParameterList("tl", taxonLabels);
 		List<Matrix> results = q.list();
