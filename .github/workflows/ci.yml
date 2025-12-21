@@ -1,0 +1,39 @@
+name: CI - Build and Test
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build and Test treebase-core
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: 'maven'
+        
+    - name: Build treebase-core
+      run: mvn -B clean compile -f treebase-core/pom.xml
+      
+    - name: Run tests
+      run: mvn -B test -f treebase-core/pom.xml
+      
+    - name: Publish Test Report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: JUnit Test Results
+        path: treebase-core/target/surefire-reports/*.xml
+        reporter: java-junit
+        fail-on-error: true
