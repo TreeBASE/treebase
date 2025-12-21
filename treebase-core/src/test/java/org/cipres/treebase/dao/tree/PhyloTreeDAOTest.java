@@ -119,7 +119,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 			String treeCountStr = "select count(tree.phylotree_id) from phylotree tree, phylotreenode node "
 				+ " where tree.PHYLOTREE_ID = node.PHYLOTREE_ID and node.TAXONLABEL_ID = "
 				+ label.getId() + " and tree.PHYLOTREE_ID = " + treeId;
-			Integer count = jdbcTemplate.queryForObject(treeCountStr, Integer.class);
+			Integer count = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
 			assertTrue(count > 0);
 		}
 
@@ -165,7 +165,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 			long treeId = phyloTree.getId();
 			String treeCountStr = "select count(tree.phylotree_id) from phylotree tree "
 				+ " where tree.study_ID = " + s.getId() + " and tree.PHYLOTREE_ID = " + treeId;
-			Integer count = jdbcTemplate.queryForObject(treeCountStr, Integer.class);
+			Integer count = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
 			assertTrue(count > 0);
 		}
 
@@ -208,7 +208,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 		// 3. verify
 		String treeCountStr = "select count(tree.phylotree_id) from phylotree tree "
 			+ " where tree.study_ID = " + s.getId() + " and tree.published is true";
-		Integer countVeri = jdbcTemplate.queryForObject(treeCountStr, Integer.class);
+		Integer countVeri = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
 		logger.debug("verify Count = " + countVeri);
 		assertTrue(countVeri == count);
 
@@ -329,7 +329,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from phylotree where phylotree_id=" + tree.getId();
-		Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer count = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// 3. delete
@@ -337,7 +337,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 		setComplete();
 
 		// 4. verify delete:
-		Integer countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer countVerify = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(countVerify == 0);
 
 		if (logger.isInfoEnabled()) {
@@ -428,13 +428,13 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 		String analyzedDataSql = "select count(*) from analyzedData where analysisstep_id="
 			+ step1.getId();
 		String a1Sql = "select count(*) from analysis where analysis_id=" + a1.getId();
-		Integer count = jdbcTemplate.queryForObject(treeSql, Integer.class);
+		Integer count = (Integer) jdbcTemplate.queryForObject(treeSql, Integer.class);
 		assertTrue(count == 2);
-		count = jdbcTemplate.queryForObject(blockSql, Integer.class);
+		count = (Integer) jdbcTemplate.queryForObject(blockSql, Integer.class);
 		assertTrue(count == 1);
-		count = jdbcTemplate.queryForObject(a1Sql, Integer.class);
+		count = (Integer) jdbcTemplate.queryForObject(a1Sql, Integer.class);
 		assertTrue(count == 1);
-		count = jdbcTemplate.queryForObject(analyzedDataSql, Integer.class);
+		count = (Integer) jdbcTemplate.queryForObject(analyzedDataSql, Integer.class);
 		assertTrue(count == 1);
 
 		onSetUp();
@@ -459,13 +459,13 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 4. verify delete:
-		Integer countVerify = jdbcTemplate.queryForObject(blockSql, Integer.class);
+		Integer countVerify = (Integer) jdbcTemplate.queryForObject(blockSql, Integer.class);
 		assertTrue(countVerify == 0);
-		countVerify = jdbcTemplate.queryForObject(treeSql, Integer.class);
+		countVerify = (Integer) jdbcTemplate.queryForObject(treeSql, Integer.class);
 		assertTrue(countVerify == 0);
-		countVerify = jdbcTemplate.queryForObject(a1Sql, Integer.class);
+		countVerify = (Integer) jdbcTemplate.queryForObject(a1Sql, Integer.class);
 		assertTrue(countVerify == 0);
-		countVerify = jdbcTemplate.queryForObject(analyzedDataSql, Integer.class);
+		countVerify = (Integer) jdbcTemplate.queryForObject(analyzedDataSql, Integer.class);
 		assertTrue(countVerify == 0);
 
 		if (logger.isInfoEnabled()) {
@@ -497,7 +497,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from phylotree where phylotree_id=" + tree.getId();
-		Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer count = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// 3. delete
@@ -506,7 +506,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 4. verify delete:
-		Integer countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer countVerify = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(countVerify == 0);
 
 		if (logger.isInfoEnabled()) {

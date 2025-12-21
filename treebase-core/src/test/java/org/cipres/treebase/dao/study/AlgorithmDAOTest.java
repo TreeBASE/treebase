@@ -57,7 +57,7 @@ public class AlgorithmDAOTest extends AbstractDAOTest {
 		// 2. verify
 		String sqlStr = "select count (distinct lower(description)) from algorithm";
 		// String sqlStr = "select count (distinct description) from algorithm";
-		Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer count = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("description size has to match.", count == descriptions.size());
 
 		// assertTrue(result != null);
@@ -90,7 +90,7 @@ public class AlgorithmDAOTest extends AbstractDAOTest {
 		// 2. verify
 		String sqlStr = "select count (distinct lower(description)) from algorithm where type='O'";
 		// String sqlStr = "select count (distinct description) from algorithm";
-		Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer count = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("description size has to match.", count == descriptions.size());
 
 		// assertTrue(result != null);
