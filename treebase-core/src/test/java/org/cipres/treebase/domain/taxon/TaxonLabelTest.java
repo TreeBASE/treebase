@@ -47,7 +47,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 		assertNotNull(res);
 		
 		// Skip test if database is empty
-		if (res.size() == 0) {
+		if (res.isEmpty()) {
 			LOGGER.info("SKIPPED: testFindBySubstring - No TaxonLabel data found in database. Test requires populated database.");
 			return;
 		}
@@ -62,7 +62,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 			Collection<TaxonLabel> homoTL = findHomoSapiensTL();
 			
 			// Skip test if database is empty
-			if (homoTL == null || homoTL.size() == 0) {
+			if (homoTL == null || homoTL.isEmpty()) {
 				LOGGER.info("SKIPPED: testFindStudies - No TaxonLabel data found in database. Test requires populated database.");
 				return;
 			}
@@ -145,7 +145,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 		assertNotNull(res);
 		
 		// Skip test if database is empty
-		if (res.size() == 0) {
+		if (res.isEmpty()) {
 			LOGGER.info("SKIPPED: testTaxonLabelLengthSorting - No TaxonLabel data found in database. Test requires populated database.");
 			return;
 		}
