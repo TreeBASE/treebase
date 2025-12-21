@@ -1,6 +1,7 @@
 package org.cipres.treebase.dao.study;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.Matrix;
