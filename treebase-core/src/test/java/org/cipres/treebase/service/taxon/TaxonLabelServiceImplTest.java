@@ -116,7 +116,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 		
 		Collection<PhyloTree> trees = getFixture().findTrees(hSap);
-		logger.info("Query finished; results = " + trees.size() + " studies");
+		logger.info("Query finished; results = " + trees.size() + " trees");
 		
 		assertTrue(trees.size() > 0);
 		for (PhyloTree t : trees) {
