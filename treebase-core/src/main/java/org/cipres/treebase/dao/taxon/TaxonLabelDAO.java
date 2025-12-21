@@ -390,7 +390,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 
 	public Set<Submission> findSubmissions(TaxonLabel taxonLabel) {
 		Query q = getSession()
-		.createQuery("select s from Submission s, TaxonLabel tl where tl = :tl and tl member of s.submittedTaxonLabels");
+		.createQuery("select s from Submission s where :tl member of s.submittedTaxonLabels");
 		q.setParameter("tl", taxonLabel);
 		Set<Submission> result = new HashSet<Submission> ();
 		result.addAll(q.list());
@@ -402,7 +402,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 */
 	public Set<TaxonLabelSet> findTaxonLabelSets(TaxonLabel taxonLabel) {
 		Query q = getSession()
-		.createQuery("select tls from TaxonLabelSet tls, TaxonLabel tl where tl = :tl and tl member of tls.taxonLabelList");
+		.createQuery("select tls from TaxonLabelSet tls where :tl member of tls.taxonLabelList");
 		q.setParameter("tl", taxonLabel);
 		Set<TaxonLabelSet> result = new HashSet<TaxonLabelSet> ();
 		result.addAll(q.list());
