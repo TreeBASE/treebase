@@ -66,7 +66,7 @@ public class MatrixDAOTest extends AbstractDAOTest {
 
 		// 2. verify
 		String matrixSQL = "select count(*) from matrix where matrix_id = " + m.getId();
-		int count = jdbcTemplate.queryForInt(matrixSQL);
+		int count = jdbcTemplate.queryForObject(matrixSQL, Integer.class);
 		assertTrue(count == 1);
 
 		// 3. delete:
@@ -76,7 +76,7 @@ public class MatrixDAOTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 4. Verify delete:
-		count = jdbcTemplate.queryForInt(matrixSQL);
+		count = jdbcTemplate.queryForObject(matrixSQL, Integer.class);
 		assertTrue("Matrix should be deleted", count == 0);
 
 		if (logger.isInfoEnabled()) {
@@ -209,7 +209,7 @@ public class MatrixDAOTest extends AbstractDAOTest {
 		// 3. verify
 		String treeCountStr = "select count(m.matrix_id) from matrix m "
 			+ " where m.study_ID = " + s.getId() + " and m.published is true";
-		int countVeri = jdbcTemplate.queryForInt(treeCountStr);
+		int countVeri = jdbcTemplate.queryForObject(treeCountStr, Integer.class);
 		logger.debug("verify Count = " + countVeri);
 		assertTrue(countVeri == count);
 
