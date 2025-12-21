@@ -283,6 +283,18 @@ alter table study alter column study_id restart with 2;
 commit;
 -- END Study, StudyStatus, Submission
 
+-- Add algorithm reference data
+delete from algorithm;
+insert into algorithm (type, algorithm_id, version, description) values
+('L', 1, 1, 'maximum likelihood'),
+('B', 2, 1, 'bayesian inference'),
+('P', 3, 1, 'parsimony'),
+('E', 4, 1, 'minimum evolution'),
+('J', 5, 1, 'neighbor joining'),
+('U', 6, 1, 'UPGMA');
+alter table algorithm alter column algorithm_id restart with 7;
+commit;
+
 -- Add indices
 --CREATE INDEX "TREENODE_TREE_IDX"
 --	ON "PHYLOTREENODE"("PHYLOTREE_ID")
