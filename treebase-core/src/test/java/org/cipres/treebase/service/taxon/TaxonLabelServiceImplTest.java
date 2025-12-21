@@ -184,9 +184,6 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 		
 		logger.info("variant full name =" + variant.getFullName());
-		
-		assertTrue("variant.", variant != null);
-		
 
 		// 3. verify
 		if (logger.isInfoEnabled()) {
@@ -395,12 +392,11 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		Collection<TaxonVariant> tvSet = getFixture().findTaxonVariantByFullName("Homo sapiens");
 		
 		// Skip test if database is empty
-		if (tvSet.size() == 0) {
+		if (tvSet.isEmpty()) {
 			logger.info("SKIPPED: testFindTaxonVariantByFullName - No TaxonVariant data found in database (Homo sapiens). Test requires populated database.");
 			return;
 		}
 		
-		assertFalse(tvSet.size() == 0);
 		for (TaxonVariant tv : tvSet) {
 			assertEquals("Homo sapiens", tv.getFullName());
 		}
