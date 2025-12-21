@@ -30,6 +30,22 @@ public class HelpTest extends AbstractDAOTest {
 		helpHome = pHelpHome;
 	}
 
+	/**
+	 * Set up test data before each test.
+	 */
+	@Override
+	protected void onSetUpInTransaction() throws Exception {
+		super.onSetUpInTransaction();
+		
+		// Create test Help object if it doesn't exist
+		Help existingHelp = getHelpHome().findByTag("test");
+		if (existingHelp == null) {
+			Help testHelp = new Help("test");
+			testHelp.setHelpText("Test help text");
+			getHelpHome().save(testHelp);
+			getHelpHome().flush();
+		}
+	}
 	
 	public Help getTestHelp() {
 		Help test = getHelpHome().findByTag("test");
