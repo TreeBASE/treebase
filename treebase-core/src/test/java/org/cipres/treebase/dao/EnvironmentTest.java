@@ -91,10 +91,10 @@ public class EnvironmentTest extends AbstractDAOTest {
 
 		// assertTrue(false);
 		StringBuffer query = new StringBuffer(
-			"delete from RowSegment r where r in (select r2 from RowSegment r2 join r2.matrixRow row " +
+//			"delete from RowSegment r where r in (select r2 from RowSegment r2 join r2.matrixRow row " +
+//			"where row.matrix = :matrixId and r2.startIndex between :start and :endIndex and r2.endIndex between :start and :endIndex)");
+			"delete from RowSegment where id in (select r2.id from RowSegment r2 join r2.matrixRow row " +
 			"where row.matrix = :matrixId and r2.startIndex between :start and :endIndex and r2.endIndex between :start and :endIndex)");
-//		"delete from RowSegment where id in (select id from RowSegment r2 join r2.matrixRow row " +
-//		"where row.matrix = :matrixId and r2.startIndex between :start and :endIndex and r2.endIndex between :start and :endIndex)");
 
 		Query q =  hibernateTemplate.getSessionFactory().getCurrentSession().createQuery(query.toString());
 
