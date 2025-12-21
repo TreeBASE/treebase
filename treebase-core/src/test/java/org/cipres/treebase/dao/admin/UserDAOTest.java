@@ -84,7 +84,7 @@ public class UserDAOTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from public.user where user_id=" + user.getId();
-		Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer count = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// 3. delete
@@ -93,7 +93,7 @@ public class UserDAOTest extends AbstractDAOTest {
 		setComplete();
 
 		// 4. verify delte:
-		Integer countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer countVerify = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(countVerify == 0);
 
 		if (logger.isInfoEnabled()) {
@@ -130,7 +130,7 @@ public class UserDAOTest extends AbstractDAOTest {
 		fixture.delete(user);
 
 		// 4. verify delte:
-		Integer countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer countVerify = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(countVerify == 0);
 
 		if (logger.isInfoEnabled()) {

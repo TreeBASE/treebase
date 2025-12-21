@@ -76,7 +76,7 @@ public class PersonDAOTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from Person where person_id=" + p.getId();
-		Integer count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer count = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// 3. delete
@@ -85,7 +85,7 @@ public class PersonDAOTest extends AbstractDAOTest {
 		setComplete();
 
 		// 4. verify delete:
-		Integer countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		Integer countVerify = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(countVerify == 0);
 
 		if (logger.isInfoEnabled()) {
