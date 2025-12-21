@@ -17,6 +17,21 @@ jobs:
       checks: write
       pull-requests: write
     
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: treebasedb
+          POSTGRES_USER: treebase_user
+          POSTGRES_PASSWORD: treebase_pass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -27,6 +42,16 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
         cache: 'maven'
+    
+    - name: Configure database properties for tests
+      run: |
+        cat > treebase-core/src/test/resources/jdbc.properties << EOF
+        jdbc.driverClassName=org.postgresql.Driver
+        jdbc.url=jdbc:postgresql://localhost:5432/treebasedb
+        jdbc.username=treebase_user
+        jdbc.password=treebase_pass
+        mesquite.folder_dir=/tmp/mesquite
+        EOF
         
     - name: Build treebase-core
       run: mvn -B clean compile -f treebase-core/pom.xml
