@@ -144,7 +144,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 		.findSomethingByRangeExpression(Matrix.class, "nTax", "37..100");
 		
 		// Skip test if database is empty
-		if (matrices == null || matrices.size() == 0) {
+		if (matrices.isEmpty()) {
 			logger.info("SKIPPED: testFindSomethingByRangeExpression - No Matrix data found in database with nTax in range 37..100. Test requires populated database.");
 			return;
 		}
