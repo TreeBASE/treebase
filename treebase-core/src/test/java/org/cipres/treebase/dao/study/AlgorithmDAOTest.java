@@ -7,12 +7,6 @@ import java.util.List;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.study.AlgorithmHome;
-import org.cipres.treebase.domain.study.BayesianAlgorithm;
-import org.cipres.treebase.domain.study.EvolutionAlgorithm;
-import org.cipres.treebase.domain.study.JoiningAlgorithm;
-import org.cipres.treebase.domain.study.LikelihoodAlgorithm;
-import org.cipres.treebase.domain.study.ParsimonyAlgorithm;
-import org.cipres.treebase.domain.study.UPGMAAlgorithm;
 
 /**
  * @author madhu
@@ -40,42 +34,6 @@ public class AlgorithmDAOTest extends AbstractDAOTest {
 	 */
 	public void setFixture(AlgorithmHome pNewFixture) {
 		mFixture = pNewFixture;
-	}
-
-	/**
-	 * Initialize test data before transaction.
-	 */
-	@Override
-	protected void onSetUpBeforeTransaction() throws Exception {
-		super.onSetUpBeforeTransaction();
-		
-		// Create standard algorithm types for testing
-		LikelihoodAlgorithm likelihood = new LikelihoodAlgorithm();
-		likelihood.setDescription("maximum likelihood");
-		
-		BayesianAlgorithm bayesian = new BayesianAlgorithm();
-		bayesian.setDescription("bayesian inference");
-		
-		ParsimonyAlgorithm parsimony = new ParsimonyAlgorithm();
-		parsimony.setDescription("parsimony");
-		
-		EvolutionAlgorithm evolution = new EvolutionAlgorithm();
-		evolution.setDescription("minimum evolution");
-		
-		JoiningAlgorithm joining = new JoiningAlgorithm();
-		joining.setDescription("neighbor joining");
-		
-		UPGMAAlgorithm upgma = new UPGMAAlgorithm();
-		upgma.setDescription("UPGMA");
-		
-		// Save to database using hibernateTemplate
-		hibernateTemplate.save(likelihood);
-		hibernateTemplate.save(bayesian);
-		hibernateTemplate.save(parsimony);
-		hibernateTemplate.save(evolution);
-		hibernateTemplate.save(joining);
-		hibernateTemplate.save(upgma);
-		hibernateTemplate.flush();
 	}
 
 	/**
