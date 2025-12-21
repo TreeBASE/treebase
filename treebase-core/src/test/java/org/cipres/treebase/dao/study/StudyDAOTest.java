@@ -264,7 +264,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from Study_nexusFile where study_id=" + s.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// assertTrue("need to return Analysis ID.", a1.getId() != null);
@@ -274,7 +274,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 		setComplete();
 
 		// 4. verify delte:
-		int countVerify = jdbcTemplate.queryForInt(sqlStr);
+		int countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("Deletion failed.", countVerify == 0);
 
 		if (logger.isInfoEnabled()) {

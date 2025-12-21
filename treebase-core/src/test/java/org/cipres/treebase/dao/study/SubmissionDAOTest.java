@@ -103,7 +103,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 		// 3. verify
 		String sqlStr = "select count(*) from sub_matrix where submission_id = " + s.getId()
 			+ " and matrix_id = " + m.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		if (logger.isInfoEnabled()) {
@@ -136,7 +136,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 		// 3. verify
 		String sqlStr = "select count(*) from sub_treeblock st, phylotree t where st.submission_id = " + s.getId()
 			+ " and st.treeblock_id = t.treeblock_id and t.phylotree_id = " + tree.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		if (logger.isInfoEnabled()) {
@@ -159,7 +159,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 
 		// 3. verify
 		String sqlStr = "select count(*) from study where studyStatus_ID = 2";
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count > 0);
 		assertTrue(s.size() == count);
 		
