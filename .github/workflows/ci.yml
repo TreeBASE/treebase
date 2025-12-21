@@ -53,6 +53,18 @@ jobs:
         jdbc.password=treebase_pass
         mesquite.folder_dir=/tmp/mesquite
         EOF
+    
+    - name: Initialize database schema
+      run: |
+        # Install PostgreSQL client if not already available
+        sudo apt-get update
+        sudo apt-get install -y postgresql-client
+        
+        # Initialize the database with schema and data
+        # The init_db_uptodate.pg script uses \i commands with relative paths,
+        # so we must run it from the schema directory
+        cd treebase-core/db/schema
+        PGPASSWORD=treebase_pass psql -h localhost -U treebase_user -d treebasedb -f init_db_uptodate.pg
         
     - name: Build treebase-core
       run: mvn -B clean compile -f treebase-core/pom.xml
