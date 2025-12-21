@@ -10,6 +10,7 @@
 \i patches/0004_create-indexes.sql
 \i patches/0005_add-taxonabel-tb1legacyid.sql
 \i patches/0006_add-algorithm-types.sql
+\i patches/0007_create-indices.sql
 
 
 
