@@ -7,6 +7,7 @@ import java.util.List;
 import org.cipres.treebase.core.CoreServiceLauncher;
 import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.study.Study;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -146,6 +147,8 @@ public abstract class AbstractDAOTest extends AbstractTransactionalDataSourceSpr
 		try {
 			obj = (TBPersistable) hibernateTemplate.load(pClass, pID);
 		} catch (DataAccessException ex) {
+			obj = null;
+		} catch (ObjectNotFoundException ex) {
 			obj = null;
 		}
 		return obj;
