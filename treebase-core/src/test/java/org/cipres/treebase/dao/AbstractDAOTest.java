@@ -9,11 +9,9 @@ import org.cipres.treebase.domain.TBPersistable;
 import org.cipres.treebase.domain.study.Study;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.junit.runner.RunWith;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
@@ -26,7 +24,6 @@ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTest
  * 
  */
 @SuppressWarnings("unchecked")
-@RunWith(SpringJUnit4ClassRunner.class)
 public abstract class AbstractDAOTest extends AbstractTransactionalDataSourceSpringContextTests {
 
 	static protected HibernateTemplate hibernateTemplate;
