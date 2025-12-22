@@ -19,6 +19,7 @@ import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.nexml.model.Document;
 import org.nexml.model.DocumentFactory;
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -34,9 +35,9 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 	private Collection<PhyloTree> trees = null;
 	private Collection<TaxonLabel> taxa = null;
 		
-	@Override
-	protected void onSetUp() throws Exception {
-		super.onSetUp();
+	@Before
+	public void setUp() throws Exception {
+		onSetUp();
 
 		studies = getTestData();
 		ssr = new StudySearchResults(studies);
