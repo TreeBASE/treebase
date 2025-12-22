@@ -88,8 +88,8 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 	@Override
 	protected String[] getConfigLocations() {
 		return new String[]{"applicationContext.xml","top-servlet.xml",
-				"classpath:applicationContext-db-standalone.xml",
-				"classpath:applicationContext-dao.xml","classpath:applicationContext-service.xml"};
+				"applicationContext-db-standalone.xml",
+				"applicationContext-dao.xml","applicationContext-service.xml"};
 	}
 
 	
