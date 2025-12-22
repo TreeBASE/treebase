@@ -224,17 +224,18 @@
 
   </repositories>
   
-  <!-- make sure java 1.5 is used for annotations support -->
+  <!-- Java 17 LTS configuration -->
   <build>
     <plugins>
     
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
+        <version>3.11.0</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>17</source>
+          <target>17</target>
+          <release>17</release>
         </configuration>
       </plugin>
 
@@ -250,6 +251,8 @@
           <useSystemClassLoader>true</useSystemClassLoader>
           <useManifestOnlyJar>false</useManifestOnlyJar>
           <testFailureIgnore>false</testFailureIgnore>
+          <!-- JVM arguments for Java 17 compatibility with older libraries -->
+          <argLine>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED</argLine>
         </configuration>
       </plugin>
 
