@@ -102,24 +102,6 @@ public abstract class AbstractDAOTest {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	/**
-	 * Autowire test dependencies by name after Spring context initialization
-	 * This provides compatibility with the old AbstractTransactionalDataSourceSpringContextTests
-	 * behavior where setter methods were automatically called for matching bean names
-	 */
-	@Autowired
-	public void autowireTestDependenciesByName(ConfigurableApplicationContext context) {
-		try {
-			context.getAutowireCapableBeanFactory().autowireBeanProperties(
-				this, org.springframework.beans.factory.config.AutowireCapableBeanFactory.AUTOWIRE_BY_NAME, false);
-		} catch (Exception e) {
-			// Log but don't fail - some tests may not need autowiring
-			if (logger.isDebugEnabled()) {
-				logger.debug("Could not autowire test dependencies by name: " + e.getMessage());
-			}
-		}
-	}
-
 	
 	/**
 	 * Mark transaction for commit instead of rollback
