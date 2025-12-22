@@ -17,6 +17,7 @@ import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 
 import java.text.DateFormat;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
@@ -68,6 +69,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	 * 
 	 * @param fixture the test fixture
 	 */
+	@Autowired
 	public void setFixture(StudyHome fixture) {
 		this.fixture = fixture;
 	}
@@ -75,6 +77,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Study findByAccessionNumber(String) method test
 	 */
+@Test
 	public void testFindByAccessionNumber() {
 		String testName = "findByAccessNumber";
 		if (logger.isInfoEnabled()) {
@@ -99,6 +102,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Study findByAbstract(String) method test
 	 */
+@Test
 	public void testFindByAbstract() {
 		String testName = "findByAbstract";
 		if (logger.isInfoEnabled()) {
@@ -125,6 +129,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Collection<Study> findByAuthor(Person) method test
 	 */
+@Test
 	public void testFindByAuthor() {
 		String testName = "findByAuthor";
 		if (logger.isInfoEnabled()) {
@@ -149,6 +154,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Collection<Study> findBySubmitter(User) method test
 	 */
+@Test
 	public void testFindBySubmitter() {
 		String testName = "findBySubmitter";
 		if (logger.isInfoEnabled()) {
@@ -174,6 +180,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Collection<Study> findByCriteria() method test
 	 */
+@Test
 	public void testFindByCriteria() {
 		String testName = "findByCriteria";
 		if (logger.isInfoEnabled()) {
@@ -221,6 +228,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	/**
 	 * Test persist nexus clob.
 	 */
+@Test
 	public void testPersistNexusClob() {
 		String testName = "persistNexusClob";
 		if (logger.isInfoEnabled()) {
@@ -286,6 +294,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 		}
 	}
 	
+@Test
 	public void testFindByPublicationDateRange() {
 		String testName = "findByPublicationDateRange";
 		logger.info("\n\t\tRunning Test: " + testName);
@@ -308,6 +317,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Study findByAccessionNumber(String) method test
 	 */
+@Test
 	public void testFindByTBStudyID() {
 		String testName = "findByTBStudyID";
 		if (logger.isInfoEnabled()) {

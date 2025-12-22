@@ -3,6 +3,7 @@ package org.cipres.treebase.dao.study;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
+import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,6 +41,7 @@ public class StudyStatusDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the StudyStatus findStatusInProgress() method test
 	 */
+@Test
 	public void testFindStatusInProgress() {
 		String testName = "findInProgress";
 		if (logger.isInfoEnabled()) {
@@ -61,6 +63,7 @@ public class StudyStatusDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the StudyStatus findStatusReady() method test
 	 */
+@Test
 	public void testFindStatusReady() {
 		String testName = "findStatusReady";
 		if (logger.isInfoEnabled()) {
@@ -82,6 +85,7 @@ public class StudyStatusDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the StudyStatus findStatusPublished() method test
 	 */
+@Test
 	public void testFindStatusPublished() {
 		String testName = "findStatusPublished";
 		if (logger.isInfoEnabled()) {
