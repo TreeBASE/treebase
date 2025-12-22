@@ -54,6 +54,13 @@ jobs:
         jdbc.password=treebase_pass
         mesquite.folder_dir=/tmp/mesquite
         EOF
+        cat > oai-pmh_data_provider/data_provider_web/src/test/resources/jdbc.properties << EOF
+        jdbc.driverClassName=org.postgresql.Driver
+        jdbc.url=jdbc:postgresql://localhost:5432/treebasedb
+        jdbc.username=treebase_user
+        jdbc.password=treebase_pass
+        mesquite.folder_dir=/tmp/mesquite
+        EOF
     
     - name: Initialize database schema
       run: |
