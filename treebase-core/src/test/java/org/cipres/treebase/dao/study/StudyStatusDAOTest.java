@@ -21,15 +21,6 @@ public class StudyStatusDAOTest extends AbstractDAOTest {
 	private StudyStatusHome mStudyStatusHome;
 
 	/**
-	 * Construct new test instance
-	 * 
-	 * @param name the test name
-	 */
-	public StudyStatusDAOTest() {
-		super();
-	}
-
-	/**
 	 * Return the StudyStatusHome field.
 	 * 
 	 * @return StudyStatusHome mStudyStatusHome

@@ -35,13 +35,6 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	private RowSegmentService mRowSegmentService;
 
 	/**
-	 * Constructor.
-	 */
-	public RowSegmentDAOTest() {
-		super();
-	}
-
-	/**
 	 * Return the RowSegmentService field.
 	 * 
 	 * @return RowSegmentService mRowSegmentService
