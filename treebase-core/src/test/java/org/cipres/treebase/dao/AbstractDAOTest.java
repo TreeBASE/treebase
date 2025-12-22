@@ -103,6 +103,20 @@ public abstract class AbstractDAOTest {
 	}
 	
 	/**
+	 * Autowire test dependencies by name after Spring context initialization.
+	 * This mimics the behavior of AbstractTransactionalDataSourceSpringContextTests
+	 * which would automatically inject dependencies matching setter method names.
+	 */
+	@Autowired
+	public void autowireTestDependencies(ConfigurableApplicationContext context) {
+		context.getAutowireCapableBeanFactory().autowireBeanProperties(
+			this, 
+			org.springframework.beans.factory.config.AutowireCapableBeanFactory.AUTOWIRE_BY_NAME, 
+			false
+		);
+	}
+	
+	/**
 	 * Mark transaction for commit instead of rollback
 	 */
 	protected void setComplete() {
