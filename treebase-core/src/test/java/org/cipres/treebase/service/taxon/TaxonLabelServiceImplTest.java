@@ -14,6 +14,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabelService;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import org.junit.Assume;
 
 /**
  * TaxonLabelServiceImplTest.java
@@ -77,10 +78,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		Taxon hSap = findHSapTaxon();
 		
 		// Skip test if database is empty
-		if (hSap == null) {
-			logger.info("SKIPPED: testFindStudiesByTaxon - No Taxon data found in database (Homo sapiens). Test requires populated database.");
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: testFindStudiesByTaxon - No Taxon data found in database (Homo sapiens). Test requires populated database.", hSap);
 		
 		Collection<Study> studies = getFixture().findStudies(hSap);
 		logger.info("Query finished; results = " + studies.size() + " studies");
@@ -110,10 +108,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		Taxon hSap = findHSapTaxon();
 		
 		// Skip test if database is empty
-		if (hSap == null) {
-			logger.info("SKIPPED: testFindTreesByTaxon - No Taxon data found in database (Homo sapiens). Test requires populated database.");
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: testFindTreesByTaxon - No Taxon data found in database (Homo sapiens). Test requires populated database.", hSap);
 		
 		Collection<PhyloTree> trees = getFixture().findTrees(hSap);
 		logger.info("Query finished; results = " + trees.size() + " trees");
@@ -139,10 +134,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		Taxon hSap = findHSapTaxon();
 		
 		// Skip test if database is empty
-		if (hSap == null) {
-			logger.info("SKIPPED: testFindMatricesByTaxon - No Taxon data found in database (Homo sapiens). Test requires populated database.");
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: testFindMatricesByTaxon - No Taxon data found in database (Homo sapiens). Test requires populated database.", hSap);
 		
 		Collection<Matrix> matrices = getFixture().findMatrices(hSap);
 		logger.info("Query finished; results = " + matrices.size() + " studies");
@@ -206,10 +198,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 		
 		// Skip test if database is empty
-		if (tlsOneEolphus.size() < 1) {
-			logger.info("SKIPPED: testExpandTaxonVariant - No TaxonLabel data found in database (Eolophus roseicapillus). Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testExpandTaxonVariant - No TaxonLabel data found in database (Eolophus roseicapillus). Test requires populated database.", tlsOneEolphus.size() < 1);
 		
 		assertTrue(tlsOneEolphus.size()>=1);
 		TaxonLabel tlEolphus = tlsOneEolphus.iterator().next();
@@ -242,10 +231,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 		
 		// Skip test if database is empty
-		if (tlsOneEolphus.size() < 1) {
-			logger.info("SKIPPED: testExpandTaxonVariantSet - No TaxonLabel data found in database (Eolophus roseicapillus). Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testExpandTaxonVariantSet - No TaxonLabel data found in database (Eolophus roseicapillus). Test requires populated database.", tlsOneEolphus.size() < 1);
 		
 		assertTrue(tlsOneEolphus.size()>=1);
 		TaxonLabel tlEolphus = tlsOneEolphus.iterator().next();
@@ -258,10 +244,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 		
 		// Skip test if database is empty
-		if (tlsOneCacatua.size() < 1) {
-			logger.info("SKIPPED: testExpandTaxonVariantSet - No TaxonLabel data found in database (Cacatua tenuirostris). Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testExpandTaxonVariantSet - No TaxonLabel data found in database (Cacatua tenuirostris). Test requires populated database.", tlsOneCacatua.size() < 1);
 		
 		assertTrue(tlsOneCacatua.size()>=1);
 		TaxonLabel tlCacatua = tlsOneCacatua.iterator().next();
@@ -335,10 +318,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 		
 		// Skip test if database is empty
-		if (trivialCI && trivialCS) {
-			logger.info("SKIPPED: testFindTaxonVariantWithSubstring - No TaxonVariant data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testFindTaxonVariantWithSubstring - No TaxonVariant data found in database. Test requires populated database.", trivialCI && trivialCS);
 		
 		assertFalse(trivialCI);
 		assertFalse(trivialCS);
@@ -348,10 +328,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		Collection<TaxonVariant> tests = getFixture().findTaxonVariantWithSubstring("Ilex", true);  // Holly
 		
 		// Skip test if database is empty
-		if (tests.isEmpty()) {
-			logger.info("SKIPPED: testFindByTaxonVariant - No TaxonVariant data found in database (Ilex). Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testFindByTaxonVariant - No TaxonVariant data found in database (Ilex). Test requires populated database.", tests.isEmpty());
 		
 		assertFalse(tests.isEmpty());
 		int nontrivial = 0;
@@ -373,10 +350,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 				";interesting tests: " + interesting);
 		
 		// Skip test if no interesting data found
-		if (nontrivial == 0 || interesting == 0) {
-			logger.info("SKIPPED: testFindByTaxonVariant - Insufficient data in database to complete test. Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testFindByTaxonVariant - Insufficient data in database to complete test. Test requires populated database.", nontrivial == 0 || interesting == 0);
 		
 		assertTrue(nontrivial > 0);
 		assertTrue(interesting > 0);
@@ -392,10 +366,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		Collection<TaxonVariant> tvSet = getFixture().findTaxonVariantByFullName("Homo sapiens");
 		
 		// Skip test if database is empty
-		if (tvSet.isEmpty()) {
-			logger.info("SKIPPED: testFindTaxonVariantByFullName - No TaxonVariant data found in database (Homo sapiens). Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testFindTaxonVariantByFullName - No TaxonVariant data found in database (Homo sapiens). Test requires populated database.", tvSet.isEmpty());
 		
 		for (TaxonVariant tv : tvSet) {
 			assertEquals("Homo sapiens", tv.getFullName());
