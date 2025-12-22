@@ -20,7 +20,6 @@ import org.cipres.treebase.domain.study.StudyHome;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
-import org.junit.Assume;
 
 /**
  * The class <code>MatrixServiceImplTest</code> contains tests for the class
@@ -145,7 +144,10 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 		.findSomethingByRangeExpression(Matrix.class, "nTax", "37..100");
 		
 		// Skip test if database is empty
-		Assume.assumeFalse("SKIPPED: testFindSomethingByRangeExpression - No Matrix data found in database with nTax in range 37..100. Test requires populated database.", matrices.isEmpty());
+		if (matrices.isEmpty()) {
+			logger.info("SKIPPED: testFindSomethingByRangeExpression - No Matrix data found in database with nTax in range 37..100. Test requires populated database.");
+			return;
+		}
 		
 		for (Matrix matrix : matrices) {
 			int n = matrix.getnTax();

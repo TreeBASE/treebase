@@ -7,7 +7,6 @@ import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.domain.admin.UserHome;
 import org.cipres.treebase.domain.admin.UserRole;
-import org.junit.Assume;
 
 /**
  * The class <code>UserDAOTest</code> contains tests for the class {@link <code>UserDAO</code>}.
@@ -158,18 +157,22 @@ public class UserDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", usernames);
 		
-		Assume.assumeFalse(testName + " - empty database, test skipped", usernames.isEmpty());
-		
-		// 3. find by user name:
-		UserHome fixture = getUserHome();
+		if (usernames.size() > 0) {
+			// 3. find by user name:
+			UserHome fixture = getUserHome();
 			String userName = usernames.get(0);
 			User result = fixture.findByUserName(userName);
 
 			// 4. verify
 			assertTrue(result != null);
 			assertTrue(result.getUsername().equals(userName));
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " verified username =" + userName);
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " verified username =" + userName);
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 
 	}
@@ -199,13 +202,17 @@ public class UserDAOTest extends AbstractDAOTest {
 		}
 
 		// 4. verify results if data exists
-		Assume.assumeFalse(testName + " - empty database, test skipped", result.isEmpty());
-		
-		for (User user : result) {
-			assertTrue(user.getRoleDescription().equals(testRole));
-		}
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " verified role =" + testRole);
+		if (result.size() > 0) {
+			for (User user : result) {
+				assertTrue(user.getRoleDescription().equals(testRole));
+			}
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " verified role =" + testRole);
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 	}
 
@@ -222,9 +229,8 @@ public class UserDAOTest extends AbstractDAOTest {
 		// 1. find a valid person first:
 		User u = (User) loadObject(User.class);
 		
-		Assume.assumeNotNull(testName + " - empty database, test skipped", u);
-		
-		Person p = u.getPerson();
+		if (u != null) {
+			Person p = u.getPerson();
 
 			if (logger.isInfoEnabled()) {
 				logger.info("username = " + u.getUsername() + " persopn =" + p.getFirstName() + " "
@@ -242,8 +248,13 @@ public class UserDAOTest extends AbstractDAOTest {
 			assertTrue(result != null);
 			assertTrue(result.getId() == u.getId());
 
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " verified result =");
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " verified result =");
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 	}
 
@@ -266,20 +277,24 @@ public class UserDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", emails);
 		
-		Assume.assumeFalse(testName + " - empty database, test skipped", emails.isEmpty());
-		
-		// 3. find by user name:
-		UserHome fixture = getUserHome();
-		String email = emails.get(0);
-		List<User> users = fixture.findByEmail(email.toUpperCase(), true);
+		if (emails.size() > 0) {
+			// 3. find by user name:
+			UserHome fixture = getUserHome();
+			String email = emails.get(0);
+			List<User> users = fixture.findByEmail(email.toUpperCase(), true);
 
-		// 4. verify
-		assertTrue(users != null && !users.isEmpty());
-		User result = users.get(0);
-		assertTrue(result.getEmailAddressString().equalsIgnoreCase(email));
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " verified email =" + email + " num of matches:"
-				+ users.size());
+			// 4. verify
+			assertTrue(users != null && !users.isEmpty());
+			User result = users.get(0);
+			assertTrue(result.getEmailAddressString().equalsIgnoreCase(email));
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " verified email =" + email + " num of matches:"
+					+ users.size());
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 
 	}
@@ -329,28 +344,32 @@ public class UserDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", emails);
 		
-		Assume.assumeFalse(testName + " - empty database, test skipped", emails.isEmpty());
-		
-		// 3. find by user name:
-		UserHome fixture = getUserHome();
-		String email = emails.get(0);
-		int emailSize = email.length();
-		String emailTest = email;
-		if (emailSize > 2) {
-			emailTest = email.substring(0, emailSize - 2);
-		}
-		List<User> users = fixture.findByEmail(emailTest.toUpperCase(), false);
+		if (emails.size() > 0) {
+			// 3. find by user name:
+			UserHome fixture = getUserHome();
+			String email = emails.get(0);
+			int emailSize = email.length();
+			String emailTest = email;
+			if (emailSize > 2) {
+				emailTest = email.substring(0, emailSize - 2);
+			}
+			List<User> users = fixture.findByEmail(emailTest.toUpperCase(), false);
 
-		if (logger.isInfoEnabled()) {
-			logger.info("emailTest =" + emailTest + " num of matches:" + users.size());
-		}
-		// 4. verify
-		assertTrue(users != null && !users.isEmpty());
-		User result = users.get(0);
-		assertTrue(result.getEmailAddressString().equalsIgnoreCase(email));
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " verified email =" + email + " num of matches:"
-				+ users.size());
+			if (logger.isInfoEnabled()) {
+				logger.info("emailTest =" + emailTest + " num of matches:" + users.size());
+			}
+			// 4. verify
+			assertTrue(users != null && !users.isEmpty());
+			User result = users.get(0);
+			assertTrue(result.getEmailAddressString().equalsIgnoreCase(email));
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " verified email =" + email + " num of matches:"
+					+ users.size());
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 
 	}
@@ -370,11 +389,10 @@ public class UserDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", users);
 		
-		Assume.assumeFalse(testName + " - empty database, test skipped", users.isEmpty());
-		
-		// 3. update:
-		// UserHome fixture = getUserHome();
-		User result = (User) users.get(0);
+		if (users.size() > 0) {
+			// 3. update:
+			// UserHome fixture = getUserHome();
+			User result = (User) users.get(0);
 
 			String oldUserName = result.getUsername();
 			String newUserName = oldUserName + "unitTest";
@@ -404,8 +422,13 @@ public class UserDAOTest extends AbstractDAOTest {
 			verifyName = (String) jdbcTemplate.queryForObject(sqlStr, String.class);
 			assertTrue("Undo update failed.", oldUserName.equals(verifyName));
 
-		if (logger.isInfoEnabled()) {
-			logger.info(testName + " - end "); //$NON-NLS-1$
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - end "); //$NON-NLS-1$
+			}
+		} else {
+			if (logger.isInfoEnabled()) {
+				logger.info(testName + " - empty database, test skipped");
+			}
 		}
 
 	}

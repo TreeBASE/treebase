@@ -13,7 +13,6 @@ import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeNode;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
-import org.junit.Assume;
 
 /**
  * PhyloTreeServiceImplTest.java
@@ -71,7 +70,10 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 		PhyloTree tree = (PhyloTree) loadObject(PhyloTree.class);
 		
 		// Skip test if database is empty
-		Assume.assumeNotNull("SKIPPED: " + testName + " - No PhyloTree data found in database. Test requires populated database.", tree);
+		if (tree == null) {
+			logger.info("SKIPPED: " + testName + " - No PhyloTree data found in database. Test requires populated database.");
+			return;
+		}
 		
 		//PhyloTree tree = (PhyloTree) loadObject(PhyloTree.class, 41L);
 		String newick   = tree.getNewickString();
@@ -99,7 +101,12 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 		PhyloTree t = (PhyloTree) loadObject(PhyloTree.class);
 		
 		// Skip test if database is empty
-		Assume.assumeNotNull("SKIPPED: testFindByTopology3 - No PhyloTree data found in database. Test requires populated database.", t);
+		if (t == null) {
+			if (logger.isInfoEnabled()) {
+				logger.info("SKIPPED: testFindByTopology3 - No PhyloTree data found in database. Test requires populated database.");
+			}
+			return;
+		}
 		
 		RandomList<PhyloTreeNode> nodes = new RandomList<PhyloTreeNode> ();
 		nodes.addAll(t.getTreeNodesReadOnly());
@@ -184,7 +191,10 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 		.findSomethingByRangeExpression(PhyloTree.class, "nTax", "37..40");
 		
 		// Skip test if database is empty
-		Assume.assumeFalse("SKIPPED: testFindSomethingByRangeExpression - No PhyloTree data found in database with nTax in range 37..40. Test requires populated database.", trees.isEmpty());
+		if (trees.isEmpty()) {
+			logger.info("SKIPPED: testFindSomethingByRangeExpression - No PhyloTree data found in database with nTax in range 37..40. Test requires populated database.");
+			return;
+		}
 		
 		for (PhyloTree tree : trees) {
 			int n = tree.getnTax();

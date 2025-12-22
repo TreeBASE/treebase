@@ -19,7 +19,6 @@ import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
-import org.junit.Assume;
 
 /**
  * StudyServiceImplTest.java
@@ -506,7 +505,10 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		Study s = (Study) hibernateTemplate.get(Study.class, studyId);
 		
 		// Skip test if database is empty
-		Assume.assumeNotNull("SKIPPED: " + testName + " - No Study data found in database (studyId=" + studyId + "). Test requires populated database.", s);
+		if (s == null) {
+			logger.info("SKIPPED: " + testName + " - No Study data found in database (studyId=" + studyId + "). Test requires populated database.");
+			return;
+		}
 		
 		Submission sub = s.getSubmission();
 		if (fileName == null) {

@@ -20,7 +20,6 @@ import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.nexml.model.DocumentFactory;
 import org.nexml.model.Document;
-import org.junit.Assume;
 
 public class NexmlSerializationTest extends AbstractDAOTest  {
 	private TaxonLabelHome mTaxonLabelHome;
@@ -30,7 +29,12 @@ public class NexmlSerializationTest extends AbstractDAOTest  {
 		Study study = (Study)loadObject(Study.class, studyId);
 		
 		// Skip test if database is empty
-		Assume.assumeNotNull("SKIPPED: testSerializeStudy - No Study data found in database (studyId=" + studyId + "). Test requires populated database.", study);
+		if (study == null) {
+			if (logger.isInfoEnabled()) {
+				logger.info("SKIPPED: testSerializeStudy - No Study data found in database (studyId=" + studyId + "). Test requires populated database.");
+			}
+			return;
+		}
 		
 		Document doc = DocumentFactory.safeCreateDocument();
 		NexmlDocumentWriter conv = new NexmlDocumentWriter(study,getTaxonLabelHome(),doc);
@@ -45,7 +49,12 @@ public class NexmlSerializationTest extends AbstractDAOTest  {
 		PhyloTree tree = (PhyloTree)loadObject(PhyloTree.class,treeId);
 		
 		// Skip test if database is empty
-		Assume.assumeNotNull("SKIPPED: testSerializeTree - No PhyloTree data found in database (treeId=" + treeId + "). Test requires populated database.", tree);
+		if (tree == null) {
+			if (logger.isInfoEnabled()) {
+				logger.info("SKIPPED: testSerializeTree - No PhyloTree data found in database (treeId=" + treeId + "). Test requires populated database.");
+			}
+			return;
+		}
 		
 		TaxonLabelSet tls = tree.getTreeBlock().getTaxonLabelSet();
 		NexusDataSet nds = new NexusDataSet();

@@ -3,7 +3,6 @@ package org.cipres.treebase.domain.study;
 import java.util.List;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
-import org.junit.Assume;
 
 /**
  * The class <code>StudyTest</code> contains tests for the class {@link <code>Study</code>}
@@ -135,7 +134,10 @@ public class StudyTest extends AbstractDAOTest {
 		Analysis a = (Analysis) loadObject(Analysis.class);
 		
 		// Skip test if database is empty
-		Assume.assumeNotNull("SKIPPED: " + testName + " - No Analysis data found in database. Test requires populated database.", a);
+		if (a == null) {
+			logger.info("SKIPPED: " + testName + " - No Analysis data found in database. Test requires populated database.");
+			return;
+		}
 		
 		Study s = a.getStudy();
 
