@@ -222,6 +222,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 	/**
 	 * @param pSubmissionService the submissionService to set
 	 */
+	@Autowired
 	public void setSubmissionService(SubmissionService pSubmissionService) {
 		mSubmissionService = pSubmissionService;
 	}
@@ -236,6 +237,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 	/**
 	 * @param pStudyService the studyService to set
 	 */
+	@Autowired
 	public void setStudyService(StudyService pStudyService) {
 		mStudyService = pStudyService;
 	}
