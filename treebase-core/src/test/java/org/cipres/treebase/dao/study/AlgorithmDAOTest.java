@@ -73,8 +73,10 @@ public class AlgorithmDAOTest extends AbstractDAOTest {
 	/**
 	 * Test method for
 	 * {@link org.cipres.treebase.dao.study.AlgorithmDAO#findAllUniqueAlgorithmDescriptions()}.
+	 * 
+	 * Note: This method has a parameter and cannot be executed as a JUnit 4 test.
+	 * It appears to be a helper method or incomplete test.
 	 */
-	@Test
 	public void testFindAllUniqueOtherAlgorithmDescriptions(String pPartialValue) {
 		String testName = "findAllUniqueOtherAlgorithmDescriptions";
 		if (logger.isInfoEnabled()) {
