@@ -1,19 +1,20 @@
 # JUnit 4 Migration with Spring Framework Upgrade
 
 ## Summary
-Successfully migrated tests from JUnit 3 to JUnit 4 style while maintaining Spring Framework 2.5.6 compatibility by using JUnit 4's backward compatibility mode.
+Successfully migrated tests from JUnit 3 to JUnit 4 style by upgrading Spring Framework to 3.2.18.RELEASE, which provides full JUnit 4 support and compatibility.
 
 ## Changes Made
 
 ### 1. Spring Framework Upgrade
-- **Upgraded Spring**: 2.0.7 → 2.5.6
+- **Upgraded Spring**: 2.5.6 → 3.2.18.RELEASE
 - **Changed dependency**: spring-mock → spring-test
-- **Reason**: Spring 2.5.6 provides better test support and JUnit 4 compatibility
+- **Reason**: Spring 3.2.x provides `SpringJUnit4ClassRunner` with full JUnit 4 integration and all required utility methods
 
-### 2. Test Base Class
-- `AbstractDAOTest` extends `AbstractTransactionalDataSourceSpringContextTests`
-- No `@RunWith` annotation needed - JUnit 4 has built-in backward compatibility with JUnit 3 TestCase classes
-- Spring transaction and dependency injection support is maintained through the base class
+### 2. Test Base Class Enhancement
+- Added `@RunWith(SpringJUnit4ClassRunner.class)` to `AbstractDAOTest`
+- Added necessary imports:
+  - `org.junit.runner.RunWith`
+  - `org.springframework.test.context.junit4.SpringJUnit4ClassRunner`
 
 ### 3. Test Conversion to JUnit 4 Style
 Converted 23 test files (100+ test methods):
@@ -24,16 +25,16 @@ Converted 23 test files (100+ test methods):
 ### 4. Configuration Updates
 - **JUnit**: 3.8.1 → 4.13.2
 - **Maven Surefire**: 3.0.0-M5 (for JUnit 4/5 support)
-- **Spring**: 2.0.7 → 2.5.6 (for improved test support)
+- **Spring**: 2.5.6 → 3.2.18.RELEASE (for full JUnit 4 support)
 
 ## How Test Skipping Works
 
 ### Test Class Structure
 ```java
+@RunWith(SpringJUnit4ClassRunner.class)
 public abstract class AbstractDAOTest extends AbstractTransactionalDataSourceSpringContextTests {
-    // Spring 2.5 transactional test support via JUnit 3 base class
-    // JUnit 4 recognizes @Test annotations on methods
-    // All child test classes inherit Spring support
+    // Spring 3.2 transactional test support
+    // All child test classes automatically use JUnit 4 runner
 }
 
 public class MatrixDAOTest extends AbstractDAOTest {
@@ -152,36 +153,40 @@ public void testMethod() {
 ## Benefits
 
 1. ✅ **Proper Skip Reporting**: Tests correctly marked as SKIPPED in JUnit XML reports and CI/CD dashboards
-2. ✅ **JUnit 4 Annotations**: Uses `@Test` annotations for test methods
-3. ✅ **Backward Compatibility**: JUnit 4 recognizes JUnit 3 TestCase classes and runs them properly
+2. ✅ **Native JUnit 4 Support**: Via Spring 3.2's `SpringJUnit4ClassRunner`
+3. ✅ **Full Spring Integration**: Tests run with proper JUnit 4 runner with complete Spring support
 4. ✅ **Spring Compatibility**: Maintains full Spring test framework support (transactions, dependency injection)
 5. ✅ **CI/CD Visibility**: Clear distinction between passed, failed, and skipped tests
-6. ✅ **Foundation for Future Migration**: Easier migration path when upgrading Spring version
+6. ✅ **Modern Framework**: Spring 3.2 is stable and well-supported
 
 ## Technical Details
 
-### Why This Approach Works
+### Why Spring 3.2 Was Needed
 
-Spring 2.5.6's `SpringJUnit4ClassRunner` has compatibility issues with the version's core annotation utilities. However, JUnit 4 has built-in backward compatibility with JUnit 3 test classes.
+Spring 2.5.6 had critical compatibility issues:
+1. `SpringJUnit4ClassRunner` tried to call `AnnotationUtils.findAnnotationDeclaringClass()` which doesn't exist in Spring 2.5.6 core
+2. Bean initialization failed due to missing `ReflectionUtils.isEqualsMethod()` method
+3. These methods were added in Spring 3.0+
 
-By having `AbstractDAOTest` extend `AbstractTransactionalDataSourceSpringContextTests` (a JUnit 3 base class) and adding `@Test` annotations to test methods:
-- JUnit 4 recognizes the class as a valid test class through backward compatibility
-- `@Test` annotations work on individual methods
-- Spring transaction and dependency injection support is maintained
-- `Assume` statements for conditional test execution work properly
+Spring 3.2.18.RELEASE provides:
+- `SpringJUnit4ClassRunner`: Proper JUnit 4 test runner with all required methods
+- Native support for `@Test` annotations
+- Proper handling of JUnit 4 assumptions
+- All necessary utility methods in `ReflectionUtils` and `AnnotationUtils`
+- Backward compatibility with existing Hibernate 3 and Spring configurations
 
 ### Alternative Approaches Considered
 
-1. **SpringJUnit4ClassRunner with Spring 2.5.6**: Failed due to `NoSuchMethodError` in `AnnotationUtils.findAnnotationDeclaringClass`
-2. **Upgrade to Spring 3.x+**: Would require significant codebase changes and testing
-3. **Custom Test Runner**: Would require additional code and maintenance
+1. **SpringJUnit4ClassRunner with Spring 2.5.6**: Failed due to missing methods in core utilities
+2. **JUnit 3 compatibility mode**: Initially tried but Spring bean initialization still failed
+3. **Custom Test Runner**: Would require significant additional code and maintenance
 
-The hybrid approach (JUnit 3 base class + JUnit 4 annotations) provides the cleanest solution that works with Spring 2.5.6 while enabling JUnit 4 features.
+The Spring 3.2 upgrade provides the cleanest solution that resolves all compatibility issues while maintaining existing functionality.
 
 ## Compatibility
 
 - **Java**: 1.7+ (as configured in maven-compiler-plugin)
-- **Spring**: 2.5.6 (supports Hibernate 3, transactions, dependency injection)
+- **Spring**: 3.2.18.RELEASE (supports Hibernate 3, transactions, dependency injection, full JUnit 4 support)
 - **JUnit**: 4.13.2 (latest 4.x with security fixes)
 - **Maven Surefire**: 3.0.0-M5 (supports JUnit 4 and 5)
 
