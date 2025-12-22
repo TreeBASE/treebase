@@ -8,6 +8,7 @@ import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.admin.PersonHome;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>PersonDAOTest</code> contains tests for the class

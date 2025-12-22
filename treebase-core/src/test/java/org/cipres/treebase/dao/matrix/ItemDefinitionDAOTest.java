@@ -4,6 +4,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.ItemDefinition;
 import org.cipres.treebase.domain.matrix.ItemDefinitionHome;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>ItemDefinitionDAOTest</code> contains tests for the class

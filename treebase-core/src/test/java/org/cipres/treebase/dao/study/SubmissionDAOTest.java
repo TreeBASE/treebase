@@ -10,6 +10,7 @@ import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>SubmissionDAOTest</code> contains tests for the class {@link

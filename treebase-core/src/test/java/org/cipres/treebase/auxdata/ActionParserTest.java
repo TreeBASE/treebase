@@ -1,6 +1,7 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 /* TODO: Refactor to merge this code with Filter_ParserTest */
 

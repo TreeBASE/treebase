@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
 import org.cipres.treebase.ContextManager;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>CoreServiceLauncherTest</code> contains tests for the class

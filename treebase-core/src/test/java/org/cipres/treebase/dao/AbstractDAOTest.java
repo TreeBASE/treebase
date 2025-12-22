@@ -33,7 +33,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @SuppressWarnings("unchecked")
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = CoreServiceLauncher.getSpringConfigurations())
+@ContextConfiguration(locations = {
+	"classpath:applicationContext-db-standalone.xml",
+	"classpath:applicationContext-dao.xml",
+	"classpath:applicationContext-service.xml"
+})
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public abstract class AbstractDAOTest {

@@ -4,6 +4,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.taxon.SpecimenLabel;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class SpecimenLabelTest extends AbstractDAOTest {
 

@@ -11,6 +11,7 @@ import org.cipres.treebase.domain.study.StudyHome;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
+import static org.junit.Assert.*;
 
 /**
  * AnalysisDAOTest.java

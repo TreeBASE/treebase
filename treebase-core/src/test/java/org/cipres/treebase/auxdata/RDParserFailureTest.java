@@ -3,6 +3,7 @@ package org.cipres.treebase.auxdata;
 
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class RDParserFailureTest extends TestCase {
 	RDParserFailure f = new RDParserFailure();

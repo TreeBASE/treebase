@@ -5,6 +5,7 @@ import java.util.List;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>StudyTest</code> contains tests for the class {@link <code>Study</code>}

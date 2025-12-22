@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.util.Map;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class HashFieldReaderTest extends TestCase {
 	String testData = "1\tcherry\tred\n" + "2\tapple\tred\n" + 

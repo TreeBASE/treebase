@@ -3,6 +3,7 @@ package org.cipres.treebase.auxdata;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class LazyListTest extends TestCase {
 	private class Gen implements Generator<Integer> {

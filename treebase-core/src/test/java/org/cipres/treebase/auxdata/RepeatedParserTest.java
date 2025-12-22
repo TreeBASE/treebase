@@ -1,6 +1,7 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class RepeatedParserTest extends TestCase {
 	static final int STRING = java.io.StreamTokenizer.TT_WORD,

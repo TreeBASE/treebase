@@ -3,6 +3,7 @@ package org.cipres.treebase.dao.study;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>StudyStatusDAOTest</code> contains tests for the class

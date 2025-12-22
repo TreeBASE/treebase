@@ -10,6 +10,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * @author mjd 20090223

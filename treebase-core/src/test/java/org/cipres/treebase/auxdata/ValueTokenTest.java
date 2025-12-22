@@ -1,6 +1,7 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class ValueTokenTest extends TestCase {
 	Token t = new Token("Blarf");

@@ -22,6 +22,7 @@ import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>MatrixServiceImplTest</code> contains tests for the class

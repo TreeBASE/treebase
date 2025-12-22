@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.study;
 import java.util.List;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>CitationTest</code> contains tests for the class {@link <code>Citation</code>}

@@ -9,6 +9,7 @@ import org.cipres.treebase.domain.admin.UserHome;
 import org.cipres.treebase.domain.admin.UserRole;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>UserDAOTest</code> contains tests for the class {@link <code>UserDAO</code>}.

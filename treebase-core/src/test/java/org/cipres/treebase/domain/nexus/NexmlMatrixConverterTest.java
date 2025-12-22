@@ -25,6 +25,7 @@ import org.nexml.model.MolecularMatrix;
 import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
 import org.nexml.model.Subset;
+import static org.junit.Assert.*;
 
 public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;

@@ -12,6 +12,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.tree.PhyloTree;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 /**
  * MesquiteConverterTest.java

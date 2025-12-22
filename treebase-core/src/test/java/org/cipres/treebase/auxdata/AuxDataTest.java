@@ -29,6 +29,7 @@ import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.service.matrix.MockMatrixService;
 import org.cipres.treebase.service.study.MockStudyService;
 import org.cipres.treebase.service.tree.MockPhyloTreeService;
+import static org.junit.Assert.*;
 
 public class AuxDataTest extends TestCase {
 

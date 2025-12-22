@@ -8,6 +8,7 @@ import java.util.List;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.study.AlgorithmHome;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * @author madhu

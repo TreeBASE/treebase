@@ -9,6 +9,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.matrix.MatrixRowHome;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>MatrixRowDAOTest</code> contains tests for the class {@link

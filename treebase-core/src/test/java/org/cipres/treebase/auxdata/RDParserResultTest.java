@@ -1,6 +1,7 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class RDParserResultTest extends TestCase {
 	Token tok = new Token("Snonk");

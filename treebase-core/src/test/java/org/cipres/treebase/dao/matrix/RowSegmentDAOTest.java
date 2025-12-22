@@ -18,6 +18,7 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.framework.ExecutionResult;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * RowSegmentDAOTest.java

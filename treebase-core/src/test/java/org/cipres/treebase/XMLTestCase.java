@@ -16,6 +16,7 @@ import java.io.File;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 /**
  * XMLTestCase.java

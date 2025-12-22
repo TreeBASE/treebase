@@ -21,6 +21,7 @@ import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.domain.tree.TreeKind;
 import org.cipres.treebase.domain.tree.TreeQuality;
 import org.cipres.treebase.domain.tree.TreeType;
+import static org.junit.Assert.*;
 
 /**
  * PhyloTreeDAOTest.java

@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.cipres.treebase.MockDatabase;
 import org.cipres.treebase.TBMockObject;
+import static org.junit.Assert.*;
 
 public class ObjectGroupMergerTest extends TestCase {
 	ObjectGroupMerger<TBMockObject> merger;

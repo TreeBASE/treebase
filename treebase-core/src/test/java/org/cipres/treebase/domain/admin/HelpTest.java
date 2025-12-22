@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.dao.admin.UserDAO;
+import static org.junit.Assert.*;
 
 
 public class HelpTest extends AbstractDAOTest {

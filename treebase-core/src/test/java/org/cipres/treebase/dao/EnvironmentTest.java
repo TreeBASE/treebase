@@ -11,6 +11,7 @@ import org.hibernate.impl.SessionImpl;
 import org.junit.Test;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import static org.junit.Assert.*;
 
 /**
  * EnvrionmentTest.java

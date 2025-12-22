@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.admin.HelpDAO;
 import org.cipres.treebase.domain.admin.Help;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>HelpServiceImplTest</code> contains tests for the class

@@ -18,6 +18,7 @@ import org.nexml.model.DocumentFactory;
 import org.nexml.model.Network;
 import org.nexml.model.Node;
 import org.nexml.model.OTU;
+import static org.junit.Assert.*;
 
 public class NexmlTreeConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;

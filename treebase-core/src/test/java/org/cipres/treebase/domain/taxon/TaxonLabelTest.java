@@ -11,6 +11,7 @@ import org.junit.Assume;
 import org.junit.Test;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Study;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>StudyTest</code> contains tests for the class {@link <code>Study</code>}

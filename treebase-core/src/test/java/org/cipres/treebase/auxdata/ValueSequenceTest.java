@@ -3,6 +3,7 @@ package org.cipres.treebase.auxdata;
 import java.util.Collection;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class ValueSequenceTest extends TestCase {
 

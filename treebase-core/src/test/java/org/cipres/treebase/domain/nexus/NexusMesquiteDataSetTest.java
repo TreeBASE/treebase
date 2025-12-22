@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.nexus;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.service.nexus.NexusServiceMesquite;
+import static org.junit.Assert.*;
 
 /**
  * NexusMesquiteDataSetTest.java

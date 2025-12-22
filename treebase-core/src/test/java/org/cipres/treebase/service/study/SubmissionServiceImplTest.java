@@ -15,6 +15,7 @@ import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.study.SubmissionService;
+import static org.junit.Assert.*;
 
 /**
  * SubmissionServiceImplTest.java

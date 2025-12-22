@@ -4,6 +4,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.MatrixDataType;
 import org.cipres.treebase.domain.matrix.MatrixDataTypeHome;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>MatrixDataTypeDAOTest</code> contains tests for the class

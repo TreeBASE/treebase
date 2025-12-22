@@ -1,6 +1,7 @@
 package org.cipres.treebase.util;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class UnixOptionsTest extends TestCase {
 	String[] args;

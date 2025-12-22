@@ -5,6 +5,7 @@ import org.cipres.treebase.RangeExpression;
 import org.cipres.treebase.RangeExpression.Bounds;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.dao.AbstractDAOTest;
+import static org.junit.Assert.*;
 
 /**
  * @author mjd 20081203

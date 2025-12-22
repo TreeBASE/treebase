@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import org.cipres.treebase.domain.matrix.MatrixDataType;
 import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.matrix.StateSetMapper;
+import static org.junit.Assert.*;
 
 public class StateSetMapperTest extends TestCase {
 	/**

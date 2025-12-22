@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
+import static org.junit.Assert.*;
 
 /**
  * @author mjd 20090312

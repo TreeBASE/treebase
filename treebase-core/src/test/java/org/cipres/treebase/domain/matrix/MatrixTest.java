@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
+import static org.junit.Assert.*;
 
 /**
  * MatrixTest.java

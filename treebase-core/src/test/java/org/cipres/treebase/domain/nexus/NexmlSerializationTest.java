@@ -22,6 +22,7 @@ import org.nexml.model.DocumentFactory;
 import org.nexml.model.Document;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class NexmlSerializationTest extends AbstractDAOTest  {
 	private TaxonLabelHome mTaxonLabelHome;

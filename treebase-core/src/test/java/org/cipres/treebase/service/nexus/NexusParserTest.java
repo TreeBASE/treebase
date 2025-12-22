@@ -5,6 +5,7 @@ import java.io.File;
 
 
 import org.cipres.treebase.service.AbstractServiceTest;
+import static org.junit.Assert.*;
 
 /**
  * @author Jin Ruan

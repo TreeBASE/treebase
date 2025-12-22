@@ -6,6 +6,7 @@ import java.io.StreamTokenizer;
 import java.io.StringReader;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 public class TreebaseStreamTokenizerTest extends TestCase {
 	

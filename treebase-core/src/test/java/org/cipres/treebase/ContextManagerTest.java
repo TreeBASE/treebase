@@ -1,6 +1,7 @@
 package org.cipres.treebase;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>ContextManagerTest</code> contains tests for the class

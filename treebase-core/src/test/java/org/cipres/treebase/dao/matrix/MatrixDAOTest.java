@@ -12,6 +12,7 @@ import org.cipres.treebase.domain.matrix.MatrixKind;
 import org.cipres.treebase.domain.study.Study;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>MatrixDAOTest</code> contains tests for the class

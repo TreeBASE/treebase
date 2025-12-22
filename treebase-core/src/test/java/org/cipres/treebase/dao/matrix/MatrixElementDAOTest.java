@@ -3,6 +3,7 @@ package org.cipres.treebase.dao.matrix;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.MatrixElementHome;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>MatrixElementDAOTest</code> contains tests for the class

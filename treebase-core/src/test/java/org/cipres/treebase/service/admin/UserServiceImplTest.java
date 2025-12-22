@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.framework.ExecutionResult;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>UserServiceImplTest</code> contains tests for the class

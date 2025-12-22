@@ -8,6 +8,7 @@ import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.AnalyzedData;
 import org.cipres.treebase.domain.study.AnalyzedDataHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>AnalyzedDataDAOTest</code> contains tests for the class
