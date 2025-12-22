@@ -35,7 +35,7 @@ public class AjaxMultipartResolver extends CommonsMultipartResolver {
 			List fileItems = ((ServletFileUpload) fileUpload).parseRequest(request);
 			MultipartParsingResult parsingResult = parseFileItems(fileItems, encoding);
 			return new DefaultMultipartHttpServletRequest(request, parsingResult
-				.getMultipartFiles(), parsingResult.getMultipartParameters());
+				.getMultipartFiles(), parsingResult.getMultipartParameters(), parsingResult.getMultipartParameterContentTypes());
 		} catch (FileUploadBase.SizeLimitExceededException ex) {
 			throw new MaxUploadSizeExceededException(fileUpload.getSizeMax(), ex);
 		} catch (FileUploadException ex) {
