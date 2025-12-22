@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and Test treebase-core
+    name: Build and Test TreeBASE
     runs-on: ubuntu-latest
     
     permissions:
@@ -69,8 +69,11 @@ jobs:
     - name: Build treebase-core
       run: mvn -B clean compile -f treebase-core/pom.xml
       
-    - name: Run tests
+    - name: Run treebase-core tests
       run: mvn -B test -f treebase-core/pom.xml
+      
+    - name: Build treebase-web
+      run: mvn -B clean compile -f treebase-web/pom.xml
       
     - name: Publish Test Report
       uses: dorny/test-reporter@v1
