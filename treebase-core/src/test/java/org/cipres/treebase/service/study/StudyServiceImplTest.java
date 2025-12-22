@@ -39,13 +39,6 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 	private StudyHome mStudyHome;
 
 	/**
-	 * Constructor.
-	 */
-	public StudyServiceImplTest() {
-		super();
-	}
-
-	/**
 	 * Return the StudyHome field.
 	 * 
 	 * @return StudyHome mStudyHome
@@ -74,6 +67,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(StudyService pNewFixture) {
 		mFixture = pNewFixture;
 	}
