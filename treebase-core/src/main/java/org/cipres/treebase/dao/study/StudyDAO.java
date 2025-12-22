@@ -91,7 +91,8 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 			// String query = "from Study as s join Study.citation as c where :author in elements
 			// (c.authors)";
 			String query = "from Study join Study.citation c where :author in elements (c.authors)";
-			returnVal = getHibernateTemplate().findByNamedParam(query, "author", pAuthor);
+			List<?> results = getHibernateTemplate().findByNamedParam(query, "author", pAuthor);
+			returnVal = (Collection<Study>) results;
 		}
 		return returnVal;
 	}
