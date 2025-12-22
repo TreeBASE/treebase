@@ -123,26 +123,37 @@
   
   <!-- order of repositories used to compile the project -->
   <repositories>
+
+    <!-- TreeBASE gh-pages repository - checked FIRST for internal artifacts -->
     <repository>
-      <id>m2.remote.repos</id>
-      <name>Maven 2 Remote Repository</name>
-      <url>http://treebase.sourceforge.net/maven2/</url>
+      <id>treebase-github</id>
+      <name>TreeBASE GitHub Pages Maven Repository</name>
+      <url>https://treebase.github.io/treebase/repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
+
     <repository>
       <id>maven2</id>
       <name>Default Maven2 Repository</name>
-      <url>http://repo1.maven.org/maven2</url>
+      <url>https://repo1.maven.org/maven2</url>
     </repository>
+
     <repository>
       <id>repository.jboss.org</id>
       <name>JBoss Maven Repository</name>
-      <url>http://repository.jboss.org/maven2</url>
+      <url>https://repository.jboss.org/nexus/content/groups/public/maven2</url>
       <layout>default</layout>
     </repository>
+
+    <!-- GBIF host NexML, Mesquite and CQL-Java in order for this to build -->
     <repository>
-    	<id>postgresql</id>
-    	<url>http://jdbc.postgresql.org</url>
+      <id>gbif-third-party</id>
+      <name>GBIF hosted third party jars</name>
+      <url>https://repository.gbif.org/repository/thirdparty/</url>
     </repository>
+
   </repositories>
   <!-- Java 17 LTS configuration -->
   <build>

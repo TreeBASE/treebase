@@ -192,11 +192,19 @@ jobs:
     - name: Build treebase-web
       run: mvn -B clean compile -f treebase-web/pom.xml
       
+    - name: Build oai-pmh_data_provider
+      run: mvn -B clean compile -f oai-pmh_data_provider/pom.xml
+      
+    - name: Run oai-pmh_data_provider tests
+      run: mvn -B test -f oai-pmh_data_provider/pom.xml
+      
     - name: Publish Test Report
       uses: dorny/test-reporter@v1
       if: always()
       with:
         name: JUnit Test Results
-        path: treebase-core/target/surefire-reports/*.xml
+        path: |
+          treebase-core/target/surefire-reports/*.xml
+          oai-pmh_data_provider/data_provider_web/target/surefire-reports/*.xml
         reporter: java-junit
         fail-on-error: true

@@ -68,6 +68,7 @@
   <modules>
     <module>treebase-core</module>
     <module>treebase-web</module>
+    <module>oai-pmh_data_provider</module>
   </modules>
  <dependencies>
 
