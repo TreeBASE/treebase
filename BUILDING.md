@@ -15,7 +15,11 @@ process can make use of it.
 Setting up the building environment
 -----------------------------------
 
-Assuming you are on a modern Linux operating system (Ubuntu 20.04 LTS or later), you need to have Java 17 LTS installed. You can verify your Java installation with:
+You need to have Java 17 LTS installed on your system. Java 17 is available for all major operating systems (Linux, Windows, macOS).
+
+### Linux (Ubuntu 20.04 LTS or later)
+
+You can verify your Java installation with:
 
     $ java -version
     openjdk version "17.0.9" 2023-10-17
@@ -27,14 +31,22 @@ Any Java 17 LTS version should work. If you don't have Java 17 installed, you ca
     sudo apt-get update
     sudo apt-get install openjdk-17-jdk
 
-Also, ensure you have the maven installed as shown below (don't worry if there are any additional
+### Windows and macOS
+
+For Windows and macOS, you can download Java 17 from:
+- [Adoptium Temurin](https://adoptium.net/) (recommended)
+- [Oracle JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+
+### Maven
+
+Ensure you have Maven installed as shown below (don't worry if there are any additional
 lines where maven tries to compile a project in the current location, e.g. `Scanning for projects...`
 and so on). 
 
 **NOTE**: if you get a message about `JAVA_HOME` not being set, or you get downstream error messages 
 about `javac` missing once you're trying to compile, it means that your JDK was not fully installed 
 and you only have the JRE part. This is addressed by (re-)installing the JDK, e.g. 
-`sudo apt install openjdk-17-jdk`.
+`sudo apt install openjdk-17-jdk` on Linux.
 
     $ mvn -V
     Apache Maven 3.8.7
