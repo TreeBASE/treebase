@@ -105,7 +105,7 @@
 			<artifactId>cglib</artifactId>
 			<version>3.3.0</version>
 		</dependency>
-		<!-- ASM 9.0+ is required for Java 17 bytecode support -->
+		<!-- ASM 9.2 is required for Java 17 bytecode support -->
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm</artifactId>
