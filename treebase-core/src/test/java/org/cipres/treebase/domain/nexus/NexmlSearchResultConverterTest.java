@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.nexus;
 
 import java.util.Collection;
 import java.util.HashSet;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -18,7 +19,9 @@ import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.nexml.model.Document;
 import org.nexml.model.DocumentFactory;
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 
@@ -32,9 +35,9 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 	private Collection<PhyloTree> trees = null;
 	private Collection<TaxonLabel> taxa = null;
 		
-	@Override
-	protected void onSetUp() throws Exception {
-		super.onSetUp();
+	@Before
+	public void setUp() throws Exception {
+		onSetUp();
 
 		studies = getTestData();
 		ssr = new StudySearchResults(studies);
@@ -62,15 +65,13 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		super();
 	}
 	
-	@Test
-	
+	@Test	
 	public void testTrivial() {
 		assertNotNull(getTaxonLabelHome());
 		assertNotNull(getStudyHome());
 	}
 	
-	@Test
-	
+	@Test	
 	public void testQuickCheck() { 
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testQuickCheck - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -94,8 +95,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		return getTestData("S1787");
 	}
 	
-	@Test
-	
+	@Test	
 	public void testStudySearchSerialization() {
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testStudySearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -106,8 +106,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
-	@Test
-	
+	@Test	
 	public void testTaxonSearchSerialization() {
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testTaxonSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -119,8 +118,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
-	@Test
-	
+	@Test	
 	public void testMatrixSearchSerialization() {
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testMatrixSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -132,8 +130,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
-	@Test
-	
+	@Test	
 	public void testTreeSearchSerialization() {
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testTreeSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -149,6 +146,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		return mTaxonLabelHome;
 	}
 
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}
@@ -157,6 +155,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		return mStudyHome;
 	}
 
+	@Autowired
 	public void setStudyHome(StudyHome studyHome) {
 		mStudyHome = studyHome;
 	}

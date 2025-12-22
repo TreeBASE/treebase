@@ -5,6 +5,8 @@ import java.io.StringReader;
 import java.util.Map;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class HashFieldReaderTest extends TestCase {
 	String testData = "1\tcherry\tred\n" + "2\tapple\tred\n" + 
@@ -18,11 +20,16 @@ public class HashFieldReaderTest extends TestCase {
 	}
 	
 	// TODO: promote this to FlatFileReaderTest when you write it
+	@Test
+
 	public void testEmptyFile() throws IOException {
 		hf.setSource(new StringReader(""));
 		Map<String,String> rec = hf.getRecord();
 		assertNull(rec);
 	}
+	
+	@Test
+
 	
 	public void testCountRecs() throws IOException {
 		Map<String,String> rec;
@@ -32,6 +39,9 @@ public class HashFieldReaderTest extends TestCase {
 		}
 		assertEquals(4, count);
 	}
+	
+	@Test
+
 	
 	public void testKeys() throws IOException {
 		Map<String,String> rec;
@@ -43,6 +53,9 @@ public class HashFieldReaderTest extends TestCase {
 		}
 	}
 	
+	@Test
+
+	
 	public void testIDs() throws IOException {
 		Map<String,String> rec;
 		int count = 0;
@@ -52,6 +65,9 @@ public class HashFieldReaderTest extends TestCase {
 		}
 	}
 	
+	@Test
+
+	
 	public void testPartialRecord() throws IOException {
 		hf.setSource(new StringReader("1\traspberry\tred\n" +
 				"2\tblackberry\tblack")); // no trailing newline
@@ -59,6 +75,9 @@ public class HashFieldReaderTest extends TestCase {
 		assertEquals("black", hf.getRecord().get("color"));
 		assertNull(hf.getRecord());
 	}
+	
+	@Test
+
 	
 	public void testShortRecordException() {
 		hf.setSource(new StringReader("1\traspberry\tred\n" +
@@ -75,6 +94,9 @@ public class HashFieldReaderTest extends TestCase {
 		assertTrue(thrown);
 		assertEquals(count, 1);
 	}
+	
+	@Test
+
 	
 	public void testIterator() {
 		int count = 0;

@@ -8,6 +8,9 @@ import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.AnalyzedData;
 import org.cipres.treebase.domain.study.AnalyzedDataHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>AnalyzedDataDAOTest</code> contains tests for the class
@@ -36,6 +39,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 	 * 
 	 * @param pHome
 	 */
+	@Autowired
 	public void setFixture(AnalyzedDataHome pHome) {
 		mFixture = pHome;
 	}
@@ -45,6 +49,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 	 * 
 	 * @generatedBy CodePro at 6/29/07 3:28 PM
 	 */
+	@Test
 	public void testAnalyzedDataDAO_1() throws Exception {
 
 		String testName = "---AnalyzedDataDAOTest---";
@@ -64,6 +69,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 	 * 
 	 * @generatedBy CodePro at 6/29/07 3:28 PM
 	 */
+	@Test
 	public void testFindByMatrix_fixture_1() throws Exception {
 
 		String testName = "testFindByMatrix";
@@ -112,6 +118,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 	 * 
 	 * @generatedBy CodePro at 6/29/07 3:28 PM
 	 */
+	@Test
 	public void testFindByTree_fixture_1() throws Exception {
 		String testName = "testFindByTree";
 		if (logger.isInfoEnabled()) {

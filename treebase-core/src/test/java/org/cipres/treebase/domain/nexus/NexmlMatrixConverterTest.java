@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.nexus;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import junit.framework.Assert;
 
@@ -25,6 +26,8 @@ import org.nexml.model.MolecularMatrix;
 import org.nexml.model.OTU;
 import org.nexml.model.OTUs;
 import org.nexml.model.Subset;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;
@@ -37,6 +40,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	 * Finds an equivalent, created NexmlMatrix within a NeXML document to go with the matrix
 	 * fetched from the TreeBASE database.
 	 */
+	@Test
 	public void testNexmlMatrixConverter() {
 		String testName = "testNexmlMatrixConverter";
 		//signal beginning of test
@@ -149,6 +153,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	 * 
 	 * This is in response to bug #3303002
 	 */
+	@Test
 	public void testNexmlEmptyMatrix() {
 		String testName = "testNexmlEmptyMatrix()";
 		//signal beginning of test
@@ -253,6 +258,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	 * It verifies that NexmlCharSets have the same name and coordinates as those in the 
 	 * TreeBASE matrix.
 	 */
+	@Test
 	public void testNexmlMatrixCharSets() {
 		String testName = "testNexmlCharSets";
 		//signal beginning of test
@@ -388,6 +394,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	/**
 	 * Set the TaxonLabelHome field.
 	 */
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}	

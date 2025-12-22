@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.admin.User;
@@ -18,6 +19,8 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.framework.ExecutionResult;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * RowSegmentServiceImplTest.java
@@ -34,15 +37,6 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	private RowSegmentHome mRowSegmentHome;
 
 	/**
-	 * Constructor.
-	 * 
-	 * @param name
-	 */
-	public RowSegmentServiceImplTest() {
-		super();
-	}
-
-	/**
 	 * Return the RowSegmentHome field.
 	 * 
 	 * @return RowSegmentHome mRowSegmentHome
@@ -54,6 +48,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the RowSegmentHome field.
 	 */
+	@Autowired
 	public void setRowSegmentHome(RowSegmentHome pNewRowSegmentHome) {
 		mRowSegmentHome = pNewRowSegmentHome;
 	}
@@ -70,6 +65,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the SubmissionService field.
 	 */
+	@Autowired
 	public void setSubmissionService(SubmissionService pNewSubmissionService) {
 		mSubmissionService = pNewSubmissionService;
 	}
@@ -86,6 +82,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(RowSegmentService pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -94,6 +91,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	 * Run the RowSegmentField enum test.
 	 * 
 	 */
+	@Test
 	public void testEnumRowSegmentField() throws Exception {
 
 		String testName = "testEnumRowSegmentField";
@@ -128,6 +126,8 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	 * 
 	 */
 	/* this test can not be done without headless mesquite enviroment
+	@Test
+
 	public void testCreateRowSegments() throws Exception {
 
 		String testName = "testCreateRowSegments";

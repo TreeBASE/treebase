@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.taxon;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import org.junit.Assume;
 import org.junit.Test;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Study;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>StudyTest</code> contains tests for the class {@link <code>Study</code>}
@@ -40,6 +42,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 	/**
 	 * Set the TaxonLabelHome field.
 	 */
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}

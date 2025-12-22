@@ -1,6 +1,8 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class AssignmentParserTest extends TestCase {
 	AssignmentParser ap;
@@ -8,6 +10,9 @@ public class AssignmentParserTest extends TestCase {
 	public void setUp() {
 		ap = new AssignmentParser();
 	}
+	
+	@Test
+
 	
 	public void testParseComplete() {
 		RDParserResult res = ap.ParseString("name = \'Bill\'\n");
@@ -19,9 +24,15 @@ public class AssignmentParserTest extends TestCase {
 		assertEquals("Bill", ((ValueToken) va.val()).sval());
 	}
 	
+	@Test
+
+	
 	public void testParseTwo() {
 		
 	}
+	
+	@Test
+
 	
 	public void testParseIncomplete() {
 		RDParserResult res = ap.ParseString("name = \n");
@@ -32,6 +43,9 @@ public class AssignmentParserTest extends TestCase {
 		assertSame(ValueNone.class, va.val().getClass());
 	}
 	
+	@Test
+
+	
 	public void testParseQuoted() {
 		RDParserResult res = ap.ParseString("date = \'8/20/98\'\n");
 		assertTrue(res.success());
@@ -41,6 +55,9 @@ public class AssignmentParserTest extends TestCase {
 		assertSame(ValueToken.class, va.val().getClass());
 		assertEquals("8/20/98", ((ValueToken) va.val()).sval());
 	}
+	
+	@Test
+
 	
 	public void testParseDots() {
 		RDParserResult res = ap.ParseString("person = \'140.247.98.81\'\n");
@@ -60,6 +77,9 @@ public class AssignmentParserTest extends TestCase {
 		assertEquals("Fig._1", ((ValueToken) va2.val()).sval());
 	}
 	
+	@Test
+
+	
 	public void testParseNumber() {
 		RDParserResult res = ap.ParseString("nchar = 5\n");
 		assertTrue(res.success());
@@ -75,6 +95,9 @@ public class AssignmentParserTest extends TestCase {
 	// RHS of *every* property assignment in single quotes
 	// -- MJD 20071207
 	
+	@Test
+
+	
 	public void testParseAmpersand() {
 		RDParserResult res = ap.ParseString("tree_label = 'Fig._1C_&_H'\n");
 		assertTrue(res.success());
@@ -85,6 +108,9 @@ public class AssignmentParserTest extends TestCase {
 		assertEquals("Fig._1C_&_H", ((ValueToken) va.val()).sval());
 	}
 	
+	@Test
+
+	
 	public void testParseLeadingDigits() {
 		RDParserResult res = ap.ParseString("analysis_name = '16S_Alone'\n");
 		assertTrue(res.success());
@@ -94,6 +120,9 @@ public class AssignmentParserTest extends TestCase {
 		assertSame(ValueToken.class, va.val().getClass());
 		assertEquals("16S_Alone", ((ValueToken) va.val()).sval());
 	}
+	
+	@Test
+
 	
 	public void testParseQuestionMark() {
 		RDParserResult res = ap.ParseString("software = 'Clados?'\n");

@@ -7,6 +7,8 @@ import junit.framework.TestCase;
 
 import org.cipres.treebase.MockDatabase;
 import org.cipres.treebase.TBMockObject;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class ObjectGroupMergerTest extends TestCase {
 	ObjectGroupMerger<TBMockObject> merger;
@@ -19,9 +21,15 @@ public class ObjectGroupMergerTest extends TestCase {
 		merger = new ObjectGroupMerger<TBMockObject> (new MockDeleterFactory(db));
 	}
 	
+	@Test
+
+	
 	public void testNull() {
 		// Nothing
 	}
+	
+	@Test
+
 	
 	public void testMergeGroup() {
 		int[] ids = { 119, 5, 23, 37, };

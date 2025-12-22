@@ -1,6 +1,8 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /* TODO: Refactor to merge this code with Action_ParserTest */
 
@@ -33,9 +35,15 @@ public class FilterParserTest extends TestCase {
 		}
 	}
 	
+	@Test
+
+	
 	public void testFilter_Parser() {
 		assertNotNull(fp);
 	}
+
+	@Test
+
 
 	public void testParse() {
 		RDParserResult res = fp.Parse(null);

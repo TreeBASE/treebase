@@ -2,6 +2,9 @@ package org.cipres.treebase.dao.matrix;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.MatrixElementHome;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>MatrixElementDAOTest</code> contains tests for the class
@@ -35,6 +38,7 @@ public class MatrixElementDAOTest extends AbstractDAOTest {
 	 * 
 	 * @param fixture the test fixture
 	 */
+	@Autowired
 	public void setFixture(MatrixElementHome fixture) {
 		this.fixture = fixture;
 	}
@@ -49,6 +53,7 @@ public class MatrixElementDAOTest extends AbstractDAOTest {
 	/**
 	 * 
 	 */
+	@Test
 	public void testFindColumnByIndices() {
 	// TODO: findColumnByIndices
 

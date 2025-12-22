@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.nexus;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import junit.framework.Assert;
 
@@ -18,10 +19,14 @@ import org.nexml.model.DocumentFactory;
 import org.nexml.model.Network;
 import org.nexml.model.Node;
 import org.nexml.model.OTU;
+import static org.junit.Assert.*;
+import org.junit.Test;
+
 
 public class NexmlTreeConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;
-	
+
+	@Test
 	public void testNexmlTreeConverter() {
 		String testName = "testNexmlTreeConverter";
 		//signal beginning of test
@@ -113,6 +118,7 @@ public class NexmlTreeConverterTest extends AbstractDAOTest {
 	/**
 	 * Set the TaxonLabelHome field.
 	 */
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}	

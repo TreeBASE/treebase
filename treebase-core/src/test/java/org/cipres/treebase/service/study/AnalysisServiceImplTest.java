@@ -11,6 +11,9 @@ import org.cipres.treebase.domain.study.StudyHome;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
+import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
 
 /**
  * AnalysisDAOTest.java
@@ -39,6 +42,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyService field.
 	 */
+	@Autowired
 	public void setStudyService(StudyService pNewStudyService) {
 		mStudyService = pNewStudyService;
 	}
@@ -55,6 +59,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyHome field.
 	 */
+	@Autowired
 	public void setStudyHome(StudyHome pNewStudyHome) {
 		mStudyHome = pNewStudyHome;
 	}
@@ -71,6 +76,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyStatusHome field.
 	 */
+	@Autowired
 	public void setStudyStatusHome(StudyStatusHome pNewStudyStatusHome) {
 		mStudyStatusHome = pNewStudyStatusHome;
 	}
@@ -87,6 +93,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(AnalysisService pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -94,6 +101,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void deleteStudy(Study) method test
 	 */
+	@Test
 	public void testAddDelete() {
 		String testName = "testAddDeleteAnalysis";
 		if (logger.isInfoEnabled()) {

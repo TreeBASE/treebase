@@ -3,6 +3,8 @@ package org.cipres.treebase.auxdata;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class LazyListTest extends TestCase {
 	private class Gen implements Generator<Integer> {
@@ -27,11 +29,17 @@ public class LazyListTest extends TestCase {
 	LazyList<Integer> a2 = new LazyList<Integer> (119, a1);
 	LazyList<Integer> b1 = new LazyList<Integer> (17, gstop);
 	
+	@Test
+
+	
 	public void testLazyListELazyListOfE() {
 		assertNotNull(a2);
 		assertEquals((Integer) 119, a2.head);
 		assertSame(a1, a2.tail);
 	}
+	
+	@Test
+
 	
 	public void testLazyListELazyGeneratorOfE() {
 		assertNotNull(a1);
@@ -40,10 +48,16 @@ public class LazyListTest extends TestCase {
 		assertNull(a1.tail);
 	}
 
+	@Test
+
+
 	public void testLazyListGeneratorOfE() {
 		assertNotNull(a1);
 		assertSame(g, a1.gen);
 	}
+	
+	@Test
+
 	
 	public void testLazyListArrayOfE() {
 		Integer ar[] = { 1, 4, 2, 8, 5, 7 };
@@ -56,6 +70,9 @@ public class LazyListTest extends TestCase {
 		assertNull(ll);
 	}
 
+	@Test
+
+
 	public void testCons() {
 		LazyList<Integer> a3 = a1.cons(5);
 		assertNotNull(a3);
@@ -63,16 +80,25 @@ public class LazyListTest extends TestCase {
 		assertSame(a1, a3.tail());
 	}
 
+	@Test
+
+
 	public void testHead() {
 		assertEquals((Integer) 23, a1.head());
 		assertEquals((Integer) 119, a2.head());
 	}
+
+	@Test
+
 
 	public void testSetHead() {
 		LazyList<Integer> a3 = a2.cons(3);
 		a3.setHead(17);
 		assertEquals((Integer) 17, a3.head());
 	}
+
+	@Test
+
 
 	public void testTail() {
 		assertEquals(a1, a2.tail());
@@ -94,6 +120,9 @@ public class LazyListTest extends TestCase {
 		assertNull(b);
 	}
 
+	@Test
+
+
 	public void testSetTail() {
 		LazyList<Integer> a = a1.cons(13);
 		a.setTail(a);
@@ -101,11 +130,17 @@ public class LazyListTest extends TestCase {
 		assertEquals((Integer) 13, a.tail().tail().head());
 	}
 
+	@Test
+
+
 	public void testLastNode() {
 		assertEquals(a1, a1.lastNode());
 		assertEquals(a1, a2.lastNode());
 		assertEquals(a1, a2.cons(1).lastNode());
 	}
+
+	@Test
+
 
 	public void testNconc() {
 		LazyList<Integer> a = new LazyList<Integer> (30, a1);
@@ -114,6 +149,9 @@ public class LazyListTest extends TestCase {
 		b.nconc(a2);
 		assertSame(a2, b.tail().tail());
 	}
+	
+	@Test
+
 	
 	public void testIterator() {
 		Iterator it = a2.iterator();
@@ -124,6 +162,9 @@ public class LazyListTest extends TestCase {
 			i += 1;
 		}
 	}
+	
+	@Test
+
 	
 	public void testIteration() {
 		Integer expected[] = { 119, 23, 1, 2, 3 };

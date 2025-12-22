@@ -2,10 +2,13 @@ package org.cipres.treebase.domain.admin;
 
 import java.util.List;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.dao.admin.UserDAO;
 import org.cipres.treebase.domain.study.Submission;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * The class <code>UserTest</code> contains tests for the class {@link <code>User</code>}.
@@ -34,6 +37,7 @@ public class UserTest extends AbstractDAOTest {
 	 * 
 	 * @param pUserDAO
 	 */
+	@Autowired
 	public void setUserHome(UserHome pUserDAO) {
 		mUserHome = pUserDAO;
 	}
@@ -41,6 +45,7 @@ public class UserTest extends AbstractDAOTest {
 	/**
 	 *  TODO: Too slow.  20090528 MJD
 	 */
+	@Test
 	public void testgetInProgressSubmissions() throws Exception {
 		String testName = "getInProgressSubmissions";
 		if (logger.isInfoEnabled()) {

@@ -1,11 +1,16 @@
 package org.cipres.treebase.util;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class UnixOptionsTest extends TestCase {
 	String[] args;
 	GetOpts<UnixOptions> go;
 	UnixOptions opts;
+	
+	@Test
+
 	
 	public void testSimple() {
 		go = new GetOpts<UnixOptions>(new UnixOptions (""));
@@ -13,6 +18,9 @@ public class UnixOptionsTest extends TestCase {
 		args = go.getArgs();
 		assertEquals(1, args.length);
 	}
+	
+	@Test
+
 	
 	public void testBool() {
 		go = new GetOpts<UnixOptions>(new UnixOptions ("b"));		
@@ -32,6 +40,9 @@ public class UnixOptionsTest extends TestCase {
 		assertFalse(opts.getBoolOpt("b"));
 	}
 	
+	@Test
+
+	
 	public void testBasic() {
 		go = new GetOpts<UnixOptions>(new UnixOptions ("Bs:i=I=S:b"));
 		opts = go.getOpts("-s", "foo", "-b", "-i", "119", "blah", "-B", "blah");
@@ -46,6 +57,9 @@ public class UnixOptionsTest extends TestCase {
 		assertEquals(0, opts.getIntOpt("I"));
 	}
 
+	@Test
+
+
 	public void testDashDash() {
 		GetOpts<UnixOptions> go = new GetOpts<UnixOptions>(new UnixOptions ("bS:s:"));
 		opts = go.getOpts("-s", "foo", "--", "-b", "-S", "bar", "baz");
@@ -56,6 +70,9 @@ public class UnixOptionsTest extends TestCase {
 		assertEquals("", opts.getStringOpt("S"));
 		assertFalse(opts.getBoolOpt("b"));
 	}
+	
+	@Test
+
 	
 	public void testRegression1() {
 		go = new GetOpts<UnixOptions>(new UnixOptions ("nl:"));
@@ -70,6 +87,9 @@ public class UnixOptionsTest extends TestCase {
 		assertFalse(opts.hasOpt("l"));
 		assertEquals(opts.getOptWithDefault("l", "def"), "def");
 	}
+	
+	@Test
+
 	
 	public void testRegression2( ){
 		go = new GetOpts<UnixOptions>(new UnixOptions ("a:l:"));

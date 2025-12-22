@@ -3,6 +3,8 @@ package org.cipres.treebase.auxdata;
 import java.util.Collection;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class ValueSequenceTest extends TestCase {
 
@@ -10,16 +12,25 @@ public class ValueSequenceTest extends TestCase {
 	ValueSequence seq3 = new ValueSequence(vn, vn, vn);
 	ValueSequence seq0 = new ValueSequence();
 	
+	@Test
+
+	
 	public void testValue_Sequence() {
 		assertNotNull(seq3);
 		assertNotNull(seq0);
 	}
+
+	@Test
+
 
 	public void testSubvalue() {
 		assertSame(vn, seq3.subvalue(0));
 		assertSame(vn, seq3.subvalue(1));
 		assertSame(vn, seq3.subvalue(2));
 	}
+	
+	@Test
+
 	
 	public void testSubvalues() {
 		Value v3[] = seq3.subvalues();
@@ -32,10 +43,16 @@ public class ValueSequenceTest extends TestCase {
 		assertEquals(0, v0.length);
 	}
 
+	@Test
+
+
 	public void testLength() {
 		assertEquals(3, seq3.length());
 		assertEquals(0, seq0.length());
 	}
+	
+	@Test
+
 	
 	public void testCollection() {
 		Collection<Value> c0 = seq0.collection();

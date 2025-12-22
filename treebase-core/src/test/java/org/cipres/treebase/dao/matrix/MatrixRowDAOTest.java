@@ -1,6 +1,7 @@
 package org.cipres.treebase.dao.matrix;
 
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.matrix.MatrixRowHome;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>MatrixRowDAOTest</code> contains tests for the class {@link
@@ -36,6 +39,7 @@ public class MatrixRowDAOTest extends AbstractDAOTest {
 	/**
 	 * @param pMatrixRowHome the matrixRowHome to set
 	 */
+	@Autowired
 	public void setMatrixRowHome(MatrixRowHome pMatrixRowHome) {
 		mMatrixRowHome = pMatrixRowHome;
 	}
@@ -44,6 +48,7 @@ public class MatrixRowDAOTest extends AbstractDAOTest {
 	 * Run the void findByLabel(String) method test
 	 * TODO: No actual tests 20090225 MJD
 	 */
+	@Test
 	public void testFindByLabel() {
 
 		String testName = "FindByLabel";
@@ -69,6 +74,7 @@ public class MatrixRowDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the void deleteRows(Collection<MatrixRow>) method test
 	 */
+	@Test
 	public void testDeleteRows() {
 		// fail("Newly generated method - fix or disable");
 		// TODO add test code here
@@ -80,6 +86,7 @@ public class MatrixRowDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the void deleteRows(Collection<MatrixRow>) method test
 	 */
+	@Test
 	public void testDeleteRowsEmpty() {
 		String testName = "delete empty rows";
 		if (LOGGER.isInfoEnabled()) {

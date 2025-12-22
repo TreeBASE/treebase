@@ -1,6 +1,7 @@
 package org.cipres.treebase.service.matrix;
 
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.dao.AbstractDAOTest;
@@ -22,6 +23,7 @@ import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>MatrixServiceImplTest</code> contains tests for the class
@@ -53,6 +55,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the MatrixDataTypeHome field.
 	 */
+	@Autowired
 	public void setMatrixDataTypeHome(MatrixDataTypeHome pNewMatrixDataTypeHome) {
 		mMatrixDataTypeHome = pNewMatrixDataTypeHome;
 	}
@@ -69,6 +72,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the MatrixHome field.
 	 */
+	@Autowired
 	public void setMatrixHome(MatrixHome pNewMatrixHome) {
 		mMatrixHome = pNewMatrixHome;
 	}
@@ -85,6 +89,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the SubmissionHome field.
 	 */
+	@Autowired
 	public void setSubmissionHome(SubmissionHome pNewSubmissionHome) {
 		mSubmissionHome = pNewSubmissionHome;
 	}
@@ -101,6 +106,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyHome field.
 	 */
+	@Autowired
 	public void setStudyHome(StudyHome pNewStudyHome) {
 		mStudyHome = pNewStudyHome;
 	}
@@ -117,6 +123,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(MatrixService pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -133,6 +140,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyStatusHome field.
 	 */
+	@Autowired
 	public void setStudyStatusHome(StudyStatusHome pNewStudyStatusHome) {
 		mStudyStatusHome = pNewStudyStatusHome;
 	}

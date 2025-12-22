@@ -6,8 +6,14 @@ import java.io.StreamTokenizer;
 import java.io.StringReader;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class TreebaseStreamTokenizerTest extends TestCase {
+	
+	
+	@Test
+
 	
 	
 	public void testTreebaseStreamTokenizer() {
@@ -15,6 +21,9 @@ public class TreebaseStreamTokenizerTest extends TestCase {
 		TreebaseStreamTokenizer tst = new TreebaseStreamTokenizer(fh);
 		assertNotNull(tst);
 	}
+
+	@Test
+
 
 	public void testNextTokenObject() throws IOException {
 		final int TT_WORD = StreamTokenizer.TT_WORD;
@@ -60,6 +69,8 @@ public class TreebaseStreamTokenizerTest extends TestCase {
 	
 	// Regression: when I reimplemented TreebaseStreamTokenizer, I broke the handling of '_'
 	// It was treated as a punctuation instead of a word character
+	@Test
+
 	public void testUnderscores() throws IOException {
 		final int TT_WORD = StreamTokenizer.TT_WORD;
 		
@@ -84,6 +95,8 @@ public class TreebaseStreamTokenizerTest extends TestCase {
 	}
 
 	// Regression: did this ever work?
+	@Test
+
 	public void testEscapedQuotes() throws IOException {
 		final int TT_WORD = StreamTokenizer.TT_WORD;
 		String s = "'Can\\'t I parse quoted strings?'";
@@ -102,6 +115,9 @@ public class TreebaseStreamTokenizerTest extends TestCase {
 		assertNull(t2); // EOF
 	}
 	
+	@Test
+
+	
 	public void testEOFInQuotedString1() {
 		String s = "'aaa";
 		BufferedReader fh = new BufferedReader(new StringReader(s));	
@@ -116,6 +132,9 @@ public class TreebaseStreamTokenizerTest extends TestCase {
 		assertTrue(exceptionOccurred);
 	}
 	
+	@Test
+
+	
 	public void testEOFInQuotedString2() {
 		String s = "'bbb\\'";
 		BufferedReader fh = new BufferedReader(new StringReader(s));	
@@ -129,6 +148,9 @@ public class TreebaseStreamTokenizerTest extends TestCase {
 		}
 		assertTrue(exceptionOccurred);
 	}
+	
+	@Test
+
 	
 	public void testEOFInQuotedString3() {
 		String s = "'ccc\\";  // Escape sequence at end of input

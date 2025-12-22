@@ -10,6 +10,9 @@ import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.Assert.*;
 
 /**
  * The class <code>SubmissionDAOTest</code> contains tests for the class {@link
@@ -39,6 +42,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(SubmissionHome pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -46,6 +50,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Submission findBySubmissionNumber(String) method test
 	 */
+	@Test
 	public void testFindBySubmissionNumber() {
 		String testName = "findBySubmissionNumber";
 		if (logger.isInfoEnabled()) {
@@ -70,6 +75,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the void delete(Submission) method test
 	 */
+	@Test
 	public void testDelete() {
 	// fail("Newly generated method - fix or disable");
 	// // add test code here
@@ -82,6 +88,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Submission findByMatrix(Matrix) method test
 	 */
+	@Test
 	public void testFindByMatrix() {
 		String testName = "testFindByMatrix";
 		if (logger.isInfoEnabled()) {
@@ -126,6 +133,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Submission findByTree() method test
 	 */
+	@Test
 	public void testFindByTree() {
 		String testName = "testFindByTree";
 		if (logger.isInfoEnabled()) {
@@ -170,6 +178,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the Submission findByReadyState() method test
 	 */
+	@Test
 	public void testFindByReadyState() {
 		String testName = "testFindByReadyState";
 		if (logger.isInfoEnabled()) {
@@ -192,6 +201,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 		}
 	}
 	
+	@Test
 	public void testFindByCreateDateRange() {
 		String testName = "testFindByCreateDateRange";
 		if (logger.isInfoEnabled()) {
@@ -211,6 +221,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 		}
 	}
 	
+	@Test
 	public void testFindByLastModifiedDateRange() {
 		String testName = "testFindByLastModifiedDateRange";
 		if (logger.isInfoEnabled()) {

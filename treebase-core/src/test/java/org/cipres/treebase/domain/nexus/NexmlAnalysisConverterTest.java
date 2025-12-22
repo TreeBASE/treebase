@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.Constants;
 import org.cipres.treebase.dao.AbstractDAOTest;
@@ -27,6 +28,7 @@ import org.nexml.model.DocumentFactory;
 import org.nexml.model.Matrix;
 import org.nexml.model.Network;
 import org.nexml.model.TreeBlock;
+import org.junit.Test;
 
 public class NexmlAnalysisConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;
@@ -36,6 +38,7 @@ public class NexmlAnalysisConverterTest extends AbstractDAOTest {
 	 * @throws URISyntaxException 
 	 * @throws IOException 
 	 */
+	@Test
 	public void testNexmlAnalysisConverter() throws URISyntaxException, IOException {
 		String testName = "testNexmlAnalysisConverter";
 		//signal beginning of test
@@ -232,6 +235,7 @@ public class NexmlAnalysisConverterTest extends AbstractDAOTest {
 	/**
 	 * Set the TaxonLabelHome field.
 	 */
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}	

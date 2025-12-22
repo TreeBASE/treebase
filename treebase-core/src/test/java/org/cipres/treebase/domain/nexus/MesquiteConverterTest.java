@@ -12,6 +12,8 @@ import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.tree.PhyloTree;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * MesquiteConverterTest.java
@@ -37,6 +39,8 @@ public class MesquiteConverterTest extends TestCase {
 	 * Test method for
 	 * {@link org.cipres.treebase.domain.nexus.mesquite.MesquiteConverter#buildNodesFromNewick(org.cipres.treebase.domain.tree.PhyloTree, java.util.Collection, java.lang.String)}.
 	 */
+	@Test
+
 	public void testBuildNodesFromNewick() throws Exception {
 		String testName = "testBuildNodesFromNewick";
 		if (logger.isInfoEnabled()) {

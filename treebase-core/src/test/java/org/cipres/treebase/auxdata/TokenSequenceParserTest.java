@@ -1,6 +1,8 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class TokenSequenceParserTest extends TestCase {
 
@@ -11,6 +13,9 @@ public class TokenSequenceParserTest extends TestCase {
 			new Token(EOL) };
 	TokenSequenceParser tsp = new TokenSequenceParser ('>', STRING, '-', STRING, EOL);
 	LazyList<Token> tok1 = new LazyList<Token> (t);
+	
+	@Test
+
 	
 	public void testParse() {
 		RDParserResult res = tsp.Parse(tok1);
@@ -24,6 +29,9 @@ public class TokenSequenceParserTest extends TestCase {
 		RDParserResult res2 = tsp.Parse(tok1.tail());
 		assertFalse(res2.success());
 	}
+
+	@Test
+
 
 	public void testToken_Sequence_Parser() {
 		assertNotNull(tsp);

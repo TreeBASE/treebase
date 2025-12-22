@@ -16,6 +16,8 @@ import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.junit.Assume;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.Assert.*;
 
 /**
  * TaxonLabelServiceImplTest.java
@@ -31,13 +33,6 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 	private Taxon hSapTaxon;
 
 	/**
-	 * Constructor.
-	 */
-	public TaxonLabelServiceImplTest() {
-		super();
-	}
-
-	/**
 	 * Return the Fixture field.
 	 * 
 	 * @return TaxonLabelServiceImpl mFixture
@@ -49,6 +44,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(TaxonLabelService pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -223,8 +219,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 	}
 	
-	@Test
-	
+	@Test	
 	public void testExpandTaxonVariantSet() {
 		Collection<TaxonLabel> tlsEolphus = getFixture().findByExactString("Eolophus roseicapillus");
 		Collection<TaxonLabel> tlsCacatua = getFixture().findByExactString("Cacatua tenuirostris");
@@ -289,8 +284,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 	}
 	
-	@Test
-	
+	@Test	
 	public void testFindByExactString() {
 		String [] tests = {"Eolphus roseicapillus", "Homo sapiens", "Yobgorgle potatopotamus"};
 		for (String test : tests) {
@@ -302,8 +296,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		}
 	}
 	
-	@Test
-	
+	@Test	
 	public void testFindTaxonVariantWithSubstring() {
 		String [] tests = {"Ilex", "Homo", "Canis",
 				"Eolphus roseicapillus", 
@@ -336,8 +329,7 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		assertFalse(trivialCS);
 	}
 	
-	@Test
-	
+	@Test	
 	public void testFindByTaxonVariant() {
 		Collection<TaxonVariant> tests = getFixture().findTaxonVariantWithSubstring("Ilex", true);  // Holly
 		
@@ -372,14 +364,12 @@ public class TaxonLabelServiceImplTest extends AbstractDAOTest {
 		// Todo: add test that scans all TaxonLabels looking for any we missed
 	}
 	
-	@Test
-	
+	@Test	
 	public void testFindTaxonLabelSets() {
-		//fail("Unimplemented");
+		//fail("Unimplemented");		
 	}
 	
-	@Test
-	
+	@Test	
 	public void testFindTaxonVariantByFullName() {
 		Collection<TaxonVariant> tvSet = getFixture().findTaxonVariantByFullName("Homo sapiens");
 		

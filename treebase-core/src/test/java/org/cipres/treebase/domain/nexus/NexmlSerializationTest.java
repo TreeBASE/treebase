@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import junit.framework.Assert;
 
@@ -22,6 +23,7 @@ import org.nexml.model.DocumentFactory;
 import org.nexml.model.Document;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class NexmlSerializationTest extends AbstractDAOTest  {
 	private TaxonLabelHome mTaxonLabelHome;
@@ -77,6 +79,7 @@ public class NexmlSerializationTest extends AbstractDAOTest  {
 	/**
 	 * Set the TaxonLabelHome field.
 	 */
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}	

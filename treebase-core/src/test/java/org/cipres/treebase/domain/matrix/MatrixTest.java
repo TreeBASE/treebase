@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * MatrixTest.java
@@ -26,6 +28,7 @@ public class MatrixTest extends AbstractDAOTest {
 	/**
 	 * Test method for {@link org.cipres.treebase.domain.matrix.Matrix#getFormatInfo()}.
 	 */
+	@Test
 	public void testGetFormatInfo() throws Exception {
 		String testName = "getFormatInfo";
 		if (logger.isInfoEnabled()) {
@@ -53,6 +56,7 @@ public class MatrixTest extends AbstractDAOTest {
 	/**
 	 * Test method for {@link org.cipres.treebase.domain.matrix.Matrix#generateNexusBlock()}.
 	 */
+	@Test
 	public void testGenerateNexusBlock() throws Exception {
 		String testName = "generateNexusBlock";
 		if (logger.isInfoEnabled()) {
@@ -92,3 +96,5 @@ public class MatrixTest extends AbstractDAOTest {
 	
 
 }
+
+

@@ -1,12 +1,18 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class SingleTokenParserTest extends TestCase {
 
 	SingleTokenParser stp = new SingleTokenParser ('>');
 	Token a[] = { new Token('>'), new Token("Snonk"), new Token(java.io.StreamTokenizer.TT_EOL) };
 	LazyList<Token> tok1 = new LazyList<Token> (a);
+	
+	
+	@Test
+
 	
 	
 	public void testParse() {
@@ -21,6 +27,9 @@ public class SingleTokenParserTest extends TestCase {
 		RDParserResult res3 = stp.Parse(null);
 		assertFalse(res3.success());
 	}
+
+	@Test
+
 
 	public void testSingleTokenParser() {
 		assertNotNull(stp);

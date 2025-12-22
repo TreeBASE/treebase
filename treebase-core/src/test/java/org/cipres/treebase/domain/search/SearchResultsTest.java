@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.search;
 
 import java.util.Collection;
 import java.util.HashSet;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -11,6 +12,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class SearchResultsTest extends AbstractDAOTest {
 
@@ -175,6 +177,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 	/**
 	 * Set the TaxonLabelHome field.
 	 */
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}
@@ -183,6 +186,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 		return mStudyHome;
 	}
 
+	@Autowired
 	public void setStudyHome(StudyHome studyHome) {
 		mStudyHome = studyHome;
 	}

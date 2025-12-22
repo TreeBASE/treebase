@@ -4,6 +4,7 @@ package org.cipres.treebase.domain.tree;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.admin.User;
@@ -13,6 +14,7 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.junit.Assume;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * PhyloTreeTest.java
@@ -40,6 +42,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 	/**
 	 * Set the PhyloTreeHome field.
 	 */
+	@Autowired
 	public void setPhyloTreeHome(PhyloTreeHome pNewPhyloTreeHome) {
 		mPhyloTreeHome = pNewPhyloTreeHome;
 	}
@@ -219,6 +222,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 	/**
 	 * @param pSubmissionService the submissionService to set
 	 */
+	@Autowired
 	public void setSubmissionService(SubmissionService pSubmissionService) {
 		mSubmissionService = pSubmissionService;
 	}
@@ -233,6 +237,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 	/**
 	 * @param pStudyService the studyService to set
 	 */
+	@Autowired
 	public void setStudyService(StudyService pStudyService) {
 		mStudyService = pStudyService;
 	}

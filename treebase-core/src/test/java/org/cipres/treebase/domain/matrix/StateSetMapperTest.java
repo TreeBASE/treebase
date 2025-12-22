@@ -6,12 +6,16 @@ import junit.framework.TestCase;
 import org.cipres.treebase.domain.matrix.MatrixDataType;
 import org.cipres.treebase.domain.matrix.MatrixRow;
 import org.cipres.treebase.domain.matrix.StateSetMapper;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class StateSetMapperTest extends TestCase {
 	/**
 	 * The inputSeq contains all possible permutations of the fundamental
 	 * states, which are to be mapped onto the IUPAC single character symbols
 	 */
+	@Test
+
 	public void testDnaMapper() {
 		String inputSeq  = "ACGTK{GT}M{AC}R{AG}S{CG}W{AT}B{CGT}D{AGT}H{ACT}V{ACG}N{ACGT}-?{ACGT-}";
 		String outputSeq = "ACGTKKMMRRSSWWBBDDHHVVNN-??";
@@ -23,6 +27,8 @@ public class StateSetMapperTest extends TestCase {
 	 * The inputSeq contains all possible permutations of the fundamental
 	 * states, which are to be mapped onto the IUPAC single character symbols
 	 */	
+	@Test
+	
 	public void testRnaMapper() {
 		String inputSeq  = "ACGUK{GU}M{AC}R{AG}S{CG}W{AU}B{CGU}D{AGU}H{ACU}V{ACG}N{ACGU}-?{ACGU-}";
 		String outputSeq = "ACGUKKMMRRSSWWBBDDHHVVNN-??";
@@ -34,6 +40,8 @@ public class StateSetMapperTest extends TestCase {
 	 * The inputSeq contains all possible permutations of the fundamental
 	 * states, which are to be mapped onto the IUPAC single character symbols
 	 */	
+	@Test
+	
 	public void testProteinMapper() {
 		String inputSeq  = "ABCDEFGHIKLMNPQRSTUVWYZ{ABCDEFGHIKLMNPQRSTUVWYZ}{ABCDEFGHIKLMNPQRSTUVWYZ-}-";
 		String outputSeq = "ABCDEFGHIKLMNPQRSTUVWYZX?-";
@@ -45,6 +53,8 @@ public class StateSetMapperTest extends TestCase {
 	 * For STANDARD data there is no implied mapping. For now we will simply
 	 * pass these through, though that's technically not valid.
 	 */
+	@Test
+
 	public void testStandardMapper() {
 		String inputSeq  = "012{1}";
 		String outputSeq = "012{1}";

@@ -17,6 +17,9 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.framework.ExecutionResult;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import static org.junit.Assert.*;
 
 /**
  * RowSegmentDAOTest.java
@@ -32,13 +35,6 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	private RowSegmentService mRowSegmentService;
 
 	/**
-	 * Constructor.
-	 */
-	public RowSegmentDAOTest() {
-		super();
-	}
-
-	/**
 	 * Return the RowSegmentService field.
 	 * 
 	 * @return RowSegmentService mRowSegmentService
@@ -50,6 +46,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the RowSegmentService field.
 	 */
+	@Autowired
 	public void setRowSegmentService(RowSegmentService pNewRowSegmentService) {
 		mRowSegmentService = pNewRowSegmentService;
 	}
@@ -66,6 +63,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(RowSegmentHome pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -82,6 +80,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the SubmissionService field.
 	 */
+	@Autowired
 	public void setSubmissionService(SubmissionService pNewSubmissionService) {
 		mSubmissionService = pNewSubmissionService;
 	}
@@ -89,6 +88,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	/**
 	 * Test method for {@link org.cipres.treebase.dao.matrix.RowSegmentDAO#findByMatrixID(java.lang.Long)}.
 	 */
+	@Test
 	public void testFindByMatrixID() {
 		String testName = "testFindByMatrixID";
 		if (logger.isInfoEnabled()) {
@@ -128,6 +128,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	 * 
 	 */
 	//this test was hanged forever by mjd
+	@Test
 	public void testdeleteByMatrixAndColumnRange() throws Exception {
 
 	/*	fail(); // hangs forever 20081020 mjd

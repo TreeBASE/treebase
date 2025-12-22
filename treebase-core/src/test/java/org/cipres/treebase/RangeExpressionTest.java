@@ -5,6 +5,9 @@ import org.cipres.treebase.RangeExpression;
 import org.cipres.treebase.RangeExpression.Bounds;
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.dao.AbstractDAOTest;
+import static org.junit.Assert.*;
+import org.junit.Test;
+
 
 /**
  * @author mjd 20081203
@@ -24,7 +27,8 @@ public class RangeExpressionTest extends AbstractDAOTest {
 		}
 		fail();
 	}
-	
+
+	@Test
 	public void testParsingErrors() {		
 //		assertThrowsMalformedRangeException(""); // No, this is legal.
 		
@@ -67,7 +71,8 @@ public class RangeExpressionTest extends AbstractDAOTest {
 			assertEquals(high, b.getHigh());
 		}
 	}
-	
+
+	@Test
 	public void testParsing() throws MalformedRangeExpression {
 		assertBoundsOK("", null, null);
 		assertBoundsOK("37", 37, 37);

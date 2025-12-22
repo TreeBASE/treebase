@@ -1,11 +1,16 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class SimpleSectionParserTest extends TestCase {
 
 	String input = "	>AUTHOR [1]\n		author_id = 'A415'\n		first_name = 'D.'\n		last_name = 'Schluter'\n		email =\n";
 	SimpleSectionParser ssp = new SimpleSectionParser("AUTHOR");
+	
+	@Test
+
 	
 	public void testParseString () {
 	  RDParserResult res = ssp.ParseString(input);
@@ -20,6 +25,9 @@ public class SimpleSectionParserTest extends TestCase {
 	  assertEquals("Schluter", val.getsval("last_name"));
 	  assertSame(ValueNone.class, val.get("email").getClass());
 	}
+	
+	@Test
+
 	
 	public void testStaticScrewup () {
 		SimpleSectionParser ssp_author = new SimpleSectionParser("AUTHOR");

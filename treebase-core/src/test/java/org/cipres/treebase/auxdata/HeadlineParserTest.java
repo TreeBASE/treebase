@@ -1,6 +1,8 @@
 package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class HeadlineParserTest extends TestCase {
 
@@ -11,6 +13,9 @@ public class HeadlineParserTest extends TestCase {
 			new Token(EOL) };
 	LazyList<Token> tok1 = new LazyList<Token> (t);
 
+	@Test
+
+
 	public void testParse() {
 		RDParserResult res = (new HeadlineParser()).Parse(tok1);
 		assertTrue(res.success());
@@ -19,6 +24,9 @@ public class HeadlineParserTest extends TestCase {
 		assertEquals("STUDY", vh.label);
 		assertEquals(1, vh.index);
 	}
+	
+	@Test
+
 	
 	public void testHeadline_Parser() {
 		assertNotNull(new HeadlineParser());

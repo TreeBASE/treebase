@@ -16,6 +16,8 @@ import java.io.File;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * XMLTestCase.java
@@ -39,6 +41,8 @@ public class XMLTestCase extends TestCase {
 	/**
 	 * Test XML parsing
 	 */
+	@Test
+
 	public void testJDOMSerach() throws Exception {
 		String testName = "JDOMSearch";
 		if (logger.isInfoEnabled()) {
@@ -78,6 +82,8 @@ public class XMLTestCase extends TestCase {
 	/**
 	 * Test XML parsing
 	 */
+	@Test
+
 	public void testDOM4jSerach() throws Exception {
 		String testName = "DOM4jSearch";
 		if (logger.isInfoEnabled()) {
