@@ -80,8 +80,8 @@ jobs:
     - name: Run treebase-core tests
       run: mvn -B test -f treebase-core/pom.xml
       
-    - name: Package treebase-core
-      run: mvn -B package -DskipTests -f treebase-core/pom.xml
+    - name: Install treebase-core to local Maven repository
+      run: mvn -B install -DskipTests -f treebase-core/pom.xml
       
     - name: Checkout gh-pages branch
       uses: actions/checkout@v4
