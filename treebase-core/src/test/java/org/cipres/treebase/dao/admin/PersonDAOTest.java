@@ -6,6 +6,7 @@ import java.util.List;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.admin.Person;
 import org.cipres.treebase.domain.admin.PersonHome;
+import org.junit.Assume;
 
 /**
  * The class <code>PersonDAOTest</code> contains tests for the class
@@ -108,10 +109,11 @@ public class PersonDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", ids);
 		
-		if (ids.size() > 0) {
-			// 3. find by user name:
-			PersonHome fixture = getPersonHome();
-			Long anId = Long.parseLong(ids.get(0));
+		Assume.assumeFalse(testName + " - empty database, test skipped", ids.isEmpty());
+		
+		// 3. find by user name:
+		PersonHome fixture = getPersonHome();
+		Long anId = Long.parseLong(ids.get(0));
 
 			Person result = fixture.findPersistedObjectByID(Person.class, anId);
 
@@ -119,13 +121,8 @@ public class PersonDAOTest extends AbstractDAOTest {
 			assertTrue("Result is null", result != null);
 			assertTrue("Result id does not match.", result.getId().equals(anId));
 
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " verified id =" + anId);
-			}
-		} else {
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - empty database, test skipped");
-			}
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " verified id =" + anId);
 		}
 
 	}
@@ -142,9 +139,10 @@ public class PersonDAOTest extends AbstractDAOTest {
 		// 1. find a valid person first:
 		Person p = (Person) loadObject(Person.class);
 
-		if (p != null) {
-			// 2. create a new person object and test:
-			Person newP = new Person();
+		Assume.assumeNotNull(testName + " - empty database, test skipped", p);
+		
+		// 2. create a new person object and test:
+		Person newP = new Person();
 			newP.setEmailAddressString(p.getEmailAddressString());
 			newP.setFirstName(p.getFirstName());
 			newP.setLastName(p.getLastName());
@@ -159,13 +157,8 @@ public class PersonDAOTest extends AbstractDAOTest {
 			// Notes: this is a dangerous verification. Let's see if it works:
 			assertTrue(result.getId().equals(p.getId()));
 
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " verified id =" + p.getId() + " lastname =" + p.getLastName());
-			}
-		} else {
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - empty database, test skipped");
-			}
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " verified id =" + p.getId() + " lastname =" + p.getLastName());
 		}
 
 	}
@@ -187,9 +180,10 @@ public class PersonDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", lastNames);
 		
-		if (lastNames.size() > 0) {
-			// 3. find by last name:
-			PersonHome fixture = getPersonHome();
+		Assume.assumeFalse(testName + " - empty database, test skipped", lastNames.isEmpty());
+		
+		// 3. find by last name:
+		PersonHome fixture = getPersonHome();
 			String lastName = lastNames.get(0);
 			Collection<Person> results = fixture.findByLastName(lastName);
 
@@ -200,13 +194,8 @@ public class PersonDAOTest extends AbstractDAOTest {
 				assertTrue(person.getLastName().equalsIgnoreCase(lastName));
 			}
 
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " verified lastname =" + lastName);
-			}
-		} else {
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - empty database, test skipped");
-			}
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " verified lastname =" + lastName);
 		}
 
 	}
@@ -228,9 +217,10 @@ public class PersonDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", emails);
 		
-		if (emails.size() > 0) {
-			// 3. find:
-			PersonHome fixture = getPersonHome();
+		Assume.assumeFalse(testName + " - empty database, test skipped", emails.isEmpty());
+		
+		// 3. find:
+		PersonHome fixture = getPersonHome();
 			String partialMatch = "Te";
 			Collection<String> results = fixture.findCompleteEmailAddress(partialMatch);
 
@@ -241,13 +231,8 @@ public class PersonDAOTest extends AbstractDAOTest {
 				assertTrue(anEmail.toLowerCase().startsWith(partialMatch.toLowerCase()));
 			}
 
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " verified partialmatch size =" + results.size());
-			}
-		} else {
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - empty database, test skipped");
-			}
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " verified partialmatch size =" + results.size());
 		}
 
 	}
