@@ -107,15 +107,21 @@ public abstract class AbstractDAOTest {
 	 * Mark transaction for commit instead of rollback
 	 */
 	protected void setComplete() {
-		// In Spring 3.2 with @Transactional, we don't manually manage this
-		// The transaction will rollback by default unless we explicitly commit
-		// This method is kept for compatibility but does nothing
+		// Start a new manual transaction if not already started
+		if (transactionStatus == null) {
+			startNewTransaction();
+		}
 	}
 	
 	/**
 	 * End the current transaction
 	 */
 	protected void endTransaction() {
+		// Flush the session to ensure all changes are sent to the database
+		Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+		session.flush();
+		
+		// If we have a manually managed transaction, commit it
 		if (transactionStatus != null && !transactionStatus.isCompleted()) {
 			transactionManager.commit(transactionStatus);
 			transactionStatus = null;

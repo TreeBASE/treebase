@@ -21,6 +21,7 @@ import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.domain.tree.TreeKind;
 import org.cipres.treebase.domain.tree.TreeQuality;
 import org.cipres.treebase.domain.tree.TreeType;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
@@ -72,6 +73,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 		mAnalysisService = pAnalysisService;
 	}
 	
+	@Test
 	public void testFindNodesByTaxonLabel() {
 		// find a taxon label string
 		String labelStr = "select taxonLabel_id from phylotreenode where taxonLabel_id is not null fetch first rows only";
@@ -104,6 +106,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	 * Run the Collection<PhyloTree> findByAnyTaxonLabel(List<TaxonLabel>) method test.
 	 * 
 	 */
+	@Test
 	public void testFindByAnyTaxonLabel() throws Exception {
 
 		String testName = "testFindByAnyTaxonLabel";
@@ -158,6 +161,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	 * Run the Collection<PhyloTree> findByStudy(List<Long>) method test.
 	 * 
 	 */
+	@Test
 	public void testFindByStudy() throws Exception {
 
 		String testName = "testFindByStudy";
@@ -215,6 +219,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	 * Run the updatePublishedFlagByStudy method test.
 	 * 
 	 */
+	@Test
 	public void testupdatePublishedFlagByStudy() throws Exception {
 
 		String testName = "testupdatePublishedFlagByStudy";
@@ -274,6 +279,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	/**
 	 * Test findKindByDescription
 	 */
+	@Test
 	public void testfindKindByDescription() throws Exception {
 		String testName = "findKindByDescription";
 		if (logger.isInfoEnabled()) {
@@ -295,6 +301,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	/**
 	 * Test findQualityByDescription
 	 */
+	@Test
 	public void testfindQualityByDescription() throws Exception {
 		String testName = "findQualityByDescription";
 		if (logger.isInfoEnabled()) {
@@ -316,6 +323,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the TreeType findTypeByDescripiton() method test
 	 */
+	@Test
 	public void testFindTypeByDescription() {
 		String testName = "findTypeByDescripiton";
 		if (logger.isInfoEnabled()) {
@@ -339,6 +347,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	 * Test add and delete a phyloTree.
 	 * 
 	 */
+	@Test
 	public void testCreateDelete() throws Exception {
 		String testName = "CreateAndDelete";
 		if (logger.isInfoEnabled()) {
@@ -566,6 +575,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	 * Run the void findTreeBlocksByNexusFileName() method test
 	 */
 	/*this test failed be cause treeBlock may not have tree inside
+	@Test
 	public void testFindTreeBlocksByNexusFileName() {
 		String testName = "findTreeBlocksByNexusFileName";
 		if (logger.isInfoEnabled()) {
@@ -621,6 +631,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	 */
 	
 	//this is not a proper test 
+	@Test
 	public void testFindByTopology3() throws Exception {
 	//	if (true) fail("unimplemented");
 	//	String testName = "FindByTopology3";
@@ -647,6 +658,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	//	}
 	}
 		
+	@Test
 	public void testFindByTreeType() {
 		Collection<PhyloTree> trees = 
 			getFixture().findSomethingByItsDescription(PhyloTree.class, 
