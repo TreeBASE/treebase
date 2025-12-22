@@ -11,6 +11,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
+import org.junit.Assume;
 
 /**
  * PhyloTreeTest.java
@@ -72,10 +73,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 		PhyloTree tree = (PhyloTree) loadObject(PhyloTree.class, phyloTreeID);
 		
 		// Skip test if database is empty
-		if (tree == null) {
-			logger.info("SKIPPED: " + testName + " - No PhyloTree data found in database (treeId=" + phyloTreeID + "). Test requires populated database.");
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: " + testName + " - No PhyloTree data found in database (treeId=" + phyloTreeID + "). Test requires populated database.", tree);
 		
 		long t1 = System.currentTimeMillis();
 		//getFixture().refresh(sub);
@@ -108,10 +106,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 		User submitter = (User) loadObject(User.class);
 		
 		// Skip test if database is empty
-		if (submitter == null) {
-			logger.info("SKIPPED: " + testName + " - No User data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: " + testName + " - No User data found in database. Test requires populated database.", submitter);
 
 		Study s = new Study();
 		s.setName(newName);

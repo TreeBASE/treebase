@@ -8,6 +8,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
+import org.junit.Assume;
 
 /**
  * @author mjd 20090223
@@ -33,17 +34,13 @@ public class TaxonLabelDAOTest extends AbstractDAOTest {
 		String testName = "testFindTaxonLabelSets";
 		TaxonLabel tl = (TaxonLabel) loadObject(TaxonLabel.class);
 		
-		if (tl != null) {
-			Set<TaxonLabelSet> tlSets = getFixture().findTaxonLabelSets(tl);
-			assertFalse(tlSets.isEmpty());
-			
-			for (TaxonLabelSet tls : tlSets) {
-				assertTrue(tls.getTaxonLabelsReadOnly().contains(tl));
-			}
-		} else {
-			if (LOGGER.isInfoEnabled()) {
-				LOGGER.info(testName + " - empty database, test skipped");
-			}
+		Assume.assumeNotNull(testName + " - empty database, test skipped", tl);
+		
+		Set<TaxonLabelSet> tlSets = getFixture().findTaxonLabelSets(tl);
+		assertFalse(tlSets.isEmpty());
+		
+		for (TaxonLabelSet tls : tlSets) {
+			assertTrue(tls.getTaxonLabelsReadOnly().contains(tl));
 		}
 	}
 }

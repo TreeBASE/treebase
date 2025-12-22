@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.AbstractDAOTest;
+import org.junit.Assume;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Study;
 
@@ -47,10 +48,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 		assertNotNull(res);
 		
 		// Skip test if database is empty
-		if (res.isEmpty()) {
-			LOGGER.info("SKIPPED: testFindBySubstring - No TaxonLabel data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testFindBySubstring - No TaxonLabel data found in database. Test requires populated database.", res.isEmpty());
 		
 		for (TaxonLabel tl : res) {
 			assertTrue(tl.getTaxonLabel().toLowerCase().contains("homo"));
@@ -62,10 +60,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 			Collection<TaxonLabel> homoTL = findHomoSapiensTL();
 			
 			// Skip test if database is empty
-			if (homoTL == null || homoTL.isEmpty()) {
-				LOGGER.info("SKIPPED: testFindStudies - No TaxonLabel data found in database. Test requires populated database.");
-				return;
-			}
+			Assume.assumeTrue("SKIPPED: testFindStudies - No TaxonLabel data found in database. Test requires populated database.", homoTL != null && !homoTL.isEmpty());
 			
 			Collection<Study> res = getTaxonLabelHome().findStudiesWithTaxonLabels(homoTL);
 			assertNotNull(res);
@@ -85,10 +80,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 		Collection<TaxonLabel> homoTL = findHomoSapiensTL();
 		
 		// Skip test if database is empty
-		if (homoTL == null || homoTL.isEmpty()) {
-			LOGGER.info("SKIPPED: testFindMatricesByTaxonLabel - No TaxonLabel data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeTrue("SKIPPED: testFindMatricesByTaxonLabel - No TaxonLabel data found in database. Test requires populated database.", homoTL != null && !homoTL.isEmpty());
 		
 		Collection<Matrix> res = getTaxonLabelHome().findMatricesWithTaxonLabels(homoTL);
 		assertNotNull(res);
@@ -116,10 +108,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 		TaxonVariant tv = findHomoSapiensTV();
 		
 		// Skip test if database is empty
-		if (tv == null) {
-			LOGGER.info("SKIPPED: testFindMatricesByTaxonVariant - No TaxonVariant data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: testFindMatricesByTaxonVariant - No TaxonVariant data found in database. Test requires populated database.", tv);
 		
 		Collection<Matrix> res = getTaxonLabelHome().findMatrices(tv);
 		assertNotNull(res);
@@ -153,10 +142,7 @@ public class TaxonLabelTest extends AbstractDAOTest {
 		assertNotNull(res);
 		
 		// Skip test if database is empty
-		if (res.isEmpty()) {
-			LOGGER.info("SKIPPED: testTaxonLabelLengthSorting - No TaxonLabel data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testTaxonLabelLengthSorting - No TaxonLabel data found in database. Test requires populated database.", res.isEmpty());
 		
 		TaxonLabel newTaxon = new TaxonLabel();
 		newTaxon.setTaxonLabel("Homo Sapiens ABCD");
