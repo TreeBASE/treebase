@@ -64,15 +64,13 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		super();
 	}
 	
-	@Test
-	
+	@Test	
 	public void testTrivial() {
 		assertNotNull(getTaxonLabelHome());
 		assertNotNull(getStudyHome());
 	}
 	
-	@Test
-	
+	@Test	
 	public void testQuickCheck() { 
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testQuickCheck - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -96,8 +94,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		return getTestData("S1787");
 	}
 	
-	@Test
-	
+	@Test	
 	public void testStudySearchSerialization() {
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testStudySearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -108,8 +105,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
-	@Test
-	
+	@Test	
 	public void testTaxonSearchSerialization() {
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testTaxonSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -121,8 +117,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
-	@Test
-	
+	@Test	
 	public void testMatrixSearchSerialization() {
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testMatrixSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
@@ -134,8 +129,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
-	@Test
-	
+	@Test	
 	public void testTreeSearchSerialization() {
 		// Skip test if database is empty
 		Assume.assumeFalse("SKIPPED: testTreeSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
