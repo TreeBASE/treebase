@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import static org.junit.Assert.*;
+import org.junit.Test;
+
 
 /**
  * The class <code>CitationTest</code> contains tests for the class {@link <code>Citation</code>}
@@ -43,6 +45,7 @@ public class CitationTest extends AbstractDAOTest {
 	/**
 	 * Run the void setAuthors(List<Person>) method test
 	 */
+	@Test
 	public void testSetAuthors() throws Exception {
 		String testName = "setAuthors";
 		if (logger.isInfoEnabled()) {
