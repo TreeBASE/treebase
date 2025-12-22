@@ -44,6 +44,7 @@ public class UserTest extends AbstractDAOTest {
 	/**
 	 *  TODO: Too slow.  20090528 MJD
 	 */
+	@Test
 	public void testgetInProgressSubmissions() throws Exception {
 		String testName = "getInProgressSubmissions";
 		if (logger.isInfoEnabled()) {
