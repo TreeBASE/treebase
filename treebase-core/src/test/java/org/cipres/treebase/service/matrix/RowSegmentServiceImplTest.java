@@ -20,6 +20,7 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.framework.ExecutionResult;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * RowSegmentServiceImplTest.java
@@ -34,15 +35,6 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	private RowSegmentService mFixture;
 	private SubmissionService mSubmissionService;
 	private RowSegmentHome mRowSegmentHome;
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param name
-	 */
-	public RowSegmentServiceImplTest() {
-		super();
-	}
 
 	/**
 	 * Return the RowSegmentHome field.
@@ -73,6 +65,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the SubmissionService field.
 	 */
+	@Autowired
 	public void setSubmissionService(SubmissionService pNewSubmissionService) {
 		mSubmissionService = pNewSubmissionService;
 	}
@@ -89,6 +82,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(RowSegmentService pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -98,7 +92,6 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	 * 
 	 */
 	@Test
-
 	public void testEnumRowSegmentField() throws Exception {
 
 		String testName = "testEnumRowSegmentField";
@@ -173,8 +166,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 		String subSQL = "select count(*) from Submission where submission_id=" + sub.getId();
 
 		// import a matrix:
-		String path = "/wtset.nex";
-import org.junit.Test; 
+		String path = "/wtset.nex"; 
 		String segmentPath = "/wtset-segment.txt"; 
 		File nexusFile = new File(getClass().getResource(path).toURI());
 		File segmentFile = new File(getClass().getResource(segmentPath).toURI());
