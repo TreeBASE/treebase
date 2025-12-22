@@ -10,6 +10,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.junit.Assume;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
@@ -28,6 +29,7 @@ public class TaxonLabelDAOTest extends AbstractDAOTest {
 		return mFixture;
 	}
 
+	@Autowired
 	public void setFixture(TaxonLabelHome fixture) {
 		mFixture = fixture;
 	}

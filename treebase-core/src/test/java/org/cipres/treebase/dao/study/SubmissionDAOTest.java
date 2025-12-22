@@ -10,6 +10,7 @@ import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
@@ -40,6 +41,7 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(SubmissionHome pNewFixture) {
 		mFixture = pNewFixture;
 	}

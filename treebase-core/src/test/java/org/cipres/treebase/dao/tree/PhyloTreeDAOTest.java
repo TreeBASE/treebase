@@ -21,6 +21,7 @@ import org.cipres.treebase.domain.tree.TreeBlock;
 import org.cipres.treebase.domain.tree.TreeKind;
 import org.cipres.treebase.domain.tree.TreeQuality;
 import org.cipres.treebase.domain.tree.TreeType;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
@@ -49,6 +50,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(PhyloTreeHome pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -65,6 +67,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the mAnalysisService field.
 	 */
+	@Autowired
 	public void setAnalysisService(AnalysisService pAnalysisService) {
 		mAnalysisService = pAnalysisService;
 	}

@@ -18,6 +18,7 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.framework.ExecutionResult;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
@@ -52,6 +53,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the RowSegmentService field.
 	 */
+	@Autowired
 	public void setRowSegmentService(RowSegmentService pNewRowSegmentService) {
 		mRowSegmentService = pNewRowSegmentService;
 	}
@@ -68,6 +70,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(RowSegmentHome pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -84,6 +87,7 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the SubmissionService field.
 	 */
+	@Autowired
 	public void setSubmissionService(SubmissionService pNewSubmissionService) {
 		mSubmissionService = pNewSubmissionService;
 	}

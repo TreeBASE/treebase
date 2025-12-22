@@ -4,6 +4,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.ItemDefinition;
 import org.cipres.treebase.domain.matrix.ItemDefinitionHome;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
@@ -38,6 +39,7 @@ public class ItemDefinitionDAOTest extends AbstractDAOTest {
 	 * 
 	 * @param mFixture the test fixture
 	 */
+	@Autowired
 	public void setFixture(ItemDefinitionHome pFixture) {
 		mFixture = pFixture;
 	}

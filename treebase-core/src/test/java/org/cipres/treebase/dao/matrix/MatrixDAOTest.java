@@ -12,6 +12,7 @@ import org.cipres.treebase.domain.matrix.MatrixKind;
 import org.cipres.treebase.domain.study.Study;
 import org.junit.Assume;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
@@ -40,6 +41,7 @@ public class MatrixDAOTest extends AbstractDAOTest {
 	/**
 	 * @param pFixture the fixture to set
 	 */
+	@Autowired
 	public void setFixture(MatrixHome pFixture) {
 		mFixture = pFixture;
 	}

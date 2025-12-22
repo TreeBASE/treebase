@@ -8,6 +8,7 @@ import java.util.List;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.study.AlgorithmHome;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
@@ -34,6 +35,7 @@ public class AlgorithmDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(AlgorithmHome pNewFixture) {
 		mFixture = pNewFixture;
 	}

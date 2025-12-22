@@ -8,6 +8,7 @@ import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.study.AnalyzedData;
 import org.cipres.treebase.domain.study.AnalyzedDataHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
@@ -37,6 +38,7 @@ public class AnalyzedDataDAOTest extends AbstractDAOTest {
 	 * 
 	 * @param pHome
 	 */
+	@Autowired
 	public void setFixture(AnalyzedDataHome pHome) {
 		mFixture = pHome;
 	}
