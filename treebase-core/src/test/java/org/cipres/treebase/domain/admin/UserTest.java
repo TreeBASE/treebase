@@ -8,6 +8,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.dao.admin.UserDAO;
 import org.cipres.treebase.domain.study.Submission;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * The class <code>UserTest</code> contains tests for the class {@link <code>User</code>}.
