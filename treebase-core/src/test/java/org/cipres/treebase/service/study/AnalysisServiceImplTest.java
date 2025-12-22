@@ -42,6 +42,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyService field.
 	 */
+	@Autowired
 	public void setStudyService(StudyService pNewStudyService) {
 		mStudyService = pNewStudyService;
 	}
@@ -92,6 +93,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(AnalysisService pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -100,7 +102,6 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	 * Run the void deleteStudy(Study) method test
 	 */
 	@Test
-
 	public void testAddDelete() {
 		String testName = "testAddDeleteAnalysis";
 		if (logger.isInfoEnabled()) {
