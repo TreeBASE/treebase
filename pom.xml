@@ -216,6 +216,10 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
+          <!-- Use stateless test set runner for better JUnit 4 support -->
+          <useSystemClassLoader>true</useSystemClassLoader>
+          <useManifestOnlyJar>false</useManifestOnlyJar>
+          <testFailureIgnore>false</testFailureIgnore>
         </configuration>
       </plugin>
 
