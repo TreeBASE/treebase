@@ -123,6 +123,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(MatrixService pNewFixture) {
 		mFixture = pNewFixture;
 	}
