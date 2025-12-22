@@ -236,6 +236,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		// Note: this one will fail: getFixture().deleteStudy(s);
 		getFixture().deleteStudy(updatedS);
 		setComplete();
+		endTransaction();
 
 		// 4. verify delete:
 		int countVerify = jdbcTemplate.queryForInt(sqlStr);
@@ -306,6 +307,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		// 3. delete
 		getFixture().deleteStudy(s);
 		setComplete();
+		endTransaction();
 
 		// 4. verify delte:
 		int countVerify = jdbcTemplate.queryForInt(sqlStr);
@@ -396,6 +398,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		// 5. delete
 		getFixture().deleteStudy(s);
 		setComplete();
+		endTransaction();
 
 		// 6. verify delte:
 		int countVerify = jdbcTemplate.queryForInt(sqlStr);
@@ -482,6 +485,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		getStudyHome().refresh(s);
 		getFixture().deleteStudy(s);
 		setComplete();
+		endTransaction();
 
 		// 6. verify delete:
 		int countVerify = jdbcTemplate.queryForInt(sqlStr);
