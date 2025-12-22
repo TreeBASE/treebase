@@ -17,6 +17,8 @@ import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter;
 import org.nexml.model.Document;
 import org.nexml.model.DocumentFactory;
+import org.junit.Assume;
+import org.junit.Test;
 
 public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 
@@ -60,19 +62,18 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		super();
 	}
 	
+	@Test
+	
 	public void testTrivial() {
 		assertNotNull(getTaxonLabelHome());
 		assertNotNull(getStudyHome());
 	}
 	
+	@Test
+	
 	public void testQuickCheck() { 
 		// Skip test if database is empty
-		if (studies.size() == 0) {
-			if (logger.isInfoEnabled()) {
-				logger.info("SKIPPED: testQuickCheck - No Study data found in database. Test requires populated database.");
-			}
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testQuickCheck - No Study data found in database. Test requires populated database.", studies.size() == 0);
 		
 		assertFalse(studies.size() == 0);
 		assertFalse(matrices.size() == 0);
@@ -93,14 +94,11 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		return getTestData("S1787");
 	}
 	
+	@Test
+	
 	public void testStudySearchSerialization() {
 		// Skip test if database is empty
-		if (studies.size() == 0) {
-			if (logger.isInfoEnabled()) {
-				logger.info("SKIPPED: testStudySearchSerialization - No Study data found in database. Test requires populated database.");
-			}
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testStudySearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
 		
 		Document doc = DocumentFactory.safeCreateDocument();
 		NexmlDocumentWriter ndw = new NexmlDocumentWriter(null, mTaxonLabelHome, doc);
@@ -108,14 +106,11 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
+	@Test
+	
 	public void testTaxonSearchSerialization() {
 		// Skip test if database is empty
-		if (studies.size() == 0) {
-			if (logger.isInfoEnabled()) {
-				logger.info("SKIPPED: testTaxonSearchSerialization - No Study data found in database. Test requires populated database.");
-			}
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testTaxonSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
 		
 		Document doc = DocumentFactory.safeCreateDocument();
 		NexmlDocumentWriter ndw = new NexmlDocumentWriter(null, mTaxonLabelHome, doc);		
@@ -124,14 +119,11 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
+	@Test
+	
 	public void testMatrixSearchSerialization() {
 		// Skip test if database is empty
-		if (studies.size() == 0) {
-			if (logger.isInfoEnabled()) {
-				logger.info("SKIPPED: testMatrixSearchSerialization - No Study data found in database. Test requires populated database.");
-			}
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testMatrixSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
 		
 		Document doc = DocumentFactory.safeCreateDocument();
 		NexmlDocumentWriter ndw = new NexmlDocumentWriter(null, mTaxonLabelHome, doc);		
@@ -140,14 +132,11 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		assertNotNull(doc.getXmlString());
 	}
 	
+	@Test
+	
 	public void testTreeSearchSerialization() {
 		// Skip test if database is empty
-		if (studies.size() == 0) {
-			if (logger.isInfoEnabled()) {
-				logger.info("SKIPPED: testTreeSearchSerialization - No Study data found in database. Test requires populated database.");
-			}
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testTreeSearchSerialization - No Study data found in database. Test requires populated database.", studies.size() == 0);
 		
 		Document doc = DocumentFactory.safeCreateDocument();
 		NexmlDocumentWriter ndw = new NexmlDocumentWriter(null, mTaxonLabelHome, doc);		

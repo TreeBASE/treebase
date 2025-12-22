@@ -20,6 +20,8 @@ import org.cipres.treebase.domain.study.StudyHome;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
+import org.junit.Assume;
+import org.junit.Test;
 
 /**
  * The class <code>MatrixServiceImplTest</code> contains tests for the class
@@ -139,15 +141,13 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	 * @author mjd 20081204
 	 * @throws MalformedRangeExpression
 	 */
+	@Test
 	public void testFindSomethingByRangeExpression() throws MalformedRangeExpression {
 		Collection<Matrix> matrices = getFixture()
 		.findSomethingByRangeExpression(Matrix.class, "nTax", "37..100");
 		
 		// Skip test if database is empty
-		if (matrices.isEmpty()) {
-			logger.info("SKIPPED: testFindSomethingByRangeExpression - No Matrix data found in database with nTax in range 37..100. Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testFindSomethingByRangeExpression - No Matrix data found in database with nTax in range 37..100. Test requires populated database.", matrices.isEmpty());
 		
 		for (Matrix matrix : matrices) {
 			int n = matrix.getnTax();
@@ -159,6 +159,7 @@ public class MatrixServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void createMatrix and deleteMatrix() methods test
 	 */
+	@Test
 	public void testAddDelete() {
 		String testName = "testAddDelete";
 		if (logger.isInfoEnabled()) {

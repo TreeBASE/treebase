@@ -13,6 +13,8 @@ import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.cipres.treebase.domain.tree.PhyloTreeNode;
 import org.cipres.treebase.domain.tree.PhyloTreeService;
+import org.junit.Assume;
+import org.junit.Test;
 
 /**
  * PhyloTreeServiceImplTest.java
@@ -60,6 +62,7 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Test updateByRearrangeNodes
 	 */
+	@Test
 	public void testupdateByRearrangeNodes() throws Exception {
 		String testName = "updateByRearrangeNodes";
 		if (logger.isInfoEnabled()) {
@@ -70,10 +73,7 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 		PhyloTree tree = (PhyloTree) loadObject(PhyloTree.class);
 		
 		// Skip test if database is empty
-		if (tree == null) {
-			logger.info("SKIPPED: " + testName + " - No PhyloTree data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: " + testName + " - No PhyloTree data found in database. Test requires populated database.", tree);
 		
 		//PhyloTree tree = (PhyloTree) loadObject(PhyloTree.class, 41L);
 		String newick   = tree.getNewickString();
@@ -96,17 +96,14 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 		}
 	}
 
+	@Test
+
 	public void testFindByTopology3() {
 		Boolean searchResult = null;
 		PhyloTree t = (PhyloTree) loadObject(PhyloTree.class);
 		
 		// Skip test if database is empty
-		if (t == null) {
-			if (logger.isInfoEnabled()) {
-				logger.info("SKIPPED: testFindByTopology3 - No PhyloTree data found in database. Test requires populated database.");
-			}
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: testFindByTopology3 - No PhyloTree data found in database. Test requires populated database.", t);
 		
 		RandomList<PhyloTreeNode> nodes = new RandomList<PhyloTreeNode> ();
 		nodes.addAll(t.getTreeNodesReadOnly());
@@ -186,15 +183,13 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 	}
 		
 	
+	@Test
 	public void testFindSomethingByRangeExpression() throws MalformedRangeExpression {
 		Collection<PhyloTree> trees = getFixture()
 		.findSomethingByRangeExpression(PhyloTree.class, "nTax", "37..40");
 		
 		// Skip test if database is empty
-		if (trees.isEmpty()) {
-			logger.info("SKIPPED: testFindSomethingByRangeExpression - No PhyloTree data found in database with nTax in range 37..40. Test requires populated database.");
-			return;
-		}
+		Assume.assumeFalse("SKIPPED: testFindSomethingByRangeExpression - No PhyloTree data found in database with nTax in range 37..40. Test requires populated database.", trees.isEmpty());
 		
 		for (PhyloTree tree : trees) {
 			int n = tree.getnTax();
