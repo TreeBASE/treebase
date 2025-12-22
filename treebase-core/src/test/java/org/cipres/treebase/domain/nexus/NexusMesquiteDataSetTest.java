@@ -4,6 +4,8 @@ package org.cipres.treebase.domain.nexus;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.service.nexus.NexusServiceMesquite;
 import static org.junit.Assert.*;
+import org.junit.Test;
+
 
 /**
  * NexusMesquiteDataSetTest.java
@@ -45,6 +47,7 @@ public class NexusMesquiteDataSetTest extends AbstractDAOTest {
 	 * 
 	 * @generatedBy CodePro at 9/27/05 10:24 AM
 	 */
+	@Test
 	public void testMesqutieFolderDir() throws Exception {
 		String testName = "Test MesquiteFolder Dir";
 		if (logger.isInfoEnabled()) {
@@ -63,3 +66,4 @@ public class NexusMesquiteDataSetTest extends AbstractDAOTest {
 		}
 	}
 }
+
