@@ -17,7 +17,7 @@ Successfully migrated tests from JUnit 3 to JUnit 4 style by upgrading Spring Fr
   - `org.springframework.test.context.junit4.SpringJUnit4ClassRunner`
 
 ### 3. Test Conversion to JUnit 4 Style
-Converted 16 test files (100+ test methods):
+Converted 23 test files (100+ test methods):
 - Added `@Test` annotations to all test methods
 - Added `import org.junit.Test;` to all test files
 - Implemented `org.junit.Assume` for conditional test execution
@@ -119,13 +119,20 @@ public void testMethod() {
 - `pom.xml`: Spring upgrade, dependency changes
 - `AbstractDAOTest.java`: Added `@RunWith` annotation
 
-### Test Files (16)
+### Test Files (23)
 
-**DAO Tests (4):**
+**DAO Tests (11):**
 - PersonDAOTest.java
 - UserDAOTest.java
 - MatrixDAOTest.java
 - TaxonLabelDAOTest.java
+- EnvironmentTest.java
+- ItemDefinitionDAOTest.java
+- MatrixDataTypeDAOTest.java
+- MatrixElementDAOTest.java
+- MatrixRowDAOTest.java
+- RowSegmentDAOTest.java
+- AlgorithmDAOTest.java
 
 **Domain Tests (8):**
 - RowSegmentTest.java
