@@ -1,4 +1,5 @@
 name: CI - Build and Test
+# Trigger re-run to pick up deployed treebase-core JAR from gh-pages
 
 on:
   push:
