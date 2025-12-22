@@ -210,8 +210,6 @@ jobs:
       if: always()
       with:
         name: JUnit Test Results
-        path: |
-          treebase-core/target/surefire-reports/*.xml
-          oai-pmh_data_provider/data_provider_web/target/surefire-reports/*.xml
+        path: 'treebase-core/target/surefire-reports/*.xml,oai-pmh_data_provider/data_provider_web/target/surefire-reports/*.xml'
         reporter: java-junit
         fail-on-error: true
