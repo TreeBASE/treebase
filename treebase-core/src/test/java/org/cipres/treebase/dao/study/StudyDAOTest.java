@@ -286,6 +286,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 		// 3. delete
 		getFixture().deletePersist(s);
 		setComplete();
+		endTransaction();
 
 		// 4. verify delte:
 		Integer countVerify = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);

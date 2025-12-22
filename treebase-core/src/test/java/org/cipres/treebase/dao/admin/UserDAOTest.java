@@ -98,6 +98,7 @@ public class UserDAOTest extends AbstractDAOTest {
 		// fixture.delete(testRole);
 		fixture.delete(user);
 		setComplete();
+		endTransaction();
 
 		// 4. verify delte:
 		Integer countVerify = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);

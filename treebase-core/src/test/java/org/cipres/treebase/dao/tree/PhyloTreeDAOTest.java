@@ -396,6 +396,7 @@ public class PhyloTreeDAOTest extends AbstractDAOTest {
 		// 3. delete
 		getFixture().delete(tree);
 		setComplete();
+		endTransaction();
 
 		// 4. verify delete:
 		Integer countVerify = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
