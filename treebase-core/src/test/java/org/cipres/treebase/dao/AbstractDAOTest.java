@@ -10,12 +10,18 @@ import org.cipres.treebase.domain.study.Study;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * AbstractDAOTest.java
@@ -27,17 +33,62 @@ import org.springframework.test.AbstractTransactionalDataSourceSpringContextTest
  */
 @SuppressWarnings("unchecked")
 @RunWith(SpringJUnit4ClassRunner.class)
-public abstract class AbstractDAOTest extends AbstractTransactionalDataSourceSpringContextTests {
+@ContextConfiguration(locations = CoreServiceLauncher.getSpringConfigurations())
+@TransactionConfiguration(defaultRollback = true)
+@Transactional
+public abstract class AbstractDAOTest {
 
+	@Autowired
+	protected JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	protected PlatformTransactionManager transactionManager;
+	
+	@Autowired
+	protected ConfigurableApplicationContext applicationContext;
+	
 	static protected HibernateTemplate hibernateTemplate;
+	protected TransactionStatus transactionStatus;
 
 	private static final String PARSER_STUDY_NAME = "MesquiteTestStudy";
+	
+	protected org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(getClass());
+
 
 	/**
 	 * constructor.
 	 */
 	public AbstractDAOTest() {
 		super();
+	}
+	
+	/**
+	 * Initialize hibernate template after Spring dependency injection
+	 */
+	@Autowired
+	public void initializeHibernateTemplate(SessionFactory sessionFactory) {
+		if (hibernateTemplate == null) {
+			hibernateTemplate = new HibernateTemplate(sessionFactory);
+		}
+	}
+	
+	/**
+	 * Mark transaction for commit instead of rollback
+	 */
+	protected void setComplete() {
+		// In Spring 3.2 with @Transactional, we don't manually manage this
+		// The transaction will rollback by default unless we explicitly commit
+		// This method is kept for compatibility but does nothing
+	}
+	
+	/**
+	 * End the current transaction
+	 */
+	protected void endTransaction() {
+		if (transactionStatus != null && !transactionStatus.isCompleted()) {
+			transactionManager.commit(transactionStatus);
+			transactionStatus = null;
+		}
 	}
 
 	/**
@@ -57,81 +108,10 @@ public abstract class AbstractDAOTest extends AbstractTransactionalDataSourceSpr
 
 		this.transactionStatus = this.transactionManager
 			.getTransaction(new DefaultTransactionDefinition());
-		// ++this.transactionsStarted;
-		// this.complete = !this.defaultRollback;
 
 		if (logger.isInfoEnabled()) {
-			// logger.info("Began transaction (" + this.transactionsStarted + "): transaction
-			// manager [" +
-			// this.transactionManager + "]; default rollback = " + this.defaultRollback);
+			logger.info("Started new transaction");
 		}
-	}
-
-	/**
-	 * 
-	 * @see org.springframework.test.AbstractTransactionalSpringContextTests#onSetUpBeforeTransaction()
-	 */
-	@Override
-	protected void onSetUpBeforeTransaction() throws Exception {
-		super.onSetUpBeforeTransaction();
-		// SessionFactory sessionFactory = hibernateTemplate.getSessionFactory();
-		// Session s = SessionFactoryUtils.getSession(sessionFactory, true);
-		// TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(s));
-	}
-
-	/**
-	 * 
-	 * @see org.springframework.test.AbstractTransactionalSpringContextTests#onTearDownAfterTransaction()
-	 */
-	@Override
-	protected void onTearDownAfterTransaction() throws Exception {
-		super.onTearDownAfterTransaction();
-
-		// SessionFactory sessionFactory = hibernateTemplate.getSessionFactory();
-		// SessionHolder holder = (SessionHolder) TransactionSynchronizationManager
-		// .getResource(sessionFactory);
-		// Session s = holder.getSession();
-		// s.flush();
-		// TransactionSynchronizationManager.unbindResource(sessionFactory);
-		// SessionFactoryUtils.releaseSession(s, sessionFactory);
-	}
-
-	/**
-	 * 
-	 * 
-	 * @param applicationContext
-	 */
-	private void initializeHibernateTemplate(ConfigurableApplicationContext applicationContext) {
-		if (hibernateTemplate == null) {
-
-			SessionFactory sessionFactory = (SessionFactory) applicationContext
-				.getBean("sessionFactory");
-
-			hibernateTemplate = new HibernateTemplate(sessionFactory);
-		}
-	}
-
-	/**
-	 * Override to initialize the hibernate template.
-	 * 
-	 * @see org.springframework.test.AbstractDependencyInjectionSpringContextTests#loadContextLocations(java.lang.String[])
-	 */
-	@Override
-	protected ConfigurableApplicationContext loadContextLocations(String[] pLocations) throws Exception {
-		ConfigurableApplicationContext context = super.loadContextLocations(pLocations);
-
-		initializeHibernateTemplate(context);
-
-		return context;
-	}
-
-	/**
-	 * 
-	 * @see org.springframework.test.AbstractDependencyInjectionSpringContextTests#getConfigLocations()
-	 */
-	@Override
-	protected String[] getConfigLocations() {
-		return CoreServiceLauncher.getSpringConfigurations();
 	}
 
 	/**

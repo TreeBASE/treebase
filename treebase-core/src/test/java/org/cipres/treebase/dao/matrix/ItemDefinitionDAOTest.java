@@ -3,6 +3,7 @@ package org.cipres.treebase.dao.matrix;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.ItemDefinition;
 import org.cipres.treebase.domain.matrix.ItemDefinitionHome;
+import org.junit.Test;
 
 /**
  * The class <code>ItemDefinitionDAOTest</code> contains tests for the class
@@ -43,6 +44,7 @@ public class ItemDefinitionDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the ItemDefinition findPredefinedItemDefinition(String) method test
 	 */
+	@Test
 	public void testFindPredefinedItemDefinition() {
 		String testName = "findPredefinedItemDefinition";
 		if (logger.isInfoEnabled()) {
@@ -64,6 +66,7 @@ public class ItemDefinitionDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the ItemDefinition findByDescription(String) method test
 	 */
+	@Test
 	public void testFindByDescription() {
 		String testName = "findByDescription";
 		if (logger.isInfoEnabled()) {
