@@ -16,6 +16,7 @@ import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.junit.Assume;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * PhyloTreeServiceImplTest.java
@@ -30,13 +31,6 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 	private TaxonLabelService taxonLabelService;
 	
 	/**
-	 * Constructor.
-	 */
-	public PhyloTreeServiceImplTest() {
-		super();
-	}
-	
-	/**
 	 * Return the Fixture field.
 	 * 
 	 * @return PhyloTreeService mFixture
@@ -48,6 +42,7 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(PhyloTreeService pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -56,6 +51,7 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 		return taxonLabelService;
 	}
 
+	@Autowired
 	public void setTaxonLabelService(TaxonLabelService taxonLabelService) {
 		this.taxonLabelService = taxonLabelService;
 	}
