@@ -16,6 +16,7 @@ import org.cipres.treebase.domain.taxon.TaxonVariant;
 import org.cipres.treebase.domain.tree.PhyloTree;
 import org.junit.Assume;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.Assert.*;
 
 /**
