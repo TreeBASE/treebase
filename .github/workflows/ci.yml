@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     
     permissions:
-      contents: read
+      contents: write
       checks: write
       pull-requests: write
     
@@ -71,6 +71,68 @@ jobs:
       
     - name: Run treebase-core tests
       run: mvn -B test -f treebase-core/pom.xml
+      
+    - name: Package treebase-core
+      run: mvn -B package -DskipTests -f treebase-core/pom.xml
+      
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: gh-pages
+        
+    - name: Deploy treebase-core JAR to Maven repository
+      run: |
+        # Set up Maven coordinates
+        GROUP_ID="org.cipres.treebase"
+        ARTIFACT_ID="treebase-core"
+        VERSION="1.0-SNAPSHOT"
+        
+        # Create directory structure
+        GROUP_PATH=$(echo $GROUP_ID | tr '.' '/')
+        REPO_PATH="gh-pages/repository/${GROUP_PATH}/${ARTIFACT_ID}/${VERSION}"
+        mkdir -p "$REPO_PATH"
+        
+        # Copy JAR and POM files
+        cp treebase-core/target/${ARTIFACT_ID}-${VERSION}.jar "$REPO_PATH/"
+        cp treebase-core/pom.xml "$REPO_PATH/${ARTIFACT_ID}-${VERSION}.pom"
+        
+        # Generate checksums
+        cd "$REPO_PATH"
+        for file in *.jar *.pom; do
+          if [ -f "$file" ]; then
+            sha1sum "$file" | awk '{print $1}' > "${file}.sha1"
+            md5sum "$file" | awk '{print $1}' > "${file}.md5"
+          fi
+        done
+        
+        # Generate maven-metadata.xml
+        cat > maven-metadata.xml << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <metadata>
+          <groupId>${GROUP_ID}</groupId>
+          <artifactId>${ARTIFACT_ID}</artifactId>
+          <versioning>
+            <versions>
+              <version>${VERSION}</version>
+            </versions>
+            <lastUpdated>$(date +%Y%m%d%H%M%S)</lastUpdated>
+          </versioning>
+        </metadata>
+        EOF
+        
+        # Generate checksums for metadata
+        sha1sum maven-metadata.xml | awk '{print $1}' > maven-metadata.xml.sha1
+        md5sum maven-metadata.xml | awk '{print $1}' > maven-metadata.xml.md5
+        
+    - name: Commit and push to gh-pages
+      run: |
+        cd gh-pages
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add repository/
+        git diff --staged --quiet || git commit -m "Deploy treebase-core JAR from CI build"
+        git push
       
     - name: Build treebase-web
       run: mvn -B clean compile -f treebase-web/pom.xml
