@@ -20,10 +20,13 @@ import org.nexml.model.Network;
 import org.nexml.model.Node;
 import org.nexml.model.OTU;
 import static org.junit.Assert.*;
+import org.junit.Test;
+
 
 public class NexmlTreeConverterTest extends AbstractDAOTest {
 	private TaxonLabelHome mTaxonLabelHome;
-	
+
+	@Test
 	public void testNexmlTreeConverter() {
 		String testName = "testNexmlTreeConverter";
 		//signal beginning of test
