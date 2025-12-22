@@ -252,13 +252,7 @@
           <useManifestOnlyJar>false</useManifestOnlyJar>
           <testFailureIgnore>false</testFailureIgnore>
           <!-- JVM arguments for Java 17 compatibility with older libraries -->
-          <argLine>
-            --add-opens java.base/java.lang=ALL-UNNAMED
-            --add-opens java.base/java.util=ALL-UNNAMED
-            --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-            --add-opens java.base/java.text=ALL-UNNAMED
-            --add-opens java.desktop/java.awt.font=ALL-UNNAMED
-          </argLine>
+          <argLine>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED</argLine>
         </configuration>
       </plugin>
 
