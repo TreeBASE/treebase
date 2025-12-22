@@ -170,7 +170,6 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	 * Run the void processNexusfile() method test
 	 */
 	@Test
-
 	public void testProcessNexusFile() throws Exception {
 		String testName = "testProcessNexusFile";
 		if (logger.isInfoEnabled()) {
@@ -282,8 +281,7 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	// /**
 	// * Run the void processNexusfile() method test
 	// */
-	// @Test
- public void testProcessNexusFile() throws Exception {
+	// public void testProcessNexusFile() throws Exception {
 	// String testName = "testProcessNexusFile";
 	// if (logger.isInfoEnabled()) {
 	// logger.info("\n\t\tRunning Test: " + testName);
