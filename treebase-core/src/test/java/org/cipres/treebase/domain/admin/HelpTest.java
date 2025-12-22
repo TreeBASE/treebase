@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.dao.admin.UserDAO;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 
 public class HelpTest extends AbstractDAOTest {
