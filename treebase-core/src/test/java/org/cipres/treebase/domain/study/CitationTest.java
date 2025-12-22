@@ -1,6 +1,7 @@
 package org.cipres.treebase.domain.study;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import static org.junit.Assert.*;
@@ -34,6 +35,7 @@ public class CitationTest extends AbstractDAOTest {
 	/**
 	 * Set the CitationHome field.
 	 */
+	@Autowired
 	public void setCitationHome(CitationHome pNewCitationHome) {
 		mCitationHome = pNewCitationHome;
 	}

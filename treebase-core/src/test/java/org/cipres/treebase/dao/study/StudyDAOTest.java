@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.hibernate.Hibernate;
 
@@ -57,6 +58,7 @@ public class StudyDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyStatusHome field.
 	 */
+	@Autowired
 	public void setStudyStatusHome(StudyStatusHome pNewStudyStatusHome) {
 		mStudyStatusHome = pNewStudyStatusHome;
 	}

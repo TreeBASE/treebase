@@ -1,6 +1,7 @@
 package org.cipres.treebase.dao.admin;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.admin.Person;
@@ -46,6 +47,7 @@ public class UserDAOTest extends AbstractDAOTest {
 	 * 
 	 * @param pUserDAO
 	 */
+	@Autowired
 	public void setUserHome(UserHome pUserDAO) {
 		mUserHome = pUserDAO;
 	}

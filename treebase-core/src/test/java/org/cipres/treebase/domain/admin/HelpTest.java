@@ -1,6 +1,7 @@
 package org.cipres.treebase.domain.admin;
 
 import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.dao.admin.UserDAO;
@@ -27,6 +28,7 @@ public class HelpTest extends AbstractDAOTest {
 	 * 
 	 * @param pHelpHome
 	 */
+	@Autowired
 	public void setHelpHome(HelpHome pHelpHome) {
 		helpHome = pHelpHome;
 	}

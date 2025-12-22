@@ -1,6 +1,7 @@
 package org.cipres.treebase.dao.matrix;
 
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +39,7 @@ public class MatrixRowDAOTest extends AbstractDAOTest {
 	/**
 	 * @param pMatrixRowHome the matrixRowHome to set
 	 */
+	@Autowired
 	public void setMatrixRowHome(MatrixRowHome pMatrixRowHome) {
 		mMatrixRowHome = pMatrixRowHome;
 	}

@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.nexus;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import junit.framework.Assert;
 
@@ -389,6 +390,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	/**
 	 * Set the TaxonLabelHome field.
 	 */
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}	

@@ -12,6 +12,7 @@ import org.cipres.treebase.domain.study.StudyService;
 import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * AnalysisDAOTest.java
@@ -56,6 +57,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyHome field.
 	 */
+	@Autowired
 	public void setStudyHome(StudyHome pNewStudyHome) {
 		mStudyHome = pNewStudyHome;
 	}
@@ -72,6 +74,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyStatusHome field.
 	 */
+	@Autowired
 	public void setStudyStatusHome(StudyStatusHome pNewStudyStatusHome) {
 		mStudyStatusHome = pNewStudyStatusHome;
 	}

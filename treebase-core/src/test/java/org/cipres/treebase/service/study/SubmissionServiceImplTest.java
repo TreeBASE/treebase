@@ -5,6 +5,7 @@ import java.io.File;
 import java.sql.Clob;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.admin.User;
@@ -52,6 +53,7 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the SubmissionHome field.
 	 */
+	@Autowired
 	public void setSubmissionHome(SubmissionHome pNewSubmissionHome) {
 		mSubmissionHome = pNewSubmissionHome;
 	}
@@ -68,6 +70,7 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the StudyHome field.
 	 */
+	@Autowired
 	public void setStudyHome(StudyHome pNewStudyHome) {
 		mStudyHome = pNewStudyHome;
 	}

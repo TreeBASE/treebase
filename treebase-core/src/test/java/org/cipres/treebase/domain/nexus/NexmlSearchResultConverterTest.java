@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.nexus;
 
 import java.util.Collection;
 import java.util.HashSet;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -150,6 +151,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		return mTaxonLabelHome;
 	}
 
+	@Autowired
 	public void setTaxonLabelHome(TaxonLabelHome pNewTaxonLabelHome) {
 		mTaxonLabelHome = pNewTaxonLabelHome;
 	}
@@ -158,6 +160,7 @@ public class NexmlSearchResultConverterTest extends AbstractDAOTest {
 		return mStudyHome;
 	}
 
+	@Autowired
 	public void setStudyHome(StudyHome studyHome) {
 		mStudyHome = studyHome;
 	}

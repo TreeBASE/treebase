@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.admin.User;
@@ -55,6 +56,7 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the RowSegmentHome field.
 	 */
+	@Autowired
 	public void setRowSegmentHome(RowSegmentHome pNewRowSegmentHome) {
 		mRowSegmentHome = pNewRowSegmentHome;
 	}

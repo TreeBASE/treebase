@@ -4,6 +4,7 @@ package org.cipres.treebase.domain.tree;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.admin.User;
@@ -41,6 +42,7 @@ public class PhyloTreeTest extends AbstractDAOTest {
 	/**
 	 * Set the PhyloTreeHome field.
 	 */
+	@Autowired
 	public void setPhyloTreeHome(PhyloTreeHome pNewPhyloTreeHome) {
 		mPhyloTreeHome = pNewPhyloTreeHome;
 	}

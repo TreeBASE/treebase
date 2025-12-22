@@ -4,6 +4,7 @@ import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * The class <code>StudyStatusDAOTest</code> contains tests for the class
@@ -40,6 +41,7 @@ public class StudyStatusDAOTest extends AbstractDAOTest {
 	/**
 	 * Injected by the super class based on autowiring by type.
 	 */
+	@Autowired
 	public void setStudyStatusHome(StudyStatusHome pNewStudyStatusHome) {
 		mStudyStatusHome = pNewStudyStatusHome;
 	}

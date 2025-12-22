@@ -2,6 +2,7 @@ package org.cipres.treebase.dao.admin;
 
 import java.util.Collection;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.admin.Person;
@@ -47,6 +48,7 @@ public class PersonDAOTest extends AbstractDAOTest {
 	/**
 	 * Set the PersonHome field.
 	 */
+	@Autowired
 	public void setPersonHome(PersonHome pNewPersonHome) {
 		mPersonHome = pNewPersonHome;
 	}
