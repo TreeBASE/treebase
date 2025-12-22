@@ -202,6 +202,16 @@
   <!-- order of repositories used to compile the project -->
   <repositories>
 
+    <!-- TreeBASE gh-pages repository - checked FIRST for internal artifacts -->
+    <repository>
+      <id>treebase-github</id>
+      <name>TreeBASE GitHub Pages Maven Repository</name>
+      <url>https://treebase.github.io/treebase/repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
     <repository>
       <id>maven2</id>
       <name>Default Maven2 Repository</name>
