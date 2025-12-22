@@ -36,13 +36,6 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	private SubmissionHome mSubmissionHome;
 
 	/**
-	 * Constructor.
-	 */
-	public SubmissionServiceImplTest() {
-		super();
-	}
-
-	/**
 	 * Return the SubmissionHome field.
 	 * 
 	 * @return SubmissionHome mSubmissionHome
@@ -88,6 +81,7 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the Fixture field.
 	 */
+	@Autowired
 	public void setFixture(SubmissionService pNewFixture) {
 		mFixture = pNewFixture;
 	}
@@ -104,6 +98,7 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Set the field.
 	 */
+	@Autowired
 	public void setStudyService(StudyService pStudyService) {
 		mStudyService = pStudyService;
 	}
