@@ -2,6 +2,7 @@ package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class SpecificHeadlineParserTest extends TestCase {
 
@@ -14,6 +15,9 @@ public class SpecificHeadlineParserTest extends TestCase {
 	SpecificHeadlineParser study = new SpecificHeadlineParser ("STUDY"),
 	    author = new SpecificHeadlineParser ("AUTHOR");
 
+	@Test
+
+
 	public void testParse() {
 		RDParserResult res = study.Parse(tok1);
 		assertTrue(res.success());
@@ -25,6 +29,9 @@ public class SpecificHeadlineParserTest extends TestCase {
 		RDParserResult res2 = author.Parse(tok1);
 		assertFalse(res2.success());
 	}
+	
+	@Test
+
 	
 	public void testHeadline_Parser() {
 		assertNotNull(study);

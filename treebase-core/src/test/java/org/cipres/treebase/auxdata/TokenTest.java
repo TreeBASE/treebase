@@ -2,8 +2,12 @@ package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class TokenTest extends TestCase {
+
+	@Test
+
 
 	public void testTokenString() {
 		String s = "String";
@@ -13,6 +17,9 @@ public class TokenTest extends TestCase {
 		assertEquals(s, t.sval);
 	}
 
+	@Test
+
+
 	public void testTokenDouble() {
 		double d = 3.14159;
 		Token t = new Token(d);
@@ -21,12 +28,18 @@ public class TokenTest extends TestCase {
 		assertEquals(d, t.nval);
 	}
 
+	@Test
+
+
 	public void testTokenInt() {
 		char c = '>';
 		Token t = new Token(c);
 		assertNotNull(t);
 		assertEquals(c, t.type);
 	}
+
+	@Test
+
 
 	public void testHasType() {
 		Token t = new Token('>');
@@ -40,12 +53,18 @@ public class TokenTest extends TestCase {
 		assertTrue(u.hasType(java.io.StreamTokenizer.TT_WORD));
 	}
 
+	@Test
+
+
 	public void testSval() {
 		String s = "String";
 		Token t = new Token(s);
 		assertNotNull(t);
 		assertEquals(s, t.sval());
 	}
+
+	@Test
+
 
 	public void testType() {
 		String s = "String";
@@ -54,12 +73,18 @@ public class TokenTest extends TestCase {
 		assertEquals(java.io.StreamTokenizer.TT_WORD, t.type());
 	}
 
+	@Test
+
+
 	public void testNval() {
 		double d = 3.14159;
 		Token t = new Token(d);
 		assertNotNull(t);
 		assertEquals(d, t.nval());
 	}
+
+	@Test
+
 
 	public void testIval() {
 		int i = 119;

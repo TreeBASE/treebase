@@ -6,6 +6,7 @@ import java.io.File;
 
 import org.cipres.treebase.service.AbstractServiceTest;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * @author Jin Ruan
@@ -21,6 +22,8 @@ public class NexusParserTest extends AbstractServiceTest {
 	 * Creation date: Apr 18, 2006 2:50:18 PM
 	 */
 	//cipres datatype will not be used anymore
+	@Test
+
 	public void testLoadPhyloDataSet() throws Exception {
 		String testName = "loadPhyloDataSet";
 		if (logger.isInfoEnabled()) {

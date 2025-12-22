@@ -17,6 +17,7 @@ import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionHome;
 import org.cipres.treebase.domain.study.SubmissionService;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * SubmissionServiceImplTest.java
@@ -168,6 +169,8 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void processNexusfile() method test
 	 */
+	@Test
+
 	public void testProcessNexusFile() throws Exception {
 		String testName = "testProcessNexusFile";
 		if (logger.isInfoEnabled()) {
@@ -279,7 +282,8 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 	// /**
 	// * Run the void processNexusfile() method test
 	// */
-	// public void testProcessNexusFile() throws Exception {
+	// @Test
+ public void testProcessNexusFile() throws Exception {
 	// String testName = "testProcessNexusFile";
 	// if (logger.isInfoEnabled()) {
 	// logger.info("\n\t\tRunning Test: " + testName);

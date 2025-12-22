@@ -7,6 +7,7 @@ import org.cipres.treebase.TreebaseIDString.MalformedTreebaseIDString;
 import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * @author mjd 20090312
@@ -32,6 +33,9 @@ public class TreebaseIDStringTest extends TestCase {
 			assertEquals(a.longValue(), b.longValue());
 		}
 	}
+	
+	@Test
+
 	
 	public void testParseIDString() {
 		assertEqualLongs(123L, TreebaseIDString.trimPrefix("123", null));
@@ -63,6 +67,9 @@ public class TreebaseIDStringTest extends TestCase {
 		assertTrue(caught);
 	}
 
+	@Test
+
+
 	public void testIDStringConstructorString() throws MalformedTreebaseIDString {
 		{
 			TreebaseIDString t1 = new TreebaseIDString("M1234");
@@ -83,6 +90,9 @@ public class TreebaseIDStringTest extends TestCase {
 		assertMalformedTreebaseIDString1("Tx123a"); // Malformed ID
 		assertMalformedTreebaseIDString1("Tx0x123");// Malformed ID
 	}
+	
+	@Test
+
 	
 	public void testIDStringConstructorStringClass() throws MalformedTreebaseIDString {
 		{
@@ -111,6 +121,9 @@ public class TreebaseIDStringTest extends TestCase {
 		assertMalformedTreebaseIDString2("Tx0x123", TaxonLabel.class);// Malformed ID	
 	}
 	
+	@Test
+
+	
 	public void testGetPrefixOf() {
 		assertEquals("Fn", TreebaseIDString.getPrefixOf("Fn567"));
 		assertEquals("M", TreebaseIDString.getPrefixOf("M1234"));
@@ -127,6 +140,10 @@ public class TreebaseIDStringTest extends TestCase {
 		}
 		assertTrue(caught);	
 	}
+
+	
+	@Test
+
 
 	
 	public void testIDStringConstructorStringClassMandatory() throws MalformedTreebaseIDString {
@@ -160,6 +177,10 @@ public class TreebaseIDStringTest extends TestCase {
 		}
 		assertTrue(caught);	
 	}
+
+	
+	@Test
+
 
 	
 	public void testWhitespaceLiberality() throws MalformedTreebaseIDString {

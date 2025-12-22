@@ -2,6 +2,7 @@ package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class RepeatedParserTest extends TestCase {
 	static final int STRING = java.io.StreamTokenizer.TT_WORD,
@@ -14,6 +15,9 @@ public class RepeatedParserTest extends TestCase {
 	SingleTokenParser tp = new SingleTokenParser(STRING);
 	RepeatedParser star = new RepeatedParser(tp);
 	RepeatedParser plus = new RepeatedParser(tp, false);
+	
+	@Test
+
 	
 	public void testParse_star() {
 		RDParserResult res1 = star.Parse(tok_strings);
@@ -37,6 +41,9 @@ public class RepeatedParserTest extends TestCase {
 		assertSame(tok_no_strings, rest2);
 	}
 	
+	@Test
+
+	
 	public void testParse_plus() {
 		RDParserResult res1 = plus.Parse(tok_strings);
 		assertTrue(res1.success());
@@ -52,11 +59,17 @@ public class RepeatedParserTest extends TestCase {
 		assertFalse(res2.success());
 	}
 
+	@Test
+
+
 	public void testRepeated_ParserRDParser() {
 		assertNotNull(star);
 		assertSame(tp, star.subparser);
 		assertEquals(true, star.zero_allowed);
 	}
+
+	@Test
+
 
 	public void testRepeated_ParserRDParserBoolean() {
 		assertNotNull(plus);

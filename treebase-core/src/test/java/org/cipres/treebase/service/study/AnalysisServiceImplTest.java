@@ -13,6 +13,7 @@ import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
 
 /**
  * AnalysisDAOTest.java
@@ -98,6 +99,8 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void deleteStudy(Study) method test
 	 */
+	@Test
+
 	public void testAddDelete() {
 		String testName = "testAddDeleteAnalysis";
 		if (logger.isInfoEnabled()) {

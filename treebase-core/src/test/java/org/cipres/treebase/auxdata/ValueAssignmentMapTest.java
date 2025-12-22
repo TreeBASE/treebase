@@ -4,8 +4,12 @@ import java.util.HashMap;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class ValueAssignmentMapTest extends TestCase {
+
+	@Test
+
 
 	public void testValueAssignmentMap() {
 		ValueAssignmentMap vam1 = new ValueAssignmentMap();
@@ -40,6 +44,9 @@ public class ValueAssignmentMapTest extends TestCase {
 		assertEquals(35.6, ((ValueToken) map3.get("age")).nval());
 	}
 	
+	@Test
+
+	
 	public void test_Tokenaccessors() {
 		ValueAssignment va[] = { 
 				new ValueAssignment("name", new ValueToken(new Token("Jin Ruan"))),
@@ -50,6 +57,9 @@ public class ValueAssignmentMapTest extends TestCase {
 		assertEquals("Jin Ruan", vam.getsval("name"));
 		assertEquals(35.6, vam.getnval("age"));
 	}
+	
+	@Test
+
 	
 	public void test_iteration() {
 		ValueAssignment va[] = { 
@@ -66,6 +76,9 @@ public class ValueAssignmentMapTest extends TestCase {
 		assertTrue(seen.get("name"));
 		assertTrue(seen.get("age"));
 	}
+
+	@Test
+
 
 	public void test_null_retrieval() {
 		ValueAssignment va[] = { 

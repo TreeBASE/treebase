@@ -2,6 +2,7 @@ package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class ValueTokenTest extends TestCase {
 	Token t = new Token("Blarf");
@@ -10,26 +11,44 @@ public class ValueTokenTest extends TestCase {
 	ValueToken v3 = new ValueToken(new Token(119.0));
 	ValueToken v4 = new ValueToken(new Token('>'));
 	
+	@Test
+
+	
 	public void testToken() {
 		assertSame(t, v1.token());
 	}
+
+	@Test
+
 
 	public void testValue_Token() {
 		assertNotNull(v1);
 		assertSame(t, v1.t);
 	}
 
+	@Test
+
+
 	public void testSval() {
 		assertEquals("Blarf", v1.sval());
 	}
+
+	@Test
+
 
 	public void testNval() {
 		assertEquals(3.14159, v2.nval());
 	}
 
+	@Test
+
+
 	public void testIval() {
 		assertEquals(119, v3.ival());
 	}
+
+	@Test
+
 
 	public void testType() {
 		assertEquals(java.io.StreamTokenizer.TT_WORD, v1.type());
@@ -37,6 +56,9 @@ public class ValueTokenTest extends TestCase {
 		assertEquals(java.io.StreamTokenizer.TT_NUMBER, v3.type());
 		assertEquals('>', v4.type());
 	}
+
+	@Test
+
 
 	public void testIs_none() {
 		assertFalse(v1.is_none());

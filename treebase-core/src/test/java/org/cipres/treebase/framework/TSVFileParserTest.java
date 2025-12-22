@@ -11,6 +11,7 @@ import org.cipres.treebase.TreebaseUtil;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * TSVFileParserTest.java
@@ -34,6 +35,8 @@ public class TSVFileParserTest extends TestCase {
 	 * Test method for {@link org.cipres.treebase.framework.TSVFileParser#parseFile(java.io.File, boolean, org.cipres.treebase.framework.ExecutionResult)}.
 	 * @throws Exception 
 	 */
+	@Test
+
 	public void testParseFile() throws Exception {
 		String testName = "testParseFile";
 		if (logger.isInfoEnabled()) {

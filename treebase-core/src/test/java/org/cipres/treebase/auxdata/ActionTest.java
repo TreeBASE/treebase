@@ -2,6 +2,7 @@ package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class ActionTest extends TestCase {
 
@@ -23,9 +24,15 @@ public class ActionTest extends TestCase {
 		a = new GenericAction(f);	
 	}
 	
+	@Test
+
+	
 	public void testAction() {
 		assertNotNull(a);
 	}
+
+	@Test
+
 
 	public void testPerform() {
 		Value 

@@ -97,6 +97,8 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	 * Run the RowSegmentField enum test.
 	 * 
 	 */
+	@Test
+
 	public void testEnumRowSegmentField() throws Exception {
 
 		String testName = "testEnumRowSegmentField";
@@ -131,6 +133,8 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 	 * 
 	 */
 	/* this test can not be done without headless mesquite enviroment
+	@Test
+
 	public void testCreateRowSegments() throws Exception {
 
 		String testName = "testCreateRowSegments";
@@ -169,7 +173,8 @@ public class RowSegmentServiceImplTest extends AbstractDAOTest {
 		String subSQL = "select count(*) from Submission where submission_id=" + sub.getId();
 
 		// import a matrix:
-		String path = "/wtset.nex"; 
+		String path = "/wtset.nex";
+import org.junit.Test; 
 		String segmentPath = "/wtset-segment.txt"; 
 		File nexusFile = new File(getClass().getResource(path).toURI());
 		File segmentFile = new File(getClass().getResource(segmentPath).toURI());

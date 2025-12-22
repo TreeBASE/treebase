@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.admin.HelpDAO;
 import org.cipres.treebase.domain.admin.Help;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * The class <code>HelpServiceImplTest</code> contains tests for the class
@@ -57,13 +58,22 @@ public class HelpServiceImplTest extends TestCase {
 		super.tearDown();
 	}
     
+	@Test
+
+    
 	public void testNull() {
 		assertNotNull(getFixture());
 	}
 	
+	@Test
+
+	
 	public void testDomainHome() {
 		assertNotNull(getFixture().getDomainHome());
 	}
+	
+	@Test
+
 	
 	public void testFindByTag() {
 		Help h=null;

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.framework.ExecutionResult;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * The class <code>UserServiceImplTest</code> contains tests for the class
@@ -110,6 +111,9 @@ public class UserServiceImplTest extends TestCase {
 		// Add additional tear down code here
 	}
 
+	@Test
+
+
 	public void testDomainHome() throws Exception {
 		assertNotNull(getFixture().getDomainHome());
 	}
@@ -119,6 +123,8 @@ public class UserServiceImplTest extends TestCase {
 	 * 
 	 * @generatedBy CodePro at 10/13/05 4:18 PM
 	 */
+	@Test
+
 	public void testConstructor() throws Exception {
 		String testName = "Constructor";
 		if (LOGGER.isInfoEnabled()) {
@@ -138,6 +144,8 @@ public class UserServiceImplTest extends TestCase {
 	 * 
 	 * @generatedBy CodePro at 10/13/05 4:18 PM
 	 */
+	@Test
+
 	public void testCreateUser() throws Exception {
 		String testName = "CreateUser";
 		if (LOGGER.isInfoEnabled()) {
@@ -172,6 +180,8 @@ public class UserServiceImplTest extends TestCase {
 	 * 
 	 * @generatedBy CodePro at 10/13/05 4:18 PM
 	 */
+	@Test
+
 	public void testUpdateUser() throws Exception {
 		String testName = "UpdateUser";
 		if (LOGGER.isInfoEnabled()) {
@@ -192,6 +202,8 @@ public class UserServiceImplTest extends TestCase {
 	 * 
 	 * @generatedBy CodePro at 10/13/05 4:18 PM
 	 */
+	@Test
+
 	public void testDeleteUser() throws Exception {
 		String testName = "deleteUser";
 		if (LOGGER.isInfoEnabled()) {
@@ -212,6 +224,8 @@ public class UserServiceImplTest extends TestCase {
 	 * 
 	 * @generatedBy CodePro at 10/13/05 4:18 PM
 	 */
+	@Test
+
 	public void testDeleteUser_negative() throws Exception {
 		String testName = "deleteUser_negative";
 		if (LOGGER.isInfoEnabled()) {

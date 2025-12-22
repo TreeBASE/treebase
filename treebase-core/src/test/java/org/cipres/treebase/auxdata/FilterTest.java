@@ -2,6 +2,7 @@ package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class FilterTest extends TestCase{
 
@@ -21,6 +22,9 @@ public class FilterTest extends TestCase{
 	public void setUp() {
 		f = new trivFilter();
 	}
+	
+	@Test
+
 	
 	public void testPerform() {
 		Value 

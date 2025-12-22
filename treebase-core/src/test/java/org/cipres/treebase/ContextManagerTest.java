@@ -2,6 +2,7 @@ package org.cipres.treebase;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * The class <code>ContextManagerTest</code> contains tests for the class
@@ -59,6 +60,8 @@ public class ContextManagerTest extends TestCase {
 	 * 
 	 * @generatedBy CodePro at 9/27/05 10:27 AM
 	 */
+	@Test
+
 	public void testContextManager_1() throws Exception {
 		ContextManager result = new ContextManager();
 		// add test code here

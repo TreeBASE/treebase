@@ -2,8 +2,12 @@ package org.cipres.treebase.auxdata;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class RDParserTest extends TestCase {
+
+	@Test
+
 
 	public void testTokenizeString() {
 		RDParser headline = new HeadlineParser();

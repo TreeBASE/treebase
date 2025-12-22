@@ -14,6 +14,7 @@ import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
 import org.cipres.treebase.ContextManager;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * The class <code>CoreServiceLauncherTest</code> contains tests for the class
@@ -130,6 +131,8 @@ public class CoreServiceLauncherTest extends TestCase {
 	 * 
 	 * @generatedBy CodePro at 9/27/05 9:50 AM
 	 */
+	@Test
+
 	public void testCoreServiceLauncher_1() throws Exception {
 
 		String testName = "CoreServiceLauncher_1";
@@ -151,6 +154,8 @@ public class CoreServiceLauncherTest extends TestCase {
 	 * 
 	 * @generatedBy CodePro at 9/27/05 10:24 AM
 	 */
+	@Test
+
 	public void testJDBCConnection() throws Exception {
 		String testName = "JDBCConnection";
 		if (LOGGER.isInfoEnabled()) {
