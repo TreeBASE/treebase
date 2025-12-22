@@ -10,6 +10,7 @@ import org.cipres.treebase.domain.matrix.Matrix;
 import org.cipres.treebase.domain.matrix.MatrixHome;
 import org.cipres.treebase.domain.matrix.MatrixKind;
 import org.cipres.treebase.domain.study.Study;
+import org.junit.Assume;
 
 /**
  * The class <code>MatrixDAOTest</code> contains tests for the class
@@ -100,40 +101,36 @@ public class MatrixDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", result);
 		
-		if (result != null && !result.isEmpty()) {
-			Map<String, Object> firstResult = result.get(0);
-			String subId = firstResult.get("SUBMISSION_ID").toString();
-			String matrixId = firstResult.get("MATRIX_ID").toString();
-			
-			String nexusName = (String) jdbcTemplate.queryForObject("select nexusFileName from matrix where matrix_id =" + matrixId, String.class);
-			logger.info(" subId =" + Long.decode(subId) + " matrixId" + matrixId + " nexusName=" + nexusName); //$NON-NLS-1$
-			assertTrue(nexusName != null);
+		Assume.assumeFalse(testName + " - empty database, test skipped", result == null || result.isEmpty());
+		
+		Map<String, Object> firstResult = result.get(0);
+		String subId = firstResult.get("SUBMISSION_ID").toString();
+		String matrixId = firstResult.get("MATRIX_ID").toString();
+		
+		String nexusName = (String) jdbcTemplate.queryForObject("select nexusFileName from matrix where matrix_id =" + matrixId, String.class);
+		logger.info(" subId =" + Long.decode(subId) + " matrixId" + matrixId + " nexusName=" + nexusName); //$NON-NLS-1$
+		assertTrue(nexusName != null);
 
-			//3. query: 
-			Collection<Matrix> matrices = getFixture().findByNexusFileName(Long.decode(subId), nexusName);
-			if (logger.isInfoEnabled()) {
-				logger.info(" findByNexusFileName size= " + matrices.size()); //$NON-NLS-1$
-			}
-			assertTrue(matrices.size() > 0);
-			
-			// 4. verify
-			//String matrixSQL = "select count(*) from matrix where matrix_id = " + m.getId();
-			//int count = jdbcTemplate.queryForInt(matrixSQL);
-			for (Matrix matrix : matrices) {
-				assertTrue("Verify nexus file name.", matrix.getNexusFileName().equalsIgnoreCase(nexusName));
-			}
-			//assertTrue(count == 1);
+		//3. query: 
+		Collection<Matrix> matrices = getFixture().findByNexusFileName(Long.decode(subId), nexusName);
+		if (logger.isInfoEnabled()) {
+			logger.info(" findByNexusFileName size= " + matrices.size()); //$NON-NLS-1$
+		}
+		assertTrue(matrices.size() > 0);
+		
+		// 4. verify
+		//String matrixSQL = "select count(*) from matrix where matrix_id = " + m.getId();
+		//int count = jdbcTemplate.queryForInt(matrixSQL);
+		for (Matrix matrix : matrices) {
+			assertTrue("Verify nexus file name.", matrix.getNexusFileName().equalsIgnoreCase(nexusName));
+		}
+		//assertTrue(count == 1);
 
-			//setComplete();
-			//endTransaction();
+		//setComplete();
+		//endTransaction();
 
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - end "); //$NON-NLS-1$
-			}
-		} else {
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - empty database, test skipped");
-			}
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " - end "); //$NON-NLS-1$
 		}
 	}
 
@@ -157,42 +154,38 @@ public class MatrixDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", result);
 		
-		if (result != null && !result.isEmpty()) {
-			CharacterMatrix m = (CharacterMatrix) loadObject(CharacterMatrix.class, matrixId);
-			
-			int start = 0;
-			int end = 30;
-			
-			//3. query: 
-			List<String> rowStrings = getFixture().findRowAsString(m, start, end);
-			
-			if (logger.isInfoEnabled()) {
-				logger.info("row string size= " + rowStrings.size()); //$NON-NLS-1$
-			}
-			
-			int i=0;
-			for (String string : rowStrings) {
-				assertTrue(string != null);
-				System.out.println(" " + (i++) + ": " + string);
-			}
-			
-			//assertTrue(rowStrings.size() == (end-start + 1));
-			
-			// 4. verify
-			//String matrixSQL = "select count(*) from matrix where matrix_id = " + m.getId();
-			//int count = jdbcTemplate.queryForInt(matrixSQL);
-			//assertTrue(count == 1);
+		Assume.assumeFalse(testName + " - empty database, test skipped", result == null || result.isEmpty());
+		
+		CharacterMatrix m = (CharacterMatrix) loadObject(CharacterMatrix.class, matrixId);
+		
+		int start = 0;
+		int end = 30;
+		
+		//3. query: 
+		List<String> rowStrings = getFixture().findRowAsString(m, start, end);
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("row string size= " + rowStrings.size()); //$NON-NLS-1$
+		}
+		
+		int i=0;
+		for (String string : rowStrings) {
+			assertTrue(string != null);
+			System.out.println(" " + (i++) + ": " + string);
+		}
+		
+		//assertTrue(rowStrings.size() == (end-start + 1));
+		
+		// 4. verify
+		//String matrixSQL = "select count(*) from matrix where matrix_id = " + m.getId();
+		//int count = jdbcTemplate.queryForInt(matrixSQL);
+		//assertTrue(count == 1);
 
-			//setComplete();
-			//endTransaction();
+		//setComplete();
+		//endTransaction();
 
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - end "); //$NON-NLS-1$
-			}
-		} else {
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - empty database, test skipped");
-			}
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " - end "); //$NON-NLS-1$
 		}
 	}
 
@@ -214,45 +207,41 @@ public class MatrixDAOTest extends AbstractDAOTest {
 		// 2. verify correct handling of empty database
 		assertNotNull("Query should return non-null list", studyIds);
 		
-		if (studyIds.size() > 0) {
-			long studyId = studyIds.get(0);
-			logger.info("study id: " + studyId);
-			assertTrue(studyId > 0);
-
-			// 3. query
-			Study s = (Study) loadObject(Study.class, studyId);
-			assertTrue(s != null);
-			//table study and matrix may not agree on "published" 
-			//assertTrue(s.isPublished() == false);
-
-			int count = getFixture().updatePublishedFlagByStudy(s, true);
-			logger.debug("update Count = " + count);
-			assertTrue(count > 0);
-
-			// force commit immediately, important:
-			setComplete();
-			endTransaction();
-
-			// 4. verify
-			String treeCountStr = "select count(m.matrix_id) from matrix m "
-				+ " where m.study_ID = " + s.getId() + " and m.published is true";
-			Integer countVeri = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
-			logger.debug("verify Count = " + countVeri);
-			assertTrue(countVeri == count);
-
-			//5. change it back:
-			int count2 = getFixture().updatePublishedFlagByStudy(s, false);
-			assertTrue(count2 == count);
+		Assume.assumeFalse(testName + " - empty database, test skipped", studyIds.isEmpty());
 		
-			setComplete();
-			
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " verified.");
-			}
-		} else {
-			if (logger.isInfoEnabled()) {
-				logger.info(testName + " - empty database, test skipped");
-			}
+		long studyId = studyIds.get(0);
+		logger.info("study id: " + studyId);
+		assertTrue(studyId > 0);
+
+		// 3. query
+		Study s = (Study) loadObject(Study.class, studyId);
+		assertTrue(s != null);
+		//table study and matrix may not agree on "published" 
+		//assertTrue(s.isPublished() == false);
+
+		int count = getFixture().updatePublishedFlagByStudy(s, true);
+		logger.debug("update Count = " + count);
+		assertTrue(count > 0);
+
+		// force commit immediately, important:
+		setComplete();
+		endTransaction();
+
+		// 4. verify
+		String treeCountStr = "select count(m.matrix_id) from matrix m "
+			+ " where m.study_ID = " + s.getId() + " and m.published is true";
+		Integer countVeri = (Integer) jdbcTemplate.queryForObject(treeCountStr, Integer.class);
+		logger.debug("verify Count = " + countVeri);
+		assertTrue(countVeri == count);
+
+		//5. change it back:
+		int count2 = getFixture().updatePublishedFlagByStudy(s, false);
+		assertTrue(count2 == count);
+	
+		setComplete();
+		
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " verified.");
 		}
 	}
 
