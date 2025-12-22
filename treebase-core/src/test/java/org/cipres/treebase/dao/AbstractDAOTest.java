@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.dao.DataAccessException;
+import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -42,7 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public abstract class AbstractDAOTest {
 
-	@Autowired
 	protected JdbcTemplate jdbcTemplate;
 	
 	@Autowired
@@ -91,6 +91,16 @@ public abstract class AbstractDAOTest {
 	public void initializeHibernateTemplate(SessionFactory sessionFactory) {
 		if (hibernateTemplate == null) {
 			hibernateTemplate = new HibernateTemplate(sessionFactory);
+		}
+	}
+	
+	/**
+	 * Initialize JDBC template from DataSource after Spring dependency injection
+	 */
+	@Autowired
+	public void initializeJdbcTemplate(DataSource dataSource) {
+		if (jdbcTemplate == null) {
+			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 	}
 	
