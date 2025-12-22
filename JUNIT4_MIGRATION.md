@@ -7,7 +7,9 @@ Successfully migrated tests from JUnit 3 to JUnit 4 style by upgrading Spring Fr
 
 ### 1. Spring Framework Upgrade
 - **Upgraded Spring**: 2.5.6 → 3.2.18.RELEASE
-- **Changed dependency**: spring-mock → spring-test
+- **Changed from monolithic to modular dependencies**: 
+  - Replaced `spring` artifact with: `spring-core`, `spring-beans`, `spring-context`, `spring-jdbc`, `spring-orm`, `spring-tx`
+  - Changed `spring-mock` → `spring-test`
 - **Reason**: Spring 3.2.x provides `SpringJUnit4ClassRunner` with full JUnit 4 integration and all required utility methods
 
 ### 2. Test Base Class Enhancement
