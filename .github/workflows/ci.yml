@@ -80,8 +80,10 @@ jobs:
       with:
         ref: gh-pages
         path: gh-pages
+        fetch-depth: 0
         
     - name: Deploy treebase-core JAR to Maven repository
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
       run: |
         # Set up Maven coordinates
         GROUP_ID="org.cipres.treebase"
@@ -93,8 +95,15 @@ jobs:
         REPO_PATH="gh-pages/repository/${GROUP_PATH}/${ARTIFACT_ID}/${VERSION}"
         mkdir -p "$REPO_PATH"
         
+        # Verify JAR file exists
+        JAR_FILE="treebase-core/target/${ARTIFACT_ID}-${VERSION}.jar"
+        if [ ! -f "$JAR_FILE" ]; then
+          echo "Error: JAR file not found at $JAR_FILE"
+          exit 1
+        fi
+        
         # Copy JAR and POM files
-        cp treebase-core/target/${ARTIFACT_ID}-${VERSION}.jar "$REPO_PATH/"
+        cp "$JAR_FILE" "$REPO_PATH/"
         cp treebase-core/pom.xml "$REPO_PATH/${ARTIFACT_ID}-${VERSION}.pom"
         
         # Generate checksums
@@ -126,13 +135,23 @@ jobs:
         md5sum maven-metadata.xml | awk '{print $1}' > maven-metadata.xml.md5
         
     - name: Commit and push to gh-pages
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
       run: |
         cd gh-pages
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add repository/
-        git diff --staged --quiet || git commit -m "Deploy treebase-core JAR from CI build"
-        git push
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Deploy treebase-core JAR from CI build (commit: ${{ github.sha }})"
+          # Pull with rebase to handle concurrent updates
+          git pull --rebase origin gh-pages || {
+            echo "Rebase failed, attempting force push"
+            git push --force
+          }
+          git push
+        fi
       
     - name: Build treebase-web
       run: mvn -B clean compile -f treebase-web/pom.xml
