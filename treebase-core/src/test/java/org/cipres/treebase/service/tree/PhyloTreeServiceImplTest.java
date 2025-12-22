@@ -97,7 +97,6 @@ public class PhyloTreeServiceImplTest extends AbstractDAOTest {
 	}
 
 	@Test
-
 	public void testFindByTopology3() {
 		Boolean searchResult = null;
 		PhyloTree t = (PhyloTree) loadObject(PhyloTree.class);
