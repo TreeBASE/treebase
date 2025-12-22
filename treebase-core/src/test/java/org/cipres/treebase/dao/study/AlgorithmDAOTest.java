@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.study.AlgorithmHome;
-import org.junit.Test;
 
 /**
  * @author madhu
@@ -41,7 +40,6 @@ public class AlgorithmDAOTest extends AbstractDAOTest {
 	 * Test method for
 	 * {@link org.cipres.treebase.dao.study.AlgorithmDAO#findAllUniqueAlgorithmDescriptions()}.
 	 */
-	@Test
 	public void testFinalAllUniqueAlgorithmDescriptions() {
 		String testName = "finalAllUniqueAlgorithmDescriptions";
 		if (logger.isInfoEnabled()) {
@@ -73,9 +71,6 @@ public class AlgorithmDAOTest extends AbstractDAOTest {
 	/**
 	 * Test method for
 	 * {@link org.cipres.treebase.dao.study.AlgorithmDAO#findAllUniqueAlgorithmDescriptions()}.
-	 * 
-	 * Note: This method has a parameter and cannot be executed as a JUnit 4 test.
-	 * It appears to be a helper method or incomplete test.
 	 */
 	public void testFindAllUniqueOtherAlgorithmDescriptions(String pPartialValue) {
 		String testName = "findAllUniqueOtherAlgorithmDescriptions";

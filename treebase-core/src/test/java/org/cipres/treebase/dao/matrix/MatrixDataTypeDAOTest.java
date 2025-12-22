@@ -3,7 +3,6 @@ package org.cipres.treebase.dao.matrix;
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.MatrixDataType;
 import org.cipres.treebase.domain.matrix.MatrixDataTypeHome;
-import org.junit.Test;
 
 /**
  * The class <code>MatrixDataTypeDAOTest</code> contains tests for the class
@@ -40,7 +39,6 @@ public class MatrixDataTypeDAOTest extends AbstractDAOTest {
 	/**
 	 * Run the MatrixDataType findByDescription(String) method test
 	 */
-	@Test
 	public void testFindByDescription() {
 		String testName = "findByDescription";
 		if (logger.isInfoEnabled()) {

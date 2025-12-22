@@ -2,7 +2,6 @@ package org.cipres.treebase.dao.matrix;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.matrix.MatrixElementHome;
-import org.junit.Test;
 
 /**
  * The class <code>MatrixElementDAOTest</code> contains tests for the class
@@ -50,7 +49,6 @@ public class MatrixElementDAOTest extends AbstractDAOTest {
 	/**
 	 * 
 	 */
-	@Test
 	public void testFindColumnByIndices() {
 	// TODO: findColumnByIndices
 

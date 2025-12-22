@@ -8,7 +8,6 @@ import java.sql.Statement;
 
 import org.hibernate.Query;
 import org.hibernate.impl.SessionImpl;
-import org.junit.Test;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -34,7 +33,6 @@ public class EnvironmentTest extends AbstractDAOTest {
 	/**
 	 * Test connection pool c3p0 settings.
 	 */
-	@Test
 	public void testC3p0() throws Exception {
 		String testName = "Test C3p0";
 		if (logger.isInfoEnabled()) {
@@ -64,7 +62,6 @@ public class EnvironmentTest extends AbstractDAOTest {
 	/**
 	 * Test connection pool c3p0 settings.
 	 */
-	@Test
 	public void testProperty() throws Exception {
 		String testName = "Test Setting property in jdbc.properties";
 		if (logger.isInfoEnabled()) {
@@ -86,7 +83,6 @@ public class EnvironmentTest extends AbstractDAOTest {
 	/**
 	 * Test hql statement whether it is valid.
 	 */
-	@Test
 	public void testHibernateQueryStatement() throws Exception {
 		String testName = "Test hql statement ";
 		if (logger.isInfoEnabled()) {
@@ -120,7 +116,7 @@ public class EnvironmentTest extends AbstractDAOTest {
 	 * Test hql statement whether it is valid.
 	 * postgresql does't support RETURN_GENERATED_KEYS
 	 */
-	@Test
+	
 	public void testGetGeneratedKey() throws Exception {
 		String testName = "Test get generated key ";
 		if (logger.isInfoEnabled()) {
@@ -194,7 +190,6 @@ public class EnvironmentTest extends AbstractDAOTest {
 	 *  ** JDBC Statement.RETURN_GENERATED_KEYS uses identity_val_local(), needs two statements
 	 *   
 	 */
-	@Test
 	public void testSelectFromInsert() throws Exception {
 		String testName = "TestSelectFromInsert";
 		//It is the replacement for identity_val_local() in db2 v8.

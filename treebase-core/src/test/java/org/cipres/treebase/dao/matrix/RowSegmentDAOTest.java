@@ -17,7 +17,6 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.study.SubmissionService;
 import org.cipres.treebase.framework.ExecutionResult;
-import org.junit.Test;
 
 /**
  * RowSegmentDAOTest.java
@@ -90,7 +89,6 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	/**
 	 * Test method for {@link org.cipres.treebase.dao.matrix.RowSegmentDAO#findByMatrixID(java.lang.Long)}.
 	 */
-	@Test
 	public void testFindByMatrixID() {
 		String testName = "testFindByMatrixID";
 		if (logger.isInfoEnabled()) {
@@ -130,7 +128,6 @@ public class RowSegmentDAOTest extends AbstractDAOTest {
 	 * 
 	 */
 	//this test was hanged forever by mjd
-	@Test
 	public void testdeleteByMatrixAndColumnRange() throws Exception {
 
 	/*	fail(); // hangs forever 20081020 mjd
