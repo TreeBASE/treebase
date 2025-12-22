@@ -63,16 +63,20 @@
 	<!--  already defined in parent pom.xml -->
 	<repositories>
 
-		<repository>
-			<id>maven2</id>
-			<name>Default Maven2 Repository</name>
-			<url>https://repo1.maven.org/maven2</url>
-		</repository>
-
+		<!-- TreeBASE gh-pages repository - checked FIRST for internal artifacts -->
 		<repository>
 			<id>m2.remote.repos</id>
 			<name>Maven 2 Remote Repository</name>
 			<url>https://treebase.github.io/treebase/repository</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>maven2</id>
+			<name>Default Maven2 Repository</name>
+			<url>https://repo1.maven.org/maven2</url>
 		</repository>
 
 		<repository>
