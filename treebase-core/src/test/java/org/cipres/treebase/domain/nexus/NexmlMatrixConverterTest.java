@@ -39,6 +39,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	 * Finds an equivalent, created NexmlMatrix within a NeXML document to go with the matrix
 	 * fetched from the TreeBASE database.
 	 */
+	@Test
 	public void testNexmlMatrixConverter() {
 		String testName = "testNexmlMatrixConverter";
 		//signal beginning of test
@@ -151,6 +152,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	 * 
 	 * This is in response to bug #3303002
 	 */
+	@Test
 	public void testNexmlEmptyMatrix() {
 		String testName = "testNexmlEmptyMatrix()";
 		//signal beginning of test
@@ -255,6 +257,7 @@ public class NexmlMatrixConverterTest extends AbstractDAOTest {
 	 * It verifies that NexmlCharSets have the same name and coordinates as those in the 
 	 * TreeBASE matrix.
 	 */
+	@Test
 	public void testNexmlMatrixCharSets() {
 		String testName = "testNexmlCharSets";
 		//signal beginning of test
