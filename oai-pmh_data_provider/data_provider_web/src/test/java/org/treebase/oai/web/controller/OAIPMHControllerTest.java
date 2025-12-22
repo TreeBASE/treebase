@@ -64,7 +64,7 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		   StringWriter writer=null;
 		   Template t=null;
 		try {
-			t = ve.getTemplate("\\"+mav.getViewName()+".vm");
+			t = ve.getTemplate(mav.getViewName()+".vm");
 		
 		   VelocityContext context = new VelocityContext();
    		   context.put("model", mav.getModel());
