@@ -83,7 +83,6 @@ jobs:
         fetch-depth: 0
         
     - name: Deploy treebase-core JAR to Maven repository
-      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
       run: |
         # Set up Maven coordinates
         GROUP_ID="org.cipres.treebase"
@@ -135,7 +134,6 @@ jobs:
         md5sum maven-metadata.xml | awk '{print $1}' > maven-metadata.xml.md5
         
     - name: Commit and push to gh-pages
-      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
       run: |
         cd gh-pages
         git config user.name "github-actions[bot]"
