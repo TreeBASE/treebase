@@ -37,6 +37,7 @@ public class NexmlAnalysisConverterTest extends AbstractDAOTest {
 	 * @throws URISyntaxException 
 	 * @throws IOException 
 	 */
+	@Test
 	public void testNexmlAnalysisConverter() throws URISyntaxException, IOException {
 		String testName = "testNexmlAnalysisConverter";
 		//signal beginning of test
