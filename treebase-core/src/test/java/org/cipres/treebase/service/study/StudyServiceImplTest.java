@@ -19,6 +19,8 @@ import org.cipres.treebase.domain.study.StudyStatus;
 import org.cipres.treebase.domain.study.StudyStatusHome;
 import org.cipres.treebase.domain.study.Submission;
 import org.cipres.treebase.domain.taxon.TaxonLabel;
+import org.junit.Assume;
+import org.junit.Test;
 
 /**
  * StudyServiceImplTest.java
@@ -92,6 +94,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void deleteStudy(Study) method test
 	 */
+	@Test
 	public void testAddDelete() throws Exception {
 		String testName = "testAddDelete";
 		if (logger.isInfoEnabled()) {
@@ -174,6 +177,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void deleteStudy(Study) method test
 	 */
+	@Test
 	public void testAddAnalysisByUpdate() {
 		String testName = "testAddAnalysisByUpdate";
 		if (logger.isInfoEnabled()) {
@@ -252,6 +256,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void deleteStudy(Study) method test
 	 */
+	@Test
 	public void testAddAnalysis() {
 		String testName = "testAddAnalysis";
 		if (logger.isInfoEnabled()) {
@@ -318,6 +323,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void addNexusFiles method test
 	 */
+	@Test
 	public void testAddNexus() throws Exception {
 		String testName = "testAddNexus";
 		if (logger.isInfoEnabled()) {
@@ -406,6 +412,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void addNexusFiles method test
 	 */
+	@Test
 	public void testAddNexusFile() throws Exception {
 		String testName = "testAddNexusFile";
 		if (logger.isInfoEnabled()) {
@@ -491,6 +498,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 	/**
 	 * Run the void generateReconstructedNexusFile() method test
 	 */
+	@Test
 	public void testGenerateReconstructedNexusFile() throws Exception {
 		String testName = "testGenerateReconstructedNexusFile";
 		if (logger.isInfoEnabled()) {
@@ -505,10 +513,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		Study s = (Study) hibernateTemplate.get(Study.class, studyId);
 		
 		// Skip test if database is empty
-		if (s == null) {
-			logger.info("SKIPPED: " + testName + " - No Study data found in database (studyId=" + studyId + "). Test requires populated database.");
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: " + testName + " - No Study data found in database (studyId=" + studyId + "). Test requires populated database.", s);
 		
 		Submission sub = s.getSubmission();
 		if (fileName == null) {
