@@ -38,21 +38,39 @@
 
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring</artifactId>
-      <version>2.0.7</version>
+      <artifactId>spring-core</artifactId>
+      <version>3.2.18.RELEASE</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-mock</artifactId>
-      <version>2.0.7</version>
+      <artifactId>spring-beans</artifactId>
+      <version>3.2.18.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>3.2.18.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>3.2.18.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>3.2.18.RELEASE</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
 
@@ -123,26 +141,37 @@
   
   <!-- order of repositories used to compile the project -->
   <repositories>
+
+    <!-- TreeBASE gh-pages repository - checked FIRST for internal artifacts -->
     <repository>
-      <id>m2.remote.repos</id>
-      <name>Maven 2 Remote Repository</name>
-      <url>http://treebase.sourceforge.net/maven2/</url>
+      <id>treebase-github</id>
+      <name>TreeBASE GitHub Pages Maven Repository</name>
+      <url>https://treebase.github.io/treebase/repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
+
     <repository>
       <id>maven2</id>
       <name>Default Maven2 Repository</name>
-      <url>http://repo1.maven.org/maven2</url>
+      <url>https://repo1.maven.org/maven2</url>
     </repository>
+
     <repository>
       <id>repository.jboss.org</id>
       <name>JBoss Maven Repository</name>
-      <url>http://repository.jboss.org/maven2</url>
+      <url>https://repository.jboss.org/nexus/content/groups/public/maven2</url>
       <layout>default</layout>
     </repository>
+
+    <!-- GBIF host NexML, Mesquite and CQL-Java in order for this to build -->
     <repository>
-    	<id>postgresql</id>
-    	<url>http://jdbc.postgresql.org</url>
+      <id>gbif-third-party</id>
+      <name>GBIF hosted third party jars</name>
+      <url>https://repository.gbif.org/repository/thirdparty/</url>
     </repository>
+
   </repositories>
   <!-- Java 17 LTS configuration -->
   <build>
@@ -155,6 +184,23 @@
           <source>17</source>
           <target>17</target>
           <release>17</release>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <!-- Use stateless test set runner for better JUnit 4 support -->
+          <useSystemClassLoader>true</useSystemClassLoader>
+          <useManifestOnlyJar>false</useManifestOnlyJar>
+          <testFailureIgnore>false</testFailureIgnore>
+          <!-- JVM arguments for Java 17 compatibility with older libraries -->
+          <argLine>--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.desktop/java.awt.font=ALL-UNNAMED</argLine>
         </configuration>
       </plugin>
     </plugins>
