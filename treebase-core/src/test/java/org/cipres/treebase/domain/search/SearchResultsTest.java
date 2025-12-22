@@ -9,6 +9,7 @@ import org.cipres.treebase.domain.study.Study;
 import org.cipres.treebase.domain.study.StudyHome;
 import org.cipres.treebase.domain.taxon.TaxonLabelHome;
 import org.cipres.treebase.domain.tree.PhyloTree;
+import org.junit.Assume;
 
 public class SearchResultsTest extends AbstractDAOTest {
 
@@ -44,10 +45,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 	
 	public void testTrivial() {
 		// Skip test if database is empty
-		if (studies == null || studies.isEmpty()) {
-			logger.info("SKIPPED: testTrivial - No Study data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeTrue("SKIPPED: testTrivial - No Study data found in database. Test requires populated database.", studies != null && !studies.isEmpty());
 		
 		assertNotNull(getTaxonLabelHome());
 		assertNotNull(getStudyHome());
@@ -55,10 +53,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 	
 	public void testSearchService() {
 		// Skip test if database is empty
-		if (studies == null || studies.isEmpty()) {
-			logger.info("SKIPPED: testSearchService - No Study data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeTrue("SKIPPED: testSearchService - No Study data found in database. Test requires populated database.", studies != null && !studies.isEmpty());
 		
 		assertNotNull(ssr.getSearchService());
 		assertNotNull(ssr.getSearchService().getStudyService());
@@ -71,10 +66,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 	
 	public void testQuickCheck() {
 		// Skip test if database is empty
-		if (studies == null || studies.isEmpty()) {
-			logger.info("SKIPPED: testQuickCheck - No Study data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeTrue("SKIPPED: testQuickCheck - No Study data found in database. Test requires populated database.", studies != null && !studies.isEmpty());
 		
 		//failed because unpublished data 
 		//ssr called discardUnpublishedStudies(); 
@@ -96,10 +88,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 	
 	public void testConvertToMatrices() {
 		// Skip test if database is empty
-		if (studies == null || studies.isEmpty()) {
-			logger.info("SKIPPED: testConvertToMatrices - No Study data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeTrue("SKIPPED: testConvertToMatrices - No Study data found in database. Test requires populated database.", studies != null && !studies.isEmpty());
 		
 		MatrixSearchResults msr = ssr.convertToMatrices();
 		//assertEquals(matrices.size(), msr.size()); failed because unpublished data
@@ -110,10 +99,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 	
 	public void testConvertFromMatrices() {
 		// Skip test if database is empty
-		if (studies == null || studies.isEmpty()) {
-			logger.info("SKIPPED: testConvertFromMatrices - No Study data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeTrue("SKIPPED: testConvertFromMatrices - No Study data found in database. Test requires populated database.", studies != null && !studies.isEmpty());
 		
 		// Every study in smsr was in ssr
 		// Every study in ssr is in smsr except those with no matrices
@@ -125,10 +111,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 		
 	public void testConvertToTrees() {
 		// Skip test if database is empty
-		if (studies == null || studies.isEmpty()) {
-			logger.info("SKIPPED: testConvertToTrees - No Study data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeTrue("SKIPPED: testConvertToTrees - No Study data found in database. Test requires populated database.", studies != null && !studies.isEmpty());
 		
 		TreeSearchResults tsr = ssr.convertToTrees();
 		//assertEquals(trees.size(), tsr.size()); failed because unpublished data
@@ -139,10 +122,7 @@ public class SearchResultsTest extends AbstractDAOTest {
 		
 	public void testConvertFromTrees() {
 		// Skip test if database is empty
-		if (studies == null || studies.isEmpty()) {
-			logger.info("SKIPPED: testConvertFromTrees - No Study data found in database. Test requires populated database.");
-			return;
-		}
+		Assume.assumeTrue("SKIPPED: testConvertFromTrees - No Study data found in database. Test requires populated database.", studies != null && !studies.isEmpty());
 		
 		StudySearchResults stsr = ssr.convertToTrees().convertToStudies();
 		// Every study in stsr was in tsr

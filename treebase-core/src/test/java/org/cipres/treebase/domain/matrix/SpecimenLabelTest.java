@@ -2,6 +2,7 @@ package org.cipres.treebase.domain.matrix;
 
 import org.cipres.treebase.dao.AbstractDAOTest;
 import org.cipres.treebase.domain.taxon.SpecimenLabel;
+import org.junit.Assume;
 
 public class SpecimenLabelTest extends AbstractDAOTest {
 
@@ -14,12 +15,7 @@ public class SpecimenLabelTest extends AbstractDAOTest {
 		RowSegment seg = (RowSegment) loadRandomObject(RowSegment.class);
 		
 		// Skip test if database is empty
-		if (seg == null) {
-			if (logger.isInfoEnabled()) {
-				logger.info("SKIPPED: testGetInfo - No RowSegment data found in database. Test requires populated database.");
-			}
-			return;
-		}
+		Assume.assumeNotNull("SKIPPED: testGetInfo - No RowSegment data found in database. Test requires populated database.", seg);
 		
 		while (label == null) {
 			label = seg.getSpecimenLabel();
