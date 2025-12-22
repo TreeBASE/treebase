@@ -99,9 +99,7 @@ public abstract class AbstractDAOTest {
 	 */
 	@Autowired
 	public void initializeJdbcTemplate(DataSource dataSource) {
-		if (jdbcTemplate == null) {
-			jdbcTemplate = new JdbcTemplate(dataSource);
-		}
+		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
 	/**
