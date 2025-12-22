@@ -76,6 +76,15 @@ public abstract class AbstractDAOTest {
 	}
 	
 	/**
+	 * JUnit 3 compatibility method - override in subclasses if needed for test setup within a transaction
+	 * In JUnit 4, use @Before annotated methods instead (transaction is automatic with @Transactional)
+	 */
+	protected void onSetUpInTransaction() throws Exception {
+		// Empty implementation for backward compatibility
+		// Subclasses can override if needed
+	}
+	
+	/**
 	 * Initialize hibernate template after Spring dependency injection
 	 */
 	@Autowired
