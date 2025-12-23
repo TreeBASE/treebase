@@ -18,7 +18,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -39,7 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
 	"classpath:applicationContext-dao.xml",
 	"classpath:applicationContext-service.xml"
 })
-@TransactionConfiguration(defaultRollback = true)
 @Transactional
 public abstract class AbstractDAOTest {
 
