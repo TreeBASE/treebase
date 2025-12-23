@@ -4,41 +4,111 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.mvc.AbstractController;
 
 /**
- * Compatibility class for Spring 4.x migration.
- * Provides similar functionality to Spring 3.x CancellableFormController.
- * 
- * Note: SimpleFormController is also deprecated in Spring 4.x, but this provides
- * a migration path. Controllers should be migrated to @Controller with @RequestMapping.
+ * Compatibility class to bridge Spring 3.x CancellableFormController to Spring 4.x
+ * This class provides a similar API to the removed Spring 3.x CancellableFormController
+ * by extending AbstractController and implementing form handling manually
  */
-@SuppressWarnings("deprecation")
-public abstract class CancellableFormController extends SimpleFormController {
+public abstract class CancellableFormController extends AbstractController {
     
-    /**
-     * Handle cancel action - override to provide custom cancel behavior
-     */
-    protected ModelAndView onCancel(HttpServletRequest request, HttpServletResponse response, Object command) throws Exception {
-        return new ModelAndView(getSuccessView());
+    private String formView;
+    private String successView;
+    private Class<?> commandClass;
+    private String commandName = "command";
+    
+    public void setFormView(String formView) {
+        this.formView = formView;
     }
     
-    /**
-     * Override to detect cancel action
-     */
+    public String getFormView() {
+        return formView;
+    }
+    
+    public void setSuccessView(String successView) {
+        this.successView = successView;
+    }
+    
+    public String getSuccessView() {
+        return successView;
+    }
+    
+    public void setCommandClass(Class<?> commandClass) {
+        this.commandClass = commandClass;
+    }
+    
+    public Class<?> getCommandClass() {
+        return commandClass;
+    }
+    
+    public void setCommandName(String commandName) {
+        this.commandName = commandName;
+    }
+    
+    public String getCommandName() {
+        return commandName;
+    }
+    
     @Override
-    protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        if (request.getParameter("_cancel") != null || isCancelRequest(request)) {
-            return onCancel(request, response, command);
+    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (isFormSubmission(request)) {
+            Object command = createCommand();
+            ServletRequestDataBinder binder = createBinder(request, command);
+            binder.bind(request);
+            BindException errors = new BindException(binder.getBindingResult());
+            
+            if (isCancelRequest(request)) {
+                return onCancel(request, response, command);
+            }
+            
+            return processFormSubmission(request, response, command, errors);
+        } else {
+            return showForm(request, response, new BindException(createCommand(), getCommandName()));
         }
-        return super.processFormSubmission(request, response, command, errors);
     }
     
-    /**
-     * Check if the request is a cancel request
-     */
+    protected Object createCommand() throws Exception {
+        if (commandClass != null) {
+            return commandClass.newInstance();
+        }
+        return new Object();
+    }
+    
+    protected ServletRequestDataBinder createBinder(HttpServletRequest request, Object command) throws Exception {
+        ServletRequestDataBinder binder = new ServletRequestDataBinder(command, getCommandName());
+        initBinder(request, binder);
+        return binder;
+    }
+    
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+        // Override to customize binder
+    }
+    
+    protected boolean isFormSubmission(HttpServletRequest request) {
+        return "POST".equalsIgnoreCase(request.getMethod());
+    }
+    
     protected boolean isCancelRequest(HttpServletRequest request) {
         return request.getParameter("_cancel") != null;
+    }
+    
+    protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
+        return new ModelAndView(getFormView(), errors.getModel());
+    }
+    
+    protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+        if (errors.hasErrors()) {
+            return showForm(request, response, errors);
+        }
+        return onSubmit(request, response, command, errors);
+    }
+    
+    protected abstract ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception;
+    
+    protected ModelAndView onCancel(HttpServletRequest request, HttpServletResponse response, Object command) throws Exception {
+        return new ModelAndView(getSuccessView());
     }
 }
