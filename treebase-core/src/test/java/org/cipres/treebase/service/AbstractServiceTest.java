@@ -5,7 +5,6 @@ import org.cipres.treebase.core.CoreServiceLauncher;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 	"classpath:applicationContext-dao.xml",
 	"classpath:applicationContext-service.xml"
 })
-@TransactionConfiguration(defaultRollback = true)
 @Transactional
 public abstract class AbstractServiceTest {
 
