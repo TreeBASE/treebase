@@ -50,23 +50,52 @@ if ( TreeBASE.analysisEditor == null ) {
 		var selects = theDiv.getElementsByTagName('select');
 		var dataType = selects[1].name;
 		var options = selects[1].getElementsByTagName('option');
-		var theForm = '<form method="post" action="/treebase-web/user/addAnalyzedData.html" style="display:none">';
-		theForm += '<textarea name="ids">';	
+		
+		// Create form elements safely using DOM methods
+		var form = document.createElement('form');
+		form.method = 'post';
+		form.action = '/treebase-web/user/addAnalyzedData.html';
+		form.style.display = 'none';
+		
+		var textarea = document.createElement('textarea');
+		textarea.name = 'ids';
+		var idsText = '';
 		for ( var i = 0; i < options.length; i++ ) {		
 			if ( options[i].selected ) {
-				theForm += ' ' + options[i].value;
+				idsText += ' ' + options[i].value;
 			}
 		}
-		theForm += '</textarea>';
-		theForm += '<input type="hidden" name="action" value="add"/>';
-		theForm += '<input type="hidden" name="dataType" value="' + dataType + '"/>';
-		theForm += '<input type="hidden" name="inputOutput" value="' + inputOutput + '"/>';
-		theForm += '<input type="hidden" name="analysisStepId" value="' + analysisStepId + '"/>';
-		theForm += '</form>';
+		textarea.value = idsText;
+		form.appendChild(textarea);
+		
+		var actionInput = document.createElement('input');
+		actionInput.type = 'hidden';
+		actionInput.name = 'action';
+		actionInput.value = 'add';
+		form.appendChild(actionInput);
+		
+		var dataTypeInput = document.createElement('input');
+		dataTypeInput.type = 'hidden';
+		dataTypeInput.name = 'dataType';
+		dataTypeInput.value = dataType;
+		form.appendChild(dataTypeInput);
+		
+		var inputOutputInput = document.createElement('input');
+		inputOutputInput.type = 'hidden';
+		inputOutputInput.name = 'inputOutput';
+		inputOutputInput.value = inputOutput;
+		form.appendChild(inputOutputInput);
+		
+		var analysisStepInput = document.createElement('input');
+		analysisStepInput.type = 'hidden';
+		analysisStepInput.name = 'analysisStepId';
+		analysisStepInput.value = analysisStepId;
+		form.appendChild(analysisStepInput);
+		
 		var childDivs = theDiv.getElementsByTagName('div');
-		childDivs[0].innerHTML = theForm;
-		var theChildForm = childDivs[0].getElementsByTagName('form');
-		theChildForm[0].submit();
+		childDivs[0].innerHTML = '';
+		childDivs[0].appendChild(form);
+		form.submit();
 	};
 	TreeBASE.analysisEditor.selectData = function (selector) {
 		var theDiv = selector.parentNode;

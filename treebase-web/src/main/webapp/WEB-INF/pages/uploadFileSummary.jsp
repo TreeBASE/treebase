@@ -37,7 +37,7 @@ File upload summary:<br/>
  	<c:if test="${not empty uploadParserLog}">
  		<c:out value="The Parser Log:"/>
  		<p/>
-		<c:out value="${fn:replace(uploadParserLog, carriageReturn,'<br/>')}" escapeXml="false"/>
+		<pre><c:out value="${uploadParserLog}"/></pre>
 		<br/><br/><p/>
 	</c:if>
  

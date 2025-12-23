@@ -14,7 +14,10 @@
       cell.appendChild(input);
       
       var removeSpan = document.createElement("SPAN");
-      removeSpan.innerHTML = '<a href="javascript:removeFile('+rowCount+')>remove</a>';
+      var removeLink = document.createElement("A");
+      removeLink.href = "javascript:removeFile("+rowCount+")";
+      removeLink.textContent = "remove";
+      removeSpan.appendChild(removeLink);
       cell.appendChild(removeSpan);
       
       row.setAttribute("id","file-"+rowCount);

@@ -48,7 +48,7 @@
   			-->
   		<init-param>
     		<param-name>system-actions-enabled</param-name>
-    		<param-value>true</param-value>
+    		<param-value>false</param-value>
   		</init-param>
 	</filter>
 	<filter-mapping>
@@ -107,6 +107,10 @@
     	<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
 	</filter>
 	<filter>
+		<filter-name>securityHeadersFilter</filter-name>
+		<filter-class>org.cipres.treebase.web.filters.SecurityHeadersFilter</filter-class>
+	</filter>
+	<filter>
 		<filter-name>securityFilter</filter-name>
 		<filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
 		<init-param>
@@ -141,6 +145,11 @@
  	<!-- ========================================================== -->
  	<!-- Mappings for Filters defined aboved						-->
  	<!-- ========================================================== -->
+ 	<filter-mapping>
+ 		<filter-name>securityHeadersFilter</filter-name>
+ 		<url-pattern>/*</url-pattern> 	
+ 	</filter-mapping>
+ 	
  	 <filter-mapping>
  		<filter-name>securityFilter</filter-name>
  		<url-pattern>/*</url-pattern> 	
@@ -355,11 +364,11 @@
 		<servlet-class>org.directwebremoting.spring.DwrSpringServlet</servlet-class>
 		<init-param>
     		<param-name>allowGetForSafariButMakeForgeryEasier</param-name>
-    		<param-value>true</param-value>
+    		<param-value>false</param-value>
   		</init-param>
 		<init-param>
             <param-name>debug</param-name>
-            <param-value>true</param-value>
+            <param-value>false</param-value>
         </init-param>
 	</servlet>
 	

@@ -48,7 +48,7 @@
         <c:forEach var="error" items="${status.errorMessages}">
             <img src="<c:url value="/images/iconWarning.gif"/>"
                 alt="<fmt:message key="icon.warning"/>" class="icon" />
-            <c:out value="${error}" escapeXml="false"/><br />
+            <c:out value="${error}"/><br />
         </c:forEach>
     </div>
     </c:if>
