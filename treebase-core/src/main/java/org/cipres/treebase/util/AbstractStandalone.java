@@ -9,8 +9,8 @@ import org.cipres.treebase.ContextManager;
 import org.cipres.treebase.core.CoreServiceLauncher;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.orm.hibernate4.SessionHolder;
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.SessionHolder;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 public abstract class AbstractStandalone extends HibernateDaoSupport implements Standalone {

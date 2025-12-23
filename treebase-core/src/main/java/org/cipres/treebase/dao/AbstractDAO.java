@@ -13,8 +13,8 @@ import org.hibernate.FlushMode;
 import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
-import org.springframework.orm.hibernate4.HibernateTemplate;
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 /**
  * AbstractDAO.java
