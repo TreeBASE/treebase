@@ -9,7 +9,9 @@ import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.domain.DomainHome;
 import org.cipres.treebase.domain.TBPersistable;
 import org.hibernate.Criteria;
+import org.hibernate.FlushMode;
 import org.hibernate.LockMode;
+import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
@@ -92,7 +94,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	public Connection getConnection() {
 		// Hibernate 4.x changed the way to get JDBC connection
 		// Use doReturningWork to safely access the connection
-		return getSession().doReturningWork(new org.hibernate.jdbc.ReturningWork<Connection>() {
+		return getSessionFactory().getCurrentSession().doReturningWork(new org.hibernate.jdbc.ReturningWork<Connection>() {
 			@Override
 			public Connection execute(Connection connection) throws java.sql.SQLException {
 				return connection;
@@ -117,7 +119,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 		T result = null;
 		if (pID != null) {
 
-			Criteria c = getSession().createCriteria(T);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(T);
 			c.add(Expression.eq("id", pID));
 			T uniqueResult = (T) c.uniqueResult();
 			result = uniqueResult;
@@ -177,7 +179,18 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	 * @see org.cipres.treebase.domain.DomainHome#setFlushMode(int)
 	 */
 	public void setFlushMode(int pFlushMode) {
-		getHibernateTemplate().setFlushMode(pFlushMode);
+		// In Hibernate 4.x, convert int to FlushMode and set on session
+		// Legacy int values: 0=NEVER/MANUAL, 1=COMMIT, 2=AUTO, 3=ALWAYS
+		Session session = getSessionFactory().getCurrentSession();
+		if (pFlushMode == 0) {
+			session.setFlushMode(FlushMode.MANUAL);
+		} else if (pFlushMode == 1) {
+			session.setFlushMode(FlushMode.COMMIT);
+		} else if (pFlushMode == 2) {
+			session.setFlushMode(FlushMode.AUTO);
+		} else {
+			session.setFlushMode(FlushMode.ALWAYS);
+		}
 	}
 
 	/**
@@ -185,7 +198,18 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	 * @see org.cipres.treebase.domain.DomainHome#getFlushMode()
 	 */
 	public int getFlushMode() {
-		return getHibernateTemplate().getFlushMode();
+		// In Hibernate 4.x, get FlushMode from session and convert to int
+		// Return values: 0=MANUAL, 1=COMMIT, 2=AUTO, 3=ALWAYS
+		FlushMode mode = getSessionFactory().getCurrentSession().getFlushMode();
+		if (mode == FlushMode.MANUAL) {
+			return 0;
+		} else if (mode == FlushMode.COMMIT) {
+			return 1;
+		} else if (mode == FlushMode.AUTO) {
+			return 2;
+		} else {
+			return 3; // ALWAYS
+		}
 	}
 
 	/* (non-Javadoc)
@@ -219,7 +243,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 			String attributeName,
 			String target,
 			Boolean caseSensitive) {
-		Criteria c = getSession().createCriteria(T);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(T);
 		// XXX check target for metacharacters here
 		String termPattern = "%" + target + "%";
 		if (caseSensitive) {
@@ -248,7 +272,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 			String attributeName,
 			String target,
 			Boolean caseSensitive) {
-		Criteria c = getSession().createCriteria(T);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(T);
 		if (caseSensitive) {
 			c.add(Expression.eq(attributeName, target));
 		} else {
@@ -266,7 +290,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	// reimplement using that.  MJD 20081016
 	@SuppressWarnings("unchecked")
 	public <T extends TBPersistable> Collection<T> findAll(Class T) {
-		Collection<T> results = getSession().createCriteria(T).list();
+		Collection<T> results = getSessionFactory().getCurrentSession().createCriteria(T).list();
 		return results;
 	}
 	
@@ -277,7 +301,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	public <T extends TBPersistable> Collection<T> findSomethingByItsDescription(
 			Class T, String attributeName, String target, Boolean caseSensitive) {
 		Collection<T> results;
-		Criteria crit = getSession().createCriteria(T);
+		Criteria crit = getSessionFactory().getCurrentSession().createCriteria(T);
 		crit.createAlias( attributeName, "something");
 		if (caseSensitive) {
 			crit.add(Expression.like("something.description", "%" + target + "%"));			
@@ -295,7 +319,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
     public <T extends TBPersistable> Collection<T> findSomethingByRangeExpression(Class t, String attributeName,
 			String rangeExpression) throws MalformedRangeExpression {
     	RangeExpression re = new RangeExpression(rangeExpression);
-    	Criteria criteria = getSession().createCriteria(t);
+    	Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(t);
 //    	criteria.createAlias(attributeName, "alias");
     	criteria.add(re.getCriteria(attributeName));
     	Collection<T> results = criteria.list();
