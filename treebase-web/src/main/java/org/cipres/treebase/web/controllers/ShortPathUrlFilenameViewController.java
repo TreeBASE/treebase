@@ -55,7 +55,7 @@ public class ShortPathUrlFilenameViewController extends UrlFilenameViewControlle
 		}
 		
 		// Ensure valid bounds
-		if (begin >= end || begin >= urlPath.length()) {
+		if (begin < 0 || begin >= urlPath.length() || end > urlPath.length() || begin >= end) {
 			// Return the path as-is if we can't extract a valid filename
 			return urlPath.startsWith("/") ? urlPath.substring(1) : urlPath;
 		}
