@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.cipres.treebase.web.compat.AbstractCommandController;
+import org.springframework.web.servlet.mvc.AbstractCommandController;
 import org.cipres.treebase.web.model.Identify;
 import org.cipres.treebase.web.model.OAIPMHCommand;
 import org.cipres.treebase.web.util.IdentifyUtil;
