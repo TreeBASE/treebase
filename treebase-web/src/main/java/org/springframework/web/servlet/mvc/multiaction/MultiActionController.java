@@ -16,6 +16,25 @@ import org.springframework.web.servlet.mvc.AbstractController;
  */
 public class MultiActionController extends AbstractController {
 
+    private MethodNameResolver methodNameResolver;
+
+    /**
+     * Set the MethodNameResolver to use for determining the handler method name.
+     */
+    public void setMethodNameResolver(MethodNameResolver methodNameResolver) {
+        this.methodNameResolver = methodNameResolver;
+    }
+
+    /**
+     * Get the current MethodNameResolver.
+     */
+    public MethodNameResolver getMethodNameResolver() {
+        if (this.methodNameResolver == null) {
+            this.methodNameResolver = new ParameterMethodNameResolver();
+        }
+        return this.methodNameResolver;
+    }
+
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -31,16 +50,10 @@ public class MultiActionController extends AbstractController {
     }
 
     /**
-     * Determine the method name from the request.
-     * Default implementation looks for a "method" parameter.
+     * Determine the method name from the request using the configured MethodNameResolver.
      */
-    protected String getMethodName(HttpServletRequest request) {
-        String methodName = request.getParameter("method");
-        if (methodName == null || methodName.isEmpty()) {
-            // Fallback to a default method name
-            methodName = "defaultMethod";
-        }
-        return methodName;
+    protected String getMethodName(HttpServletRequest request) throws NoSuchRequestHandlingMethodException {
+        return getMethodNameResolver().getHandlerMethodName(request);
     }
 
     /**

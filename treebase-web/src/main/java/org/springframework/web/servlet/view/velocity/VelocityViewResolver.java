@@ -26,6 +26,8 @@ public class VelocityViewResolver implements ViewResolver, InitializingBean {
     private String suffix = ".vm";
     private String contentType = "text/html;charset=UTF-8";
     private String encoding = "UTF-8";
+    private boolean exposeRequestAttributes = false;
+    private boolean exposeSessionAttributes = false;
 
     public void setVelocityEngine(VelocityEngine velocityEngine) {
         this.velocityEngine = velocityEngine;
@@ -45,6 +47,14 @@ public class VelocityViewResolver implements ViewResolver, InitializingBean {
 
     public void setEncoding(String encoding) {
         this.encoding = encoding;
+    }
+
+    public void setExposeRequestAttributes(boolean exposeRequestAttributes) {
+        this.exposeRequestAttributes = exposeRequestAttributes;
+    }
+
+    public void setExposeSessionAttributes(boolean exposeSessionAttributes) {
+        this.exposeSessionAttributes = exposeSessionAttributes;
     }
 
     @Override
@@ -83,6 +93,24 @@ public class VelocityViewResolver implements ViewResolver, InitializingBean {
             if (model != null) {
                 for (Map.Entry<String, ?> entry : model.entrySet()) {
                     velocityContext.put(entry.getKey(), entry.getValue());
+                }
+            }
+
+            // Add request attributes if configured
+            if (exposeRequestAttributes && request != null) {
+                java.util.Enumeration<String> attrNames = request.getAttributeNames();
+                while (attrNames.hasMoreElements()) {
+                    String attrName = attrNames.nextElement();
+                    velocityContext.put(attrName, request.getAttribute(attrName));
+                }
+            }
+
+            // Add session attributes if configured
+            if (exposeSessionAttributes && request != null && request.getSession(false) != null) {
+                java.util.Enumeration<String> attrNames = request.getSession().getAttributeNames();
+                while (attrNames.hasMoreElements()) {
+                    String attrName = attrNames.nextElement();
+                    velocityContext.put(attrName, request.getSession().getAttribute(attrName));
                 }
             }
 

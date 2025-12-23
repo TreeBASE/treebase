@@ -56,11 +56,6 @@ public class VelocityConfigurer implements InitializingBean, ResourceLoaderAware
         
         Properties props = new Properties();
         
-        // Set default properties - use string literals instead of constants
-        props.setProperty("resource.loaders", "webapp");
-        props.setProperty("resource.loader.webapp.class", 
-            "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        
         if (resourceLoaderPath != null) {
             // Configure file resource loader for webapp paths
             props.setProperty("resource.loaders", "file");
@@ -68,13 +63,30 @@ public class VelocityConfigurer implements InitializingBean, ResourceLoaderAware
                 "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
             
             String path = resourceLoaderPath;
-            if (servletContext != null && !path.startsWith("/")) {
-                path = "/" + path;
-            }
             if (servletContext != null) {
-                path = servletContext.getRealPath(path);
+                if (!path.startsWith("/")) {
+                    path = "/" + path;
+                }
+                String realPath = servletContext.getRealPath(path);
+                // Handle case where getRealPath returns null (e.g., running from WAR)
+                if (realPath != null) {
+                    path = realPath;
+                } else {
+                    // Fallback to classpath loader if real path cannot be determined
+                    props.setProperty("resource.loaders", "classpath");
+                    props.setProperty("resource.loader.classpath.class",
+                        "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+                }
             }
-            props.setProperty("resource.loader.file.path", path);
+            
+            if (props.getProperty("resource.loaders").equals("file")) {
+                props.setProperty("resource.loader.file.path", path);
+            }
+        } else {
+            // Set default classpath loader when no path is specified
+            props.setProperty("resource.loaders", "classpath");
+            props.setProperty("resource.loader.classpath.class", 
+                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         }
         
         // Add any custom properties
