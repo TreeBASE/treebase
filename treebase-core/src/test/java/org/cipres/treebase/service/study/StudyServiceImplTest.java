@@ -146,12 +146,12 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from Study where study_id=" + s.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		String taxonLabelsql = "select count(*) from taxonLabel where taxonLabel_id="
 			+ label.getId();
-		int taxonLabelCount = jdbcTemplate.queryForInt(taxonLabelsql);
+		int taxonLabelCount = jdbcTemplate.queryForObject(taxonLabelsql, Integer.class);
 		assertTrue(taxonLabelCount == 1);
 
 		// 3. delete
@@ -161,10 +161,10 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 4. verify delte:
-		int countVerify = jdbcTemplate.queryForInt(sqlStr);
+		int countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("Deletion failed.", countVerify == 0);
 
-		int countVerifyTaxonLabel = jdbcTemplate.queryForInt(taxonLabelsql);
+		int countVerifyTaxonLabel = jdbcTemplate.queryForObject(taxonLabelsql, Integer.class);
 		assertTrue("Deletion taxon label failed.", countVerifyTaxonLabel == 0);
 
 		if (logger.isInfoEnabled()) {
@@ -227,7 +227,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from Study where study_id=" + s.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// assertTrue("need to return Analysis ID.", a1.getId() != null);
@@ -239,12 +239,12 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 4. verify delete:
-		int countVerify = jdbcTemplate.queryForInt(sqlStr);
+		int countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("Deletion failed.", countVerify == 0);
 
 		String sqlStrAnalysis = "select count(*) from analysis where analysis_id="
 			+ updatedA2.getId();
-		count = jdbcTemplate.queryForInt(sqlStrAnalysis);
+		count = jdbcTemplate.queryForObject(sqlStrAnalysis, Integer.class);
 		assertTrue("cascade Delete analysis failed.", count == 0);
 
 		if (logger.isInfoEnabled()) {
@@ -299,7 +299,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from Study where study_id=" + s.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// assertTrue("need to return Analysis ID.", a1.getId() != null);
@@ -310,11 +310,11 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 4. verify delte:
-		int countVerify = jdbcTemplate.queryForInt(sqlStr);
+		int countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("Deletion failed.", countVerify == 0);
 
 		String sqlStrAnalysis = "select count(*) from analysis where analysis_id=" + a2ID;
-		count = jdbcTemplate.queryForInt(sqlStrAnalysis);
+		count = jdbcTemplate.queryForObject(sqlStrAnalysis, Integer.class);
 		assertTrue("cascade Delete analysis failed.", count == 0);
 
 		logger.info(testName + " - end "); //$NON-NLS-1$
@@ -350,7 +350,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from Study where study_id=" + s.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// assertTrue("need to return Analysis ID.", a1.getId() != null);
@@ -379,7 +379,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// 4. verify nexus
 		String sqlNexus = "select count(*) from Study_nexusFile where study_id=" + s.getId();
-		int countNexus = jdbcTemplate.queryForInt(sqlNexus);
+		int countNexus = jdbcTemplate.queryForObject(sqlNexus, Integer.class);
 		assertTrue(countNexus == 1);
 
 		startNewTransaction();
@@ -401,10 +401,10 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 6. verify delte:
-		int countVerify = jdbcTemplate.queryForInt(sqlStr);
+		int countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("Deletion failed.", countVerify == 0);
 
-		count = jdbcTemplate.queryForInt(sqlNexus);
+		count = jdbcTemplate.queryForObject(sqlNexus, Integer.class);
 		assertTrue("cascade Delete nexus file.", count == 0);
 
 		logger.info(testName + " - end "); //$NON-NLS-1$
@@ -440,7 +440,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from Study where study_id=" + s.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 1);
 
 		// assertTrue("need to return Analysis ID.", a1.getId() != null);
@@ -462,7 +462,7 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 
 		// 4. verify nexus
 		String sqlNexus = "select count(*) from Study_nexusFile where study_id=" + s.getId();
-		int countNexus = jdbcTemplate.queryForInt(sqlNexus);
+		int countNexus = jdbcTemplate.queryForObject(sqlNexus, Integer.class);
 		logger.info("study_nexusFile: count =" + countNexus);
 		Assume.assumeTrue(testName + " - nexus file not added, test skipped", countNexus == 1);
 
@@ -488,10 +488,10 @@ public class StudyServiceImplTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 6. verify delete:
-		int countVerify = jdbcTemplate.queryForInt(sqlStr);
+		int countVerify = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("Deletion failed.", countVerify == 0);
 
-		count = jdbcTemplate.queryForInt(sqlNexus);
+		count = jdbcTemplate.queryForObject(sqlNexus, Integer.class);
 		assertTrue("cascade Delete nexus file.", count == 0);
 
 		logger.info(testName + " - end "); //$NON-NLS-1$

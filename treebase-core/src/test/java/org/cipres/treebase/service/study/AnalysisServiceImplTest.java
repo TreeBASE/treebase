@@ -146,7 +146,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 
 		// 2. verify
 		String sqlStr = "select count(*) from analysis where study_id=" + s.getId();
-		int count = jdbcTemplate.queryForInt(sqlStr);
+		int count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue(count == 2);
 
 		// 3. delete
@@ -164,7 +164,7 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 
 		// 4. verify delete:
 		String a1Sql = "select count(*) from analysis where analysis_id=" + a1ID;
-		int countVerify = jdbcTemplate.queryForInt(a1Sql);
+		int countVerify = jdbcTemplate.queryForObject(a1Sql, Integer.class);
 		assertTrue("Deletion failed.", countVerify == 0);
 
 		// 5. delete study
@@ -177,11 +177,11 @@ public class AnalysisServiceImplTest extends AbstractDAOTest {
 		setComplete();
 		endTransaction();
 
-		count = jdbcTemplate.queryForInt(sqlStr);
+		count = jdbcTemplate.queryForObject(sqlStr, Integer.class);
 		assertTrue("Delete analysis failed.", count == 0);
 
 		String sqlStrAnalysis = "select count(*) from analysis where analysis_id=" + a2ID;
-		count = jdbcTemplate.queryForInt(sqlStrAnalysis);
+		count = jdbcTemplate.queryForObject(sqlStrAnalysis, Integer.class);
 		assertTrue("cascade Delete analysis failed.", count == 0);
 
 		logger.info(testName + " - end "); //$NON-NLS-1$
