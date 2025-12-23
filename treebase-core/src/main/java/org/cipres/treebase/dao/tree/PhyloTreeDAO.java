@@ -31,7 +31,7 @@ import org.cipres.treebase.domain.tree.TreeKind;
 import org.cipres.treebase.domain.tree.TreeQuality;
 import org.cipres.treebase.domain.tree.TreeType;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
+import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -697,8 +697,8 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 		
 		Object[] ncbiNode =  (Object []) getSession()
 			.createSQLQuery("SELECT * FROM ncbi_nodes WHERE tax_id = ?")
-			.addScalar("left_id", Hibernate.INTEGER)
-			.addScalar("right_id", Hibernate.INTEGER)
+			.addScalar("left_id", StandardBasicTypes.INTEGER)
+			.addScalar("right_id", StandardBasicTypes.INTEGER)
 			.setInteger(0, Integer.parseInt(pNcbiId))
 			.uniqueResult();
 
@@ -715,7 +715,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			"where nno.left_id >= "+ ncbiNode[0] + " " +
 			"and nno.right_id <= "+ ncbiNode[1] + " " +
 			"group by ptn.phylotree_id ")
-			.addScalar("phylotree_id", Hibernate.LONG)
+			.addScalar("phylotree_id", StandardBasicTypes.LONG)
 			.list();
 		
 		if (phyloTreeNodes.isEmpty()) {

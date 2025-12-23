@@ -36,7 +36,7 @@ import org.cipres.treebase.domain.taxon.TaxonLabelSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
+import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.Query;
 import org.hibernate.criterion.Expression;
 
@@ -525,7 +525,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		List results = getSession()
 			.createSQLQuery(sql).addEntity("e", MatrixElement.class).addScalar(
 				"rowId",
-				Hibernate.LONG).addScalar("elemIndex", Hibernate.INTEGER).setLong(
+				StandardBasicTypes.LONG).addScalar("elemIndex", StandardBasicTypes.INTEGER).setLong(
 				"matrixID",
 				pMatrix.getId()).setInteger("startIndex", start).setInteger("endIndex", end).list();
 

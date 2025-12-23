@@ -85,15 +85,19 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 		}
 	}
 
-	/** 
+	/**
 	 * 
 	 * @see org.cipres.treebase.domain.DomainHome#getConnection()
 	 */
 	public Connection getConnection() {
-		//Note: Hibernate 3 deprecated this method. 
-		// use Spring HibernateDAOSupport.connection() when we upgrade to 
-		// spring 2.5+
-		return getSession().connection();
+		// Hibernate 4.x changed the way to get JDBC connection
+		// Use doReturningWork to safely access the connection
+		return getSession().doReturningWork(new org.hibernate.jdbc.ReturningWork<Connection>() {
+			@Override
+			public Connection execute(Connection connection) throws java.sql.SQLException {
+				return connection;
+			}
+		});
 	}
 
 	/**
