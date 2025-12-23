@@ -1,17 +1,13 @@
 package org.treebase.oai.web.util;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses({
+	IdentifyUtilTest.class
+})
 public class PackageTestSuite {
-
-	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for org.cipres.treebase.auxdata");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(IdentifyUtilTest.class);		
-		
-		//$JUnit-END$
-		return suite;
-	}
-
+	// JUnit 4 suite - test classes are specified in @SuiteClasses annotation
 }

@@ -32,7 +32,7 @@ public class HelpDAO extends AbstractDAO implements HelpHome {
 	public Help findByID(Long helpId) {
 		List<Help> results;
 
-		Criteria c = getSession().createCriteria(Help.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Help.class);
 		c.add(Expression.eq("id", helpId));
 		results = c.list();
 
@@ -42,7 +42,7 @@ public class HelpDAO extends AbstractDAO implements HelpHome {
 	public Help findByTag(String tag) {
 		List<Help> results;
 
-		Criteria c = getSession().createCriteria(Help.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Help.class);
 		c.add(Expression.eq("tag", tag));
 		results = c.list();
 

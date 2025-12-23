@@ -9,10 +9,12 @@ import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.domain.DomainHome;
 import org.cipres.treebase.domain.TBPersistable;
 import org.hibernate.Criteria;
+import javax.persistence.FlushModeType;
 import org.hibernate.LockMode;
+import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
 /**
  * AbstractDAO.java
@@ -85,15 +87,19 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 		}
 	}
 
-	/** 
+	/**
 	 * 
 	 * @see org.cipres.treebase.domain.DomainHome#getConnection()
 	 */
 	public Connection getConnection() {
-		//Note: Hibernate 3 deprecated this method. 
-		// use Spring HibernateDAOSupport.connection() when we upgrade to 
-		// spring 2.5+
-		return getSession().connection();
+		// Hibernate 4.x changed the way to get JDBC connection
+		// Use doReturningWork to safely access the connection
+		return getSessionFactory().getCurrentSession().doReturningWork(new org.hibernate.jdbc.ReturningWork<Connection>() {
+			@Override
+			public Connection execute(Connection connection) throws java.sql.SQLException {
+				return connection;
+			}
+		});
 	}
 
 	/**
@@ -113,7 +119,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 		T result = null;
 		if (pID != null) {
 
-			Criteria c = getSession().createCriteria(T);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(T);
 			c.add(Expression.eq("id", pID));
 			T uniqueResult = (T) c.uniqueResult();
 			result = uniqueResult;
@@ -173,7 +179,15 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	 * @see org.cipres.treebase.domain.DomainHome#setFlushMode(int)
 	 */
 	public void setFlushMode(int pFlushMode) {
-		getHibernateTemplate().setFlushMode(pFlushMode);
+		// In Hibernate 5.x, convert int to JPA FlushModeType and set on session
+		// Legacy int values: 0=NEVER/MANUAL, 1=COMMIT, 2=AUTO, 3=ALWAYS
+		// JPA only has COMMIT and AUTO
+		Session session = getSessionFactory().getCurrentSession();
+		if (pFlushMode == 0 || pFlushMode == 1) {
+			session.setFlushMode(FlushModeType.COMMIT);
+		} else {
+			session.setFlushMode(FlushModeType.AUTO);
+		}
 	}
 
 	/**
@@ -181,7 +195,15 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	 * @see org.cipres.treebase.domain.DomainHome#getFlushMode()
 	 */
 	public int getFlushMode() {
-		return getHibernateTemplate().getFlushMode();
+		// In Hibernate 5.x, get FlushModeType from session and convert to int
+		// Return values: 0=MANUAL, 1=COMMIT, 2=AUTO, 3=ALWAYS
+		// JPA FlushModeType only has COMMIT and AUTO
+		FlushModeType mode = getSessionFactory().getCurrentSession().getFlushMode();
+		if (mode == FlushModeType.COMMIT) {
+			return 1;
+		} else {
+			return 2; // AUTO
+		}
 	}
 
 	/* (non-Javadoc)
@@ -215,7 +237,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 			String attributeName,
 			String target,
 			Boolean caseSensitive) {
-		Criteria c = getSession().createCriteria(T);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(T);
 		// XXX check target for metacharacters here
 		String termPattern = "%" + target + "%";
 		if (caseSensitive) {
@@ -244,7 +266,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 			String attributeName,
 			String target,
 			Boolean caseSensitive) {
-		Criteria c = getSession().createCriteria(T);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(T);
 		if (caseSensitive) {
 			c.add(Expression.eq(attributeName, target));
 		} else {
@@ -262,7 +284,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	// reimplement using that.  MJD 20081016
 	@SuppressWarnings("unchecked")
 	public <T extends TBPersistable> Collection<T> findAll(Class T) {
-		Collection<T> results = getSession().createCriteria(T).list();
+		Collection<T> results = getSessionFactory().getCurrentSession().createCriteria(T).list();
 		return results;
 	}
 	
@@ -273,7 +295,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	public <T extends TBPersistable> Collection<T> findSomethingByItsDescription(
 			Class T, String attributeName, String target, Boolean caseSensitive) {
 		Collection<T> results;
-		Criteria crit = getSession().createCriteria(T);
+		Criteria crit = getSessionFactory().getCurrentSession().createCriteria(T);
 		crit.createAlias( attributeName, "something");
 		if (caseSensitive) {
 			crit.add(Expression.like("something.description", "%" + target + "%"));			
@@ -291,7 +313,7 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
     public <T extends TBPersistable> Collection<T> findSomethingByRangeExpression(Class t, String attributeName,
 			String rangeExpression) throws MalformedRangeExpression {
     	RangeExpression re = new RangeExpression(rangeExpression);
-    	Criteria criteria = getSession().createCriteria(t);
+    	Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(t);
 //    	criteria.createAlias(attributeName, "alias");
     	criteria.add(re.getCriteria(attributeName));
     	Collection<T> results = criteria.list();

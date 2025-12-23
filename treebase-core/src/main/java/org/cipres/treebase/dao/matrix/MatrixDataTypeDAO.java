@@ -31,7 +31,7 @@ public class MatrixDataTypeDAO extends AbstractDAO implements MatrixDataTypeHome
 	public MatrixDataType findByDescription(String pDescription) {
 		MatrixDataType returnVal = null;
 
-		Criteria c = getSession().createCriteria(MatrixDataType.class).add(
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(MatrixDataType.class).add(
 			org.hibernate.criterion.Expression.eq("description", pDescription));
 
 		returnVal = (MatrixDataType) c.uniqueResult();

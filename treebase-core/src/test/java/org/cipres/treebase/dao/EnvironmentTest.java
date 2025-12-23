@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import org.hibernate.Query;
-import org.hibernate.impl.SessionImpl;
+import org.hibernate.jdbc.ReturningWork;
 import org.junit.Test;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -132,10 +132,15 @@ public class EnvironmentTest extends AbstractDAOTest {
 		StringBuffer query = new StringBuffer(
 			"INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)");
 			
-		// Note: Session.connection() is deprecated in Hibernate 3.x. We cast to SessionImpl
-		// to access the connection() method. While Session.doReturningWork() would be better,
-		// it would require restructuring the test. For test code, this is acceptable.
-		Connection con =  ((SessionImpl)hibernateTemplate.getSessionFactory().getCurrentSession()).connection();
+		// Hibernate 4.x: Use doReturningWork() to access JDBC connection
+		Connection con = hibernateTemplate.getSessionFactory().getCurrentSession().doReturningWork(
+			new ReturningWork<Connection>() {
+				@Override
+				public Connection execute(Connection connection) throws java.sql.SQLException {
+					return connection;
+				}
+			}
+		);
 		String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)";
 		// String idQuery = "identity_val_local()";
 
@@ -151,7 +156,8 @@ public class EnvironmentTest extends AbstractDAOTest {
 		
 		logger.debug(" execute count=" + count);
 		
-		con.commit();
+		// Don't manually commit - let Spring's transaction management handle it
+		// con.commit();
 		
 		ResultSet rs = ps.getGeneratedKeys();
 		long phyloCharId = -1;
@@ -175,10 +181,12 @@ public class EnvironmentTest extends AbstractDAOTest {
 		ps.setLong(1, phyloCharId);
 		
 		ps.executeUpdate();
-		con.commit();
+		// Don't manually commit or close - let Spring's transaction management handle it
+		// con.commit();
 		
 		ps.close();
-		con.close();
+		// Don't close connection - it's managed by Hibernate/Spring transaction
+		// con.close();
 		
 		if (logger.isInfoEnabled()) {
 			logger.info(testName + " - end "); //$NON-NLS-1$
@@ -207,10 +215,15 @@ public class EnvironmentTest extends AbstractDAOTest {
 		StringBuffer query = new StringBuffer(
 			"INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?) RETURNING phylochar_id");
 			
-		// Note: Session.connection() is deprecated in Hibernate 3.x. We cast to SessionImpl
-		// to access the connection() method. While Session.doReturningWork() would be better,
-		// it would require restructuring the test. For test code, this is acceptable.
-		Connection con =  ((SessionImpl)hibernateTemplate.getSessionFactory().getCurrentSession()).connection();
+		// Hibernate 4.x: Use doReturningWork() to access JDBC connection
+		Connection con = hibernateTemplate.getSessionFactory().getCurrentSession().doReturningWork(
+			new ReturningWork<Connection>() {
+				@Override
+				public Connection execute(Connection connection) throws java.sql.SQLException {
+					return connection;
+				}
+			}
+		);
 		//String queryBuf = "INSERT INTO PHYLOCHAR(TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) VALUES('D', default, 0, ?)";
 		// String idQuery = "identity_val_local()";
 
@@ -224,7 +237,8 @@ public class EnvironmentTest extends AbstractDAOTest {
 		
 		//logger.debug(" execute count=" + count);
 		
-		con.commit();
+		// Don't manually commit - let Spring's transaction management handle it
+		// con.commit();
 		
 		//ResultSet rs = ps.getGeneratedKeys();
 		long phyloCharId = -1;
@@ -248,10 +262,12 @@ public class EnvironmentTest extends AbstractDAOTest {
 		ps.setLong(1, phyloCharId);
 		
 		ps.executeUpdate();
-		con.commit();
+		// Don't manually commit or close - let Spring's transaction management handle it
+		// con.commit();
 		
 		ps.close();
-		con.close();
+		// Don't close connection - it's managed by Hibernate/Spring transaction
+		// con.close();
 		
 		if (logger.isInfoEnabled()) {
 			logger.info(testName + " - end "); //$NON-NLS-1$

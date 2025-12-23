@@ -1,34 +1,39 @@
 
 package org.cipres.treebase.service;
 
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
-
 import org.cipres.treebase.core.CoreServiceLauncher;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Extends AbstractDependencyInjectionSpringContextTests, no need to handle transaction??
+ * Base class for service tests using Spring test framework.
+ * Migrated from AbstractDependencyInjectionSpringContextTests to Spring 4.x compatible testing.
  * 
  * Created on Oct 7, 2005
  * 
  * @author Jin Ruan
  * 
  */
-public abstract class AbstractServiceTest extends AbstractDependencyInjectionSpringContextTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:applicationContext-db-standalone.xml",
+	"classpath:applicationContext-dao.xml",
+	"classpath:applicationContext-service.xml"
+})
+@TransactionConfiguration(defaultRollback = true)
+@Transactional
+public abstract class AbstractServiceTest {
+
+	protected org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(getClass());
 
 	/**
 	 * constructor.
 	 */
 	public AbstractServiceTest() {
 		super();
-	}
-
-	/**
-	 * 
-	 * @see org.springframework.test.AbstractDependencyInjectionSpringContextTests#getConfigLocations()
-	 */
-	@Override
-	protected String[] getConfigLocations() {
-		return CoreServiceLauncher.getSpringConfigurations();
 	}
 
 }

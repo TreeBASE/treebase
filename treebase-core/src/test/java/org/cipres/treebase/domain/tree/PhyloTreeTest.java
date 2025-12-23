@@ -163,10 +163,10 @@ public class PhyloTreeTest extends AbstractDAOTest {
 		// 3. verify
 		String studySQL = "select count(*) from Study where study_id=" + s.getId();
 		String subSQL = "select count(*) from Submission where submission_id=" + sub.getId();
-		int count = jdbcTemplate.queryForInt(studySQL);
+		int count = jdbcTemplate.queryForObject(studySQL, Integer.class);
 		assertTrue(count == 1);
 
-		count = jdbcTemplate.queryForInt(subSQL);
+		count = jdbcTemplate.queryForObject(subSQL, Integer.class);
 		assertTrue(count == 1);
 
 		onSetUp();
@@ -202,9 +202,9 @@ public class PhyloTreeTest extends AbstractDAOTest {
 		endTransaction();
 
 		// 6. verify delete:
-		int countVerify = jdbcTemplate.queryForInt(subSQL);
+		int countVerify = jdbcTemplate.queryForObject(subSQL, Integer.class);
 		assertTrue("Submission deletion failed.", countVerify == 0);
-		countVerify = jdbcTemplate.queryForInt(studySQL);
+		countVerify = jdbcTemplate.queryForObject(studySQL, Integer.class);
 		assertTrue("Study deletion failed.", countVerify == 0);
 
 		if (logger.isInfoEnabled()) {

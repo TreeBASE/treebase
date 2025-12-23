@@ -12,7 +12,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractWizardFormController;
+import org.cipres.treebase.web.compat.AbstractWizardFormController;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.admin.Person;
@@ -128,7 +128,7 @@ public class AdminMergingPersonsController extends AbstractWizardFormController 
 
 	}
 
-	@Override
+	// formBackingObject is already defined in the base class
 	protected Object formBackingObject(HttpServletRequest request) {
 		return new Object();
 	}

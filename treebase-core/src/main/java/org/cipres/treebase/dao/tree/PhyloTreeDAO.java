@@ -31,7 +31,7 @@ import org.cipres.treebase.domain.tree.TreeKind;
 import org.cipres.treebase.domain.tree.TreeQuality;
 import org.cipres.treebase.domain.tree.TreeType;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
+import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -164,7 +164,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 		// * Tree nodes
 		// ** for each tree node, node attribute.
 		// ** (TODO) NodeEdge
-		//PhyloTreeJDBC.deletePhyloTreeNodeSQL(pTree, getSession());
+		//PhyloTreeJDBC.deletePhyloTreeNodeSQL(pTree, getSessionFactory().getCurrentSession());
 
 		// cascade delete by hibernate:
 		// * tree atrribute
@@ -220,7 +220,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 	 * @see org.cipres.treebase.domain.tree.PhyloTreeHome#deleteNodes(org.cipres.treebase.domain.tree.PhyloTree)
 	 */
 	public void deleteNodes(PhyloTree pTree) {
-		PhyloTreeJDBC.deletePhyloTreeNodeSQL(pTree, getSession());
+		PhyloTreeJDBC.deletePhyloTreeNodeSQL(pTree, getSessionFactory().getCurrentSession());
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			// (:labels)";
 			"select t from PhyloTree t join t.treeNodes n where n.taxonLabel in (:labels)";
 
-			Query q = getSession().createQuery(query);
+			Query q = getSessionFactory().getCurrentSession().createQuery(query);
 
 			q.setParameterList("labels", pTaxonLabels);
 			returnVal = q.list();
@@ -275,7 +275,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 		
 		TreeKind returnVal = null;
 
-		Criteria c = getSession().createCriteria(TreeKind.class).add(
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(TreeKind.class).add(
 			org.hibernate.criterion.Expression.eq("description", pDescription));
 
 		returnVal = (TreeKind) c.uniqueResult();
@@ -293,7 +293,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 		
 		TreeQuality returnVal = null;
 
-		Criteria c = getSession().createCriteria(TreeQuality.class).add(
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(TreeQuality.class).add(
 			org.hibernate.criterion.Expression.eq("description", pDescription));
 
 		returnVal = (TreeQuality) c.uniqueResult();
@@ -311,7 +311,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 		
 		TreeType returnVal = null;
 
-		Criteria c = getSession().createCriteria(TreeType.class).add(
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(TreeType.class).add(
 			org.hibernate.criterion.Expression.eq("description", pDescription));
 
 		returnVal = (TreeType) c.uniqueResult();
@@ -330,7 +330,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 		if (pStudies != null && !pStudies.isEmpty()) {
 			String query = "select t from PhyloTree t where study in (:studies)";
 
-			Query q = getSession().createQuery(query);
+			Query q = getSessionFactory().getCurrentSession().createQuery(query);
 
 			q.setParameterList("studies", pStudies);
 			List results = q.list();
@@ -353,7 +353,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 
 		// FIXME: need more efficient use of sId. one less join..
 		// Need eager fetch all trees.
-		Query q = getSession().createQuery(query.toString());
+		Query q = getSessionFactory().getCurrentSession().createQuery(query.toString());
 
 		q.setParameter("submissionId", pSubmissionId);
 		q.setParameter("nexusFileName", pFileName);
@@ -373,7 +373,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 
 		String query = "update PhyloTree t set t.published = :pub where t.study = :study";
 
-		Query q = getSession().createQuery(query);
+		Query q = getSessionFactory().getCurrentSession().createQuery(query);
 		q.setBoolean("pub", pPublish);
 		q.setParameter("study", pStudy);
 
@@ -420,7 +420,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			// ab is NOT an ancestor of c
 			"and (ab.leftNode >= c.leftNode or ab.rightNode <= c.rightNode) ";
 		
-		Query q = getSession().createQuery(query);
+		Query q = getSessionFactory().getCurrentSession().createQuery(query);
 
 		q.setParameterList("a", aTV);
 		q.setParameterList("b", bTV);
@@ -431,7 +431,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			return returnVal;
 		}
 
-		Query t = getSession().createQuery("from PhyloTree where rootNode in (:roots)");
+		Query t = getSessionFactory().getCurrentSession().createQuery("from PhyloTree where rootNode in (:roots)");
 		t.setParameterList("roots", rootNodes);
 
 		returnVal.addAll(t.list());
@@ -476,7 +476,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			// ab is NOT an ancestor of c
 			"and (ab.leftNode >= c.leftNode or ab.rightNode <= c.rightNode) ";
 		
-		Query q = getSession().createQuery(query);
+		Query q = getSessionFactory().getCurrentSession().createQuery(query);
 
 		q.setParameter("a", "%"+a+"%");
 		q.setParameter("b", "%"+b+"%");
@@ -487,7 +487,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			return returnVal;
 		}
 
-		Query t = getSession().createQuery("from PhyloTree where rootNode in (:roots)");
+		Query t = getSessionFactory().getCurrentSession().createQuery("from PhyloTree where rootNode in (:roots)");
 		t.setParameterList("roots", rootNodes);
 
 		returnVal.addAll(t.list());
@@ -543,7 +543,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			// abc is NOT an ancestor of d
 			"and (abc.leftNode >= d.leftNode or abc.rightNode <= d.rightNode) ";
 
-		Query q = getSession().createQuery(query);
+		Query q = getSessionFactory().getCurrentSession().createQuery(query);
 
 		q.setParameterList("a", aTV);
 		q.setParameterList("b", bTV);
@@ -554,7 +554,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			return returnVal;
 		}
 
-		Query t = getSession().createQuery("from PhyloTree where rootNode in (:roots)");
+		Query t = getSessionFactory().getCurrentSession().createQuery("from PhyloTree where rootNode in (:roots)");
 		t.setParameterList("roots", rootNodes);
 
 		returnVal.addAll(t.list());
@@ -614,7 +614,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			// cd is NOT an ancestor of b
 			"and (cd.leftNode >= b.leftNode or cd.rightNode <= b.rightNode) ";
 
-		Query q = getSession().createQuery(query);
+		Query q = getSessionFactory().getCurrentSession().createQuery(query);
 /*		
 		LOGGER.debug("taxonvariantsets aTV: " + aTV.toString());
 		LOGGER.debug("taxonvariantsets bTV: " + bTV.toString());
@@ -631,7 +631,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			return returnVal;
 		}
 
-		Query t = getSession().createQuery("from PhyloTree where rootNode in (:roots)");
+		Query t = getSessionFactory().getCurrentSession().createQuery("from PhyloTree where rootNode in (:roots)");
 		t.setParameterList("roots", rootNodes);
 
 		returnVal.addAll(t.list());
@@ -649,7 +649,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 		Set<PhyloTree> returnVal = new HashSet<PhyloTree>();
 		String query = "select t from PhyloTree t where label = :label";
 
-		Query q = getSession().createQuery(query);
+		Query q = getSessionFactory().getCurrentSession().createQuery(query);
 
 		q.setParameter("label", label);
 		@SuppressWarnings("unchecked")
@@ -661,14 +661,14 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 	
 	@SuppressWarnings("unchecked")
 	public Collection<PhyloTree> findByNexusFile(String fn) {
-		Query q = getSession().createQuery("from PhyloTree where nexusfilename = :fn");
+		Query q = getSessionFactory().getCurrentSession().createQuery("from PhyloTree where nexusfilename = :fn");
 		q.setParameter("fn", fn);
 		return q.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	public Set<PhyloTreeNode> findNodesByTaxonLabel(TaxonLabel tl) {
-		Session sess = getSession();
+		Session sess = getSessionFactory().getCurrentSession();
 		SessionFactory sf = getSessionFactory();
 		Query q = sess.createQuery("select n from PhyloTreeNode n where taxonLabel = :tl");
 		q.setParameter("tl", tl);
@@ -682,7 +682,7 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 
 	public Collection<PhyloTree> findByTB1TreeID(String legacyID) {
 		List<PhyloTree> trees =
-			getSession().createQuery("from PhyloTree where TB1TreeID = :sid")
+			getSessionFactory().getCurrentSession().createQuery("from PhyloTree where TB1TreeID = :sid")
 				.setParameter("sid", legacyID)
 				.list();
 			
@@ -695,17 +695,17 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 		
 		Set<PhyloTree> returnVal = new HashSet<PhyloTree>();
 		
-		Object[] ncbiNode =  (Object []) getSession()
+		Object[] ncbiNode =  (Object []) getSessionFactory().getCurrentSession()
 			.createSQLQuery("SELECT * FROM ncbi_nodes WHERE tax_id = ?")
-			.addScalar("left_id", Hibernate.INTEGER)
-			.addScalar("right_id", Hibernate.INTEGER)
+			.addScalar("left_id", StandardBasicTypes.INTEGER)
+			.addScalar("right_id", StandardBasicTypes.INTEGER)
 			.setInteger(0, Integer.parseInt(pNcbiId))
 			.uniqueResult();
 
 		
 		
 		
-		List phyloTreeNodes =  getSession()
+		List phyloTreeNodes =  getSessionFactory().getCurrentSession()
 			.createSQLQuery("select ptn.phylotree_id " +
 			"from PhyloTreeNode ptn "+ 
 			"join TaxonLabel tl on (ptn.taxonlabel_id = tl.taxonlabel_id) "+ 
@@ -715,14 +715,14 @@ public class PhyloTreeDAO extends AbstractDAO implements PhyloTreeHome {
 			"where nno.left_id >= "+ ncbiNode[0] + " " +
 			"and nno.right_id <= "+ ncbiNode[1] + " " +
 			"group by ptn.phylotree_id ")
-			.addScalar("phylotree_id", Hibernate.LONG)
+			.addScalar("phylotree_id", StandardBasicTypes.LONG)
 			.list();
 		
 		if (phyloTreeNodes.isEmpty()) {
 			return returnVal;
 		}
 		
-		Collection <PhyloTree> phylotrees = (Collection<PhyloTree>) getSession()
+		Collection <PhyloTree> phylotrees = (Collection<PhyloTree>) getSessionFactory().getCurrentSession()
 				.createQuery("from PhyloTree where id in (:ids)")
 				.setParameterList("ids", phyloTreeNodes)
 				.list();

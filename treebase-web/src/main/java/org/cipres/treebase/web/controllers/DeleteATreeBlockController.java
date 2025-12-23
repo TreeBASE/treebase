@@ -137,9 +137,9 @@ public class DeleteATreeBlockController extends BaseFormController {
 	 * 
 	 * @see org.springframework.web.servlet.mvc.SimpleFormController#referenceData(javax.servlet.http.HttpServletRequest)
 	 */
-	protected Map<String,String> referenceData(HttpServletRequest request) {
+	protected Map<String,Object> referenceData(HttpServletRequest request) {
 
-		Map<String,String> referenceMap = new HashMap<String,String>();
+		Map<String,Object> referenceMap = new HashMap<String,Object>();
 		referenceMap.put("deleteelementtype", "Delete this particular TreeBlock");
 
 		Long treeBlockID = Long.parseLong(request.getParameter("treeblockid"));

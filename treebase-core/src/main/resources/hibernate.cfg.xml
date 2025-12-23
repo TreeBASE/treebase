@@ -9,12 +9,13 @@
 		<!-- NOTE: only used for updating tables in TBASE2 schema during dev -->
 		<!--property name="hibernate.default_schema">TBASE2</property-->
 
-		<!-- cache -->
-		<property name="hibernate.cache.provider_class">
-			org.hibernate.cache.EhCacheProvider
+		<!-- cache configuration for Hibernate 5.x -->
+		<property name="hibernate.cache.region.factory_class">
+			org.hibernate.cache.ehcache.EhCacheRegionFactory
 		</property>
-		<property name="hibernate.cache.provider_configuration_file_resource_path">/ehcache.xml</property>
+		<property name="hibernate.cache.use_second_level_cache">true</property>
 		<property name="hibernate.cache.use_query_cache">true</property>
+		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
 	
 		<!-- Other settings -->
 		<property name="hibernate.jdbc.use_streams_for_binary">true</property>

@@ -9,8 +9,8 @@ import org.cipres.treebase.ContextManager;
 import org.cipres.treebase.core.CoreServiceLauncher;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.orm.hibernate3.SessionHolder;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.SessionHolder;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 public abstract class AbstractStandalone extends HibernateDaoSupport implements Standalone {
@@ -28,7 +28,8 @@ public abstract class AbstractStandalone extends HibernateDaoSupport implements 
 	
 	public void bindSession() {
 		if (sessionIsBound()) return;
-		bindSession(getSession(true));
+		// In Hibernate 4, use openSession() to get a new session instead of getSession(true)
+		bindSession(getSessionFactory().openSession());
 	}
 	
 	public void bindSession(Session sess) {

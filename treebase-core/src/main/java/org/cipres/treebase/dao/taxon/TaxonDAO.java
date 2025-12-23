@@ -52,7 +52,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 		TaxonVariant returnVal = null;
 
 		if (!TreebaseUtil.isEmpty(pFullName)) {
-			Criteria c = getSession().createCriteria(TaxonVariant.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonVariant.class);
 			c.add(Expression.eq("fullName", pFullName));
 
 			returnVal = (TaxonVariant) c.uniqueResult();
@@ -68,7 +68,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 	public Collection<TaxonVariant> findVariantsByFullName(String pFullName) {
 		List<TaxonVariant> returnVal = new ArrayList<TaxonVariant>();
 		if ( !TreebaseUtil.isEmpty(pFullName)) {
-			Criteria c = getSession().createCriteria(TaxonVariant.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonVariant.class);
 			c.add(Expression.eq("fullName", pFullName));
 			returnVal = (List<TaxonVariant>)c.list();
 		}
@@ -84,7 +84,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 		Taxon returnVal = null;
 
 		if (!TreebaseUtil.isEmpty(pTaxonName)) {
-			Criteria c = getSession().createCriteria(Taxon.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(Taxon.class);
 			c.add(Expression.eq("name", pTaxonName));
 
 			returnVal = (Taxon) c.uniqueResult();
@@ -99,7 +99,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 	public Collection<Taxon> findTaxaByName(String pTaxonName) {
 		List<Taxon> returnVal = new ArrayList<Taxon>();
 		if ( !TreebaseUtil.isEmpty(pTaxonName)) {
-			Criteria c = getSession().createCriteria(Taxon.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(Taxon.class);
 			c.add(Expression.eq("name", pTaxonName));
 			returnVal = c.list();
 		}		
@@ -114,7 +114,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 		List<TaxonVariant> returnVal = new ArrayList<TaxonVariant>();
 
 		if (pTaxon != null) {
-			Criteria c = getSession().createCriteria(TaxonVariant.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonVariant.class);
 			c.add(Expression.eq("taxon", pTaxon));
 
 			returnVal = c.list();
@@ -126,7 +126,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonHome#findByGenbankId(java.lang.Integer)
 	 */
 	public Taxon findByNcbiTaxId(Integer genbankId) {
-		Criteria c = getSession().createCriteria(Taxon.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Taxon.class);
 		c.add(Expression.eq("ncbiTaxId", genbankId));
 		return (Taxon) c.uniqueResult();
 	}
@@ -135,7 +135,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonHome#findByUBIOTaxId(java.lang.Integer)
 	 */
 	public Taxon findByUBIOTaxId(Long nameBankId) {
-		Criteria c = getSession().createCriteria(Taxon.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Taxon.class);
 		c.add(Expression.eq("UBioNamebankId", nameBankId));
 		return (Taxon) c.uniqueResult();
 	}
@@ -156,7 +156,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonHome#findByTB1LegacyId(java.lang.Integer)
 	 */
 	public Taxon findByTB1LegacyId(Integer tb1LegacyId) {
-		Criteria c = getSession().createCriteria(Taxon.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Taxon.class);
 		c.add(Expression.eq("TB1LegacyId", tb1LegacyId));
 		return (Taxon) c.uniqueResult();
 	}
@@ -166,7 +166,7 @@ public class TaxonDAO extends AbstractDAO implements TaxonHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonHome#findVariantByTB1LegacyId(java.lang.Integer)
 	 */
 	public TaxonVariant findVariantByTB1LegacyId(Integer tb1LegacyId) {
-		Criteria c = getSession().createCriteria(TaxonVariant.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonVariant.class);
 		c.add(Expression.eq("TB1LegacyId", tb1LegacyId));
 		return (TaxonVariant) c.uniqueResult();
 	}

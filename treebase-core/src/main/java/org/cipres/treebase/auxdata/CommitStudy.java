@@ -100,7 +100,7 @@ public class CommitStudy extends GenericAuxDataAction implements CompleteStudyAc
 		
 		{
 			warn("  Removing matrices and trees from pseudosubmissions");
-//			Transaction t2 = getSession().beginTransaction();
+//			Transaction t2 = getSessionFactory().getCurrentSession().beginTransaction();
 			for (Matrix m : matrices.values()) {
 				// Detach this matrix from the pseudosubmission it was temporarily attached to
 				Submission pseudoSubmission = ContextManager.getSubmissionService().findByMatrix(m);
@@ -124,7 +124,7 @@ public class CommitStudy extends GenericAuxDataAction implements CompleteStudyAc
 //			t2.commit();
 		}
 		
-//		Transaction t = getSession().beginTransaction();
+//		Transaction t = getSessionFactory().getCurrentSession().beginTransaction();
 
 		Study theStudy = aux.study(ContextManager.getStudyService());
 		if (theStudy == null) {

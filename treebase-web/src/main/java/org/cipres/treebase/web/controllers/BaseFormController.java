@@ -26,7 +26,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.CancellableFormController;
+import org.cipres.treebase.web.compat.CancellableFormController;
 
 /**
  * BaseFormController
@@ -166,7 +166,7 @@ public abstract class BaseFormController extends CancellableFormController {
 		HttpServletRequest pRequest,
 		HttpServletResponse pResponse,
 		BindException pBindException,
-		Map pMap) throws Exception {
+		Map<String, Object> pMap) throws Exception {
 		if ( isAuthorizationChecked() ) {
 			LOGGER.info("returning supplied ModelAndView because access was granted explicitly");
 			return super.showForm(pRequest, pResponse, pBindException, pMap);

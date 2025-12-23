@@ -22,7 +22,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractWizardFormController;
+import org.cipres.treebase.web.compat.AbstractWizardFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import org.cipres.treebase.domain.matrix.Matrix;
@@ -315,9 +315,9 @@ public class AnalyzedDataFormController extends AbstractWizardFormController {
 	 * @return
 	 */
 	@Override
-	protected Map<String,List<LabelValue>> referenceData(HttpServletRequest request, int page) throws Exception {
+	protected Map<String,Object> referenceData(HttpServletRequest request, int page) throws Exception {
 
-		Map<String,List<LabelValue>> dataMap = new HashMap<String,List<LabelValue>>();
+		Map<String,Object> dataMap = new HashMap<String,Object>();
 
 		List<LabelValue> steps = new ArrayList<LabelValue>();
 		// determine the analysis step name for the drop down list

@@ -67,9 +67,14 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>c3p0</groupId>
+			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.9.1.2</version>
+			<version>0.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>mchange-commons-java</artifactId>
+			<version>0.3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.nexml.model</groupId>
@@ -81,24 +86,22 @@
             <artifactId>jta</artifactId>
             <version>1.1</version>
 		</dependency>
+		<!-- Hibernate 5.6.15.Final for Spring 4.3.30 and modern SLF4J compatibility -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>3.3.1.GA</version>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.6.15.Final</version>
 			<exclusions>
 				<exclusion>
-					<groupId>asm</groupId>
-					<artifactId>asm</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>asm</groupId>
-					<artifactId>asm-attrs</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>cglib</groupId>
-					<artifactId>cglib</artifactId>
+					<groupId>org.jboss.spec.javax.transaction</groupId>
+					<artifactId>jboss-transaction-api_1.2_spec</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>5.6.15.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
@@ -121,7 +124,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.3.3</version>
+			<version>42.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>mesquite</groupId>

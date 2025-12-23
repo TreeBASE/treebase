@@ -103,9 +103,9 @@ public class DeleteAMatrixController extends BaseFormController {
 		}
 	}
 
-	protected Map<String,String> referenceData(HttpServletRequest request) {
+	protected Map<String,Object> referenceData(HttpServletRequest request) {
 
-		Map<String,String> referenceMap = new HashMap<String,String>();
+		Map<String,Object> referenceMap = new HashMap<String,Object>();
 		referenceMap.put("deleteelementtype", "Delete this particular matrix");
 
 		Long matrixID = Long.parseLong(request.getParameter("matrixid"));

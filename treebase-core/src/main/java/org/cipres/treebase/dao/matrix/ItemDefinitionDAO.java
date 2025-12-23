@@ -64,7 +64,7 @@ public class ItemDefinitionDAO extends AbstractDAO implements ItemDefinitionHome
 	public ItemDefinition findByDescription(String pDesc) {
 		ItemDefinition returnVal = null;
 
-		Criteria c = getSession().createCriteria(ItemDefinition.class).add(
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(ItemDefinition.class).add(
 			Expression.eq("description", pDesc).ignoreCase());
 
 		List results = c.list();

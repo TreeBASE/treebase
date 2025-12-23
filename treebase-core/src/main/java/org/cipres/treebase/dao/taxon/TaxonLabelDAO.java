@@ -51,7 +51,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 		TaxonLabel returnVal = null;
 
 		if (!TreebaseUtil.isEmpty(pDescription) && pStudy != null) {
-			Criteria c = getSession().createCriteria(TaxonLabel.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonLabel.class);
 			c.add(Expression.eq("taxonLabel", pDescription));
 			c.add(Expression.eq("study", pStudy));
 
@@ -75,7 +75,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 		Collection<TaxonLabel> returnVal = new ArrayList<TaxonLabel>();
 
 		if (pStudy != null) {
-			Criteria c = getSession().createCriteria(TaxonLabel.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonLabel.class);
 			c.add(Expression.eq("study", pStudy));
 
 			// ALERT: the result might not be unique since mesquite allows duplicated taxonlabels
@@ -93,7 +93,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonLabelHome#findBySubstring(java.lang.String)
 	 */
 	public Collection<TaxonLabel> findBySubstring(String pTerm) {
-		Criteria c = getSession().createCriteria(TaxonLabel.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonLabel.class);
 		String termPattern = "%" + pTerm.toLowerCase() + "%";
 		c.add(Expression.ilike("taxonLabel", termPattern));
 
@@ -108,7 +108,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonLabelHome#findBySubstring(java.lang.String)
 	 */
 	public Collection<TaxonLabel> findByExactString(String pTerm) {
-		Criteria c = getSession().createCriteria(TaxonLabel.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonLabel.class);
 		c.add(Expression.eq("taxonLabel", pTerm));
 
 		Collection<TaxonLabel> results = c.list();
@@ -204,11 +204,11 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 			
 			//use batch delete:
 			String query = "delete from taxonLabel where study_id = :studyID";
-			org.hibernate.Query q = getSession().createSQLQuery(query);
+			org.hibernate.Query q = getSessionFactory().getCurrentSession().createSQLQuery(query);
 			q.setParameter("studyID", pStudy.getId());
 			q.executeUpdate();
 			
-//			Criteria c = getSession().createCriteria(TaxonLabel.class);
+//			Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonLabel.class);
 //			c.add(Expression.eq("study", pStudy));
 //			List returnVal = c.list();
 //
@@ -249,7 +249,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 			return new ArrayList<Matrix>();
 		}
 		
-		Query q = getSession().createQuery("select distinct mr.matrix from MatrixRow mr where mr.taxonLabel in (:tl)");
+		Query q = getSessionFactory().getCurrentSession().createQuery("select distinct mr.matrix from MatrixRow mr where mr.taxonLabel in (:tl)");
 		q.setParameterList("tl", taxonLabels);
 		List<Matrix> results = q.list();
 
@@ -257,7 +257,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	}
 
 	public Set<Matrix> findMatrices(TaxonVariant taxonVariant) {
-		SQLQuery q = getSession()
+		SQLQuery q = getSessionFactory().getCurrentSession()
 		.createSQLQuery(
 				"select distinct {m.*} from Matrix m, MatrixRow mr, TaxonLabel tl " 
 				+ "where mr.taxonLabel_id = tl.taxonLabel_id "
@@ -277,7 +277,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 
 	public Set<PhyloTree> findTrees(TaxonVariant taxonVariant) {
 /*
-		SQLQuery q = getSession()
+		SQLQuery q = getSessionFactory().getCurrentSession()
 		.createSQLQuery(
 				"select distinct {t.*} from PhyloTree t, PhyloTreeNode tn, TaxonLabel tl " 
 				+ "where tn.taxonLabel_id = tl.taxonLabel_id "
@@ -286,7 +286,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 		.addEntity("t", PhyloTree.class)
 		;
 	*/
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createQuery("select tn.tree from PhyloTreeNode tn "
 				+ "where tn.taxonLabel.taxonVariant = :tv")
 		.setParameter("tv", taxonVariant);
@@ -342,7 +342,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	@SuppressWarnings("unchecked")
 	public Set<TaxonVariant> expandTaxonVariant(TaxonVariant pTV) {
 		Set<TaxonVariant> result = new HashSet<TaxonVariant> ();
-		Criteria c = getSession().createCriteria(TaxonVariant.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonVariant.class);
 		c.add(Restrictions.eq("taxon", pTV.getTaxon()));
 		result.addAll(c.list());
 		return result;
@@ -364,7 +364,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 */
 	public Set<TaxonLabel> findByTaxonVariant(TaxonVariant pTV) {
 		Set<TaxonVariant> expansion = expandTaxonVariant(pTV);
-		Criteria c = getSession().createCriteria(TaxonLabel.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(TaxonLabel.class);
 		c.add(Restrictions.in("taxonVariant", expansion));
 		Set<TaxonLabel> result = new HashSet<TaxonLabel> ();
 		result.addAll(c.list());
@@ -394,7 +394,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	}
 
 	public Set<Submission> findSubmissions(TaxonLabel taxonLabel) {
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createQuery("select s from Submission s where :tl member of s.submittedTaxonLabels");
 		q.setParameter("tl", taxonLabel);
 		Set<Submission> result = new HashSet<Submission> ();
@@ -406,7 +406,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonLabelHome#getTaxonLabelSetsReadOnly(org.cipres.treebase.domain.taxon.TaxonLabel)
 	 */
 	public Set<TaxonLabelSet> findTaxonLabelSets(TaxonLabel taxonLabel) {
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createQuery("select tls from TaxonLabelSet tls join tls.taxonLabelList tl where tl = :tl");
 		q.setParameter("tl", taxonLabel);
 		Set<TaxonLabelSet> result = new HashSet<TaxonLabelSet> ();
@@ -417,7 +417,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
     // need refactoring later
 	//all the sql statement should go to same file or class 
 	public Collection<Matrix> findMatrices(Taxon t) {
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createSQLQuery("select distinct m.* from matrix m join matrixrow using(matrix_id) join taxonlabel " +
 				"using (taxonlabel_id) join taxonvariant using (taxonvariant_id) where taxon_id = :id").addEntity(Matrix.class);
 		q.setParameter("id", t.getId());
@@ -429,7 +429,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonLabelHome#findStudies(org.cipres.treebase.domain.taxon.Taxon)
 	 */
 	public Collection<Study> findStudies(Taxon t) {
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createQuery("select distinct s from Study s, TaxonLabel tl where " +
 				"tl.study = s and tl.taxonVariant.taxon = :t");
 		q.setParameter("t", t);
@@ -441,7 +441,7 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	 * @see org.cipres.treebase.domain.taxon.TaxonLabelHome#findTrees(org.cipres.treebase.domain.taxon.Taxon)
 	 */
 	public Collection<PhyloTree> findTrees(Taxon t) {
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createQuery("select distinct pt from PhyloTree pt inner join fetch pt.treeNodes tn where " +
 		"tn.taxonLabel.taxonVariant.taxon = :t"); 
 		
@@ -468,12 +468,12 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 
 	public void clean(TaxonLabelSet tSet) {
 		// TODO Auto-generated method stub
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createQuery("select count(*) from TreeBlock tb where tb.taxonLabelSet = :ts"); 
 		q.setParameter("ts", tSet);
 	    int count=((Long)q.iterate().next()).intValue();
 	    
-	    q = getSession()
+	    q = getSessionFactory().getCurrentSession()
 		.createQuery("select count(*) from Matrix m where m.taxa = :ts"); 
 		q.setParameter("ts", tSet);
 	    count += ((Long)q.iterate().next()).intValue();
@@ -484,12 +484,12 @@ public class TaxonLabelDAO extends AbstractDAO implements TaxonLabelHome {
 	public void clean(List<TaxonLabel> tList) {
 		// TODO Auto-generated method stub
 		for(TaxonLabel tl : tList){
-			Query q = getSession()
+			Query q = getSessionFactory().getCurrentSession()
 			.createQuery("select count(*) from PhyloTreeNode pn where pn.taxonLabel = :tl"); 
 			q.setParameter("tl", tl);
 		    int count=((Long)q.iterate().next()).intValue();
 		    
-		    q = getSession()
+		    q = getSessionFactory().getCurrentSession()
 			.createQuery("select count(*) from MatrixRow mr where mr.taxonLabel = :tl"); 
 			q.setParameter("tl", tl);
 		    count += ((Long)q.iterate().next()).intValue();

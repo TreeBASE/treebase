@@ -37,7 +37,7 @@ public class PhyloTreeJDBC {
 	 */
 	public static void deletePhyloTreeNodeSQL(PhyloTree pTree, Session pSession) {
 		// pTree.setRootNode(null);
-		// getSession().flush();
+		// getSessionFactory().getCurrentSession().flush();
 
 		//first delete the root node from the tree. Then delete all nodes in one go. 
 		String query = "update phylotree set rootNode_id = null where phylotree_id = :treeID";

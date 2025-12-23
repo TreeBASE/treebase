@@ -42,7 +42,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 		Submission returnVal = null;
 
 		if (!TreebaseUtil.isEmpty(pSubmissionNumber)) {
-			Criteria c = getSession().createCriteria(Submission.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(Submission.class);
 			c.add(Expression.eq("submissionNumber", pSubmissionNumber));
 
 			returnVal = (Submission) c.uniqueResult();
@@ -73,7 +73,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 
 		if (pMatrix != null) {
 			Long mID = pMatrix.getId();
-			Query q = getSession()
+			Query q = getSessionFactory().getCurrentSession()
 				.createQuery(
 					"select sub from Submission as sub join sub.submittedMatrices as matrix where matrix.id = :mID");
 
@@ -94,7 +94,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 
 		if (pTree != null) {
 			Long mID = pTree.getId();
-			Query q = getSession()
+			Query q = getSessionFactory().getCurrentSession()
 				.createQuery(
 					"select sub from Submission sub join sub.submittedTreeBlocks block join block.treeList tree where tree.id = :mID");
 
@@ -115,7 +115,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 
 		if (pBlock != null) {
 			Long mID = pBlock.getId();
-			Query q = getSession()
+			Query q = getSessionFactory().getCurrentSession()
 				.createQuery(
 					"select sub from Submission as sub join sub.submittedTreeBlocks as treeblock where treeblock.id = :mID");
 
@@ -132,7 +132,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 	 * @see org.cipres.treebase.domain.study.SubmissionHome#findByReadyState()
 	 */
 	public Collection<Submission> findByReadyState() {
-		Query q = getSession().createQuery(
+		Query q = getSessionFactory().getCurrentSession().createQuery(
 			"select sub from Submission as sub where sub.study.studyStatus.description = :state");
 
 		q.setString("state", StudyStatus.READY);
@@ -146,7 +146,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 	 * @see org.cipres.treebase.domain.study.SubmissionHome#findByReadyState()
 	 */
 	public Collection<Submission> findByPublishedState() {
-		Query q = getSession().createQuery(
+		Query q = getSessionFactory().getCurrentSession().createQuery(
 			"select sub from Submission as sub where sub.study.studyStatus.description = :state");
 
 		q.setString("state", StudyStatus.PUBLISHED);
@@ -159,7 +159,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 	 * @see org.cipres.treebase.domain.study.SubmissionHome#findByReadyState()
 	 */
 	public Collection<Submission> findByInProgressState() {
-		Query q = getSession().createQuery(
+		Query q = getSessionFactory().getCurrentSession().createQuery(
 			"select sub from Submission as sub where sub.study.studyStatus.description = :state");
 
 		q.setString("state", StudyStatus.INPROGRESS);
@@ -176,7 +176,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 			return null;
 		}
 		
-		Query q = getSession().createQuery(
+		Query q = getSessionFactory().getCurrentSession().createQuery(
 		"select sub from Submission as sub where lower(sub.study.accessionNumber) = :accNumber");
 
 		q.setString("accNumber", pAccNumber.toLowerCase());
@@ -185,7 +185,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 	}
 	
 	public Collection<Submission> findByCreateDateRange(Date from, Date until) {
-		Query q = getSession().createQuery(
+		Query q = getSessionFactory().getCurrentSession().createQuery(
 			"from Submission where createdate between :begin and :end");
 
 		q.setDate("begin", from);
@@ -194,7 +194,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 	}
 	
 	public Collection<Submission> findByLastModifiedDateRange(Date from, Date until) {
-		Query q = getSession().createQuery(
+		Query q = getSessionFactory().getCurrentSession().createQuery(
 		"from Submission sub where sub.study.lastModifiedDate between :begin and :end");
 
 		q.setDate("begin", from);
@@ -206,7 +206,7 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 	public Submission findByStudyID(Long pID) {
 		// TODO Auto-generated method stub
 		Submission returnVal = null;
-			Query q = getSession()
+			Query q = getSessionFactory().getCurrentSession()
 				.createQuery(
 					"select sub from Submission as sub where sub.study.id = :mID");
 

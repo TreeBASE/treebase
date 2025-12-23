@@ -71,7 +71,7 @@ public class CitationStatusDAO extends AbstractDAO implements CitationStatusHome
 	public CitationStatus findStatusByDescription(String pDescription) {
 		CitationStatus returnVal = null;
 
-		Criteria c = getSession().createCriteria(CitationStatus.class).add(
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(CitationStatus.class).add(
 			org.hibernate.criterion.Expression.eq("description", pDescription));
 
 		returnVal = (CitationStatus) c.uniqueResult();
