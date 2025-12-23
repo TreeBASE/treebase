@@ -11,6 +11,8 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
@@ -19,7 +21,7 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
  * Custom VelocityViewResolver for Spring 5.x compatibility.
  * This class provides Velocity view resolution that was removed from Spring 5.x.
  */
-public class VelocityViewResolver implements ViewResolver, InitializingBean {
+public class VelocityViewResolver implements ViewResolver, InitializingBean, ApplicationContextAware {
 
     private VelocityEngine velocityEngine;
     private String prefix = "";
@@ -28,6 +30,7 @@ public class VelocityViewResolver implements ViewResolver, InitializingBean {
     private String encoding = "UTF-8";
     private boolean exposeRequestAttributes = false;
     private boolean exposeSessionAttributes = false;
+    private ApplicationContext applicationContext;
 
     public void setVelocityEngine(VelocityEngine velocityEngine) {
         this.velocityEngine = velocityEngine;
@@ -58,7 +61,22 @@ public class VelocityViewResolver implements ViewResolver, InitializingBean {
     }
 
     @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
     public void afterPropertiesSet() throws Exception {
+        // If velocityEngine is not set, try to get it from VelocityConfigurer
+        if (this.velocityEngine == null && this.applicationContext != null) {
+            try {
+                VelocityConfigurer configurer = this.applicationContext.getBean(VelocityConfigurer.class);
+                this.velocityEngine = configurer.getVelocityEngine();
+            } catch (Exception e) {
+                // VelocityConfigurer bean not found or error getting engine
+            }
+        }
+        
         if (this.velocityEngine == null) {
             throw new IllegalArgumentException("Property 'velocityEngine' is required");
         }
