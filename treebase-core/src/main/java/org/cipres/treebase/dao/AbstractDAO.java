@@ -9,7 +9,7 @@ import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.cipres.treebase.domain.DomainHome;
 import org.cipres.treebase.domain.TBPersistable;
 import org.hibernate.Criteria;
-import org.hibernate.FlushMode;
+import javax.persistence.FlushModeType;
 import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
@@ -179,17 +179,14 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	 * @see org.cipres.treebase.domain.DomainHome#setFlushMode(int)
 	 */
 	public void setFlushMode(int pFlushMode) {
-		// In Hibernate 4.x, convert int to FlushMode and set on session
+		// In Hibernate 5.x, convert int to JPA FlushModeType and set on session
 		// Legacy int values: 0=NEVER/MANUAL, 1=COMMIT, 2=AUTO, 3=ALWAYS
+		// JPA only has COMMIT and AUTO
 		Session session = getSessionFactory().getCurrentSession();
-		if (pFlushMode == 0) {
-			session.setFlushMode(FlushMode.MANUAL);
-		} else if (pFlushMode == 1) {
-			session.setFlushMode(FlushMode.COMMIT);
-		} else if (pFlushMode == 2) {
-			session.setFlushMode(FlushMode.AUTO);
+		if (pFlushMode == 0 || pFlushMode == 1) {
+			session.setFlushMode(FlushModeType.COMMIT);
 		} else {
-			session.setFlushMode(FlushMode.ALWAYS);
+			session.setFlushMode(FlushModeType.AUTO);
 		}
 	}
 
@@ -198,17 +195,14 @@ public abstract class AbstractDAO extends HibernateDaoSupport implements DomainH
 	 * @see org.cipres.treebase.domain.DomainHome#getFlushMode()
 	 */
 	public int getFlushMode() {
-		// In Hibernate 4.x, get FlushMode from session and convert to int
+		// In Hibernate 5.x, get FlushModeType from session and convert to int
 		// Return values: 0=MANUAL, 1=COMMIT, 2=AUTO, 3=ALWAYS
-		FlushMode mode = getSessionFactory().getCurrentSession().getFlushMode();
-		if (mode == FlushMode.MANUAL) {
-			return 0;
-		} else if (mode == FlushMode.COMMIT) {
+		// JPA FlushModeType only has COMMIT and AUTO
+		FlushModeType mode = getSessionFactory().getCurrentSession().getFlushMode();
+		if (mode == FlushModeType.COMMIT) {
 			return 1;
-		} else if (mode == FlushMode.AUTO) {
-			return 2;
 		} else {
-			return 3; // ALWAYS
+			return 2; // AUTO
 		}
 	}
 
