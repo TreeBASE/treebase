@@ -273,6 +273,12 @@
       <artifactId>servlet-api</artifactId>
       <version>2.4</version>
 	</dependency>
+	<!-- Velocity 1.7 compatible with Spring 4.x -->
+	<dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.7</version>
+	</dependency>
 	<dependency>
       <groupId>velocity-tools</groupId>
       <artifactId>velocity-tools</artifactId>
