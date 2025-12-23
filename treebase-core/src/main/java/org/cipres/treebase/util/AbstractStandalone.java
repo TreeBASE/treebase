@@ -28,7 +28,8 @@ public abstract class AbstractStandalone extends HibernateDaoSupport implements 
 	
 	public void bindSession() {
 		if (sessionIsBound()) return;
-		bindSession(getSession(true));
+		// In Hibernate 4, use openSession() to get a new session instead of getSession(true)
+		bindSession(getSessionFactory().openSession());
 	}
 	
 	public void bindSession(Session sess) {
