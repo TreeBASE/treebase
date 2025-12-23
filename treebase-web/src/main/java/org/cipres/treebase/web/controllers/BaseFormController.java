@@ -166,7 +166,7 @@ public abstract class BaseFormController extends CancellableFormController {
 		HttpServletRequest pRequest,
 		HttpServletResponse pResponse,
 		BindException pBindException,
-		Map pMap) throws Exception {
+		Map<String, Object> pMap) throws Exception {
 		if ( isAuthorizationChecked() ) {
 			LOGGER.info("returning supplied ModelAndView because access was granted explicitly");
 			return super.showForm(pRequest, pResponse, pBindException, pMap);

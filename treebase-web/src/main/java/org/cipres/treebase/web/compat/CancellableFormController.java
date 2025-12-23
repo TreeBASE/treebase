@@ -1,5 +1,7 @@
 package org.cipres.treebase.web.compat;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +19,7 @@ public abstract class CancellableFormController extends AbstractController {
     
     private String formView;
     private String successView;
+    private String cancelView;
     private Class<?> commandClass;
     private String commandName = "command";
     
@@ -34,6 +37,14 @@ public abstract class CancellableFormController extends AbstractController {
     
     public String getSuccessView() {
         return successView;
+    }
+    
+    public void setCancelView(String cancelView) {
+        this.cancelView = cancelView;
+    }
+    
+    public String getCancelView() {
+        return cancelView;
     }
     
     public void setCommandClass(Class<?> commandClass) {
@@ -99,6 +110,14 @@ public abstract class CancellableFormController extends AbstractController {
         return new ModelAndView(getFormView(), errors.getModel());
     }
     
+    protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors, Map<String, Object> controlModel) throws Exception {
+        ModelAndView mav = new ModelAndView(getFormView(), errors.getModel());
+        if (controlModel != null) {
+            mav.addAllObjects(controlModel);
+        }
+        return mav;
+    }
+    
     protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         if (errors.hasErrors()) {
             return showForm(request, response, errors);
@@ -109,6 +128,7 @@ public abstract class CancellableFormController extends AbstractController {
     protected abstract ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception;
     
     protected ModelAndView onCancel(HttpServletRequest request, HttpServletResponse response, Object command) throws Exception {
-        return new ModelAndView(getSuccessView());
+        String cancelViewName = getCancelView() != null ? getCancelView() : getSuccessView();
+        return new ModelAndView(cancelViewName);
     }
 }
