@@ -21,7 +21,7 @@ tree viewing and editing applet, and a news feed), linked together by a **Contro
 
 ### Additional files in this directory
 
-- [pom.xml](pom.xml) - file for maven that operates on `treebase-core` and `treebase-web`
+- [pom.xml](pom.xml) - file for maven that operates on `treebase-core`, `treebase-web` and `oai-pmh_data_provider`
 - [.github/workflows](.github/workflows) - CI/CD workflows for building and testing the core
 - [.gitignore](.gitignore) - filters out certain files from being committed to `git`
 - [LICENSE.txt](LICENSE.txt) - the BSD license, which applies to all artefacts in this project
