@@ -22,7 +22,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractWizardFormController;
+import org.cipres.treebase.web.compat.AbstractWizardFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import org.cipres.treebase.domain.matrix.Matrix;

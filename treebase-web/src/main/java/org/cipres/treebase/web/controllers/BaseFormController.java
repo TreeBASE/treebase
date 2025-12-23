@@ -26,7 +26,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.CancellableFormController;
+import org.cipres.treebase.web.compat.CancellableFormController;
 
 /**
  * BaseFormController
