@@ -1,7 +1,7 @@
 package org.cipres.treebase.util;
 
 import org.cipres.treebase.ContextManager;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
 
 /**
  * Useful for forcing Hibernate to rebuild the database structure

@@ -11,8 +11,8 @@ import org.cipres.treebase.domain.TBPersistable;
 import org.hibernate.Criteria;
 import org.hibernate.LockMode;
 import org.hibernate.criterion.Expression;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 /**
  * AbstractDAO.java

@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate3.HibernateAccessor;
+import org.springframework.orm.hibernate4.HibernateAccessor;
 
 /**
  * DomainHome.java

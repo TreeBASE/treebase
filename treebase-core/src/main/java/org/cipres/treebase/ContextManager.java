@@ -48,7 +48,7 @@ import org.cipres.treebase.domain.tree.PhyloTreeService;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
 
 /**
  * ContextManager.java
