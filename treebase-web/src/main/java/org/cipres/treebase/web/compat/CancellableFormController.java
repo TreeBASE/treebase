@@ -66,18 +66,53 @@ public abstract class CancellableFormController extends AbstractController {
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (isFormSubmission(request)) {
-            Object command = createCommand();
+            Object command = getSessionFormObject(request);
+            if (command == null) {
+                command = formBackingObject(request);
+            }
             ServletRequestDataBinder binder = createBinder(request, command);
             binder.bind(request);
+            onBind(request, command);
             BindException errors = new BindException(binder.getBindingResult());
             
             if (isCancelRequest(request)) {
+                removeSessionFormObject(request);
                 return onCancel(request, response, command);
             }
             
-            return processFormSubmission(request, response, command, errors);
+            ModelAndView result = processFormSubmission(request, response, command, errors);
+            if (!errors.hasErrors()) {
+                removeSessionFormObject(request);
+            }
+            return result;
         } else {
-            return showForm(request, response, new BindException(createCommand(), getCommandName()));
+            Object command = formBackingObject(request);
+            storeSessionFormObject(request, command);
+            BindException errors = new BindException(command, getCommandName());
+            Map<String, Object> refData = referenceData(request);
+            return showForm(request, response, errors, refData);
+        }
+    }
+    
+    protected Object getSessionFormObject(HttpServletRequest request) {
+        String sessionAttrName = getFormSessionAttributeName();
+        if (sessionAttrName != null && request.getSession(false) != null) {
+            return request.getSession(false).getAttribute(sessionAttrName);
+        }
+        return null;
+    }
+    
+    protected void storeSessionFormObject(HttpServletRequest request, Object command) {
+        String sessionAttrName = getFormSessionAttributeName();
+        if (sessionAttrName != null) {
+            request.getSession(true).setAttribute(sessionAttrName, command);
+        }
+    }
+    
+    protected void removeSessionFormObject(HttpServletRequest request) {
+        String sessionAttrName = getFormSessionAttributeName();
+        if (sessionAttrName != null && request.getSession(false) != null) {
+            request.getSession(false).removeAttribute(sessionAttrName);
         }
     }
     
@@ -107,7 +142,8 @@ public abstract class CancellableFormController extends AbstractController {
     }
     
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors) throws Exception {
-        return new ModelAndView(getFormView(), errors.getModel());
+        Map<String, Object> refData = referenceData(request);
+        return showForm(request, response, errors, refData);
     }
     
     protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors, Map<String, Object> controlModel) throws Exception {
@@ -130,5 +166,36 @@ public abstract class CancellableFormController extends AbstractController {
     protected ModelAndView onCancel(HttpServletRequest request, HttpServletResponse response, Object command) throws Exception {
         String cancelViewName = getCancelView() != null ? getCancelView() : getSuccessView();
         return new ModelAndView(cancelViewName);
+    }
+    
+    /**
+     * Template method for getting reference data to be used in the form view.
+     * Subclasses can override this to provide model attributes.
+     */
+    protected Map<String, Object> referenceData(HttpServletRequest request) throws Exception {
+        return new java.util.HashMap<String, Object>();
+    }
+    
+    /**
+     * Template method for creating the form backing object.
+     * Subclasses can override this to provide a custom object.
+     */
+    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+        return createCommand();
+    }
+    
+    /**
+     * Hook for binding data from the request. Called after standard binding.
+     */
+    protected void onBind(HttpServletRequest request, Object command) throws Exception {
+        // Override to perform custom binding
+    }
+    
+    /**
+     * Template method to get session attribute name for form object.
+     * Return null if form object should not be stored in session.
+     */
+    protected String getFormSessionAttributeName() {
+        return null;
     }
 }
