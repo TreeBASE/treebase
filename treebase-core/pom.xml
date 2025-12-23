@@ -81,11 +81,11 @@
             <artifactId>jta</artifactId>
             <version>1.1</version>
 		</dependency>
-		<!-- Hibernate 4.3.11.Final for Spring 4.3.30 compatibility -->
+		<!-- Hibernate 5.6.15.Final for Spring 4.3.30 and modern SLF4J compatibility -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.3.11.Final</version>
+			<version>5.6.15.Final</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
-			<version>4.3.11.Final</version>
+			<version>5.6.15.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
