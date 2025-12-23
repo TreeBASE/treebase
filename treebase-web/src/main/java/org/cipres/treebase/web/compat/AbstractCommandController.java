@@ -3,6 +3,7 @@ package org.cipres.treebase.web.compat;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -16,6 +17,7 @@ public abstract class AbstractCommandController extends AbstractController {
     
     private Class<?> commandClass;
     private String commandName = "command";
+    private Validator validator;
     
     public void setCommandClass(Class<?> commandClass) {
         this.commandClass = commandClass;
@@ -33,12 +35,25 @@ public abstract class AbstractCommandController extends AbstractController {
         return commandName;
     }
     
+    public void setValidator(Validator validator) {
+        this.validator = validator;
+    }
+    
+    public Validator getValidator() {
+        return validator;
+    }
+    
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object command = createCommand();
         ServletRequestDataBinder binder = createBinder(request, command);
         binder.bind(request);
         org.springframework.validation.BindException errors = new org.springframework.validation.BindException(binder.getBindingResult());
+        
+        // Validate if validator is set
+        if (validator != null) {
+            validator.validate(command, errors);
+        }
         
         return handle(request, response, command, errors);
     }
