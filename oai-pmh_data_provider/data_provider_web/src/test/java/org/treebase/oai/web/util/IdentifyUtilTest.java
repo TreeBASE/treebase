@@ -1,30 +1,26 @@
 package org.treebase.oai.web.util;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.treebase.oai.web.command.OAIPMHCommand;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-
-
-public class IdentifyUtilTest extends TestCase{
+public class IdentifyUtilTest {
 	private OAIPMHCommand params;
 	
+	@Before
 	public void setUp() {
-		params= new OAIPMHCommand();
-		
+		params = new OAIPMHCommand();
 	}
 		
+	@Test
 	public void testParseID() {
 		params.setIdentifier("http://arXiv.org/abs/cs/0112017");
-		this.assertEquals(112017L, IdentifyUtil.parseID(params));
+		assertEquals(112017L, IdentifyUtil.parseID(params));
 		params.setIdentifier("oai:HUBerlin.de:3000218");
-		this.assertEquals(3000218L, IdentifyUtil.parseID(params));
+		assertEquals(3000218L, IdentifyUtil.parseID(params));
 		params.setIdentifier("http://purl.org/phylo/treebase/phylows/study/TB2:S6705");
-		this.assertEquals(6705L, IdentifyUtil.parseID(params));
-	
-		
+		assertEquals(6705L, IdentifyUtil.parseID(params));
 	}
-
-
-	
 }
