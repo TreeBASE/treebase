@@ -34,7 +34,7 @@ public class AlgorithmDAO extends AbstractDAO implements AlgorithmHome {
 		// case insensitive search
 		String sql = "select distinct lower(alg.description) from Algorithm alg";
 		// String sql = "select distinct alg.description from Algorithm alg";
-		Query q = getSession().createQuery(sql);
+		Query q = getSessionFactory().getCurrentSession().createQuery(sql);
 		List<String> returnVal = q.list();
 		return returnVal;
 	}
@@ -48,7 +48,7 @@ public class AlgorithmDAO extends AbstractDAO implements AlgorithmHome {
 		Algorithm returnVal = null;
 
 		if (!TreebaseUtil.isEmpty(pDesc)) {
-			Criteria c = getSession().createCriteria(Algorithm.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(Algorithm.class);
 			c.add(Expression.eq("description", pDesc).ignoreCase());
 
 			returnVal = (Algorithm) c.uniqueResult();
@@ -64,7 +64,7 @@ public class AlgorithmDAO extends AbstractDAO implements AlgorithmHome {
 		// case insensitive search
 		String sql = "select distinct description  from OtherAlgorithm where lower(description) like :mStr";
 		// String sql = "select distinct alg.description from OtherAlgorithm alg";
-		Query q = getSession().createQuery(sql);
+		Query q = getSessionFactory().getCurrentSession().createQuery(sql);
 		q.setString("mStr", pPartialName.trim().toLowerCase() + '%');
 		List<String> returnVal = q.list();
 		return returnVal;

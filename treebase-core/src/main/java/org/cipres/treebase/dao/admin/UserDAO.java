@@ -99,7 +99,7 @@ public class UserDAO extends AbstractDAO implements UserHome {
 			// return (User) result.get(0);
 			return result;
 		} else {
-			Criteria c = getSession().createCriteria(User.class).createAlias("person", "p");
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(User.class).createAlias("person", "p");
 			c.add(Restrictions.ilike(
 				"p.emailAddress.emailAddressString",
 				pEmailAddress,
@@ -167,7 +167,7 @@ public class UserDAO extends AbstractDAO implements UserHome {
 		List<User> returnVal = new ArrayList<User>();
 
 		if (!TreebaseUtil.isEmpty(pUserName)) {
-			Criteria c = getSession().createCriteria(User.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(User.class);
 
 			c.add(Expression.ilike("username", '%' + pUserName + '%'));
 			returnVal = c.list();
@@ -201,7 +201,7 @@ public class UserDAO extends AbstractDAO implements UserHome {
 			return null;
 		}
 		
-		Criteria c = getSession().createCriteria(User.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(User.class);
 		c.add(Restrictions.eq("person", pPerson));
 		
 		return (User) c.uniqueResult();

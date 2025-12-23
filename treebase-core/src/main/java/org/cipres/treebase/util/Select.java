@@ -10,7 +10,7 @@ public class Select extends AbstractStandalone {
 		me.setupContext();
 		String sql = join(args, " ");
 		
-		SQLQuery q = me.getSession().createSQLQuery(sql);
+		SQLQuery q = me.getSessionFactory().getCurrentSession().createSQLQuery(sql);
 		List results = q.list();
 		if (results.isEmpty()) { System.out.println("Empty result."); }
 		else {

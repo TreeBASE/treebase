@@ -83,7 +83,7 @@ public class MatrixRowDAO extends AbstractDAO implements MatrixRowHome {
 	public Collection<MatrixRow> findByLabel(String pTaxonLabel) {
 		Criteria c;
 
-		c = getSession().createCriteria(MatrixRow.class);
+		c = getSessionFactory().getCurrentSession().createCriteria(MatrixRow.class);
 		c.createCriteria("taxonLabel").add(Restrictions.eq("taxonLabel", pTaxonLabel));
 		return c.list();
 	}
@@ -94,7 +94,7 @@ public class MatrixRowDAO extends AbstractDAO implements MatrixRowHome {
 	public Collection<MatrixRow> findByTaxonLabel(TaxonLabel taxonLabel) {
 		Criteria c;
 
-		c = getSession().createCriteria(MatrixRow.class);
+		c = getSessionFactory().getCurrentSession().createCriteria(MatrixRow.class);
 		c.add(Restrictions.eq("taxonLabel", taxonLabel));
 		return c.list();
 	}

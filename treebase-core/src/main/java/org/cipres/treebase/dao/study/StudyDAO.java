@@ -71,7 +71,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 		Study returnVal = null;
 
 		if (!TreebaseUtil.isEmpty(pAccessionNumber)) {
-			Criteria c = getSession().createCriteria(Study.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(Study.class);
 			c.add(Expression.eq("accessionNumber", pAccessionNumber));
 
 			returnVal = (Study) c.uniqueResult();
@@ -105,7 +105,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 		Collection<Study> returnVal = new ArrayList<Study>();
 
 		if (!TreebaseUtil.isEmpty(pStudyName)) {
-			Criteria c = getSession().createCriteria(Study.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(Study.class);
 
 			if (pCaseSensitive) {
 				c.add(Expression.eq("name", pStudyName));
@@ -146,7 +146,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 
 		// FIXME: findByCriteria
 
-		Criteria c = getSession().createCriteria(Study.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Study.class);
 		if (authorLastNames != null && !authorLastNames.isEmpty()) {
 
 			c.createAlias("citation.authors", "author");
@@ -187,8 +187,8 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 	}
 
 	public void cleanCache() {
-		getSession().flush();
-		getSession().clear();
+		getSessionFactory().getCurrentSession().flush();
+		getSessionFactory().getCurrentSession().clear();
 	}
 
     public Collection<Study> findByKeyword(String keywordPattern) {
@@ -198,7 +198,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
         if (keywordPattern == null) { return studies; }
           LOGGER.info("StudyDAO.findByKeyword " + keywordPattern);  
 
-          c = getSession().createCriteria(Study.class).createAlias("citation", "cit");
+          c = getSessionFactory().getCurrentSession().createCriteria(Study.class).createAlias("citation", "cit");
           LOGGER.info("StudyDAO.findByKeyword: created criterion object");  
           c.add( Restrictions.disjunction()
                           .add(Restrictions.ilike("name", keywordPattern))
@@ -223,7 +223,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 		if (authorNamePattern == null) { return studies; }
 		LOGGER.info("StudyDAO.findByAuthor " + authorNamePattern);  
 
-		Criteria studyCrit = getSession().createCriteria(Study.class).createAlias("citation", "cit");
+		Criteria studyCrit = getSessionFactory().getCurrentSession().createCriteria(Study.class).createAlias("citation", "cit");
 		Criteria authorCrit = studyCrit.createCriteria("cit.authors", "au");
 		authorCrit.add(Restrictions.ilike("lastName", authorNamePattern));
 
@@ -246,7 +246,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 			LOGGER.info("StudyDAO.findByAbstract " + abstractPattern);  
 		}
 		
-		c = getSession().createCriteria(Study.class).createAlias("citation", "cit");
+		c = getSessionFactory().getCurrentSession().createCriteria(Study.class).createAlias("citation", "cit");
 		c.add(Restrictions.ilike("cit.abstract", abstractPattern));
 
 		studies = (Collection<Study>) c.list();
@@ -268,7 +268,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 			LOGGER.info("StudyDAO.findByTitle " + titlePattern);  
 		}
 		
-		c = getSession().createCriteria(Study.class).createAlias("citation", "cit");
+		c = getSessionFactory().getCurrentSession().createCriteria(Study.class).createAlias("citation", "cit");
 		c.add(Restrictions.ilike("cit.title", titlePattern));
 
 		studies = (Collection<Study>) c.list();
@@ -287,7 +287,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("StudyDAO.findByCitation " + citationPattern);  
 		}
-        c = getSession().createCriteria(Study.class).createAlias("citation", "cit");
+        c = getSessionFactory().getCurrentSession().createCriteria(Study.class).createAlias("citation", "cit");
 		
         if (LOGGER.isInfoEnabled()) {
 			LOGGER.info("StudyDAO.findByCitation: created criterion object");  
@@ -319,7 +319,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 		//Note: java bean naming convention: for all cap property like
 		// TBxxxx, the bean name is TBxxxx. 
 		List<Study> studies =
-		getSession().createQuery("from Study where TB1StudyID = :sid")
+		getSessionFactory().getCurrentSession().createQuery("from Study where TB1StudyID = :sid")
 			.setParameter("sid", studyID)
 			.list();
 		
@@ -336,7 +336,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 			return;
 		}
 		
-		SQLQuery sqlQuery = getSession().createSQLQuery("UPDATE STUDY set TB_STUDYID = :tbsid where STUDY_id = :sid");
+		SQLQuery sqlQuery = getSessionFactory().getCurrentSession().createSQLQuery("UPDATE STUDY set TB_STUDYID = :tbsid where STUDY_id = :sid");
 		
 		sqlQuery.setParameter("sid", pStudy.getId());
 		
@@ -378,7 +378,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 	public Collection<Study> findByJournal(String pJournal) {
 		Collection<Study> returnVal = new ArrayList<Study>();
 		if (pJournal != null) {
-			Query q = getSession().createQuery("select study from Citation where lower(journal) like :mStr");
+			Query q = getSessionFactory().getCurrentSession().createQuery("select study from Citation where lower(journal) like :mStr");
 			q.setString("mStr", pJournal.trim().toLowerCase() + '%');
 			returnVal = q.list();			
 		}
@@ -397,7 +397,7 @@ public class StudyDAO extends AbstractDAO implements StudyHome {
 			LOGGER.info("Going to do an exact journal name match for "+pJournal);  
 		}		
 		Collection<Study> studies = new ArrayList<Study>();
-		Criteria studyCrit = getSession().createCriteria(Study.class).createAlias("citation", "cit");
+		Criteria studyCrit = getSessionFactory().getCurrentSession().createCriteria(Study.class).createAlias("citation", "cit");
 		//studyCrit.add(Restrictions.like("cit.journal", pJournal.trim(), MatchMode.EXACT));
 		studyCrit.add(Restrictions.eq("cit.journal", pJournal));
 		studies = (Collection<Study>) studyCrit.list();

@@ -95,7 +95,7 @@ class RepatriateAuthors extends AbstractStandalone {
 			throw new RuntimeException("Usage: program [inputFilename]");
 		}
 		
-		Filter repatriateStudyAuthors = new RepatriateStudyAuthors(me.getSession(), System.out);
+		Filter repatriateStudyAuthors = new RepatriateStudyAuthors(me.getSessionFactory().getCurrentSession(), System.out);
 		AuxiliaryDataParser parser = new AuxiliaryDataParser(repatriateStudyAuthors);
 		RDParserResult result = parser.parseFile(f);
 		parser.reportResults(System.err, result);

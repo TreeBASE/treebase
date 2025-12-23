@@ -37,7 +37,7 @@ public class CitationDAO extends AbstractDAO implements CitationHome {
 
 		if (!TreebaseUtil.isEmpty(pPartialName) && pPartialName.trim().length() >= 1) {
 
-			Query q = getSession().createQuery(
+			Query q = getSessionFactory().getCurrentSession().createQuery(
 				"select distinct journal from Citation where lower(journal) like :mStr");
 
 			q.setString("mStr", pPartialName.trim().toLowerCase() + '%');
@@ -73,7 +73,7 @@ public class CitationDAO extends AbstractDAO implements CitationHome {
 	 * @param query
 	 */
 	private int replaceQuery(Person pSrc, Person pTarget, String pQuery) {
-		Query q = getSession().createSQLQuery(pQuery);
+		Query q = getSessionFactory().getCurrentSession().createSQLQuery(pQuery);
 		
 		q.setParameter("srcId", pSrc.getId());
 		q.setParameter("targetId", pTarget.getId());

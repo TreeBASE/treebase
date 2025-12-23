@@ -39,7 +39,7 @@ public class RowSegmentDAO extends AbstractDAO implements RowSegmentHome {
 		StringBuffer query = new StringBuffer(
 			"select rs from RowSegment rs join rs.matrixRow row where row.matrix = :matrixId");
 
-		Query q = getSession().createQuery(query.toString());
+		Query q = getSessionFactory().getCurrentSession().createQuery(query.toString());
 
 		// Important: use setLong() instead of setParameter() !!
 		q.setLong("matrixId", pMatrixID);
@@ -60,7 +60,7 @@ public class RowSegmentDAO extends AbstractDAO implements RowSegmentHome {
 
 		// int columnCount = m.getColumnsReadOnly().size();
 		// another way to find the size of a collection w/o initialze it:
-		int columnCount = ((Number) getSession()
+		int columnCount = ((Number) getSessionFactory().getCurrentSession()
 			.createFilter(m.getColumns(), "select count(*)").uniqueResult()).intValue();
 
 		if (pStart >= columnCount || pEnd >= columnCount) {
@@ -73,7 +73,7 @@ public class RowSegmentDAO extends AbstractDAO implements RowSegmentHome {
 //			"delete RowSegment r join r.matrixRow row where row.matrix = :matrixId and "
 //				+ "r.startIndex between :start and :endIndex and r.endIndex between :start and :endIndex");
 
-		Query q = getSession().createQuery(query.toString());
+		Query q = getSessionFactory().getCurrentSession().createQuery(query.toString());
 
 		// Important: use setLong() instead of setParameter() !!
 		q.setLong("matrixId", pMatrixId);

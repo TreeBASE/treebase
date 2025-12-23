@@ -187,7 +187,7 @@ public class RawNexusImporter extends AbstractStandalone implements RawNexusImpo
 			nexusString.append(new String(buf, 0, nr));
 		}
 		// Hibernate 4.x: use Session.getLobHelper() instead of Hibernate.createClob()
-		Clob nexusContent = getSession().getLobHelper().createClob(nexusString.toString());
+		Clob nexusContent = getSessionFactory().getCurrentSession().getLobHelper().createClob(nexusString.toString());
 		return nexusContent;
 	}
 

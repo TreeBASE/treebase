@@ -39,7 +39,7 @@ public class AnalyzedDataDAO extends AbstractDAO implements AnalyzedDataHome {
 
 		if (pMatrix != null) {
 			Long mID = pMatrix.getId();
-			Query q = getSession().createQuery("from AnalyzedMatrix where matrix.id = :mID");
+			Query q = getSessionFactory().getCurrentSession().createQuery("from AnalyzedMatrix where matrix.id = :mID");
 
 			q.setLong("mID", mID);
 			List results = q.list();
@@ -58,7 +58,7 @@ public class AnalyzedDataDAO extends AbstractDAO implements AnalyzedDataHome {
 
 		if (pTree != null) {
 			Long mID = pTree.getId();
-			Query q = getSession().createQuery("from AnalyzedTree where tree.id = :mID");
+			Query q = getSessionFactory().getCurrentSession().createQuery("from AnalyzedTree where tree.id = :mID");
 
 			q.setLong("mID", mID);
 			List results = q.list();

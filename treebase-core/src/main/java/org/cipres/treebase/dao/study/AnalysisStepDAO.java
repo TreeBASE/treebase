@@ -40,7 +40,7 @@ public class AnalysisStepDAO extends AbstractDAO implements AnalysisStepHome {
 
 		if (!TreebaseUtil.isEmpty(pPartialName) && pPartialName.trim().length() >= 1) {
 
-			Query q = getSession().createQuery(
+			Query q = getSessionFactory().getCurrentSession().createQuery(
 				"select distinct name from Software where lower(name) like :mStr");
 
 			q.setString("mStr", pPartialName.trim().toLowerCase() + '%');

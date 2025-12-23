@@ -56,7 +56,7 @@ public class StudyStatusDAO extends AbstractDAO implements StudyStatusHome {
 	private StudyStatus findByDescription(String pDesc) {
 		StudyStatus returnVal = null;
 
-		Criteria c = getSession().createCriteria(StudyStatus.class).add(
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(StudyStatus.class).add(
 			org.hibernate.criterion.Expression.eq("description", pDesc));
 
 		returnVal = (StudyStatus) c.uniqueResult();

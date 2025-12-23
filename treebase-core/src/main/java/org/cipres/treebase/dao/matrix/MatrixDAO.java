@@ -215,7 +215,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		// delete all matrix columns by direct JDBC:
 		// * delete all matrixColumn_itemDefinitions
 		// * delete all columns
-		MatrixJDBC.deleteMatrixColumnSQL(pMatrix, getSession());
+		MatrixJDBC.deleteMatrixColumnSQL(pMatrix, getSessionFactory().getCurrentSession());
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 	 * @see org.cipres.treebase.domain.matrix.MatrixHome#cascadeDeleteRows(java.util.Collection)
 	 */
 	public void cascadeDeleteRows(CharacterMatrix pMatrix) {
-		MatrixJDBC.deleteMatrixRowSQL(pMatrix,getSession());
+		MatrixJDBC.deleteMatrixRowSQL(pMatrix,getSessionFactory().getCurrentSession());
 	}
 	
 	/**
@@ -280,7 +280,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		Matrix matrix = super.findPersistedObjectByID(Matrix.class, pMatrixID);
 
 		// FIXME: loadMatrixEagerFetch
-		// Criteria c = getSession().createCriteria(Matrix.class);
+		// Criteria c = getSessionFactory().getCurrentSession().createCriteria(Matrix.class);
 		// c.add(Expression.eq("id", pMatrixID)).setFetchMode("rows", FetchMode.JOIN).setFetchMode(
 		// "columns",
 		// FetchMode.JOIN);
@@ -300,7 +300,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		// * delete all item values
 		// * delete all compound_element
 		// * delete all elements
-		MatrixJDBC.deleteMatrixElementSQL(pMatrix, getSession());
+		MatrixJDBC.deleteMatrixElementSQL(pMatrix, getSessionFactory().getCurrentSession());
 
 	}
 
@@ -376,10 +376,10 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 	//
 	// //Batch insert of all elements:
 	// int count = 0;
-	// //Session session = getSession();
+	// //Session session = getSessionFactory().getCurrentSession();
 	//		
 	// Problem: cannot use flush here, since matrixRow has a collection of transient elements!
-	// getSession().flush();
+	// getSessionFactory().getCurrentSession().flush();
 	//		
 	// StatelessSession session = getSessionFactory().openStatelessSession();
 	// Transaction tx = session.beginTransaction();
@@ -419,7 +419,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		if (pStudies != null && !pStudies.isEmpty()) {
 			String query = "select m from Matrix m where study in (:studies)";
 
-			Query q = getSession().createQuery(query);
+			Query q = getSessionFactory().getCurrentSession().createQuery(query);
 
 			q.setParameterList("studies", pStudies);
 			List results = q.list();
@@ -438,7 +438,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		Set<Matrix> returnVal = new HashSet<Matrix>();
 		String query = "select m from Matrix m where title = :title";
 
-		Query q = getSession().createQuery(query);
+		Query q = getSessionFactory().getCurrentSession().createQuery(query);
 
 		q.setParameter("title", title);
 		List results = q.list();
@@ -458,7 +458,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 			"select m from Submission s join s.submittedMatrices m")
 			.append(" where s.id = :submissionId and m.nexusFileName = :nexusFileName");
 
-		Query q = getSession().createQuery(query.toString());
+		Query q = getSessionFactory().getCurrentSession().createQuery(query.toString());
 
 		q.setParameter("submissionId", pSubmissionId);
 		q.setParameter("nexusFileName", pFileName);
@@ -470,7 +470,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 	// TODO: It's confusing that this method and the previous one are so similar.
 	// Clean this up. 20080327 mjd
 	public Collection<Matrix> findByNexusFile(String fn) {
-		Query q = getSession().createQuery("from Matrix where nexusfilename = :fn");
+		Query q = getSessionFactory().getCurrentSession().createQuery("from Matrix where nexusfilename = :fn");
 		q.setParameter("fn", fn);
 		return q.list();
 	}
@@ -483,7 +483,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		if ( pTB1MatrixID == null ) {
 			return null;
 		}
-		Query q = getSession().createQuery("from Matrix where tb_matrixid = :tbmid");
+		Query q = getSessionFactory().getCurrentSession().createQuery("from Matrix where tb_matrixid = :tbmid");
 		q.setParameter("tbmid", pTB1MatrixID);
 		return q.list();		
 	}	
@@ -522,7 +522,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 		String sql = "select {e.*}, e.matrixrow_id as rowId, e.element_order as elemIndex from matrixelement e join matrixrow r on r.MATRIXROW_ID = e.MATRIXrow_id "
 			+ "where r.MATRIX_ID = :matrixID and e.ELEMENT_ORDER between :startIndex and :endIndex order by e.MATRIXROW_ID, e.ELEMENT_ORDER";
 
-		List results = getSession()
+		List results = getSessionFactory().getCurrentSession()
 			.createSQLQuery(sql).addEntity("e", MatrixElement.class).addScalar(
 				"rowId",
 				StandardBasicTypes.LONG).addScalar("elemIndex", StandardBasicTypes.INTEGER).setLong(
@@ -572,7 +572,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 
 		// for (MatrixRow matrixRow : rows) {
 		//			
-		// List<MatrixElement> elements = getSession().createFilter(matrixRow.getElements(), "")
+		// List<MatrixElement> elements = getSessionFactory().getCurrentSession().createFilter(matrixRow.getElements(), "")
 		// .setFirstResult(start).setMaxResults(end-start+1).list();
 		//			
 		// String aRowString = matrixRow.buildElementAsString(elements);
@@ -593,7 +593,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 
 		String query = "update Matrix m set m.published = :pub where m.study = :study";
 
-		Query q = getSession().createQuery(query);
+		Query q = getSessionFactory().getCurrentSession().createQuery(query);
 		q.setBoolean("pub", pPublished);
 		q.setParameter("study", pStudy);
 
@@ -611,7 +611,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 
 		MatrixKind returnVal = null;
 
-		Criteria c = getSession().createCriteria(MatrixKind.class).add(
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(MatrixKind.class).add(
 			org.hibernate.criterion.Expression.eq("description", pDescription));
 
 		returnVal = (MatrixKind) c.uniqueResult();
@@ -623,7 +623,7 @@ public class MatrixDAO extends AbstractDAO implements MatrixHome {
 	 * @see org.cipres.treebase.domain.matrix.MatrixHome#findByTB1StudyID(java.lang.String)
 	 */
 	public Matrix findByTB1StudyID(String pTB1MatrixID) {
-		Criteria c = getSession().createCriteria(Matrix.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Matrix.class);
 		c.add(Expression.eq("TB1MatrixID", pTB1MatrixID));
 		return (Matrix) c.uniqueResult();
 	}

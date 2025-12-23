@@ -41,7 +41,7 @@ public class PersonDAO extends AbstractDAO implements PersonHome {
 
 		if (!TreebaseUtil.isEmpty(pLastName)) {
 
-			Criteria c = getSession().createCriteria(Person.class);
+			Criteria c = getSessionFactory().getCurrentSession().createCriteria(Person.class);
 			c.add(Expression.eq("lastName", pLastName).ignoreCase());
 			results = c.list();
 
@@ -59,7 +59,7 @@ public class PersonDAO extends AbstractDAO implements PersonHome {
 		}
 
 		Example examplePerson = Example.create(pPerson);
-		Criteria c = getSession().createCriteria(Person.class);
+		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Person.class);
 		c.add(examplePerson);
 
 		// Notes: the query by criteria does not work!
@@ -81,7 +81,7 @@ public class PersonDAO extends AbstractDAO implements PersonHome {
 		if (!TreebaseUtil.isEmpty(pPartialEmailAddress) && pPartialEmailAddress.length() >= 2) {
 
 			// CASE insensitive
-			Query q = getSession()
+			Query q = getSessionFactory().getCurrentSession()
 				.createQuery(
 					"select distinct p.emailAddress.emailAddressString from Person p where lower(p.emailAddress.emailAddressString) like :mStr");
 
@@ -96,7 +96,7 @@ public class PersonDAO extends AbstractDAO implements PersonHome {
 	 * @see org.cipres.treebase.domain.admin.PersonHome#findDuplicateWithFirstAndLastNames()
 	 */
 	public List<Person> findDuplicateWithFirstAndLastNames() {
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createQuery(
 			"from Person where lastName IN (select lastName from Person group by firstName, lastName having (count(lastName)) > 1)"); 
 	
@@ -117,7 +117,7 @@ public class PersonDAO extends AbstractDAO implements PersonHome {
 	 * @see org.cipres.treebase.domain.admin.PersonHome#findDuplicateWithLastNames()
 	 */
 	public List<Person> findDuplicateWithLastNames() {
-		Query q = getSession()
+		Query q = getSessionFactory().getCurrentSession()
 		.createQuery(
 			"from Person where lastName IN (select lastName from Person group by lastName having (count(lastName)) > 1)");	
 		return q.list();
