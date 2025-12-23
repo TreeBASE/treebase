@@ -13,11 +13,13 @@ import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -45,7 +47,6 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.IndexColumn;
 import org.jdom.Element;
@@ -310,9 +311,9 @@ public class Study extends AbstractPersistedObject {
 	 */
 	// @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 	// CascadeType.REMOVE})
-	@CollectionOfElements
+	@ElementCollection
 	@JoinTable(name = "Study_NexusFile", joinColumns = @JoinColumn(name = "STUDY_ID"))
-	@org.hibernate.annotations.MapKey(columns = @Column(name = "FILENAME", nullable = false))
+	@MapKeyColumn(name = "FILENAME", nullable = false)
 	// // @Lob
 	@Column(name = "NEXUS", nullable = false, length = 4194304)
 	@Cascade( {org.hibernate.annotations.CascadeType.ALL,

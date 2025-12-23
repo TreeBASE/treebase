@@ -6,12 +6,12 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.CollectionOfElements;
 
 import org.cipres.treebase.domain.TBPersistable;
 
@@ -62,7 +62,7 @@ public class ContinuousAncState extends AncestralState {
 	 * 
 	 * @return Set
 	 */
-	@CollectionOfElements
+	@ElementCollection
 	@JoinTable(name = "CONTANCSTATE_VALUE", joinColumns = @JoinColumn(name = "ANCSTATE_ID"))
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "matrixCache")
 	public Set<String> getChildValues() {
