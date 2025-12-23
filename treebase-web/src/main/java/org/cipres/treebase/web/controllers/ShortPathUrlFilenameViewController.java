@@ -2,7 +2,6 @@
 package org.cipres.treebase.web.controllers;
 
 import org.springframework.web.servlet.mvc.UrlFilenameViewController;
-import org.springframework.web.util.WebUtils;
 
 /**
  * A subclass of Spring UrlFilenameViewController. The UrlFilenameViewController class in Spring 2
@@ -34,7 +33,28 @@ public class ShortPathUrlFilenameViewController extends UrlFilenameViewControlle
 	 */
 	@Override
 	protected String extractViewNameFromUrlPath(String pUri) {
-        return WebUtils.extractFilenameFromUrlPath(pUri);		
+        return extractFilenameFromUrlPath(pUri);		
+	}
+
+	/**
+	 * Extract the filename from the given URL path.
+	 * This replaces the removed WebUtils.extractFilenameFromUrlPath method.
+	 */
+	private String extractFilenameFromUrlPath(String urlPath) {
+		int begin = urlPath.lastIndexOf('/') + 1;
+		int end = urlPath.indexOf(';');
+		if (end == -1) {
+			end = urlPath.indexOf('?');
+			if (end == -1) {
+				end = urlPath.length();
+			}
+		}
+		String filename = urlPath.substring(begin, end);
+		int dotIndex = filename.lastIndexOf('.');
+		if (dotIndex != -1) {
+			filename = filename.substring(0, dotIndex);
+		}
+		return filename;
 	}
 
 }
