@@ -6,39 +6,47 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.springframework.test.AbstractTransactionalSpringContextTests;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.treebase.oai.web.command.Identify;
 import org.treebase.oai.web.command.OAIPMHCommand;
 
+import static org.junit.Assert.*;
 
-
-public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+	"classpath:applicationContext.xml",
+	"classpath:top-servlet.xml",
+	"classpath:applicationContext-db-standalone.xml",
+	"classpath:applicationContext-dao.xml",
+	"classpath:applicationContext-service.xml"
+})
+@Transactional
+public class OAIPMHControllerTest {
+	
+	private static final Logger logger = Logger.getLogger(OAIPMHControllerTest.class);
 
 	
+	VelocityUtil vu= new VelocityUtil();
 	
-	VelocityUtil vu= new VelocityUtil();; 
+	@Autowired
+	private OAIPMHController controller;
 	
-	//OAIPMHCommand command;
-	 
-	private OAIPMHController controller;		
-	
-    public void setController(OAIPMHController controller) {
-		this.controller = controller;
-	}
-
-	private Identify identify;    
-    
-    public void setIdentify(Identify identify) {
-		this.identify = identify;
-	}
+	@Autowired
+	private Identify identify;
 	
 	// velocity utils for test only 
 	class VelocityUtil{
@@ -85,14 +93,7 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 	   }
     }
 
-	@Override
-	protected String[] getConfigLocations() {
-		return new String[]{"applicationContext.xml","top-servlet.xml",
-				"applicationContext-db-standalone.xml",
-				"applicationContext-dao.xml","applicationContext-service.xml"};
-	}
-
-	
+	@Test
 	public void testIdentify() {
 		
 		OAIPMHCommand params=new OAIPMHCommand();
@@ -102,12 +103,13 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		model.put("params", params);
 		ModelAndView mav=controller.Identify(params, model);
 		String result=vu.runTemplate(mav);		
-		this.assertNotNull(result);
+		assertNotNull(result);
 		//System.out.println("--------test Identify---------");
 		//System.out.print(result);
 		
 	}
 	
+	@Test
 	public void testListSets() {
 		
 		OAIPMHCommand params=new OAIPMHCommand();
@@ -117,12 +119,13 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		model.put("params", params);
 		ModelAndView mav=controller.ListSets(params, model);
 		String result=vu.runTemplate(mav);		
-		this.assertNotNull(result);
+		assertNotNull(result);
 		//System.out.println("---------test ListSet---------");
 		//System.out.print(result);
 		
 	}
 	
+	@Test
 	public void testListMetadataFormats() {
 		
 		OAIPMHCommand params=new OAIPMHCommand();
@@ -133,12 +136,13 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		model.put("params", params);
 		ModelAndView mav=controller.ListMetadataFormats(params, model);
 		String result=vu.runTemplate(mav);		
-		this.assertNotNull(result);
+		assertNotNull(result);
 		//System.out.println("---------test ListMetadataFormats---------");
 		//System.out.print(result);
 		
 	}
 	
+	@Test
 	public void testGetRecord() {
 		
 		OAIPMHCommand params=new OAIPMHCommand();
@@ -150,13 +154,14 @@ public class OAIPMHControllerTest extends AbstractTransactionalSpringContextTest
 		model.put("params", params);
 		ModelAndView mav=controller.GetRecord(params, model);
 		String result=vu.runTemplate(mav);		
-		this.assertNotNull(result);
+		assertNotNull(result);
 		//System.out.println("---------test getRecord---------");
 		//System.out.print(result);
 		
 	}
 	
-public void testListRecords() {		
+	@Test
+	public void testListRecords() {
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListRecords");
 		params.setFrom("2008-05-05T01:01:01Z");
@@ -167,12 +172,13 @@ public void testListRecords() {
 		model.put("params", params);
 		ModelAndView mav=controller.ListRecords(params, model);
 		String result=vu.runTemplate(mav);		
-		this.assertNotNull(result);
+		assertNotNull(result);
 		System.out.println("---------test ListRecord---------");
 		System.out.print(result);		
 	}
 
-	public void testListIdentifiers() 
+	@Test
+	public void testListIdentifiers()
 	{	
 		OAIPMHCommand params=new OAIPMHCommand();
 		params.setVerb("ListIdentifiers");
@@ -184,12 +190,13 @@ public void testListRecords() {
 		model.put("params", params);
 		ModelAndView mav=controller.ListIdentifiers(params, model);
 		String result=vu.runTemplate(mav);		
-		this.assertNotNull(result);	
+		assertNotNull(result);
 		//System.out.println("---------test ListIdentifiers---------");
 		//System.out.print(result);
 	
 	}	
 	
+	@Test
 	public void testHandle() throws Exception
 	{
 		OAIPMHCommand params=new OAIPMHCommand();		
@@ -197,22 +204,22 @@ public void testListRecords() {
 		System.out.println(mav.getViewName()+" "
 				+mav.getModel().get("error_code")
 				+": "+mav.getModel().get("error"));
-		this.assertEquals("error", mav.getViewName());
+		assertEquals("error", mav.getViewName());
 		
 		params.setVerb("Identify");	
 		mav=call(params);
-		this.assertEquals("Identify", mav.getViewName());
+		assertEquals("Identify", mav.getViewName());
 		
 		params.setVerb("ListSets");	
 		mav=call(params);
 		System.out.println(mav.getViewName()+" "
 				+mav.getModel().get("error_code")
 				+": "+mav.getModel().get("error"));
-		this.assertEquals("error", mav.getViewName());
+		assertEquals("error", mav.getViewName());
 		
 		params.setVerb("ListMetadataFormats");	
 		mav=call(params);
-		this.assertEquals("ListMetadataFormats", mav.getViewName());
+		assertEquals("ListMetadataFormats", mav.getViewName());
 		
 		params.setVerb("GetRecord");
 		params.setIdentifier("treebase.org/study/TB2:s1225");
@@ -227,13 +234,13 @@ public void testListRecords() {
 		params.setFrom("2005-11-15T06:16:15Z");
 		params.setUntil("2006-05-15T06:16:15Z");
 		mav=call(params);
-		this.assertEquals("oai_dc_ListIdentifiers", mav.getViewName());
+		assertEquals("oai_dc_ListIdentifiers", mav.getViewName());
 	
 		params.setVerb("ListRecords");
 		params.setFrom("2005-11-15T06:16:15Z");
 		params.setUntil("2006-05-15T06:16:15Z");
 		mav=call(params);
-		this.assertEquals("ListRecords", mav.getViewName());
+		assertEquals("ListRecords", mav.getViewName());
 	}
 	
 	

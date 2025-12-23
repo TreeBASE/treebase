@@ -2,27 +2,24 @@ package org.treebase.oai.web.command;
 
 import java.util.Date;
 
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.junit.Assert.assertNotNull;
 
-public class IdentifyTest extends AbstractDependencyInjectionSpringContextTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+public class IdentifyTest {
 
+	@Autowired
 	private Identify identify;
 	
-	public void setIdentify(Identify identify) {
-		this.identify = identify;
-	}
-
-	@Override
-	protected String[] getConfigLocations() { 
-	return new String[]{"applicationContext.xml"};
-	} 
-	
+	@Test
 	public void testLoadIdentify() {
-	
-		this.assertNotNull(identify);
-		
+		assertNotNull(identify);
 	}
-
 
 }
