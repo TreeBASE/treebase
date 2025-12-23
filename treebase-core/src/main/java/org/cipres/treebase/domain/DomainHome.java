@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import org.cipres.treebase.RangeExpression.MalformedRangeExpression;
 import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate4.HibernateAccessor;
+import org.hibernate.FlushMode;
 
 /**
  * DomainHome.java
@@ -140,18 +140,18 @@ public interface DomainHome {
 	/**
 	 * Set the flush mode.
 	 * <p>
-	 * The flush modes are defined in HibernateAccessor. The default flush mode is FLUSH_AUTO.
+	 * The flush modes are defined in org.hibernate.FlushMode. The default flush mode is AUTO.
 	 * 
-	 * @see HibernateAccessor
+	 * @see org.hibernate.FlushMode
 	 */
 	void setFlushMode(int pFlushMode);
 
 	/**
 	 * Get the current flush mode.
 	 * <p>
-	 * The flush modes are defined in HibernateAccessor. The default flush mode is FLUSH_AUTO.
+	 * The flush modes are defined in org.hibernate.FlushMode. The default flush mode is AUTO.
 	 * 
-	 * @see HibernateAccessor
+	 * @see org.hibernate.FlushMode
 	 */
 	int getFlushMode();
 
