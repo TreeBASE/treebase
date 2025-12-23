@@ -156,7 +156,8 @@ public class EnvironmentTest extends AbstractDAOTest {
 		
 		logger.debug(" execute count=" + count);
 		
-		con.commit();
+		// Don't manually commit - let Spring's transaction management handle it
+		// con.commit();
 		
 		ResultSet rs = ps.getGeneratedKeys();
 		long phyloCharId = -1;
@@ -180,10 +181,12 @@ public class EnvironmentTest extends AbstractDAOTest {
 		ps.setLong(1, phyloCharId);
 		
 		ps.executeUpdate();
-		con.commit();
+		// Don't manually commit or close - let Spring's transaction management handle it
+		// con.commit();
 		
 		ps.close();
-		con.close();
+		// Don't close connection - it's managed by Hibernate/Spring transaction
+		// con.close();
 		
 		if (logger.isInfoEnabled()) {
 			logger.info(testName + " - end "); //$NON-NLS-1$
@@ -234,7 +237,8 @@ public class EnvironmentTest extends AbstractDAOTest {
 		
 		//logger.debug(" execute count=" + count);
 		
-		con.commit();
+		// Don't manually commit - let Spring's transaction management handle it
+		// con.commit();
 		
 		//ResultSet rs = ps.getGeneratedKeys();
 		long phyloCharId = -1;
@@ -258,10 +262,12 @@ public class EnvironmentTest extends AbstractDAOTest {
 		ps.setLong(1, phyloCharId);
 		
 		ps.executeUpdate();
-		con.commit();
+		// Don't manually commit or close - let Spring's transaction management handle it
+		// con.commit();
 		
 		ps.close();
-		con.close();
+		// Don't close connection - it's managed by Hibernate/Spring transaction
+		// con.close();
 		
 		if (logger.isInfoEnabled()) {
 			logger.info(testName + " - end "); //$NON-NLS-1$
