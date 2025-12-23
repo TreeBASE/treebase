@@ -116,9 +116,9 @@ public class DeleteARowSegmentController extends BaseFormController {
 	}
 
 	@Override
-	protected Map<String, String> referenceData(HttpServletRequest request) {
+	protected Map<String, Object> referenceData(HttpServletRequest request) {
 
-		Map<String, String> referenceMap = new HashMap<String, String>();
+		Map<String, Object> referenceMap = new HashMap<String, Object>();
 		referenceMap.put("deleteelementtype", "Delete this particular rowsegment");
 
 		String noidavailable = null;

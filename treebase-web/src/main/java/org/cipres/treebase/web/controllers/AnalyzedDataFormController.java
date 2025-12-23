@@ -315,9 +315,9 @@ public class AnalyzedDataFormController extends AbstractWizardFormController {
 	 * @return
 	 */
 	@Override
-	protected Map<String,List<LabelValue>> referenceData(HttpServletRequest request, int page) throws Exception {
+	protected Map<String,Object> referenceData(HttpServletRequest request, int page) throws Exception {
 
-		Map<String,List<LabelValue>> dataMap = new HashMap<String,List<LabelValue>>();
+		Map<String,Object> dataMap = new HashMap<String,Object>();
 
 		List<LabelValue> steps = new ArrayList<LabelValue>();
 		// determine the analysis step name for the drop down list

@@ -38,8 +38,9 @@ public abstract class AbstractCommandController extends AbstractController {
         Object command = createCommand();
         ServletRequestDataBinder binder = createBinder(request, command);
         binder.bind(request);
+        org.springframework.validation.BindException errors = new org.springframework.validation.BindException(binder.getBindingResult());
         
-        return handle(request, response, command);
+        return handle(request, response, command, errors);
     }
     
     protected Object createCommand() throws Exception {
@@ -59,5 +60,22 @@ public abstract class AbstractCommandController extends AbstractController {
         // Override to customize binder
     }
     
-    protected abstract ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command) throws Exception;
+    /**
+     * Template method for handling the command.
+     * Subclasses must override this method to process the bound command object.
+     * This version includes binding errors for validation.
+     */
+    protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, org.springframework.validation.BindException errors) throws Exception {
+        // Default implementation calls the 3-parameter version for backwards compatibility
+        return handle(request, response, command);
+    }
+    
+    /**
+     * Template method for handling the command.
+     * Subclasses can override this method to process the bound command object.
+     * Override the 4-parameter version if you need access to binding errors.
+     */
+    protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command) throws Exception {
+        throw new UnsupportedOperationException("Subclasses must override either handle(request, response, command) or handle(request, response, command, errors)");
+    }
 }

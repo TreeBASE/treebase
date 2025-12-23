@@ -163,6 +163,11 @@ public abstract class CancellableFormController extends AbstractController {
         return mav;
     }
     
+    /**
+     * Template method for processing form submission.
+     * This method is called when the form is submitted and validation has passed.
+     * Subclasses should override either this method or onSubmit.
+     */
     protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         if (errors.hasErrors()) {
             return showForm(request, response, errors);
@@ -170,7 +175,14 @@ public abstract class CancellableFormController extends AbstractController {
         return onSubmit(request, response, command, errors);
     }
     
-    protected abstract ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception;
+    /**
+     * Template method for handling successful form submission.
+     * Subclasses must override either this method or processFormSubmission.
+     * Default implementation returns success view.
+     */
+    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+        return new ModelAndView(getSuccessView());
+    }
     
     protected ModelAndView onCancel(HttpServletRequest request, HttpServletResponse response, Object command) throws Exception {
         String cancelViewName = getCancelView() != null ? getCancelView() : getSuccessView();

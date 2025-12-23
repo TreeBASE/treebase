@@ -91,7 +91,7 @@ public class SearchFormController extends BaseFormController {
 	 * 
 	 * Creation date: June 5, 2006 12:25:28 PM
 	 */
-	@Override
+	// Note: isFormChangeRequest was a Spring 3.x method that is no longer used in Spring 4.x
 	public boolean isFormChangeRequest(HttpServletRequest request) {
 		/*
 		 * The following are the real "Submit" name on the buttons

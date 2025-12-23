@@ -128,7 +128,7 @@ public class AdminMergingPersonsController extends AbstractWizardFormController 
 
 	}
 
-	@Override
+	// formBackingObject is already defined in the base class
 	protected Object formBackingObject(HttpServletRequest request) {
 		return new Object();
 	}
