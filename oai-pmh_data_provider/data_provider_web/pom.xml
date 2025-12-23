@@ -124,6 +124,13 @@
       <groupId>struts</groupId>
       <artifactId>struts</artifactId>
       <version>1.2.9</version>
+      <exclusions>
+		<!-- Exclude old ANTLR 2.7.2 - Hibernate 5 requires 2.7.7 -->
+		<exclusion>
+          <groupId>antlr</groupId>
+          <artifactId>antlr</artifactId>
+		</exclusion>
+      </exclusions>
 	</dependency>
 	<dependency>
       <groupId>opensymphony</groupId>
