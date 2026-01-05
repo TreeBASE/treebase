@@ -21,7 +21,6 @@
 	
 	<!-- Spring Security enabled - migrated from Acegi Security to Spring Security 5.8.15 -->
 	<!-- CXF upgraded to 3.5.9 for Spring 5 compatibility -->
-	<!-- Disabled: treebase-validation.xml (Commons Validator DTD access issues) -->
 	<context-param>
  		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -30,6 +29,7 @@
 			classpath*:applicationContext-service.xml,
 			/WEB-INF/applicationContext.xml,
 			/WEB-INF/treebase-security.xml,
+			/WEB-INF/treebase-validation.xml,
 			/WEB-INF/cxf-servlet.xml
 		</param-value>
  	</context-param>
