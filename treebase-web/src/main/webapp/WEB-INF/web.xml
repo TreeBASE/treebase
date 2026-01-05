@@ -19,16 +19,16 @@
   </session-config>
   
 	
+	<!-- Disabled: treebase-security.xml (Acegi Security incompatible with Spring 5) -->
+	<!-- Disabled: cxf-servlet.xml (CXF 2.1.1 incompatible with Spring 5) -->
+	<!-- Disabled: treebase-validation.xml (Commons Validator DTD access issues) -->
 	<context-param>
  		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath*:applicationContext-db-webapp.xml, 
+			classpath*:applicationContext-db-webapp.xml,
 			classpath*:applicationContext-dao.xml,
 			classpath*:applicationContext-service.xml,
-			/WEB-INF/applicationContext.xml,
-			/WEB-INF/treebase-security.xml,
-			/WEB-INF/cxf-servlet.xml,
-			/WEB-INF/treebase-validation.xml
+			/WEB-INF/applicationContext.xml
 		</param-value>
  	</context-param>
  	<!-- Define the basename for a resource bundle for I18N -->
@@ -110,6 +110,7 @@
     	<filter-name>sitemesh</filter-name>
     	<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
 	</filter>
+	<!-- Disabled: Acegi Security incompatible with Spring 5
 	<filter>
 		<filter-name>securityFilter</filter-name>
 		<filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
@@ -118,6 +119,7 @@
 			<param-value>org.acegisecurity.util.FilterChainProxy</param-value>
 		</init-param>
 	</filter>
+	-->
 	<filter>
 		<filter-name>hibernateFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
@@ -145,10 +147,12 @@
  	<!-- ========================================================== -->
  	<!-- Mappings for Filters defined aboved						-->
  	<!-- ========================================================== -->
+	<!-- Disabled: Acegi Security incompatible with Spring 5
  	 <filter-mapping>
  		<filter-name>securityFilter</filter-name>
- 		<url-pattern>/*</url-pattern> 	
+ 		<url-pattern>/*</url-pattern>
  	</filter-mapping>
+	-->
  	
  	 <filter-mapping>
  		<filter-name>sitemesh</filter-name>
