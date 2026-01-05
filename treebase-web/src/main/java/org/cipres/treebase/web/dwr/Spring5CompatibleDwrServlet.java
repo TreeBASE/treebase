@@ -24,14 +24,11 @@ public class Spring5CompatibleDwrServlet extends DwrSpringServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        // Ensure Spring context is available before initializing DWR
-        WebApplicationContext webApplicationContext = 
-            WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
-        
-        if (webApplicationContext == null) {
-            throw new ServletException("No Spring WebApplicationContext found - " +
-                "cannot initialize DWR. Check that Spring ContextLoaderListener is properly configured.");
-        }
+        // Validate that Spring context is available before initializing DWR.
+        // This is a validation step to provide a clear error message if Spring
+        // context initialization has failed. getRequiredWebApplicationContext()
+        // will throw IllegalStateException if context is not found.
+        WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
         
         // Initialize the parent DwrSpringServlet with proper Spring 5 context
         super.init(config);
