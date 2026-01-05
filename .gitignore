@@ -1,3 +1,4 @@
+.DS_Store
 treebase-core/target
 treebase-core/.includepath
 treebase-core/src/main/resources/jdbc.properties
