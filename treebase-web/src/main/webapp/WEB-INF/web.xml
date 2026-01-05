@@ -19,7 +19,7 @@
   </session-config>
   
 	
-	<!-- Disabled: treebase-security.xml (Acegi Security incompatible with Spring 5) -->
+	<!-- Spring Security enabled - migrated from Acegi Security to Spring Security 5.8.15 -->
 	<!-- Disabled: cxf-servlet.xml (CXF 2.1.1 incompatible with Spring 5) -->
 	<!-- Disabled: treebase-validation.xml (Commons Validator DTD access issues) -->
 	<context-param>
@@ -28,7 +28,8 @@
 			classpath*:applicationContext-db-webapp.xml,
 			classpath*:applicationContext-dao.xml,
 			classpath*:applicationContext-service.xml,
-			/WEB-INF/applicationContext.xml
+			/WEB-INF/applicationContext.xml,
+			/WEB-INF/treebase-security.xml
 		</param-value>
  	</context-param>
  	<!-- Define the basename for a resource bundle for I18N -->
@@ -110,16 +111,11 @@
     	<filter-name>sitemesh</filter-name>
     	<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
 	</filter>
-	<!-- Disabled: Acegi Security incompatible with Spring 5
+	<!-- Spring Security 5.8.15 Filter Chain -->
 	<filter>
-		<filter-name>securityFilter</filter-name>
-		<filter-class>org.acegisecurity.util.FilterToBeanProxy</filter-class>
-		<init-param>
-			<param-name>targetClass</param-name>
-			<param-value>org.acegisecurity.util.FilterChainProxy</param-value>
-		</init-param>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
-	-->
 	<filter>
 		<filter-name>hibernateFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
@@ -147,13 +143,11 @@
  	<!-- ========================================================== -->
  	<!-- Mappings for Filters defined aboved						-->
  	<!-- ========================================================== -->
-	<!-- Disabled: Acegi Security incompatible with Spring 5
  	 <filter-mapping>
- 		<filter-name>securityFilter</filter-name>
+ 		<filter-name>springSecurityFilterChain</filter-name>
  		<url-pattern>/*</url-pattern>
  	</filter-mapping>
-	-->
- 	
+
  	 <filter-mapping>
  		<filter-name>sitemesh</filter-name>
 		<url-pattern>*.html</url-pattern>
@@ -248,9 +242,9 @@
 	<listener>
 		<listener-class>net.sf.navigator.menu.MenuContextListener</listener-class>
 	</listener>
-	<!--  listener>
+	<listener>
   		<listener-class>org.cipres.treebase.web.listeners.EventListener</listener-class>
-	</listener -->	
+	</listener>
 	
 	
 	

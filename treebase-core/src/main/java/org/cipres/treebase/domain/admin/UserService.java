@@ -3,7 +3,7 @@ package org.cipres.treebase.domain.admin;
 
 import java.util.List;
 
-import org.acegisecurity.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import org.cipres.treebase.framework.ExecutionResult;
 import org.cipres.treebase.service.AbstractService;

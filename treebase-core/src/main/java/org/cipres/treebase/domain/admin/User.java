@@ -3,6 +3,7 @@ package org.cipres.treebase.domain.admin;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -18,8 +19,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -397,20 +398,17 @@ public class User extends AbstractPersistedObject implements UserDetails {
 	}
 
 	/**
-	 * 
-	 * @see org.acegisecurity.userdetails.UserDetails#getAuthorities()
+	 *
+	 * @see org.springframework.security.core.userdetails.UserDetails#getAuthorities()
 	 */
 	@Transient
-	public GrantedAuthority[] getAuthorities() {
-		GrantedAuthority[] roles = new GrantedAuthority[1];
-		roles[0] = getRole();
-
-		return roles;
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Collections.singletonList(getRole());
 	}
 
 	/**
-	 * 
-	 * @see org.acegisecurity.userdetails.UserDetails#isAccountNonExpired()
+	 *
+	 * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonExpired()
 	 */
 	@Transient
 	public boolean isAccountNonExpired() {
@@ -418,8 +416,8 @@ public class User extends AbstractPersistedObject implements UserDetails {
 	}
 
 	/**
-	 * 
-	 * @see org.acegisecurity.userdetails.UserDetails#isAccountNonLocked()
+	 *
+	 * @see org.springframework.security.core.userdetails.UserDetails#isAccountNonLocked()
 	 */
 	@Transient
 	public boolean isAccountNonLocked() {
@@ -427,8 +425,8 @@ public class User extends AbstractPersistedObject implements UserDetails {
 	}
 
 	/**
-	 * 
-	 * @see org.acegisecurity.userdetails.UserDetails#isCredentialsNonExpired()
+	 *
+	 * @see org.springframework.security.core.userdetails.UserDetails#isCredentialsNonExpired()
 	 */
 	@Transient
 	public boolean isCredentialsNonExpired() {
@@ -436,8 +434,8 @@ public class User extends AbstractPersistedObject implements UserDetails {
 	}
 
 	/**
-	 * 
-	 * @see org.acegisecurity.userdetails.UserDetails#isEnabled()
+	 *
+	 * @see org.springframework.security.core.userdetails.UserDetails#isEnabled()
 	 */
 	@Transient
 	public boolean isEnabled() {

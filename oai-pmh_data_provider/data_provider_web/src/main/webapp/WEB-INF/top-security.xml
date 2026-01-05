@@ -1,121 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-WARNING: This file uses legacy Acegi Security (predecessor to Spring Security).
-Acegi Security is incompatible with Spring 5.x. This file requires migration to
-Spring Security 5.x to work with the current Spring Framework version.
-
-Migration required:
-1. Add Spring Security dependencies to pom.xml
-2. Replace org.acegisecurity.* classes with org.springframework.security.* equivalents
-3. Update configuration to use Spring Security namespace
-4. Test authentication and authorization after migration
--->
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:security="http://www.springframework.org/schema/security"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans.xsd"
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security.xsd"
     default-autowire="no">
 
-	<!-- ======================== FILTER CHAIN ======================= -->
-	<!--	if you wish to use channel security, add "channelProcessingFilter," 
-			in front of "httpSessionContextIntegrationFilter" in the list below -->
-    <bean id="filterChainProxy" class="org.acegisecurity.util.FilterChainProxy">
-        <property name="filterInvocationDefinitionSource">
-            <value>
-                CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
-                PATTERN_TYPE_APACHE_ANT
-                /**=httpSessionContextIntegrationFilter,authenticationProcessingFilter,requestMethodsFilter,exceptionTranslationFilter,filterInvocationInterceptor 
-            </value>
-        </property>
-    </bean>
+	<!-- ======================== SPRING SECURITY 5 CONFIGURATION ======================= -->
+	<!-- Migrated from Acegi Security to Spring Security 5.8.15 -->
 
-	<!-- ======================== AUTHENTICATION MANAGER AND ITS DEPENDENTS  ======================= -->
-	<bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
-		<property name="providers">
-			<list>
-				<ref bean="daoAuthenticationProvider"/>
-			</list>
-		</property>
+	<!-- HTTP Security Configuration -->
+	<security:http auto-config="false" use-expressions="false">
+		<!-- URL-based authorization rules (most specific first) -->
+		<security:intercept-url pattern="/submit.html" access="User,Admin,Associate Editor"/>
+		<security:intercept-url pattern="/user/**" access="User,Admin,Associate Editor"/>
+		<security:intercept-url pattern="/admin/**" access="Admin,Associate Editor"/>
+
+		<!-- Form-based authentication -->
+		<security:form-login
+			login-page="/login.jsp"
+			login-processing-url="/j_security_check"
+			default-target-url="/user/processUser.html"
+			always-use-default-target="true"
+			authentication-failure-url="/login.jsp?error=true"
+			authentication-success-handler-ref="passwordUpgradeSuccessHandler"/>
+
+		<!-- Logout configuration -->
+		<security:logout logout-url="/logout" logout-success-url="/login.jsp"/>
+
+		<!-- Session management with fixation protection -->
+		<security:session-management session-fixation-protection="newSession"/>
+
+		<!-- Disable CSRF for backward compatibility (can be enabled later) -->
+		<security:csrf disabled="true"/>
+	</security:http>
+
+	<!-- Authentication Manager Configuration -->
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="userService">
+			<security:password-encoder ref="passwordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<!-- Password Encoder: DelegatingPasswordEncoder for backward compatibility -->
+	<bean id="passwordEncoder" class="org.cipres.treebase.security.DelegatingPasswordEncoder"/>
+
+	<!-- Password Upgrade Success Handler: Automatically upgrades plain text to BCrypt -->
+	<bean id="passwordUpgradeSuccessHandler"
+	      class="org.cipres.treebase.security.PasswordUpgradeAuthenticationSuccessHandler">
+		<constructor-arg ref="userHome"/>
+		<constructor-arg ref="passwordEncoder"/>
 	</bean>
-    
-    <bean id="daoAuthenticationProvider" class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
-        <property name="userDetailsService"><ref bean ="userService"/></property>
-        <!--  encrypt password instead of storing in clear text in DB -->
-        <!--  property name="passwordEncoder" ref="passwordEncoder"/ -->
-        <!--  the next 2 lines are for debugging purpose -->
-        <!--  property name="userDetailsService" ref="jdbcDaoImpl"/ -->
-        <!--  property name="userDetailsService" ref="myUserServices"/ -->
-    </bean>
-    <!--  bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.ShaPasswordEncoder"/ -->
-    
-    <!-- bean id="myUserServices" class="org.cipres.treebase.web.controllers.UserDAOImpl"/ -->
-    <!--  use JDBC for authentication: only for debugging -->
-    <!--  bean id="jdbcDaoImpl" class="org.acegisecurity.userdetails.jdbc.JdbcDaoImpl">
-        <property name="dataSource"><ref bean="securityDataSource"/></property>
-        <property name="usersByUsernameQuery">
-        	<value>SELECT username, password, 'true' as enabled FROM user WHERE username=?</value>
-        </property>
-        <property name="authoritiesByUsernameQuery">
-        	<value>SELECT 'lcchan' as username, 'user' as rolename FROM user WHERE username=? </value>
-        </property>
-    </bean -->
-	<!--  =========================== HTTP REQUEST SECURITY ======================================== -->
-	<!-- Filter to propagate the established Authentication object through all requests -->
-	<bean id="httpSessionContextIntegrationFilter" class="org.acegisecurity.context.HttpSessionContextIntegrationFilter"/>
-	
-	<!-- Filter to handle FORM authentication -->	
-	<bean id="authenticationProcessingFilter" class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter">
-		<property name="authenticationManager" ref="authenticationManager"/>
-        <property name="authenticationFailureUrl" value="/login.jsp?error=true"/>
-        <property name="defaultTargetUrl" value="/user/processUser.html"/>
-        <property name="filterProcessesUrl" value="/j_security_check"/>
-        <property name="alwaysUseDefaultTargetUrl" value="true"/>
+
+	<!-- Role Voter with empty prefix to preserve existing role names (Admin, User, Associate Editor) -->
+	<bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+		<property name="rolePrefix" value=""/>
 	</bean>
-	
-	<!--  Filter to link defintions of secured resources with the appropriate access control mechanism -->
-	<bean id="exceptionTranslationFilter" class="org.acegisecurity.ui.ExceptionTranslationFilter">
-		<property name="authenticationEntryPoint"  ref="authenticationProcessingFilterEntryPoint"/>
-	</bean>
-	
-	<bean id="requestMethodsFilter" class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter"/>
-	
-	<!-- ======================== FILTER SECURITY INTERCEPTOR ======================= -->
-	<!-- Note the order that entries are placed against the objectDefinitionSource is critical.
-        The FilterSecurityInterceptor will work from the top of the list down to the FIRST pattern 
-        that matches the request URL. Accordingly, you should place MOST SPECIFIC (ie a/b/c/d.*) 
-        expressions first, with LEAST SPECIFIC (ie a/.*) expressions last -->
-	<bean id="filterInvocationInterceptor" class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
-		<property name="authenticationManager"><ref bean="authenticationManager"/></property>
-		<property name="accessDecisionManager"><ref bean="accessDecisionManager"/></property>
-		<property name="objectDefinitionSource">
-			<value>
-                CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
-				PATTERN_TYPE_APACHE_ANT 
-				/submit.html=User,Admin, Associate Editor
-				/user/*=User,Admin, Associate Editor
-				/admin/*=Admin, Associate Editor
-			</value>
-		</property>
-	</bean>
-	
-	<!-- ======================== ACCESSDECISION MANAGER AND ITS DEPENDENTS  ======================= -->
-	<bean id="accessDecisionManager" class="org.acegisecurity.vote.AffirmativeBased">
-		<property name="allowIfAllAbstainDecisions" value="false"/>
-		<property name="decisionVoters">
+
+	<!-- Access Decision Manager -->
+	<bean id="accessDecisionManager"
+	      class="org.springframework.security.access.vote.AffirmativeBased">
+		<constructor-arg>
 			<list>
 				<ref bean="roleVoter"/>
 			</list>
+		</constructor-arg>
+		<property name="allowIfAllAbstainDecisions" value="false"/>
+	</bean>
+
+	<!-- Override default access decision manager -->
+	<bean id="webExpressionVoter"
+	      class="org.springframework.security.web.access.expression.WebExpressionVoter">
+		<property name="expressionHandler">
+			<bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
 		</property>
 	</bean>
-    
-	<bean id="roleVoter" class="org.acegisecurity.vote.RoleVoter">
-		<property name="rolePrefix" value=""/>
-	</bean>
-	
-	<!-- ======================== AUTHENTICATION ENTRY POINT ======================= -->
-	<bean id="authenticationProcessingFilterEntryPoint" class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
-		<property name="loginFormUrl"><value>/login.jsp</value></property>
-		<property name="forceHttps"><value>false</value></property>
-	</bean>
-	
+
 </beans>

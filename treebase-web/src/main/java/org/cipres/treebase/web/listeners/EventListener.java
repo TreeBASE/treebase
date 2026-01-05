@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 
-import org.acegisecurity.context.HttpSessionContextIntegrationFilter;
-import org.acegisecurity.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
 import org.cipres.treebase.domain.admin.User;
 
@@ -30,7 +30,7 @@ public class EventListener implements ServletContextListener, HttpSessionAttribu
 	private static final Logger LOGGER = LogManager.getLogger(EventListener.class);
 
 	private static final String USER_KEY = "user";
-	private static final String EVENT_KEY = HttpSessionContextIntegrationFilter.ACEGI_SECURITY_CONTEXT_KEY;
+	private static final String EVENT_KEY = HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 	private transient ServletContext servletContext;
 	
 	/** 

@@ -6,9 +6,8 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.acegisecurity.userdetails.UserDetails;
-import org.acegisecurity.userdetails.UsernameNotFoundException;
-import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.DomainHome;
@@ -118,12 +117,11 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	}
 
 	/**
-	 * 
-	 * @see org.acegisecurity.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
+	 *
+	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
 	 */
 	public UserDetails loadUserByUsername(String pUsername)
-		throws UsernameNotFoundException,
-			DataAccessException {
+		throws UsernameNotFoundException {
 
 		UserDetails user = findUserByName(pUsername);
 		if (user == null) {
