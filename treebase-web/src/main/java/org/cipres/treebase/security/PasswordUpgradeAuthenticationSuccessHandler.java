@@ -87,7 +87,7 @@ public class PasswordUpgradeAuthenticationSuccessHandler extends SavedRequestAwa
 
 		try {
 			// Load the user entity
-			User user = userHome.findByName(userDetails.getUsername());
+			User user = userHome.findByUserName(userDetails.getUsername());
 			if (user == null) {
 				LOGGER.warn("Cannot upgrade password: user not found: {}", userDetails.getUsername());
 				return;
