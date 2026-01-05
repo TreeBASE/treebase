@@ -24,10 +24,13 @@ public class ListTaxaSearchController extends BaseFormController {
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-		Map<String,Object> params = request.getParameterMap();
+		Map<String,String[]> params = request.getParameterMap();
 		Collection<String> newTaxonLabels = new ArrayList<String> ();
 		for (int i=0; params.containsKey("taxonLabel" + i); i++) {
-			newTaxonLabels.add((String) params.get("taxonLabel" + i));
+			String[] values = params.get("taxonLabel" + i);
+			if (values != null && values.length > 0) {
+				newTaxonLabels.add(values[0]);
+			}
 		}
 		request.setAttribute("taxonLabelStatus", newTaxonLabels);
 		return getReturnLocation(request);
