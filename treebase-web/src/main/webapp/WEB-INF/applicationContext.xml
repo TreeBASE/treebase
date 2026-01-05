@@ -7,7 +7,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.directwebremoting.org/schema/spring-dwr
-    http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+    http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
 
 	
 	<!-- ========================================================== -->
@@ -42,10 +42,9 @@
 	
 	<!-- ========================================================== -->
 	<!-- LIST OF DWR beans/methods -->
-	<!-- DWR 3.0.2 is incompatible with Spring 5.x - disabled -->
+	<!-- Re-enabled with DWR 3.0.2 for Spring 5 compatibility -->
 	<!-- ========================================================== -->
 
-	<!--
 	<bean id="remoteSoftwareNameService" class="org.cipres.treebase.dao.study.AnalysisStepDAO">
    		<dwr:remote javascript="RemoteSoftwareNameService">
       		<dwr:include method="findCompleteSoftwareName" />
@@ -82,6 +81,5 @@
 	<dwr:configuration>
 		<dwr:convert type="bean" class="org.cipres.treebase.web.model.UploadInfoBean"/>
 	</dwr:configuration>
-	-->
 
 </beans>

@@ -355,7 +355,7 @@
 	
 	<servlet>
 		<servlet-name>dwr</servlet-name>
-		<servlet-class>org.directwebremoting.spring.DwrSpringServlet</servlet-class>
+		<servlet-class>org.cipres.treebase.web.dwr.Spring5CompatibleDwrServlet</servlet-class>
 		<init-param>
     		<param-name>allowGetForSafariButMakeForgeryEasier</param-name>
     		<param-value>true</param-value>
