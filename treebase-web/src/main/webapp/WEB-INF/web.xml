@@ -20,7 +20,7 @@
   
 	
 	<!-- Spring Security enabled - migrated from Acegi Security to Spring Security 5.8.15 -->
-	<!-- Disabled: cxf-servlet.xml (CXF 2.1.1 incompatible with Spring 5) -->
+	<!-- CXF upgraded to 3.5.9 for Spring 5 compatibility -->
 	<!-- Disabled: treebase-validation.xml (Commons Validator DTD access issues) -->
 	<context-param>
  		<param-name>contextConfigLocation</param-name>
@@ -29,7 +29,8 @@
 			classpath*:applicationContext-dao.xml,
 			classpath*:applicationContext-service.xml,
 			/WEB-INF/applicationContext.xml,
-			/WEB-INF/treebase-security.xml
+			/WEB-INF/treebase-security.xml,
+			/WEB-INF/cxf-servlet.xml
 		</param-value>
  	</context-param>
  	<!-- Define the basename for a resource bundle for I18N -->
