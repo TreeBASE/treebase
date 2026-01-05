@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
-    "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+WARNING: This file uses legacy Acegi Security (predecessor to Spring Security).
+Acegi Security is incompatible with Spring 5.x. This file requires migration to
+Spring Security 5.x to work with the current Spring Framework version.
 
-<beans default-autowire="no">
+Migration required:
+1. Add Spring Security dependencies to pom.xml
+2. Replace org.acegisecurity.* classes with org.springframework.security.* equivalents
+3. Update configuration to use Spring Security namespace
+4. Test authentication and authorization after migration
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"
+    default-autowire="no">
 
 	<!-- ======================== FILTER CHAIN ======================= -->
 	<!--	if you wish to use channel security, add "channelProcessingFilter," 
