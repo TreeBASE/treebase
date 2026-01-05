@@ -7,17 +7,17 @@
 	
 	<display-name>Treebase OAI-PMH Provider</display-name>
 	
+	<!-- top is short for Treebase OAI-PMH Provider -->
+	<!-- /WEB-INF/top-security.xml is disabled - requires Spring Security migration -->
+	<!-- /WEB-INF/top-validation.xml is disabled - validation will be done on server side -->
+	<!-- errors will be return as oai-pmh exception with vm -->
 	<context-param>
  		<param-name>contextConfigLocation</param-name>
 		<param-value>
+			classpath*:applicationContext-db-webapp.xml,
 			classpath*:applicationContext-dao.xml,
 			classpath*:applicationContext-service.xml,
-			/WEB-INF/applicationContext.xml,
-			<!-- top is short for Treebase OAI-PMH Provider -->
-			<!-- /WEB-INF/top-security.xml,-->
-			<!-- /WEB-INF/top-validation.xml-->
-			<!-- validation will be done on server side --> 
-			<!-- errors will be return as oai-pmh exception with vm -->
+			/WEB-INF/applicationContext.xml
 		</param-value>
  	</context-param>
 
