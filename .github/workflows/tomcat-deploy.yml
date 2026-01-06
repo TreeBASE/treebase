@@ -251,6 +251,10 @@ jobs:
         # Download PostgreSQL JDBC driver
         wget -q -O $CATALINA_HOME/lib/postgresql-42.7.1.jar https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
         
+        # Remove Tomcat's bundled SLF4J jars to prevent version conflicts with application's SLF4J
+        # The WAR files will bring their own SLF4J dependencies
+        rm -f $CATALINA_HOME/lib/slf4j-*.jar
+        
         # Make scripts executable
         chmod +x $CATALINA_HOME/bin/*.sh
     
