@@ -139,6 +139,34 @@ jobs:
         jdbc.password=treebase_pass
         mesquite.folder_dir=/tmp/mesquite
         EOF
+        
+        # Create context.xml for OAI-PMH data provider
+        mkdir -p oai-pmh_data_provider/data_provider_web/src/main/webapp/META-INF
+        cat > oai-pmh_data_provider/data_provider_web/src/main/webapp/META-INF/context.xml << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Context reloadable="true">
+          <Resource name="jdbc/TreebaseDB" auth="Container"
+                    type="javax.sql.DataSource" 
+                    description="The JNDI DataSource for the Treebase postgres instance."
+                    driverClassName="org.postgresql.Driver" 
+                    url="jdbc:postgresql://localhost:5432/treebasedb"
+                    username="treebase_user" 
+                    password="treebase_pass"
+                    maxActive="20" maxIdle="10" maxWait="-1" />
+          <Environment name="tb2/MesquiteFolder" value="/tmp/mesquite"
+                 type="java.lang.String" override="false"
+                 description="Absolute path to the directory where headless Mesquite is unpacked on the host system."/>
+          <Environment name="tb2/SiteUrl" value="http://localhost:8080/data_provider_web/"
+                 type="java.lang.String" override="false"
+                 description="The base URL from which this Treebase instance is served."/>
+          <Environment name="tb2/PurlBase" value="http://purl.org/phylo/treebase/phylows/"
+                 type="java.lang.String" override="false"
+                 description="The base URL of a PURL service that redirects to this Treebase instance."/>
+          <Environment name="tb2/SmtpHost" value="localhost"
+                 type="java.lang.String" override="false"
+                 description="Host name of an SMTP server that your instance can use without authentication."/>
+        </Context>
+        EOF
     
     - name: Initialize database schema
       run: |
