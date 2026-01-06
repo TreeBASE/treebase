@@ -251,9 +251,11 @@ jobs:
         # Download PostgreSQL JDBC driver
         wget -q -O $CATALINA_HOME/lib/postgresql-42.7.1.jar https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
         
-        # Remove Tomcat's bundled SLF4J jars to prevent version conflicts with application's SLF4J
+        # Remove any SLF4J-related jars from Tomcat's lib to prevent version conflicts
         # The WAR files will bring their own SLF4J dependencies
         rm -f $CATALINA_HOME/lib/slf4j-*.jar
+        rm -f $CATALINA_HOME/lib/log4j-slf4j-*.jar
+        rm -f $CATALINA_HOME/lib/log4j-to-slf4j-*.jar
         
         # Make scripts executable
         chmod +x $CATALINA_HOME/bin/*.sh
@@ -276,7 +278,7 @@ jobs:
         # Start Tomcat in background - environment variables are passed to the script
         JAVA_OPTS="$JAVA_OPTS" CATALINA_OPTS="$CATALINA_OPTS" $CATALINA_HOME/bin/catalina.sh start
         
-        echo "Tomcat started. Waiting for deployment..."
+        echo "Tomcat started. Waiting for initial deployment..."
         sleep 30
         
         # Check if Tomcat is running
@@ -287,15 +289,15 @@ jobs:
         
         echo "Tomcat process is running."
         
-        # Wait for WARs to be deployed (webapps directories created)
+        # Wait for WARs to be exploded (webapps directories created)
         MAX_WAIT=120
         ELAPSED=0
         while [ $ELAPSED -lt $MAX_WAIT ]; do
           if [ -d "$CATALINA_HOME/webapps/treebase-web" ] && [ -d "$CATALINA_HOME/webapps/data_provider_web" ]; then
-            echo "Both WARs have been deployed successfully."
+            echo "Both WARs have been exploded successfully."
             break
           fi
-          echo "Waiting for WAR deployment... ($ELAPSED/$MAX_WAIT seconds)"
+          echo "Waiting for WAR explosion... ($ELAPSED/$MAX_WAIT seconds)"
           sleep 5
           ELAPSED=$((ELAPSED + 5))
         done
@@ -304,9 +306,49 @@ jobs:
           echo "WARNING: Timeout waiting for WAR deployment"
         fi
         
+        # Stop Tomcat to clean up SLF4J conflicts
+        echo "Stopping Tomcat to clean up SLF4J bindings..."
+        $CATALINA_HOME/bin/catalina.sh stop
+        sleep 10
+        
+        # Remove duplicate/conflicting SLF4J bindings from deployed applications
+        echo "Cleaning up SLF4J bindings in deployed applications..."
+        
+        # In treebase-web, remove older SLF4J 1.5.x bindings
+        if [ -d "$CATALINA_HOME/webapps/treebase-web/WEB-INF/lib" ]; then
+          cd $CATALINA_HOME/webapps/treebase-web/WEB-INF/lib
+          echo "SLF4J jars before cleanup in treebase-web:"
+          ls -1 slf4j*.jar 2>/dev/null || echo "No SLF4J jars found"
+          # Remove old SLF4J 1.5.x bindings (keep newer versions)
+          rm -f slf4j-jdk14-1.5*.jar
+          rm -f slf4j-log4j12-1.5*.jar
+          rm -f slf4j-simple-1.5*.jar
+          echo "SLF4J jars after cleanup in treebase-web:"
+          ls -1 slf4j*.jar 2>/dev/null || echo "No SLF4J jars remaining"
+        fi
+        
+        # In data_provider_web, remove older SLF4J 1.5.x bindings
+        if [ -d "$CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib" ]; then
+          cd $CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib
+          echo "SLF4J jars before cleanup in data_provider_web:"
+          ls -1 slf4j*.jar 2>/dev/null || echo "No SLF4J jars found"
+          # Remove old SLF4J 1.5.x bindings (keep newer versions)
+          rm -f slf4j-jdk14-1.5*.jar
+          rm -f slf4j-log4j12-1.5*.jar
+          rm -f slf4j-simple-1.5*.jar
+          echo "SLF4J jars after cleanup in data_provider_web:"
+          ls -1 slf4j*.jar 2>/dev/null || echo "No SLF4J jars remaining"
+        fi
+        
+        cd $GITHUB_WORKSPACE
+        
+        # Restart Tomcat with cleaned up SLF4J libraries
+        echo "Restarting Tomcat with cleaned SLF4J bindings..."
+        JAVA_OPTS="$JAVA_OPTS" CATALINA_OPTS="$CATALINA_OPTS" $CATALINA_HOME/bin/catalina.sh start
+        
         # Give applications time to fully initialize
         echo "Waiting for applications to initialize..."
-        sleep 20
+        sleep 30
     
     - name: Check Tomcat logs for severe errors
       run: |
