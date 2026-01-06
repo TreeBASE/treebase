@@ -41,6 +41,55 @@ jobs:
         distribution: 'temurin'
         cache: 'maven'
     
+    - name: Configure Maven settings for better reliability
+      run: |
+        mkdir -p ~/.m2
+        cat > ~/.m2/settings.xml << 'EOF'
+        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
+          <profiles>
+            <profile>
+              <id>default</id>
+              <properties>
+                <downloadSources>false</downloadSources>
+                <downloadJavadocs>false</downloadJavadocs>
+              </properties>
+              <repositories>
+                <repository>
+                  <id>central</id>
+                  <url>https://repo1.maven.org/maven2</url>
+                  <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>never</updatePolicy>
+                  </releases>
+                  <snapshots>
+                    <enabled>false</enabled>
+                  </snapshots>
+                </repository>
+              </repositories>
+              <pluginRepositories>
+                <pluginRepository>
+                  <id>central</id>
+                  <url>https://repo1.maven.org/maven2</url>
+                  <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>never</updatePolicy>
+                  </releases>
+                  <snapshots>
+                    <enabled>false</enabled>
+                  </snapshots>
+                </pluginRepository>
+              </pluginRepositories>
+            </profile>
+          </profiles>
+          <activeProfiles>
+            <activeProfile>default</activeProfile>
+          </activeProfiles>
+        </settings>
+        EOF
+    
     - name: Configure database properties for building
       run: |
         mkdir -p /tmp/mesquite
@@ -100,15 +149,60 @@ jobs:
         
     - name: Build treebase-core and install to local repository
       run: |
-        mvn -B clean install -DskipTests -f treebase-core/pom.xml
+        # Retry Maven build up to 3 times to handle transient Maven Central issues
+        for i in 1 2 3; do
+          echo "Build attempt $i..."
+          if mvn -B clean install -DskipTests -f treebase-core/pom.xml; then
+            echo "Build succeeded on attempt $i"
+            break
+          else
+            if [ $i -lt 3 ]; then
+              echo "Build failed on attempt $i, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Build failed after 3 attempts"
+              exit 1
+            fi
+          fi
+        done
     
     - name: Build treebase-web WAR
       run: |
-        mvn -B clean package -DskipTests -f treebase-web/pom.xml
+        # Retry Maven build up to 3 times to handle transient Maven Central issues
+        for i in 1 2 3; do
+          echo "Build attempt $i..."
+          if mvn -B clean package -DskipTests -f treebase-web/pom.xml; then
+            echo "Build succeeded on attempt $i"
+            break
+          else
+            if [ $i -lt 3 ]; then
+              echo "Build failed on attempt $i, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Build failed after 3 attempts"
+              exit 1
+            fi
+          fi
+        done
         
     - name: Build OAI-PMH data provider WAR
       run: |
-        mvn -B clean package -DskipTests -f oai-pmh_data_provider/pom.xml
+        # Retry Maven build up to 3 times to handle transient Maven Central issues
+        for i in 1 2 3; do
+          echo "Build attempt $i..."
+          if mvn -B clean package -DskipTests -f oai-pmh_data_provider/pom.xml; then
+            echo "Build succeeded on attempt $i"
+            break
+          else
+            if [ $i -lt 3 ]; then
+              echo "Build failed on attempt $i, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Build failed after 3 attempts"
+              exit 1
+            fi
+          fi
+        done
         
     - name: Verify WAR files were created
       run: |
