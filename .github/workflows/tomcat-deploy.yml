@@ -313,21 +313,21 @@ jobs:
           echo "WARNING: Timeout waiting for WAR deployment"
         fi
         
-        # Stop Tomcat to clean up SLF4J conflicts
-        echo "Stopping Tomcat to clean up SLF4J bindings..."
+        # Stop Tomcat to clean up SLF4J and ASM conflicts
+        echo "Stopping Tomcat to clean up library conflicts..."
         $CATALINA_HOME/bin/catalina.sh stop
         sleep 10
         
-        # Remove duplicate/conflicting SLF4J bindings from deployed applications
+        # Remove duplicate/conflicting SLF4J bindings and ASM libraries from deployed applications
         echo "=========================================="
-        echo "Cleaning up SLF4J bindings in deployed applications..."
+        echo "Cleaning up SLF4J bindings and ASM libraries in deployed applications..."
         echo "=========================================="
         
-        # In treebase-web, list and clean up SLF4J-related jars
+        # In treebase-web, list and clean up SLF4J-related and ASM jars
         if [ -d "$CATALINA_HOME/webapps/treebase-web/WEB-INF/lib" ]; then
           cd $CATALINA_HOME/webapps/treebase-web/WEB-INF/lib
           echo "All jars in treebase-web/WEB-INF/lib:"
-          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging)" || echo "No logging jars found"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars found"
           
           echo ""
           echo "Removing incompatible SLF4J bindings and bridges..."
@@ -341,16 +341,26 @@ jobs:
           rm -fv *slf4j*jcl*.jar
           
           echo ""
-          echo "Remaining logging-related jars in treebase-web:"
-          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging)" || echo "No logging jars remaining"
+          echo "Removing standalone ASM jars that conflict with Jersey's bundled ASM..."
+          # Jersey 1.x bundles its own ASM version. Remove any standalone ASM jars
+          # that might cause IncompatibleClassChangeError
+          rm -fv asm-[0-9]*.jar
+          rm -fv asm-commons-*.jar
+          rm -fv asm-tree-*.jar
+          rm -fv asm-util-*.jar
+          rm -fv asm-analysis-*.jar
+          
+          echo ""
+          echo "Remaining logging-related and ASM jars in treebase-web:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars remaining"
         fi
         
-        # In data_provider_web, list and clean up SLF4J-related jars
+        # In data_provider_web, list and clean up SLF4J-related and ASM jars
         if [ -d "$CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib" ]; then
           cd $CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib
           echo ""
           echo "All jars in data_provider_web/WEB-INF/lib:"
-          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging)" || echo "No logging jars found"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars found"
           
           echo ""
           echo "Removing incompatible SLF4J bindings and bridges..."
@@ -364,8 +374,18 @@ jobs:
           rm -fv *slf4j*jcl*.jar
           
           echo ""
-          echo "Remaining logging-related jars in data_provider_web:"
-          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging)" || echo "No logging jars remaining"
+          echo "Removing standalone ASM jars that conflict with Jersey's bundled ASM..."
+          # Jersey 1.x bundles its own ASM version. Remove any standalone ASM jars
+          # that might cause IncompatibleClassChangeError
+          rm -fv asm-[0-9]*.jar
+          rm -fv asm-commons-*.jar
+          rm -fv asm-tree-*.jar
+          rm -fv asm-util-*.jar
+          rm -fv asm-analysis-*.jar
+          
+          echo ""
+          echo "Remaining logging-related and ASM jars in data_provider_web:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars remaining"
         fi
         
         cd $GITHUB_WORKSPACE
