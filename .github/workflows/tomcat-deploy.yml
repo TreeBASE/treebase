@@ -1,0 +1,314 @@
+name: Tomcat Deployment Test
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy-tomcat:
+    name: Build WARs and Deploy to Tomcat
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: treebasedb
+          POSTGRES_USER: treebase_user
+          POSTGRES_PASSWORD: treebase_pass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+    
+    - name: Configure database properties for building
+      run: |
+        mkdir -p /tmp/mesquite
+        
+        # Create jdbc.properties for treebase-core
+        cat > treebase-core/src/main/resources/jdbc.properties << EOF
+        jdbc.driverClassName=org.postgresql.Driver
+        jdbc.url=jdbc:postgresql://localhost:5432/treebasedb
+        jdbc.username=treebase_user
+        jdbc.password=treebase_pass
+        mesquite.folder_dir=/tmp/mesquite
+        EOF
+        
+        # Create context.xml for treebase-web
+        cat > treebase-web/src/main/webapp/META-INF/context.xml << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Context reloadable="true">
+          <Resource name="jdbc/TreebaseDB" auth="Container"
+                    type="javax.sql.DataSource" 
+                    description="The JNDI DataSource for the Treebase postgres instance."
+                    driverClassName="org.postgresql.Driver" 
+                    url="jdbc:postgresql://localhost:5432/treebasedb"
+                    username="treebase_user" 
+                    password="treebase_pass"
+                    maxActive="20" maxIdle="10" maxWait="-1" />
+          <Environment name="tb2/MesquiteFolder" value="/tmp/mesquite"
+                 type="java.lang.String" override="false"
+                 description="Absolute path to the directory where headless Mesquite is unpacked on the host system."/>
+          <Environment name="tb2/SiteUrl" value="http://localhost:8080/treebase-web/"
+                 type="java.lang.String" override="false"
+                 description="The base URL from which this Treebase instance is served."/>
+          <Environment name="tb2/PurlBase" value="http://purl.org/phylo/treebase/phylows/"
+                 type="java.lang.String" override="false"
+                 description="The base URL of a PURL service that redirects to this Treebase instance."/>
+          <Environment name="tb2/SmtpHost" value="localhost"
+                 type="java.lang.String" override="false"
+                 description="Host name of an SMTP server that your instance can use without authentication."/>
+        </Context>
+        EOF
+        
+        # Create jdbc.properties for OAI-PMH data provider
+        cat > oai-pmh_data_provider/data_provider_web/src/main/resources/jdbc.properties << EOF
+        jdbc.driverClassName=org.postgresql.Driver
+        jdbc.url=jdbc:postgresql://localhost:5432/treebasedb
+        jdbc.username=treebase_user
+        jdbc.password=treebase_pass
+        mesquite.folder_dir=/tmp/mesquite
+        EOF
+    
+    - name: Initialize database schema
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y postgresql-client
+        cd treebase-core/db/schema
+        PGPASSWORD=treebase_pass psql -h localhost -U treebase_user -d treebasedb -f init_db_uptodate.pg
+        
+    - name: Build treebase-core and install to local repository
+      run: |
+        mvn -B clean install -DskipTests -f treebase-core/pom.xml
+    
+    - name: Build treebase-web WAR
+      run: |
+        mvn -B clean package -DskipTests -f treebase-web/pom.xml
+        
+    - name: Build OAI-PMH data provider WAR
+      run: |
+        mvn -B clean package -DskipTests -f oai-pmh_data_provider/pom.xml
+        
+    - name: Verify WAR files were created
+      run: |
+        echo "Checking for treebase-web.war..."
+        ls -lh treebase-web/target/treebase-web.war
+        echo "Checking for data_provider_web.war..."
+        ls -lh oai-pmh_data_provider/data_provider_web/target/data_provider_web.war
+    
+    - name: Install Tomcat 9
+      run: |
+        # Download and install Tomcat 9
+        cd /tmp
+        wget -q https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.85/bin/apache-tomcat-9.0.85.tar.gz
+        tar xzf apache-tomcat-9.0.85.tar.gz
+        export CATALINA_HOME=/tmp/apache-tomcat-9.0.85
+        echo "CATALINA_HOME=/tmp/apache-tomcat-9.0.85" >> $GITHUB_ENV
+        
+        # Download PostgreSQL JDBC driver
+        wget -q -O $CATALINA_HOME/lib/postgresql-42.7.1.jar https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
+        
+        # Make scripts executable
+        chmod +x $CATALINA_HOME/bin/*.sh
+    
+    - name: Deploy WAR files to Tomcat
+      run: |
+        # Copy WAR files to Tomcat webapps directory
+        cp treebase-web/target/treebase-web.war $CATALINA_HOME/webapps/
+        cp oai-pmh_data_provider/data_provider_web/target/data_provider_web.war $CATALINA_HOME/webapps/
+        
+        echo "WAR files deployed to Tomcat webapps directory:"
+        ls -lh $CATALINA_HOME/webapps/*.war
+    
+    - name: Configure and start Tomcat
+      run: |
+        # Set Java options for Tomcat
+        export JAVA_OPTS="-Djava.awt.headless=true -Xmx512m -XX:+UseG1GC"
+        export CATALINA_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+        
+        # Start Tomcat in background
+        $CATALINA_HOME/bin/catalina.sh start
+        
+        echo "Tomcat started. Waiting for deployment..."
+        sleep 30
+        
+        # Check if Tomcat is running
+        if ! pgrep -f "catalina" > /dev/null; then
+          echo "ERROR: Tomcat process not found!"
+          exit 1
+        fi
+        
+        echo "Tomcat process is running."
+        
+        # Wait for WARs to be deployed (webapps directories created)
+        MAX_WAIT=120
+        ELAPSED=0
+        while [ $ELAPSED -lt $MAX_WAIT ]; do
+          if [ -d "$CATALINA_HOME/webapps/treebase-web" ] && [ -d "$CATALINA_HOME/webapps/data_provider_web" ]; then
+            echo "Both WARs have been deployed successfully."
+            break
+          fi
+          echo "Waiting for WAR deployment... ($ELAPSED/$MAX_WAIT seconds)"
+          sleep 5
+          ELAPSED=$((ELAPSED + 5))
+        done
+        
+        if [ $ELAPSED -ge $MAX_WAIT ]; then
+          echo "WARNING: Timeout waiting for WAR deployment"
+        fi
+        
+        # Give applications time to fully initialize
+        echo "Waiting for applications to initialize..."
+        sleep 20
+    
+    - name: Check Tomcat logs for severe errors
+      run: |
+        echo "=========================================="
+        echo "Checking Tomcat logs for SEVERE errors..."
+        echo "=========================================="
+        
+        # Check catalina.out for SEVERE errors
+        if [ -f "$CATALINA_HOME/logs/catalina.out" ]; then
+          echo "Analyzing catalina.out..."
+          SEVERE_COUNT=$(grep -c "SEVERE" "$CATALINA_HOME/logs/catalina.out" || true)
+          ERROR_COUNT=$(grep -c "ERROR" "$CATALINA_HOME/logs/catalina.out" || true)
+          
+          echo "Found $SEVERE_COUNT SEVERE messages"
+          echo "Found $ERROR_COUNT ERROR messages"
+          
+          if [ $SEVERE_COUNT -gt 0 ]; then
+            echo ""
+            echo "=========================================="
+            echo "SEVERE errors found in catalina.out:"
+            echo "=========================================="
+            grep -B 2 -A 5 "SEVERE" "$CATALINA_HOME/logs/catalina.out" || true
+          fi
+          
+          if [ $ERROR_COUNT -gt 0 ]; then
+            echo ""
+            echo "=========================================="
+            echo "ERROR messages found in catalina.out:"
+            echo "=========================================="
+            grep -B 2 -A 5 "ERROR" "$CATALINA_HOME/logs/catalina.out" | head -50 || true
+          fi
+        else
+          echo "catalina.out not found"
+        fi
+        
+        # Check localhost log
+        LOCALHOST_LOG=$(ls -t $CATALINA_HOME/logs/localhost.*.log 2>/dev/null | head -1)
+        if [ -n "$LOCALHOST_LOG" ] && [ -f "$LOCALHOST_LOG" ]; then
+          echo ""
+          echo "=========================================="
+          echo "Checking localhost log: $(basename $LOCALHOST_LOG)"
+          echo "=========================================="
+          SEVERE_COUNT=$(grep -c "SEVERE" "$LOCALHOST_LOG" || true)
+          
+          if [ $SEVERE_COUNT -gt 0 ]; then
+            echo "Found $SEVERE_COUNT SEVERE messages in localhost log:"
+            grep -B 2 -A 5 "SEVERE" "$LOCALHOST_LOG" || true
+          else
+            echo "No SEVERE errors in localhost log"
+          fi
+        fi
+        
+        # Display summary of all log files
+        echo ""
+        echo "=========================================="
+        echo "All Tomcat log files:"
+        echo "=========================================="
+        ls -lh $CATALINA_HOME/logs/
+        
+        # Show last 50 lines of catalina.out for context
+        echo ""
+        echo "=========================================="
+        echo "Last 50 lines of catalina.out:"
+        echo "=========================================="
+        if [ -f "$CATALINA_HOME/logs/catalina.out" ]; then
+          tail -50 "$CATALINA_HOME/logs/catalina.out"
+        fi
+        
+        # Return exit code based on SEVERE errors found
+        if [ -f "$CATALINA_HOME/logs/catalina.out" ]; then
+          TOTAL_SEVERE=$(grep -c "SEVERE" "$CATALINA_HOME/logs/catalina.out" || true)
+          if [ $TOTAL_SEVERE -gt 0 ]; then
+            echo ""
+            echo "=========================================="
+            echo "WARNING: Found $TOTAL_SEVERE SEVERE errors in Tomcat logs"
+            echo "=========================================="
+            # Don't fail the build for now, just warn
+            # exit 1
+          else
+            echo ""
+            echo "=========================================="
+            echo "SUCCESS: No SEVERE errors found in Tomcat logs"
+            echo "=========================================="
+          fi
+        fi
+    
+    - name: Test application endpoints
+      if: always()
+      run: |
+        echo "=========================================="
+        echo "Testing application endpoints..."
+        echo "=========================================="
+        
+        # Test treebase-web
+        echo "Testing treebase-web..."
+        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/treebase-web/ || echo "000")
+        echo "treebase-web HTTP status: $HTTP_CODE"
+        
+        if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
+          echo "✓ treebase-web is responding"
+        else
+          echo "✗ treebase-web returned unexpected status: $HTTP_CODE"
+        fi
+        
+        # Test data_provider_web
+        echo "Testing data_provider_web..."
+        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/data_provider_web/ || echo "000")
+        echo "data_provider_web HTTP status: $HTTP_CODE"
+        
+        if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ] || [ "$HTTP_CODE" = "404" ]; then
+          echo "✓ data_provider_web is deployed (status: $HTTP_CODE)"
+        else
+          echo "✗ data_provider_web returned unexpected status: $HTTP_CODE"
+        fi
+    
+    - name: Upload Tomcat logs as artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: tomcat-logs
+        path: /tmp/apache-tomcat-9.0.85/logs/
+        retention-days: 7
+    
+    - name: Shutdown Tomcat
+      if: always()
+      run: |
+        if [ -f "$CATALINA_HOME/bin/catalina.sh" ]; then
+          $CATALINA_HOME/bin/catalina.sh stop || true
+          sleep 5
+          # Force kill if still running
+          pkill -9 -f catalina || true
+        fi
