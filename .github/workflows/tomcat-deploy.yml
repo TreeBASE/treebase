@@ -146,8 +146,8 @@ jobs:
         export JAVA_OPTS="-Djava.awt.headless=true -Xmx512m -XX:+UseG1GC"
         export CATALINA_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
         
-        # Start Tomcat in background
-        $CATALINA_HOME/bin/catalina.sh start
+        # Start Tomcat in background - environment variables are passed to the script
+        JAVA_OPTS="$JAVA_OPTS" CATALINA_OPTS="$CATALINA_OPTS" $CATALINA_HOME/bin/catalina.sh start
         
         echo "Tomcat started. Waiting for deployment..."
         sleep 30
