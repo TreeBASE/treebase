@@ -325,11 +325,13 @@ jobs:
           echo ""
           echo "Removing incompatible SLF4J bindings and bridges..."
           # Remove old SLF4J bindings
-          rm -f slf4j-jdk14-*.jar
-          rm -f slf4j-log4j12-*.jar
-          rm -f slf4j-simple-*.jar
+          rm -fv slf4j-jdk14-*.jar
+          rm -fv slf4j-log4j12-*.jar
+          rm -fv slf4j-simple-*.jar
           # Remove jcl-over-slf4j bridge which causes incompatibility with commons-logging
-          rm -f jcl-over-slf4j-*.jar
+          # This is the key fix - remove ANY jar with "jcl" and "slf4j" in the name
+          rm -fv *jcl*slf4j*.jar
+          rm -fv *slf4j*jcl*.jar
           
           echo ""
           echo "Remaining logging-related jars in treebase-web:"
@@ -346,11 +348,13 @@ jobs:
           echo ""
           echo "Removing incompatible SLF4J bindings and bridges..."
           # Remove old SLF4J bindings
-          rm -f slf4j-jdk14-*.jar
-          rm -f slf4j-log4j12-*.jar
-          rm -f slf4j-simple-*.jar
+          rm -fv slf4j-jdk14-*.jar
+          rm -fv slf4j-log4j12-*.jar
+          rm -fv slf4j-simple-*.jar
           # Remove jcl-over-slf4j bridge which causes incompatibility with commons-logging
-          rm -f jcl-over-slf4j-*.jar
+          # This is the key fix - remove ANY jar with "jcl" and "slf4j" in the name
+          rm -fv *jcl*slf4j*.jar
+          rm -fv *slf4j*jcl*.jar
           
           echo ""
           echo "Remaining logging-related jars in data_provider_web:"
