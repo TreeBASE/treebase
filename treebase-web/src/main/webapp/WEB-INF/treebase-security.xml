@@ -12,7 +12,7 @@
 	<!-- Migrated from Acegi Security to Spring Security 5.8.15 -->
 
 	<!-- HTTP Security Configuration -->
-	<security:http auto-config="false" use-expressions="false">
+	<security:http auto-config="false" use-expressions="false" access-decision-manager-ref="accessDecisionManager">
 		<!-- URL-based authorization rules (most specific first) -->
 		<security:intercept-url pattern="/submit.html" access="User,Admin,Associate Editor"/>
 		<security:intercept-url pattern="/user/**" access="User,Admin,Associate Editor"/>
