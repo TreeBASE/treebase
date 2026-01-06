@@ -312,35 +312,55 @@ jobs:
         sleep 10
         
         # Remove duplicate/conflicting SLF4J bindings from deployed applications
+        echo "=========================================="
         echo "Cleaning up SLF4J bindings in deployed applications..."
+        echo "=========================================="
         
-        # In treebase-web, remove older SLF4J 1.5.x bindings
+        # In treebase-web, list and clean up SLF4J-related jars
         if [ -d "$CATALINA_HOME/webapps/treebase-web/WEB-INF/lib" ]; then
           cd $CATALINA_HOME/webapps/treebase-web/WEB-INF/lib
-          echo "SLF4J jars before cleanup in treebase-web:"
-          ls -1 slf4j*.jar 2>/dev/null || echo "No SLF4J jars found"
-          # Remove old SLF4J 1.5.x bindings (keep newer versions)
-          rm -f slf4j-jdk14-1.5*.jar
-          rm -f slf4j-log4j12-1.5*.jar
-          rm -f slf4j-simple-1.5*.jar
-          echo "SLF4J jars after cleanup in treebase-web:"
-          ls -1 slf4j*.jar 2>/dev/null || echo "No SLF4J jars remaining"
+          echo "All jars in treebase-web/WEB-INF/lib:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging)" || echo "No logging jars found"
+          
+          echo ""
+          echo "Removing incompatible SLF4J bindings and bridges..."
+          # Remove old SLF4J bindings
+          rm -f slf4j-jdk14-*.jar
+          rm -f slf4j-log4j12-*.jar
+          rm -f slf4j-simple-*.jar
+          # Remove jcl-over-slf4j which causes the incompatibility
+          rm -f jcl-over-slf4j-*.jar
+          # Remove commons-logging if present (we'll use jcl-over-slf4j from newer version if needed)
+          # Actually, keep commons-logging and remove jcl-over-slf4j to avoid the bridge issue
+          
+          echo ""
+          echo "Remaining logging-related jars in treebase-web:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging)" || echo "No logging jars remaining"
         fi
         
-        # In data_provider_web, remove older SLF4J 1.5.x bindings
+        # In data_provider_web, list and clean up SLF4J-related jars
         if [ -d "$CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib" ]; then
           cd $CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib
-          echo "SLF4J jars before cleanup in data_provider_web:"
-          ls -1 slf4j*.jar 2>/dev/null || echo "No SLF4J jars found"
-          # Remove old SLF4J 1.5.x bindings (keep newer versions)
-          rm -f slf4j-jdk14-1.5*.jar
-          rm -f slf4j-log4j12-1.5*.jar
-          rm -f slf4j-simple-1.5*.jar
-          echo "SLF4J jars after cleanup in data_provider_web:"
-          ls -1 slf4j*.jar 2>/dev/null || echo "No SLF4J jars remaining"
+          echo ""
+          echo "All jars in data_provider_web/WEB-INF/lib:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging)" || echo "No logging jars found"
+          
+          echo ""
+          echo "Removing incompatible SLF4J bindings and bridges..."
+          # Remove old SLF4J bindings
+          rm -f slf4j-jdk14-*.jar
+          rm -f slf4j-log4j12-*.jar
+          rm -f slf4j-simple-*.jar
+          # Remove jcl-over-slf4j which causes the incompatibility
+          rm -f jcl-over-slf4j-*.jar
+          
+          echo ""
+          echo "Remaining logging-related jars in data_provider_web:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging)" || echo "No logging jars remaining"
         fi
         
         cd $GITHUB_WORKSPACE
+        echo "=========================================="
         
         # Restart Tomcat with cleaned up SLF4J libraries
         echo "Restarting Tomcat with cleaned SLF4J bindings..."
