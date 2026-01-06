@@ -328,10 +328,8 @@ jobs:
           rm -f slf4j-jdk14-*.jar
           rm -f slf4j-log4j12-*.jar
           rm -f slf4j-simple-*.jar
-          # Remove jcl-over-slf4j which causes the incompatibility
+          # Remove jcl-over-slf4j bridge which causes incompatibility with commons-logging
           rm -f jcl-over-slf4j-*.jar
-          # Remove commons-logging if present (we'll use jcl-over-slf4j from newer version if needed)
-          # Actually, keep commons-logging and remove jcl-over-slf4j to avoid the bridge issue
           
           echo ""
           echo "Remaining logging-related jars in treebase-web:"
@@ -351,7 +349,7 @@ jobs:
           rm -f slf4j-jdk14-*.jar
           rm -f slf4j-log4j12-*.jar
           rm -f slf4j-simple-*.jar
-          # Remove jcl-over-slf4j which causes the incompatibility
+          # Remove jcl-over-slf4j bridge which causes incompatibility with commons-logging
           rm -f jcl-over-slf4j-*.jar
           
           echo ""
