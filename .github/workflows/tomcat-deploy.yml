@@ -82,6 +82,7 @@ jobs:
         EOF
         
         # Create jdbc.properties for OAI-PMH data provider
+        mkdir -p oai-pmh_data_provider/data_provider_web/src/main/resources
         cat > oai-pmh_data_provider/data_provider_web/src/main/resources/jdbc.properties << EOF
         jdbc.driverClassName=org.postgresql.Driver
         jdbc.url=jdbc:postgresql://localhost:5432/treebasedb
