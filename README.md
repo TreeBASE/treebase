@@ -22,6 +22,7 @@ tree viewing and editing applet, and a news feed), linked together by a **Contro
 
 ### Getting Started
 
+- **[Docker Deployment](DOCKER.md)** - **Recommended**: Run TreeBASE with Docker for rapid JSP development
 - **[Building TreeBASE](doc/development/BUILDING.md)** - Instructions for compiling and packaging the WAR files
 - **[Deploying TreeBASE](doc/development/DEPLOYING.md)** - Instructions for deploying on a Tomcat server
 
@@ -43,12 +44,26 @@ tree viewing and editing applet, and a news feed), linked together by a **Contro
 
 ## Quick Start
 
+### Using Docker (Recommended for UI Development)
+
 ```bash
 # Clone the repository
 git clone https://github.com/TreeBASE/treebase.git
 cd treebase
 
-# Build the project (requires Java 17 and Maven)
+# Start with Docker (includes database and auto-build)
+docker-compose --profile development up
+
+# Access at http://localhost:8080/treebase-web/
+# Edit JSP files in treebase-web/src/main/webapp/ and refresh browser!
+```
+
+See **[DOCKER.md](DOCKER.md)** for complete Docker documentation.
+
+### Manual Build
+
+```bash
+# Requires Java 17 and Maven
 mvn clean compile
 
 # Package for deployment

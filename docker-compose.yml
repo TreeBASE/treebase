@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database
+  postgres:
+    image: postgres:15
+    container_name: treebase-postgres
+    environment:
+      POSTGRES_DB: treebase
+      POSTGRES_USER: treebase
+      POSTGRES_PASSWORD: treebase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./treebase-core/src/main/resources/TBASE2_POSTGRES_CREATION.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./treebase-core/src/main/resources/initTreebase.sql:/docker-entrypoint-initdb.d/02-init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U treebase"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # TreeBASE web application (production)
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: treebase-web
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Database connection will be configured via context.xml
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: treebase
+      DB_USER: treebase
+      DB_PASSWORD: treebase
+    volumes:
+      # Mount configuration for runtime updates
+      - ./docker/context.xml:/usr/local/tomcat/conf/Catalina/localhost/treebase-web.xml
+    profiles:
+      - production
+
+  # TreeBASE web application (development with JSP hot-reload)
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: treebase-web-dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: treebase
+      DB_USER: treebase
+      DB_PASSWORD: treebase
+    volumes:
+      # Mount the entire project for building
+      - .:/app
+      - maven-repo:/root/.m2
+      # Mount JSP files for live editing
+      - ./treebase-web/src/main/webapp:/usr/local/tomcat/webapps/treebase-web
+      # Mount configuration
+      - ./docker/context.xml:/usr/local/tomcat/conf/Catalina/localhost/treebase-web.xml
+      # Mount WEB-INF from built artifact (will be populated by entrypoint)
+      - web-inf-classes:/usr/local/tomcat/webapps/treebase-web/WEB-INF/classes
+      - web-inf-lib:/usr/local/tomcat/webapps/treebase-web/WEB-INF/lib
+    profiles:
+      - development
+
+volumes:
+  postgres-data:
+  maven-repo:
+  web-inf-classes:
+  web-inf-lib:

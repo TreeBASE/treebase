@@ -1,0 +1,44 @@
+# Git files
+.git
+.gitignore
+.github
+
+# IDE files
+.idea
+.vscode
+.settings
+.classpath
+.project
+.springBeans
+*.iml
+
+# Build artifacts
+**/target/
+**/*.log
+**/*.log.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation (not needed in container)
+doc/
+*.md
+
+# Test files
+**/src/test/
+
+# Docker files themselves
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Environment files (use examples instead)
+treebase-core/src/main/resources/jdbc.properties
+treebase-web/src/main/webapp/META-INF/context.xml
+
+# Temporary files
+tmp/
+*.tmp
+*.swp
+*~
