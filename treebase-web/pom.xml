@@ -124,33 +124,19 @@
 		</dependency>
 
 		<!-- JSTL 1.2 for Tomcat 9+ compatibility -->
-		<!-- Scope is NOT 'provided' - Tomcat 9 does not include JSTL in its lib directory -->
+		<!-- Using Apache Taglibs reference implementation - clean, single source -->
+		<!-- API specification -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-spec</artifactId>
+			<version>1.2.5</version>
 		</dependency>
 		
-		<!-- JSTL implementation includes TLD files for modern namespaces like http://java.sun.com/jsp/jstl/core -->
-		<!-- These TLD files are missing in JSTL 1.1.2, causing "cannot be resolved" errors -->
+		<!-- Implementation with TLD files -->
 		<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>jstl-impl</artifactId>
-			<version>1.2</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet.jsp</groupId>
-					<artifactId>jsp-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.servlet.jsp.jstl</groupId>
-					<artifactId>jstl-api</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+			<version>1.2.5</version>
 		</dependency>
 
 		<!-- Servlet API for Tomcat 9+ - provided by container at runtime -->
