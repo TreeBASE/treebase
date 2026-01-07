@@ -159,7 +159,7 @@ can not implement org.objectweb.asm.ClassVisitor, because it is not an interface
    </dependency>
    ```
 
-3. **Update REST API code**
+3. **Update REST API code** (if upgrading to Jersey 2.x)
    - Jersey 2.x uses different package names (`javax.ws.rs.*` → `jakarta.ws.rs.*` or stays with `javax.ws.rs.*` depending on version)
    - Change `PackagesResourceConfig` → `ResourceConfig`
    - Update servlet configuration in web.xml
