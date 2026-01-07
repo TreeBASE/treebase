@@ -143,12 +143,24 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.4</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>1.1.4</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Use SLF4J bridge for commons-logging instead of the old commons-logging 1.1 -->
@@ -169,6 +181,12 @@
 			<groupId>commons-digester</groupId>
 			<artifactId>commons-digester</artifactId>
 			<version>1.5</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>		
 
 		<dependency>
@@ -187,6 +205,12 @@
 			<groupId>struts</groupId>
 			<artifactId>struts</artifactId>
 			<version>1.2.9</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -199,6 +223,12 @@
 			<groupId>displaytag</groupId>
 			<artifactId>displaytag</artifactId>
 			<version>1.1.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -241,6 +271,12 @@
 			<groupId>springmodules</groupId>
 			<artifactId>springmodules-validator</artifactId>
 			<version>0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -300,6 +336,12 @@
 			<groupId>org.tuckey</groupId>
 			<artifactId>urlrewritefilter</artifactId>
 			<version>3.0.4</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
          <dependency>
@@ -329,12 +371,24 @@
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-client</artifactId>
 <version>1.1.5</version>
+<exclusions>
+	<exclusion>
+		<groupId>asm</groupId>
+		<artifactId>asm</artifactId>
+	</exclusion>
+</exclusions>
 </dependency>
 
 <dependency>
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-server</artifactId>
 <version>1.1.5</version>
+<exclusions>
+	<exclusion>
+		<groupId>asm</groupId>
+		<artifactId>asm</artifactId>
+	</exclusion>
+</exclusions>
 </dependency>
 
 <dependency>
@@ -347,6 +401,12 @@
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-bundle</artifactId>
 <version>1.1.5</version>
+<exclusions>
+	<exclusion>
+		<groupId>asm</groupId>
+		<artifactId>asm</artifactId>
+	</exclusion>
+</exclusions>
 </dependency>
 
 <!-- ASM is required by Jersey for classpath scanning -->
