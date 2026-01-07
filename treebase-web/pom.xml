@@ -149,6 +149,22 @@
 			</exclusions>
 		</dependency>
 
+		<!-- Servlet API for Tomcat 9+ - provided by container at runtime -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSP API for Tomcat 9+ - provided by container at runtime but needed for JSP compilation -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.3</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- used by Spring framework -->
 		<dependency>
 			<groupId>javax.mail</groupId>
