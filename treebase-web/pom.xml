@@ -385,7 +385,7 @@
          <version>2.3</version>
      </dependency>
      
-<!-- Jersey 1.19.4 - last stable Jersey 1.x release with better ASM compatibility -->
+<!-- Jersey 1.19.4 - final Jersey 1.x release (EOL 2018), better ASM compatibility than 1.1.5 -->
 <dependency>
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-client</artifactId>
