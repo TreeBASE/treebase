@@ -32,14 +32,14 @@
 			<id>copy-jdbc-properties</id>
 			<phase>install</phase>
 			<configuration>
-			  <tasks>
+			  <target>
 				<copy todir="${basedir}/src/main/resources"
 					  failonerror="true" verbose="true" overwrite="true">
              	  <fileset dir="${env.JDBC_HOME}">
 					<include name="jdbc.properties"/>
 				  </fileset>
 				</copy>
-			  </tasks>
+			  </target>
 			</configuration>
 			<goals><goal>run</goal></goals>
 		  </execution>
