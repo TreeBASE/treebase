@@ -123,11 +123,27 @@
 			</exclusions>
 		</dependency>
 
+		<!-- JSTL 1.2 for Tomcat 9+ compatibility -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.1.2</version>
-			<!--scope>provided</scope-->
+			<version>1.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jstl-impl</artifactId>
+			<version>1.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet.jsp</groupId>
+					<artifactId>jsp-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- used by Spring framework -->
@@ -189,11 +205,12 @@
 			</exclusions>
 		</dependency>		
 
-		<dependency>
+		<!-- Standard taglib is not needed with JSTL 1.2 as it's included in jstl-impl -->
+		<!-- <dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>taglibs</groupId>
