@@ -1,0 +1,525 @@
+name: Tomcat Deployment Test
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy-tomcat:
+    name: Build WARs and Deploy to Tomcat
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: treebasedb
+          POSTGRES_USER: treebase_user
+          POSTGRES_PASSWORD: treebase_pass
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+    
+    - name: Configure Maven settings for better reliability
+      run: |
+        mkdir -p ~/.m2
+        cat > ~/.m2/settings.xml << 'EOF'
+        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
+          <profiles>
+            <profile>
+              <id>default</id>
+              <properties>
+                <downloadSources>false</downloadSources>
+                <downloadJavadocs>false</downloadJavadocs>
+              </properties>
+              <repositories>
+                <repository>
+                  <id>central</id>
+                  <url>https://repo1.maven.org/maven2</url>
+                  <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>never</updatePolicy>
+                  </releases>
+                  <snapshots>
+                    <enabled>false</enabled>
+                  </snapshots>
+                </repository>
+              </repositories>
+              <pluginRepositories>
+                <pluginRepository>
+                  <id>central</id>
+                  <url>https://repo1.maven.org/maven2</url>
+                  <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>never</updatePolicy>
+                  </releases>
+                  <snapshots>
+                    <enabled>false</enabled>
+                  </snapshots>
+                </pluginRepository>
+              </pluginRepositories>
+            </profile>
+          </profiles>
+          <activeProfiles>
+            <activeProfile>default</activeProfile>
+          </activeProfiles>
+        </settings>
+        EOF
+    
+    - name: Configure database properties for building
+      run: |
+        mkdir -p /tmp/mesquite
+        
+        # Create jdbc.properties for treebase-core
+        cat > treebase-core/src/main/resources/jdbc.properties << EOF
+        jdbc.driverClassName=org.postgresql.Driver
+        jdbc.url=jdbc:postgresql://localhost:5432/treebasedb
+        jdbc.username=treebase_user
+        jdbc.password=treebase_pass
+        mesquite.folder_dir=/tmp/mesquite
+        EOF
+        
+        # Create context.xml for treebase-web
+        cat > treebase-web/src/main/webapp/META-INF/context.xml << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Context reloadable="true">
+          <Resource name="jdbc/TreebaseDB" auth="Container"
+                    type="javax.sql.DataSource" 
+                    description="The JNDI DataSource for the Treebase postgres instance."
+                    driverClassName="org.postgresql.Driver" 
+                    url="jdbc:postgresql://localhost:5432/treebasedb"
+                    username="treebase_user" 
+                    password="treebase_pass"
+                    maxActive="20" maxIdle="10" maxWait="-1" />
+          <Environment name="tb2/MesquiteFolder" value="/tmp/mesquite"
+                 type="java.lang.String" override="false"
+                 description="Absolute path to the directory where headless Mesquite is unpacked on the host system."/>
+          <Environment name="tb2/SiteUrl" value="http://localhost:8080/treebase-web/"
+                 type="java.lang.String" override="false"
+                 description="The base URL from which this Treebase instance is served."/>
+          <Environment name="tb2/PurlBase" value="http://purl.org/phylo/treebase/phylows/"
+                 type="java.lang.String" override="false"
+                 description="The base URL of a PURL service that redirects to this Treebase instance."/>
+          <Environment name="tb2/SmtpHost" value="localhost"
+                 type="java.lang.String" override="false"
+                 description="Host name of an SMTP server that your instance can use without authentication."/>
+        </Context>
+        EOF
+        
+        # Create jdbc.properties for OAI-PMH data provider
+        mkdir -p oai-pmh_data_provider/data_provider_web/src/main/resources
+        cat > oai-pmh_data_provider/data_provider_web/src/main/resources/jdbc.properties << EOF
+        jdbc.driverClassName=org.postgresql.Driver
+        jdbc.url=jdbc:postgresql://localhost:5432/treebasedb
+        jdbc.username=treebase_user
+        jdbc.password=treebase_pass
+        mesquite.folder_dir=/tmp/mesquite
+        EOF
+        
+        # Create context.xml for OAI-PMH data provider
+        mkdir -p oai-pmh_data_provider/data_provider_web/src/main/webapp/META-INF
+        cat > oai-pmh_data_provider/data_provider_web/src/main/webapp/META-INF/context.xml << EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Context reloadable="true">
+          <Resource name="jdbc/TreebaseDB" auth="Container"
+                    type="javax.sql.DataSource" 
+                    description="The JNDI DataSource for the Treebase postgres instance."
+                    driverClassName="org.postgresql.Driver" 
+                    url="jdbc:postgresql://localhost:5432/treebasedb"
+                    username="treebase_user" 
+                    password="treebase_pass"
+                    maxActive="20" maxIdle="10" maxWait="-1" />
+          <Environment name="tb2/MesquiteFolder" value="/tmp/mesquite"
+                 type="java.lang.String" override="false"
+                 description="Absolute path to the directory where headless Mesquite is unpacked on the host system."/>
+          <Environment name="tb2/SiteUrl" value="http://localhost:8080/data_provider_web/"
+                 type="java.lang.String" override="false"
+                 description="The base URL from which this Treebase instance is served."/>
+          <Environment name="tb2/PurlBase" value="http://purl.org/phylo/treebase/phylows/"
+                 type="java.lang.String" override="false"
+                 description="The base URL of a PURL service that redirects to this Treebase instance."/>
+          <Environment name="tb2/SmtpHost" value="localhost"
+                 type="java.lang.String" override="false"
+                 description="Host name of an SMTP server that your instance can use without authentication."/>
+        </Context>
+        EOF
+    
+    - name: Initialize database schema
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y postgresql-client
+        cd treebase-core/db/schema
+        PGPASSWORD=treebase_pass psql -h localhost -U treebase_user -d treebasedb -f init_db_uptodate.pg
+        
+    - name: Build treebase-core and install to local repository
+      run: |
+        # Retry Maven build up to 3 times to handle transient Maven Central issues
+        for i in 1 2 3; do
+          echo "Build attempt $i..."
+          if mvn -B clean install -DskipTests -f treebase-core/pom.xml; then
+            echo "Build succeeded on attempt $i"
+            break
+          else
+            if [ $i -lt 3 ]; then
+              echo "Build failed on attempt $i, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Build failed after 3 attempts"
+              exit 1
+            fi
+          fi
+        done
+    
+    - name: Build treebase-web WAR
+      run: |
+        # Retry Maven build up to 3 times to handle transient Maven Central issues
+        for i in 1 2 3; do
+          echo "Build attempt $i..."
+          if mvn -B clean package -DskipTests -f treebase-web/pom.xml; then
+            echo "Build succeeded on attempt $i"
+            break
+          else
+            if [ $i -lt 3 ]; then
+              echo "Build failed on attempt $i, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Build failed after 3 attempts"
+              exit 1
+            fi
+          fi
+        done
+        
+    - name: Build OAI-PMH data provider WAR
+      run: |
+        # Retry Maven build up to 3 times to handle transient Maven Central issues
+        for i in 1 2 3; do
+          echo "Build attempt $i..."
+          if mvn -B clean package -DskipTests -f oai-pmh_data_provider/pom.xml; then
+            echo "Build succeeded on attempt $i"
+            break
+          else
+            if [ $i -lt 3 ]; then
+              echo "Build failed on attempt $i, retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "Build failed after 3 attempts"
+              exit 1
+            fi
+          fi
+        done
+        
+    - name: Verify WAR files were created
+      run: |
+        echo "Checking for treebase-web.war..."
+        ls -lh treebase-web/target/treebase-web.war
+        echo "Checking for data_provider_web.war..."
+        ls -lh oai-pmh_data_provider/data_provider_web/target/data_provider_web.war
+    
+    - name: Install Tomcat 9
+      run: |
+        # Download and install Tomcat 9
+        cd /tmp
+        wget -q https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.85/bin/apache-tomcat-9.0.85.tar.gz
+        tar xzf apache-tomcat-9.0.85.tar.gz
+        export CATALINA_HOME=/tmp/apache-tomcat-9.0.85
+        echo "CATALINA_HOME=/tmp/apache-tomcat-9.0.85" >> $GITHUB_ENV
+        
+        # Download PostgreSQL JDBC driver
+        wget -q -O $CATALINA_HOME/lib/postgresql-42.7.1.jar https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
+        
+        # Remove any SLF4J-related jars from Tomcat's lib to prevent version conflicts
+        # The WAR files will bring their own SLF4J dependencies
+        rm -f $CATALINA_HOME/lib/slf4j-*.jar
+        rm -f $CATALINA_HOME/lib/log4j-slf4j-*.jar
+        rm -f $CATALINA_HOME/lib/log4j-to-slf4j-*.jar
+        
+        # Make scripts executable
+        chmod +x $CATALINA_HOME/bin/*.sh
+    
+    - name: Deploy WAR files to Tomcat
+      run: |
+        # Copy WAR files to Tomcat webapps directory
+        cp treebase-web/target/treebase-web.war $CATALINA_HOME/webapps/
+        cp oai-pmh_data_provider/data_provider_web/target/data_provider_web.war $CATALINA_HOME/webapps/
+        
+        echo "WAR files deployed to Tomcat webapps directory:"
+        ls -lh $CATALINA_HOME/webapps/*.war
+        
+        # Copy DTD files to workspace root to fix validator configuration
+        # The validator XML files reference ./dtd/validator_1_3_0.dtd which gets resolved
+        # relative to the working directory during Spring initialization
+        echo "Copying DTD files to workspace root for validator..."
+        cp -r $GITHUB_WORKSPACE/treebase-web/src/main/webapp/WEB-INF/dtd $GITHUB_WORKSPACE/dtd
+        ls -la $GITHUB_WORKSPACE/dtd/
+    
+    - name: Configure and start Tomcat
+      run: |
+        # Set Java options for Tomcat
+        export JAVA_OPTS="-Djava.awt.headless=true -Xmx512m -XX:+UseG1GC"
+        export CATALINA_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+        
+        # Start Tomcat in background - environment variables are passed to the script
+        JAVA_OPTS="$JAVA_OPTS" CATALINA_OPTS="$CATALINA_OPTS" $CATALINA_HOME/bin/catalina.sh start
+        
+        echo "Tomcat started. Waiting for initial deployment..."
+        sleep 30
+        
+        # Check if Tomcat is running
+        if ! pgrep -f "catalina" > /dev/null; then
+          echo "ERROR: Tomcat process not found!"
+          exit 1
+        fi
+        
+        echo "Tomcat process is running."
+        
+        # Wait for WARs to be exploded (webapps directories created)
+        MAX_WAIT=120
+        ELAPSED=0
+        while [ $ELAPSED -lt $MAX_WAIT ]; do
+          if [ -d "$CATALINA_HOME/webapps/treebase-web" ] && [ -d "$CATALINA_HOME/webapps/data_provider_web" ]; then
+            echo "Both WARs have been exploded successfully."
+            break
+          fi
+          echo "Waiting for WAR explosion... ($ELAPSED/$MAX_WAIT seconds)"
+          sleep 5
+          ELAPSED=$((ELAPSED + 5))
+        done
+        
+        if [ $ELAPSED -ge $MAX_WAIT ]; then
+          echo "WARNING: Timeout waiting for WAR deployment"
+        fi
+        
+        # Stop Tomcat to clean up SLF4J and ASM conflicts
+        echo "Stopping Tomcat to clean up library conflicts..."
+        $CATALINA_HOME/bin/catalina.sh stop
+        sleep 10
+        
+        # Remove duplicate/conflicting SLF4J bindings and ASM libraries from deployed applications
+        echo "=========================================="
+        echo "Cleaning up SLF4J bindings and ASM libraries in deployed applications..."
+        echo "=========================================="
+        
+        # In treebase-web, list and clean up SLF4J-related and ASM jars
+        if [ -d "$CATALINA_HOME/webapps/treebase-web/WEB-INF/lib" ]; then
+          cd $CATALINA_HOME/webapps/treebase-web/WEB-INF/lib
+          echo "All jars in treebase-web/WEB-INF/lib:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars found"
+          
+          echo ""
+          echo "Removing incompatible SLF4J bindings and bridges..."
+          # Remove old SLF4J bindings
+          rm -fv slf4j-jdk14-*.jar
+          rm -fv slf4j-log4j12-*.jar
+          rm -fv slf4j-simple-*.jar
+          # Remove jcl-over-slf4j bridge which causes incompatibility with commons-logging
+          # This is the key fix - remove ANY jar with "jcl" and "slf4j" in the name
+          rm -fv *jcl*slf4j*.jar
+          rm -fv *slf4j*jcl*.jar
+          
+          echo ""
+          echo "Removing standalone ASM jars that conflict with Jersey's bundled ASM..."
+          # Jersey 1.x bundles its own ASM version. Remove any standalone ASM jars
+          # that might cause IncompatibleClassChangeError
+          rm -fv asm-[0-9]*.jar
+          rm -fv asm-commons-*.jar
+          rm -fv asm-tree-*.jar
+          rm -fv asm-util-*.jar
+          rm -fv asm-analysis-*.jar
+          
+          echo ""
+          echo "Remaining logging-related and ASM jars in treebase-web:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars remaining"
+        fi
+        
+        # In data_provider_web, list and clean up SLF4J-related and ASM jars
+        if [ -d "$CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib" ]; then
+          cd $CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib
+          echo ""
+          echo "All jars in data_provider_web/WEB-INF/lib:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars found"
+          
+          echo ""
+          echo "Removing incompatible SLF4J bindings and bridges..."
+          # Remove old SLF4J bindings
+          rm -fv slf4j-jdk14-*.jar
+          rm -fv slf4j-log4j12-*.jar
+          rm -fv slf4j-simple-*.jar
+          # Remove jcl-over-slf4j bridge which causes incompatibility with commons-logging
+          # This is the key fix - remove ANY jar with "jcl" and "slf4j" in the name
+          rm -fv *jcl*slf4j*.jar
+          rm -fv *slf4j*jcl*.jar
+          
+          echo ""
+          echo "Removing standalone ASM jars that conflict with Jersey's bundled ASM..."
+          # Jersey 1.x bundles its own ASM version. Remove any standalone ASM jars
+          # that might cause IncompatibleClassChangeError
+          rm -fv asm-[0-9]*.jar
+          rm -fv asm-commons-*.jar
+          rm -fv asm-tree-*.jar
+          rm -fv asm-util-*.jar
+          rm -fv asm-analysis-*.jar
+          
+          echo ""
+          echo "Remaining logging-related and ASM jars in data_provider_web:"
+          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars remaining"
+        fi
+        
+        cd $GITHUB_WORKSPACE
+        echo "=========================================="
+        
+        # Restart Tomcat with cleaned up SLF4J libraries
+        echo "Restarting Tomcat with cleaned SLF4J bindings..."
+        JAVA_OPTS="$JAVA_OPTS" CATALINA_OPTS="$CATALINA_OPTS" $CATALINA_HOME/bin/catalina.sh start
+        
+        # Give applications time to fully initialize
+        echo "Waiting for applications to initialize..."
+        sleep 30
+    
+    - name: Check Tomcat logs for severe errors
+      run: |
+        echo "=========================================="
+        echo "Checking Tomcat logs for SEVERE errors..."
+        echo "=========================================="
+        
+        # Display summary of all log files first
+        echo ""
+        echo "All Tomcat log files:"
+        ls -lh $CATALINA_HOME/logs/
+        echo ""
+        
+        # Initialize counters
+        TOTAL_SEVERE=0
+        TOTAL_ERROR=0
+        HAS_FAILURES=0
+        
+        # Check all .log files and catalina.out
+        echo "Scanning all log files for errors..."
+        for logfile in $CATALINA_HOME/logs/*.log $CATALINA_HOME/logs/catalina.out; do
+          if [ -f "$logfile" ]; then
+            BASENAME=$(basename "$logfile")
+            echo ""
+            echo "----------------------------------------"
+            echo "Checking: $BASENAME"
+            echo "----------------------------------------"
+            
+            SEVERE_COUNT=$(grep -c "SEVERE" "$logfile" 2>/dev/null || true)
+            ERROR_COUNT=$(grep -c " ERROR " "$logfile" 2>/dev/null || true)
+            
+            # Also check for common error patterns
+            EXCEPTION_COUNT=$(grep -c "Exception" "$logfile" 2>/dev/null || true)
+            
+            TOTAL_SEVERE=$((TOTAL_SEVERE + SEVERE_COUNT))
+            TOTAL_ERROR=$((TOTAL_ERROR + ERROR_COUNT))
+            
+            echo "  SEVERE: $SEVERE_COUNT"
+            echo "  ERROR: $ERROR_COUNT"
+            echo "  Exceptions: $EXCEPTION_COUNT"
+            
+            # Show SEVERE errors with context
+            if [ $SEVERE_COUNT -gt 0 ]; then
+              echo ""
+              echo "  SEVERE errors in $BASENAME:"
+              grep -B 3 -A 10 "SEVERE" "$logfile" 2>/dev/null | head -100 || true
+              HAS_FAILURES=1
+            fi
+          fi
+        done
+        
+        # Show last 100 lines of catalina.out for full context
+        echo ""
+        echo "=========================================="
+        echo "Last 100 lines of catalina.out:"
+        echo "=========================================="
+        if [ -f "$CATALINA_HOME/logs/catalina.out" ]; then
+          tail -100 "$CATALINA_HOME/logs/catalina.out"
+        fi
+        
+        # Final summary and exit decision
+        echo ""
+        echo "=========================================="
+        echo "LOG CHECK SUMMARY"
+        echo "=========================================="
+        echo "Total SEVERE errors across all logs: $TOTAL_SEVERE"
+        echo "Total ERROR messages across all logs: $TOTAL_ERROR"
+        echo ""
+        
+        if [ $HAS_FAILURES -eq 1 ]; then
+          echo "❌ FAILED: SEVERE errors detected in Tomcat logs"
+          echo "Please review the errors above and the uploaded log artifacts"
+          echo "=========================================="
+          exit 1
+        else
+          echo "✓ SUCCESS: No SEVERE errors found in Tomcat logs"
+          echo "=========================================="
+        fi
+    
+    - name: Test application endpoints
+      if: always()
+      run: |
+        echo "=========================================="
+        echo "Testing application endpoints..."
+        echo "=========================================="
+        
+        # Test treebase-web
+        echo "Testing treebase-web..."
+        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/treebase-web/ || echo "000")
+        echo "treebase-web HTTP status: $HTTP_CODE"
+        
+        if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
+          echo "✓ treebase-web is responding"
+        else
+          echo "✗ treebase-web returned unexpected status: $HTTP_CODE"
+        fi
+        
+        # Test data_provider_web
+        echo "Testing data_provider_web..."
+        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/data_provider_web/ || echo "000")
+        echo "data_provider_web HTTP status: $HTTP_CODE"
+        
+        if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ] || [ "$HTTP_CODE" = "404" ]; then
+          echo "✓ data_provider_web is deployed (status: $HTTP_CODE)"
+        else
+          echo "✗ data_provider_web returned unexpected status: $HTTP_CODE"
+        fi
+    
+    - name: Upload Tomcat logs as artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: tomcat-logs
+        path: /tmp/apache-tomcat-9.0.85/logs/
+        retention-days: 7
+    
+    - name: Shutdown Tomcat
+      if: always()
+      run: |
+        if [ -f "$CATALINA_HOME/bin/catalina.sh" ]; then
+          $CATALINA_HOME/bin/catalina.sh stop || true
+          sleep 5
+          # Force kill if still running
+          pkill -9 -f catalina || true
+        fi
