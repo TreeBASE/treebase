@@ -10,6 +10,7 @@
 
 	<!-- ======================== SPRING SECURITY 5 CONFIGURATION ======================= -->
 	<!-- Migrated from Acegi Security to Spring Security 5.8.15 -->
+	<!-- NOTE: This file is currently disabled in web.xml -->
 
 	<!-- HTTP Security Configuration -->
 	<security:http auto-config="false" use-expressions="false">
@@ -24,8 +25,7 @@
 			login-processing-url="/j_security_check"
 			default-target-url="/user/processUser.html"
 			always-use-default-target="true"
-			authentication-failure-url="/login.jsp?error=true"
-			authentication-success-handler-ref="passwordUpgradeSuccessHandler"/>
+			authentication-failure-url="/login.jsp?error=true"/>
 
 		<!-- Logout configuration -->
 		<security:logout logout-url="/logout" logout-success-url="/login.jsp"/>
@@ -46,13 +46,6 @@
 
 	<!-- Password Encoder: DelegatingPasswordEncoder for backward compatibility -->
 	<bean id="passwordEncoder" class="org.cipres.treebase.security.DelegatingPasswordEncoder"/>
-
-	<!-- Password Upgrade Success Handler: Automatically upgrades plain text to BCrypt -->
-	<bean id="passwordUpgradeSuccessHandler"
-	      class="org.cipres.treebase.security.PasswordUpgradeAuthenticationSuccessHandler">
-		<constructor-arg ref="userHome"/>
-		<constructor-arg ref="passwordEncoder"/>
-	</bean>
 
 	<!-- Role Voter with empty prefix to preserve existing role names (Admin, User, Associate Editor) -->
 	<bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
