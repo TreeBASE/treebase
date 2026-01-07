@@ -1,16 +1,14 @@
-# DWR (Direct Web Remoting) Integration with Spring 5
+# DWR (Direct Web Remoting) Integration
+
+This document describes the DWR integration in TreeBASE and its Spring 5 compatibility implementation.
 
 ## Overview
 
-This document describes the DWR integration in TreeBASE and how it has been made compatible with Spring 5.
+DWR (Direct Web Remoting) is a Java library that enables AJAX functionality by allowing JavaScript in the browser to call Java methods on the server. Remote calls appear as local JavaScript function calls.
 
-## What is DWR?
+## DWR Usage in TreeBASE
 
-DWR (Direct Web Remoting) is a Java library that enables AJAX functionality by allowing JavaScript in a web browser to call Java methods running on a web server, making the remote call appear like a local JavaScript function call.
-
-## DWR in TreeBASE
-
-TreeBASE uses DWR to provide autocomplete and AJAX progress tracking functionality for:
+TreeBASE uses DWR for interactive features:
 
 1. **Person Email Autocomplete** - `RemotePersonService.findCompleteEmailAddress()`
 2. **Software Name Autocomplete** - `RemoteSoftwareNameService.findCompleteSoftwareName()`
@@ -22,20 +20,23 @@ TreeBASE uses DWR to provide autocomplete and AJAX progress tracking functionali
 
 ### The Challenge
 
-DWR 3.0.2-RELEASE was released before Spring 5.0 (September 2017) and uses some Spring APIs that were changed in Spring 5.x. The main issue is in how DWR's `DwrSpringServlet` retrieves the Spring `WebApplicationContext`.
+DWR 3.0.2-RELEASE was released before Spring 5.0 (September 2017) and uses Spring APIs that changed in Spring 5.x. The main issue is how DWR's `DwrSpringServlet` retrieves the Spring `WebApplicationContext`.
 
 ### The Solution
 
-We created a Spring 5-compatible wrapper servlet: `org.cipres.treebase.web.dwr.Spring5CompatibleDwrServlet`
+A Spring 5-compatible wrapper servlet was created: `org.cipres.treebase.web.dwr.Spring5CompatibleDwrServlet`
 
 This servlet:
 - Extends `org.directwebremoting.spring.DwrSpringServlet`
 - Uses Spring 5-compatible methods to retrieve the `WebApplicationContext`
-- Ensures proper initialization order between Spring and DWR
+- Ensures proper initialization order
 
-### Configuration
+## Configuration
 
-#### 1. Maven Dependency (treebase-web/pom.xml)
+### Maven Dependency
+
+In `treebase-web/pom.xml`:
+
 ```xml
 <dependency>
     <groupId>org.directwebremoting</groupId>
@@ -44,7 +45,10 @@ This servlet:
 </dependency>
 ```
 
-#### 2. Servlet Configuration (WEB-INF/web.xml)
+### Servlet Configuration
+
+In `WEB-INF/web.xml`:
+
 ```xml
 <servlet>
     <servlet-name>dwr</servlet-name>
@@ -65,7 +69,10 @@ This servlet:
 </servlet-mapping>
 ```
 
-#### 3. Spring Bean Configuration (WEB-INF/applicationContext.xml)
+### Spring Bean Configuration
+
+In `WEB-INF/applicationContext.xml`:
+
 ```xml
 <beans xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
        xsi:schemaLocation="...
@@ -83,8 +90,10 @@ This servlet:
 </beans>
 ```
 
-#### 4. DWR Configuration (WEB-INF/dwr.xml)
-The dwr.xml file uses the DWR 3.0 DTD:
+### DWR Configuration
+
+In `WEB-INF/dwr.xml`:
+
 ```xml
 <!DOCTYPE dwr PUBLIC
     "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN"
@@ -98,13 +107,13 @@ The dwr.xml file uses the DWR 3.0 DTD:
 
 ## JavaScript Usage
 
-In JSP templates, DWR is used through generated JavaScript interfaces:
+In JSP templates:
 
 ```javascript
 // Include DWR JavaScript libraries
-<script type="text/javascript" src="<c:url value='/dwr/interface/RemotePersonService.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/dwr/engine.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/dwr/util.js'/>"></script>
+<script src="<c:url value='/dwr/interface/RemotePersonService.js'/>"></script>
+<script src="<c:url value='/dwr/engine.js'/>"></script>
+<script src="<c:url value='/dwr/util.js'/>"></script>
 
 // Call remote methods
 function updateList(autocompleter, token) {
@@ -125,24 +134,37 @@ To test if DWR is working:
 
 ## Troubleshooting
 
-### Common Issues
+### No Spring WebApplicationContext Found
 
-1. **"No Spring WebApplicationContext found"**
-   - Ensure `StartupListener` (which extends `ContextLoaderListener`) is configured in web.xml
-   - Check that Spring context files are properly loaded
+**Cause:** Spring context not initialized before DWR
 
-2. **DWR JavaScript errors**
-   - Verify that `/dwr/*` URL pattern is correctly mapped
-   - Check browser console for detailed error messages
-   - Ensure DWR debug mode is enabled during development
+**Solution:** Ensure `StartupListener` (extends `ContextLoaderListener`) is configured in `web.xml` and Spring context files load properly.
 
-3. **Method not found errors**
-   - Verify the method is public in the DAO class
-   - Check that `<dwr:include method="methodName" />` is correctly configured
-   - Ensure the bean is properly injected with sessionFactory if needed
+### DWR JavaScript Errors
+
+**Causes:**
+- URL pattern `/dwr/*` not correctly mapped
+- JavaScript includes in wrong order
+
+**Solutions:**
+- Verify servlet mapping in `web.xml`
+- Check browser console for detailed errors
+- Enable DWR debug mode during development
+
+### Method Not Found Errors
+
+**Causes:**
+- Method not public in DAO class
+- Missing or incorrect `<dwr:include>` configuration
+- Bean not properly injected
+
+**Solutions:**
+- Verify method is public
+- Check `<dwr:include method="methodName" />` configuration
+- Ensure bean has required dependencies (e.g., sessionFactory)
 
 ## References
 
-- DWR Documentation: http://directwebremoting.org/dwr/index.html
-- DWR 3.0 Documentation: http://directwebremoting.org/dwr/documentation/index.html
-- Spring Framework 5 Documentation: https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/
+- [DWR Documentation](http://directwebremoting.org/dwr/index.html)
+- [DWR 3.0 Documentation](http://directwebremoting.org/dwr/documentation/index.html)
+- [Spring Framework 5 Documentation](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/)

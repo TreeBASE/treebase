@@ -1,18 +1,18 @@
-Loading PostgreSQL data dump
-============================
+# Loading TreeBASE Data
 
-Assuming you have a dump from a previous database (at present, there is one in `/opt/db/pgsql.sql`), this is imported
-thusly:
+> **Note:** This document is archived. These procedures were used for the original TreeBASE v.1 to v.2 migration around 2009. Modern deployments should use PostgreSQL database dumps instead.
 
-    sudo -u postgres psql treebasedb < pgsql.sql
+## Loading PostgreSQL Data Dump
 
-Loading TreeBASE v.1 data files
-===============================
+Assuming you have a dump from a previous database (at present, there is one in `/opt/db/pgsql.sql`), import it with:
 
-In the below steps, importing data from Nexus files (and some tabular data files) is described. This is a procedure you
-probably never have to do as it was developed for migrating data from TreeBASE v.1 to v.2, which was done in around
-2009. The steps described below follow on the [installation instructions](INSTALL.md) that bootstrap a data loading 
-application.
+```bash
+sudo -u postgres psql treebasedb < pgsql.sql
+```
+
+## Loading TreeBASE v.1 Data Files (Historical)
+
+The following steps describe importing data from Nexus files and tabular data files. This procedure was developed for migrating data from TreeBASE v.1 to v.2. The steps below follow on the [installation instructions](INSTALL.md) that bootstrap a data loading application.
 
 Copy scripts
 ------------
