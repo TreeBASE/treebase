@@ -124,19 +124,12 @@
 		</dependency>
 
 		<!-- JSTL 1.2 for Tomcat 9+ compatibility -->
-		<!-- Using Apache Taglibs reference implementation - clean, single source -->
-		<!-- API specification -->
+		<!-- Scope is NOT 'provided' - Tomcat 9 does not include JSTL in its lib directory -->
+		<!-- This includes both API, implementation, TLD files, and legacy EL support -->
 		<dependency>
-			<groupId>org.apache.taglibs</groupId>
-			<artifactId>taglibs-standard-spec</artifactId>
-			<version>1.2.5</version>
-		</dependency>
-		
-		<!-- Implementation with TLD files -->
-		<dependency>
-			<groupId>org.apache.taglibs</groupId>
-			<artifactId>taglibs-standard-impl</artifactId>
-			<version>1.2.5</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 		<!-- Servlet API for Tomcat 9+ - provided by container at runtime -->
