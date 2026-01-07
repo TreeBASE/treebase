@@ -405,83 +405,76 @@ jobs:
         echo "Checking Tomcat logs for SEVERE errors..."
         echo "=========================================="
         
-        # Check catalina.out for SEVERE errors
-        if [ -f "$CATALINA_HOME/logs/catalina.out" ]; then
-          echo "Analyzing catalina.out..."
-          SEVERE_COUNT=$(grep -c "SEVERE" "$CATALINA_HOME/logs/catalina.out" || true)
-          ERROR_COUNT=$(grep -c "ERROR" "$CATALINA_HOME/logs/catalina.out" || true)
-          
-          echo "Found $SEVERE_COUNT SEVERE messages"
-          echo "Found $ERROR_COUNT ERROR messages"
-          
-          if [ $SEVERE_COUNT -gt 0 ]; then
-            echo ""
-            echo "=========================================="
-            echo "SEVERE errors found in catalina.out:"
-            echo "=========================================="
-            grep -B 2 -A 5 "SEVERE" "$CATALINA_HOME/logs/catalina.out" || true
-          fi
-          
-          if [ $ERROR_COUNT -gt 0 ]; then
-            echo ""
-            echo "=========================================="
-            echo "ERROR messages found in catalina.out:"
-            echo "=========================================="
-            grep -B 2 -A 5 "ERROR" "$CATALINA_HOME/logs/catalina.out" | head -50 || true
-          fi
-        else
-          echo "catalina.out not found"
-        fi
-        
-        # Check localhost log
-        LOCALHOST_LOG=$(ls -t $CATALINA_HOME/logs/localhost.*.log 2>/dev/null | head -1)
-        if [ -n "$LOCALHOST_LOG" ] && [ -f "$LOCALHOST_LOG" ]; then
-          echo ""
-          echo "=========================================="
-          echo "Checking localhost log: $(basename $LOCALHOST_LOG)"
-          echo "=========================================="
-          SEVERE_COUNT=$(grep -c "SEVERE" "$LOCALHOST_LOG" || true)
-          
-          if [ $SEVERE_COUNT -gt 0 ]; then
-            echo "Found $SEVERE_COUNT SEVERE messages in localhost log:"
-            grep -B 2 -A 5 "SEVERE" "$LOCALHOST_LOG" || true
-          else
-            echo "No SEVERE errors in localhost log"
-          fi
-        fi
-        
-        # Display summary of all log files
+        # Display summary of all log files first
         echo ""
-        echo "=========================================="
         echo "All Tomcat log files:"
-        echo "=========================================="
         ls -lh $CATALINA_HOME/logs/
+        echo ""
         
-        # Show last 50 lines of catalina.out for context
+        # Initialize counters
+        TOTAL_SEVERE=0
+        TOTAL_ERROR=0
+        HAS_FAILURES=0
+        
+        # Check all .log files and catalina.out
+        echo "Scanning all log files for errors..."
+        for logfile in $CATALINA_HOME/logs/*.log $CATALINA_HOME/logs/catalina.out; do
+          if [ -f "$logfile" ]; then
+            BASENAME=$(basename "$logfile")
+            echo ""
+            echo "----------------------------------------"
+            echo "Checking: $BASENAME"
+            echo "----------------------------------------"
+            
+            SEVERE_COUNT=$(grep -c "SEVERE" "$logfile" 2>/dev/null || true)
+            ERROR_COUNT=$(grep -c " ERROR " "$logfile" 2>/dev/null || true)
+            
+            # Also check for common error patterns
+            EXCEPTION_COUNT=$(grep -c "Exception" "$logfile" 2>/dev/null || true)
+            
+            TOTAL_SEVERE=$((TOTAL_SEVERE + SEVERE_COUNT))
+            TOTAL_ERROR=$((TOTAL_ERROR + ERROR_COUNT))
+            
+            echo "  SEVERE: $SEVERE_COUNT"
+            echo "  ERROR: $ERROR_COUNT"
+            echo "  Exceptions: $EXCEPTION_COUNT"
+            
+            # Show SEVERE errors with context
+            if [ $SEVERE_COUNT -gt 0 ]; then
+              echo ""
+              echo "  SEVERE errors in $BASENAME:"
+              grep -B 3 -A 10 "SEVERE" "$logfile" 2>/dev/null | head -100 || true
+              HAS_FAILURES=1
+            fi
+          fi
+        done
+        
+        # Show last 100 lines of catalina.out for full context
         echo ""
         echo "=========================================="
-        echo "Last 50 lines of catalina.out:"
+        echo "Last 100 lines of catalina.out:"
         echo "=========================================="
         if [ -f "$CATALINA_HOME/logs/catalina.out" ]; then
-          tail -50 "$CATALINA_HOME/logs/catalina.out"
+          tail -100 "$CATALINA_HOME/logs/catalina.out"
         fi
         
-        # Return exit code based on SEVERE errors found
-        if [ -f "$CATALINA_HOME/logs/catalina.out" ]; then
-          TOTAL_SEVERE=$(grep -c "SEVERE" "$CATALINA_HOME/logs/catalina.out" || true)
-          if [ $TOTAL_SEVERE -gt 0 ]; then
-            echo ""
-            echo "=========================================="
-            echo "WARNING: Found $TOTAL_SEVERE SEVERE errors in Tomcat logs"
-            echo "=========================================="
-            # Don't fail the build for now, just warn
-            # exit 1
-          else
-            echo ""
-            echo "=========================================="
-            echo "SUCCESS: No SEVERE errors found in Tomcat logs"
-            echo "=========================================="
-          fi
+        # Final summary and exit decision
+        echo ""
+        echo "=========================================="
+        echo "LOG CHECK SUMMARY"
+        echo "=========================================="
+        echo "Total SEVERE errors across all logs: $TOTAL_SEVERE"
+        echo "Total ERROR messages across all logs: $TOTAL_ERROR"
+        echo ""
+        
+        if [ $HAS_FAILURES -eq 1 ]; then
+          echo "❌ FAILED: SEVERE errors detected in Tomcat logs"
+          echo "Please review the errors above and the uploaded log artifacts"
+          echo "=========================================="
+          exit 1
+        else
+          echo "✓ SUCCESS: No SEVERE errors found in Tomcat logs"
+          echo "=========================================="
         fi
     
     - name: Test application endpoints
