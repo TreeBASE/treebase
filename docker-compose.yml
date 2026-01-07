@@ -65,13 +65,27 @@ services:
       # Mount the entire project for building
       - .:/app
       - maven-repo:/root/.m2
-      # Mount JSP files for live editing
-      - ./treebase-web/src/main/webapp:/usr/local/tomcat/webapps/treebase-web
       # Mount configuration
       - ./docker/context.xml:/usr/local/tomcat/conf/Catalina/localhost/treebase-web.xml
       # Mount WEB-INF from built artifact (will be populated by entrypoint)
       - web-inf-classes:/usr/local/tomcat/webapps/treebase-web/WEB-INF/classes
       - web-inf-lib:/usr/local/tomcat/webapps/treebase-web/WEB-INF/lib
+      # Mount JSP and static files for live editing (excluding WEB-INF to preserve compiled classes and libs)
+      - ./treebase-web/src/main/webapp/decorators:/usr/local/tomcat/webapps/treebase-web/decorators
+      - ./treebase-web/src/main/webapp/images:/usr/local/tomcat/webapps/treebase-web/images
+      - ./treebase-web/src/main/webapp/scripts:/usr/local/tomcat/webapps/treebase-web/scripts
+      - ./treebase-web/src/main/webapp/styles:/usr/local/tomcat/webapps/treebase-web/styles
+      - ./treebase-web/src/main/webapp/common:/usr/local/tomcat/webapps/treebase-web/common
+      - ./treebase-web/src/main/webapp/help:/usr/local/tomcat/webapps/treebase-web/help
+      - ./treebase-web/src/main/webapp/test:/usr/local/tomcat/webapps/treebase-web/test
+      # Mount root-level JSP files
+      - ./treebase-web/src/main/webapp/index.jsp:/usr/local/tomcat/webapps/treebase-web/index.jsp
+      - ./treebase-web/src/main/webapp/login.jsp:/usr/local/tomcat/webapps/treebase-web/login.jsp
+      - ./treebase-web/src/main/webapp/logout.jsp:/usr/local/tomcat/webapps/treebase-web/logout.jsp
+      - ./treebase-web/src/main/webapp/error.jsp:/usr/local/tomcat/webapps/treebase-web/error.jsp
+      - ./treebase-web/src/main/webapp/error-403.jsp:/usr/local/tomcat/webapps/treebase-web/error-403.jsp
+      - ./treebase-web/src/main/webapp/error-404.jsp:/usr/local/tomcat/webapps/treebase-web/error-404.jsp
+      - ./treebase-web/src/main/webapp/error-500.jsp:/usr/local/tomcat/webapps/treebase-web/error-500.jsp
     profiles:
       - development
 
