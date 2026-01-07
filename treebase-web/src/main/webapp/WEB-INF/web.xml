@@ -280,15 +280,15 @@
   	</servlet>
   	
 	<!-- ========================================================== -->
-	<!-- Processed by Jersey -->                
+	<!-- Processed by Jersey 2.x -->                
 	<!-- ========================================================== -->
   	<servlet>
   		<servlet-name>HandshakingServlet</servlet-name>
 		<servlet-class>
-  			com.sun.jersey.spi.container.servlet.ServletContainer
+  			org.glassfish.jersey.servlet.ServletContainer
 		</servlet-class>
   		<init-param>
-    		<param-name>com.sun.jersey.config.property.packages</param-name>
+    		<param-name>jersey.config.server.provider.packages</param-name>
     		<param-value>org.cipres.treebase.web.webservices</param-value>
   		</init-param>
   		<load-on-startup>1</load-on-startup>

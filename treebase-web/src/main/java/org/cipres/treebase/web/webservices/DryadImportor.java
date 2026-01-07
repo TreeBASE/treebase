@@ -9,7 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
  
-import com.sun.jersey.multipart.*;   
+import org.glassfish.jersey.media.multipart.*;   
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes; 
 //import javax.ws.rs.POST;
