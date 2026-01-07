@@ -41,7 +41,11 @@ fi
 # Extract WEB-INF to shared volumes for the running application
 echo "Extracting WEB-INF from WAR file..."
 cd /tmp
-unzip -q /app/treebase-web/target/treebase-web.war "WEB-INF/*" || true
+if ! unzip -q /app/treebase-web/target/treebase-web.war "WEB-INF/*"; then
+    echo "WARNING: Failed to extract WEB-INF from WAR file"
+    echo "This may cause runtime issues. Check if WAR file exists and is valid."
+    # Continue anyway as the webapp directory might be mounted
+fi
 
 # Copy compiled classes and libraries to mounted volumes
 if [ -d "WEB-INF/classes" ]; then

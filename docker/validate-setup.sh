@@ -110,9 +110,10 @@ check_file "treebase-core/src/main/resources/TBASE2_POSTGRES_CREATION.sql" || {
     echo -e "${YELLOW}!${NC} Database schema file not found - database may not initialize properly"
     ERRORS=$((ERRORS+1))
 }
-check_file "treebase-core/src/main/resources/initTreebase.sql" || {
+if ! check_file "treebase-core/src/main/resources/initTreebase.sql"; then
     echo -e "${YELLOW}!${NC} Database init file not found - database may not initialize properly"
-}
+    ERRORS=$((ERRORS+1))
+fi
 echo ""
 
 # Check configuration examples
