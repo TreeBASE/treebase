@@ -18,3 +18,6 @@ oai-pmh_data_provider/data_provider_web/target/
 .classpath
 .project
 .springBeans
+
+# Docker environment file (contains credentials)
+.env

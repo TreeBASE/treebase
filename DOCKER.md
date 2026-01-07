@@ -161,6 +161,24 @@ docker exec -it treebase-postgres bash
 
 ## Configuration
 
+### Environment Variables (Optional)
+
+You can customize settings using a `.env` file:
+
+```bash
+# Copy the example
+cp .env.example .env
+
+# Edit with your preferences
+vim .env
+```
+
+The `.env` file is automatically loaded by Docker Compose. Variables include:
+- Database credentials
+- Application port
+- Java options
+- Site URLs
+
 ### Database Settings
 
 Default credentials (development only):
