@@ -207,7 +207,7 @@
 			</exclusions>
 		</dependency>		
 
-		<!-- Standard taglib is not needed with JSTL 1.2 as it's included in jstl-impl -->
+		<!-- Standard taglib is not needed with JSTL 1.2 as it's included in javax.servlet:jstl -->
 		<!-- <dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
