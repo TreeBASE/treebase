@@ -123,13 +123,20 @@
 			</exclusions>
 		</dependency>
 
-		<!-- JSTL 1.2 for Tomcat 9+ compatibility -->
-		<!-- Scope is NOT 'provided' - Tomcat 9 does not include JSTL in its lib directory -->
-		<!-- This includes both API, implementation, TLD files, and legacy EL support -->
+		<!-- JSTL for Tomcat 9 -->
+		<!-- Using Glassfish implementation version 1.2.6 which is compatible with Servlet 4.0 (Tomcat 9) -->
+		<!-- This is the official Jakarta EE bridge version for Servlet 4.0 containers -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
+			<version>1.2.6</version>
+			<exclusions>
+				<!-- Use the javax.servlet-api we already have with provided scope -->
+				<exclusion>
+					<groupId>jakarta.servlet</groupId>
+					<artifactId>jakarta.servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Servlet API for Tomcat 9+ - provided by container at runtime -->
