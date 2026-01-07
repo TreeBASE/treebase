@@ -106,6 +106,10 @@ echo ""
 
 # Check database initialization files
 echo "Checking database initialization files..."
+check_file "docker/00-init-roles.sql" || {
+    echo -e "${YELLOW}!${NC} Database role initialization file not found"
+    ERRORS=$((ERRORS+1))
+}
 check_file "treebase-core/src/main/resources/TBASE2_POSTGRES_CREATION.sql" || {
     echo -e "${YELLOW}!${NC} Database schema file not found - database may not initialize properly"
     ERRORS=$((ERRORS+1))

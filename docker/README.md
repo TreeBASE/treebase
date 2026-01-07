@@ -67,6 +67,13 @@ This creates a fully self-contained image with the WAR file built inside.
 - Pre-initialized with TreeBASE schema
 - Accessible on `localhost:5432`
 - Credentials: `treebase/treebase`
+- **Note**: Database initialization creates a `postgres` role to support legacy schema files that reference this role as the owner
+
+### `00-init-roles.sql`
+Pre-initialization script that:
+- Creates the `postgres` role if it doesn't exist (for schema compatibility)
+- Grants the role to the `treebase` user
+- Runs before schema creation to prevent ownership errors
 
 ### `web-dev` (development)
 - Tomcat 9 with JDK 17

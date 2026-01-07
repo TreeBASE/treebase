@@ -36,6 +36,12 @@ echo ""
 
 # Check for required SQL files
 echo "Checking for database initialization files..."
+if [ ! -f "docker/00-init-roles.sql" ]; then
+    echo "ERROR: Missing docker/00-init-roles.sql"
+    echo "This file is required for database role initialization."
+    exit 1
+fi
+
 if [ ! -f "treebase-core/src/main/resources/TBASE2_POSTGRES_CREATION.sql" ]; then
     echo "ERROR: Missing treebase-core/src/main/resources/TBASE2_POSTGRES_CREATION.sql"
     echo "This file is required for database initialization."
