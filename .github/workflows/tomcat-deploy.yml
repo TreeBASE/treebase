@@ -251,12 +251,6 @@ jobs:
         # Download PostgreSQL JDBC driver
         wget -q -O $CATALINA_HOME/lib/postgresql-42.7.1.jar https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
         
-        # Remove any SLF4J-related jars from Tomcat's lib to prevent version conflicts
-        # The WAR files will bring their own SLF4J dependencies
-        rm -f $CATALINA_HOME/lib/slf4j-*.jar
-        rm -f $CATALINA_HOME/lib/log4j-slf4j-*.jar
-        rm -f $CATALINA_HOME/lib/log4j-to-slf4j-*.jar
-        
         # Make scripts executable
         chmod +x $CATALINA_HOME/bin/*.sh
     
@@ -276,120 +270,29 @@ jobs:
         cp -r $GITHUB_WORKSPACE/treebase-web/src/main/webapp/WEB-INF/dtd $GITHUB_WORKSPACE/dtd
         ls -la $GITHUB_WORKSPACE/dtd/
     
-    - name: Configure and start Tomcat
+    - name: Start Tomcat and deploy applications
       run: |
         # Set Java options for Tomcat
         export JAVA_OPTS="-Djava.awt.headless=true -Xmx512m -XX:+UseG1GC"
         export CATALINA_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
         
-        # Start Tomcat in background - environment variables are passed to the script
+        # Start Tomcat
         JAVA_OPTS="$JAVA_OPTS" CATALINA_OPTS="$CATALINA_OPTS" $CATALINA_HOME/bin/catalina.sh start
         
-        echo "Tomcat started. Waiting for initial deployment..."
-        sleep 30
+        echo "Tomcat started. Waiting for applications to deploy and initialize..."
         
-        # Check if Tomcat is running
+        # Wait for applications to fully deploy (60 seconds should be sufficient)
+        sleep 60
+        
+        # Verify Tomcat is still running
         if ! pgrep -f "catalina" > /dev/null; then
-          echo "ERROR: Tomcat process not found!"
+          echo "ERROR: Tomcat process died during startup!"
+          echo "Showing last 100 lines of catalina.out:"
+          tail -100 $CATALINA_HOME/logs/catalina.out || true
           exit 1
         fi
         
-        echo "Tomcat process is running."
-        
-        # Wait for WARs to be exploded (webapps directories created)
-        MAX_WAIT=120
-        ELAPSED=0
-        while [ $ELAPSED -lt $MAX_WAIT ]; do
-          if [ -d "$CATALINA_HOME/webapps/treebase-web" ] && [ -d "$CATALINA_HOME/webapps/data_provider_web" ]; then
-            echo "Both WARs have been exploded successfully."
-            break
-          fi
-          echo "Waiting for WAR explosion... ($ELAPSED/$MAX_WAIT seconds)"
-          sleep 5
-          ELAPSED=$((ELAPSED + 5))
-        done
-        
-        if [ $ELAPSED -ge $MAX_WAIT ]; then
-          echo "WARNING: Timeout waiting for WAR deployment"
-        fi
-        
-        # Stop Tomcat to clean up SLF4J and ASM conflicts
-        echo "Stopping Tomcat to clean up library conflicts..."
-        $CATALINA_HOME/bin/catalina.sh stop
-        sleep 10
-        
-        # Remove duplicate/conflicting SLF4J bindings from deployed applications
-        echo "=========================================="
-        echo "Cleaning up SLF4J bindings in deployed applications..."
-        echo "=========================================="
-        
-        # In treebase-web, list and clean up SLF4J-related jars
-        if [ -d "$CATALINA_HOME/webapps/treebase-web/WEB-INF/lib" ]; then
-          cd $CATALINA_HOME/webapps/treebase-web/WEB-INF/lib
-          echo "All logging and ASM jars in treebase-web/WEB-INF/lib:"
-          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars found"
-          
-          echo ""
-          echo "Removing incompatible SLF4J bindings and bridges..."
-          # Remove old SLF4J bindings
-          rm -fv slf4j-jdk14-*.jar
-          rm -fv slf4j-log4j12-*.jar
-          rm -fv slf4j-simple-*.jar
-          # Remove jcl-over-slf4j bridge which causes incompatibility with commons-logging
-          # This is the key fix - remove ANY jar with "jcl" and "slf4j" in the name
-          rm -fv *jcl*slf4j*.jar
-          rm -fv *slf4j*jcl*.jar
-          
-          echo ""
-          echo "Keeping ASM jars for Jersey classpath scanning..."
-          # Jersey 1.x needs ASM for classpath scanning (PackagesResourceConfig)
-          # The project provides ASM 9.2 which works with Jersey
-          # DO NOT remove ASM jars
-          
-          echo ""
-          echo "Remaining logging-related and ASM jars in treebase-web:"
-          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars remaining"
-        fi
-        
-        # In data_provider_web, list and clean up SLF4J-related jars
-        if [ -d "$CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib" ]; then
-          cd $CATALINA_HOME/webapps/data_provider_web/WEB-INF/lib
-          echo ""
-          echo "All logging and ASM jars in data_provider_web/WEB-INF/lib:"
-          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars found"
-          
-          echo ""
-          echo "Removing incompatible SLF4J bindings and bridges..."
-          # Remove old SLF4J bindings
-          rm -fv slf4j-jdk14-*.jar
-          rm -fv slf4j-log4j12-*.jar
-          rm -fv slf4j-simple-*.jar
-          # Remove jcl-over-slf4j bridge which causes incompatibility with commons-logging
-          # This is the key fix - remove ANY jar with "jcl" and "slf4j" in the name
-          rm -fv *jcl*slf4j*.jar
-          rm -fv *slf4j*jcl*.jar
-          
-          echo ""
-          echo "Keeping ASM jars for Jersey classpath scanning..."
-          # Jersey 1.x needs ASM for classpath scanning (PackagesResourceConfig)
-          # The project provides ASM 9.2 which works with Jersey  
-          # DO NOT remove ASM jars
-          
-          echo ""
-          echo "Remaining logging-related and ASM jars in data_provider_web:"
-          ls -1 *.jar | grep -E "(slf4j|jcl|log4j|commons-logging|asm)" || echo "No logging/asm jars remaining"
-        fi
-        
-        cd $GITHUB_WORKSPACE
-        echo "=========================================="
-        
-        # Restart Tomcat with cleaned up SLF4J libraries
-        echo "Restarting Tomcat with cleaned SLF4J bindings..."
-        JAVA_OPTS="$JAVA_OPTS" CATALINA_OPTS="$CATALINA_OPTS" $CATALINA_HOME/bin/catalina.sh start
-        
-        # Give applications time to fully initialize
-        echo "Waiting for applications to initialize..."
-        sleep 30
+        echo "Tomcat is running. Applications should be deployed."
     
     - name: Check Tomcat logs for severe errors
       run: |

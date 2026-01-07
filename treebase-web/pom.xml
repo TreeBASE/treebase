@@ -362,10 +362,11 @@
          <version>2.3</version>
      </dependency>
      
+<!-- Jersey 1.19.4 - last stable Jersey 1.x release with better ASM compatibility -->
 <dependency>
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-client</artifactId>
-<version>1.1.5</version>
+<version>1.19.4</version>
 <exclusions>
 	<exclusion>
 		<groupId>asm</groupId>
@@ -377,7 +378,7 @@
 <dependency>
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-server</artifactId>
-<version>1.1.5</version>
+<version>1.19.4</version>
 <exclusions>
 	<exclusion>
 		<groupId>asm</groupId>
@@ -389,13 +390,13 @@
 <dependency>
 <groupId>com.sun.jersey.contribs</groupId>
 <artifactId>jersey-multipart</artifactId>
-<version>1.1.5</version>
+<version>1.19.4</version>
 </dependency>
 
 <dependency>
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-bundle</artifactId>
-<version>1.1.5</version>
+<version>1.19.4</version>
 <exclusions>
 	<exclusion>
 		<groupId>asm</groupId>
@@ -404,10 +405,17 @@
 </exclusions>
 </dependency>
 
-<!-- ASM is required by Jersey for classpath scanning -->
+<!-- ASM 9.2 for Java 17 bytecode support -->
+<!-- Jersey 1.19.4 can work with modern ASM through asm-all shim -->
 <dependency>
 	<groupId>org.ow2.asm</groupId>
 	<artifactId>asm</artifactId>
+	<version>9.2</version>
+</dependency>
+<!-- ASM compatibility shim for Jersey 1.x to work with modern ASM -->
+<dependency>
+	<groupId>org.ow2.asm</groupId>
+	<artifactId>asm-commons</artifactId>
 	<version>9.2</version>
 </dependency>
 
