@@ -15,7 +15,10 @@ This guide explains how to run TreeBASE using Docker with support for rapid JSP 
 This is the **recommended approach for UI development** as it allows you to edit JSP files locally and see changes immediately:
 
 ```bash
-# Start the development environment
+# Option 1: Use the quick-start script (easiest)
+./docker/quick-start.sh
+
+# Option 2: Manual start
 docker compose --profile development up
 
 # Wait for the build to complete (first time takes 5-10 minutes)
@@ -314,10 +317,13 @@ docker compose up postgres
 
 ## Getting Help
 
-- See `docker/README.md` for detailed documentation
-- Check GitHub issues: https://github.com/TreeBASE/treebase/issues
-- Review build documentation: `doc/development/BUILDING.md`
-- Review deployment docs: `doc/development/DEPLOYING.md`
+- **Validation**: Run `./docker/validate-setup.sh` to check your setup
+- **Testing**: See `docker/TESTING.md` for comprehensive test procedures
+- **Quick Start**: Run `./docker/quick-start.sh` for guided setup
+- **Detailed Docs**: See `docker/README.md` for detailed documentation
+- **GitHub Issues**: https://github.com/TreeBASE/treebase/issues
+- **Build Guide**: `doc/development/BUILDING.md`
+- **Deployment Guide**: `doc/development/DEPLOYING.md`
 
 ## Related Documentation
 
