@@ -49,10 +49,14 @@ RUN curl -o /usr/local/tomcat/lib/postgresql.jar \
 RUN mkdir -p /usr/local/mesquite
 
 # Set environment variables for Tomcat
+# Java 17 compatibility flags based on GitHub Actions workflow
 ENV CATALINA_OPTS="-Djava.awt.headless=true \
     -Xmx512m \
     -XX:+UseG1GC \
-    -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true"
+    -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true \
+    --add-opens java.base/java.lang=ALL-UNNAMED \
+    --add-opens java.base/java.util=ALL-UNNAMED \
+    --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
 
 # Expose Tomcat port
 EXPOSE 8080

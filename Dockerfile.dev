@@ -22,15 +22,17 @@ RUN curl -o /usr/local/tomcat/lib/postgresql.jar \
 RUN mkdir -p /usr/local/mesquite
 
 # Set up environment variables
+# Java 17 compatibility flags based on GitHub Actions workflow
 ENV CATALINA_OPTS="-Djava.awt.headless=true \
     -Xmx512m \
     -XX:+UseG1GC \
-    -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true"
+    -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true \
+    --add-opens java.base/java.lang=ALL-UNNAMED \
+    --add-opens java.base/java.util=ALL-UNNAMED \
+    --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
 
-# Configure Tomcat for development
-# Enable reloadable contexts and reduce scan interval for faster JSP recompilation
-RUN sed -i 's/<Host name="localhost"/<Host name="localhost" autoDeploy="true"/' \
-    /usr/local/tomcat/conf/server.xml
+# Note: Default Tomcat configuration already has autoDeploy="true" 
+# and reloadable contexts work with our context.xml configuration
 
 # Expose Tomcat port
 EXPOSE 8080
