@@ -25,6 +25,7 @@ public abstract class CancellableFormController extends AbstractController {
     private Class<?> commandClass;
     private String commandName = "command";
     private boolean sessionForm = false;
+    private Validator validator;
     private List<Validator> validators;
     
     public void setFormView(String formView) {
@@ -73,6 +74,14 @@ public abstract class CancellableFormController extends AbstractController {
     
     public boolean isSessionForm() {
         return sessionForm;
+    }
+    
+    public void setValidator(Validator validator) {
+        this.validator = validator;
+    }
+    
+    public Validator getValidator() {
+        return validator;
     }
     
     public void setValidators(List<Validator> validators) {
@@ -180,11 +189,16 @@ public abstract class CancellableFormController extends AbstractController {
      * Subclasses should override either this method or onSubmit.
      */
     protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        // Apply validators if configured
+        // Apply singular validator if configured
+        if (validator != null && validator.supports(command.getClass())) {
+            validator.validate(command, errors);
+        }
+        
+        // Apply list of validators if configured
         if (validators != null) {
-            for (Validator validator : validators) {
-                if (validator.supports(command.getClass())) {
-                    validator.validate(command, errors);
+            for (Validator v : validators) {
+                if (v.supports(command.getClass())) {
+                    v.validate(command, errors);
                 }
             }
         }

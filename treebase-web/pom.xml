@@ -169,6 +169,12 @@
 			<groupId>commons-digester</groupId>
 			<artifactId>commons-digester</artifactId>
 			<version>1.5</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>		
 
 		<dependency>
@@ -187,6 +193,12 @@
 			<groupId>struts</groupId>
 			<artifactId>struts</artifactId>
 			<version>1.2.9</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -199,6 +211,12 @@
 			<groupId>displaytag</groupId>
 			<artifactId>displaytag</artifactId>
 			<version>1.1.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -241,6 +259,12 @@
 			<groupId>springmodules</groupId>
 			<artifactId>springmodules-validator</artifactId>
 			<version>0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -329,12 +353,24 @@
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-client</artifactId>
 <version>1.1.5</version>
+<exclusions>
+	<exclusion>
+		<groupId>asm</groupId>
+		<artifactId>asm</artifactId>
+	</exclusion>
+</exclusions>
 </dependency>
 
 <dependency>
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-server</artifactId>
 <version>1.1.5</version>
+<exclusions>
+	<exclusion>
+		<groupId>asm</groupId>
+		<artifactId>asm</artifactId>
+	</exclusion>
+</exclusions>
 </dependency>
 
 <dependency>
@@ -347,6 +383,12 @@
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-bundle</artifactId>
 <version>1.1.5</version>
+<exclusions>
+	<exclusion>
+		<groupId>asm</groupId>
+		<artifactId>asm</artifactId>
+	</exclusion>
+</exclusions>
 </dependency>
 
 <!-- ASM is required by Jersey for classpath scanning -->
