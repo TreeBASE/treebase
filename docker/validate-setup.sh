@@ -104,6 +104,17 @@ check_dir "treebase-web/src" || ERRORS=$((ERRORS+1))
 check_dir "treebase-web/src/main/webapp" || ERRORS=$((ERRORS+1))
 echo ""
 
+# Check database initialization files
+echo "Checking database initialization files..."
+check_file "treebase-core/src/main/resources/TBASE2_POSTGRES_CREATION.sql" || {
+    echo -e "${YELLOW}!${NC} Database schema file not found - database may not initialize properly"
+    ERRORS=$((ERRORS+1))
+}
+check_file "treebase-core/src/main/resources/initTreebase.sql" || {
+    echo -e "${YELLOW}!${NC} Database init file not found - database may not initialize properly"
+}
+echo ""
+
 # Check configuration examples
 echo "Checking configuration examples..."
 check_file "treebase-core/src/main/resources/jdbc.properties.example" || ERRORS=$((ERRORS+1))
@@ -112,12 +123,12 @@ echo ""
 
 # Validate docker-compose.yml syntax
 echo "Validating docker-compose.yml syntax..."
-if docker compose config --quiet 2>&1 | grep -q "ERROR"; then
-    echo -e "${RED}✗${NC} docker-compose.yml has syntax errors"
-    docker compose config --quiet
-    ERRORS=$((ERRORS+1))
-else
+if docker compose config > /dev/null 2>&1; then
     echo -e "${GREEN}✓${NC} docker-compose.yml syntax is valid"
+else
+    echo -e "${RED}✗${NC} docker-compose.yml has syntax errors"
+    docker compose config
+    ERRORS=$((ERRORS+1))
 fi
 echo ""
 

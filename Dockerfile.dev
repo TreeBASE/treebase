@@ -24,7 +24,7 @@ RUN mkdir -p /usr/local/mesquite
 # Set up environment variables
 ENV CATALINA_OPTS="-Djava.awt.headless=true \
     -Xmx512m \
-    -XX:+UseConcMarkSweepGC \
+    -XX:+UseG1GC \
     -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true"
 
 # Configure Tomcat for development

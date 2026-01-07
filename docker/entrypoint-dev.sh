@@ -45,18 +45,26 @@ unzip -q /app/treebase-web/target/treebase-web.war "WEB-INF/*" || true
 
 # Copy compiled classes and libraries to mounted volumes
 if [ -d "WEB-INF/classes" ]; then
-  cp -r WEB-INF/classes/* /usr/local/tomcat/webapps/treebase-web/WEB-INF/classes/ 2>/dev/null || true
+  echo "Copying compiled classes..."
+  mkdir -p /usr/local/tomcat/webapps/treebase-web/WEB-INF/classes
+  cp -r WEB-INF/classes/* /usr/local/tomcat/webapps/treebase-web/WEB-INF/classes/ || echo "Warning: Some class files may not have copied"
 fi
 
 if [ -d "WEB-INF/lib" ]; then
-  cp -r WEB-INF/lib/* /usr/local/tomcat/webapps/treebase-web/WEB-INF/lib/ 2>/dev/null || true
+  echo "Copying libraries..."
+  mkdir -p /usr/local/tomcat/webapps/treebase-web/WEB-INF/lib
+  cp -r WEB-INF/lib/* /usr/local/tomcat/webapps/treebase-web/WEB-INF/lib/ || echo "Warning: Some library files may not have copied"
 fi
 
 # Copy other WEB-INF resources
 if [ -d "WEB-INF" ]; then
+  echo "Copying WEB-INF configuration files..."
   # Copy XML configs and other non-classes, non-lib files
-  find WEB-INF -type f ! -path "WEB-INF/classes/*" ! -path "WEB-INF/lib/*" \
-    -exec cp --parents {} /usr/local/tomcat/webapps/treebase-web/ \;
+  find WEB-INF -type f ! -path "WEB-INF/classes/*" ! -path "WEB-INF/lib/*" -print0 | while IFS= read -r -d '' file; do
+    target_dir="/usr/local/tomcat/webapps/treebase-web/$(dirname "$file")"
+    mkdir -p "$target_dir"
+    cp "$file" "$target_dir/" || echo "Warning: Failed to copy $file"
+  done
 fi
 
 echo "Setup complete! Starting Tomcat..."

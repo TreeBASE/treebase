@@ -51,7 +51,7 @@ RUN mkdir -p /usr/local/mesquite
 # Set environment variables for Tomcat
 ENV CATALINA_OPTS="-Djava.awt.headless=true \
     -Xmx512m \
-    -XX:+UseConcMarkSweepGC \
+    -XX:+UseG1GC \
     -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true"
 
 # Expose Tomcat port
