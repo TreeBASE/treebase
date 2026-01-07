@@ -429,13 +429,13 @@
 </dependency>
 
 <!-- ASM 9.2 for Java 17 bytecode support -->
-<!-- Jersey 1.19.4 can work with modern ASM through asm-all shim -->
+<!-- Jersey 1.19.4 can work with modern ASM through asm-commons -->
 <dependency>
 	<groupId>org.ow2.asm</groupId>
 	<artifactId>asm</artifactId>
 	<version>9.2</version>
 </dependency>
-<!-- ASM compatibility shim for Jersey 1.x to work with modern ASM -->
+<!-- ASM compatibility layer for Jersey 1.x to work with modern ASM -->
 <dependency>
 	<groupId>org.ow2.asm</groupId>
 	<artifactId>asm-commons</artifactId>
