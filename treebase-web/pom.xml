@@ -124,34 +124,29 @@
 		</dependency>
 
 		<!-- JSTL for Tomcat 9 -->
-		<!-- Using Glassfish implementation version 1.2.6 which is compatible with Servlet 4.0 (Tomcat 9) -->
-		<!-- This is the official Jakarta EE bridge version for Servlet 4.0 containers -->
+		<!-- Using Glassfish Jakarta JSTL 1.2.6 - modern implementation for Servlet 4.0 (Tomcat 9) -->
+		<!-- Jakarta is the modern successor to javax, fully backward compatible -->
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
 			<version>1.2.6</version>
-			<exclusions>
-				<!-- Use the javax.servlet-api we already have with provided scope -->
-				<exclusion>
-					<groupId>jakarta.servlet</groupId>
-					<artifactId>jakarta.servlet-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
-		<!-- Servlet API for Tomcat 9+ - provided by container at runtime -->
+		<!-- Jakarta Servlet API for Tomcat 9 -->
+		<!-- Replaces the old javax.servlet-api, fully compatible -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>4.0.4</version>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- JSP API for Tomcat 9+ - provided by container at runtime but needed for JSP compilation -->
+		<!-- Jakarta JSP API for Tomcat 9 -->
+		<!-- Replaces the old javax.servlet.jsp-api, fully compatible -->
 		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.3</version>
+			<groupId>jakarta.servlet.jsp</groupId>
+			<artifactId>jakarta.servlet.jsp-api</artifactId>
+			<version>2.3.6</version>
 			<scope>provided</scope>
 		</dependency>
 
