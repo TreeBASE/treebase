@@ -1,11 +1,13 @@
 package org.cipres.treebase.web.compat;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -23,6 +25,7 @@ public abstract class CancellableFormController extends AbstractController {
     private Class<?> commandClass;
     private String commandName = "command";
     private boolean sessionForm = false;
+    private List<Validator> validators;
     
     public void setFormView(String formView) {
         this.formView = formView;
@@ -70,6 +73,14 @@ public abstract class CancellableFormController extends AbstractController {
     
     public boolean isSessionForm() {
         return sessionForm;
+    }
+    
+    public void setValidators(List<Validator> validators) {
+        this.validators = validators;
+    }
+    
+    public List<Validator> getValidators() {
+        return validators;
     }
     
     @Override
@@ -169,6 +180,15 @@ public abstract class CancellableFormController extends AbstractController {
      * Subclasses should override either this method or onSubmit.
      */
     protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+        // Apply validators if configured
+        if (validators != null) {
+            for (Validator validator : validators) {
+                if (validator.supports(command.getClass())) {
+                    validator.validate(command, errors);
+                }
+            }
+        }
+        
         if (errors.hasErrors()) {
             return showForm(request, response, errors);
         }

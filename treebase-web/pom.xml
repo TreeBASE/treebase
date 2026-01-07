@@ -151,10 +151,12 @@
 			<version>1.1.4</version>
 		</dependency>
 
+		<!-- Use SLF4J bridge for commons-logging instead of the old commons-logging 1.1 -->
+		<!-- This provides compatibility with SLF4J 2.x used in the parent pom -->
 		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>2.0.16</version>
 		</dependency>
 
 		<dependency>
@@ -345,6 +347,13 @@
 <groupId>com.sun.jersey</groupId>
 <artifactId>jersey-bundle</artifactId>
 <version>1.1.5</version>
+</dependency>
+
+<!-- ASM is required by Jersey for classpath scanning -->
+<dependency>
+	<groupId>org.ow2.asm</groupId>
+	<artifactId>asm</artifactId>
+	<version>9.2</version>
 </dependency>
 
 <!--dependency>
