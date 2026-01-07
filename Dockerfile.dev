@@ -1,0 +1,45 @@
+# Development Dockerfile with JSP hot-reload support
+# This Dockerfile is optimized for local development with live JSP editing
+
+FROM tomcat:9-jdk17
+
+# Install necessary tools
+RUN apt-get update && \
+    apt-get install -y postgresql-client curl maven && \
+    rm -rf /var/lib/apt/lists/*
+
+# Remove default Tomcat webapps
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Create application directory
+WORKDIR /app
+
+# Download PostgreSQL JDBC driver
+RUN curl -o /usr/local/tomcat/lib/postgresql.jar \
+    https://jdbc.postgresql.org/download/postgresql-42.7.7.jar
+
+# Create Mesquite directory placeholder
+RUN mkdir -p /usr/local/mesquite
+
+# Set up environment variables
+# Java 17 compatibility flags based on GitHub Actions workflow
+ENV CATALINA_OPTS="-Djava.awt.headless=true \
+    -Xmx512m \
+    -XX:+UseG1GC \
+    -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true \
+    --add-opens java.base/java.lang=ALL-UNNAMED \
+    --add-opens java.base/java.util=ALL-UNNAMED \
+    --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+
+# Note: Default Tomcat configuration already has autoDeploy="true" 
+# and reloadable contexts work with our context.xml configuration
+
+# Expose Tomcat port
+EXPOSE 8080
+
+# Copy entrypoint script
+COPY docker/entrypoint-dev.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["catalina.sh", "run"]

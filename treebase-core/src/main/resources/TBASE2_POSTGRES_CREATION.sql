@@ -2525,8 +2525,6 @@ CREATE INDEX rowsegment_matrixrow_id_idx ON rowsegment(matrixrow_id);
 CREATE INDEX matrixelement_matrixcolumn_id_idx ON matrixelement(matrixcolumn_id);
 CREATE INDEX matrixelement_matrixrow_id_idx ON matrixelement(matrixrow_id);
 CREATE INDEX matrixelement_discretecharstate_id_idx ON matrixelement(discretecharstate_id);
-
-CREATE INDEX matrixelement_discretecharstate_id_idx ON matrixelement(discretecharstate_id);
 CREATE INDEX discretecharstate_phylochar_id_idx ON discretecharstate(phylochar_id);
 
 CREATE INDEX analysis_study_id_idx ON analysis(study_id);

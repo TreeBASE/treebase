@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Docker-specific Tomcat context configuration for TreeBASE
+  This file configures JNDI resources for the containerized environment.
+  
+  In docker-compose, this file is mounted to:
+  /usr/local/tomcat/conf/Catalina/localhost/treebase-web.xml
+-->
+
+<Context reloadable="true">
+
+  <!-- JNDI DataSource for PostgreSQL database -->
+  <Resource name="jdbc/TreebaseDB" 
+            auth="Container"
+            type="javax.sql.DataSource" 
+            description="The JNDI DataSource for the TreeBASE postgres instance."
+            driverClassName="org.postgresql.Driver" 
+            url="jdbc:postgresql://postgres:5432/treebase"
+            username="treebase" 
+            password="treebase"
+            maxTotal="20" 
+            maxIdle="10" 
+            maxWaitMillis="-1"
+            />
+            
+  <!-- Mesquite folder location -->
+  <Environment name="tb2/MesquiteFolder" 
+               value="/usr/local/mesquite"
+               type="java.lang.String" 
+               override="false"
+               description="Absolute path to the directory where headless Mesquite is unpacked."/>	
+  
+  <!-- Site URL -->
+  <Environment name="tb2/SiteUrl" 
+               value="http://localhost:8080/treebase-web/"
+               type="java.lang.String" 
+               override="false"
+               description="The base URL from which this TreeBASE instance is served."/>	
+
+  <!-- PURL base -->
+  <Environment name="tb2/PurlBase" 
+               value="http://purl.org/phylo/treebase/phylows/"
+               type="java.lang.String" 
+               override="false"
+               description="The base URL of a PURL service that redirects to this TreeBASE instance."/>	
+
+  <!-- SMTP host (use a mail catcher for development) -->
+  <Environment name="tb2/SmtpHost" 
+               value="localhost"
+               type="java.lang.String" 
+               override="false"
+               description="Host name of an SMTP server."/>	
+
+</Context>
