@@ -52,7 +52,7 @@ git clone https://github.com/TreeBASE/treebase.git
 cd treebase
 
 # Start with Docker (includes database and auto-build)
-docker-compose --profile development up
+docker compose --profile development up
 
 # Access at http://localhost:8080/treebase-web/
 # Edit JSP files in treebase-web/src/main/webapp/ and refresh browser!

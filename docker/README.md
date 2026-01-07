@@ -8,7 +8,7 @@ To run TreeBASE with **live JSP editing** capabilities:
 
 ```bash
 # Start the development environment
-docker-compose --profile development up
+docker compose --profile development up
 
 # The application will be available at:
 # http://localhost:8080/treebase-web/
@@ -29,7 +29,7 @@ The development setup uses Docker volumes to mount your local JSP files directly
 - ✅ **JSP files** - All `.jsp` files in `treebase-web/src/main/webapp/`
 - ✅ **Static resources** - CSS, JavaScript, images
 - ✅ **HTML templates** - Any HTML content
-- ❌ **Java classes** - Require rebuild (use `docker-compose restart web-dev`)
+- ❌ **Java classes** - Require rebuild (use `docker compose restart web-dev`)
 - ❌ **Configuration** - Require restart
 
 ## Production Deployment
@@ -38,14 +38,14 @@ For a production-like deployment:
 
 ```bash
 # Build and start the production environment
-docker-compose --profile production up --build
+docker compose --profile production up --build
 ```
 
 This creates a fully self-contained image with the WAR file built inside.
 
 ## Architecture
 
-### Development Mode (`docker-compose --profile development`)
+### Development Mode (`docker compose --profile development`)
 
 - Uses `Dockerfile.dev` 
 - Mounts local source code into container
@@ -53,7 +53,7 @@ This creates a fully self-contained image with the WAR file built inside.
 - Volume-mounts JSP files for live editing
 - Includes development tools (Maven, PostgreSQL client)
 
-### Production Mode (`docker-compose --profile production`)
+### Production Mode (`docker compose --profile production`)
 
 - Uses `Dockerfile` (multi-stage build)
 - Builds WAR during image creation
@@ -101,22 +101,22 @@ Development container entrypoint that:
 ### Rebuild the Application
 ```bash
 # Stop containers
-docker-compose --profile development down
+docker compose --profile development down
 
 # Remove volumes to force rebuild
-docker-compose --profile development down -v
+docker compose --profile development down -v
 
 # Start fresh
-docker-compose --profile development up
+docker compose --profile development up
 ```
 
 ### View Logs
 ```bash
 # All services
-docker-compose --profile development logs -f
+docker compose --profile development logs -f
 
 # Just the web application
-docker-compose --profile development logs -f web-dev
+docker compose --profile development logs -f web-dev
 ```
 
 ### Access Database
@@ -141,13 +141,13 @@ docker exec -it treebase-web-dev bash -c "cd /app && mvn clean package -Dmaven.t
 
 ### Change Database Credentials
 
-Edit `docker-compose.yml` and `docker/context.xml` to update:
+Edit `docker compose.yml` and `docker/context.xml` to update:
 - `POSTGRES_USER`, `POSTGRES_PASSWORD` in compose file
 - `username`, `password` in context.xml
 
 ### Add Mail Catcher (for testing emails)
 
-Add to `docker-compose.yml`:
+Add to `docker compose.yml`:
 
 ```yaml
   mailcatcher:
@@ -161,7 +161,7 @@ Update `docker/context.xml` SMTP host to `mailcatcher`.
 
 ### Change Tomcat Port
 
-Edit the `ports` section in `docker-compose.yml`:
+Edit the `ports` section in `docker compose.yml`:
 
 ```yaml
     ports:
@@ -173,23 +173,23 @@ Edit the `ports` section in `docker-compose.yml`:
 ### Container won't start
 ```bash
 # Check logs
-docker-compose --profile development logs
+docker compose --profile development logs
 
 # Verify PostgreSQL is healthy
-docker-compose ps
+docker compose ps
 ```
 
 ### Changes not appearing
 - For JSP files: Ensure you're editing files in `treebase-web/src/main/webapp/`
-- For Java files: Restart the container: `docker-compose --profile development restart web-dev`
+- For Java files: Restart the container: `docker compose --profile development restart web-dev`
 - Clear browser cache
 
 ### Out of memory
-Edit `docker-compose.yml` and increase the `-Xmx` value in `CATALINA_OPTS`.
+Edit `docker compose.yml` and increase the `-Xmx` value in `CATALINA_OPTS`.
 
 ### Database connection issues
-- Ensure PostgreSQL is running: `docker-compose ps postgres`
-- Check credentials in `docker/context.xml` match `docker-compose.yml`
+- Ensure PostgreSQL is running: `docker compose ps postgres`
+- Check credentials in `docker/context.xml` match `docker compose.yml`
 
 ## File Structure
 
@@ -197,7 +197,7 @@ Edit `docker-compose.yml` and increase the `-Xmx` value in `CATALINA_OPTS`.
 .
 ├── Dockerfile              # Production multi-stage build
 ├── Dockerfile.dev          # Development build with tools
-├── docker-compose.yml      # Orchestration configuration
+├── docker compose.yml      # Orchestration configuration
 ├── .dockerignore          # Files excluded from build context
 └── docker/
     ├── README.md          # This file

@@ -4,10 +4,11 @@ This guide explains how to run TreeBASE using Docker with support for rapid JSP 
 
 ## Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/) 20.10 or later
-- [Docker Compose](https://docs.docker.com/compose/install/) 1.29 or later
+- [Docker](https://docs.docker.com/get-docker/) 20.10 or later (includes Docker Compose v2)
 - At least 4GB of free RAM
 - At least 10GB of free disk space
+
+> **Note:** This guide uses `docker compose` (with a space), which is the modern Docker Compose v2 syntax. If you have an older standalone `docker-compose` (with a hyphen), the commands will also work.
 
 ## Quick Start - Development Mode with JSP Hot-Reload
 
@@ -15,7 +16,7 @@ This is the **recommended approach for UI development** as it allows you to edit
 
 ```bash
 # Start the development environment
-docker-compose --profile development up
+docker compose --profile development up
 
 # Wait for the build to complete (first time takes 5-10 minutes)
 # Once you see "Tomcat started", access the application at:
@@ -49,7 +50,7 @@ The changes will be reflected immediately without rebuilding or restarting Docke
 
 To rebuild after Java changes:
 ```bash
-docker-compose --profile development restart web-dev
+docker compose --profile development restart web-dev
 ```
 
 ## Production Mode
@@ -58,7 +59,7 @@ For a production-like deployment with a fully self-contained image:
 
 ```bash
 # Build and start production environment
-docker-compose --profile production up --build
+docker compose --profile production up --build
 ```
 
 This creates an optimized Docker image with the WAR file built inside.
@@ -82,43 +83,43 @@ This creates an optimized Docker image with the WAR file built inside.
 ### Start Services
 ```bash
 # Development mode (with JSP hot-reload)
-docker-compose --profile development up
+docker compose --profile development up
 
 # Production mode
-docker-compose --profile production up
+docker compose --profile production up
 
 # Run in background (detached mode)
-docker-compose --profile development up -d
+docker compose --profile development up -d
 ```
 
 ### Stop Services
 ```bash
-docker-compose down
+docker compose down
 
 # Also remove volumes (database data will be lost!)
-docker-compose down -v
+docker compose down -v
 ```
 
 ### View Logs
 ```bash
 # All services
-docker-compose --profile development logs -f
+docker compose --profile development logs -f
 
 # Just web application
-docker-compose --profile development logs -f web-dev
+docker compose --profile development logs -f web-dev
 
 # Just database
-docker-compose logs -f postgres
+docker compose logs -f postgres
 ```
 
 ### Rebuild Application
 ```bash
 # Clean rebuild (development mode)
-docker-compose --profile development down -v
-docker-compose --profile development up --build
+docker compose --profile development down -v
+docker compose --profile development up --build
 
 # Rebuild production image
-docker-compose --profile production build --no-cache
+docker compose --profile production build --no-cache
 ```
 
 ### Access Database
@@ -146,7 +147,7 @@ docker exec -it treebase-postgres bash
 .
 ├── Dockerfile              # Production build (multi-stage)
 ├── Dockerfile.dev          # Development build with tools
-├── docker-compose.yml      # Service orchestration
+├── docker compose.yml      # Service orchestration
 ├── .dockerignore          # Files excluded from build
 ├── DOCKER.md              # This file
 └── docker/
@@ -166,7 +167,7 @@ Default credentials (development only):
 - Password: `treebase`
 
 To change credentials, edit:
-- `docker-compose.yml` - environment variables for PostgreSQL
+- `docker compose.yml` - environment variables for PostgreSQL
 - `docker/context.xml` - JDBC connection settings
 
 ### Application Settings
@@ -182,7 +183,7 @@ Configuration is in `docker/context.xml`:
 By default, the application runs on port 8080. To use a different port:
 
 ```yaml
-# In docker-compose.yml, change:
+# In docker compose.yml, change:
     ports:
       - "9090:8080"  # Use port 9090 instead
 ```
@@ -194,7 +195,7 @@ By default, the application runs on port 8080. To use a different port:
 **Solution:**
 ```bash
 # Check logs for errors
-docker-compose --profile development logs
+docker compose --profile development logs
 
 # Verify Docker is running
 docker ps
@@ -216,19 +217,19 @@ docker system df
 **Solutions:**
 ```bash
 # Verify PostgreSQL is running
-docker-compose ps postgres
+docker compose ps postgres
 
 # Check PostgreSQL logs
-docker-compose logs postgres
+docker compose logs postgres
 
-# Verify credentials match in docker-compose.yml and docker/context.xml
+# Verify credentials match in docker compose.yml and docker/context.xml
 ```
 
 ### Problem: Out of memory
 
 **Solutions:**
 - Increase Docker memory allocation (Docker Desktop → Settings → Resources)
-- Increase JVM heap size in `docker-compose.yml`:
+- Increase JVM heap size in `docker compose.yml`:
   ```yaml
   environment:
     CATALINA_OPTS: "-Xmx1024m ..."  # Increase from 512m
@@ -239,8 +240,8 @@ docker-compose logs postgres
 **Solution:**
 ```bash
 # Clear Maven cache and retry
-docker-compose --profile development down -v
-docker-compose --profile development up --build
+docker compose --profile development down -v
+docker compose --profile development up --build
 ```
 
 ### Problem: Port already in use
@@ -253,7 +254,7 @@ netstat -ano | findstr :8080  # Windows
 
 # Either:
 # 1. Stop the other service, or
-# 2. Change port in docker-compose.yml
+# 2. Change port in docker compose.yml
 ```
 
 ## Performance Tips
@@ -291,13 +292,13 @@ For production deployments:
 
 Place SQL scripts in the database init directory:
 ```bash
-# Add to docker-compose.yml volumes:
+# Add to docker compose.yml volumes:
       - ./my-init-script.sql:/docker-entrypoint-initdb.d/03-custom.sql
 ```
 
 ### Using a Different PostgreSQL Version
 ```yaml
-# In docker-compose.yml:
+# In docker compose.yml:
   postgres:
     image: postgres:14  # or postgres:13, etc.
 ```
@@ -306,7 +307,7 @@ Place SQL scripts in the database init directory:
 Run database separately for multiple projects:
 ```bash
 # Start only database
-docker-compose up postgres
+docker compose up postgres
 
 # Use from multiple TreeBASE checkouts
 ```
