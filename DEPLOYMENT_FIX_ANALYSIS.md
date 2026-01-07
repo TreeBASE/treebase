@@ -108,13 +108,13 @@ can not implement org.objectweb.asm.ClassVisitor, because it is not an interface
    <!-- Repeat for jersey-client, jersey-bundle, jersey-multipart -->
    ```
 
-4. **Keep ASM 9.2** - Jersey 1.19.x can work with ASM 5.x/9.x via asm-all compatibility shim
+4. **Keep ASM 9.2** - Jersey 1.19.x can work with ASM 5.x/9.x via asm-commons
    ```xml
    <!-- treebase-web/pom.xml - Add -->
    <dependency>
        <groupId>org.ow2.asm</groupId>
-       <artifactId>asm-all</artifactId>
-       <version>5.2</version>  <!-- Jersey 1.19.x compatibility layer -->
+       <artifactId>asm-commons</artifactId>
+       <version>9.2</version>  <!-- Jersey 1.19.x compatibility -->
    </dependency>
    ```
 
@@ -252,7 +252,7 @@ The key is fixing dependencies in Maven, not patching at deployment time.
    - [ ] Downgrade SLF4J 2.0.16 → 1.7.36
    - [ ] Update log4j-slf4j2-impl → log4j-slf4j-impl
    - [ ] Upgrade Jersey 1.1.5 → 1.19.4
-   - [ ] Add asm-all 5.2 dependency
+   - [ ] Add asm-commons 9.2 dependency
    - [ ] Remove JAR manipulation from workflow
    - [ ] Test deployment
 
