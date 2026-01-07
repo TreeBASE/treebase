@@ -114,8 +114,13 @@
 			<groupId>org.cipres.treebase</groupId>
 			<artifactId>treebase-core</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<!--scope>system</scope>
-			<systemPath>${basedir}/../treebase-core/target/treebase-core-1.0-SNAPSHOT.jar</systemPath-->
+			<exclusions>
+				<!-- Exclude SLF4J 2.x impl - we use SLF4J 1.7.x for Spring 5 compatibility -->
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-slf4j2-impl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -223,6 +228,14 @@
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl104-over-slf4j</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -256,6 +269,15 @@
 				<exclusion>
 					<groupId>javax.servlet</groupId>
 					<artifactId>jstl</artifactId>
+				</exclusion>
+
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl104-over-slf4j</artifactId>
 				</exclusion>
 
 			</exclusions>
@@ -362,49 +384,39 @@
          <version>2.3</version>
      </dependency>
      
+<!-- Jersey 1.19.4 - final Jersey 1.x release (EOL 2018), better ASM compatibility than 1.1.5 -->
+<!-- Jersey 2.41 - actively maintained, native Java 17 and ASM 9.x support -->
 <dependency>
-<groupId>com.sun.jersey</groupId>
-<artifactId>jersey-client</artifactId>
-<version>1.1.5</version>
-<exclusions>
-	<exclusion>
-		<groupId>asm</groupId>
-		<artifactId>asm</artifactId>
-	</exclusion>
-</exclusions>
+	<groupId>org.glassfish.jersey.core</groupId>
+	<artifactId>jersey-client</artifactId>
+	<version>2.41</version>
 </dependency>
 
 <dependency>
-<groupId>com.sun.jersey</groupId>
-<artifactId>jersey-server</artifactId>
-<version>1.1.5</version>
-<exclusions>
-	<exclusion>
-		<groupId>asm</groupId>
-		<artifactId>asm</artifactId>
-	</exclusion>
-</exclusions>
+	<groupId>org.glassfish.jersey.core</groupId>
+	<artifactId>jersey-server</artifactId>
+	<version>2.41</version>
 </dependency>
 
 <dependency>
-<groupId>com.sun.jersey.contribs</groupId>
-<artifactId>jersey-multipart</artifactId>
-<version>1.1.5</version>
+	<groupId>org.glassfish.jersey.containers</groupId>
+	<artifactId>jersey-container-servlet</artifactId>
+	<version>2.41</version>
 </dependency>
 
 <dependency>
-<groupId>com.sun.jersey</groupId>
-<artifactId>jersey-bundle</artifactId>
-<version>1.1.5</version>
-<exclusions>
-	<exclusion>
-		<groupId>asm</groupId>
-		<artifactId>asm</artifactId>
-	</exclusion>
-</exclusions>
+	<groupId>org.glassfish.jersey.media</groupId>
+	<artifactId>jersey-media-multipart</artifactId>
+	<version>2.41</version>
 </dependency>
 
-<!-- ASM is required by Jersey for classpath scanning -->
+<dependency>
+	<groupId>org.glassfish.jersey.inject</groupId>
+	<artifactId>jersey-hk2</artifactId>
+	<version>2.41</version>
+</dependency>
+
+<!-- ASM 9.2 for Java 17 bytecode support - Jersey 2.x works natively with modern ASM -->
 <dependency>
 	<groupId>org.ow2.asm</groupId>
 	<artifactId>asm</artifactId>
