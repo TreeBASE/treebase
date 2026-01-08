@@ -373,11 +373,12 @@ jobs:
         fi
     
     - name: Test application endpoints
-      if: always()
       run: |
         echo "=========================================="
         echo "Testing application endpoints..."
         echo "=========================================="
+        
+        FAILED=0
         
         # Test treebase-web
         echo "Testing treebase-web..."
@@ -388,6 +389,10 @@ jobs:
           echo "✓ treebase-web is responding"
         else
           echo "✗ treebase-web returned unexpected status: $HTTP_CODE"
+          # Show error response body for debugging
+          echo "Response body:"
+          curl -s http://localhost:8080/treebase-web/ | head -100
+          FAILED=1
         fi
         
         # Test data_provider_web
@@ -399,6 +404,17 @@ jobs:
           echo "✓ data_provider_web is deployed (status: $HTTP_CODE)"
         else
           echo "✗ data_provider_web returned unexpected status: $HTTP_CODE"
+          # Show error response body for debugging
+          echo "Response body:"
+          curl -s http://localhost:8080/data_provider_web/ | head -100
+          FAILED=1
+        fi
+        
+        if [ "$FAILED" = "1" ]; then
+          echo "=========================================="
+          echo "FAILURE: One or more endpoints returned errors"
+          echo "=========================================="
+          exit 1
         fi
     
     - name: Upload Tomcat logs as artifact
