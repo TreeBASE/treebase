@@ -13,6 +13,20 @@
 	<name>treebase-web</name>
 	<version>1.0-SNAPSHOT</version>
 	<url>https://maven.apache.org</url>
+	
+	<!-- Jakarta EE 8 BOM for consistent dependency management (Tomcat 9 compatible) -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>jakarta.platform</groupId>
+				<artifactId>jakarta.jakartaee-bom</artifactId>
+				<version>8.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<resources>
@@ -120,33 +134,47 @@
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-slf4j2-impl</artifactId>
 				</exclusion>
+				<!-- Exclude old javax servlet APIs - we use Jakarta -->
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.servlet.jsp</groupId>
+					<artifactId>jsp-api</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
-		<!-- JSTL for Tomcat 9 -->
-		<!-- Using Glassfish Jakarta JSTL 1.2.6 - modern implementation for Servlet 4.0 (Tomcat 9) -->
-		<!-- Jakarta is the modern successor to javax, fully backward compatible -->
+		<!-- Jakarta JSTL for Tomcat 9 - managed by Jakarta EE 8 BOM -->
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
 			<version>1.2.6</version>
 		</dependency>
 
-		<!-- Jakarta Servlet API for Tomcat 9 -->
-		<!-- Replaces the old javax.servlet-api, fully compatible -->
+		<!-- Jakarta Servlet API for Tomcat 9 - version from Jakarta EE 8 BOM -->
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
-			<version>4.0.4</version>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Jakarta JSP API for Tomcat 9 -->
-		<!-- Replaces the old javax.servlet.jsp-api, fully compatible -->
+		<!-- Jakarta JSP API for Tomcat 9 - version from Jakarta EE 8 BOM -->
 		<dependency>
 			<groupId>jakarta.servlet.jsp</groupId>
 			<artifactId>jakarta.servlet.jsp-api</artifactId>
-			<version>2.3.6</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Jakarta EL API for Tomcat 9 - version from Jakarta EE 8 BOM -->
+		<dependency>
+			<groupId>jakarta.el</groupId>
+			<artifactId>jakarta.el-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -378,6 +406,11 @@
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<!-- Exclude old servlet API - we use Jakarta -->
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
