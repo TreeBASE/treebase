@@ -394,4 +394,27 @@
 		<location>/error-500.jsp</location>
 	</error-page>
 
+	<!-- ========================================================== -->
+	<!-- JSP Configuration with explicit JSTL taglib declarations   -->
+	<!-- This ensures reliable TLD discovery for Jakarta JSTL 1.2   -->
+	<!-- ========================================================== -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+			<taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+			<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/functions</taglib-uri>
+			<taglib-location>/WEB-INF/tld/fn.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.springframework.org/security/tags</taglib-uri>
+			<taglib-location>/WEB-INF/tld/security.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
 </web-app>
