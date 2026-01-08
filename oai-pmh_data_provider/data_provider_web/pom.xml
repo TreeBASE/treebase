@@ -282,7 +282,7 @@
 		</exclusion>	          
       </exclusions>
 	</dependency>
-	<!-- commons-io 2.15.1 - upgraded from 2.7 to match commons-fileupload 1.5 requirements -->
+	<!-- commons-io 2.15.1 - upgraded from 2.7 to match commons-fileupload 1.6.0 requirements -->
 	<dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
