@@ -121,18 +121,8 @@
       <artifactId>string</artifactId>
       <version>1.1.0</version>
 	</dependency>
-	<dependency>
-      <groupId>struts</groupId>
-      <artifactId>struts</artifactId>
-      <version>1.2.9</version>
-      <exclusions>
-		<!-- Exclude old ANTLR 2.7.2 - Hibernate 5 requires 2.7.7 -->
-		<exclusion>
-          <groupId>antlr</groupId>
-          <artifactId>antlr</artifactId>
-		</exclusion>
-      </exclusions>
-	</dependency>
+	<!-- REMOVED struts:struts:1.2.9 - vulnerable and EOL, not directly needed -->
+	<!-- struts-menu 2.4.3 has struts as optional dependency -->
 	<dependency>
       <groupId>opensymphony</groupId>
       <artifactId>sitemesh</artifactId>
@@ -158,11 +148,17 @@
 		</exclusion>
       </exclusions>
 	</dependency>
+	<!-- struts-menu 2.4.3 - upgraded from 2.3, struts is optional -->
 	<dependency>
       <groupId>struts-menu</groupId>
       <artifactId>struts-menu</artifactId>
-      <version>2.3</version>    
+      <version>2.4.3</version>    
       <exclusions>
+		<!-- Exclude struts - vulnerable and not needed for menu taglib -->
+		<exclusion>
+          <groupId>struts</groupId>
+          <artifactId>struts</artifactId>
+		</exclusion>
 		<!-- Older versions are not needed -->
 		<exclusion>
           <groupId>taglibs</groupId>
@@ -196,6 +192,50 @@
 		<exclusion>
           <groupId>org.slf4j</groupId>
           <artifactId>jcl104-over-slf4j</artifactId>
+		</exclusion>
+		<!-- Exclude old velocity versions - we use velocity-engine-core 2.3 -->
+		<exclusion>
+          <groupId>velocity</groupId>
+          <artifactId>velocity</artifactId>
+		</exclusion>
+		<exclusion>
+          <groupId>velocity-tools</groupId>
+          <artifactId>velocity-tools-view</artifactId>
+		</exclusion>
+		<!-- Exclude hsqldb - not needed and old version -->
+		<exclusion>
+          <groupId>hsqldb</groupId>
+          <artifactId>hsqldb</artifactId>
+		</exclusion>
+		<!-- Exclude old log4j 1.x -->
+		<exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+		</exclusion>
+		<!-- Exclude old spring 1.x - we use Spring 5.x -->
+		<exclusion>
+          <groupId>springframework</groupId>
+          <artifactId>spring</artifactId>
+		</exclusion>
+		<!-- Exclude old taglibs standard -->
+		<exclusion>
+          <groupId>taglibs</groupId>
+          <artifactId>standard</artifactId>
+		</exclusion>
+		<!-- Exclude old commons-beanutils - we use 1.9.4 -->
+		<exclusion>
+          <groupId>commons-beanutils</groupId>
+          <artifactId>commons-beanutils</artifactId>
+		</exclusion>
+		<!-- Exclude old commons-collections -->
+		<exclusion>
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+		</exclusion>
+		<!-- Exclude old commons-digester -->
+		<exclusion>
+          <groupId>commons-digester</groupId>
+          <artifactId>commons-digester</artifactId>
 		</exclusion>
       </exclusions>        
 	</dependency>
