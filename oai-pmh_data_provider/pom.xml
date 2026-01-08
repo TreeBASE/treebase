@@ -7,6 +7,17 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>oai-pmh_data_provider</name>
   <url>http://maven.apache.org</url>
+  
+  <!-- Centralized version management - synchronized with parent pom.xml -->
+  <properties>
+    <!-- Spring Framework 5.3.39 - latest 5.x LTS release with security fixes -->
+    <spring.version>5.3.39</spring.version>
+    <!-- Log4j 2.24.3 - latest stable with security fixes -->
+    <log4j.version>2.24.3</log4j.version>
+    <!-- JUnit 4.13.2 -->
+    <junit.version>4.13.2</junit.version>
+  </properties>
+  
   <developers>
     <developer>
       <id>youjun</id>
@@ -36,41 +47,42 @@
   </pluginRepositories>
  <dependencies>
 
+    <!-- Spring Framework dependencies - using centralized ${spring.version} -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -81,12 +93,12 @@
      <dependency>
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-api</artifactId>
-         <version>2.24.3</version>
+         <version>${log4j.version}</version>
      </dependency>
      <dependency>
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-core</artifactId>
-         <version>2.24.3</version>
+         <version>${log4j.version}</version>
      </dependency>
 
  </dependencies>
