@@ -3,9 +3,9 @@
 
 FROM tomcat:9-jdk17
 
-# Install necessary tools
+# Install necessary tools (including unzip for WAR extraction in entrypoint)
 RUN apt-get update && \
-    apt-get install -y postgresql-client curl maven && \
+    apt-get install -y postgresql-client curl maven unzip && \
     rm -rf /var/lib/apt/lists/*
 
 # Remove default Tomcat webapps

@@ -30,9 +30,9 @@ RUN mvn clean package -Dmaven.test.skip=true -B
 # Stage 2: Runtime with Tomcat
 FROM tomcat:9-jdk17
 
-# Install PostgreSQL client utilities (optional, for debugging)
+# Install PostgreSQL client utilities (optional, for debugging) and unzip for WAR extraction
 RUN apt-get update && \
-    apt-get install -y postgresql-client && \
+    apt-get install -y postgresql-client unzip && \
     rm -rf /var/lib/apt/lists/*
 
 # Remove default Tomcat webapps
