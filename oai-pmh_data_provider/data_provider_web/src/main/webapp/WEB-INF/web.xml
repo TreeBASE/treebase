@@ -79,4 +79,30 @@
 	<!-- ========================================================== -->
 	<!-- all errors will return as oai-pmh exception based on .vm files -->
 
+	<!-- ========================================================== -->
+	<!-- JSP Configuration with explicit JSTL taglib declarations   -->
+	<!-- This ensures reliable TLD discovery for JSTL 1.x           -->
+	<!-- Note: Uses old JSTL 1.0 URIs (without /jsp/ in path)       -->
+	<!-- ========================================================== -->
+	<jsp-config>
+		<!-- JSTL 1.0 style URIs used by this application -->
+		<taglib>
+			<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
+			<taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jstl/fmt</taglib-uri>
+			<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+		</taglib>
+		<!-- JSTL 1.1+ style URIs (for compatibility) -->
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+			<taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+			<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
 </web-app>
