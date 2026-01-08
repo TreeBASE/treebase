@@ -401,13 +401,13 @@
 		<dependency>
 			<groupId>org.tuckey</groupId>
 			<artifactId>urlrewritefilter</artifactId>
-			<version>3.0.4</version>
+			<version>4.0.4</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
-				<!-- Exclude old servlet API - we use Jakarta -->
+				<!-- Version 4.0.4 should not bring old servlet-api but exclude just in case -->
 				<exclusion>
 					<groupId>javax.servlet</groupId>
 					<artifactId>servlet-api</artifactId>
