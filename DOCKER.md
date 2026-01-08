@@ -237,12 +237,12 @@ docker system df
 
 If you see errors like `ClassNotFoundException: org.apache.jsp.index_jsp` or 
 `The absolute uri: [http://java.sun.com/jsp/jstl/core] cannot be resolved`, this is 
-typically a WAR deployment timing issue.
+typically caused by conflicting JSTL/taglib dependencies.
 
 **Solutions:**
 1. Rebuild the Docker image: `docker compose --profile production build --no-cache`
-2. Ensure the WAR file is fully extracted before Tomcat starts (the Dockerfile 
-   pre-expands the WAR during build to prevent race conditions)
+2. Check for conflicting JSTL dependencies in `pom.xml` (the old `taglibs:standard` 
+   artifact conflicts with Jakarta JSTL and must be excluded)
 3. Check Tomcat logs for startup errors: `docker compose logs web`
 
 ### Problem: Database connection failed

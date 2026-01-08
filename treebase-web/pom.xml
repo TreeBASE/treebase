@@ -320,6 +320,12 @@
 					<artifactId>jstl</artifactId>
 				</exclusion>
 
+				<!-- Exclude old Apache Standard Taglib - conflicts with Jakarta JSTL -->
+				<exclusion>
+					<groupId>taglibs</groupId>
+					<artifactId>standard</artifactId>
+				</exclusion>
+
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-log4j12</artifactId>
