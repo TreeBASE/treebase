@@ -52,15 +52,28 @@ Upgraded Spring Framework from 5.3.26 to 5.3.39 (the latest 5.x LTS release) and
 - ✅ Consistent versions across all child modules
 - ✅ Spring Security 5.8.15 compatible with Spring 5.3.39
 
-### Note on Spring 5.3.39 Vulnerabilities
+### Known Vulnerabilities in Spring 5.3.39 (No Patch Available)
 
-Spring Framework 5.3.39 has some path traversal vulnerabilities (CVE-2024-38816, CVE-2024-38819) but no patch is available in the 5.x line. This is because:
+Spring Framework 5.3.39 has the following vulnerabilities that **cannot be fixed** without migrating to Spring 6.x:
 
-- Spring 5.x is now in maintenance mode (extended support until December 2024)
-- Patches are only available in Spring 6.1.14+
+| CVE | Description | Affected | Patched Version |
+|-----|-------------|----------|-----------------|
+| CVE-2024-38816 | Path Traversal vulnerability in spring-webmvc | 5.3.0-5.3.39 | None in 5.x (6.1.14+) |
+| CVE-2024-38819 | Path Traversal vulnerability in spring-webmvc | 5.3.0-5.3.39 | None in 5.x (6.1.14+) |
+| CVE-2025-22228 | Annotation detection improper authorization | 5.3.0-5.3.44 | None in 5.x (6.2.11+) |
+
+**Why these cannot be fixed in 5.x:**
+- Spring 5.x reached end-of-life December 2024
+- VMware/Broadcom will not release security patches for Spring 5.x
+- Patches are only available in Spring 6.1.14+ and 6.2.11+
 - Spring 6.x requires Jakarta EE 9+ migration (javax.* → jakarta.*)
 
-Migration to Spring 6.x is documented as a future upgrade path below.
+**Risk Mitigation:**
+These vulnerabilities primarily affect:
+1. **Path Traversal**: Applications using functional web endpoints (RouterFunction) or that serve static resources. TreeBASE uses traditional annotation-based controllers which have lower exposure.
+2. **Annotation Detection**: Affects Spring Security annotation processing. TreeBASE uses XML-based security configuration which has lower exposure.
+
+**Recommended Action:** Plan migration to Spring 6.x as documented in "Future Upgrade Paths" section below.
 
 ---
 
@@ -71,7 +84,7 @@ Migration to Spring 6.x is documented as a future upgrade path below.
 Several dependencies had known security vulnerabilities (CVEs):
 
 1. **commons-fileupload 1.3.3** - DoS vulnerability (CVE-2023-24998)
-2. **commons-io 2.7** - Needed update to match commons-fileupload 1.5
+2. **commons-io 2.7** - Needed update to match commons-fileupload requirements
 3. **xalan 2.7.0** - Integer truncation vulnerability (CVE-2022-34169)
 
 ### Solution
@@ -441,35 +454,59 @@ All dependency management is handled in Maven POMs, not at deployment time.
 - Jersey 2.x
 - SLF4J 1.7.36
 - Low risk, proven compatibility
-- Maintenance mode libraries but stable
+- ⚠️ Spring 5.x has unpatched vulnerabilities (see above)
 
-**Medium-term (Recommended):**
-- Continue with Jersey 2.x
-- Plan for Spring 6.x migration
-- Requires Jakarta EE namespace migration (javax.* → jakarta.*)
-- Would address remaining Spring path traversal CVEs
-
-**Long-term (Modern Stack):**
-- Spring 6.x
+**Medium-term (REQUIRED for full security):**
+- **Spring 6.2.11+** - Required to fix CVE-2024-38816, CVE-2024-38819, CVE-2025-22228
+- Jakarta EE 9+ namespace migration (javax.* → jakarta.*)
+- Tomcat 10+ (supports Jakarta EE 9)
+- Servlet API 5.0+
 - Jersey 3.x (Jakarta EE)
 - SLF4J 2.x
-- Full Java 17 ecosystem alignment
+
+**Migration Requirements for Spring 6.x:**
+
+1. **Namespace changes** - All `javax.*` imports → `jakarta.*`
+   - javax.servlet → jakarta.servlet
+   - javax.persistence → jakarta.persistence
+   - javax.validation → jakarta.validation
+
+2. **JSP changes** - Update JSTL and taglib URIs
+
+3. **Configuration updates** - Spring XML configuration adjustments
+
+4. **Tomcat upgrade** - Tomcat 9 → Tomcat 10
+
+5. **Dependencies** - Many libraries need Jakarta EE compatible versions
 
 ### Estimated Efforts
 
 - **Spring 5.3.39 upgrade:** Complete ✅
-- **Security dependency upgrades:** Complete ✅
+- **Security dependency upgrades:** Complete ✅ (commons-fileupload, xalan)
 - **Version centralization:** Complete ✅
-- **Spring 6.x migration:** 40-60 hours (namespace changes, testing)
+- **⚠️ Spring 6.2.11+ migration:** 60-80 hours (namespace changes, Tomcat upgrade, testing)
 - **Jersey 3.x upgrade:** 8-16 hours (with Spring 6.x)
-- **Full modernization:** 80-120 hours (combined effort)
+- **Full modernization:** 100-140 hours (combined effort)
+
+### Security Status Summary
+
+| Vulnerability | Status | Fix Available |
+|--------------|--------|---------------|
+| CVE-2023-24998 (commons-fileupload) | ✅ FIXED | commons-fileupload 1.6.0 |
+| CVE-2024-25710 (commons-fileupload) | ✅ FIXED | commons-fileupload 1.6.0 |
+| CVE-2022-34169 (xalan) | ✅ FIXED | xalan 2.7.3 |
+| CVE-2024-38816 (spring-webmvc) | ⚠️ UNFIXED | Requires Spring 6.1.14+ |
+| CVE-2024-38819 (spring-webmvc) | ⚠️ UNFIXED | Requires Spring 6.1.14+ |
+| CVE-2025-22228 (spring-core) | ⚠️ UNFIXED | Requires Spring 6.2.11+ |
 
 ---
 
 ## References
 
 - [Spring Framework 5.3.x Documentation](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/)
+- [Spring Framework 6.x Migration Guide](https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-6.x)
 - [Spring Security 5.8.x Documentation](https://docs.spring.io/spring-security/reference/5.8/index.html)
+- [Jakarta EE 9 Migration Guide](https://eclipse-ee4j.github.io/jakartaee-platform/namespace/)
 - [SLF4J 2.0 Migration Guide](https://www.slf4j.org/faq.html#changesInVersion200)
 - [Jersey Migration Guide (1.x → 2.x)](https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/migration.html)
 - [JUnit 4 Documentation](https://junit.org/junit4/)
