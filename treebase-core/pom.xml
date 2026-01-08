@@ -193,6 +193,20 @@
 			<groupId>jaxen</groupId>
 			<artifactId>jaxen</artifactId>
 			<version>1.1-beta-8</version>
+			<exclusions>
+				<!-- Exclude xom which pulls in old xalan 2.6.0 -->
+				<exclusion>
+					<groupId>xom</groupId>
+					<artifactId>xom</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- xalan 2.7.3 - explicit dependency to override transitive 2.6.0 from jaxen/xom -->
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.3</version>
 		</dependency>
 
 	</dependencies>

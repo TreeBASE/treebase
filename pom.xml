@@ -8,6 +8,22 @@
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <url>https://github.com/TreeBASE/treebase</url>
+  
+  <!-- Centralized version management -->
+  <properties>
+    <!-- Spring Framework 5.3.39 - latest 5.x LTS release with security fixes -->
+    <spring.version>5.3.39</spring.version>
+    <!-- Spring Security 5.8.15 - compatible with Spring 5.3.x -->
+    <spring.security.version>5.8.15</spring.security.version>
+    <!-- Log4j 2.24.3 - latest stable with security fixes -->
+    <log4j.version>2.24.3</log4j.version>
+    <!-- SLF4J 1.7.36 - required for Spring 5.x spring-jcl compatibility -->
+    <slf4j.version>1.7.36</slf4j.version>
+    <!-- PostgreSQL JDBC driver -->
+    <postgresql.version>42.7.7</postgresql.version>
+    <!-- JUnit 4.13.2 -->
+    <junit.version>4.13.2</junit.version>
+  </properties>
   <issueManagement>
     <system>GitHub issues</system>
     <url>https://github.com/TreeBASE/treebase/issues</url>
@@ -72,121 +88,126 @@
   </modules>
  <dependencies>
 
+    <!-- Spring Framework dependencies - using centralized ${spring.version} -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <version>5.3.26</version>
+      <version>${spring.version}</version>
       <scope>test</scope>
     </dependency>
 
+    <!-- Spring Security dependencies - using centralized ${spring.security.version} -->
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-core</artifactId>
-      <version>5.8.15</version>
+      <version>${spring.security.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
-      <version>5.8.15</version>
+      <version>${spring.security.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
-      <version>5.8.15</version>
+      <version>${spring.security.version}</version>
     </dependency>
 
+    <!-- JUnit for testing -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
 
-     <dependency>
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-api</artifactId>
-         <version>2.24.3</version>
-     </dependency>
-     <dependency>
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-core</artifactId>
-         <version>2.24.3</version>
-     </dependency>
+    <!-- Logging: Log4j 2.x with SLF4J 1.7.x bridge for Spring 5.x compatibility -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>${log4j.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j.version}</version>
+    </dependency>
 
-     <!-- SLF4J API 1.7.x for Spring 5.x compatibility -->
-     <!-- Spring 5.x spring-jcl module requires SLF4J 1.7.x API, not 2.0.x -->
-     <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-api</artifactId>
-         <version>1.7.36</version>
-     </dependency>
-     <!-- Log4j 1.2 API bridge for legacy code -->
-     <dependency>
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-1.2-api</artifactId>
-         <version>2.24.3</version>
-     </dependency>
-     <!-- SLF4J 1.7.x binding to Log4j2 -->
-     <dependency>
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-slf4j-impl</artifactId>
-         <version>2.24.3</version>
-     </dependency>
+    <!-- SLF4J API 1.7.x for Spring 5.x compatibility -->
+    <!-- Spring 5.x spring-jcl module requires SLF4J 1.7.x API, not 2.0.x -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+    </dependency>
+    <!-- Log4j 1.2 API bridge for legacy code -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-1.2-api</artifactId>
+        <version>${log4j.version}</version>
+    </dependency>
+    <!-- SLF4J 1.7.x binding to Log4j2 -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-slf4j-impl</artifactId>
+        <version>${log4j.version}</version>
+    </dependency>
 
+    <!-- Database: PostgreSQL JDBC driver -->
     <dependency>
         <groupId>org.postgresql</groupId>
-	    <artifactId>postgresql</artifactId>
-	    <version>42.7.7</version>
+        <artifactId>postgresql</artifactId>
+        <version>${postgresql.version}</version>
     </dependency>
 
 

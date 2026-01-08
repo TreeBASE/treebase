@@ -4,9 +4,125 @@ This document describes major dependency upgrades and fixes implemented in TreeB
 
 ## Table of Contents
 
-1. [SLF4J and Logging Framework Compatibility](#slf4j-and-logging-framework-compatibility)
-2. [Jersey 2.x Upgrade](#jersey-2x-upgrade)
-3. [JUnit 4 Migration](#junit-4-migration)
+1. [Spring Framework 5.3.39 Upgrade](#spring-framework-539-upgrade)
+2. [Security Dependency Upgrades](#security-dependency-upgrades)
+3. [SLF4J and Logging Framework Compatibility](#slf4j-and-logging-framework-compatibility)
+4. [Jersey 2.x Upgrade](#jersey-2x-upgrade)
+5. [JUnit 4 Migration](#junit-4-migration)
+
+---
+
+## Spring Framework 5.3.39 Upgrade
+
+### Problem
+
+The project was using Spring Framework 5.3.26 with hardcoded versions spread across multiple pom.xml files. This made version management difficult and led to inconsistent transitive dependency versions.
+
+### Solution
+
+Upgraded Spring Framework from 5.3.26 to 5.3.39 (the latest 5.x LTS release) and centralized version management using Maven properties.
+
+**Changes in parent `pom.xml`:**
+
+```xml
+<!-- Centralized version management -->
+<properties>
+  <!-- Spring Framework 5.3.39 - latest 5.x LTS release with security fixes -->
+  <spring.version>5.3.39</spring.version>
+  <!-- Spring Security 5.8.15 - compatible with Spring 5.3.x -->
+  <spring.security.version>5.8.15</spring.security.version>
+  <!-- Log4j 2.24.3 - latest stable with security fixes -->
+  <log4j.version>2.24.3</log4j.version>
+  <!-- SLF4J 1.7.36 - required for Spring 5.x spring-jcl compatibility -->
+  <slf4j.version>1.7.36</slf4j.version>
+</properties>
+
+<!-- Now using ${spring.version} for all Spring dependencies -->
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-webmvc</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+```
+
+### Benefits
+
+- ✅ Latest Spring 5.x LTS with security patches
+- ✅ Centralized version management - change one property to update all modules
+- ✅ Consistent versions across all child modules
+- ✅ Spring Security 5.8.15 compatible with Spring 5.3.39
+
+### Note on Spring 5.3.39 Vulnerabilities
+
+Spring Framework 5.3.39 has some path traversal vulnerabilities (CVE-2024-38816, CVE-2024-38819) but no patch is available in the 5.x line. This is because:
+
+- Spring 5.x is now in maintenance mode (extended support until December 2024)
+- Patches are only available in Spring 6.1.14+
+- Spring 6.x requires Jakarta EE 9+ migration (javax.* → jakarta.*)
+
+Migration to Spring 6.x is documented as a future upgrade path below.
+
+---
+
+## Security Dependency Upgrades
+
+### Problem
+
+Several dependencies had known security vulnerabilities (CVEs):
+
+1. **commons-fileupload 1.3.3** - DoS vulnerability (CVE-2023-24998)
+2. **commons-io 2.7** - Needed update to match commons-fileupload 1.5
+3. **xalan 2.7.0** - Integer truncation vulnerability (CVE-2022-34169)
+
+### Solution
+
+Upgraded vulnerable dependencies to patched versions:
+
+```xml
+<!-- commons-fileupload 1.6.0 (was 1.3.3) - fixes CVE-2023-24998, CVE-2024-25710 -->
+<dependency>
+  <groupId>commons-fileupload</groupId>
+  <artifactId>commons-fileupload</artifactId>
+  <version>1.6.0</version>
+</dependency>
+
+<!-- commons-io 2.15.1 (was 2.7) - matches commons-fileupload 1.5 -->
+<dependency>
+  <groupId>commons-io</groupId>
+  <artifactId>commons-io</artifactId>
+  <version>2.15.1</version>
+</dependency>
+
+<!-- xalan 2.7.3 (was 2.7.0) - fixes CVE-2022-34169 -->
+<dependency>
+  <groupId>xalan</groupId>
+  <artifactId>xalan</artifactId>
+  <version>2.7.3</version>
+</dependency>
+```
+
+Also added exclusion in treebase-core for xom dependency which was pulling in xalan 2.6.0:
+
+```xml
+<dependency>
+  <groupId>jaxen</groupId>
+  <artifactId>jaxen</artifactId>
+  <version>1.1-beta-8</version>
+  <exclusions>
+    <exclusion>
+      <groupId>xom</groupId>
+      <artifactId>xom</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+```
+
+### Benefits
+
+- ✅ Addresses dependabot security alerts
+- ✅ DoS vulnerability in file upload fixed
+- ✅ Integer truncation vulnerability in XSLT processing fixed
+- ✅ Consistent xalan version across all modules (2.7.3)
 
 ---
 
@@ -319,8 +435,11 @@ All dependency management is handled in Maven POMs, not at deployment time.
 
 ### Future Upgrade Paths
 
-**Short-term (Stable):**
-- Current approach using Spring 5.x, Jersey 2.x, SLF4J 1.7.x
+**Short-term (Stable - Current State):**
+- Spring 5.3.39 (latest 5.x LTS)
+- Spring Security 5.8.15
+- Jersey 2.x
+- SLF4J 1.7.36
 - Low risk, proven compatibility
 - Maintenance mode libraries but stable
 
@@ -328,6 +447,7 @@ All dependency management is handled in Maven POMs, not at deployment time.
 - Continue with Jersey 2.x
 - Plan for Spring 6.x migration
 - Requires Jakarta EE namespace migration (javax.* → jakarta.*)
+- Would address remaining Spring path traversal CVEs
 
 **Long-term (Modern Stack):**
 - Spring 6.x
@@ -337,7 +457,9 @@ All dependency management is handled in Maven POMs, not at deployment time.
 
 ### Estimated Efforts
 
-- **Current fixes:** Complete ✅
+- **Spring 5.3.39 upgrade:** Complete ✅
+- **Security dependency upgrades:** Complete ✅
+- **Version centralization:** Complete ✅
 - **Spring 6.x migration:** 40-60 hours (namespace changes, testing)
 - **Jersey 3.x upgrade:** 8-16 hours (with Spring 6.x)
 - **Full modernization:** 80-120 hours (combined effort)
@@ -347,7 +469,10 @@ All dependency management is handled in Maven POMs, not at deployment time.
 ## References
 
 - [Spring Framework 5.3.x Documentation](https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/)
+- [Spring Security 5.8.x Documentation](https://docs.spring.io/spring-security/reference/5.8/index.html)
 - [SLF4J 2.0 Migration Guide](https://www.slf4j.org/faq.html#changesInVersion200)
 - [Jersey Migration Guide (1.x → 2.x)](https://eclipse-ee4j.github.io/jersey.github.io/documentation/latest/migration.html)
 - [JUnit 4 Documentation](https://junit.org/junit4/)
 - [ASM Documentation](https://asm.ow2.io/)
+- [Apache Commons FileUpload Security](https://commons.apache.org/proper/commons-fileupload/security.html)
+- [Xalan-J Security](https://xalan.apache.org/xalan-j/)
