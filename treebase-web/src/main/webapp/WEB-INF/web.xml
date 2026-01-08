@@ -411,6 +411,10 @@
 			<taglib-uri>http://java.sun.com/jsp/jstl/functions</taglib-uri>
 			<taglib-location>/WEB-INF/tld/fn.tld</taglib-location>
 		</taglib>
+		<taglib>
+			<taglib-uri>http://www.springframework.org/security/tags</taglib-uri>
+			<taglib-location>/WEB-INF/tld/security.tld</taglib-location>
+		</taglib>
 	</jsp-config>
 
 </web-app>
