@@ -38,38 +38,20 @@ else
   echo "WAR file already exists, skipping build..."
 fi
 
-# Extract WEB-INF to shared volumes for the running application
-echo "Extracting WEB-INF from WAR file..."
-cd /tmp
-if ! unzip -q /app/treebase-web/target/treebase-web.war "WEB-INF/*"; then
-    echo "WARNING: Failed to extract WEB-INF from WAR file"
-    echo "This may cause runtime issues. Check if WAR file exists and is valid."
-    # Continue anyway as the webapp directory might be mounted
-fi
+# Pre-expand WAR file completely before starting Tomcat
+# This prevents race conditions that cause ClassNotFoundException for JSP classes
+# and "absolute uri cannot be resolved" errors for JSTL taglibs
+echo "Pre-expanding WAR file to webapp directory..."
+mkdir -p /usr/local/tomcat/webapps/treebase-web
+cd /usr/local/tomcat/webapps/treebase-web
 
-# Copy compiled classes and libraries to mounted volumes
-if [ -d "WEB-INF/classes" ]; then
-  echo "Copying compiled classes..."
-  mkdir -p /usr/local/tomcat/webapps/treebase-web/WEB-INF/classes
-  cp -r WEB-INF/classes/* /usr/local/tomcat/webapps/treebase-web/WEB-INF/classes/ || echo "Warning: Some class files may not have copied"
+# Extract the entire WAR file first to ensure all JARs and TLDs are in place
+if ! unzip -q -o /app/treebase-web/target/treebase-web.war; then
+    echo "ERROR: Failed to extract WAR file"
+    echo "Check if WAR file exists and is valid."
+    exit 1
 fi
-
-if [ -d "WEB-INF/lib" ]; then
-  echo "Copying libraries..."
-  mkdir -p /usr/local/tomcat/webapps/treebase-web/WEB-INF/lib
-  cp -r WEB-INF/lib/* /usr/local/tomcat/webapps/treebase-web/WEB-INF/lib/ || echo "Warning: Some library files may not have copied"
-fi
-
-# Copy other WEB-INF resources
-if [ -d "WEB-INF" ]; then
-  echo "Copying WEB-INF configuration files..."
-  # Copy XML configs and other non-classes, non-lib files
-  find WEB-INF -type f ! -path "WEB-INF/classes/*" ! -path "WEB-INF/lib/*" -print0 | while IFS= read -r -d '' file; do
-    target_dir="/usr/local/tomcat/webapps/treebase-web/$(dirname "$file")"
-    mkdir -p "$target_dir"
-    cp "$file" "$target_dir/" || echo "Warning: Failed to copy $file"
-  done
-fi
+echo "WAR file extracted successfully."
 
 echo "Setup complete! Starting Tomcat..."
 echo "========================================"

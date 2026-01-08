@@ -83,6 +83,7 @@ Pre-initialization script that:
 
 ### `web` (production)
 - Tomcat 9 with JDK 17
+- WAR file pre-expanded during image build (prevents JSTL classloader issues)
 - Optimized runtime-only image
 - Port: `8080`
 
@@ -99,8 +100,7 @@ Located in `docker/context.xml`, this file configures:
 Development container entrypoint that:
 - Waits for PostgreSQL
 - Builds the WAR if needed
-- Extracts compiled classes
-- Mounts JSP files
+- Pre-expands WAR file completely before starting Tomcat (prevents JSTL issues)
 - Starts Tomcat
 
 ## Common Tasks

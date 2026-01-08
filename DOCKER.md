@@ -233,6 +233,18 @@ docker system df
 3. Verify you're editing the correct file in `treebase-web/src/main/webapp/`
 4. Check file permissions (should be readable)
 
+### Problem: JSTL ClassNotFoundException or "absolute uri cannot be resolved"
+
+If you see errors like `ClassNotFoundException: org.apache.jsp.index_jsp` or 
+`The absolute uri: [http://java.sun.com/jsp/jstl/core] cannot be resolved`, this is 
+typically a WAR deployment timing issue.
+
+**Solutions:**
+1. Rebuild the Docker image: `docker compose --profile production build --no-cache`
+2. Ensure the WAR file is fully extracted before Tomcat starts (the Dockerfile 
+   pre-expands the WAR during build to prevent race conditions)
+3. Check Tomcat logs for startup errors: `docker compose logs web`
+
 ### Problem: Database connection failed
 
 **Solutions:**

@@ -38,8 +38,15 @@ RUN apt-get update && \
 # Remove default Tomcat webapps
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copy the built WAR file from builder stage
-COPY --from=builder /build/treebase-web/target/treebase-web.war /usr/local/tomcat/webapps/treebase-web.war
+# Pre-expand WAR file during image build (not at runtime)
+# This prevents race conditions where Tomcat starts serving requests before
+# the WAR is fully expanded, which causes intermittent ClassNotFoundException
+# for compiled JSP classes and JSTL taglibs
+COPY --from=builder /build/treebase-web/target/treebase-web.war /tmp/treebase-web.war
+RUN mkdir -p /usr/local/tomcat/webapps/treebase-web && \
+    cd /usr/local/tomcat/webapps/treebase-web && \
+    unzip -q /tmp/treebase-web.war && \
+    rm /tmp/treebase-web.war
 
 # Download and install PostgreSQL JDBC driver
 RUN curl -o /usr/local/tomcat/lib/postgresql.jar \
