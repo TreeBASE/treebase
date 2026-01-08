@@ -291,7 +291,7 @@
 		<dependency>
 			<groupId>struts-menu</groupId>
 			<artifactId>struts-menu</artifactId>
-			<version>2.4.3</version>
+			<version>2.3</version>
 
 			<exclusions>
 				<!-- Older versions are not needed -->
@@ -318,6 +318,12 @@
 				<exclusion>
 					<groupId>javax.servlet</groupId>
 					<artifactId>jstl</artifactId>
+				</exclusion>
+
+				<!-- Exclude old Apache Standard Taglib - conflicts with Jakarta JSTL -->
+				<exclusion>
+					<groupId>taglibs</groupId>
+					<artifactId>standard</artifactId>
 				</exclusion>
 
 				<exclusion>
