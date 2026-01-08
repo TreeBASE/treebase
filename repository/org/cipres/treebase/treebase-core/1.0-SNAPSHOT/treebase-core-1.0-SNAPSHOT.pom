@@ -114,7 +114,7 @@
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>3.5.9</version>
+			<version>3.6.4</version>
 			<exclusions>
 				<exclusion>
 					<groupId>asm</groupId>
@@ -123,13 +123,18 @@
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-jdk14</artifactId>
+				</exclusion>
+				<!-- Exclude old servlet APIs - we use Jakarta -->
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>3.5.9</version>
+			<version>3.6.4</version>
 			<exclusions>
 				<exclusion>
 					<groupId>asm</groupId>
@@ -139,12 +144,17 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-jdk14</artifactId>
 				</exclusion>
+				<!-- Exclude old servlet APIs - we use Jakarta -->
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http-jetty</artifactId>
-			<version>3.5.9</version>
+			<version>3.6.4</version>
 			<exclusions>
 				<exclusion>
 					<groupId>asm</groupId>
@@ -157,6 +167,15 @@
 				<exclusion>
 					<groupId>org.apache.geronimo.specs</groupId>
 					<artifactId>geronimo-servlet_2.5_spec</artifactId>
+				</exclusion>
+				<!-- Exclude old javax servlet APIs - we use Jakarta -->
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.eclipse.jetty.toolchain</groupId>
+					<artifactId>jetty-servlet-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
