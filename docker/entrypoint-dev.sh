@@ -71,6 +71,16 @@ if [ -d "WEB-INF" ]; then
   done
 fi
 
+# Copy DTD files to /tmp/dtd for validator configuration
+# The validator XML files reference ./dtd/validator_1_3_0.dtd which gets resolved
+# relative to the working directory (/tmp) during Spring initialization
+if [ -d "WEB-INF/dtd" ]; then
+  echo "Copying DTD files to /tmp/dtd for validator..."
+  mkdir -p /tmp/dtd
+  cp -r WEB-INF/dtd/* /tmp/dtd/
+  ls -la /tmp/dtd/
+fi
+
 echo "Setup complete! Starting Tomcat..."
 echo "========================================"
 echo "JSP files are mounted from: ./treebase-web/src/main/webapp"
