@@ -21,3 +21,4 @@ oai-pmh_data_provider/data_provider_web/target/
 
 # Docker environment file (contains credentials)
 .env
+META-INF/

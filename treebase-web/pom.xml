@@ -13,6 +13,20 @@
 	<name>treebase-web</name>
 	<version>1.0-SNAPSHOT</version>
 	<url>https://maven.apache.org</url>
+	
+	<!-- Jakarta EE 8 BOM for consistent dependency management (Tomcat 9 compatible) -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>jakarta.platform</groupId>
+				<artifactId>jakarta.jakartaee-bom</artifactId>
+				<version>8.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<build>
 		<defaultGoal>install</defaultGoal>
 		<resources>
@@ -120,24 +134,11 @@
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>log4j-slf4j2-impl</artifactId>
 				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- JSTL 1.2 for Tomcat 9+ compatibility -->
-		<!-- Scope is NOT 'provided' - Tomcat 9 does not include JSTL in its lib directory -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
-		
-		<!-- JSTL implementation includes TLD files for modern namespaces like http://java.sun.com/jsp/jstl/core -->
-		<!-- These TLD files are missing in JSTL 1.1.2, causing "cannot be resolved" errors -->
-		<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>jstl-impl</artifactId>
-			<version>1.2</version>
-			<exclusions>
+				<!-- Exclude old javax servlet APIs - we use Jakarta -->
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
 				<exclusion>
 					<groupId>javax.servlet</groupId>
 					<artifactId>servlet-api</artifactId>
@@ -147,6 +148,34 @@
 					<artifactId>jsp-api</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<!-- Jakarta JSTL for Tomcat 9 - managed by Jakarta EE 8 BOM -->
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
+			<version>1.2.6</version>
+		</dependency>
+
+		<!-- Jakarta Servlet API for Tomcat 9 - version from Jakarta EE 8 BOM -->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Jakarta JSP API for Tomcat 9 - version from Jakarta EE 8 BOM -->
+		<dependency>
+			<groupId>jakarta.servlet.jsp</groupId>
+			<artifactId>jakarta.servlet.jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Jakarta EL API for Tomcat 9 - version from Jakarta EE 8 BOM -->
+		<dependency>
+			<groupId>jakarta.el</groupId>
+			<artifactId>jakarta.el-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- used by Spring framework -->
@@ -208,7 +237,7 @@
 			</exclusions>
 		</dependency>		
 
-		<!-- Standard taglib is not needed with JSTL 1.2 as it's included in jstl-impl -->
+		<!-- Standard taglib is not needed with JSTL 1.2 as it's included in javax.servlet:jstl -->
 		<!-- <dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
@@ -372,11 +401,16 @@
 		<dependency>
 			<groupId>org.tuckey</groupId>
 			<artifactId>urlrewritefilter</artifactId>
-			<version>3.0.4</version>
+			<version>4.0.4</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
+				</exclusion>
+				<!-- Version 4.0.4 should not bring old servlet-api but exclude just in case -->
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
