@@ -48,13 +48,7 @@ cd /usr/local/tomcat/webapps/treebase-web
 # Extract WAR excluding the JSP files that are mounted as Docker volumes
 # These files will be served from the mounted source directory instead
 if ! unzip -q -o /app/treebase-web/target/treebase-web.war \
-    -x "index.jsp" \
-    -x "login.jsp" \
-    -x "logout.jsp" \
-    -x "error.jsp" \
-    -x "error-403.jsp" \
-    -x "error-404.jsp" \
-    -x "error-500.jsp"; then
+    -x "index.jsp" "login.jsp" "logout.jsp" "error.jsp" "error-403.jsp" "error-404.jsp" "error-500.jsp"; then
     echo "ERROR: Failed to extract WAR file"
     echo "Check if WAR file exists and is valid."
     exit 1
