@@ -38,15 +38,23 @@ else
   echo "WAR file already exists, skipping build..."
 fi
 
-# Pre-expand WAR file completely before starting Tomcat
-# This prevents race conditions that cause ClassNotFoundException for JSP classes
-# and "absolute uri cannot be resolved" errors for JSTL taglibs
+# Pre-expand WAR file to webapp directory
+# Note: Some JSP files are mounted as Docker volumes for live editing,
+# so we exclude them from extraction to avoid "Device or resource busy" errors
 echo "Pre-expanding WAR file to webapp directory..."
 mkdir -p /usr/local/tomcat/webapps/treebase-web
 cd /usr/local/tomcat/webapps/treebase-web
 
-# Extract the entire WAR file first to ensure all JARs and TLDs are in place
-if ! unzip -q -o /app/treebase-web/target/treebase-web.war; then
+# Extract WAR excluding the JSP files that are mounted as Docker volumes
+# These files will be served from the mounted source directory instead
+if ! unzip -q -o /app/treebase-web/target/treebase-web.war \
+    -x "index.jsp" \
+    -x "login.jsp" \
+    -x "logout.jsp" \
+    -x "error.jsp" \
+    -x "error-403.jsp" \
+    -x "error-404.jsp" \
+    -x "error-500.jsp"; then
     echo "ERROR: Failed to extract WAR file"
     echo "Check if WAR file exists and is valid."
     exit 1
