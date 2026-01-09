@@ -55,9 +55,11 @@ public class EmailAddress {
 
 	/**
 	 * Set the EmailAddreessString field.
+	 * Trims whitespace from the email address to prevent validation failures
+	 * when users paste email addresses with leading/trailing spaces.
 	 */
 	public void setEmailAddressString(String pNewEmailAddreessString) {
-		mEmailAddressString = pNewEmailAddreessString;
+		mEmailAddressString = pNewEmailAddreessString != null ? pNewEmailAddreessString.trim() : null;
 	}
 
 }
