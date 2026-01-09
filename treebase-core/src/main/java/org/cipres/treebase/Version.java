@@ -21,24 +21,46 @@
  */
 package org.cipres.treebase;
 
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
- * The deployment system can edit the appropriate values into the fields here,
- * and then the rest of the deployed system can retrieve them.
+ * Provides version information for TreeBASE.
  * 
- * <p>In the current system this editing is done by src/main/perl/misc/publish .
- * 
- * <p>I want to add date-published and maybe other build information,
- * but this is a start.
- * 
- * <p>This can also be a place for storing the public release number, 
- * once we have public release numbers.
+ * <p>Version information is loaded from version.properties, which is populated
+ * at build time with git commit information.
  * 
  * @author mjd 20090311
  *
  */
 public class Version {
-	public static final String VCSID = "245";
-	public static final String VCSDateString = "2009-11-04 15:03:06 +0000 (Wed, 04 Nov 2009)";
+	
+	private static final String VERSION_PROPERTIES = "/version.properties";
+	private static final Properties versionProps = new Properties();
+	
+	static {
+		try (InputStream is = Version.class.getResourceAsStream(VERSION_PROPERTIES)) {
+			if (is != null) {
+				versionProps.load(is);
+			}
+		} catch (IOException e) {
+			// Ignore - will use fallback values
+		}
+	}
+	
+	/**
+	 * Git commit ID (short hash or tag).
+	 */
+	public static final String VCSID = versionProps.getProperty("git.commit.id", "unknown");
+	
+	/**
+	 * Git commit timestamp.
+	 */
+	public static final String VCSDateString = versionProps.getProperty("git.commit.time", "unknown");
+	
+	/**
+	 * Build timestamp.
+	 */
+	public static final String BuildTime = versionProps.getProperty("git.build.time", "unknown");
 }

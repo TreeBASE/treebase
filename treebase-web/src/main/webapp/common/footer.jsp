@@ -1,6 +1,6 @@
 <%@ include file="/common/taglibs.jsp" %>
 
-<p class="footerLogo"><!-- Revision <%=  org.cipres.treebase.Version.VCSID %>  -->
+<p class="footerLogo"><!-- TreeBASE Version: <%= org.cipres.treebase.Version.VCSID %> | Commit: <%= org.cipres.treebase.Version.VCSDateString %> | Built: <%= org.cipres.treebase.Version.BuildTime %> -->
 <!-- there used to be a logo here - but we don't want a NESCent logo here as 
      NESCent is only the host, and the TreeBASE logo is already in the header
 -->
