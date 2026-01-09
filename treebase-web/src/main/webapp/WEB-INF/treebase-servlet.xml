@@ -616,20 +616,20 @@
 	 
 	<bean id="directToPhyloWidgetController" class="org.cipres.treebase.web.controllers.DirectToPhyloWidgetController">
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>				
-		<property name="defaultView"><value>redirect:/test/newPhylowidget.html</value></property>
+		<property name="defaultView"><value>treeViewer</value></property>
 	</bean> 
 	
 	<bean id="directMapToPhyloWidgetController" class="org.cipres.treebase.web.controllers.DirectMapToPhyloWidgetController">
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
 		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>				
-		<property name="defaultView"><value>redirect:/test/newPhylowidget.html</value></property>
+		<property name="defaultView"><value>treeViewer</value></property>
 	</bean> 
 	
 	<bean id="searchMapToPhyloWidgetController" class="org.cipres.treebase.web.controllers.SearchMapToPhyloWidgetController"
 	  parent="directMapToPhyloWidgetController">
 	  	<property name="submissionHome"><ref bean="submissionHome"></ref></property>
 	  	<property name="studyService"><ref bean="studyService"></ref></property>	  						  
-		<property name="defaultView"><value>redirect:/test/limitedPhylowidget.html</value></property>
+		<property name="defaultView"><value>treeViewer</value></property>
 	</bean>
 	
 	<bean id="deleteATreeBlockController" class="org.cipres.treebase.web.controllers.DeleteATreeBlockController">
@@ -968,9 +968,6 @@
 				<prop key="/contact.html">filenameController</prop>
 				
 				<prop key="/user/viewXML.html">filenameController</prop>
-				<prop key="/test/phylowidget.html">filenameController</prop>
-				<prop key="/test/limitedPhylowidget.html">filenameController</prop>
-				<prop key="/test/newPhylowidget.html">filenameController</prop>
 				<prop key="/user/processUser.html">processUserController</prop>					
 				<prop key="/accessviolation.html">filenameController</prop>
 				

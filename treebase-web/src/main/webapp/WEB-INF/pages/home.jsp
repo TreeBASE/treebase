@@ -52,7 +52,7 @@
 		<ul>
 		  <li>Richer annotation of metadata (journal DOIs, specimen georeferences, Genbank accession numbers, etc) </li>
 		  <li>A mapping between taxon labels and taxonomic names in uBio and NCBI for improved normalization of names</li>
-		  <li>The ability to visualize and edit trees using Phylowidget</li>
+		  <li>The ability to visualize trees using phylotree.js</li>
 		  <li>The ability to search on tree topology</li>
 		  <li>Persistent and resolvable URIs for data objects in TreeBASE (i.e. studies, trees, matrices)  serve as both globally unique identification numbers and 
 		  resource locators.  These  can be included in articles and on researcher's websites, making access to TreeBASE data only a click away</li>

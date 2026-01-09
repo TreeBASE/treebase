@@ -13,10 +13,10 @@
 	pageContext.setAttribute("accesscode",request.getSession().getAttribute("x-access-code"));
 %>
 <script type="text/javascript">
-		function openPhylowidget(tree_id)
+		function openTreeViewer(tree_id)
 		{
-			 var realURL = "http://www.phylowidget.org/full/?tree='http://"+location.host+"/treebase-web/tree_for_phylowidget/"+"TB2:Tr"+tree_id<c:if test="${!empty accesscode}">+"?x-access-code=<c:out value='${accesscode}' />"</c:if>+"'";
-			 window.open(realURL,'myplwidget')
+			 var realURL = "/treebase-web/search/study/tree.html?treeid="+tree_id<c:if test="${!empty accesscode}">+"&x-access-code=<c:out value='${accesscode}' />"</c:if>;
+			 window.open(realURL,'treeviewer','width=1000,height=800,scrollbars=yes,resizable=yes')
 		}
 </script>
 <display:table name="trees"
@@ -28,12 +28,7 @@
 			   export="false">
 	
 	<display:column sortable="false" title="ID">
-    	<c:url var="url" value="/tree_for_phylowidget/">
-			<!--c:param name="treeid" value="${tree.id}" /-->
-			<!--c:param name="id" value="${tree.study.id}" /-->
-		</c:url>
-		
-		<a href="javascript:void(0)" onClick="openPhylowidget(${tree.id})">Tr${tree.id}</a>
+		<a href="javascript:void(0)" onClick="openTreeViewer(${tree.id})">Tr${tree.id}</a>
 	</display:column>	
 	
 	<display:column  
@@ -148,17 +143,12 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-    	<c:url var="url" value="/tree_for_phylowidget/">
-			<!--c:param name="treeid" value="${tree.id}" /-->
-			<!--c:param name="id" value="${tree.study.id}" /-->
-		</c:url>
-		
-		<a href="javascript:void(0)" onClick="openPhylowidget(${tree.id})">
+		<a href="javascript:void(0)" onClick="openTreeViewer(${tree.id})">
 			<img 
 				class="iconButton" 
-				src="<fmt:message key="icons.list"/>" 
-				title="<fmt:message key="tree.list.title"/>" 
-				alt="<fmt:message key="tree.list.title"/>"/>   		
+				src="<fmt:message key="icons.tree.view"/>" 
+				title="<fmt:message key="tree.view"/>" 
+				alt="<fmt:message key="tree.view"/>"/>   		
    		</a>
 	</display:column>	
 
