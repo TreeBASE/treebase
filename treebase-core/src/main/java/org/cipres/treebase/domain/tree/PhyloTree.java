@@ -200,9 +200,11 @@ public class PhyloTree extends AbstractPersistedObject {
 	/**
 	 * Return the Title field. A tree title is not stored in nexus/newick string.
 	 * 
-	 * The user needs to input the tree title through treebase gui.
+	 * The user needs to input the tree title through the TreeBASE GUI.
+	 * Returns null if no title has been explicitly set, rather than
+	 * auto-generating an ID string.
 	 * 
-	 * @return String, or null if no title has been explicitly set
+	 * @return String the explicitly set title, or null if no title was set
 	 */
 	@Column(name = "Title", length = TBPersistable.COLUMN_LENGTH_STRING)
 	public String getTitle() {
