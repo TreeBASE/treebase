@@ -1,9 +1,0 @@
-name: treebase
-channels:
-  - conda-forge
-  - bioconda
-dependencies:
-  - openjdk=17
-  - tomcat
-  - maven
-  - postgresql
