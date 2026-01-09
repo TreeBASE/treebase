@@ -38,8 +38,8 @@ TreeBASE supports the following metadata formats:
 
 | Prefix | Schema | Namespace |
 |--------|--------|-----------|
-| `oai_dc` | http://www.openarchives.org/OAI/2.0/oai_dc.xsd | http://www.openarchives.org/OAI/2.0/oai_dc/ |
-| `dryad` | http://ils.unc.edu/mrc/dryad/version1_0/dryad_1_0.xsd | http://ils.unc.edu/mrc/dryad/ |
+| `oai_dc` | `http://www.openarchives.org/OAI/2.0/oai_dc.xsd` | `http://www.openarchives.org/OAI/2.0/oai_dc/` |
+| `dryad` | `http://ils.unc.edu/mrc/dryad/version1_0/dryad_1_0.xsd` | `http://ils.unc.edu/mrc/dryad/` |
 
 ### ListRecords
 
