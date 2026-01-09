@@ -31,3 +31,25 @@ ol a:link,a:visited {
 	font-weight: bold;
 	font-size: 13px;
 }
+
+/* Recent studies list on home page */
+ul.recent-studies {
+	list-style-type: disc;
+	margin: 10px 0 10px 20px;
+	padding: 0;
+}
+
+ul.recent-studies li {
+	margin: 5px 0;
+	line-height: 1.4;
+}
+
+ul.recent-studies li a {
+	font-weight: normal;
+}
+
+ul.recent-studies .study-date {
+	color: #666;
+	font-size: 0.9em;
+	margin-left: 8px;
+}

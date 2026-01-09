@@ -165,4 +165,12 @@ public interface SubmissionService extends AbstractService {
 	void updateStudyStatusPublish(Long pSubmissionID);
 
 	Submission findByMatrix(Matrix pMatrix);
+	
+	/**
+	 * Find the most recent published submissions, ordered by last modified date descending.
+	 * 
+	 * @param limit the maximum number of submissions to return
+	 * @return a collection of the most recent published submissions
+	 */
+	Collection<Submission> findRecentPublishedSubmissions(int limit);
 }

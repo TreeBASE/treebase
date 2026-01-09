@@ -1,3 +1,4 @@
+<%@ include file="/common/taglibs.jsp" %>
 <div id="contentRight"><div id="contentRight">
 	<div class="gutter">
 		<h1>Welcome to TreeBASE</h1>
@@ -14,12 +15,39 @@
 		<p>As of April 2014, TreeBASE contains data for 4,076 publications written by 8,777 different authors. 
 		These studies analyzed 8,233 matrices and resulted in 12,817 trees with 761,460 taxon labels that mapped 
 		to 104,593 distinct taxa.</p>
-		<p>Some recent additions: 
-		<script language="JavaScript" src="http://peabody.research.yale.edu/treebase-feed/feed2js.php?src=http%3A%2F%2Fpipes.yahoo.com%2Fpipes%2Fpipe.run%3F_id%3D41dc2d1544150c1b8e69367059f26950%26_render%3Drss&amp;num=8&amp;date=y"  type="text/javascript">
-		</script>
-		<noscript>
-		<a href="http://pipes.yahoo.com/pipes/pipe.run?_id=41dc2d1544150c1b8e69367059f26950&_render=rss&date=y&utf=y&html=y" target="_blank">View RSS feed</a>
-		</noscript>
+		<p>Some recent additions:</p>
+		<c:choose>
+			<c:when test="${not empty recentStudies}">
+				<ul class="recent-studies">
+				<c:forEach var="study" items="${recentStudies}">
+					<li>
+						<a href="<c:url value='/search/study/summary.html'><c:param name='id' value='${study.id}'/></c:url>">
+							<c:choose>
+								<c:when test="${not empty study.citation and not empty study.citation.title}">
+									<c:out value="${study.citation.title}"/>
+								</c:when>
+								<c:when test="${not empty study.name}">
+									<c:out value="${study.name}"/>
+								</c:when>
+								<c:otherwise>
+									Study S<c:out value="${study.id}"/>
+								</c:otherwise>
+							</c:choose>
+						</a>
+						<c:if test="${not empty study.lastModifiedDate}">
+							<span class="study-date">
+								<fmt:formatDate value="${study.lastModifiedDate}" pattern="yyyy-MM-dd"/>
+							</span>
+						</c:if>
+					</li>
+				</c:forEach>
+				</ul>
+				<p><a href="<c:url value='/rss.xml'/>">Subscribe to RSS feed</a></p>
+			</c:when>
+			<c:otherwise>
+				<p><em>No recent studies available.</em></p>
+			</c:otherwise>
+		</c:choose>
 		<p>The current release includes a host of new features and improvements over the previous TreeBASE prototype. New features include:</p>
 		<ul>
 		  <li>Richer annotation of metadata (journal DOIs, specimen georeferences, Genbank accession numbers, etc) </li>

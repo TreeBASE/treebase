@@ -218,4 +218,20 @@ public class SubmissionDAO extends AbstractDAO implements SubmissionHome {
 		return returnVal;
 	}
 
+	/**
+	 * 
+	 * @see org.cipres.treebase.domain.study.SubmissionHome#findRecentPublishedSubmissions(int)
+	 */
+	@SuppressWarnings("unchecked")
+	public Collection<Submission> findRecentPublishedSubmissions(int limit) {
+		Query q = getSessionFactory().getCurrentSession().createQuery(
+			"select sub from Submission as sub where sub.study.studyStatus.description = :state " +
+			"order by sub.study.lastModifiedDate desc");
+
+		q.setString("state", StudyStatus.PUBLISHED);
+		q.setMaxResults(limit);
+
+		return q.list();
+	}
+
 }

@@ -776,4 +776,34 @@ public class SubmissionServiceImplTest extends AbstractDAOTest {
 			logger.info(testName + " - end "); //$NON-NLS-1$
 		}
 	}
+
+	/**
+	 * Test the findRecentPublishedSubmissions() method in SubmissionService.
+	 */
+	@Test
+	public void testFindRecentPublishedSubmissions() {
+		String testName = "testFindRecentPublishedSubmissions";
+		if (logger.isInfoEnabled()) {
+			logger.info("\n\t\tRunning Test: " + testName);
+		}
+		
+		int limit = 10;
+		Collection<Submission> submissions = getFixture().findRecentPublishedSubmissions(limit);
+		
+		// Verify the method returns a non-null collection
+		assertNotNull("Result should not be null", submissions);
+		
+		// Verify the result size does not exceed the limit
+		assertTrue("Result size should not exceed limit", submissions.size() <= limit);
+		
+		// Verify all returned submissions have published studies
+		for (Submission sub : submissions) {
+			assertNotNull("Study should not be null", sub.getStudy());
+			assertTrue("Study should be published", sub.getStudy().isPublished());
+		}
+		
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " verified. Found " + submissions.size() + " recent published submissions");
+		}
+	}
 }
