@@ -49,7 +49,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.IndexColumn;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 @Entity
 @Table(name = "STUDY")

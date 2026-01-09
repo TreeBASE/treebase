@@ -4,13 +4,15 @@ package org.cipres.treebase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dom4j.io.SAXReader;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.filter.ElementFilter;
-import org.jdom.filter.Filter;
-import org.jdom.input.SAXBuilder;
-import org.jdom.xpath.XPath;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.jdom2.filter.ElementFilter;
+import org.jdom2.filter.Filter;
+import org.jdom2.filter.Filters;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.xpath.XPathFactory;
+import org.jdom2.xpath.XPathExpression;
 
 import java.io.File;
 import java.util.Iterator;
@@ -61,11 +63,11 @@ public class XMLTestCase extends TestCase {
 		assertTrue("Empty doc.", doc != null);
 		Element root = doc.getRootElement();
 		Namespace ns = Namespace.getNamespace("");
-		XPath xPath = XPath.newInstance("entity");
-		Filter eleFilter = new ElementFilter("entity", null);
+		XPathExpression<Element> xPath = XPathFactory.instance().compile("entity", Filters.element());
+		Filter<Element> eleFilter = new ElementFilter("entity", null);
 		
 		// 6. verify search:
-		//List<Element> allEles = xPath.selectNodes(doc);
+		// XPath query: List<Element> allEles = xPath.evaluate(doc);
 		Iterator<Element> iter = doc.getDescendants(eleFilter);
 		Element ele = iter.next();
 		
