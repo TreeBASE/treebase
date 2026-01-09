@@ -989,7 +989,13 @@ public class SubmissionServiceImpl extends AbstractServiceImpl implements Submis
 		return getSubmissionHome().findByLastModifiedDateRange(from, until);
 	}
 
-	
+	/**
+	 * 
+	 * @see org.cipres.treebase.domain.study.SubmissionService#findRecentPublishedSubmissions(int)
+	 */
+	public Collection<Submission> findRecentPublishedSubmissions(int limit) {
+		return getSubmissionHome().findRecentPublishedSubmissions(limit);
+	}
 	
 	@Override
 	public Class defaultResultClass() {

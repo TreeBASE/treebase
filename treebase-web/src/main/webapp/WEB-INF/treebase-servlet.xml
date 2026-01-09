@@ -198,6 +198,17 @@
 		<property name="submissionService"><ref bean="submissionService"></ref></property>				
 	</bean>
 	
+	<!-- RSS Feed for recent studies -->
+	<bean id="rssFeedController" class="org.cipres.treebase.web.controllers.RssFeedController">
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+	</bean>
+	
+	<!-- Home page controller with recent studies -->
+	<bean id="homeController" class="org.cipres.treebase.web.controllers.HomeController">
+		<property name="submissionService"><ref bean="submissionService"></ref></property>
+		<property name="recentStudiesCount"><value>8</value></property>
+	</bean>
+	
 	<!-- View Taxa -->	
 	<bean id="listTaxaController" class="org.cipres.treebase.web.controllers.ListTaxaController">
 		<property name="studyService"><ref bean="studyService"></ref></property>
@@ -943,7 +954,9 @@
 				<prop key="/phylows/classification/**">phyloWSClassificationController</prop>
 				<prop key="/about.html">filenameController</prop>
 				<prop key="/dataMan.html">filenameController</prop>
-				<prop key="/home.html">filenameController</prop>
+				<prop key="/home.html">homeController</prop>
+				<prop key="/rss.xml">rssFeedController</prop>
+				<prop key="/feed.xml">rssFeedController</prop>
 				<prop key="/submitTutorial.html">filenameController</prop>
 				<prop key="/login.html">filenameController</prop>
 				<prop key="/urlAPI.html">filenameController</prop>

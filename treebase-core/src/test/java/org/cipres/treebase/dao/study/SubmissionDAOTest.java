@@ -241,6 +241,79 @@ public class SubmissionDAOTest extends AbstractDAOTest {
 		}
 	}
 	
+	/**
+	 * Test the findRecentPublishedSubmissions method.
+	 * This method should return the most recent published submissions
+	 * ordered by last modified date descending.
+	 */
+	@Test
+	public void testFindRecentPublishedSubmissions() {
+		String testName = "testFindRecentPublishedSubmissions";
+		if (logger.isInfoEnabled()) {
+			logger.info("\n\t\tRunning Test: " + testName);
+		}
+		
+		int limit = 10;
+		Collection<Submission> submissions = getFixture().findRecentPublishedSubmissions(limit);
+		
+		// Verify the method returns a non-null collection
+		assertNotNull("Result should not be null", submissions);
+		
+		// Verify the result size does not exceed the limit
+		assertTrue("Result size should not exceed limit", submissions.size() <= limit);
+		
+		// Verify all returned submissions are published
+		for (Submission sub : submissions) {
+			assertNotNull("Study should not be null", sub.getStudy());
+			assertTrue("Study should be published", sub.getStudy().isPublished());
+		}
+		
+		// Count published studies in database to verify
+		String sqlStr = "select count(*) from study where studyStatus_ID = 3"; // 3 = Published
+		Integer publishedCount = (Integer) jdbcTemplate.queryForObject(sqlStr, Integer.class);
+		
+		// The result should have at most 'limit' or 'publishedCount' items, whichever is smaller
+		int expectedMax = Math.min(limit, publishedCount);
+		assertTrue("Result size should be at most " + expectedMax, submissions.size() <= expectedMax);
+		
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " verified. Found " + submissions.size() + 
+				" recent published submissions (published in DB: " + publishedCount + ")");
+		}
+	}
+	
+	/**
+	 * Test that findRecentPublishedSubmissions returns submissions ordered by last modified date.
+	 */
+	@Test
+	public void testFindRecentPublishedSubmissionsOrdering() {
+		String testName = "testFindRecentPublishedSubmissionsOrdering";
+		if (logger.isInfoEnabled()) {
+			logger.info("\n\t\tRunning Test: " + testName);
+		}
+		
+		Collection<Submission> submissions = getFixture().findRecentPublishedSubmissions(5);
+		
+		assertNotNull("Result should not be null", submissions);
+		
+		// Verify ordering: each item should have a lastModifiedDate >= the next item
+		Date previousDate = null;
+		for (Submission sub : submissions) {
+			if (sub.getStudy() != null && sub.getStudy().getLastModifiedDate() != null) {
+				Date currentDate = sub.getStudy().getLastModifiedDate();
+				if (previousDate != null) {
+					assertTrue("Submissions should be ordered by date descending",
+						previousDate.compareTo(currentDate) >= 0);
+				}
+				previousDate = currentDate;
+			}
+		}
+		
+		if (logger.isInfoEnabled()) {
+			logger.info(testName + " verified.");
+		}
+	}
+	
 }
 
 /*

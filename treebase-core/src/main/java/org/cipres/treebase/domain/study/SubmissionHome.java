@@ -73,4 +73,12 @@ public interface SubmissionHome extends DomainHome {
 	Collection<Submission> findByInProgressState();
 	Collection<Submission> findByCreateDateRange(Date from, Date until);
 	Collection<Submission> findByLastModifiedDateRange(Date from, Date until);
+	
+	/**
+	 * Find the most recent published submissions, ordered by last modified date descending.
+	 * 
+	 * @param limit the maximum number of submissions to return
+	 * @return a collection of the most recent published submissions
+	 */
+	Collection<Submission> findRecentPublishedSubmissions(int limit);
 }
