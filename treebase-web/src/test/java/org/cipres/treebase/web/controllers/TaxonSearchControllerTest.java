@@ -27,6 +27,13 @@ public class TaxonSearchControllerTest {
 
     private TaxonSearchController controller;
     
+    // Cached reflection method for doIdentifierSearch
+    private Method doIdentifierSearchMethod;
+    
+    // Cached enum values
+    private Object ncbiEnumValue;
+    private Object ubioEnumValue;
+    
     @Mock
     private TaxonHome taxonHome;
     
@@ -40,7 +47,7 @@ public class TaxonSearchControllerTest {
     private HttpSession session;
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         controller = new TaxonSearchController();
         controller.setTaxonHome(taxonHome);
@@ -48,6 +55,23 @@ public class TaxonSearchControllerTest {
         
         // Setup mock session
         when(request.getSession()).thenReturn(session);
+        
+        // Cache the reflection method
+        Class<?> namingAuthorityClass = Class.forName(
+            "org.cipres.treebase.web.controllers.TaxonSearchController$NamingAuthority"
+        );
+        doIdentifierSearchMethod = TaxonSearchController.class.getDeclaredMethod(
+            "doIdentifierSearch", 
+            HttpServletRequest.class, 
+            String.class, 
+            namingAuthorityClass,
+            String.class
+        );
+        doIdentifierSearchMethod.setAccessible(true);
+        
+        // Cache enum values
+        ncbiEnumValue = getEnumValue("NCBI");
+        ubioEnumValue = getEnumValue("UBIO");
     }
     
     /**
@@ -56,23 +80,10 @@ public class TaxonSearchControllerTest {
      */
     @Test
     public void testDoIdentifierSearch_NCBI_WithNonNumericString_DoesNotThrow() throws Exception {
-        // Use reflection to access the private method
-        Method method = TaxonSearchController.class.getDeclaredMethod(
-            "doIdentifierSearch", 
-            HttpServletRequest.class, 
-            String.class, 
-            Class.forName("org.cipres.treebase.web.controllers.TaxonSearchController$NamingAuthority"),
-            String.class
-        );
-        method.setAccessible(true);
-        
-        // Get the NCBI enum value
-        Object ncbiValue = getEnumValue("NCBI");
-        
         // Act - This should NOT throw NumberFormatException
         @SuppressWarnings("unchecked")
-        Collection<Taxon> result = (Collection<Taxon>) method.invoke(
-            controller, request, "Homo", ncbiValue, null
+        Collection<Taxon> result = (Collection<Taxon>) doIdentifierSearchMethod.invoke(
+            controller, request, "Homo", ncbiEnumValue, null
         );
         
         // Assert
@@ -87,23 +98,10 @@ public class TaxonSearchControllerTest {
      */
     @Test
     public void testDoIdentifierSearch_UBIO_WithNonNumericString_DoesNotThrow() throws Exception {
-        // Use reflection to access the private method
-        Method method = TaxonSearchController.class.getDeclaredMethod(
-            "doIdentifierSearch", 
-            HttpServletRequest.class, 
-            String.class, 
-            Class.forName("org.cipres.treebase.web.controllers.TaxonSearchController$NamingAuthority"),
-            String.class
-        );
-        method.setAccessible(true);
-        
-        // Get the UBIO enum value
-        Object ubioValue = getEnumValue("UBIO");
-        
         // Act - This should NOT throw NumberFormatException
         @SuppressWarnings("unchecked")
-        Collection<Taxon> result = (Collection<Taxon>) method.invoke(
-            controller, request, "SomeTextValue", ubioValue, null
+        Collection<Taxon> result = (Collection<Taxon>) doIdentifierSearchMethod.invoke(
+            controller, request, "SomeTextValue", ubioEnumValue, null
         );
         
         // Assert
@@ -122,23 +120,10 @@ public class TaxonSearchControllerTest {
         Taxon mockTaxon = mock(Taxon.class);
         when(taxonHome.findByNcbiTaxId(9606)).thenReturn(mockTaxon);
         
-        // Use reflection to access the private method
-        Method method = TaxonSearchController.class.getDeclaredMethod(
-            "doIdentifierSearch", 
-            HttpServletRequest.class, 
-            String.class, 
-            Class.forName("org.cipres.treebase.web.controllers.TaxonSearchController$NamingAuthority"),
-            String.class
-        );
-        method.setAccessible(true);
-        
-        // Get the NCBI enum value
-        Object ncbiValue = getEnumValue("NCBI");
-        
         // Act
         @SuppressWarnings("unchecked")
-        Collection<Taxon> result = (Collection<Taxon>) method.invoke(
-            controller, request, "9606", ncbiValue, null
+        Collection<Taxon> result = (Collection<Taxon>) doIdentifierSearchMethod.invoke(
+            controller, request, "9606", ncbiEnumValue, null
         );
         
         // Assert
@@ -156,23 +141,10 @@ public class TaxonSearchControllerTest {
         Taxon mockTaxon = mock(Taxon.class);
         when(taxonHome.findByUBIOTaxId(12345L)).thenReturn(mockTaxon);
         
-        // Use reflection to access the private method
-        Method method = TaxonSearchController.class.getDeclaredMethod(
-            "doIdentifierSearch", 
-            HttpServletRequest.class, 
-            String.class, 
-            Class.forName("org.cipres.treebase.web.controllers.TaxonSearchController$NamingAuthority"),
-            String.class
-        );
-        method.setAccessible(true);
-        
-        // Get the UBIO enum value
-        Object ubioValue = getEnumValue("UBIO");
-        
         // Act
         @SuppressWarnings("unchecked")
-        Collection<Taxon> result = (Collection<Taxon>) method.invoke(
-            controller, request, "12345", ubioValue, null
+        Collection<Taxon> result = (Collection<Taxon>) doIdentifierSearchMethod.invoke(
+            controller, request, "12345", ubioEnumValue, null
         );
         
         // Assert
