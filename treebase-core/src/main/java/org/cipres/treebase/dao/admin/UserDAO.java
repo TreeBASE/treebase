@@ -116,7 +116,13 @@ public class UserDAO extends AbstractDAO implements UserHome {
 	 */
 	public UserRole getUserRole() {
 		String userRole = UserRole.ROLE_USER;
-		return findUserRole(userRole);
+		UserRole role = findUserRole(userRole);
+		if (role == null) {
+			role = new UserRole();
+			role.setAuthority(userRole);
+			store(role);
+		}
+		return role;
 	}
 
 	/**
