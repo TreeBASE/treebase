@@ -94,6 +94,12 @@ public class Citation extends AbstractPersistedObject {
 		// copy all matching properties:
 		BeanUtils.copyProperties(pCitation, newCitation);
 
+		// Reset id to null so that Hibernate treats this as a new entity.
+		// Without this, changing citation types (e.g. Book Section to Book)
+		// causes a WrongClassException because the copied id conflicts with
+		// the old citation's discriminator type.
+		newCitation.setId(null);
+
 		newCitation.setCitationStatus(pCitation.getCitationStatus());
 
 		return newCitation;
