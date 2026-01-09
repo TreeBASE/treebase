@@ -7,11 +7,15 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Tree Viewer</title>
 
-<!-- D3.js v7 for phylotree.js -->
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<!-- phylotree.js from unpkg CDN -->
-<script src="https://unpkg.com/phylotree@1.1.1/dist/phylotree.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/phylotree@1.1.1/dist/phylotree.css">
+<!-- D3.js v7 for phylotree.js with SRI hash for integrity verification -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7" 
+        integrity="sha384-u60Dv4QEDY4Y/TLJqrB+Ls+FBLvWJh8lKJ1iRuLFqoYl0dGAGW4sAVzx86g4cH2N" 
+        crossorigin="anonymous"></script>
+<!-- phylotree.js from unpkg CDN with SRI hash -->
+<script src="https://unpkg.com/phylotree@1.1.1/dist/phylotree.js"
+        crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://unpkg.com/phylotree@1.1.1/dist/phylotree.css"
+      crossorigin="anonymous">
 
 <style type="text/css">
 body {
@@ -201,7 +205,6 @@ legend {
         <fieldset>
             <legend>View Controls</legend>
             <div class="controls">
-                <button onclick="toggleLayout()">Toggle Layout</button>
                 <button onclick="resetView()">Reset View</button>
             </div>
         </fieldset>
@@ -210,7 +213,7 @@ legend {
 
 <script type="text/javascript">
 var currentTree = null;
-var isRadial = false;
+var currentElement = null;
 
 function displayTree(element) {
     // Mark selected
@@ -218,6 +221,7 @@ function displayTree(element) {
         li.classList.remove('selected');
     });
     element.classList.add('selected');
+    currentElement = element;
     
     var newick = element.getAttribute('data-newick');
     var treeId = element.getAttribute('data-id');
@@ -292,23 +296,10 @@ function updateTreeInfo(treeId, label, title, ntax) {
     document.getElementById('node-info').innerHTML = info;
 }
 
-function toggleLayout() {
-    if (currentTree) {
-        isRadial = !isRadial;
-        // Phylotree.js doesn't have simple toggle, so we re-render
-        var selectedLi = document.querySelector('#tree-list li.selected');
-        if (selectedLi) {
-            displayTree(selectedLi);
-        }
-    }
-}
-
 function resetView() {
-    if (currentTree) {
-        var selectedLi = document.querySelector('#tree-list li.selected');
-        if (selectedLi) {
-            displayTree(selectedLi);
-        }
+    // Re-render the currently selected tree
+    if (currentElement) {
+        displayTree(currentElement);
     }
 }
 
