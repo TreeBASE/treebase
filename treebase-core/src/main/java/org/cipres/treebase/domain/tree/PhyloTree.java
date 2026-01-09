@@ -202,19 +202,14 @@ public class PhyloTree extends AbstractPersistedObject {
 	 * 
 	 * The user needs to input the tree title through treebase gui.
 	 * 
-	 * @return String
+	 * @return String, or null if no title has been explicitly set
 	 */
 	@Column(name = "Title", length = TBPersistable.COLUMN_LENGTH_STRING)
 	public String getTitle() {
 		if ( ! TreebaseUtil.isEmpty(mTitle) ) {
 			return mTitle;
 		}
-		else if ( null != getId() ){
-			return TreebaseIDString.getIDString(this);
-		}
-		else {
-			return null;
-		}
+		return null;
 	}
 
 	/**
