@@ -1,7 +1,5 @@
 # API
 
-*Restored from [archive.org](https://web.archive.org/web/20130521145240/http://sourceforge.net/apps/mediawiki/treebase/index.php?title=API)*
-
 ## Web service API
 
 TreeBASE can be accessed programmatically through a stateless web service interface and URL architecture. This interface can deliver data in several different formats, including NEXUS, JSON, NeXML.
