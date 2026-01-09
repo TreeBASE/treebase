@@ -279,17 +279,27 @@ public class TaxonSearchController extends SearchController {
 				}
 				break;
 			case NCBI :
-				LOGGER.debug("Going to search for NCBI taxon ids");	
-				Taxon match = getTaxonHome().findByNcbiTaxId(Integer.parseInt(identifier));
-				if ( match != null ) {
-					taxaFound.add(match);
+				LOGGER.debug("Going to search for NCBI taxon ids");
+				try {
+					Taxon match = getTaxonHome().findByNcbiTaxId(Integer.parseInt(identifier));
+					if ( match != null ) {
+						taxaFound.add(match);
+					}
+				} catch ( NumberFormatException e ) {
+					addMessage(request, "Ignoring malformed NCBI taxon ID '" + identifier + "': must be a number");
+					LOGGER.error("Couldn't parse NCBI taxon ID: " + e.getMessage());
 				}
 				break;
 			case UBIO :
 				LOGGER.debug("Going to search for uBio nameBankIDs");
-				Taxon match1 = getTaxonHome().findByUBIOTaxId(Long.parseLong(identifier));
-				if ( match1 != null ) {
-					taxaFound.add(match1);
+				try {
+					Taxon match1 = getTaxonHome().findByUBIOTaxId(Long.parseLong(identifier));
+					if ( match1 != null ) {
+						taxaFound.add(match1);
+					}
+				} catch ( NumberFormatException e ) {
+					addMessage(request, "Ignoring malformed uBio namebank ID '" + identifier + "': must be a number");
+					LOGGER.error("Couldn't parse uBio namebank ID: " + e.getMessage());
 				}
 				break;
 		}
