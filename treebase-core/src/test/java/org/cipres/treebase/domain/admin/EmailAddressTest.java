@@ -5,7 +5,7 @@ import org.junit.Test;
 
 /**
  * The class <code>EmailAddressTest</code> contains tests for the class 
- * {@link <code>EmailAddress</code>}.
+ * {@link EmailAddress}.
  * 
  * @author Copilot
  */
