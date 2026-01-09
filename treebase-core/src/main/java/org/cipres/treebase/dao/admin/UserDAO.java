@@ -114,13 +114,20 @@ public class UserDAO extends AbstractDAO implements UserHome {
 	 * 
 	 * @see org.cipres.treebase.domain.admin.UserHome#getUserRole()
 	 */
-	public UserRole getUserRole() {
+	public synchronized UserRole getUserRole() {
 		String userRole = UserRole.ROLE_USER;
 		UserRole role = findUserRole(userRole);
 		if (role == null) {
-			role = new UserRole();
-			role.setAuthority(userRole);
-			store(role);
+			try {
+				role = new UserRole();
+				role.setAuthority(userRole);
+				store(role);
+				flush();
+			} catch (Exception e) {
+				// Handle potential constraint violation from concurrent role creation
+				LOGGER.debug("Exception while creating UserRole, re-querying: " + e.getMessage());
+				role = findUserRole(userRole);
+			}
 		}
 		return role;
 	}
