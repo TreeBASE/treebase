@@ -2,6 +2,7 @@ package org.cipres.treebase.web.controllers;
 
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
@@ -10,6 +11,8 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.TreebaseUtil;
 import org.cipres.treebase.domain.study.Citation;
 import org.cipres.treebase.domain.study.Study;
@@ -28,6 +31,7 @@ import org.springframework.web.servlet.mvc.Controller;
  */
 public class RssFeedController implements Controller {
 
+	private static final Logger LOGGER = LogManager.getLogger(RssFeedController.class);
 	private static final int DEFAULT_LIMIT = 20;
 	private static final String RSS_CONTENT_TYPE = "application/rss+xml; charset=UTF-8";
 	
@@ -52,7 +56,14 @@ public class RssFeedController implements Controller {
 			}
 		}
 		
-		Collection<Submission> submissions = mSubmissionService.findRecentPublishedSubmissions(limit);
+		Collection<Submission> submissions;
+		try {
+			submissions = mSubmissionService.findRecentPublishedSubmissions(limit);
+		} catch (Exception e) {
+			// Log the error and return an empty feed for graceful degradation
+			LOGGER.error("Error fetching recent published submissions for RSS feed", e);
+			submissions = new ArrayList<>();
+		}
 		
 		response.setContentType(RSS_CONTENT_TYPE);
 		response.setCharacterEncoding("UTF-8");
