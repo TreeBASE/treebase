@@ -19,8 +19,8 @@
 		Spring</a></li>
 		<li>Submission file parsing: <a href="http://mesquiteproject.org/">
 		Mesquite</a></li>
-		<li>Tree Visualization: <a href="http://www.phylowidget.org/">
-		PhyloWidget</a></li>	
+		<li>Tree Visualization: <a href="https://github.com/veg/phylotree.js/">
+		phylotree.js</a></li>	
 	</ul>
 	<h2>Source Code</h2>
 	<p>

@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@include file="/common/taglibs.jsp" %>
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Tree Viewer</title>
+
+<!-- D3.js v7 for phylotree.js -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<!-- phylotree.js from unpkg CDN -->
+<script src="https://unpkg.com/phylotree@1.1.1/dist/phylotree.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/phylotree@1.1.1/dist/phylotree.css">
+
+<style type="text/css">
+body {
+  margin: 0;
+  padding: 10px;
+  font-family: verdana, geneva, arial, helvetica, sans-serif; 
+  font-size: 11px; 
+  background-color: white; 
+}
+ 
+a          { color: #3399CC; text-decoration: none; }
+a:link     { color: #3399CC; text-decoration: none; }
+a:visited  { color: #3399CC; text-decoration: none; }
+a:active   { color: #3399CC; text-decoration: underline; }
+a:hover    { color: #3399CC; text-decoration: underline; }
+
+#content {
+  display: flex;
+  gap: 20px;
+}
+
+#tree-container {
+  flex: 1;
+  min-width: 600px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  overflow: auto;
+}
+
+#tree-container svg {
+  display: block;
+}
+
+#sidebar {
+  width: 300px;
+}
+
+fieldset {
+  display: block;
+  margin: 0 0 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+}
+
+legend {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+
+#tree-list {
+  list-style: decimal;
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+#tree-list li {
+  padding: 5px 0;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+#tree-list li:hover {
+  background: #e0e0e0;
+}
+
+#tree-list li.selected {
+  background: #CEE3F6;
+  font-weight: bold;
+}
+
+.quick-links p {
+  margin: 5px 0;
+}
+
+.iconButton {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+#loading {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+#node-info {
+  background: white;
+  padding: 10px;
+  min-height: 60px;
+  font-size: 10px;
+}
+
+.controls {
+  margin-bottom: 10px;
+}
+
+.controls button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* phylotree styling */
+.phylotree-container .branch {
+  fill: none;
+  stroke: #999;
+  stroke-width: 2px;
+}
+
+.phylotree-container .node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.phylotree-container .internal-node circle {
+  fill: #ccc;
+}
+
+.phylotree-container .node text {
+  font: 10px sans-serif;
+}
+</style>
+</head>
+<body>
+
+<div id="content">
+    <div id="tree-container">
+        <div id="loading">Select a tree from the list to view it.</div>
+    </div>
+    
+    <div id="sidebar">
+        <fieldset>
+            <legend><c:out value="${NEWICKSTRINGNAME}" default="Trees"/></legend>
+            <ol id="tree-list">
+                <c:forEach var="tree" items="${TREELIST}" varStatus="status">
+                    <li data-newick="${tree.newickString}" 
+                        data-id="${tree.id}"
+                        data-label="${tree.label}"
+                        data-title="${tree.title}"
+                        data-ntax="${tree.nTax}"
+                        onclick="displayTree(this)">
+                        <c:choose>
+                            <c:when test="${not empty tree.label}">
+                                ${tree.label}
+                            </c:when>
+                            <c:when test="${not empty tree.title}">
+                                ${tree.title}
+                            </c:when>
+                            <c:otherwise>
+                                Tree ${tree.id}
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+                </c:forEach>
+            </ol>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Node Info</legend>
+            <div id="node-info">
+                Hover over or click a node to view its information here.
+            </div>
+        </fieldset>
+        
+        <c:if test="${treeBlockID != null}">
+            <fieldset class="quick-links">
+                <legend>Quick Links</legend>
+                <p>
+                    <a href="/treebase-web/search/study/trees.html?id=${studyID}" target="_blank">
+                        <img class="iconButton" src="<fmt:message key="icons.trees"/>" alt="Trees"/>
+                        Containing tree set
+                    </a>
+                </p>
+                <p>
+                    <a href="/treebase-web/search/study/summary.html?id=${studyID}" target="_blank">
+                        <img class="iconButton" src="<fmt:message key="icons.citation"/>" alt="Study"/>
+                        Containing study
+                    </a>
+                </p>
+            </fieldset>
+        </c:if>
+        
+        <fieldset>
+            <legend>View Controls</legend>
+            <div class="controls">
+                <button onclick="toggleLayout()">Toggle Layout</button>
+                <button onclick="resetView()">Reset View</button>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<script type="text/javascript">
+var currentTree = null;
+var isRadial = false;
+
+function displayTree(element) {
+    // Mark selected
+    document.querySelectorAll('#tree-list li').forEach(function(li) {
+        li.classList.remove('selected');
+    });
+    element.classList.add('selected');
+    
+    var newick = element.getAttribute('data-newick');
+    var treeId = element.getAttribute('data-id');
+    var label = element.getAttribute('data-label');
+    var title = element.getAttribute('data-title');
+    var ntax = parseInt(element.getAttribute('data-ntax')) || 50;
+    
+    if (!newick || newick.trim() === '') {
+        document.getElementById('tree-container').innerHTML = 
+            '<div id="loading">No Newick string available for this tree.</div>';
+        return;
+    }
+    
+    // Clear container
+    document.getElementById('tree-container').innerHTML = '';
+    
+    try {
+        // Calculate dimensions based on number of taxa
+        var height = Math.max(400, ntax * 15);
+        var width = 800;
+        
+        // Create phylotree instance
+        currentTree = new phylotree.phylotree(newick);
+        
+        // Render the tree
+        currentTree.render({
+            container: "#tree-container",
+            width: width,
+            height: height,
+            "left-offset": 10,
+            "show-scale": true,
+            "align-tips": false,
+            "node-styler": function(element, node) {
+                element.on("mouseover", function() {
+                    showNodeInfo(node);
+                });
+            },
+            "edge-styler": function(element, edge) {
+                element.style("stroke-width", "2px");
+            }
+        });
+        
+        // Update node info with tree metadata
+        updateTreeInfo(treeId, label, title, ntax);
+        
+    } catch (e) {
+        console.error("Error rendering tree:", e);
+        document.getElementById('tree-container').innerHTML = 
+            '<div id="loading">Error rendering tree: ' + e.message + '</div>';
+    }
+}
+
+function showNodeInfo(node) {
+    var info = '<strong>Node:</strong> ' + (node.data.name || 'Internal node') + '<br/>';
+    if (node.data.attribute !== undefined) {
+        info += '<strong>Branch length:</strong> ' + node.data.attribute + '<br/>';
+    }
+    if (node.children && node.children.length > 0) {
+        info += '<strong>Type:</strong> Internal node<br/>';
+        info += '<strong>Children:</strong> ' + node.children.length;
+    } else {
+        info += '<strong>Type:</strong> Leaf node (tip)';
+    }
+    document.getElementById('node-info').innerHTML = info;
+}
+
+function updateTreeInfo(treeId, label, title, ntax) {
+    var info = '<strong>Tree ID:</strong> ' + treeId + '<br/>';
+    if (label) info += '<strong>Label:</strong> ' + label + '<br/>';
+    if (title) info += '<strong>Title:</strong> ' + title + '<br/>';
+    if (ntax) info += '<strong>Taxa:</strong> ' + ntax;
+    document.getElementById('node-info').innerHTML = info;
+}
+
+function toggleLayout() {
+    if (currentTree) {
+        isRadial = !isRadial;
+        // Phylotree.js doesn't have simple toggle, so we re-render
+        var selectedLi = document.querySelector('#tree-list li.selected');
+        if (selectedLi) {
+            displayTree(selectedLi);
+        }
+    }
+}
+
+function resetView() {
+    if (currentTree) {
+        var selectedLi = document.querySelector('#tree-list li.selected');
+        if (selectedLi) {
+            displayTree(selectedLi);
+        }
+    }
+}
+
+// Auto-select first tree on page load
+document.addEventListener('DOMContentLoaded', function() {
+    var firstTree = document.querySelector('#tree-list li');
+    if (firstTree) {
+        displayTree(firstTree);
+    }
+});
+</script>
+
+</body>
+</html>

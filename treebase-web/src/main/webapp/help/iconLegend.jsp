@@ -37,7 +37,7 @@ these buttons and describes what they do.</p>
 	a newly created nexus file that represents the selected record.
 </p>
 <p>
-	<img src="<fmt:message key="icons.tree.edit"/>" alt="Tree edit icon"/> opens a tree editor.
+	<img src="<fmt:message key="icons.tree.view"/>" alt="Tree view icon"/> opens a tree viewer.
 </p>
 <p>
 	<img src="<fmt:message key="icons.xhtml"/>" alt="XHTML validation icon"/> validates the current page as XHTML.

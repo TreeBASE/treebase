@@ -9,12 +9,11 @@ subprojects, which are described below. For more high-level documentation about 
 ## Essential Subprojects for TreeBASE v.2
 
 The following are subprojects that jointly comprise the TreeBASE v.2 MVC application. The application is organized as a data **Model** 
-that persists on a PostgreSQL database via Hibernate, multiple **Views** (namely, a JSP/HTML GUI, an oai-pmh web service interface, a 
-tree viewing and editing applet, and a news feed), linked together by a **Controller** API in Java 17 LTS, which uses the Spring framework.
+that persists on a PostgreSQL database via Hibernate, multiple **Views** (namely, a JSP/HTML GUI, an oai-pmh web service interface, 
+a JavaScript-based tree viewer, and a news feed), linked together by a **Controller** API in Java 17 LTS, which uses the Spring framework.
 
 - **[treebase-core](treebase-core)** - Java 17 LTS ORM API to access the underlying relational database based on PostgreSQL
-- **[treebase-phylowidget](treebase-phylowidget)** - Java 17 LTS browser applet for tree viewing and editing
-- **[treebase-web](treebase-web)** - Java 17 LTS MVC web application for the JSP/HTML GUI
+- **[treebase-web](treebase-web)** - Java 17 LTS MVC web application for the JSP/HTML GUI (includes [phylotree.js](https://github.com/veg/phylotree.js/) for tree visualization)
 - **[oai-pmh_data_provider](oai-pmh_data_provider)** - additional Java 17 LTS MVC functionality for OAI-PMH interface
 
 ## Development
