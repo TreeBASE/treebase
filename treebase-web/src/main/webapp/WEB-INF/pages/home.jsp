@@ -10,8 +10,7 @@
 		publications that are in preparation or in review can be submitted to TreeBASE but will not be 
 		available to the public until they have passed peer review. Aside from the submitter, such data 
 		are only available to the publication editors or reviewers using a special access URL. TreeBASE 
-		is produced and governed by the <a href="http://www.phylorf.org" title="Phyloinformatics Research 
-		Foundation, Inc.">The Phyloinformatics Research Foundation, Inc.</a></p>
+		is produced and governed by The Phyloinformatics Research Foundation, Inc.</p>
 		<p>As of April 2014, TreeBASE contains data for 4,076 publications written by 8,777 different authors. 
 		These studies analyzed 8,233 matrices and resulted in 12,817 trees with 761,460 taxon labels that mapped 
 		to 104,593 distinct taxa.</p>

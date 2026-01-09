@@ -140,6 +140,6 @@
 	
 	<h2>Phyloinformatics Research Foundation Inc, Board</h2>
 	<ul>
-		<li>See <a href="http://www.phylofoundation.org" title="Phyloinformatics Research Foundation Inc">here</a> for the list of officers and members of the board.</li>		
+		<li>Contact the Foundation for the list of officers and members of the board.</li>		
 	</ul>
 </div>
