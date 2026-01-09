@@ -33,14 +33,6 @@
 		</copy>
 	</target>
 
-	<target name="framework-jar">
-	    <mkdir dir="${env.M2_REPO}/org/cipres/cipres-binary/framework/1.0.1/" />
-		<copy tofile="${env.M2_REPO}/org.cipres/cipres-binary/framework/1.0.1/framework-1.0.1.jar"
-			  file="cipres_framework.jar"
-			  failonerror="true" verbose="true" overwrite="true">
-		</copy>
-	</target>
-
 	<target name="classpath-jar">
 	    <mkdir dir="${env.M2_REPO}/org/cipres/cipres-binary/classpath/1.0.1/" />
 		<copy tofile="${env.M2_REPO}/org.cipres/cipres-binary/classpath/1.0.1/classpath-1.0.1.jar"
@@ -50,7 +42,7 @@
 	</target>
 
 
-	<target name="copy-all" depends="hibernate-jar, hibernate-annotation, ejb-jar, cipresapp-jar, framework-jar, classpath-jar">
+	<target name="copy-all" depends="hibernate-jar, hibernate-annotation, ejb-jar, cipresapp-jar, classpath-jar">
 	</target>
 
 </project>
