@@ -9,6 +9,7 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.jdom2.filter.ElementFilter;
 import org.jdom2.filter.Filter;
+import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathFactory;
 import org.jdom2.xpath.XPathExpression;
@@ -62,11 +63,11 @@ public class XMLTestCase extends TestCase {
 		assertTrue("Empty doc.", doc != null);
 		Element root = doc.getRootElement();
 		Namespace ns = Namespace.getNamespace("");
-		XPathExpression<Element> xPath = XPathFactory.instance().compile("entity", org.jdom2.filter.Filters.element());
+		XPathExpression<Element> xPath = XPathFactory.instance().compile("entity", Filters.element());
 		Filter<Element> eleFilter = new ElementFilter("entity", null);
 		
 		// 6. verify search:
-		//List<Element> allEles = xPath.selectNodes(doc);
+		// XPath query: List<Element> allEles = xPath.evaluate(doc);
 		Iterator<Element> iter = doc.getDescendants(eleFilter);
 		Element ele = iter.next();
 		
