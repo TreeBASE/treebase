@@ -216,6 +216,13 @@
 			</exclusions>
 		</dependency>
 
+		<!-- oro 2.0.8 - required by commons-validator for email validation (Perl5Util) -->
+		<dependency>
+			<groupId>oro</groupId>
+			<artifactId>oro</artifactId>
+			<version>2.0.8</version>
+		</dependency>
+
 		<!-- Spring 5.x automatically provides commons-logging compatibility via spring-jcl -->
 		<!-- No need for jcl-over-slf4j - Spring handles the bridge internally -->
 
