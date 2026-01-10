@@ -97,8 +97,6 @@ public class AnyObjectAsRDFController implements Controller {
 			LOGGER.info("Couldn't get ID String");
 		}
 		request.getSession().setAttribute("namespacedGUID", namespacedGUID.toString());
-		// <c:set var="baseURL" value="http://localhost:8080/treebase-web/PhyloWS"/>
-		// treebase.purl.domain=http://purl.org/phylo/treebase/phylows/
 		request.getSession().setAttribute("baseURL", TreebaseUtil.getPurlBase());
 		request.getSession().setAttribute("phyloWSPath", phyloWSPath);
 		return new ModelAndView("anyObjectAsRDF");
