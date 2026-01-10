@@ -194,7 +194,7 @@
           <groupId>org.slf4j</groupId>
           <artifactId>jcl104-over-slf4j</artifactId>
 		</exclusion>
-		<!-- Exclude old velocity versions - we use velocity-engine-core 2.3 -->
+		<!-- Exclude old velocity versions - we use velocity-engine-core 2.4 -->
 		<exclusion>
           <groupId>velocity</groupId>
           <artifactId>velocity</artifactId>
