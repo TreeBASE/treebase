@@ -94,7 +94,7 @@
 	<dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
-      <version>1.9.4</version>
+      <version>1.11.0</version>
 	</dependency>
 	<dependency>
       <groupId>commons-validator</groupId>
@@ -223,7 +223,7 @@
           <groupId>taglibs</groupId>
           <artifactId>standard</artifactId>
 		</exclusion>
-		<!-- Exclude old commons-beanutils - we use 1.9.4 -->
+		<!-- Exclude old commons-beanutils - we use 1.11.0 -->
 		<exclusion>
           <groupId>commons-beanutils</groupId>
           <artifactId>commons-beanutils</artifactId>
