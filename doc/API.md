@@ -6,7 +6,7 @@ TreeBASE can be accessed programmatically through a stateless web service interf
 
 ## PhyloWS
 
-The site structure described here is designed to be compliant with the emerging [PhyloWS](http://evoinfo.nescent.org/PhyloWS) standard. One of the tenets of the standard is that URLs contain a **/phylows/** delimiter below which the standard recommends a [simple API](http://www.nescent.org/wg_evoinfo/PhyloWS/REST) to derefence phylogenetic data by their accession numbers. In the examples below, the url fragments come immediately below the **/phylows/** delimiter (everything between the http:// and phylows is considered subject to change, likely to be stabilized using [purl](http://purl.org/) addresses).
+The site structure described here is designed to be compliant with the emerging [PhyloWS](http://evoinfo.nescent.org/PhyloWS) standard. One of the tenets of the standard is that URLs contain a **/phylows/** delimiter below which the standard recommends a [simple API](http://www.nescent.org/wg_evoinfo/PhyloWS/REST) to derefence phylogenetic data by their accession numbers.
 
 ## Site sections
 
@@ -17,7 +17,7 @@ The data on the TreeBASE2 website are organized in four subsections:
 - **tree/** contains trees and tree nodes
 - **study/** full submission records, including citation and analysis records
 
-Within those four sections, every item in the TreeBASE2 database can be de-referenced by appending the item's full identifier to the right section name. For example, **tree/TB2:Tr2227** represents a tree (and returns a simple RDF file to describe the tree). For some classes of objects, these short addresses can be passed a **format** parameter to specify in which data format to represent the object: [study/TB2:S1787?format=html](http://purl.org/phylo/treebase/phylows/study/TB2:S1787?format=html). Identifiers that match any of the following expressions can be represented as [nexml](http://purl.org/phylo/treebase/phylows/study/TB2:S1787?format=nexml), [nexus](http://purl.org/phylo/treebase/phylows/study/TB2:S1787?format=nexus), [rdf](http://purl.org/phylo/treebase/phylows/study/TB2:S1787?format=rdf) or [html](http://purl.org/phylo/treebase/phylows/study/TB2:S1787?format=html):
+Within those four sections, every item in the TreeBASE2 database can be de-referenced by appending the item's full identifier to the right section name. For example, **tree/TB2:Tr2227** represents a tree (and returns a simple RDF file to describe the tree). For some classes of objects, these short addresses can be passed a **format** parameter to specify in which data format to represent the object: [study/TB2:S1787?format=html](http://treebase.org/treebase-web/phylows/study/TB2:S1787?format=html). Identifiers that match any of the following expressions can be represented as [nexml](http://treebase.org/treebase-web/phylows/study/TB2:S1787?format=nexml), [nexus](http://treebase.org/treebase-web/phylows/study/TB2:S1787?format=nexus), [rdf](http://treebase.org/treebase-web/phylows/study/TB2:S1787?format=rdf) or [html](http://treebase.org/treebase-web/phylows/study/TB2:S1787?format=html):
 
 - **matrix/TB2:M[0-9]+** character state matrix
 - **tree/TB2:Tr[0-9]+** phylogenetic tree
@@ -37,21 +37,21 @@ or using an exact match (**==**) or a case-insensitive one (**=/ignoreCase**). T
 
 For example:
 
-[/study/find?query=dcterms.contributor=Huelsenbeck or dcterms.contributor=Ronquist](http://purl.org/phylo/treebase/phylows/study/find?query=dcterms.contributor=Huelsenbeck+or+dcterms.contributor=Ronquist)
+[/study/find?query=dcterms.contributor=Huelsenbeck or dcterms.contributor=Ronquist](http://treebase.org/treebase-web/phylows/study/find?query=dcterms.contributor=Huelsenbeck+or+dcterms.contributor=Ronquist)
 
 Finally, searching can be modified to project the results from one section info those of another. The effect is roughly the same as switching between tabs in the search section: if the results are a list of tree and you click on the matrix search tab, the trees are converted to the set of matrices on which the trees are based. This behaviour can be used by specifying the **recordSchema=&lt;section&gt;** argument, i.e.:
 
-[/taxon/find?query=dcterms.title=="Homo sapiens"&format=rss1&recordSchema=tree](http://purl.org/phylo/treebase/phylows/taxon/find?query=dcterms.title==%22Homo%20sapiens%22&format=rss1&recordSchema=tree)
+[/taxon/find?query=dcterms.title=="Homo sapiens"&format=rss1&recordSchema=tree](http://treebase.org/treebase-web/phylows/taxon/find?query=dcterms.title==%22Homo%20sapiens%22&format=rss1&recordSchema=tree)
 
 returns all the trees that have Homo sapiens in them. By default, all these queries return a web page, but with a format=rss1 argument the search results are listed in an RDF compatible RSS1.0 file, i.e.:
 
 **/taxon/find?query=tb.title.taxon=&lt;name&gt;&format=rss1**
 
-The returned results in RSS1.0 use the short urls of the form &lt;section&gt;/&lt;id&gt;, whose returned resource descriptions (like [this](http://purl.org/phylo/treebase/phylows/tree/TB2:Tr2227) one) need to be scanned to discover suitable serialization formats.
+The returned results in RSS1.0 use the short urls of the form &lt;section&gt;/&lt;id&gt;, whose returned resource descriptions (like [this](http://treebase.org/treebase-web/phylows/tree/TB2:Tr2227) one) need to be scanned to discover suitable serialization formats.
 
 Developing the API is an on-going process, so the choice of operators is limited, with some available only in certain situations. For example, the ">" or "<" comparators are largely limited to the study creation (prism.creationDate), modification (prism.modificationDate), and publication dates (prism.publicationDate). For a list of all studies created after August 30 2011:
 
-[/study/find?query=prism.creationDate>"2011-08-30T05:00:00Z"&format=rss1](http://purl.org/phylo/treebase/phylows/study/find?query=prism.creationDate%3E%222011-08-30T00:00:00Z%22&format=rss1)
+[/study/find?query=prism.creationDate>"2011-08-30T05:00:00Z"&format=rss1](http://treebase.org/treebase-web/phylows/study/find?query=prism.creationDate%3E%222011-08-30T00:00:00Z%22&format=rss1)
 
 If you're building a client to mirror TreeBASE, querying the modification date will help track older studies that have since been modified. The publication date value is stored in the database as the year of the citation, with TreeBASE located in the Eastern Standard Time zone. Consequently, finding all TreeBASE citations published in 2010 or later means searching for ">" on any date between 2010-01-01T05:00:00Z and 2011-01-01T04:59:59Z.
 

@@ -13,4 +13,4 @@ To see how the effect, use Safari to compare the "fixed" data in treebase-dev:
 http://treebase-dev.nescent.org/treebase-web/phylows/study/find?query=dcterms.contributor=Huelsenbeck&format=rss1
 
 with the results from the same request on production here:
-http://purl.org/phylo/treebase/phylows/study/find?query=dcterms.contributor=Huelsenbeck&format=rss1
+http://treebase.org/treebase-web/phylows/study/find?query=dcterms.contributor=Huelsenbeck&format=rss1

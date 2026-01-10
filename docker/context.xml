@@ -37,12 +37,12 @@
                override="false"
                description="The base URL from which this TreeBASE instance is served."/>	
 
-  <!-- PURL base -->
+  <!-- Base URL for PhyloWS API -->
   <Environment name="tb2/PurlBase" 
-               value="http://purl.org/phylo/treebase/phylows/"
+               value="http://treebase.org/treebase-web/phylows/"
                type="java.lang.String" 
                override="false"
-               description="The base URL of a PURL service that redirects to this TreeBASE instance."/>	
+               description="The base URL for the PhyloWS API of this TreeBASE instance."/>	
 
   <!-- SMTP host (use a mail catcher for development) -->
   <Environment name="tb2/SmtpHost" 

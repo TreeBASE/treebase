@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nex:nexml xmlns:nex="http://www.nexml.org/2009" xmlns="http://www.nexml.org/2009" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prism="http://prismstandard.org/namespaces/1.2/basic/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:tb="http://treebase.org/terms#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" about="#nex_nexml2" generator="org.nexml.model.impl.DocumentImpl" id="S1787" version="0.9" xml:base="http://purl.org/PHYLO/TREEBASE/PHYLOWS/study/TB2:">
+<nex:nexml xmlns:nex="http://www.nexml.org/2009" xmlns="http://www.nexml.org/2009" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prism="http://prismstandard.org/namespaces/1.2/basic/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:tb="http://treebase.org/terms#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" about="#nex_nexml2" generator="org.nexml.model.impl.DocumentImpl" id="S1787" version="0.9" xml:base="http://treebase.org/treebase-web/phylows/study/TB2:">
   <meta content="Mapped from TreeBASE schema using NexmlDocumentConverter $Rev: 942 $" datatype="xsd:string" id="meta21" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
   <meta content="1432" datatype="xsd:string" id="meta20" property="prism:volume" xsi:type="nex:LiteralMeta"/>
   <meta content="Zootaxa" datatype="xsd:string" id="meta19" property="dc:publisher" xsi:type="nex:LiteralMeta"/>
@@ -20,7 +20,7 @@
   <meta content="S1759" datatype="xsd:string" id="meta4" property="tb:identifier.study.tb1" xsi:type="nex:LiteralMeta"/>
   <meta content="1787" datatype="xsd:string" id="meta3" property="tb:identifier.study" xsi:type="nex:LiteralMeta"/>
   <meta content="Study" datatype="xsd:string" id="meta1" property="prism:section" xsi:type="nex:LiteralMeta"/>
-  <otus about="#otus22" id="Tls12992" label="Combined" xml:base="http://purl.org/PHYLO/TREEBASE/PHYLOWS/taxon/TB2:">
+  <otus about="#otus22" id="Tls12992" label="Combined" xml:base="http://treebase.org/treebase-web/phylows/taxon/TB2:">
     <meta content="Mapped from TreeBASE schema using NexmlOTUConverter $Rev: 947 $" datatype="xsd:string" id="meta23" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
     <otu about="#Tl188014" id="Tl188014" label="Zenodorus cf. orbiculatus">
       <meta content="41456" datatype="xsd:long" id="meta31" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -29,14 +29,14 @@
       <meta href="http://purl.uniprot.org/taxonomy/393215" id="meta28" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Zenodorus orbiculatus" datatype="xsd:string" id="meta27" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3546132" id="meta26" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta25" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta25" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188024" id="Tl188024" label="Tomocyrba andasibe">
       <meta content="342893" datatype="xsd:long" id="meta37" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="378946" datatype="xsd:long" id="meta36" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393207" id="meta35" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:10316454" id="meta34" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta33" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta33" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl47886" id="Tl47886" label="Thrandina paroculus">
       <meta content="342903" datatype="xsd:long" id="meta44" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -44,7 +44,7 @@
       <meta href="http://purl.uniprot.org/taxonomy/393222" id="meta42" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Thrandina parocula" datatype="xsd:string" id="meta41" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:10316462" id="meta40" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta39" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta39" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188000" id="Tl188000" label="Xysticus sp.">
       <meta content="41457" datatype="xsd:long" id="meta51" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -52,48 +52,48 @@
       <meta href="http://purl.uniprot.org/taxonomy/187486" id="meta49" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Xysticus" datatype="xsd:string" id="meta48" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3536436" id="meta47" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta46" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta46" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188015" id="Tl188015" label="Terralonus mylothrus">
       <meta content="28706" datatype="xsd:long" id="meta57" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="66905" datatype="xsd:long" id="meta56" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/153441" id="meta55" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3545472" id="meta54" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta53" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta53" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188019" id="Tl188019" label="Spartaeus uplandicus">
       <meta content="41458" datatype="xsd:long" id="meta62" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96601" datatype="xsd:long" id="meta61" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3545092" id="meta60" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta59" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta59" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188009" id="Tl188009" label="Spartaeus spinimanus">
       <meta content="41459" datatype="xsd:long" id="meta68" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96603" datatype="xsd:long" id="meta67" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/243373" id="meta66" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3545089" id="meta65" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta64" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta64" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188008" id="Tl188008" label="Sitticus palustris">
       <meta content="342906" datatype="xsd:long" id="meta74" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="503543" datatype="xsd:long" id="meta73" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393228" id="meta72" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:10316468" id="meta71" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta70" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta70" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl187998" id="Tl187998" label="Salticus scenicus">
       <meta content="41460" datatype="xsd:long" id="meta80" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96613" datatype="xsd:long" id="meta79" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/243486" id="meta78" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3544331" id="meta77" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta76" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta76" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188020" id="Tl188020" label="Portia labiata">
       <meta content="41461" datatype="xsd:long" id="meta86" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96648" datatype="xsd:long" id="meta85" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/243369" id="meta84" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3543786" id="meta83" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta82" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta82" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188001" id="Tl188001" label="Portia cf. schultzi">
       <meta content="41462" datatype="xsd:long" id="meta94" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -102,7 +102,7 @@
       <meta href="http://purl.uniprot.org/taxonomy/393210" id="meta91" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Portia schultzi" datatype="xsd:string" id="meta90" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3543795" id="meta89" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta88" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta88" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188003" id="Tl188003" label="Phaeacius cf. fimbriatus">
       <meta content="41463" datatype="xsd:long" id="meta102" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -111,42 +111,42 @@
       <meta href="http://purl.uniprot.org/taxonomy/393234" id="meta99" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Phaeacius fimbriatus" datatype="xsd:string" id="meta98" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3542842" id="meta97" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta96" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta96" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl187997" id="Tl187997" label="Pellenes peninsularis">
       <meta content="41464" datatype="xsd:long" id="meta108" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96655" datatype="xsd:long" id="meta107" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393216" id="meta106" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3542762" id="meta105" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta104" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta104" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188022" id="Tl188022" label="Orthrus bicolor">
       <meta content="41465" datatype="xsd:long" id="meta114" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96657" datatype="xsd:long" id="meta113" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/243480" id="meta112" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3542308" id="meta111" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta110" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta110" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188011" id="Tl188011" label="Naphrys pulex">
       <meta content="41466" datatype="xsd:long" id="meta120" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96658" datatype="xsd:long" id="meta119" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/243440" id="meta118" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3550756" id="meta117" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta116" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta116" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl47903" id="Tl47903" label="Cheiracanthium">
       <meta content="41467" datatype="xsd:long" id="meta126" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96661" datatype="xsd:long" id="meta125" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/210001" id="meta124" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:4111832" id="meta123" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta122" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta122" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188023" id="Tl188023" label="Massagris schisma">
       <meta content="342891" datatype="xsd:long" id="meta132" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="378945" datatype="xsd:long" id="meta131" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393205" id="meta130" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:10316453" id="meta129" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta128" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta128" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188005" id="Tl188005" label="Massagris cf. honesta">
       <meta content="41468" datatype="xsd:long" id="meta140" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -155,14 +155,14 @@
       <meta href="http://purl.uniprot.org/taxonomy/393204" id="meta137" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Massagris honesta" datatype="xsd:string" id="meta136" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3541161" id="meta135" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta134" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta134" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188010" id="Tl188010" label="Lyssomanes viridis">
       <meta content="41469" datatype="xsd:long" id="meta146" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96666" datatype="xsd:long" id="meta145" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/243367" id="meta144" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3540798" id="meta143" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta142" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta142" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl47900" id="Tl47900" label="Holcolaetis sp.">
       <meta content="48243" datatype="xsd:long" id="meta153" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -170,7 +170,7 @@
       <meta href="http://purl.uniprot.org/taxonomy/393224" id="meta151" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Holcolaetis" datatype="xsd:string" id="meta150" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:4196406" id="meta149" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta148" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta148" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188004" id="Tl188004" label="Hispo cf. frenata">
       <meta content="41470" datatype="xsd:long" id="meta161" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -179,24 +179,24 @@
       <meta href="http://purl.uniprot.org/taxonomy/393227" id="meta158" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Hispo frenata" datatype="xsd:string" id="meta157" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3540085" id="meta156" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta155" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta155" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl47893" id="Tl47893" label="Helvetia sp.">
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta163" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta163" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl187993" id="Tl187993" label="Heliophanus cupreus">
       <meta content="41471" datatype="xsd:long" id="meta169" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96670" datatype="xsd:long" id="meta168" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393214" id="meta167" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3539805" id="meta166" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta165" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta165" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188016" id="Tl188016" label="Goleba lyra">
       <meta content="342895" datatype="xsd:long" id="meta175" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="378947" datatype="xsd:long" id="meta174" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393209" id="meta173" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:10316455" id="meta172" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta171" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta171" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188012" id="Tl188012" label="Cesonia sp.">
       <meta content="41472" datatype="xsd:long" id="meta182" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -204,35 +204,35 @@
       <meta href="http://purl.uniprot.org/taxonomy/243504" id="meta180" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Cesonia" datatype="xsd:string" id="meta179" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:4109549" id="meta178" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta177" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta177" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188006" id="Tl188006" label="Ghelna canadensis">
       <meta content="41473" datatype="xsd:long" id="meta188" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96674" datatype="xsd:long" id="meta187" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/426764" id="meta186" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3539277" id="meta185" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta184" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta184" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188017" id="Tl188017" label="Galianora sacha">
       <meta content="342901" datatype="xsd:long" id="meta194" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="378954" datatype="xsd:long" id="meta193" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393220" id="meta192" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:10316460" id="meta191" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta190" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta190" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl187994" id="Tl187994" label="Galianora bryicola">
       <meta content="342900" datatype="xsd:long" id="meta200" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="378953" datatype="xsd:long" id="meta199" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393219" id="meta198" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:10316459" id="meta197" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta196" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta196" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl187996" id="Tl187996" label="Evarcha proszynskii">
       <meta content="41474" datatype="xsd:long" id="meta206" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96675" datatype="xsd:long" id="meta205" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/527272" id="meta204" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3539071" id="meta203" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta202" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta202" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl47888" id="Tl47888" label="Eupoa nezha">
       <meta content="41475" datatype="xsd:long" id="meta214" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -241,21 +241,21 @@
       <meta href="http://purl.uniprot.org/taxonomy/432257" id="meta211" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Eupoa Zabka 1985" datatype="xsd:string" id="meta210" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:4547413" id="meta209" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta208" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta208" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188002" id="Tl188002" label="Euophrys monadnock">
       <meta content="41476" datatype="xsd:long" id="meta220" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96679" datatype="xsd:long" id="meta219" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393217" id="meta218" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3538761" id="meta217" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta216" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta216" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl188007" id="Tl188007" label="Dendryphantes hastatus">
       <meta content="41477" datatype="xsd:long" id="meta226" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
       <meta content="96681" datatype="xsd:long" id="meta225" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
       <meta href="http://purl.uniprot.org/taxonomy/393231" id="meta224" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:3538333" id="meta223" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta222" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta222" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
     <otu about="#Tl187995" id="Tl187995" label="Hibana sp.">
       <meta content="41478" datatype="xsd:long" id="meta233" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
@@ -263,10 +263,10 @@
       <meta href="http://purl.uniprot.org/taxonomy/243507" id="meta231" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
       <meta content="Hibana" datatype="xsd:string" id="meta230" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
       <meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:4552684" id="meta229" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta228" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta228" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     </otu>
   </otus>
-  <characters about="#characters234" id="M1853" label="AllGenesFig15" otus="Tls12992" xml:base="http://purl.org/PHYLO/TREEBASE/PHYLOWS/matrix/TB2:" xsi:type="nex:DnaSeqs">
+  <characters about="#characters234" id="M1853" label="AllGenesFig15" otus="Tls12992" xml:base="http://treebase.org/treebase-web/phylows/matrix/TB2:" xsi:type="nex:DnaSeqs">
     <meta content="M3207" datatype="xsd:string" id="meta5141" property="tb:identifier.matrix.tb1" xsi:type="nex:LiteralMeta"/>
     <meta content="1853" datatype="xsd:long" id="meta5140" property="tb:identifier.matrix" xsi:type="nex:LiteralMeta"/>
     <meta content="4849" datatype="xsd:integer" id="meta5139" property="tb:nchar.matrix" xsi:type="nex:LiteralMeta"/>
@@ -5296,15 +5296,15 @@
       </row>
     </matrix>
   </characters>
-  <trees about="#trees5142" id="Tb8353" label="Tb8353" otus="Tls12992" xml:base="http://purl.org/PHYLO/TREEBASE/PHYLOWS/tree/TB2:">
-    <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta5144" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+  <trees about="#trees5142" id="Tb8353" label="Tb8353" otus="Tls12992" xml:base="http://treebase.org/treebase-web/phylows/tree/TB2:">
+    <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta5144" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
     <meta content="Mapped from TreeBASE schema using NexmlTreeBlockConverter $Rev: 948 $" datatype="xsd:string" id="meta5143" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
     <tree about="#Tr4816" id="Tr4816" label="Fig. 15" xsi:type="nex:FloatTree">
       <meta content="33" datatype="xsd:integer" id="meta5150" property="tb:ntax.tree" xsi:type="nex:LiteralMeta"/>
       <meta content="Unrated" datatype="xsd:string" id="meta5149" property="tb:quality.tree" xsi:type="nex:LiteralMeta"/>
       <meta content="Single" datatype="xsd:string" id="meta5148" property="tb:type.tree" xsi:type="nex:LiteralMeta"/>
       <meta content="Species Tree" datatype="xsd:string" id="meta5147" property="tb:kind.tree" xsi:type="nex:LiteralMeta"/>
-      <meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1787" id="meta5146" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+      <meta href="http://treebase.org/treebase-web/phylows/study/TB2:S1787" id="meta5146" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
       <node id="Tn339602"/>
       <node id="Tn339600" label="Hibana sp." otu="Tl187995"/>
       <node id="Tn339613"/>

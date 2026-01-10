@@ -20,7 +20,7 @@ public class IdentifyUtilTest {
 		assertEquals(112017L, IdentifyUtil.parseID(params));
 		params.setIdentifier("oai:HUBerlin.de:3000218");
 		assertEquals(3000218L, IdentifyUtil.parseID(params));
-		params.setIdentifier("http://purl.org/phylo/treebase/phylows/study/TB2:S6705");
+		params.setIdentifier("http://treebase.org/treebase-web/phylows/study/TB2:S6705");
 		assertEquals(6705L, IdentifyUtil.parseID(params));
 	}
 }
