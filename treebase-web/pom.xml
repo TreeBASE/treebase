@@ -283,6 +283,10 @@
 					<groupId>org.slf4j</groupId>
 					<artifactId>jcl104-over-slf4j</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>com.lowagie</groupId>
+					<artifactId>itext</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -577,23 +581,9 @@
         </dependency>
         <!-- itext, option to add PDF export -->
         <dependency>
-                <groupId>com.lowagie</groupId>
-                <artifactId>itext</artifactId>
-                <version>2.1.7</version>
-                <exclusions>
-                        <exclusion>
-                                <artifactId>bcmail-jdk14</artifactId>
-                                <groupId>bouncycastle</groupId>
-                        </exclusion>
-                        <exclusion>
-                                <artifactId>bcprov-jdk14</artifactId>
-                                <groupId>bouncycastle</groupId>
-                        </exclusion>
-                        <exclusion>
-                                <artifactId>bctsp-jdk14</artifactId>
-                                <groupId>bouncycastle</groupId>
-                        </exclusion>
-                </exclusions>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itextpdf</artifactId>
+                <version>5.5.13.3</version>
         </dependency>
 
         <!-- Test dependencies -->
