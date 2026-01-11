@@ -84,28 +84,49 @@ public class ResetPasswordController extends BaseFormController {
 	@Override
 	protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response,
 			BindException errors) throws Exception {
-		
+
 		String token = request.getParameter("token");
-		
+
+		LOGGER.info("ResetPasswordController.showForm() called with token: " + token);
+
+		// Always start with the base form setup
+		ModelAndView mav = super.showForm(request, response, errors);
+
+		// Check if there's an error message set by onSubmit
+		Object errorAttr = request.getAttribute("errors");
+		if (errorAttr != null) {
+			mav.addObject("errors", errorAttr);
+		}
+
 		if (TreebaseUtil.isEmpty(token)) {
-			request.setAttribute("errors", getMessageSourceAccessor().getMessage(
-				"user.password.reset.token.missing"));
-			return new ModelAndView(getFormView());
+			if (errorAttr == null) {
+				mav.addObject("errors", getMessageSourceAccessor().getMessage(
+					"user.password.reset.token.missing"));
+			}
+			return mav;
 		}
 
 		PasswordResetToken resetToken = getPasswordResetTokenHome().findByToken(token);
-		
+
 		if (resetToken == null || !resetToken.isValid()) {
-			request.setAttribute("errors", getMessageSourceAccessor().getMessage(
-				"user.password.reset.token.invalid"));
-			return new ModelAndView(getFormView());
+			if (errorAttr == null) {
+				mav.addObject("errors", getMessageSourceAccessor().getMessage(
+					"user.password.reset.token.invalid"));
+			}
+			return mav;
 		}
 
-		// Token is valid, show the form
+		// Token is valid, add token and username to both request and model
 		request.setAttribute("token", token);
 		request.setAttribute("username", resetToken.getUser().getUsername());
-		
-		return super.showForm(request, response, errors);
+		mav.addObject("token", token);
+		mav.addObject("username", resetToken.getUser().getUsername());
+
+		LOGGER.info("Token is valid, showing reset form for user: " + resetToken.getUser().getUsername());
+		LOGGER.info("Token in request: " + request.getAttribute("token"));
+		LOGGER.info("Token in model: " + mav.getModel().get("token"));
+
+		return mav;
 	}
 
 	/**
@@ -121,24 +142,32 @@ public class ResetPasswordController extends BaseFormController {
 		String newPassword = request.getParameter("newPassword");
 		String confirmPassword = request.getParameter("confirmPassword");
 
-		// Validate inputs
+		// Validate token exists
 		if (TreebaseUtil.isEmpty(token)) {
 			request.setAttribute("errors", getMessageSourceAccessor().getMessage(
 				"user.password.reset.token.missing"));
 			return showForm(request, response, errors);
 		}
 
+		// Find and validate the token
+		PasswordResetToken resetToken = getPasswordResetTokenHome().findByToken(token);
+
+		if (resetToken == null || !resetToken.isValid()) {
+			request.setAttribute("errors", getMessageSourceAccessor().getMessage(
+				"user.password.reset.token.invalid"));
+			return showForm(request, response, errors);
+		}
+
+		// Token is valid, validate password inputs
 		if (TreebaseUtil.isEmpty(newPassword) || TreebaseUtil.isEmpty(confirmPassword)) {
 			request.setAttribute("errors", getMessageSourceAccessor().getMessage(
 				"user.password.reset.password.required"));
-			request.setAttribute("token", token);
 			return showForm(request, response, errors);
 		}
 
 		if (!newPassword.equals(confirmPassword)) {
 			request.setAttribute("errors", getMessageSourceAccessor().getMessage(
 				"user.password.reset.password.mismatch"));
-			request.setAttribute("token", token);
 			return showForm(request, response, errors);
 		}
 
@@ -146,16 +175,6 @@ public class ResetPasswordController extends BaseFormController {
 		if (newPassword.length() < 8) {
 			request.setAttribute("errors", getMessageSourceAccessor().getMessage(
 				"user.password.reset.password.weak"));
-			request.setAttribute("token", token);
-			return showForm(request, response, errors);
-		}
-
-		// Find and validate the token
-		PasswordResetToken resetToken = getPasswordResetTokenHome().findByToken(token);
-		
-		if (resetToken == null || !resetToken.isValid()) {
-			request.setAttribute("errors", getMessageSourceAccessor().getMessage(
-				"user.password.reset.token.invalid"));
 			return showForm(request, response, errors);
 		}
 
@@ -173,10 +192,8 @@ public class ResetPasswordController extends BaseFormController {
 			LOGGER.info("Password reset successful for user: " + user.getUsername());
 		}
 
-		// Redirect to login with success message
-		request.setAttribute("messages", getMessageSourceAccessor().getMessage(
-			"user.password.reset.success"));
-		
+		// Redirect to login with success parameter
+		// The success message will be handled by login.jsp based on the ?reset=success parameter
 		return new ModelAndView(getSuccessView());
 	}
 }
