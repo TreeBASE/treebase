@@ -5,7 +5,7 @@
 <c:if test="${not empty errors}">
     <div class="error" id="errorMessages">
         <c:choose>
-            <c:when test="${errors instanceof String}">
+            <c:when test="${errors.class.simpleName eq 'String'}">
                 <%-- Handle single concatenated string with newlines --%>
                 <c:forTokens var="error" items="${errors}" delims="${newline}">
                     <c:if test="${not empty fn:trim(error)}">
@@ -32,7 +32,7 @@
 <c:if test="${not empty messages}">
     <div class="message" id="successMessages">
         <c:choose>
-            <c:when test="${messages instanceof String}">
+            <c:when test="${messages.class.simpleName eq 'String'}">
                 <%-- Handle single concatenated string with newlines --%>
                 <c:forTokens var="msg" items="${messages}" delims="${newline}">
                     <c:if test="${not empty fn:trim(msg)}">
