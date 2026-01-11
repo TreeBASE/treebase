@@ -1,7 +1,6 @@
 <%@ include file="/common/taglibs.jsp"%>
 <%-- Define newline character for splitting concatenated messages --%>
-<c:set var="newline" value="
-"/>
+<c:set var="newline" value="&#10;"/>
 <%-- Error Messages --%>
 <c:if test="${not empty errors}">
     <div class="error" id="errorMessages">
@@ -9,9 +8,11 @@
             <c:when test="${errors instanceof String}">
                 <%-- Handle single concatenated string with newlines --%>
                 <c:forTokens var="error" items="${errors}" delims="${newline}">
-                    <img src="<fmt:message key="icons.warn"/>"
-                        alt="<fmt:message key="icon.warning"/>" class="icon" />
-                    <c:out value="${error}" escapeXml="false"/><br />
+                    <c:if test="${not empty fn:trim(error)}">
+                        <img src="<fmt:message key="icons.warn"/>"
+                            alt="<fmt:message key="icon.warning"/>" class="icon" />
+                        <c:out value="${error}" escapeXml="false"/><br />
+                    </c:if>
                 </c:forTokens>
             </c:when>
             <c:otherwise>
@@ -34,9 +35,11 @@
             <c:when test="${messages instanceof String}">
                 <%-- Handle single concatenated string with newlines --%>
                 <c:forTokens var="msg" items="${messages}" delims="${newline}">
-                    <img src="<fmt:message key="icons.info"/>"
-                        alt="<fmt:message key="icon.information"/>" class="icon" />
-                    <c:out value="${msg}" escapeXml="false"/><br />
+                    <c:if test="${not empty fn:trim(msg)}">
+                        <img src="<fmt:message key="icons.info"/>"
+                            alt="<fmt:message key="icon.information"/>" class="icon" />
+                        <c:out value="${msg}" escapeXml="false"/><br />
+                    </c:if>
                 </c:forTokens>
             </c:when>
             <c:otherwise>
