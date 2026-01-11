@@ -51,4 +51,11 @@
                override="false"
                description="Host name of an SMTP server."/>	
 
+  <!-- SMTP port (use 1025 for MailHog or similar mail catchers in development) -->
+  <Environment name="tb2/SmtpPort" 
+               value="25"
+               type="java.lang.String" 
+               override="false"
+               description="Port number of the SMTP server."/>	
+
 </Context>

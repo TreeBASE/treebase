@@ -105,6 +105,12 @@
       <env-entry-type>java.lang.String</env-entry-type>
     </env-entry>	
 
+    <env-entry>
+      <description>Port number of the SMTP server (defaults to 25).</description>
+      <env-entry-name>tb2/SmtpPort</env-entry-name>
+      <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>	
+
 	<!-- ========================================================== -->
 	<!-- List of Filters											-->
 	<!-- ========================================================== -->

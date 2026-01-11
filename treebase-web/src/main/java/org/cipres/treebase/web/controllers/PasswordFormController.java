@@ -108,7 +108,8 @@ public class PasswordFormController extends BaseFormController {
 		
 		// create mail session
 		Properties props = new Properties();
-		props.put("mail.smtp.host", TreebaseUtil.getSmtpHost()); 
+		props.put("mail.smtp.host", TreebaseUtil.getSmtpHost());
+		props.put("mail.smtp.port", TreebaseUtil.getSmtpPort());
 		Session mailSession = Session.getDefaultInstance(props,null);
 		
 		// create email message header information

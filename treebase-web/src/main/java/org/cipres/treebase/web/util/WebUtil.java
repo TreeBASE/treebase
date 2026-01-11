@@ -132,11 +132,17 @@ public class WebUtil {
 	/**
 	 * send email message to user to notify user the link to pick up result
 	 * 
+	 * @param host: SMTP host
+	 * @param port: SMTP port
+	 * @param from: sender of the message
 	 * @param to: recipient of the message
+	 * @param subject: email subject
+	 * @param message: email message body
 	 * @param link: http link to get download the file
 	 */
 	public static void sendEmailAsText(
 		String host,
+		String port,
 		String from,
 		String to,
 		String subject,
@@ -149,6 +155,7 @@ public class WebUtil {
 		// create mail session
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", port);
 		Session mailSession = Session.getDefaultInstance(props, null);
 
 		// create email message header information
@@ -163,16 +170,42 @@ public class WebUtil {
 	}
 
 	/**
+	 * send email message to user to notify user the link to pick up result
+	 * 
+	 * @param host: SMTP host
+	 * @param from: sender of the message
+	 * @param to: recipient of the message
+	 * @param subject: email subject
+	 * @param message: email message body
+	 * @param link: http link to get download the file
+	 * @deprecated Use {@link #sendEmailAsText(String, String, String, String, String, String, String)} instead
+	 */
+	@Deprecated
+	public static void sendEmailAsText(
+		String host,
+		String from,
+		String to,
+		String subject,
+		String message,
+		String link) throws Exception {
+		sendEmailAsText(host, "25", from, to, subject, message, link);
+	}
+
+	/**
 	 * send email as html message
 	 * 
-	 * @param host
-	 * @param from
-	 * @param to
-	 * @param link
+	 * @param host: SMTP host
+	 * @param port: SMTP port
+	 * @param from: sender of the message
+	 * @param to: recipient of the message
+	 * @param subject: email subject
+	 * @param message: email message body
+	 * @param link: http link
 	 * @throws Exception
 	 */
 	public static void sendEmailAsHtml(
 		String host,
+		String port,
 		String from,
 		String to,
 		String subject,
@@ -188,6 +221,7 @@ public class WebUtil {
 		// create mail session
 		Properties props = new Properties();
 		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", port);
 		Session mailSession = Session.getDefaultInstance(props, null);
 
 		// create email message header information
@@ -209,6 +243,29 @@ public class WebUtil {
 
 		// send the message
 		Transport.send(mimeMessage);
+	}
+
+	/**
+	 * send email as html message
+	 * 
+	 * @param host: SMTP host
+	 * @param from: sender of the message
+	 * @param to: recipient of the message
+	 * @param subject: email subject
+	 * @param message: email message body
+	 * @param link: http link
+	 * @throws Exception
+	 * @deprecated Use {@link #sendEmailAsHtml(String, String, String, String, String, String, String)} instead
+	 */
+	@Deprecated
+	public static void sendEmailAsHtml(
+		String host,
+		String from,
+		String to,
+		String subject,
+		String message,
+		String link) throws Exception {
+		sendEmailAsHtml(host, "25", from, to, subject, message, link);
 	}
 
 	/**
