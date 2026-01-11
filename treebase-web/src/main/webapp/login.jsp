@@ -25,5 +25,5 @@
 
 <!-- loginForm.jsp -->
 <c:import url="/WEB-INF/pages/loginForm.jsp"/>
-<!-- password -->
-<p>Forgot your password? Have your <a href="<c:url value="passwordForm.html"/>">password e-mailed to you</a></p>
+<!-- password reset -->
+<p>Forgot your password? <a href="<c:url value="passwordForm.html"/>">Request a password reset</a></p>

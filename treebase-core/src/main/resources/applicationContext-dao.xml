@@ -137,6 +137,17 @@
 			</bean>
 		</property>
 	</bean>
+
+	<bean id="passwordResetTokenHome" parent="baseTransactionProxy">
+		<property name="proxyInterfaces">
+			<value>org.cipres.treebase.domain.admin.PasswordResetTokenHome</value>
+		</property>
+		<property name="target">
+			<bean class="org.cipres.treebase.dao.admin.PasswordResetTokenDAO">
+				<property name="sessionFactory" ref="sessionFactory" />
+			</bean>
+		</property>
+	</bean>
 	
 	<!-- DAO package: org.cipres.treebase.dao.matrix -->
 	<bean id="characterHome" parent="baseTransactionProxy">

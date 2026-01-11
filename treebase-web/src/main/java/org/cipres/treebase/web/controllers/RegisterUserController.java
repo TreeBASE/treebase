@@ -6,13 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.cipres.treebase.domain.admin.User;
 import org.cipres.treebase.framework.ExecutionResult;
-import org.cipres.treebase.web.Constants;
-import org.cipres.treebase.web.util.StringUtil;
 
 /**
  * RegisterUserController.java
@@ -26,6 +25,24 @@ import org.cipres.treebase.web.util.StringUtil;
  */
 public class RegisterUserController extends AbstractUserController {
 	private static final Logger LOGGER = LogManager.getLogger(RegisterUserController.class);
+
+	private PasswordEncoder mPasswordEncoder;
+
+	/**
+	 * Return the PasswordEncoder field.
+	 * 
+	 * @return PasswordEncoder
+	 */
+	public PasswordEncoder getPasswordEncoder() {
+		return mPasswordEncoder;
+	}
+
+	/**
+	 * Set the PasswordEncoder field.
+	 */
+	public void setPasswordEncoder(PasswordEncoder pPasswordEncoder) {
+		mPasswordEncoder = pPasswordEncoder;
+	}
 
 	/**
 	 * 
@@ -53,9 +70,9 @@ public class RegisterUserController extends AbstractUserController {
 		}
 
 		if (request.getParameter(ACTION_SUBMIT) != null) {
-			// TODO: need code to encrypt and decrypt password
-			// user.setPassword(StringUtil.encodePassword(user.getPassword(),Constants.ENCRYPTION_ALGORITHM));
-			StringUtil.encodePassword(user.getPassword(), Constants.ENCRYPTION_ALGORITHM);
+			// Encrypt the password using BCrypt before storing
+			String encodedPassword = getPasswordEncoder().encode(user.getPassword());
+			user.setPassword(encodedPassword);
 
 			ExecutionResult execResult = getUserService().createUser(user);
 

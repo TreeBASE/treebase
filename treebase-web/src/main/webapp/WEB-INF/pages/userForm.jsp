@@ -81,9 +81,12 @@ function checkPasswords() {
     	<td><label for="user.password"><fmt:message key="user.password"/>:</label></td>
         <td>
             <spring:bind path="user.password">
-            <input type="password" class="textCell" name="<c:out value="${status.expression}"/>" id = "<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+            <input type="password" class="textCell" name="<c:out value="${status.expression}"/>" id = "<c:out value="${status.expression}"/>" value=""/>
             <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
             </spring:bind>
+            <c:if test="${user.id != null}">
+                <br/><small>(Leave blank to keep current password)</small>
+            </c:if>
         </td>
     </tr>
     
@@ -91,7 +94,7 @@ function checkPasswords() {
     	<td>Re-type Password:</td>
         <td>
          
-            <input type="password" class="textCell" name="retypedpassword" id ="retypedpassword"/>
+            <input type="password" class="textCell" name="retypedpassword" id ="retypedpassword" value=""/>
             <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
           
         </td>

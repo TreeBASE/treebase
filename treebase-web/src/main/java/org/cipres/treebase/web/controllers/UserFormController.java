@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,10 +28,28 @@ import org.cipres.treebase.domain.admin.UserRole;
 public class UserFormController extends AbstractUserController {
 	private static final Logger LOGGER = LogManager.getLogger(UserFormController.class);
 
+	private PasswordEncoder mPasswordEncoder;
+
 	public UserFormController() {
 		super();
 
 		setCancelView("redirect:/user/submissionList.html");
+	}
+
+	/**
+	 * Return the PasswordEncoder field.
+	 * 
+	 * @return PasswordEncoder
+	 */
+	public PasswordEncoder getPasswordEncoder() {
+		return mPasswordEncoder;
+	}
+
+	/**
+	 * Set the PasswordEncoder field.
+	 */
+	public void setPasswordEncoder(PasswordEncoder pPasswordEncoder) {
+		mPasswordEncoder = pPasswordEncoder;
 	}
 
 	/**
@@ -44,22 +63,69 @@ public class UserFormController extends AbstractUserController {
 		BindException bindExp) throws Exception {
 
 		User user = (User) command;
-
-		if (!checkPasswords(request, user)) {
+		String uid = request.getParameter("id");
+		
+		// Security check: verify the authenticated user has permission to modify this account
+		String authenticatedUsername = request.getRemoteUser();
+		User currentUser = getUserService().findUserByName(authenticatedUsername);
+		
+		if (currentUser == null) {
 			return setAttributeAndShowForm(
 				request,
 				response,
 				bindExp,
 				"errors",
-				"The passwords you typed are not identical.");
+				"Access denied. Please log in.");
+		}
+		
+		// Users can only modify their own profile unless they are an admin
+		Long requestedId = Long.parseLong(uid);
+		if (!currentUser.getId().equals(requestedId) && !currentUser.getRole().isAdmin()) {
+			LOGGER.warn("User {} attempted to modify profile of user ID {}", 
+				authenticatedUsername, requestedId);
+			return setAttributeAndShowForm(
+				request,
+				response,
+				bindExp,
+				"errors",
+				"Access denied. You can only modify your own profile.");
+		}
+		
+		user.setId(requestedId);
+
+		// Get the original user to preserve password if not changed
+		User existingUser = getUserHome().findByUserName(user.getUsername());
+		if (existingUser == null) {
+			existingUser = (User) getUserHome().findPersistedObjectByID(User.class, requestedId);
 		}
 
-		// Only the admin user can update the user role:
-		String username = request.getRemoteUser();
-		User currentUser = getUserService().findUserByName(username);
+		// Handle password update
+		String newPassword = user.getPassword();
+		String retypedPassword = request.getParameter("retypedpassword");
+		
+		if (TreebaseUtil.isEmpty(newPassword) && TreebaseUtil.isEmpty(retypedPassword)) {
+			// User didn't enter a new password - keep the existing one
+			if (existingUser != null) {
+				user.setPassword(existingUser.getPassword());
+			}
+		} else {
+			// User entered a new password - validate and encode it
+			if (!newPassword.equals(retypedPassword)) {
+				return setAttributeAndShowForm(
+					request,
+					response,
+					bindExp,
+					"errors",
+					"The passwords you typed are not identical.");
+			}
+			
+			// Encode the new password
+			String encodedPassword = getPasswordEncoder().encode(newPassword);
+			user.setPassword(encodedPassword);
+		}
+
+		// Only the admin user can update the user role (reusing currentUser from auth check):
 		String updateRole = user.getTmpRoleDescription();
-		String uid = request.getParameter("id");
-		user.setId(Long.parseLong(uid)); // XXX
 
 		// update role if it is changed:
 		if (!TreebaseUtil.isEmpty(updateRole) && !updateRole.equals(user.getRoleDescription())) {
