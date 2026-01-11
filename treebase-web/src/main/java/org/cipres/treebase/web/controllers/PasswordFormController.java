@@ -96,6 +96,10 @@ public class PasswordFormController extends BaseFormController {
 			request.setAttribute("errors", "Please provide either user name or email.");
 			return showForm(request, response, errors);
 		}
+		
+		// Record start time to normalize response time and prevent timing attacks
+		long startTime = System.currentTimeMillis();
+		final long MIN_RESPONSE_TIME_MS = 500; // Minimum response time to normalize timing
 				
 		// look up user information
 		User u = null;
@@ -111,6 +115,8 @@ public class PasswordFormController extends BaseFormController {
 		if (u == null) {
 			// For security: don't reveal whether a user exists or not
 			// Always show a success message to prevent user enumeration attacks
+			// Add delay to normalize response time and prevent timing attacks
+			normalizeResponseTime(startTime, MIN_RESPONSE_TIME_MS);
 			request.setAttribute("messages", getMessageSourceAccessor().getMessage(
 				"user.password.reset.sent"));
 			return showForm(request, response, errors);
@@ -137,10 +143,31 @@ public class PasswordFormController extends BaseFormController {
 		// Send the password reset email
 		sendPasswordResetEmail(u, resetUrl);
 		
+		// Normalize response time for successful case too
+		normalizeResponseTime(startTime, MIN_RESPONSE_TIME_MS);
+		
 		request.setAttribute("messages", getMessageSourceAccessor().getMessage(
 			"user.password.reset.sent"));
 		
 		return showForm(request, response, errors);
+	}
+
+	/**
+	 * Normalize response time to prevent timing attacks.
+	 * Ensures the response takes at least minTimeMs from the start time.
+	 *
+	 * @param startTime the start time in milliseconds
+	 * @param minTimeMs minimum response time in milliseconds
+	 */
+	private void normalizeResponseTime(long startTime, long minTimeMs) {
+		long elapsed = System.currentTimeMillis() - startTime;
+		if (elapsed < minTimeMs) {
+			try {
+				Thread.sleep(minTimeMs - elapsed);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
 	}
 
 	/**

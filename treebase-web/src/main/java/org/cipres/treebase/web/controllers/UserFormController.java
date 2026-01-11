@@ -64,12 +64,39 @@ public class UserFormController extends AbstractUserController {
 
 		User user = (User) command;
 		String uid = request.getParameter("id");
-		user.setId(Long.parseLong(uid));
+		
+		// Security check: verify the authenticated user has permission to modify this account
+		String authenticatedUsername = request.getRemoteUser();
+		User currentUser = getUserService().findUserByName(authenticatedUsername);
+		
+		if (currentUser == null) {
+			return setAttributeAndShowForm(
+				request,
+				response,
+				bindExp,
+				"errors",
+				"Access denied. Please log in.");
+		}
+		
+		// Users can only modify their own profile unless they are an admin
+		Long requestedId = Long.parseLong(uid);
+		if (!currentUser.getId().equals(requestedId) && !currentUser.getRole().isAdmin()) {
+			LOGGER.warn("User {} attempted to modify profile of user ID {}", 
+				authenticatedUsername, requestedId);
+			return setAttributeAndShowForm(
+				request,
+				response,
+				bindExp,
+				"errors",
+				"Access denied. You can only modify your own profile.");
+		}
+		
+		user.setId(requestedId);
 
 		// Get the original user to preserve password if not changed
 		User existingUser = getUserHome().findByUserName(user.getUsername());
 		if (existingUser == null) {
-			existingUser = (User) getUserHome().findPersistedObjectByID(User.class, Long.parseLong(uid));
+			existingUser = (User) getUserHome().findPersistedObjectByID(User.class, requestedId);
 		}
 
 		// Handle password update
@@ -97,9 +124,7 @@ public class UserFormController extends AbstractUserController {
 			user.setPassword(encodedPassword);
 		}
 
-		// Only the admin user can update the user role:
-		String username = request.getRemoteUser();
-		User currentUser = getUserService().findUserByName(username);
+		// Only the admin user can update the user role (reusing currentUser from auth check):
 		String updateRole = user.getTmpRoleDescription();
 
 		// update role if it is changed:
