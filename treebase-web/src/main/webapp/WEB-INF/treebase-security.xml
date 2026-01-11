@@ -12,7 +12,15 @@
 	<!-- Migrated from Acegi Security to Spring Security 5.8.15 -->
 
 	<!-- HTTP Security Configuration -->
-	<security:http auto-config="false" use-expressions="false" access-decision-manager-ref="accessDecisionManager">
+	<!-- Note: servlet-api-provision="false" disables automatic request wrapping.
+	     We add a custom SecurityContextHolderAwareRequestFilter below with empty role prefix
+	     to support isUserInRole() calls without the "ROLE_" prefix requirement.
+	     This is needed for struts-menu library which uses isUserInRole() to check menu visibility. -->
+	<security:http auto-config="false" use-expressions="false" access-decision-manager-ref="accessDecisionManager"
+		servlet-api-provision="false">
+
+		<!-- Custom filter to handle isUserInRole() without ROLE_ prefix -->
+		<security:custom-filter ref="servletApiFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
 		<!-- URL-based authorization rules (most specific first) -->
 		<security:intercept-url pattern="/submit.html" access="User,Admin,Associate Editor"/>
 		<security:intercept-url pattern="/user/**" access="User,Admin,Associate Editor"/>
@@ -78,6 +86,15 @@
 		<property name="expressionHandler">
 			<bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
 		</property>
+	</bean>
+
+	<!-- Custom SecurityContextHolderAwareRequestFilter with empty role prefix.
+	     This allows isUserInRole() to work without the "ROLE_" prefix requirement,
+	     which is needed for struts-menu library and backward compatibility with existing
+	     role names (Admin, User, Associate Editor) stored in the database. -->
+	<bean id="servletApiFilter"
+		class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter">
+		<property name="rolePrefix" value=""/>
 	</bean>
 
 </beans>
