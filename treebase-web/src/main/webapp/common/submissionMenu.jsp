@@ -5,7 +5,8 @@
 <div id="gutter">
 <div id="menu">
 <a onclick="switchMenu();" style="cursor: pointer;"><img id="tb" src="../images/minus.gif"/>&nbsp;&nbsp;Tool Box</a>
-<menu:useMenuDisplayer name="ListMenu" permissions="rolesAdapter">
+<div id="menuDiv">
+<menu:useMenuDisplayer name="ListMenu">
 	<menu:displayMenu name="SubmissionHome"/>
 	<menu:displayMenu name="SubmissionNotes"/>
 	<menu:displayMenu name="SubmissionCitation"/>
@@ -18,6 +19,7 @@
     <menu:displayMenu name="SubmissionAnalyses"/>     
     <menu:displayMenu name="SubmissionSubmissions"/>    
  </menu:useMenuDisplayer>
+</div>
  <div id="debug"></div>
 </div>
 </div>
