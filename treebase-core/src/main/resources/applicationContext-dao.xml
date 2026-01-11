@@ -88,6 +88,7 @@
 				<prop key="add*">PROPAGATION_REQUIRED</prop>
 				<prop key="update*">PROPAGATION_REQUIRED</prop>
 				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="invalidate*">PROPAGATION_REQUIRED</prop>
 				<prop key="replace*">PROPAGATION_REQUIRED</prop>
 				<prop key="move*">PROPAGATION_REQUIRED</prop>
 
