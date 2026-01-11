@@ -1,5 +1,4 @@
 <%@ include file="/common/taglibs.jsp"%>
-<%@ page import="java.util.Collection" %>
 <%-- Error Messages --%>
 <c:if test="${not empty errors}">
     <div class="error" id="errorMessages">
