@@ -19,7 +19,7 @@
 </p> 
 
 <p class="readyStateError" style="display:none;">
-	The items in the Tool Box on the right that are highlighted in yellow indicate that the item either has not been visited or there is an error. Hovering your mouse over the item will indicate the nature of the problem. Your submission cannot be changed to "Ready" state until all highlighted items are addressed. Please return to your submission to complete it. If you think this request is in error, please contact <a href='mailto:help@treebase.org?subject=TreeBASE Submission S<c:out value="${submissionNumber}"/>'>help</a>. 
+	The items in the Tool Box on the right that are highlighted in yellow indicate that the item either has not been visited or there is an error. Hovering your mouse over the item will indicate the nature of the problem. Your submission cannot be changed to "Ready" state until all highlighted items are addressed. Please return to your submission to complete it. If you think this request is in error, please contact <a href='https://github.com/TreeBASE/treebase/issues/new?title=TreeBASE Submission S<c:out value="${submissionNumber}"/>'>help</a>. 
 	<br /><br />
 	The most common problems include:
 	<br /><br />
