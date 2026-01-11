@@ -26,7 +26,7 @@ insert into itemDefinition(itemDefinition_id, VERSION, Description) values
 (7, 1, 'SampleSize'),
 (8, 1, 'States');
 
-alter table itemDefinition alter column itemDefinition_id restart with 9;
+ALTER SEQUENCE itemdefinition_id_sequence RESTART WITH 9;
 commit;
 
 delete from PolyTCount;
@@ -53,7 +53,7 @@ INSERT INTO TREEKIND(TREEKIND_ID, VERSION, DESCRIPTION) values
 (4, 1, 'Area Tree'),
 (5, 1, 'Barcode Tree'),
 (6, 1, 'Object Classification Tree');
-alter table treekind alter column treekind_id restart with 7;
+ALTER SEQUENCE treekind_id_sequence RESTART WITH 7;
 commit;
 
 delete from treetype;
@@ -61,7 +61,7 @@ INSERT INTO TREETYPE(TREETYPE_ID, VERSION, DESCRIPTION) values
 (1, 1, 'Single'),
 (2, 1, 'Consensus'),
 (3, 1, 'SuperTree');
-alter table treetype alter column treetype_id restart with 4;
+ALTER SEQUENCE treetype_id_sequence RESTART WITH 4;
 commit;
 
 delete from treequality;
@@ -70,7 +70,7 @@ INSERT INTO TREEQUALITY(TREEQUALITY_ID, VERSION, DESCRIPTION) values
 (2, 1, 'Preferred Tree'),
 (3, 1, 'Alternative Tree'),
 (4, 1, 'Suboptimal Tree');
-alter table treequality alter column treequality_id restart with 5;
+ALTER SEQUENCE treequality_id_sequence RESTART WITH 5;
 commit;
 
 delete from matrixkind;
@@ -86,7 +86,7 @@ INSERT INTO MATRIXKIND(MATRIXKIND_ID, VERSION, DESCRIPTION) values
 (9, 1, 'Nucleic Acid'),
 (10, 1, 'Restriction Site'),
 (11, 1, 'Secondary Chemistry');
-alter table matrixkind alter column matrixkind_id restart with 12;
+ALTER SEQUENCE matrixkind_id_sequence RESTART WITH 12;
 commit;
 
 -- DiscreteCharState and MatrixDataType depend on PhyloChar, so we must handle them together
@@ -109,7 +109,7 @@ insert into phylochar (TYPE, PHYLOCHAR_ID, VERSION, DESCRIPTION) values
 -- 1:Standard, 2:DNA, 3:RNA, 4:Nucleotide, 5:Protein, 6:Continuous
 
 
-alter table phylochar alter column phylochar_id restart with 7;
+ALTER SEQUENCE phylochar_id_sequence RESTART WITH 7;
 commit;
 
 insert into MatrixDataType (MatrixDataType_ID, Version, PhyloChar_ID, Description) values
@@ -120,7 +120,7 @@ insert into MatrixDataType (MatrixDataType_ID, Version, PhyloChar_ID, Descriptio
 (5, 1, 5, 'Protein'),
 (6, 1, null, 'Continuous'),
 (7, 1, null, 'Distance');
-alter table MatrixDataType alter column MatrixDataType_id restart with 10;
+ALTER SEQUENCE matrixdatatype_id_sequence RESTART WITH 10;
 commit;
 
 -- DNA symbols
@@ -212,7 +212,7 @@ insert into DiscreteCharState (DiscreteCharState_ID, Version, Description, Phylo
 (104, 1, 'B', 5, null, null),
 (105, 1, 'Z', 5, null, null);
 
-alter table discretecharstate alter column Discretecharstate_id restart with 120;
+ALTER SEQUENCE discretecharstate_id_sequence RESTART WITH 120;
 commit;
 
 UPDATE DISCRETECHARSTATE SET SYMBOL=DESCRIPTION
@@ -225,15 +225,15 @@ commit;
 -- BEGIN Person, Submission, User, UserRole
 -- Add base users and people
 delete from submission;
-delete from user;
+delete from "user";
 delete from person;
-delete from userRole;
+delete from userrole;
 insert into userRole(userRole_id, VERSION, AUTHORITY) values 
 	(1, 1, 'Admin'),
 	(2, 1, 'User'),
 	(3, 1, 'Associate Editor');
 
-alter table userrole alter column userrole_id restart with 5;
+ALTER SEQUENCE userrole_id_sequence RESTART WITH 5;
 
 INSERT INTO PERSON(PERSON_ID, VERSION, LASTNAME, FIRSTNAME, MNAME, PHONE, EMAIL, AUTHORID) 
     VALUES
@@ -241,11 +241,11 @@ INSERT INTO PERSON(PERSON_ID, VERSION, LASTNAME, FIRSTNAME, MNAME, PHONE, EMAIL,
     (1, 0, 'Piel',    'William', 'H.',    '+1 203 716 907 3538', 'william.piel@yale.edu', ''),
     (2, 0, 'Dominus', 'Mark',    'Jason', '+1 215 573 5387',     'mjd@genomics.upenn.edu', ''),
     (3, 0, 'Tannen',  'Val',     '',      '',                    'val@cis.upenn.edu', ''),
-    (4, 0, 'Vos',     'Rutger',  'A.',    '',                    'rutgeraldo@gmail.com', '');
+    (4, 0, 'Vos',     'Rutger',  'A.',    '',                    'rutgeraldo@gmail.com', ''),
     (5, 0, 'TB 1 importation suite', '',  '',    '',  '', '');
-alter table person alter column person_id restart with 6;
+ALTER SEQUENCE person_id_sequence RESTART WITH 6;
 
-INSERT INTO USER(USER_ID, VERSION, USERNAME, PASSWORD, USERROLE_ID, PERSON_ID) 
+INSERT INTO "user"(user_id, version, username, password, userrole_id, person_id)
     VALUES
     (1,  0, 'piel', '*', 2, 1),
     (2,  0, 'mjd',  '*',       1, 2),
@@ -255,7 +255,7 @@ INSERT INTO USER(USER_ID, VERSION, USERNAME, PASSWORD, USERROLE_ID, PERSON_ID)
     (11, 0, 't1',  '*',         1, 0),
     (12, 0, 't2',  '*',         2, 0),
     (13, 0, 't3',  '*',         3, 0);
-alter table user alter column user_id restart with 100;
+ALTER SEQUENCE user_id_sequence RESTART WITH 100;
 
 commit;
 -- END Person, User, UserRole
@@ -273,13 +273,13 @@ insert into studyStatus(studystatus_id, version, description) values
 commit;
 
 -- Create initial submission amd study
-INSERT INTO STUDY(STUDY_ID, VERSION, NOTES, ACCESSIONNUMBER, RELEASEDATE, NAME, CITATION_ID, STUDYSTATUS_ID, TB_STUDYID) 
-    VALUES(1, 0, 'Mesquite parser test only', '1', current date, 'MesquiteTestStudy', null, 1, null);
-INSERT INTO SUBMISSION(SUBMISSION_ID, VERSION, SUBMISSIONNUMBER, CREATEDATE, STUDY_ID, USER_ID, TEST) 
-    VALUES(1, 0, '1', current date, 1, 1, 1);
+INSERT INTO STUDY(STUDY_ID, VERSION, NOTES, ACCESSIONNUMBER, RELEASEDATE, NAME, CITATION_ID, STUDYSTATUS_ID, TB_STUDYID)
+    VALUES(1, 0, 'Mesquite parser test only', '1', CURRENT_DATE, 'MesquiteTestStudy', null, 1, null);
+INSERT INTO SUBMISSION(SUBMISSION_ID, VERSION, SUBMISSIONNUMBER, CREATEDATE, STUDY_ID, USER_ID, TEST)
+    VALUES(1, 0, '1', CURRENT_DATE, 1, 1, 1);
 
-alter table submission alter column submission_id restart with 2;
-alter table study alter column study_id restart with 2;
+ALTER SEQUENCE submission_id_sequence RESTART WITH 2;
+ALTER SEQUENCE study_id_sequence RESTART WITH 2;
 commit;
 -- END Study, StudyStatus, Submission
 
@@ -292,13 +292,36 @@ insert into algorithm (type, algorithm_id, version, description) values
 ('E', 4, 1, 'minimum evolution'),
 ('J', 5, 1, 'neighbor joining'),
 ('U', 6, 1, 'UPGMA');
-alter table algorithm alter column algorithm_id restart with 7;
+ALTER SEQUENCE algorithm_id_sequence RESTART WITH 7;
 commit;
 
 -- Add indices
 --CREATE INDEX "TREENODE_TREE_IDX"
 --	ON "PHYLOTREENODE"("PHYLOTREE_ID")
---	CLUSTER 
+--	CLUSTER
 --	PCTFREE 10
 --	MINPCTUSED 10;
 --commit;
+
+-- Add password_reset_token table for secure password reset functionality
+CREATE SEQUENCE password_reset_token_id_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+CREATE TABLE password_reset_token (
+    token_id bigint DEFAULT nextval('password_reset_token_id_sequence'::regclass) NOT NULL,
+    token character varying(100) NOT NULL,
+    user_id bigint NOT NULL,
+    expiry_date timestamp without time zone NOT NULL,
+    used boolean DEFAULT false NOT NULL,
+    CONSTRAINT password_reset_token_pkey PRIMARY KEY (token_id),
+    CONSTRAINT password_reset_token_token_key UNIQUE (token),
+    CONSTRAINT password_reset_token_user_fk FOREIGN KEY (user_id) REFERENCES "user"(user_id) ON DELETE CASCADE
+);
+
+CREATE INDEX password_reset_token_user_idx ON password_reset_token USING btree (user_id);
+CREATE INDEX password_reset_token_expiry_idx ON password_reset_token USING btree (expiry_date);
+commit;
