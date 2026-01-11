@@ -79,6 +79,7 @@
 		<property name="cancelView"><value>redirect:login.jsp</value></property>
 		<property name="userService"><ref bean="userService"></ref></property>
 		<property name="userHome"><ref bean="userHome"></ref></property>
+		<property name="passwordEncoder"><ref bean="passwordEncoder"></ref></property>
 		<property name="validators">
         	<list>
             	<ref bean="beanValidator"/>      <!--Commons Server-side validation -->
@@ -93,6 +94,7 @@
 		<property name="formView"><value>userForm</value></property>
 		<property name="userService"><ref bean="userService"></ref></property>
 		<property name="userHome"><ref bean="userHome"></ref></property>
+		<property name="passwordEncoder"><ref bean="passwordEncoder"></ref></property>
 		<property name="validators">
         	<list>
             	<ref bean="beanValidator"/>      <!--Commons Server-side validation -->
@@ -100,14 +102,25 @@
         </property>
 	</bean>
 	
-	<!-- bean to update a user -->
+	<!-- bean to handle password reset request -->
 	<bean id="passwordFormController" class="org.cipres.treebase.web.controllers.PasswordFormController">
 		<property name="commandName"><value>user</value></property>
 		<property name="commandClass"><value>org.cipres.treebase.domain.admin.User</value></property>
 		<property name="formView"><value>passwordForm</value></property>
-		<!-- property name="successView"><value>redirect:home.html</value></property -->
 		<property name="userService"><ref bean="userService"></ref></property>
+		<property name="passwordResetTokenHome"><ref bean="passwordResetTokenHome"></ref></property>
 		<property name="mailSender"><ref bean="mailSender"></ref></property>
+	</bean>
+	
+	<!-- bean to handle password reset form submission -->
+	<bean id="resetPasswordController" class="org.cipres.treebase.web.controllers.ResetPasswordController">
+		<property name="commandName"><value>resetPassword</value></property>
+		<property name="commandClass"><value>java.lang.String</value></property>
+		<property name="formView"><value>resetPasswordForm</value></property>
+		<property name="successView"><value>redirect:/login.jsp?reset=success</value></property>
+		<property name="passwordResetTokenHome"><ref bean="passwordResetTokenHome"></ref></property>
+		<property name="userHome"><ref bean="userHome"></ref></property>
+		<property name="passwordEncoder"><ref bean="passwordEncoder"></ref></property>
 	</bean>
 	
 	<!-- Delete Study Controller to delete a particular study -->	
@@ -1026,6 +1039,7 @@
 				
 				<prop key="/register.html">registerUserController</prop>
 				<prop key="/passwordForm.html">passwordFormController</prop>
+				<prop key="/resetPassword.html">resetPasswordController</prop>
                 <prop key="/help.html">helpController</prop>
 				
 				<prop key="/searchForm.html">searchFormController</prop>

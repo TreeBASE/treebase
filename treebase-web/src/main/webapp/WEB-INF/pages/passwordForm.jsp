@@ -3,8 +3,8 @@
 <title><fmt:message key="user.password.title"/></title>
 <content tag="heading"><fmt:message key="user.password.title"/></content>
 
-<p>Please fill out either the user name or the email address on file to have your password sent to the email address we have on file.</p>
-<!--p>If you need to have it sent to a different email address, please provide one below</p-->
+<p>Please fill out either the user name or the email address on file. If an account exists, we will send a password reset link to the registered email address.</p>
+<p><strong>Note:</strong> For security reasons, we never send passwords via email. You will receive a link to create a new password.</p>
 
 <c:url var="homepageURL" value="/login.jsp" />
 
@@ -23,7 +23,7 @@
 <form method="post" id="passwordForm">
 <input type="hidden" name="id" value="${status.value}"/>
 <fieldset>
-	<legend>User Information</legend>
+	<legend>Password Reset</legend>
 	
 	<table border="0" cellpadding="3">
 	
@@ -53,7 +53,7 @@
     <tr>
     	<th></th>
     	<td>
- 			<input type="submit" name="Submit" value="<fmt:message key="button.submit"/>" />
+ 			<input type="submit" name="Submit" value="Request Password Reset" />
 	        <input type="reset" name="Reset" value="<fmt:message key="button.reset"/>" />
         </td>
     </tr>

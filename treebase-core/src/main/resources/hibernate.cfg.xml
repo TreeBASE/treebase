@@ -37,6 +37,7 @@
 		<mapping class="org.cipres.treebase.domain.admin.User" />
 		<mapping class="org.cipres.treebase.domain.admin.UserRole" />
 		<mapping class="org.cipres.treebase.domain.admin.EmailAddress" />
+		<mapping class="org.cipres.treebase.domain.admin.PasswordResetToken" />
 
 		<mapping class="org.cipres.treebase.domain.matrix.AncestralState" />
 		<mapping class="org.cipres.treebase.domain.matrix.AncStateSet" />
