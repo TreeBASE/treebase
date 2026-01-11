@@ -40,8 +40,8 @@ public class ExecutionResult {
 	 */
 	public void addErrorMessage(String pMessage) {
 		String msg = getErrorMessage();
-		if (msg.length() > 1) {
-			msg += "/n";
+		if (msg.length() > 0) {
+			msg += "\n";
 		}
 		msg += pMessage;
 
