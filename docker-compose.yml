@@ -6,11 +6,6 @@ services:
     ports:
       - "1025:1025"   # SMTP server
       - "8025:8025"   # Web UI to view emails
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "1025"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
   # PostgreSQL database
   postgres:
