@@ -1,9 +1,10 @@
 <%@ include file="/common/taglibs.jsp"%>
+<%@ page import="java.util.Collection" %>
 <%-- Error Messages --%>
 <c:if test="${not empty errors}">
     <div class="error" id="errorMessages">
         <c:choose>
-            <c:when test="${errors.class.name == 'java.lang.String'}">
+            <c:when test="${errors instanceof String}">
                 <%-- Handle single concatenated string with newlines --%>
                 <c:set var="newline" value="
 "/>
@@ -30,7 +31,7 @@
 <c:if test="${not empty messages}">
     <div class="message" id="successMessages">
         <c:choose>
-            <c:when test="${messages.class.name == 'java.lang.String'}">
+            <c:when test="${messages instanceof String}">
                 <%-- Handle single concatenated string with newlines --%>
                 <c:set var="newline" value="
 "/>
