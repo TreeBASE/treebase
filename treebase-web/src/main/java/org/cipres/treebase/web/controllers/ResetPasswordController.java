@@ -191,7 +191,8 @@ public class ResetPasswordController extends BaseFormController {
 	 */
 	private ModelAndView showFormWithError(HttpServletRequest request, BindException errors,
 			String errorMessage, String token, String username) throws Exception {
-		ModelAndView mav = new ModelAndView(getFormView(), errors.getModel());
+		Map<String, Object> model = errors != null ? errors.getModel() : new HashMap<String, Object>();
+		ModelAndView mav = new ModelAndView(getFormView(), model);
 		mav.addObject("errors", errorMessage);
 		if (token != null) {
 			mav.addObject("token", token);
