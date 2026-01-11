@@ -1,12 +1,13 @@
 <%@ include file="/common/taglibs.jsp"%>
+<%-- Define newline character for splitting concatenated messages --%>
+<c:set var="newline" value="
+"/>
 <%-- Error Messages --%>
 <c:if test="${not empty errors}">
     <div class="error" id="errorMessages">
         <c:choose>
             <c:when test="${errors instanceof String}">
                 <%-- Handle single concatenated string with newlines --%>
-                <c:set var="newline" value="
-"/>
                 <c:forTokens var="error" items="${errors}" delims="${newline}">
                     <img src="<fmt:message key="icons.warn"/>"
                         alt="<fmt:message key="icon.warning"/>" class="icon" />
@@ -32,8 +33,6 @@
         <c:choose>
             <c:when test="${messages instanceof String}">
                 <%-- Handle single concatenated string with newlines --%>
-                <c:set var="newline" value="
-"/>
                 <c:forTokens var="msg" items="${messages}" delims="${newline}">
                     <img src="<fmt:message key="icons.info"/>"
                         alt="<fmt:message key="icon.information"/>" class="icon" />
