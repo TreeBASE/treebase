@@ -13,9 +13,9 @@ import org.cipres.treebase.domain.admin.User;
 
 /**
  * PasswordResetTokenDAO.java
- * 
+ *
  * Data access object for PasswordResetToken entity.
- * 
+ *
  * @author Security Migration
  */
 public class PasswordResetTokenDAO extends HibernateDaoSupport implements PasswordResetTokenHome {
@@ -48,7 +48,7 @@ public class PasswordResetTokenDAO extends HibernateDaoSupport implements Passwo
 
 		String query = "from PasswordResetToken where token = :token";
 		List<?> result = getHibernateTemplate().findByNamedParam(query, "token", tokenString);
-		
+
 		if (result == null || result.isEmpty()) {
 			return null;
 		}
@@ -85,8 +85,16 @@ public class PasswordResetTokenDAO extends HibernateDaoSupport implements Passwo
 	 */
 	@Override
 	public int deleteExpiredTokens() {
-		String query = "delete from PasswordResetToken where expiryDate < ?";
-		return getHibernateTemplate().bulkUpdate(query, new Date());
+		String query = "from PasswordResetToken where expiryDate < :now";
+		@SuppressWarnings("unchecked")
+		List<PasswordResetToken> expiredTokens = (List<PasswordResetToken>)
+				getHibernateTemplate().findByNamedParam(query, "now", new Date());
+
+		if (expiredTokens != null && !expiredTokens.isEmpty()) {
+			getHibernateTemplate().deleteAll(expiredTokens);
+			return expiredTokens.size();
+		}
+		return 0;
 	}
 
 	/**
@@ -98,9 +106,18 @@ public class PasswordResetTokenDAO extends HibernateDaoSupport implements Passwo
 			return;
 		}
 
-		String query = "update PasswordResetToken set used = true where user = ? and used = false";
-		getHibernateTemplate().bulkUpdate(query, user);
-		
+		String query = "from PasswordResetToken where user = :user and used = false";
+		@SuppressWarnings("unchecked")
+		List<PasswordResetToken> activeTokens = (List<PasswordResetToken>)
+				getHibernateTemplate().findByNamedParam(query, "user", user);
+
+		if (activeTokens != null && !activeTokens.isEmpty()) {
+			for (PasswordResetToken token : activeTokens) {
+				token.setUsed(true);
+				getHibernateTemplate().saveOrUpdate(token);
+			}
+		}
+
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Invalidated existing tokens for user: " + user.getUsername());
 		}
