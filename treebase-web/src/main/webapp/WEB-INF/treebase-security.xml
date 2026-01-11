@@ -18,7 +18,7 @@
 	     This is needed for struts-menu library which uses isUserInRole() to check menu visibility. -->
 	<security:http auto-config="false" use-expressions="false" access-decision-manager-ref="accessDecisionManager"
 		servlet-api-provision="false">
-		
+
 		<!-- Custom filter to handle isUserInRole() without ROLE_ prefix -->
 		<security:custom-filter ref="servletApiFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
 		<!-- URL-based authorization rules (most specific first) -->
@@ -93,7 +93,7 @@
 	     which is needed for struts-menu library and backward compatibility with existing
 	     role names (Admin, User, Associate Editor) stored in the database. -->
 	<bean id="servletApiFilter"
-	      class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter">
+		class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter">
 		<property name="rolePrefix" value=""/>
 	</bean>
 
