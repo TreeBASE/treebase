@@ -85,7 +85,7 @@ public class PasswordResetTokenDAO extends HibernateDaoSupport implements Passwo
 	 */
 	@Override
 	public int deleteExpiredTokens() {
-		String query = "delete from PasswordResetToken where expiryDate < :now";
+		String query = "delete from PasswordResetToken where expiryDate < ?";
 		return getHibernateTemplate().bulkUpdate(query, new Date());
 	}
 
@@ -98,7 +98,7 @@ public class PasswordResetTokenDAO extends HibernateDaoSupport implements Passwo
 			return;
 		}
 
-		String query = "update PasswordResetToken set used = true where user = :user and used = false";
+		String query = "update PasswordResetToken set used = true where user = ? and used = false";
 		getHibernateTemplate().bulkUpdate(query, user);
 		
 		if (LOGGER.isDebugEnabled()) {
