@@ -6,7 +6,7 @@
 <div id="menu">
 <a onclick="switchMenu();" style="cursor: pointer;"><img id="tb" src="../images/minus.gif"/>&nbsp;&nbsp;Tool Box</a>
 <div id="menuDiv">
-<menu:useMenuDisplayer name="ListMenu" permissions="rolesAdapter" >
+<menu:useMenuDisplayer name="ListMenu">
     <menu:displayMenu name="Searches" />
  </menu:useMenuDisplayer>
 </div>
