@@ -44,7 +44,8 @@ public class TreebaseUtil {
 	private static final Logger LOGGER = LogManager.getLogger(TreebaseUtil.class);
 	private static String mPurlBase;
 	private static String mSiteUrl; 
-	private static String mSmtpHost; 
+	private static String mSmtpHost;
+	private static String mSmtpPort;
 
 	private TreebaseUtil() {
 		super();
@@ -500,6 +501,16 @@ public class TreebaseUtil {
 		if (null == mSmtpHost) 
 			mSmtpHost = lookupJndiEnvironmentString("tb2/SmtpHost", "smtp.DUMMY.HOST");
 		return mSmtpHost; 
+	}
+	
+	/**
+	 * 
+	 * @return the SMTP port to use for automated email (defaults to "25")
+	 */
+	public static String getSmtpPort() { 
+		if (null == mSmtpPort) 
+			mSmtpPort = lookupJndiEnvironmentString("tb2/SmtpPort", "25");
+		return mSmtpPort; 
 	}
 	
 	

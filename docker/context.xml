@@ -44,11 +44,18 @@
                override="false"
                description="The base URL for the PhyloWS API of this TreeBASE instance."/>	
 
-  <!-- SMTP host (use a mail catcher for development) -->
+  <!-- SMTP host (mailhog service for development) -->
   <Environment name="tb2/SmtpHost" 
-               value="localhost"
+               value="mailhog"
                type="java.lang.String" 
                override="false"
                description="Host name of an SMTP server."/>	
+
+  <!-- SMTP port (1025 for MailHog in development) -->
+  <Environment name="tb2/SmtpPort" 
+               value="1025"
+               type="java.lang.String" 
+               override="false"
+               description="Port number of the SMTP server."/>	
 
 </Context>
