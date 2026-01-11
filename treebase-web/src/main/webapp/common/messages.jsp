@@ -5,7 +5,9 @@
         <c:choose>
             <c:when test="${errors.class.name == 'java.lang.String'}">
                 <%-- Handle single concatenated string with newlines --%>
-                <c:forTokens var="error" items="${errors}" delims="&#10;">
+                <c:set var="newline" value="
+"/>
+                <c:forTokens var="error" items="${errors}" delims="${newline}">
                     <img src="<fmt:message key="icons.warn"/>"
                         alt="<fmt:message key="icon.warning"/>" class="icon" />
                     <c:out value="${error}" escapeXml="false"/><br />
@@ -30,7 +32,9 @@
         <c:choose>
             <c:when test="${messages.class.name == 'java.lang.String'}">
                 <%-- Handle single concatenated string with newlines --%>
-                <c:forTokens var="msg" items="${messages}" delims="&#10;">
+                <c:set var="newline" value="
+"/>
+                <c:forTokens var="msg" items="${messages}" delims="${newline}">
                     <img src="<fmt:message key="icons.info"/>"
                         alt="<fmt:message key="icon.information"/>" class="icon" />
                     <c:out value="${msg}" escapeXml="false"/><br />
