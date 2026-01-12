@@ -1,224 +1,204 @@
-# Cross-Reference: treebase-servlet.xml Pages Not in Documentation
+# Cross-Reference: treebase-servlet.xml Pages vs v3 User Story Documentation
 
-This table lists all URL mappings from `treebase-servlet.xml` that are NOT mentioned in any markdown documentation file in the repository.
+This document cross-references the URL mappings in `treebase-servlet.xml` against the pages documented in the v3 UI/UX user story markdown files (`doc/v3/*.md`).
 
 **Analysis Date:** 2026-01-12
 
+**Source Documents:**
+- `treebase-web/src/main/webapp/WEB-INF/treebase-servlet.xml`
+- `doc/v3/user-story-01-search.md`
+- `doc/v3/user-story-02-account.md`
+- `doc/v3/user-story-03-submission.md`
+- `doc/v3/user-story-04-review.md`
+- `doc/v3/user-story-05-admin.md`
+- `doc/v3/user-story-06-technical.md`
+- `doc/v3/user-story-07-governance.md`
+
 **Summary:**
 - Total URL mappings in treebase-servlet.xml: 138
-- Documented URLs: 8
-- Undocumented URLs: 130
+- Pages accounted for in user stories: 99
+- Pages NOT in user stories: 40
 
 ---
 
-## Public Pages
+## Pages NOT in User Story Documentation
+
+The following pages from `treebase-servlet.xml` are NOT mentioned in any "Pages to Account For" section of the v3 user story documents:
+
+### Public/Utility Pages
 
 | URL | Controller | Description |
 |-----|------------|-------------|
-| `/contact.html` | filenameController | Contact information page |
-| `/dataMan.html` | filenameController | Data management page |
-| `/help.html` | helpController | Help page |
-| `/journal.html` | filenameController | Journal information page |
-| `/login.html` | filenameController | User login page |
-| `/partnership.html` | filenameController | Partnership information page |
-| `/people.html` | filenameController | People/contributors page |
-| `/register.html` | registerUserController | User registration page |
-| `/resetPassword.html` | resetPasswordController | Password reset page |
-| `/passwordForm.html` | passwordFormController | Password form page |
-| `/submitTutorial.html` | filenameController | Submission tutorial page |
-| `/technology.html` | filenameController | Technology stack page |
-| `/urlAPI.html` | filenameController | URL API documentation page |
 | `/accessviolation.html` | filenameController | Access violation error page |
+| `/login.html` | filenameController | Login page (note: `/login.jsp` is documented instead) |
 
-## Search Section
+### RSS and Feed Pages
 
 | URL | Controller | Description |
 |-----|------------|-------------|
-| `/searchForm.html` | searchFormController | Search form page |
-| `/searchResult.html` | filenameController | Search results page |
-| `/searchStudy.html` | searchStudyController | Search study page |
-| `/searchStudyList.html` | listSearchStudyController | Search study list |
+| `/feed.xml` | rssFeedController | RSS feed (alternate URL) |
+| `/rss.xml` | rssFeedController | RSS feed |
+
+### Legacy Search Pages
+
+| URL | Controller | Description |
+|-----|------------|-------------|
+| `/search/` | studySearchController | Search root redirect |
+| `/searchForm.html` | searchFormController | Legacy search form |
+| `/searchResult.html` | filenameController | Legacy search results |
+| `/searchStudy.html` | searchStudyController | Legacy study search |
+| `/searchStudyList.html` | listSearchStudyController | Legacy study search list |
 | `/study-query.html` | updateStudyQueryController | Study query form |
-| `/search/classificationSearch.html` | classificationSearchController | Classification search |
-| `/search/matrixSearch.html` | matrixSearchController | Matrix search |
-| `/search/studySearch.html` | studySearchController | Study search |
-| `/search/taxonSearch.html` | taxonSearchController | Taxon search |
-| `/search/treeSearch.html` | treeSearchController | Tree search |
-| `/search/treeTopSearch.html` | treeTopSearchController | Tree topology search |
-| `/search/summary.html` | summaryController | Search summary |
-| `/search/matrixRowList.html` | listMatrixRowController | Matrix row list |
-| `/search/taxonList.html` | listTaxaSearchController | Taxon list |
-| `/search/downloadAMatrix.html` | downloadAMatrixController | Download matrix |
-| `/search/downloadANexusFile.html` | downloadANexusFileController | Download NEXUS file |
-| `/search/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download NEXUS RCT file |
-| `/search/downloadAStudy.html` | downloadAStudyController | Download study |
-| `/search/downloadATree.html` | downloadATreeController | Download tree |
+
+### Search Download/Export Pages
+
+| URL | Controller | Description |
+|-----|------------|-------------|
+| `/search/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS file |
+| `/search/downloadAStudy.html` | downloadAStudyController | Download entire study |
 | `/search/downloadATreeBlock.html` | downloadATreeBlockController | Download tree block |
-| `/search/downloadAnAnalysisStep.html` | downloadAnAnalysisStepController | Download analysis step |
+| `/search/downloadAnAnalysisStep.html` | downloadAnAnalysisStepController | Download analysis step data |
+| `/search/matrixRowList.html` | listMatrixRowController | Matrix row list view |
 | `/search/searchResultsAsRDF.rdf` | searchResultsAsRDFController | Search results as RDF |
+| `/search/summary.html` | summaryController | Search summary page |
+| `/search/taxonList.html` | listTaxaSearchController | Taxon list view |
 
-## Search Study Detail Pages
-
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/search/study/analyses.html` | searchSummaryController | Study analyses view |
-| `/search/study/analysis.html` | searchSummaryController | Analysis detail view |
-| `/search/study/anyObjectAsRDF.rdf` | anyObjectAsRDFController | RDF export for any object |
-| `/search/study/matrices.html` | searchSummaryController | Study matrices view |
-| `/search/study/matrix.html` | searchSummaryController | Matrix detail view |
-| `/search/study/rowSegments.html` | searchSummaryController | Row segments view |
-| `/search/study/rowSegmentsTSV.html` | downloadRowSegmentDataController | Row segments TSV download |
-| `/search/study/summary.html` | searchSummaryController | Study summary view |
-| `/search/study/taxa.html` | searchSummaryController | Study taxa view |
-| `/search/study/tree.html` | searchMapToPhyloWidgetController | Tree viewer |
-| `/search/study/treeBlock.html` | searchMapToPhyloWidgetController | Tree block viewer |
-| `/search/study/treeBlocks.html` | searchSummaryController | Tree blocks list |
-| `/search/study/trees.html` | searchSummaryController | Trees list |
-
-## PhyloWS API Endpoints
-
-These PhyloWS endpoints ARE documented in [API.md](API.md):
-- `/phylows/study/**` - Study web service
-- `/phylows/taxon/**` - Taxon web service
-- `/phylows/tree/**` - Tree web service
-
-These PhyloWS endpoints are NOT documented:
+### User Submission Pages
 
 | URL | Controller | Description |
 |-----|------------|-------------|
-| `/phylows/classification/**` | phyloWSClassificationController | Classification web service |
-| `/phylows/matrix/**` | phyloWSMatrixController | Matrix web service |
-
-## Admin Section
-
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/admin/adminDeletingUserStepOne.html` | adminDeletingUserStepOneController | Delete user - step 1 |
-| `/admin/adminDeletingUserStepTwo.html` | adminDeletingUserStepTwoController | Delete user - step 2 |
-| `/admin/adminMergingPersons.html` | adminMergingPersonsController | Merge person records |
-| `/admin/adminMergingUsers.html` | adminMergingUsersController | Merge user accounts |
-| `/admin/adminSelectPersons.html` | adminSelectPersonsController | Select persons for admin action |
-| `/admin/adminSelectUsers.html` | adminSelectUsersController | Select users for admin action |
-| `/admin/adminUpdatingUserInfo.html` | adminUpdatingUserInfoController | Update user information |
-| `/admin/administrationPage.html` | filenameController | Main administration page |
-| `/admin/changeStudyStatus.html` | changeStudyStatusController | Change study status |
-| `/admin/messageToAdminAfterAction.html` | filenameController | Admin action confirmation |
-| `/admin/overrideUserProfile.html` | adminOverridingUserFormController | Override user profile |
-| `/admin/personList.html` | filenameController | List persons |
-| `/admin/readyStateStudies.html` | changeStudyStatusController | Ready state studies list |
-| `/admin/searchBySubmissionID.html` | searchBySubmissionIDController | Search by submission ID |
-| `/admin/selectStudies.html` | selectStudiesController | Select studies for admin action |
-| `/admin/userList.html` | filenameController | List users |
-| `/admin/userManagement.html` | userManagementController | User management |
-
-## User Submission Section
-
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/user/addAnalyzedData.html` | addAnalyzedDataController | Add analyzed data to study |
-| `/user/addAuthor.html` | addAuthorController | Add author to citation |
-| `/user/analyses.html` | summaryController | View study analyses |
-| `/user/analysisDisplay.html` | displayAnalysisController | Display analysis details |
-| `/user/analysisForm.html` | analysisFormController | Edit analysis form |
-| `/user/analysisList.html` | listAnalysisController | List analyses |
-| `/user/analysisStepForm.html` | analysisStepFormController | Edit analysis step |
-| `/user/analysisStepList.html` | listAnalysisStepController | List analysis steps |
-| `/user/analyzedDataForm.html` | analyzedDataFormController | Edit analyzed data |
-| `/user/analyzedDataList.html` | listAnalyzedDataController | List analyzed data |
-| `/user/authorForm.html` | authorFormController | Edit author form |
-| `/user/authorList.html` | authorFormController | List authors |
-| `/user/authorSearchForm.html` | authorSearchFormController | Search for authors |
-| `/user/citationForm.html` | citationFormController | Edit citation form |
-| `/user/deleteAMatrix.html` | deleteAMatrixController | Delete a matrix |
-| `/user/deleteARowSegment.html` | deleteARowSegmentController | Delete a row segment |
-| `/user/deleteATree.html` | deleteATreeController | Delete a tree |
-| `/user/deleteATreeBlock.html` | deleteATreeBlockController | Delete a tree block |
-| `/user/deleteStudy.html` | deleteStudyController | Delete a study |
-| `/user/directMapToPhyloWidget.html` | directMapToPhyloWidgetController | Direct map to tree viewer |
-| `/user/directToPhyloWidget.html` | directToPhyloWidgetController | Direct to tree viewer |
-| `/user/displaySubmissionMenu.html` | displaySubmissionMenuController | Submission menu |
-| `/user/downloadAMatrix.html` | downloadAMatrixController | Download matrix |
-| `/user/downloadANexusFile.html` | downloadANexusFileController | Download NEXUS file |
-| `/user/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download NEXUS RCT file |
-| `/user/downloadATree.html` | downloadATreeController | Download tree |
-| `/user/downloadATreeBlock.html` | downloadATreeBlockController | Download tree block |
-| `/user/editSetTaxonLabel.html` | editSetTaxonLabelController | Edit taxon label set |
-| `/user/editTaxonLabel.html` | editTaxonLabelController | Edit taxon label |
-| `/user/editorForm.html` | editorFormController | Edit editor form |
+| `/user/analyses.html` | summaryController | Study analyses (duplicate of analysisDisplay) |
+| `/user/authorForm.html` | authorFormController | Author edit form |
+| `/user/authorList.html` | authorFormController | Author list |
+| `/user/deleteARowSegment.html` | deleteARowSegmentController | Delete row segment |
+| `/user/directToPhyloWidget.html` | directToPhyloWidgetController | Direct PhyloWidget link (alternate) |
+| `/user/displaySubmissionMenu.html` | displaySubmissionMenuController | Submission menu display |
+| `/user/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS |
+| `/user/editorForm.html` | editorFormController | Editor edit form |
 | `/user/exportRowSegmentData.html` | exportRowSegmentDataController | Export row segment data |
 | `/user/exportRowSegmentTemplate.html` | exportRowSegmentTemplateController | Export row segment template |
-| `/user/matrixList.html` | listMatrixController | List matrices |
-| `/user/matrixRowList.html` | listMatrixRowController | List matrix rows |
-| `/user/matrixRowSegmentForm.html` | matrixRowSegmentFormController | Edit matrix row segment |
-| `/user/matrixRowSegmentList.html` | listMatrixRowSegmentController | List matrix row segments |
+| `/user/matrixRowSegmentForm.html` | matrixRowSegmentFormController | Matrix row segment form |
 | `/user/nexusFiles.html` | nexusFilesController | View NEXUS files |
-| `/user/processUser.html` | processUserController | Process user action |
 | `/user/readOnlyListTree.html` | readOnlyListTreeController | Read-only tree list |
-| `/user/readyState.html` | readyStateController | Change ready state |
 | `/user/rowSegmentDataTable.html` | rowSegmentDataTableController | Row segment data table |
-| `/user/studyForm.html` | studyFormController | Edit study form |
-| `/user/submissionList.html` | listSubmissionController | List submissions |
 | `/user/submissionMain.html` | filenameController | Submission main page |
-| `/user/summary.html` | summaryController | Submission summary |
-| `/user/taxaList.html` | listTaxaController | List taxa |
-| `/user/treeBlockList.html` | listTreeBlockController | List tree blocks |
-| `/user/treeList.html` | listTreeController | List trees |
 | `/user/treeParser.html` | treeParserController | Tree parser |
 | `/user/treeParserResult.html` | treeParserResultController | Tree parser results |
-| `/user/updateProfile.html` | userFormController | Update user profile |
-| `/user/uploadFile.html` | uploadFileController | Upload file |
-| `/user/uploadFileSummary.html` | uploadFileSummaryController | Upload file summary |
 | `/user/uploadRowSegmentData.html` | uploadRowSegmentDataController | Upload row segment data |
-| `/user/viewAllRowSegmentData.html` | viewAllRowSegmentDataController | View all row segment data |
-| `/user/viewXML.html` | filenameController | View XML |
+| `/user/viewXML.html` | filenameController | View XML output |
 
-## Other Pages
+### Development/Test Pages
 
 | URL | Controller | Description |
 |-----|------------|-------------|
-| `/appletInteraction.html` | appletInteractionController | Applet interaction handler |
-| `/feed.xml` | rssFeedController | RSS feed (alternate) |
-| `/json/submissionIsland.html` | submissionToJsonController | JSON submission data |
-| `/rss.xml` | rssFeedController | RSS feed |
-| `/sitemap.xml` | siteMapController | XML sitemap for SEO |
 | `/test/testParser.html` | treeParserController | Test parser (development) |
 
----
+### JSON/API Pages
 
-## Documented URLs (8 total)
-
-The following URLs from `treebase-servlet.xml` ARE mentioned in the markdown documentation:
-
-| URL | Documented In |
-|-----|---------------|
-| `/about.html` | README.md |
-| `/home.html` | Various docs |
-| `/phylows/study/**` | API.md |
-| `/phylows/taxon/**` | API.md |
-| `/phylows/tree/**` | API.md |
-| `/reference.html` | Various docs |
-| `/search/` | Various docs |
-| `/top/**` | OAI-PMH.md |
+| URL | Controller | Description |
+|-----|------------|-------------|
+| `/json/submissionIsland.html` | submissionToJsonController | Submission JSON data |
+| `/appletInteraction.html` | appletInteractionController | Applet interaction handler |
 
 ---
 
-## Notes
+## Pages Accounted For in User Stories
 
-1. **filenameController** - These pages use the `ShortPathUrlFilenameViewController` which maps URLs directly to JSP files without custom controller logic.
+The following pages from `treebase-servlet.xml` ARE documented in the v3 user story "Pages to Account For" sections:
 
-2. **PhyloWS API** - The API.md documentation covers the study, taxon, and tree endpoints but not the classification and matrix endpoints.
+### User Story 01: Search (25 pages)
+- `/search/studySearch.html`, `/search/matrixSearch.html`, `/search/treeSearch.html`
+- `/search/taxonSearch.html`, `/search/treeTopSearch.html`, `/search/classificationSearch.html`
+- `/search/study/summary.html`, `/search/study/matrices.html`, `/search/study/trees.html`
+- `/search/study/taxa.html`, `/search/study/analyses.html`, `/search/study/analysis.html`
+- `/search/study/matrix.html`, `/search/study/tree.html`, `/search/study/treeBlock.html`
+- `/search/study/treeBlocks.html`, `/search/study/rowSegments.html`, `/search/study/rowSegmentsTSV.html`
+- `/search/study/anyObjectAsRDF.rdf`, `/search/downloadATree.html`, `/search/downloadAMatrix.html`
+- `/search/downloadANexusFile.html`, `/phylows/study/**`, `/phylows/matrix/**`
+- `/phylows/tree/**`, `/phylows/taxon/**`
 
-3. **Admin Section** - All admin pages are undocumented. These are internal administrative tools.
+### User Story 02: Account (17 pages)
+- `/register.html`, `/passwordForm.html`, `/resetPassword.html`
+- `/user/updateProfile.html`, `/user/processUser.html`, `/user/submissionList.html`
+- `/admin/adminSelectUsers.html`, `/admin/userList.html`, `/admin/overrideUserProfile.html`
+- `/admin/adminUpdatingUserInfo.html`, `/admin/adminDeletingUserStepOne.html`
+- `/admin/adminDeletingUserStepTwo.html`, `/admin/adminMergingUsers.html`, `/admin/userManagement.html`
 
-4. **User Section** - All user submission pages are undocumented. These are internal user workflow pages.
+### User Story 03: Submission (35 pages)
+- `/user/submissionList.html`, `/user/studyForm.html`, `/user/summary.html`
+- `/user/citationForm.html`, `/user/authorSearchForm.html`, `/user/addAuthor.html`
+- `/user/uploadFile.html`, `/user/uploadFileSummary.html`, `/user/treeBlockList.html`
+- `/user/treeList.html`, `/user/directMapToPhyloWidget.html`, `/user/deleteATree.html`
+- `/user/deleteATreeBlock.html`, `/user/matrixList.html`, `/user/matrixRowList.html`
+- `/user/matrixRowSegmentList.html`, `/user/viewAllRowSegmentData.html`, `/user/deleteAMatrix.html`
+- `/user/taxaList.html`, `/user/editTaxonLabel.html`, `/user/editSetTaxonLabel.html`
+- `/user/analysisList.html`, `/user/analysisDisplay.html`, `/user/analysisForm.html`
+- `/user/analysisStepList.html`, `/user/analysisStepForm.html`, `/user/analyzedDataList.html`
+- `/user/analyzedDataForm.html`, `/user/addAnalyzedData.html`, `/user/readyState.html`
+- `/user/deleteStudy.html`, `/submitTutorial.html`, `/user/downloadATree.html`
+- `/user/downloadATreeBlock.html`, `/user/downloadAMatrix.html`, `/user/downloadANexusFile.html`
 
-5. **Search Section** - All search pages are undocumented except for the general `/search/` path mention.
+### User Story 04: Review (8 pages)
+- `/search/study/summary.html`, `/search/study/trees.html`, `/search/study/tree.html`
+- `/search/study/matrices.html`, `/search/study/matrix.html`, `/search/study/taxa.html`
+- `/search/study/analyses.html`, `/search/study/analysis.html`
+
+### User Story 05: Administration (17 pages)
+- `/admin/administrationPage.html`, `/admin/userManagement.html`, `/admin/readyStateStudies.html`
+- `/admin/searchBySubmissionID.html`, `/admin/selectStudies.html`, `/admin/changeStudyStatus.html`
+- `/admin/adminSelectUsers.html`, `/admin/userList.html`, `/admin/adminUpdatingUserInfo.html`
+- `/admin/overrideUserProfile.html`, `/admin/adminDeletingUserStepOne.html`
+- `/admin/adminDeletingUserStepTwo.html`, `/admin/adminMergingUsers.html`
+- `/admin/adminSelectPersons.html`, `/admin/personList.html`, `/admin/adminMergingPersons.html`
+- `/admin/messageToAdminAfterAction.html`
+
+### User Story 06: Technical (12 pages)
+- `/urlAPI.html`, `/technology.html`, `/about.html`, `/contact.html`
+- `/submitTutorial.html`, `/help.html`, `/sitemap.xml`
+- `/phylows/study/**`, `/phylows/tree/**`, `/phylows/matrix/**`
+- `/phylows/taxon/**`, `/phylows/classification/**`, `/top/**`
+
+### User Story 07: Governance (11 pages)
+- `/home.html`, `/about.html`, `/people.html`, `/partnership.html`
+- `/reference.html`, `/technology.html`, `/submitTutorial.html`
+- `/urlAPI.html`, `/dataMan.html`, `/journal.html`, `/contact.html`
 
 ---
 
 ## Recommendations
 
-1. **Document PhyloWS endpoints** - Add `/phylows/classification/**` and `/phylows/matrix/**` to API.md
-2. **Create User Guide** - Document the user submission workflow pages
-3. **Create Admin Guide** - Document administrative functionality
-4. **Add Search Documentation** - Document the various search interfaces and their capabilities
+### Pages to Consider Adding to User Stories
+
+1. **RSS Feeds** (`/feed.xml`, `/rss.xml`) - Consider adding to User Story 06 (Technical) as these are programmatic access points
+
+2. **Legacy Search Pages** - May need documentation in User Story 01 if they are still active, or marked for deprecation
+
+3. **Row Segment Operations** - Several row segment pages are not documented:
+   - `/user/rowSegmentDataTable.html`
+   - `/user/uploadRowSegmentData.html`
+   - `/user/exportRowSegmentData.html`
+   - `/user/deleteARowSegment.html`
+   - These should be added to User Story 03 (Submission)
+
+4. **Tree Parser** (`/user/treeParser.html`, `/user/treeParserResult.html`) - Consider adding to User Story 03
+
+5. **Download Pages** - Some download endpoints are missing:
+   - `/search/downloadAStudy.html`
+   - `/search/downloadATreeBlock.html`
+   - `/search/downloadAnAnalysisStep.html`
+   - `/search/downloadANexusRCTFile.html`
+   - These should be added to User Story 01 (Search)
+
+6. **JSON/API Endpoints** (`/json/submissionIsland.html`) - Consider adding to User Story 06 (Technical)
+
+---
+
+## Notes
+
+1. **Duplicate URLs**: Some URLs appear in multiple user stories (e.g., `/user/submissionList.html` appears in both User Story 02 and 03). This is expected as pages serve multiple workflows.
+
+2. **Static JSP vs Controller**: Pages using `filenameController` map directly to JSP files without custom controller logic.
+
+3. **PhyloWS Wildcards**: Endpoints like `/phylows/study/**` cover multiple sub-paths for the REST API.
+
+4. **login.jsp vs login.html**: The user stories reference `/login.jsp` but the servlet maps `/login.html` - this may be a routing inconsistency to investigate.
