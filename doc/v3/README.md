@@ -34,7 +34,7 @@ The v3 roadmap aims to:
 
 ### Administrators
 
-- [ ] **[User Story 5: Administration](user-story-05-admin.md)** - An admin visits TreeBASE to
+- [x] **[User Story 5: Administration](user-story-05-admin.md)** - An admin visits TreeBASE to
   administer the submission and review queue
 
 ### Stakeholders
