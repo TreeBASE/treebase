@@ -39,15 +39,17 @@ The following pages from `treebase-servlet.xml` are NOT mentioned in any "Pages 
 | `/feed.xml` | rssFeedController | RSS feed (alternate URL) |
 | `/rss.xml` | rssFeedController | RSS feed |
 
-### Legacy Search Pages
+### Alternative Search URL Patterns
+
+These are search-related URLs that use different URL patterns than those documented in User Story 01 (which documents `/search/studySearch.html`, etc.):
 
 | URL | Controller | Description |
 |-----|------------|-------------|
 | `/search/` | studySearchController | Search root redirect |
-| `/searchForm.html` | searchFormController | Legacy search form |
-| `/searchResult.html` | filenameController | Legacy search results |
-| `/searchStudy.html` | searchStudyController | Legacy study search |
-| `/searchStudyList.html` | listSearchStudyController | Legacy study search list |
+| `/searchForm.html` | searchFormController | Search form (alternative URL pattern) |
+| `/searchResult.html` | filenameController | Search results (alternative URL pattern) |
+| `/searchStudy.html` | searchStudyController | Study search (alternative to `/search/studySearch.html`) |
+| `/searchStudyList.html` | listSearchStudyController | Study search list |
 | `/study-query.html` | updateStudyQueryController | Study query form |
 
 ### Search Download/Export Pages
@@ -171,7 +173,7 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
 
 1. **RSS Feeds** (`/feed.xml`, `/rss.xml`) - Consider adding to User Story 06 (Technical) as these are programmatic access points
 
-2. **Legacy Search Pages** - May need documentation in User Story 01 if they are still active, or marked for deprecation
+2. **Alternative Search URL Patterns** - These URLs (`/searchForm.html`, `/searchStudy.html`, etc.) may need to be documented in User Story 01 if they are actively used, or redirected to the documented URLs (`/search/studySearch.html`, etc.) for consistency
 
 3. **Row Segment Operations** - Several row segment pages are not documented:
    - `/user/rowSegmentDataTable.html`
