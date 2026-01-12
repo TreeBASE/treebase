@@ -19,7 +19,7 @@ The following pages apply to this user story:
 
 - [x] Registration page (`/register.html` → `userForm.jsp`)
 - [x] Login page (`/login.jsp` → `loginForm.jsp`)
-- [x] Logout functionality (`/logout.jsp` → Spring Security logout handler `/logout`)
+- [x] Logout functionality (`/logout` → Spring Security logout handler)
 - [x] User profile page (`/user/updateProfile.html` → `userForm.jsp`)
 - [x] Password reset request page (`/passwordForm.html` → `passwordForm.jsp`)
 - [x] Password reset form page (`/resetPassword.html` → `resetPasswordForm.jsp`)
@@ -84,16 +84,19 @@ flowchart TD
 Registration is handled by `RegisterUserController` with the following requirements from the current implementation:
 
 **Required Fields:**
-- **Username** - Unique identifier for login (required, unique in database)
-- **Password** - User's password (required, minimum validation via JavaScript)
+- **Username** - Unique identifier for login (required, unique in database, `user.username`)
+- **Password** - User's password (required, BCrypt encoded before storage)
 - **Re-typed Password** - Password confirmation (required, must match password)
-- **First Name** - User's first name (required)
-- **Last Name** - User's last name (required)
-- **Email Address** - Contact email (required, unique in database)
+- **First Name** - User's first name (required, `user.firstName`)
+- **Last Name** - User's last name (required, `user.lastName`)
+- **Email Address** - Contact email (required, unique in database, `user.emailAddressString`)
 
 **Optional Fields:**
-- **Middle Name** - User's middle name
-- **Phone Number** - Contact phone number
+- **Middle Name** - User's middle name (`user.middleName`)
+- **Phone Number** - Contact phone number (`user.phoneNumber`)
+
+**Not Implemented:**
+- Institutional affiliation - Not present in current User entity
 
 **Registration Flow:**
 1. User navigates to `/register.html`
@@ -107,7 +110,7 @@ Registration is handled by `RegisterUserController` with the following requireme
 
 ### Authentication
 
-Authentication is implemented using Spring Security 5.8.15 with the following details:
+Authentication is implemented using Spring Security 5.8.15 (`treebase-security.xml`):
 
 **Login Mechanism:**
 - Form-based authentication at `/j_security_check`
@@ -123,6 +126,7 @@ Authentication is implemented using Spring Security 5.8.15 with the following de
 
 **Session Management:**
 - Session fixation protection: `newSession` strategy
+- Session timeout: Managed by servlet container (Tomcat) defaults
 - CSRF protection: Currently disabled for backward compatibility
 
 **Authorization (URL-based):**
@@ -134,10 +138,9 @@ Authentication is implemented using Spring Security 5.8.15 with the following de
 - Role prefix: Empty string (no `ROLE_` prefix)
 - Existing roles in database: `Admin`, `User`, `Associate Editor`
 
-**Logout:**
-- Logout URL: `/logout`
-- Logout success URL: `/login.jsp`
-- Session invalidation handled by Spring Security
+**Not Implemented:**
+- Remember me functionality - Not present in current security configuration
+- Logout from all devices - Single session logout only via `/logout`
 
 ### Profile Management
 
@@ -161,7 +164,7 @@ Profile management is handled by `UserFormController` with the following functio
 - **Username** - Cannot be changed after registration
 
 **Security:**
-- Users can only modify their own profile
+- Users can only modify their own profile (enforced in `UserFormController`)
 - Admin users can modify other users' profiles via `/admin/overrideUserProfile.html`
 - Password changes are validated and BCrypt-encoded before storage
 
@@ -170,24 +173,25 @@ Profile management is handled by `UserFormController` with the following functio
 - Shows list of user's submissions with their status
 - Each submission links to detailed view and editing options
 
-**Notification Preferences:**
-- Not currently implemented in the system
-- Future enhancement opportunity
+**Not Implemented:**
+- Change email address - Email is editable but not re-verified
+- Manage notification preferences - Not present in current implementation
 
 ## Pages to Account For
 
-The following is a complete inventory of pages related to account management based on `/treebase-web/src/main/webapp/WEB-INF/treebase-servlet.xml`:
+Complete inventory of pages related to account management from `/treebase-web/src/main/webapp/WEB-INF/treebase-servlet.xml`:
 
 | Page | URL Pattern | Controller | View | Status |
 |------|-------------|------------|------|--------|
 | Registration | `/register.html` | `registerUserController` | `userForm.jsp` | Active |
-| Login | `/login.jsp` (static) | - | `login.jsp` | Active |
-| Login Form | `/login.jsp` | - | `loginForm.jsp` (included) | Active |
+| Login | `/login.jsp` | (static JSP) | `login.jsp` | Active |
+| Login Form | (included in login.jsp) | - | `loginForm.jsp` | Active |
 | Password Reset Request | `/passwordForm.html` | `passwordFormController` | `passwordForm.jsp` | Active |
 | Password Reset Form | `/resetPassword.html` | `resetPasswordController` | `resetPasswordForm.jsp` | Active |
 | User Profile | `/user/updateProfile.html` | `userFormController` | `userForm.jsp` | Active |
 | Process User (Post-login) | `/user/processUser.html` | `processUserController` | - | Active |
-| Submission List | `/user/submissionList.html` | `listSubmissionController` | `submissionList.jsp` | Active |
+| Submission List | `/user/submissionList.html` | `listSubmissionController` | - | Active |
+| Logout | `/logout` | Spring Security | Redirect to `/login.jsp` | Active |
 | Admin - Select Users | `/admin/adminSelectUsers.html` | `adminSelectUsersController` | `adminSelectUsers.jsp` | Active |
 | Admin - User List | `/admin/userList.html` | `filenameController` | `userList.jsp` | Active |
 | Admin - Override Profile | `/admin/overrideUserProfile.html` | `adminOverridingUserFormController` | `overrideUserProfile.jsp` | Active |
@@ -196,11 +200,12 @@ The following is a complete inventory of pages related to account management bas
 | Admin - Delete User Step 2 | `/admin/adminDeletingUserStepTwo.html` | `adminDeletingUserStepTwoController` | `adminDeletingUserStepTwo.jsp` | Active |
 | Admin - Merge Users | `/admin/adminMergingUsers.html` | `adminMergingUsersController` | `adminMergingUsers.jsp` | Active |
 | Admin - User Management | `/admin/userManagement.html` | `userManagementController` | `simpleUserManagement.jsp` | Active |
-| Logout | `/logout` | Spring Security | Redirect to `/login.jsp` | Active |
 
 ## Security Considerations
 
-- **Password strength requirements**: Minimum 8 characters enforced in password reset form; registration form uses JavaScript validation but should be enhanced
+Current implementation status:
+
+- **Password strength requirements**: Minimum 8 characters enforced in password reset form; registration form uses JavaScript validation but could be enhanced with server-side enforcement
 - **Account lockout policies**: Not currently implemented; consider adding after N failed attempts
 - **Session timeout**: Managed by servlet container (Tomcat) defaults
 - **HTTPS requirements**: Should be enforced at server/proxy level; not enforced in application code
@@ -218,47 +223,3 @@ The following is a complete inventory of pages related to account management bas
 
 *To be completed in future PR*
 
----
-
-## Related Files
-
-### Controllers
-- `RegisterUserController.java` - New user registration
-- `UserFormController.java` - Profile updates
-- `PasswordFormController.java` - Password reset request
-- `ResetPasswordController.java` - Password reset form handling
-- `ProcessUserController.java` - Post-login processing
-- `AbstractUserController.java` - Base controller for user operations
-- `AdminOverridingUserFormController.java` - Admin profile editing
-- `AdminDeletingUserStepOneController.java` / `StepTwoController.java` - User deletion
-- `AdminMergingUsersController.java` - User account merging
-- `AdminSelectUsersController.java` - Admin user selection
-
-### Domain Objects
-- `User.java` - User entity implementing `UserDetails`
-- `UserRole.java` - Role entity (Admin, User, Associate Editor)
-- `PasswordResetToken.java` - Secure password reset tokens
-- `Person.java` - Personal information linked to User
-
-### Services
-- `UserService.java` - User business logic
-- `PasswordResetTokenHome.java` - Token persistence
-
-### Security
-- `treebase-security.xml` - Spring Security configuration
-- `DelegatingPasswordEncoder.java` - BCrypt + legacy support
-- `PasswordUpgradeAuthenticationSuccessHandler.java` - Auto password upgrade
-
-### Views (JSP)
-- `userForm.jsp` - Registration and profile editing
-- `login.jsp` - Login page container
-- `loginForm.jsp` - Login form widget
-- `passwordForm.jsp` - Password reset request
-- `resetPasswordForm.jsp` - New password entry
-- `overrideUserProfile.jsp` - Admin profile editing
-- `userList.jsp` - Admin user list
-
-### Common Components
-- `nav.jsp` - Navigation tabs (Personal Info, Submissions, Search, Admin)
-- `header.jsp` - Site header
-- `defaultTemplate.jsp` - Main template with login status display
