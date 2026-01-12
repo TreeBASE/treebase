@@ -16,7 +16,7 @@ The v3 roadmap aims to:
 
 ### Public Users
 
-- [ ] **[User Story 1: Search](user-story-01-search.md)** - A user or agent visits TreeBASE to search
+- [x] **[User Story 1: Search](user-story-01-search.md)** - A user or agent visits TreeBASE to search
   for study, tree, matrix, taxon or analysis data
 
 ### Authenticated Users
