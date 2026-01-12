@@ -98,7 +98,11 @@ Available documentation for API consumers:
 - `/phylows/taxon/**` - Taxonomic data (PhyloWSTaxonController)
 - `/phylows/classification/**` - Classification data (PhyloWSClassificationController)
 
-**Output Formats:** HTML, NeXML, NEXUS, RDF, RSS 1.0, JSON
+**RSS/Atom Feed Endpoints:**
+- `/rss.xml` - RSS 2.0 feed of recent studies and updates
+- `/feed.xml` - Atom feed of recent studies and updates
+
+**Output Formats:** HTML, NeXML, NEXUS, RDF, RSS 1.0, RSS 2.0, Atom, JSON
 
 ### Data Standards
 
@@ -111,6 +115,8 @@ Documentation for phylogenetic data formats is distributed across in-app pages a
 | **Newick** | Tree representation | Implicit in tree endpoints |
 | **RDF/CDAO** | Semantic web output | doc/API.md, evolutionaryontology.org |
 | **RSS 1.0** | Search result feeds | doc/API.md |
+| **RSS 2.0** | Recent studies feed | /rss.xml endpoint |
+| **Atom** | Recent studies feed | /feed.xml endpoint |
 
 **Data Preparation:**
 - **submitTutorial.jsp** (`/submitTutorial.html`) - NEXUS file preparation using Mesquite
@@ -257,6 +263,13 @@ Complete inventory of JSP pages and controllers related to technical documentati
 | Endpoint | URL Pattern | Description |
 |----------|-------------|-------------|
 | OAI-PMH Provider | /top/oai | Metadata harvesting service |
+
+**RSS/Atom Feed Endpoints:**
+
+| Endpoint | URL Pattern | Output Format | Description |
+|----------|-------------|---------------|-------------|
+| RSS Feed | /rss.xml | RSS 2.0 | Recent studies and updates feed |
+| Atom Feed | /feed.xml | Atom | Recent studies and updates feed |
 
 **JSON Output Pages (for API responses):**
 
