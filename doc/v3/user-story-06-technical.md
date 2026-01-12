@@ -48,27 +48,27 @@ Technical users navigate through documentation pages based on their integration 
 flowchart TD
     A[Entry Points] --> B{User Goal}
     
-    B -->|API Integration| C[urlAPI.html<br/>Data Access]
-    B -->|Understand System| D[technology.html<br/>Implementation]
+    B -->|API Integration| C["urlAPI.html (Data Access)"]
+    B -->|Understand System| D["technology.html (Implementation)"]
     B -->|Contribute Code| E[GitHub Repository]
-    B -->|Deploy Instance| F[doc/development/]
+    B -->|Deploy Instance| F["doc/development/"]
     
-    C --> G[doc/API.md<br/>PhyloWS Reference]
-    C --> H[doc/OAI-PMH.md<br/>Harvesting Interface]
+    C --> G["doc/API.md (PhyloWS Reference)"]
+    C --> H["doc/OAI-PMH.md (Harvesting Interface)"]
     
-    G --> I[/phylows/study/**]
-    G --> J[/phylows/tree/**]
-    G --> K[/phylows/matrix/**]
-    G --> L[/phylows/taxon/**]
+    G --> I["phylows/study endpoint"]
+    G --> J["phylows/tree endpoint"]
+    G --> K["phylows/matrix endpoint"]
+    G --> L["phylows/taxon endpoint"]
     
-    D --> M[about.html<br/>Background]
+    D --> M["about.html (Background)"]
     D --> N[Architecture Diagram]
     
-    E --> O[doc/development/BUILDING.md]
-    E --> P[doc/technical-notes/]
+    E --> O["doc/development/BUILDING.md"]
+    E --> P["doc/technical-notes/"]
     
     F --> O
-    F --> Q[doc/development/DEPLOYING.md]
+    F --> Q["doc/development/DEPLOYING.md"]
     
     H --> R[OAI-PMH Verbs]
     
