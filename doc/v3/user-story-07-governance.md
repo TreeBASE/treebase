@@ -34,7 +34,7 @@ informed decisions about its future.
 
 ## Navigation Flow
 
-*TODO: Document how users navigate through these pages*
+*TODO: Document how users navigate through these pages as a mermaid plot*
 
 ```
 [Home] --> [About TreeBASE]
