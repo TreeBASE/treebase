@@ -29,7 +29,7 @@ The v3 roadmap aims to:
 
 ### Reviewers
 
-- [ ] **[User Story 4: Review](user-story-04-review.md)** - A reviewer visits TreeBASE to review a
+- [x] **[User Story 4: Review](user-story-04-review.md)** - A reviewer visits TreeBASE to review a
   study with tree, matrix, taxon and analysis data
 
 ### Administrators
