@@ -14,25 +14,24 @@
 
 ## Prerequisites
 
-- User must be logged in with reviewer privileges
-- Study must be assigned to the reviewer
+- Data submitter has provided the reviewer with a URL with a special access
+  token in the query string
+- Reviewer visits the website via this URL to access the unpublished study
 
 ## Current Pages
 
 *TODO: Identify and list all current pages that apply to this user story*
 
-- [ ] Review queue/dashboard
-- [ ] Study review page
+- [ ] Reviewer popup 
+- [ ] Study review page 
 - [ ] Tree review interface
 - [ ] Matrix review interface
 - [ ] Taxa review interface
 - [ ] Analysis review interface
-- [ ] Comment/feedback entry
-- [ ] Approval/rejection interface
 
 ## Navigation Flow
 
-*TODO: Document how users navigate through these pages*
+*TODO: Document how users navigate through these pages in a mermaid plot*
 
 ```
 [Reviewer Dashboard] --> [Review Queue] --> [Study Review]
@@ -58,56 +57,35 @@
 
 ## Review Workflow
 
-### Step 1: Access Review Queue
-- View assigned reviews
-- Filter by status, date, study type
-- Priority indicators
+*TODO: Document how the reviewer navigates the unlocked pages to review the study*
 
-### Step 2: Study Overview Review
+### Step 1: Study Overview Review
 - Verify publication details
 - Check metadata completeness
 - Validate citations
 
-### Step 3: Tree Data Review
+### Step 2: Tree Data Review
 - Visualize tree structure
 - Check topology
 - Verify branch support values
 - Validate tree labels
 
-### Step 4: Matrix Data Review
+### Step 3: Matrix Data Review
 - Review character matrix
 - Check for data completeness
 - Validate character definitions
 - Review coding consistency
 
-### Step 5: Taxonomic Review
+### Step 4: Taxonomic Review
 - Verify taxon names
 - Check taxonomic placement
 - Review OTU mappings
 - Flag nomenclatural issues
 
-### Step 6: Analysis Review
+### Step 5: Analysis Review
 - Check analysis parameters
 - Verify software citations
 - Review methodology description
-
-### Step 7: Final Decision
-- Approve for publication
-- Request revisions with comments
-- Reject with explanation
-
-## Review Features
-
-### Comments and Feedback
-- Line-level comments on trees/matrices
-- General study comments
-- Suggestion for corrections
-- Communication with submitter
-
-### Quality Checks
-- Automated validation results
-- Manual checklist items
-- Cross-reference verification
 
 ## Pages to Account For
 
