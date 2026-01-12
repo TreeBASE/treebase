@@ -32,7 +32,14 @@ The following pages apply to this user story:
 - [x] Tree viewer/editor (`/user/directMapToPhyloWidget.html` → `treeViewer.jsp`)
 - [x] Matrix list/editor (`/user/matrixList.html` → `matrixList.jsp`)
 - [x] Matrix row list (`/user/matrixRowList.html` → `matrixRowList.jsp`)
-- [x] Row segment data (`/user/viewAllRowSegmentData.html` → `viewAllRowSegmentData.jsp`)
+- [x] Row segment list for matrix row (`/user/matrixRowSegmentList.html` → `matrixRowSegmentList.jsp`)
+- [x] Row segment form (`/user/matrixRowSegmentForm.html` → `matrixRowSegmentForm.jsp`)
+- [x] Upload row segment data (`/user/uploadRowSegmentData.html` → `uploadRowSegmentData.jsp`)
+- [x] Row segment data table (`/user/rowSegmentDataTable.html` → `rowSegmentDataTable.jsp`)
+- [x] View all row segment data (`/user/viewAllRowSegmentData.html` → `viewAllRowSegmentData.jsp`)
+- [x] Export row segment data (`/user/exportRowSegmentData.html` → file download)
+- [x] Export row segment template (`/user/exportRowSegmentTemplate.html` → file download)
+- [x] Delete row segment (`/user/deleteARowSegment.html` → `generalDeletePage.jsp`)
 - [x] Taxa management (`/user/taxaList.html` → `taxonLabels.jsp`)
 - [x] Edit taxon label (`/user/editTaxonLabel.html` → `editTaxonLabel.jsp`)
 - [x] Analysis display (`/user/analysisDisplay.html` → `analysisList.jsp`)
@@ -78,7 +85,17 @@ flowchart TD
     subgraph Matrices["Matrix Management"]
         MatrixList["/user/matrixList.html<br/>Matrices<br/>(matrixList.jsp)"]
         MatrixRows["/user/matrixRowList.html<br/>Matrix Rows<br/>(matrixRowList.jsp)"]
-        RowSegments["/user/viewAllRowSegmentData.html<br/>Row Segments<br/>(viewAllRowSegmentData.jsp)"]
+    end
+
+    subgraph RowSegments["Row Segment Management"]
+        RowSegmentList["/user/matrixRowSegmentList.html<br/>Row Segments for Row<br/>(matrixRowSegmentList.jsp)"]
+        RowSegmentForm["/user/matrixRowSegmentForm.html<br/>Edit Row Segment<br/>(matrixRowSegmentForm.jsp)"]
+        UploadRowSegment["/user/uploadRowSegmentData.html<br/>Upload Row Segment Data<br/>(uploadRowSegmentData.jsp)"]
+        RowSegmentDataTable["/user/rowSegmentDataTable.html<br/>Map Columns<br/>(rowSegmentDataTable.jsp)"]
+        ViewAllRowSegments["/user/viewAllRowSegmentData.html<br/>All Row Segments<br/>(viewAllRowSegmentData.jsp)"]
+        ExportRowSegment["/user/exportRowSegmentData.html<br/>Export TSV<br/>(file download)"]
+        ExportTemplate["/user/exportRowSegmentTemplate.html<br/>Export Template<br/>(file download)"]
+        DeleteRowSegment["/user/deleteARowSegment.html<br/>Delete Row Segment<br/>(generalDeletePage.jsp)"]
     end
 
     subgraph Taxa["Taxon Management"]
@@ -128,7 +145,23 @@ flowchart TD
 
     %% Matrix flow
     MatrixList -->|"View rows"| MatrixRows
-    MatrixRows -->|"View segments"| RowSegments
+    MatrixRows -->|"View segments"| RowSegmentList
+
+    %% Row Segment flow (individual row)
+    RowSegmentList -->|"Add segment"| RowSegmentForm
+    RowSegmentList -->|"Edit segment"| RowSegmentForm
+    RowSegmentForm -->|"Done"| RowSegmentList
+
+    %% Row Segment bulk operations flow
+    MatrixList -->|"Upload row segment data"| UploadRowSegment
+    UploadRowSegment -->|"Upload complete"| RowSegmentDataTable
+    RowSegmentDataTable -->|"Submit"| ViewAllRowSegments
+    ViewAllRowSegments -->|"Export"| ExportRowSegment
+    ViewAllRowSegments -->|"Upload more"| UploadRowSegment
+    ViewAllRowSegments -->|"Delete segment"| DeleteRowSegment
+    ViewAllRowSegments -->|"Back to rows"| MatrixRows
+    MatrixList -->|"Export template"| ExportTemplate
+    DeleteRowSegment -->|"Confirmed"| ViewAllRowSegments
 
     %% Taxa flow
     TaxaList -->|"Edit taxon"| EditTaxon
@@ -239,11 +272,98 @@ Matrix management is handled by `ListMatrixController`:
 
 **Matrix Row List** (`/user/matrixRowList.html` → `matrixRowList.jsp`):
 - View matrix rows
-- Navigate to row segments
+- Navigate to row segments for each row
 
-**Row Segment Data** (`/user/viewAllRowSegmentData.html` → `viewAllRowSegmentData.jsp`):
-- View detailed character state data
-- Export functionality available
+### Step 4a: Row Segment Data
+
+Row segments represent parts of sequences within character state matrices. They allow users to annotate specific portions of matrix rows with specimen information, accession numbers, and geographic data.
+
+**Example Use Case:** A researcher has a concatenated DNA matrix where positions 1-500 are 16S rRNA and positions 501-1200 are COI. Using row segments, they can annotate these regions separately for each taxon, recording different GenBank accession numbers and specimen voucher codes for each gene fragment.
+
+**Row segment management provides two approaches:**
+
+#### Individual Row Segment Entry
+
+Via `ListMatrixRowSegmentController` and `SingleRowSegmentController`:
+
+**Row Segment List** (`/user/matrixRowSegmentList.html` → `matrixRowSegmentList.jsp`):
+- Lists all row segments for a specific matrix row
+- Shows segment title, start index, and end index
+- Actions: Add new segment, Edit segment
+
+**Row Segment Form** (`/user/matrixRowSegmentForm.html` → `matrixRowSegmentForm.jsp`):
+- **Taxon Label** - Display only, inherited from matrix row
+- **Title** - Segment title/name
+- **Start Index** / **End Index** - Character positions defining the segment
+- **Segment Data** - Selected portion of the sequence (auto-filled from selection)
+
+Specimen Label fields:
+- **Institution Acronym** - Museum/institution code
+- **Collection Code** - Collection identifier
+- **Catalog Number** - Specimen catalog number
+- **GenBank Accession** - GenBank accession number
+- **Other Accession** - Other database accession numbers
+- **Sample Date** - Collection date (format: YYYY-MM-DD)
+- **Collector** - Name of collector
+
+Geographic fields:
+- **Latitude** / **Longitude** - Decimal coordinates
+- **Elevation** - Elevation in meters
+- **Country** / **State** / **Locality** - Administrative location
+
+- **Notes** - Free-text notes about the specimen
+
+Interactive segment selection: Users can highlight text in the sequence display and click "Select" to auto-populate start/end indices.
+
+#### Bulk Row Segment Upload
+
+Via `UploadRowSegmentDataController`, `RowSegmentDataTableController`, and `ViewAllRowSegmentDataController`:
+
+**Upload Row Segment Data** (`/user/uploadRowSegmentData.html` → `uploadRowSegmentData.jsp`):
+- Upload tab-delimited files containing row segment data for multiple rows
+- File should contain columns matching row segment fields
+
+**Row Segment Data Table** (`/user/rowSegmentDataTable.html` → `rowSegmentDataTable.jsp`):
+- Preview of uploaded data (first 10 rows displayed)
+- Column mapping interface to match file columns to row segment fields
+- Available field mappings:
+  - Taxon Label
+  - Segment Title
+  - Start Index / End Index
+  - Institution Acronym, Collection Code, Catalog Number
+  - GenBank Accession, Other Accession
+  - Sample Date, Collector
+  - Latitude, Longitude, Elevation
+  - Country, State, Locality
+  - Notes
+  - Ignore (skip column)
+- Checkbox to indicate if file includes header row
+- Validates for duplicate column selections
+
+**View All Row Segments** (`/user/viewAllRowSegmentData.html` → `viewAllRowSegmentData.jsp`):
+- Displays all row segments for the current matrix
+- Inline editing of all segment fields
+- Bulk update: Modify multiple segments and save changes
+- Bulk delete: Select segments via checkboxes and delete
+- Links to:
+  - Export Row Segment Data
+  - Upload Another Row Segment Data File
+  - Go Back To Matrix Rows
+
+**Export Row Segment Data** (`/user/exportRowSegmentData.html`):
+- Downloads current row segment data as tab-separated values (TSV) file
+- Filename: `RowSegmentData_{matrixId}.tsv`
+- Handled by `ExportRowSegmentDataController`
+
+**Export Row Segment Template** (`/user/exportRowSegmentTemplate.html`):
+- Downloads template file with headers for bulk upload
+- Filename: `RowSegmentTemplate_{matrixId}.txt`
+- Handled by `ExportRowSegmentTemplateController`
+
+**Delete Row Segment** (`/user/deleteARowSegment.html` → `generalDeletePage.jsp`):
+- Confirmation page before deleting individual row segment
+- Requires WRITE permission on the submission
+- Handled by `DeleteARowSegmentController`
 
 ### Step 5: Taxonomic Data
 
@@ -352,6 +472,11 @@ Data validation occurs at multiple stages in the submission process:
 **Analysis Step Form:**
 - Algorithm Type validation when "Other" selected - New Algorithm field required
 
+**Row Segment Form:**
+- Start Index: Must be 1 or greater and must not exceed the total sequence length
+- End Index: Must be greater than or equal to Start Index and must not exceed the total sequence length
+- Segment coordinates validated against matrix row data
+
 ### Taxonomic Name Validation
 
 **Automated Validation:**
@@ -414,7 +539,13 @@ Complete inventory of pages related to data submission from `/treebase-web/src/m
 | Matrix List | `/user/matrixList.html` | `listMatrixController` | `matrixList.jsp` | Active |
 | Matrix Row List | `/user/matrixRowList.html` | `listMatrixRowController` | `matrixRowList.jsp` | Active |
 | Row Segment List | `/user/matrixRowSegmentList.html` | `listMatrixRowSegmentController` | `matrixRowSegmentList.jsp` | Active |
+| Row Segment Form | `/user/matrixRowSegmentForm.html` | `matrixRowSegmentFormController` | `matrixRowSegmentForm.jsp` | Active |
+| Upload Row Segment Data | `/user/uploadRowSegmentData.html` | `uploadRowSegmentDataController` | `uploadRowSegmentData.jsp` | Active |
+| Row Segment Data Table | `/user/rowSegmentDataTable.html` | `rowSegmentDataTableController` | `rowSegmentDataTable.jsp` | Active |
 | View All Row Segments | `/user/viewAllRowSegmentData.html` | `viewAllRowSegmentDataController` | `viewAllRowSegmentData.jsp` | Active |
+| Export Row Segment Data | `/user/exportRowSegmentData.html` | `exportRowSegmentDataController` | (file download) | Active |
+| Export Row Segment Template | `/user/exportRowSegmentTemplate.html` | `exportRowSegmentTemplateController` | (file download) | Active |
+| Delete Row Segment | `/user/deleteARowSegment.html` | `deleteARowSegmentController` | `generalDeletePage.jsp` | Active |
 | Delete Matrix | `/user/deleteAMatrix.html` | `deleteAMatrixController` | `generalDeletePage.jsp` | Active |
 | Taxa List | `/user/taxaList.html` | `listTaxaController` | `taxonLabels.jsp` | Active |
 | Edit Taxon Label | `/user/editTaxonLabel.html` | `editTaxonLabelController` | `editTaxonLabel.jsp` | Active |
@@ -462,6 +593,12 @@ The following questions have been addressed based on current implementation:
   - Field validation: On form submission (server-side Spring validators)
   - Comprehensive validation: When changing to "Ready State" (orphan checks, taxon matching, etc.)
 
+- **How are row segments used?**
+  - Row segments annotate portions of character state matrix sequences
+  - They link specimen information (museum codes, GenBank accessions) to specific sequence regions
+  - Can be entered individually per row or uploaded in bulk via tab-delimited files
+  - Templates can be exported to facilitate bulk data entry
+
 ## Security Considerations
 
 - **File Upload Security**: File uploads handled by `AjaxMultipartResolver` with size limits
@@ -471,3 +608,4 @@ The following questions have been addressed based on current implementation:
 - **Read-only After Ready**: Once in "Ready" status, only citation metadata can be updated
 - **Delete Confirmation**: Study deletion requires explicit confirmation via `deleteStudy.jsp` confirmation page with warning message about permanent data loss
 - **Delete Restrictions**: Studies can only be deleted when in "In Progress" status; all trees and matrices must be deleted first before the study can be removed
+- **Row Segment Authorization**: Row segment deletion requires WRITE permission on the containing submission. WRITE permission is granted to the study owner and administrators. Users can verify their permission by checking if edit/delete buttons appear on the row segment pages.
