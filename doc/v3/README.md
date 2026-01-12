@@ -39,7 +39,7 @@ The v3 roadmap aims to:
 
 ### Stakeholders
 
-- [ ] **[User Story 6: Technical Documentation](user-story-06-technical.md)** - A technical
+- [x] **[User Story 6: Technical Documentation](user-story-06-technical.md)** - A technical
   stakeholder visits TreeBASE to learn about the technology of the web app, database, data
   standards, APIs, or other tools
 
