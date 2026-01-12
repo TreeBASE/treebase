@@ -24,7 +24,7 @@ The v3 roadmap aims to:
 - [x] **[User Story 2: Account Management](user-story-02-account.md)** - A user visits TreeBASE to
   create or update their user account and log in
 
-- [ ] **[User Story 3: Data Submission](user-story-03-submission.md)** - A user visits TreeBASE to
+- [x] **[User Story 3: Data Submission](user-story-03-submission.md)** - A user visits TreeBASE to
   submit study, tree, matrix, taxon or analysis data
 
 ### Reviewers
