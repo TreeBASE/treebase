@@ -63,30 +63,46 @@ informed decisions about its future.
 ## Governance Information
 
 ### About TreeBASE
+
+*TODO: find out and specify whether and where this information is covered*
+
 - What is TreeBASE
 - Mission statement
 - Vision for the future
 - Value proposition
 
 ### History
+
+*TODO: find out and specify whether and where this information is covered*
+
 - Timeline of development
 - Major milestones
 - Evolution of the platform
 - Historical context in phylogenetics
 
 ### Team and Contributors
+
+*TODO: find out and specify whether and where this information is covered*
+
 - Current team members
 - Advisory board
 - Past contributors
 - Institutional affiliations
 
 ### Governance Structure
+
+*TODO: find out and specify whether and where this information is covered*
+
 - Decision-making processes
 - Organizational structure
 - Partner institutions
 - Community involvement
+- Relationship with journals
 
 ### Policies
+
+*TODO: find out and specify whether and where this information is covered*
+
 - Data submission policies
 - Data usage and licensing
 - Terms of service
@@ -94,18 +110,27 @@ informed decisions about its future.
 - Code of conduct
 
 ### Impact and Metrics
+
+*TODO: find out and specify whether and where this information is covered*
+
 - Usage statistics
 - Citation information
 - Data holdings summary
 - Community reach
 
 ### Funding and Support
+
+*TODO: find out and specify whether and where this information is covered*
+
 - Current funders
 - Historical funding
 - How to support TreeBASE
 - Institutional partnerships
 
 ### Contact and Engagement
+
+*TODO: find out and specify whether and where this information is covered*
+
 - Contact information
 - Social media presence
 - Mailing lists
