@@ -146,7 +146,6 @@ flowchart TD
 
 - Contact information - ✅ Covered in Contact page (help@treebase.org)
 - Social media presence - ✅ Twitter link in sidebar
-- Mailing lists - ❌ Not covered
 - Community forums - ✅ Available via GitHub:
   - Issues/bugs: https://github.com/TreeBASE/treebase/issues
   - Discussions: https://github.com/TreeBASE/treebase/discussions
