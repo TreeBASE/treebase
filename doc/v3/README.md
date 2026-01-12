@@ -51,13 +51,8 @@ The v3 roadmap aims to:
 
 After these user stories are complete and all current pages are accounted for:
 
-1. Create wireframes/mockups for each page
-2. Define widgets and interactions
-3. Design the updated navigation structure
-4. Plan the implementation phases
+1. Create wireframes, mockups, widgets and interactions for each user story
+2. Design the updated house style and design principles
+3. Plan the implementation phases
+4. Phased implementation of user stories
 
-## Related Documentation
-
-- [Main Documentation](../README.md)
-- [API Documentation](../API.md)
-- [OAI-PMH Documentation](../OAI-PMH.md)
