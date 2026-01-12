@@ -40,52 +40,32 @@ The following pages in the current TreeBASE web application relate to this user 
 
 Users navigate to governance-related pages primarily through the left sidebar menu available on the home page and all main pages. The current navigation structure is:
 
-```
-[Home] (/home.html)
-    |
-    +---> Left Sidebar Navigation
-              |
-              +---> [Search TreeBASE] (/search/studySearch.html)
-              |
-              +---> [Submit Data] (/user/processUser.html)
-              |
-              +---> Documentation
-              |         |
-              |         +---> [Technology] (/technology.html)
-              |         |
-              |         +---> [Submit Tutorial] (/submitTutorial.html)
-              |         |
-              |         +---> [Data Access/API] (/urlAPI.html)
-              |
-              +---> About
-              |         |
-              |         +---> [Overview] (/about.html)
-              |         |           - Background
-              |         |           - History, Funding, and Governance
-              |         |           - Related resources
-              |         |           - Logo
-              |         |
-              |         +---> [People] (/people.html)
-              |         |           - Current contributors
-              |         |           - Past developers
-              |         |
-              |         +---> [Partnerships] (/partnership.html)
-              |         |           - Naturalis Biodiversity Center
-              |         |           - NESCent (historical)
-              |         |           - CIPRES
-              |         |           - Dryad
-              |         |
-              |         +---> [References] (/reference.html)
-              |                     - How to cite TreeBASE
-              |                     - Further reading
-              |
-              +---> [NSF Data Management] (/dataMan.html)
-              |
-              +---> [Journals] (/journal.html)
-              |
-              +---> [Contact] (/contact.html)
-                        - Help desk email
-                        - GitHub issue tracker
+```mermaid
+flowchart TD
+    Home[Home /home.html] --> Sidebar[Left Sidebar Navigation]
+    
+    Sidebar --> Search[Search TreeBASE /search/studySearch.html]
+    Sidebar --> Submit[Submit Data /user/processUser.html]
+    
+    Sidebar --> Documentation
+    Documentation --> Technology[Technology /technology.html]
+    Documentation --> Tutorial[Submit Tutorial /submitTutorial.html]
+    Documentation --> API[Data Access/API /urlAPI.html]
+    
+    Sidebar --> About
+    About --> Overview[Overview /about.html]
+    About --> People[People /people.html]
+    About --> Partnerships[Partnerships /partnership.html]
+    About --> References[References /reference.html]
+    
+    Sidebar --> DataMan[NSF Data Management /dataMan.html]
+    Sidebar --> Journals[Journals /journal.html]
+    Sidebar --> Contact[Contact /contact.html]
+    
+    Sidebar --> Footer[Footer Links]
+    Footer --> Mendeley[Mendeley Group]
+    Footer --> Twitter[Twitter @TreeBASE]
+    Footer --> DCI[Data Citation Index]
 ```
 
 **External Links in Footer:**
@@ -96,53 +76,78 @@ Users navigate to governance-related pages primarily through the left sidebar me
 ## Governance Information
 
 ### About TreeBASE
-- What is TreeBASE
-- Mission statement
-- Vision for the future
-- Value proposition
+
+**Coverage:** `/about.html` and `/home.html`
+
+- What is TreeBASE - ✅ Covered in About page ("Background" section) and Home page welcome text
+- Mission statement - ✅ Covered in About page and Home page (TreeBASE is a repository of phylogenetic information)
+- Vision for the future - ⚠️ Partially covered; About page mentions current version but no explicit future vision
+- Value proposition - ✅ Covered in About page (applications list) and Home page (new features list)
 
 ### History
-- Timeline of development
-- Major milestones
-- Evolution of the platform
-- Historical context in phylogenetics
+
+**Coverage:** `/about.html` ("History, Funding, and Governance" section)
+
+- Timeline of development - ✅ Covered (prototype 1994, redevelopment with CIPRES, v2.0 March 2010)
+- Major milestones - ✅ Covered (NSF grants, institutional hosts over time)
+- Evolution of the platform - ✅ Covered (mentions previous hosts: NESCent, Yale Peabody, SDSC, UB, Harvard, Leiden, UC Davis)
+- Historical context in phylogenetics - ✅ Covered (references to Sanderson et al., Piel et al. publications)
 
 ### Team and Contributors
-- Current team members
-- Advisory board
-- Past contributors
-- Institutional affiliations
+
+**Coverage:** `/people.html`
+
+- Current team members - ✅ Covered with photos, names, and roles
+- Advisory board - ❌ Not explicitly listed
+- Past contributors - ✅ Covered ("Past developers" section)
+- Institutional affiliations - ✅ Covered (institutions shown with contributor entries)
 
 ### Governance Structure
-- Decision-making processes
-- Organizational structure
-- Partner institutions
-- Community involvement
+
+**Coverage:** `/about.html`, `/partnership.html`, `/journal.html`
+
+- Decision-making processes - ⚠️ Partially covered; mentions Phyloinformatics Research Foundation governance
+- Organizational structure - ✅ Covered in About page (Phyloinformatics Research Foundation, Inc.)
+- Partner institutions - ✅ Covered in Partnerships page (Naturalis, NESCent, CIPRES, Dryad)
+- Community involvement - ⚠️ Limited coverage; GitHub issues for bug reports mentioned in Contact
+- Relationship with journals - ✅ Covered in Journals page (`/journal.html`) - lists partner journals that recommend/require TreeBASE submission, provides PhyloWS URLs for each journal's studies
 
 ### Policies
-- Data submission policies
-- Data usage and licensing
-- Terms of service
-- Privacy policy
-- Code of conduct
+
+**Coverage:** `/dataMan.html`, `/submitTutorial.html`
+
+- Data submission policies - ✅ Covered in NSF Data Management page and Submit Tutorial
+- Data usage and licensing - ✅ Covered in NSF Data Management page (public domain, no restrictions on reuse)
+- Terms of service - ❌ No dedicated page
+- Privacy policy - ❌ No dedicated page
+- Code of conduct - ❌ No dedicated page
 
 ### Impact and Metrics
-- Usage statistics
-- Citation information
-- Data holdings summary
-- Community reach
+
+**Coverage:** `/home.html`, `/reference.html`
+
+- Usage statistics - ⚠️ Partially covered; Home page shows counts (4,076 publications, 8,777 authors, etc. as of April 2014 - needs update)
+- Citation information - ✅ Covered in References page (how to cite TreeBASE)
+- Data holdings summary - ✅ Covered in Home page (matrices, trees, taxon labels counts)
+- Community reach - ⚠️ Limited; Twitter and Mendeley links in sidebar, Data Citation Index badge
 
 ### Funding and Support
-- Current funders
-- Historical funding
-- How to support TreeBASE
-- Institutional partnerships
+
+**Coverage:** `/about.html`, `/partnership.html`
+
+- Current funders - ⚠️ Limited; current host (Naturalis) mentioned but no current funding details
+- Historical funding - ✅ Covered in About page (NSF grants DEB 9318325, EF 0331654)
+- How to support TreeBASE - ❌ Not covered
+- Institutional partnerships - ✅ Covered in Partnerships page
 
 ### Contact and Engagement
-- Contact information
-- Social media presence
-- Mailing lists
-- Community forums
+
+**Coverage:** `/contact.html`, sidebar links
+
+- Contact information - ✅ Covered in Contact page (help@treebase.org)
+- Social media presence - ✅ Twitter link in sidebar
+- Mailing lists - ❌ Not covered
+- Community forums - ❌ Not covered (GitHub issues for bugs only)
 
 ## Pages to Account For
 
