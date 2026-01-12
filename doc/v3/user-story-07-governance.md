@@ -142,12 +142,14 @@ flowchart TD
 
 ### Contact and Engagement
 
-**Coverage:** `/contact.html`, sidebar links
+**Coverage:** `/contact.html`, sidebar links, GitHub
 
 - Contact information - ✅ Covered in Contact page (help@treebase.org)
 - Social media presence - ✅ Twitter link in sidebar
 - Mailing lists - ❌ Not covered
-- Community forums - ❌ Not covered (GitHub issues for bugs only)
+- Community forums - ✅ Available via GitHub:
+  - Issues/bugs: https://github.com/TreeBASE/treebase/issues
+  - Discussions: https://github.com/TreeBASE/treebase/discussions
 
 ## Pages to Account For
 
