@@ -30,6 +30,14 @@ Historical documentation that is no longer relevant for current deployments:
 - **[INSTALL.md](archive/INSTALL.md)** - Original data loading environment setup (deprecated)
 - **[LOADING.md](archive/LOADING.md)** - TreeBASE v.1 to v.2 data migration procedures (deprecated)
 
+### [v3/](v3/)
+
+UI/UX roadmap documentation for TreeBASE v3:
+
+- **[README.md](v3/README.md)** - Overview and links to all v3 user stories
+- User stories covering search, account management, data submission, review, administration,
+  technical documentation, and governance
+
 ## Quick Links
 
 ### I want to...
@@ -41,6 +49,7 @@ Historical documentation that is no longer relevant for current deployments:
 - **Understand DWR integration** → [technical-notes/DWR.md](technical-notes/DWR.md)
 - **Learn about recent upgrades** → [technical-notes/UPGRADES.md](technical-notes/UPGRADES.md)
 - **Find historical data loading info** → [archive/](archive/)
+- **See the v3 UI/UX roadmap** → [v3/](v3/)
 
 ## Contributing to Documentation
 
