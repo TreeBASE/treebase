@@ -16,8 +16,8 @@ This document cross-references the URL mappings in `treebase-servlet.xml` agains
 
 **Summary:**
 - Total URL mappings in treebase-servlet.xml: 138
-- Pages accounted for in user stories: 99
-- Pages NOT in user stories: 40
+- Pages accounted for in user stories: 107
+- Pages NOT in user stories: 32
 
 ---
 
@@ -31,13 +31,6 @@ The following pages from `treebase-servlet.xml` are NOT mentioned in any "Pages 
 |-----|------------|-------------|
 | `/accessviolation.html` | filenameController | Access violation error page |
 | `/login.html` | filenameController | Login page (note: `/login.jsp` is documented instead) |
-
-### RSS and Feed Pages
-
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/feed.xml` | rssFeedController | RSS feed (alternate URL) |
-| `/rss.xml` | rssFeedController | RSS feed |
 
 ### Alternative Search URL Patterns
 
@@ -72,21 +65,15 @@ These are search-related URLs that use different URL patterns than those documen
 | `/user/analyses.html` | summaryController | Study analyses (duplicate of analysisDisplay) |
 | `/user/authorForm.html` | authorFormController | Author edit form |
 | `/user/authorList.html` | authorFormController | Author list |
-| `/user/deleteARowSegment.html` | deleteARowSegmentController | Delete row segment |
-| `/user/directToPhyloWidget.html` | directToPhyloWidgetController | Direct PhyloWidget link (alternate) |
+| `/user/directToPhyloWidget.html` | directToPhyloWidgetController | Direct PhyloWidget link (alternate to directMapToPhyloWidget) |
 | `/user/displaySubmissionMenu.html` | displaySubmissionMenuController | Submission menu display |
 | `/user/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS |
 | `/user/editorForm.html` | editorFormController | Editor edit form |
-| `/user/exportRowSegmentData.html` | exportRowSegmentDataController | Export row segment data |
-| `/user/exportRowSegmentTemplate.html` | exportRowSegmentTemplateController | Export row segment template |
-| `/user/matrixRowSegmentForm.html` | matrixRowSegmentFormController | Matrix row segment form |
 | `/user/nexusFiles.html` | nexusFilesController | View NEXUS files |
 | `/user/readOnlyListTree.html` | readOnlyListTreeController | Read-only tree list |
-| `/user/rowSegmentDataTable.html` | rowSegmentDataTableController | Row segment data table |
 | `/user/submissionMain.html` | filenameController | Submission main page |
 | `/user/treeParser.html` | treeParserController | Tree parser |
 | `/user/treeParserResult.html` | treeParserResultController | Tree parser results |
-| `/user/uploadRowSegmentData.html` | uploadRowSegmentDataController | Upload row segment data |
 | `/user/viewXML.html` | filenameController | View XML output |
 
 ### Development/Test Pages
@@ -126,19 +113,23 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
 - `/admin/adminUpdatingUserInfo.html`, `/admin/adminDeletingUserStepOne.html`
 - `/admin/adminDeletingUserStepTwo.html`, `/admin/adminMergingUsers.html`, `/admin/userManagement.html`
 
-### User Story 03: Submission (35 pages)
+### User Story 03: Submission (43 pages)
 - `/user/submissionList.html`, `/user/studyForm.html`, `/user/summary.html`
 - `/user/citationForm.html`, `/user/authorSearchForm.html`, `/user/addAuthor.html`
 - `/user/uploadFile.html`, `/user/uploadFileSummary.html`, `/user/treeBlockList.html`
 - `/user/treeList.html`, `/user/directMapToPhyloWidget.html`, `/user/deleteATree.html`
 - `/user/deleteATreeBlock.html`, `/user/matrixList.html`, `/user/matrixRowList.html`
-- `/user/matrixRowSegmentList.html`, `/user/viewAllRowSegmentData.html`, `/user/deleteAMatrix.html`
-- `/user/taxaList.html`, `/user/editTaxonLabel.html`, `/user/editSetTaxonLabel.html`
-- `/user/analysisList.html`, `/user/analysisDisplay.html`, `/user/analysisForm.html`
-- `/user/analysisStepList.html`, `/user/analysisStepForm.html`, `/user/analyzedDataList.html`
-- `/user/analyzedDataForm.html`, `/user/addAnalyzedData.html`, `/user/readyState.html`
-- `/user/deleteStudy.html`, `/submitTutorial.html`, `/user/downloadATree.html`
-- `/user/downloadATreeBlock.html`, `/user/downloadAMatrix.html`, `/user/downloadANexusFile.html`
+- `/user/matrixRowSegmentList.html`, `/user/matrixRowSegmentForm.html`
+- `/user/uploadRowSegmentData.html`, `/user/rowSegmentDataTable.html`
+- `/user/viewAllRowSegmentData.html`, `/user/exportRowSegmentData.html`
+- `/user/exportRowSegmentTemplate.html`, `/user/deleteARowSegment.html`
+- `/user/deleteAMatrix.html`, `/user/taxaList.html`, `/user/editTaxonLabel.html`
+- `/user/editSetTaxonLabel.html`, `/user/analysisList.html`, `/user/analysisDisplay.html`
+- `/user/analysisForm.html`, `/user/analysisStepList.html`, `/user/analysisStepForm.html`
+- `/user/analyzedDataList.html`, `/user/analyzedDataForm.html`, `/user/addAnalyzedData.html`
+- `/user/readyState.html`, `/user/deleteStudy.html`, `/submitTutorial.html`
+- `/user/downloadATree.html`, `/user/downloadATreeBlock.html`
+- `/user/downloadAMatrix.html`, `/user/downloadANexusFile.html`
 
 ### User Story 04: Review (8 pages)
 - `/search/study/summary.html`, `/search/study/trees.html`, `/search/study/tree.html`
@@ -154,11 +145,12 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
 - `/admin/adminSelectPersons.html`, `/admin/personList.html`, `/admin/adminMergingPersons.html`
 - `/admin/messageToAdminAfterAction.html`
 
-### User Story 06: Technical (12 pages)
+### User Story 06: Technical (14 pages)
 - `/urlAPI.html`, `/technology.html`, `/about.html`, `/contact.html`
 - `/submitTutorial.html`, `/help.html`, `/sitemap.xml`
 - `/phylows/study/**`, `/phylows/tree/**`, `/phylows/matrix/**`
 - `/phylows/taxon/**`, `/phylows/classification/**`, `/top/**`
+- `/rss.xml`, `/feed.xml`
 
 ### User Story 07: Governance (11 pages)
 - `/home.html`, `/about.html`, `/people.html`, `/partnership.html`
@@ -171,27 +163,19 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
 
 ### Pages to Consider Adding to User Stories
 
-1. **RSS Feeds** (`/feed.xml`, `/rss.xml`) - Consider adding to User Story 06 (Technical) as these are programmatic access points
+1. **Alternative Search URL Patterns** - These URLs (`/searchForm.html`, `/searchStudy.html`, etc.) may need to be documented in User Story 01 if they are actively used, or redirected to the documented URLs (`/search/studySearch.html`, etc.) for consistency
 
-2. **Alternative Search URL Patterns** - These URLs (`/searchForm.html`, `/searchStudy.html`, etc.) may need to be documented in User Story 01 if they are actively used, or redirected to the documented URLs (`/search/studySearch.html`, etc.) for consistency
+2. **Tree Parser** (`/user/treeParser.html`, `/user/treeParserResult.html`) - Consider adding to User Story 03
 
-3. **Row Segment Operations** - Several row segment pages are not documented:
-   - `/user/rowSegmentDataTable.html`
-   - `/user/uploadRowSegmentData.html`
-   - `/user/exportRowSegmentData.html`
-   - `/user/deleteARowSegment.html`
-   - These should be added to User Story 03 (Submission)
-
-4. **Tree Parser** (`/user/treeParser.html`, `/user/treeParserResult.html`) - Consider adding to User Story 03
-
-5. **Download Pages** - Some download endpoints are missing:
+3. **Download Pages** - Some download endpoints are missing:
    - `/search/downloadAStudy.html`
    - `/search/downloadATreeBlock.html`
    - `/search/downloadAnAnalysisStep.html`
    - `/search/downloadANexusRCTFile.html`
-   - These should be added to User Story 01 (Search)
+   - `/user/downloadANexusRCTFile.html`
+   - These should be added to User Story 01 (Search) or User Story 03 (Submission)
 
-6. **JSON/API Endpoints** (`/json/submissionIsland.html`) - Consider adding to User Story 06 (Technical)
+4. **JSON/API Endpoints** (`/json/submissionIsland.html`) - Consider adding to User Story 06 (Technical)
 
 ---
 
