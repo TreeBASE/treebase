@@ -43,7 +43,7 @@ The v3 roadmap aims to:
   stakeholder visits TreeBASE to learn about the technology of the web app, database, data
   standards, APIs, or other tools
 
-- [ ] **[User Story 7: Governance](user-story-07-governance.md)** - A governance stakeholder visits
+- [x] **[User Story 7: Governance](user-story-07-governance.md)** - A governance stakeholder visits
   TreeBASE to learn about the project, its history, contributors, and role in phylogenetic data
   management
 
