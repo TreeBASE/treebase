@@ -10,11 +10,10 @@
 
 - System administrators
 - TreeBASE curators with admin privileges (Admin role)
-- Associate Editors (Associate Editor role)
 
 ## Prerequisites
 
-- User must be logged in with Admin or Associate Editor role
+- User must be logged in with Admin role
 - Access is controlled via Spring Security configuration in `treebase-security.xml`
 
 ## Current Pages
