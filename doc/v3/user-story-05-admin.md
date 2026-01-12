@@ -3,7 +3,7 @@
 ## Overview
 
 **As an** administrator,  
-**I want to** administer the submission and review queue,  
+**I want to** administer studies and users,  
 **So that** I can ensure efficient processing of phylogenetic data submissions.
 
 ## User Types
@@ -20,18 +20,21 @@
 
 *TODO: Identify and list all current pages that apply to this user story*
 
-- [ ] Admin dashboard
-- [ ] Submission queue management
-- [ ] Review queue management
-- [ ] User management
-- [ ] Reviewer assignment interface
-- [ ] System settings
-- [ ] Reports and analytics
-- [ ] Audit logs
+- [ ] Admin landing page
+- [ ] Study management for a user
+- [ ] Management of ready studies
+- [ ] Search submissions
+- [ ] Select studies
+- [ ] Select users
+- [ ] Update user info
+- [ ] Delete user
+- [ ] Merge users
+- [ ] Select persons
+- [ ] Merge persons
 
 ## Navigation Flow
 
-*TODO: Document how users navigate through these pages*
+*TODO: Document how users navigate through these pages in a mermaid plot*
 
 ```
 [Admin Dashboard] --> [Submission Queue]
@@ -52,67 +55,24 @@
 ## Administration Functions
 
 ### Submission Queue Management
+
+*Todo: identify all pages and their respective form fields for the operations*
+
 - View all pending submissions
-- Filter by status, date, submitter
-- Prioritize submissions
-- Assign to review track
+- Filter by status, submitter
+- Search submissions
 - Bulk actions
 
-### Review Queue Management
-- View all reviews in progress
-- Monitor review timelines
-- Reassign reviewers
-- Escalate overdue reviews
-- Track completion rates
-
-### Reviewer Assignment
-- View available reviewers
-- Match expertise to submissions
-- Balance reviewer workload
-- Set review deadlines
-
 ### User Management
-- View all users
-- Edit user profiles
-- Manage user roles (submitter, reviewer, admin)
-- Activate/deactivate accounts
-- Reset passwords
 
-### System Settings
-- Configure submission requirements
-- Set review workflows
-- Manage notification templates
-- Configure validation rules
+*Todo: identify all pages and their respective form fields for the operations*
 
-### Reports and Analytics
-- Submission statistics
-- Review turnaround times
-- User activity reports
-- Data growth metrics
-
-### Audit Logs
-- User login history
-- Data modification history
-- Administrative actions
-- Security events
-
-## Admin Features
-
-### Queue Operations
-- Sort and filter options
-- Bulk status updates
-- Quick actions menu
-- Search within queues
-
-### Communication
-- Send notifications to users
-- Broadcast announcements
-- Email templates
-
-### Monitoring
-- Dashboard widgets
-- Alert configurations
-- Status indicators
+- Select users
+- Update user info 
+- Delete user
+- Merge users
+- Select persons
+- Merge persons
 
 ## Pages to Account For
 
