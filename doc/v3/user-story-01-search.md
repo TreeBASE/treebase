@@ -214,6 +214,9 @@ Search for taxonomic names and their occurrences across studies.
 
 Search for trees based on their structural topology patterns.
 
+> **Note:** Tree Topology searches use a form-based interface rather than CQL queries. Users specify taxon names 
+> in a visual tree structure diagram, and the system finds trees matching that relationship pattern.
+
 **Search Types:**
 | Search Type | Description | Input Fields |
 |-------------|-------------|--------------|
@@ -222,6 +225,13 @@ Search for trees based on their structural topology patterns.
 | 4-Taxon Symmetric | Find trees with symmetric 4-taxon topology | taxon_a, taxon_b, taxon_c, taxon_d |
 
 **Result Display:** Same as Trees (returns matching tree records)
+
+### 6. Classification Search (Secondary)
+
+The Classification Search (`/search/classificationSearch.html`) provides an alternative way to browse taxonomic 
+hierarchies. This is a specialized search interface that is not part of the main search tab navigation.
+
+**Note:** This feature is accessible via direct URL but is not prominently featured in the main search navigation.
 
 ### Tab Navigation
 
@@ -315,6 +325,8 @@ When viewing projected results, the interface should indicate:
 
 Complete inventory of pages related to search functionality:
 
+### Main Search Pages
+
 | Page | URL Pattern | Description | Status |
 |------|-------------|-------------|--------|
 | Study Search | `/search/studySearch.html` | Main study search interface | Active |
@@ -322,7 +334,17 @@ Complete inventory of pages related to search functionality:
 | Tree Search | `/search/treeSearch.html` | Tree search interface | Active |
 | Taxon Search | `/search/taxonSearch.html` | Taxon search interface | Active |
 | Tree Topology Search | `/search/treeTopSearch.html` | Topology-based tree search | Active |
-| Classification Search | `/search/classificationSearch.html` | Hierarchical classification search | Active |
+
+### Secondary Search Pages
+
+| Page | URL Pattern | Description | Status |
+|------|-------------|-------------|--------|
+| Classification Search | `/search/classificationSearch.html` | Hierarchical classification browse (not in main nav) | Active |
+
+### Study Detail Pages
+
+| Page | URL Pattern | Description | Status |
+|------|-------------|-------------|--------|
 | Study Summary | `/search/study/summary.html` | Study detail/summary view | Active |
 | Study Matrices | `/search/study/matrices.html` | Matrices within a study | Active |
 | Study Trees | `/search/study/trees.html` | Trees within a study | Active |
@@ -334,6 +356,11 @@ Complete inventory of pages related to search functionality:
 | Tree Block Viewer | `/search/study/treeBlock.html` | Tree block viewer | Active |
 | Tree Blocks List | `/search/study/treeBlocks.html` | List of tree blocks | Active |
 | Row Segments | `/search/study/rowSegments.html` | Matrix row segments | Active |
+
+### Download Endpoints
+
+| Page | URL Pattern | Description | Status |
+|------|-------------|-------------|--------|
 | Row Segments TSV | `/search/study/rowSegmentsTSV.html` | Row segments as TSV download | Active |
 | RDF Export | `/search/study/anyObjectAsRDF.rdf` | RDF export for any object | Active |
 | Download Tree | `/search/downloadATree.html` | Download single tree | Active |
