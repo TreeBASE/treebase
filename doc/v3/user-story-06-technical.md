@@ -29,7 +29,7 @@ architecture.
 
 ## Navigation Flow
 
-*TODO: Document how users navigate through these pages*
+*TODO: Document how users navigate through these pages in the form of a mermaid plot*
 
 ```
 [Documentation Home] --> [API Reference]
