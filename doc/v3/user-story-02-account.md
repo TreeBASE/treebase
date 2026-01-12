@@ -26,7 +26,7 @@
 
 ## Navigation Flow
 
-*TODO: Document how users navigate through these pages*
+*TODO: Document how users navigate through these pages using a mermaid plot referencing explicit pages and widgets*
 
 ```
 [Any Page] --> [Login Link] --> [Login Page] --> [Authenticated Home]
@@ -41,19 +41,29 @@
 ## Account Features
 
 ### Registration
+
+*TODO: Identify the precise requirements for registration from the current implementation including what is required/optional*
+
 - Email address
 - Username
+- Real name
+- Phone number
 - Password requirements
 - Institutional affiliation
-- ORCID integration (if applicable)
 
 ### Authentication
+
+*TODO: Establish the precise details of the authentication implementation*
+
 - Username/password login
 - Session management
 - Remember me functionality
 - Logout from all devices
 
 ### Profile Management
+
+*TODO: Establish the precise functionality of profile management*
+
 - Update personal information
 - Change email address
 - Update password
@@ -62,7 +72,7 @@
 
 ## Pages to Account For
 
-*TODO: Complete inventory of pages related to account management*
+*TODO: Complete inventory of pages related to account management with reference to /treebase-web/src/main/webapp/WEB-INF/treebase-servlet.xml*
 
 | Page | URL Pattern | Status |
 |------|-------------|--------|
@@ -80,8 +90,3 @@
 
 *To be completed in future PR*
 
-## Open Questions
-
-- What OAuth/SSO options should be supported?
-- What information is required vs optional during registration?
-- How long should sessions last?
