@@ -469,3 +469,5 @@ The following questions have been addressed based on current implementation:
 - **Study Ownership**: Users can only modify their own submissions (enforced in controllers)
 - **Status Transitions**: Only study owners and admins can change submission status
 - **Read-only After Ready**: Once in "Ready" status, only citation metadata can be updated
+- **Delete Confirmation**: Study deletion requires explicit confirmation via `deleteStudy.jsp` confirmation page with warning message about permanent data loss
+- **Delete Restrictions**: Studies can only be deleted when in "In Progress" status; all trees and matrices must be deleted first before the study can be removed
