@@ -16,34 +16,34 @@ The v3 roadmap aims to:
 
 ### Public Users
 
-- **[User Story 1: Search](user-story-01-search.md)** - A user or agent visits TreeBASE to search
+- [ ] **[User Story 1: Search](user-story-01-search.md)** - A user or agent visits TreeBASE to search
   for study, tree, matrix, taxon or analysis data
 
 ### Authenticated Users
 
-- **[User Story 2: Account Management](user-story-02-account.md)** - A user visits TreeBASE to
+- [x] **[User Story 2: Account Management](user-story-02-account.md)** - A user visits TreeBASE to
   create or update their user account and log in
 
-- **[User Story 3: Data Submission](user-story-03-submission.md)** - A user visits TreeBASE to
+- [ ] **[User Story 3: Data Submission](user-story-03-submission.md)** - A user visits TreeBASE to
   submit study, tree, matrix, taxon or analysis data
 
 ### Reviewers
 
-- **[User Story 4: Review](user-story-04-review.md)** - A reviewer visits TreeBASE to review a
+- [ ] **[User Story 4: Review](user-story-04-review.md)** - A reviewer visits TreeBASE to review a
   study with tree, matrix, taxon and analysis data
 
 ### Administrators
 
-- **[User Story 5: Administration](user-story-05-admin.md)** - An admin visits TreeBASE to
+- [ ] **[User Story 5: Administration](user-story-05-admin.md)** - An admin visits TreeBASE to
   administer the submission and review queue
 
 ### Stakeholders
 
-- **[User Story 6: Technical Documentation](user-story-06-technical.md)** - A technical
+- [ ] **[User Story 6: Technical Documentation](user-story-06-technical.md)** - A technical
   stakeholder visits TreeBASE to learn about the technology of the web app, database, data
   standards, APIs, or other tools
 
-- **[User Story 7: Governance](user-story-07-governance.md)** - A governance stakeholder visits
+- [ ] **[User Story 7: Governance](user-story-07-governance.md)** - A governance stakeholder visits
   TreeBASE to learn about the project, its history, contributors, and role in phylogenetic data
   management
 
