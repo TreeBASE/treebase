@@ -37,8 +37,8 @@ The following JSP pages and documentation files serve technical stakeholders:
 - [x] **doc/technical-notes/UPGRADES.md** - Dependency upgrade history (Spring, Jersey, etc.)
 
 ### External Resources
-- [ ] GitHub Wiki - API documentation (linked from urlAPI.jsp)
-- [ ] GitHub Wiki - OAI-PMH documentation (linked from urlAPI.jsp)
+- [ ] GitHub Wiki - API documentation (linked from urlAPI.jsp) - *External, not maintained in repository*
+- [ ] GitHub Wiki - OAI-PMH documentation (linked from urlAPI.jsp) - *External, not maintained in repository*
 
 ## Navigation Flow
 
