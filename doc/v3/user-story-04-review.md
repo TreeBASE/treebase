@@ -137,7 +137,7 @@ The reviewer navigates through study data using the x-access-code URL parameter 
 ## Pages to Account For
 
 | Page | URL Pattern | Status |
-|------|-------------|--------|
+| ---- | ----------- | ------ |
 | Study Summary | `/search/study/summary.html?id={studyId}` | ✅ Implemented |
 | Trees List | `/search/study/trees.html?id={studyId}` | ✅ Implemented |
 | Tree Viewer | `/search/study/tree.html?treeid={treeId}` | ✅ Implemented |
@@ -165,7 +165,8 @@ The reviewer navigates through study data using the x-access-code URL parameter 
 ## Technical Implementation Notes
 
 ### Access Control
-- Access tokens are generated from `study.namespacedGUID.hashedIDString`
+- Access tokens are MD5 hashes generated from the study's namespaced GUID (e.g., "TB2:S1234")
+- The token is obtained via `study.namespacedGUID.getHashedIDString()` method in Java, or `${submission.study.namespacedGUID.hashedIDString}` in JSP
 - Token is passed via `x-access-code` URL parameter
 - Token is stored in session after first successful access
 - Constant defined in `Constants.java`: `X_ACCESS_CODE = "x-access-code"`
