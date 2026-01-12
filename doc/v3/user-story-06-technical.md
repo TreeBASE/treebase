@@ -50,6 +50,9 @@ architecture.
 ## Technical Documentation Areas
 
 ### API Documentation
+
+*TODO: Specify what pages are available in this category*
+
 - PhyloWS API reference
 - OAI-PMH interface documentation
 - Authentication requirements
@@ -57,6 +60,9 @@ architecture.
 - Example requests and responses
 
 ### Data Standards
+
+*TODO: Specify what pages are available in this category*
+
 - NeXML format documentation
 - NEXUS format support
 - Newick tree format
@@ -64,6 +70,9 @@ architecture.
 - Metadata schemas
 
 ### Developer Resources
+
+*TODO: Specify what pages are available in this category*
+
 - Architecture overview
 - Source code repository
 - Build instructions
@@ -71,18 +80,27 @@ architecture.
 - Contribution guidelines
 
 ### Integration Guides
+
+*TODO: Specify what pages are available in this category*
+
 - How to query TreeBASE
 - How to harvest data
 - How to submit programmatically
 - Client libraries and SDKs
 
 ### Database Documentation
+
+*TODO: Specify what pages are available in this category*
+
 - Data model overview
 - Entity relationships
 - Query patterns
 - Data dictionary
 
 ### Deployment
+
+*TODO: Specify what pages are available in this category*
+
 - System requirements
 - Installation guide
 - Configuration options
@@ -99,7 +117,7 @@ architecture.
 
 ## Pages to Account For
 
-*TODO: Complete inventory of pages related to technical documentation*
+*TODO: Complete inventory of JSP pages and controllers related to technical documentation*
 
 | Page | URL Pattern | Status |
 |------|-------------|--------|
