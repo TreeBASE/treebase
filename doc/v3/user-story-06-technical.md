@@ -18,93 +18,206 @@ architecture.
 
 ## Current Pages
 
-*TODO: Identify and list all current pages that apply to this user story*
+The following JSP pages and documentation files serve technical stakeholders:
 
-- [ ] API documentation page
-- [ ] Developer guide page
-- [ ] Data standards documentation
-- [ ] Download/export documentation
-- [ ] Integration examples
-- [ ] Technical FAQ
+### Web Application Pages (JSP)
+- [x] **urlAPI.jsp** (`/urlAPI.html`) - Data Access page with PhyloWS API overview, URI patterns, and RSS feeds
+- [x] **technology.jsp** (`/technology.html`) - Implementation technologies and architecture overview
+- [x] **about.jsp** (`/about.html`) - Background, history, funding, and related resources
+- [x] **contact.jsp** (`/contact.html`) - Helpdesk contact and GitHub issue tracker links
+- [x] **submitTutorial.jsp** (`/submitTutorial.html`) - NEXUS file preparation and submission process
+- [x] **help.jsp** (`/help.html`) - Dynamic help text system
+
+### Documentation Files (Markdown)
+- [x] **doc/API.md** - Comprehensive PhyloWS API documentation with CQL search syntax
+- [x] **doc/OAI-PMH.md** - OAI-PMH metadata harvesting service documentation
+- [x] **doc/development/BUILDING.md** - Build prerequisites and instructions (Java 17, Maven)
+- [x] **doc/development/DEPLOYING.md** - Tomcat deployment guide with troubleshooting
+- [x] **doc/technical-notes/DWR.md** - DWR (Direct Web Remoting) integration for AJAX
+- [x] **doc/technical-notes/UPGRADES.md** - Dependency upgrade history (Spring, Jersey, etc.)
+
+### External Resources
+- [ ] GitHub Wiki - API documentation (linked from urlAPI.jsp)
+- [ ] GitHub Wiki - OAI-PMH documentation (linked from urlAPI.jsp)
 
 ## Navigation Flow
 
-*TODO: Document how users navigate through these pages in the form of a mermaid plot*
+Technical users navigate through documentation pages based on their integration needs:
 
-```
-[Documentation Home] --> [API Reference]
-         |                     |
-         |                     v
-         |              [API Examples]
-         |                     |
-         v                     v
-[Data Standards] --> [Data Formats]
-         |                     |
-         v                     v
-[Developer Guide] --> [Contributing]
-         |                     |
-         v                     v
-[Architecture] --> [Deployment Guide]
+```mermaid
+flowchart TD
+    A[Entry Points] --> B{User Goal}
+    
+    B -->|API Integration| C[urlAPI.html<br/>Data Access]
+    B -->|Understand System| D[technology.html<br/>Implementation]
+    B -->|Contribute Code| E[GitHub Repository]
+    B -->|Deploy Instance| F[doc/development/]
+    
+    C --> G[doc/API.md<br/>PhyloWS Reference]
+    C --> H[doc/OAI-PMH.md<br/>Harvesting Interface]
+    
+    G --> I[/phylows/study/**]
+    G --> J[/phylows/tree/**]
+    G --> K[/phylows/matrix/**]
+    G --> L[/phylows/taxon/**]
+    
+    D --> M[about.html<br/>Background]
+    D --> N[Architecture Diagram]
+    
+    E --> O[doc/development/BUILDING.md]
+    E --> P[doc/technical-notes/]
+    
+    F --> O
+    F --> Q[doc/development/DEPLOYING.md]
+    
+    H --> R[OAI-PMH Verbs]
+    
+    style C fill:#e1f5fe
+    style D fill:#e8f5e9
+    style E fill:#fff3e0
+    style F fill:#fce4ec
 ```
 
 ## Technical Documentation Areas
 
 ### API Documentation
 
-*TODO: Specify what pages are available in this category*
+Available documentation for API consumers:
 
-- PhyloWS API reference
-- OAI-PMH interface documentation
-- Authentication requirements
-- Rate limiting and usage policies
-- Example requests and responses
+| Resource | Location | Description |
+|----------|----------|-------------|
+| **urlAPI.jsp** | `/urlAPI.html` | Overview of programmatic access, URI patterns, RSS feeds |
+| **doc/API.md** | Repository | PhyloWS API reference with CQL search syntax and examples |
+| **doc/OAI-PMH.md** | Repository | OAI-PMH harvesting verbs and usage |
+| **GitHub Wiki** | External | Extended API documentation (linked from urlAPI.jsp) |
+
+**PhyloWS Endpoints:**
+- `/phylows/study/**` - Study records (PhyloWSStudyController)
+- `/phylows/tree/**` - Phylogenetic trees (PhyloWSTreeController)
+- `/phylows/matrix/**` - Character matrices (PhyloWSMatrixController)
+- `/phylows/taxon/**` - Taxonomic data (PhyloWSTaxonController)
+- `/phylows/classification/**` - Classification data (PhyloWSClassificationController)
+
+**Output Formats:** HTML, NeXML, NEXUS, RDF, RSS 1.0, JSON
 
 ### Data Standards
 
-*TODO: Specify what pages are available in this category*
+Documentation for phylogenetic data formats is distributed across in-app pages and external links:
 
-- NeXML format documentation
-- NEXUS format support
-- Newick tree format
-- Phylogenetic data interchange standards
-- Metadata schemas
+| Format | Coverage | Location |
+|--------|----------|----------|
+| **NEXUS** | Submission format | submitTutorial.jsp, Mesquite documentation |
+| **NeXML** | Primary output format | doc/API.md, nexml.org (external) |
+| **Newick** | Tree representation | Implicit in tree endpoints |
+| **RDF/CDAO** | Semantic web output | doc/API.md, evolutionaryontology.org |
+| **RSS 1.0** | Search result feeds | doc/API.md |
+
+**Data Preparation:**
+- **submitTutorial.jsp** (`/submitTutorial.html`) - NEXUS file preparation using Mesquite
+- YouTube instructional videos embedded in submitTutorial.jsp
+
+**Metadata Standards:**
+- Dublin Core (dcterms) predicates for bibliographic metadata
+- PRISM for publication dates
+- TreeBASE-specific predicates (tb:) documented in API.md
 
 ### Developer Resources
 
-*TODO: Specify what pages are available in this category*
+Resources for contributors and developers:
 
-- Architecture overview
-- Source code repository
-- Build instructions
-- Development environment setup
-- Contribution guidelines
+| Resource | Location | Description |
+|----------|----------|-------------|
+| **technology.jsp** | `/technology.html` | Architecture overview, technology stack diagram |
+| **BUILDING.md** | `doc/development/` | Build prerequisites (Java 17, Maven), compilation steps |
+| **DWR.md** | `doc/technical-notes/` | AJAX integration with Spring 5 compatibility |
+| **UPGRADES.md** | `doc/technical-notes/` | Dependency upgrade history and migration notes |
+| **GitHub Repository** | github.com/TreeBASE/treebase | Source code under BSD license |
+| **GitHub Issues** | Linked from contact.jsp | Bug reports and feature requests |
+
+**Technology Stack (from technology.jsp):**
+- Database: PostgreSQL
+- ORM: Hibernate
+- Framework: Spring
+- File Parsing: Mesquite
+- Tree Visualization: phylotree.js
+
+**Project Structure:**
+- `treebase-core` - ORM API for PostgreSQL database access
+- `treebase-web` - MVC web application with JSP/HTML GUI
+- `oai-pmh_data_provider` - OAI-PMH interface functionality
 
 ### Integration Guides
 
-*TODO: Specify what pages are available in this category*
+Programmatic integration documentation:
 
-- How to query TreeBASE
-- How to harvest data
-- How to submit programmatically
-- Client libraries and SDKs
+| Integration Type | Documentation | Key Information |
+|-----------------|---------------|-----------------|
+| **REST API Queries** | doc/API.md | PhyloWS URL patterns, CQL search syntax |
+| **Metadata Harvesting** | doc/OAI-PMH.md | OAI-PMH verbs: Identify, ListRecords, GetRecord, etc. |
+| **Data Download** | urlAPI.jsp | NEXUS, NeXML, JSON format parameters |
+| **RSS Feeds** | doc/API.md, urlAPI.jsp | RSS 1.0 for search results and alerts |
+
+**URI Patterns (from urlAPI.jsp):**
+- Study: `{purlBase}study/TB2:S{id}`
+- Matrix: `{purlBase}matrix/TB2:M{id}`
+- Tree: `{purlBase}tree/TB2:Tr{id}`
+
+**Search Examples (from API.md):**
+- `/study/find?query=dcterms.contributor=Huelsenbeck`
+- `/taxon/find?query=dcterms.title=="Homo sapiens"&format=rss1&recordSchema=tree`
+
+**Note:** No official client libraries or SDKs are currently provided.
 
 ### Database Documentation
 
-*TODO: Specify what pages are available in this category*
+Database and data model documentation:
 
-- Data model overview
-- Entity relationships
-- Query patterns
-- Data dictionary
+| Resource | Location | Description |
+|----------|----------|-------------|
+| **technology.jsp** | `/technology.html` | Data content overview, architecture diagram |
+| **BUILDING.md** | `doc/development/` | Database connection configuration |
+| **Hibernate Mappings** | `treebase-core` source | Entity relationships via ORM |
+
+**Data Model Overview (from technology.jsp):**
+1. Studies contain bibliographic references to published phylogenetic research
+2. Each study has one or more analyses; each analysis has steps associating matrices, trees, algorithms, and software
+3. Character matrices contain taxon labels mapped to tree leaf nodes
+4. Row segments link to specimen, tissue, or gene sequence metadata
+5. Taxon names map to uBio NameBank and NCBI taxonomy
+
+**Key Entity Types:**
+- Study, Citation, Analysis, AnalysisStep
+- Matrix, Tree, TreeBlock
+- Taxon, TaxonLabel, TaxonVariant
+
+**Note:** Formal data dictionary and entity-relationship diagrams are not currently published.
 
 ### Deployment
 
-*TODO: Specify what pages are available in this category*
+Deployment and operations documentation:
 
-- System requirements
-- Installation guide
-- Configuration options
-- Monitoring and maintenance
+| Resource | Location | Description |
+|----------|----------|-------------|
+| **BUILDING.md** | `doc/development/` | Prerequisites, compilation, WAR packaging |
+| **DEPLOYING.md** | `doc/development/` | Tomcat configuration, JVM arguments, verification |
+| **UPGRADES.md** | `doc/technical-notes/` | Dependency versions, security fixes, migration paths |
+| **DOCKER.md** | Repository root | Docker deployment option |
+| **docker-compose.yml** | Repository root | Container orchestration |
+
+**System Requirements (from BUILDING.md/DEPLOYING.md):**
+- Java 17 LTS
+- Maven 3.8+
+- PostgreSQL database
+- Tomcat 7+ servlet container
+- Headless Mesquite for file parsing
+
+**Build Artifacts:**
+- `treebase-web.war` (~59MB) - Main web application
+- `data_provider_web.war` - OAI-PMH interface
+
+**Configuration Files:**
+- `jdbc.properties` - Database connection
+- `context.xml` - Tomcat context with database and Mesquite paths
 
 ## External Documentation
 
@@ -117,11 +230,44 @@ architecture.
 
 ## Pages to Account For
 
-*TODO: Complete inventory of JSP pages and controllers related to technical documentation*
+Complete inventory of JSP pages and controllers related to technical documentation:
 
-| Page | URL Pattern | Status |
-|------|-------------|--------|
-| | | |
+| Page | URL Pattern | Controller | Status |
+|------|-------------|------------|--------|
+| urlAPI.jsp | /urlAPI.html | filenameController | ✅ Active |
+| technology.jsp | /technology.html | filenameController | ✅ Active |
+| about.jsp | /about.html | filenameController | ✅ Active |
+| contact.jsp | /contact.html | filenameController | ✅ Active |
+| submitTutorial.jsp | /submitTutorial.html | filenameController | ✅ Active |
+| help.jsp | /help.html | helpController | ✅ Active |
+| sitemap.jsp | /sitemap.xml | sitemapController | ✅ Active |
+
+**PhyloWS Controllers:**
+
+| Controller | URL Pattern | Description |
+|------------|-------------|-------------|
+| PhyloWSStudyController | /phylows/study/** | Study data API |
+| PhyloWSTreeController | /phylows/tree/** | Tree data API |
+| PhyloWSMatrixController | /phylows/matrix/** | Matrix data API |
+| PhyloWSTaxonController | /phylows/taxon/** | Taxon data API |
+| PhyloWSClassificationController | /phylows/classification/** | Classification API |
+
+**OAI-PMH Interface:**
+
+| Endpoint | URL Pattern | Description |
+|----------|-------------|-------------|
+| OAI-PMH Provider | /top/oai | Metadata harvesting service |
+
+**JSON Output Pages (for API responses):**
+
+| Page | Purpose |
+|------|---------|
+| json/studyToJSON.jsp | Study JSON serialization |
+| json/treeToJSON.jsp | Tree JSON serialization |
+| json/matrixToJSON.jsp | Matrix JSON serialization |
+| json/taxonToJSON.jsp | Taxon JSON serialization |
+| anyObjectAsRDF.jsp | RDF output generation |
+| searchResultsAsRDF.jsp | Search results as RDF |
 
 ## Wireframe Notes
 
