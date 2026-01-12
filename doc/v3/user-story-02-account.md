@@ -179,7 +179,7 @@ Profile management is handled by `UserFormController` with the following functio
 
 ## Pages to Account For
 
-Complete inventory of pages related to account management from `/treebase-web/src/main/webapp/WEB-INF/treebase-servlet.xml`:
+Complete inventory of pages related to account management from `/treebase-web/src/main/webapp/WEB-INF/treebase-servlet.xml` (compiled January 2026):
 
 | Page | URL Pattern | Controller | View | Status |
 |------|-------------|------------|------|--------|
@@ -222,4 +222,3 @@ Current implementation status:
 ## Wireframe Notes
 
 *To be completed in future PR*
-
