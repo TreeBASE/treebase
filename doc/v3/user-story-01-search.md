@@ -14,39 +14,224 @@
 
 ## Current Pages
 
-*TODO: Identify and list all current pages that apply to this user story*
+The following search pages are currently available in the TreeBASE web application:
 
-- [ ] Study search page
-- [ ] Matrix search page
-- [ ] Tree search page
-- [ ] Taxon search page
-- [ ] Tree topology search page
+- [x] **Study Search Page** (`/search/studySearch.html`) - Search for phylogenetic studies
+- [x] **Matrix Search Page** (`/search/matrixSearch.html`) - Search for character matrices
+- [x] **Tree Search Page** (`/search/treeSearch.html`) - Search for phylogenetic trees
+- [x] **Taxon Search Page** (`/search/taxonSearch.html`) - Search for taxonomic names
+- [x] **Tree Topology Search Page** (`/search/treeTopSearch.html`) - Search by tree structure
 
 ## Navigation Flow
 
-*TODO: Document how users navigate through these pages as a mermaid plot*
+The following diagram shows how users navigate through search pages:
 
+```mermaid
+graph TB
+    subgraph Entry Points
+        HOME[Home Page]
+        NAV[Navigation Bar]
+        DIRECT[Direct URL / API]
+    end
+    
+    subgraph Search Tabs
+        STUDY[Study Search<br>/search/studySearch.html]
+        MATRIX[Matrix Search<br>/search/matrixSearch.html]
+        TREE[Tree Search<br>/search/treeSearch.html]
+        TAXON[Taxon Search<br>/search/taxonSearch.html]
+        TREETOP[Tree Topology Search<br>/search/treeTopSearch.html]
+    end
+    
+    subgraph Search Forms
+        SIMPLE[Simple Search Form]
+        ADV[Advanced CQL Search]
+    end
+    
+    subgraph Results
+        RESULTS[Search Results List]
+    end
+    
+    subgraph Detail Pages
+        STUDY_DETAIL[Study Summary<br>/search/study/summary.html]
+        MATRIX_DETAIL[Matrix Detail<br>/search/study/matrix.html]
+        TREE_DETAIL[Tree Viewer<br>/search/study/tree.html]
+        TAXA_DETAIL[Taxa List<br>/search/study/taxa.html]
+    end
+    
+    subgraph Downloads
+        NEXUS[NEXUS Format]
+        NEXML[NeXML Format]
+    end
+    
+    HOME --> NAV
+    NAV --> STUDY
+    NAV --> MATRIX
+    NAV --> TREE
+    NAV --> TAXON
+    NAV --> TREETOP
+    DIRECT --> STUDY
+    DIRECT --> MATRIX
+    DIRECT --> TREE
+    DIRECT --> TAXON
+    DIRECT --> TREETOP
+    
+    STUDY --> SIMPLE
+    MATRIX --> SIMPLE
+    TREE --> SIMPLE
+    TAXON --> SIMPLE
+    TREETOP --> SIMPLE
+    
+    SIMPLE --> ADV
+    SIMPLE --> RESULTS
+    ADV --> RESULTS
+    
+    RESULTS --> STUDY_DETAIL
+    RESULTS --> MATRIX_DETAIL
+    RESULTS --> TREE_DETAIL
+    RESULTS --> TAXA_DETAIL
+    
+    STUDY_DETAIL --> NEXUS
+    STUDY_DETAIL --> NEXML
+    MATRIX_DETAIL --> NEXUS
+    TREE_DETAIL --> NEXUS
+    
+    %% Tab switching for result projection
+    RESULTS -.->|Project Results| STUDY
+    RESULTS -.->|Project Results| MATRIX
+    RESULTS -.->|Project Results| TREE
+    RESULTS -.->|Project Results| TAXON
 ```
-[Entry Point] --> [Search Interface] --> [Search Results] --> [Detail Page]
-                        |                       |
-                        v                       v
-              [Advanced Search]          [Related Data]
-```
+
+### Navigation Notes
+
+- Users can switch between search tabs at any time via the navigation bar
+- When results exist, switching tabs projects the current result set to the new data type
+- Each search page provides both simple and advanced (CQL) search options
+- Search results include links to detail pages and download options
 
 ## Search Capabilities
 
 ## Searchable Data Types
 
-*TODO: Document for each searchable data type what fields are searchable, any filters, and result display options*
+TreeBASE supports searching across five primary data types. Each data type has specific searchable fields and display options.
 
-TreeBASE supports searching across five primary data types. Selecting any of these tabs in the interface displays the 
-corresponding results page:
+### 1. Studies
 
-1. **Studies** - Search for phylogenetic studies by metadata, authors, citations, etc.
-2. **Matrices** - Search for character matrices used in phylogenetic analyses
-3. **Trees** - Search for phylogenetic trees by properties, topology, or associated metadata
-4. **Taxa** - Search for taxonomic names and their occurrences across studies
-5. **Tree Topologies** - Search for trees based on their structural topology patterns
+Search for phylogenetic studies by metadata, authors, citations, etc.
+
+**Searchable Fields:**
+| Field | Description | CQL Predicate |
+|-------|-------------|---------------|
+| Study ID | TreeBASE study identifier (S####) | `tb.identifier.study` |
+| Legacy Study ID | TreeBASE 1.x study identifier | `tb.identifier.study.tb1` |
+| Author | Author name(s) | `dcterms.contributor` |
+| Title | Study/publication title | `tb.title.study` |
+| Abstract | Publication abstract | `dcterms.abstract` |
+| Citation | Full bibliographic citation | `dcterms.bibliographicCitation` |
+| Keywords | Subject keywords | `dcterms.subject` |
+| DOI | Digital Object Identifier | `prism.doi` |
+
+**Result Display Columns:**
+- Study ID (with link to summary)
+- Authors (first 3, then "et al.")
+- Year
+- Title
+- Journal/Publisher
+- DOI link (external)
+- Download icons (NEXUS, NeXML)
+
+### 2. Matrices
+
+Search for character matrices used in phylogenetic analyses.
+
+**Searchable Fields:**
+| Field | Description | CQL Predicate |
+|-------|-------------|---------------|
+| Matrix ID | TreeBASE matrix identifier (M####) | `tb.identifier.matrix` |
+| Title | Matrix title/name | `tb.title.matrix` |
+| Type | Matrix data type | `tb.type.matrix` |
+| NTAX | Number of taxa | `tb.ntax.matrix` |
+| NCHAR | Number of characters | `tb.nchar.matrix` |
+
+**Result Display Columns:**
+- Matrix ID (with link to detail)
+- Title
+- Description
+- Data Type
+- NTAX
+- NCHAR
+- Download icons (original, reconstructed)
+- View rows icon
+
+### 3. Trees
+
+Search for phylogenetic trees by properties, topology, or associated metadata.
+
+**Searchable Fields:**
+| Field | Description | CQL Predicate |
+|-------|-------------|---------------|
+| Tree ID | TreeBASE tree identifier (Tr####) | `tb.identifier.tree` |
+| Title | Tree title/name | `tb.title.tree` |
+| Type | Tree type (e.g., Species Tree) | `tb.type.tree` |
+| Kind | Tree kind (e.g., Consensus) | `tb.kind.tree` |
+| Quality | Tree quality assessment | `tb.quality.tree` |
+| NTAX | Number of taxa | `tb.ntax.tree` |
+
+**Result Display Columns:**
+- Tree ID (with link to viewer)
+- Label
+- Title
+- Tree Type
+- Tree Kind
+- Tree Quality
+- NTAX
+- View Taxa link
+- Download icons (reconstructed, original)
+- Tree viewer icon
+
+### 4. Taxa
+
+Search for taxonomic names and their occurrences across studies.
+
+**Searchable Fields:**
+| Field | Description | CQL Predicate |
+|-------|-------------|---------------|
+| Taxon ID | TreeBASE taxon identifier (Tx####) | `tb.identifier.taxon` |
+| Legacy Taxon ID | TreeBASE 1.x taxon identifier | `tb.identifier.taxon.tb1` |
+| NCBI ID | NCBI Taxonomy identifier | `tb.identifier.ncbi` |
+| uBio ID | uBio Namebank identifier | `tb.identifier.ubio` |
+| Taxon Name | Scientific name | `tb.title.taxon` |
+| Taxon Label | Label as used in study | `tb.title.taxonLabel` |
+| Taxon Variant | Name variant | `tb.title.taxonVariant` |
+
+**Result Display Columns:**
+- Taxon ID
+- Taxon Name
+- uBio ID (with external link)
+- NCBI ID (with external link)
+
+### 5. Tree Topologies
+
+Search for trees based on their structural topology patterns.
+
+> **Note:** Tree Topology searches use a form-based interface rather than CQL queries. Users specify taxon names 
+> in a visual tree structure diagram, and the system finds trees matching that relationship pattern.
+
+**Search Types:**
+| Search Type | Description | Input Fields |
+|-------------|-------------|--------------|
+| 3-Taxon Topology | Find trees containing a specific 3-taxon relationship | taxon_a, taxon_b, taxon_c |
+| 4-Taxon Asymmetric | Find trees with asymmetric 4-taxon topology | taxon_a, taxon_b, taxon_c, taxon_d |
+| 4-Taxon Symmetric | Find trees with symmetric 4-taxon topology | taxon_a, taxon_b, taxon_c, taxon_d |
+
+**Result Display:** Same as Trees (returns matching tree records)
+
+### 6. Classification Search (Secondary)
+
+The Classification Search (`/search/classificationSearch.html`) provides an alternative way to browse taxonomic 
+hierarchies. This is a specialized search interface that is not part of the main search tab navigation.
+
+**Note:** This feature is accessible via direct URL but is not prominently featured in the main search navigation.
 
 ### Tab Navigation
 
@@ -138,11 +323,58 @@ When viewing projected results, the interface should indicate:
 
 ## Pages to Account For
 
-*TODO: Complete inventory of pages related to search functionality*
+Complete inventory of pages related to search functionality:
 
-| Page | URL Pattern | Status |
-|------|-------------|--------|
-| | | |
+### Main Search Pages
+
+| Page | URL Pattern | Description | Status |
+|------|-------------|-------------|--------|
+| Study Search | `/search/studySearch.html` | Main study search interface | Active |
+| Matrix Search | `/search/matrixSearch.html` | Matrix search interface | Active |
+| Tree Search | `/search/treeSearch.html` | Tree search interface | Active |
+| Taxon Search | `/search/taxonSearch.html` | Taxon search interface | Active |
+| Tree Topology Search | `/search/treeTopSearch.html` | Topology-based tree search | Active |
+
+### Secondary Search Pages
+
+| Page | URL Pattern | Description | Status |
+|------|-------------|-------------|--------|
+| Classification Search | `/search/classificationSearch.html` | Hierarchical classification browse (not in main nav) | Active |
+
+### Study Detail Pages
+
+| Page | URL Pattern | Description | Status |
+|------|-------------|-------------|--------|
+| Study Summary | `/search/study/summary.html` | Study detail/summary view | Active |
+| Study Matrices | `/search/study/matrices.html` | Matrices within a study | Active |
+| Study Trees | `/search/study/trees.html` | Trees within a study | Active |
+| Study Taxa | `/search/study/taxa.html` | Taxa within a study | Active |
+| Study Analyses | `/search/study/analyses.html` | Analyses within a study | Active |
+| Study Analysis Detail | `/search/study/analysis.html` | Single analysis detail | Active |
+| Matrix Detail | `/search/study/matrix.html` | Matrix detail view | Active |
+| Tree Viewer | `/search/study/tree.html` | Interactive tree viewer | Active |
+| Tree Block Viewer | `/search/study/treeBlock.html` | Tree block viewer | Active |
+| Tree Blocks List | `/search/study/treeBlocks.html` | List of tree blocks | Active |
+| Row Segments | `/search/study/rowSegments.html` | Matrix row segments | Active |
+
+### Download Endpoints
+
+| Page | URL Pattern | Description | Status |
+|------|-------------|-------------|--------|
+| Row Segments TSV | `/search/study/rowSegmentsTSV.html` | Row segments as TSV download | Active |
+| RDF Export | `/search/study/anyObjectAsRDF.rdf` | RDF export for any object | Active |
+| Download Tree | `/search/downloadATree.html` | Download single tree | Active |
+| Download Matrix | `/search/downloadAMatrix.html` | Download single matrix | Active |
+| Download NEXUS | `/search/downloadANexusFile.html` | Download original NEXUS file | Active |
+
+### PhyloWS API Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `/phylows/study/find` | Study search API |
+| `/phylows/matrix/find` | Matrix search API |
+| `/phylows/tree/find` | Tree search API |
+| `/phylows/taxon/find` | Taxon search API |
 
 ## Wireframe Notes
 
