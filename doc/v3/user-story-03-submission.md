@@ -433,6 +433,8 @@ The submission summary page uses client-side JavaScript to dynamically update th
 - Check if analyses and their steps are validated
 - Enable or disable the "Ready State" submit button based on validation status
 
+If the JSON endpoint request fails or returns an error, the dynamic menu population and validation decorators are not applied, but the static page content remains functional. The page gracefully degrades to display the server-rendered content without the dynamic status indicators.
+
 **Ready State Confirmation** (`/user/readyState.html` → `readyState.jsp`):
 
 **Pre-submission Validation Checks:**

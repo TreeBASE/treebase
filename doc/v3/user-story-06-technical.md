@@ -335,29 +335,32 @@ The endpoint serializes a study and its associated submission data as JSON, allo
 
 **Controller:** `SubmissionToJsonController`
 
+**Authentication:**
+This endpoint requires user authentication. The controller retrieves the study ID from the request and verifies that the user has access to the study. If no valid study ID is provided, the controller redirects to the submission main page.
+
 **Response Structure:**
 ```javascript
 {
   study: {
-    id: <number>,
-    name: "<string>",
-    notes: "<string>",
-    authors: [{id: <number>, fullNameCitationStyle: "<string>"}],
-    citation: { /* citation details */ },
+    id: Number,
+    name: String,
+    notes: String,
+    authors: [{id: Number, fullNameCitationStyle: String}],
+    citation: {citationType: String, journal: String, booktitle: String, sectiontitle: String, ...},
     analyses: [{
-      id: <number>,
-      name: "<string>",
-      validated: <boolean>,
-      analysisSteps: [{ /* step details with analyzed data */ }]
+      id: Number,
+      name: String,
+      validated: Boolean,
+      analysisSteps: [{id: Number, validated: Boolean, analyzedData: [...]}]
     }],
-    nexusFileNames: [{id: "<filename>"}]
+    nexusFileNames: [{id: String}]
   },
   submission: {
-    id: <number>,
-    submissionNumber: <number>,
-    submittedTaxonLabels: [{id: <number>, attemptedLinking: <boolean>, taxonLabel: "<string>"}],
-    submittedMatrices: [{id: <number>, title: "<string>"}],
-    submittedTreeBlocks: [{id: <number>, title: "<string>", treeList: [/* trees */]}]
+    id: Number,
+    submissionNumber: Number,
+    submittedTaxonLabels: [{id: Number, attemptedLinking: Boolean, taxonLabel: String}],
+    submittedMatrices: [{id: Number, title: String}],
+    submittedTreeBlocks: [{id: Number, title: String, treeList: [{id: Number, label: String}]}]
   }
 }
 ```
