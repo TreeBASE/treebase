@@ -21,6 +21,7 @@ import mesquite.lib.MesquiteModule;
 import mesquite.lib.MesquiteProject;
 import mesquite.lib.MesquiteTree;
 import mesquite.lib.MesquiteTrunk;
+import mesquite.lib.MesquiteWindow;
 import mesquite.lib.Parser;
 import mesquite.lib.StringUtil;
 import mesquite.lib.Taxa;
@@ -199,6 +200,8 @@ public class MesquiteConverter extends AbstractNexusConverter implements NexusPa
 
 		synchronized (MesquiteConverter.class) {
 			if (!isInitMesquite()) {
+				// Set headless mode before initializing Mesquite to prevent GUI window creation
+				MesquiteWindow.headless = true;
 				Mesquite.main(new String[] {"-w"});
 				setInitMesquite(true);
 			}
@@ -230,6 +233,8 @@ public class MesquiteConverter extends AbstractNexusConverter implements NexusPa
 		// make sure no two calls can fight each other:
 		synchronized (MesquiteConverter.class) {
 			if (!isInitMesquite()) {
+				// Set headless mode before initializing Mesquite to prevent GUI window creation
+				MesquiteWindow.headless = true;
 				Mesquite.main(new String[] {"-w", "-b"});
 				setInitMesquite(true);
 			}
