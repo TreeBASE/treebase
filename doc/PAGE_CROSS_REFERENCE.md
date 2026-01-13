@@ -16,10 +16,10 @@ This document cross-references the URL mappings in `treebase-servlet.xml` agains
 
 **Summary:**
 - Total URL mappings in treebase-servlet.xml: 138
-- Pages accounted for in user stories: 107
-- Pages NOT in user stories: 32
-  - Reachable from documented pages: 14
-  - Unreachable (no links found): 18
+- Pages accounted for in user stories: 109
+- Pages NOT in user stories: 29
+  - Reachable from documented pages: 13
+  - Unreachable (no links found): 16
 
 ---
 
@@ -42,7 +42,7 @@ These are search-related URLs that use different URL patterns than those documen
 
 | URL | Controller | Description | Reachability |
 |-----|------------|-------------|--------------|
-| `/search/` | studySearchController | Search root redirect | (unreachable) |
+| `/search/` | studySearchController | Search root redirect | Reachable (redirect) |
 | `/searchForm.html` | searchFormController | Search form (alternative URL pattern) | (unreachable) |
 | `/searchResult.html` | filenameController | Search results (alternative URL pattern) | (unreachable) |
 | `/searchStudy.html` | searchStudyController | Study search (alternative to `/search/studySearch.html`) | Reachable (studyList.jsp) |
@@ -53,11 +53,7 @@ These are search-related URLs that use different URL patterns than those documen
 
 | URL | Controller | Description | Reachability |
 |-----|------------|-------------|--------------|
-| `/search/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS file | (unreachable) |
-| `/search/downloadAStudy.html` | downloadAStudyController | Download entire study | (unreachable) |
-| `/search/downloadATreeBlock.html` | downloadATreeBlockController | Download tree block | Reachable (treeBlockList.jsp, treeBlocks.jsp) |
-| `/search/downloadAnAnalysisStep.html` | downloadAnAnalysisStepController | Download analysis step data | Reachable (algorithm.jsp, analysis.jsp, analyses.jsp) |
-| `/search/matrixRowList.html` | listMatrixRowController | Matrix row list view | Reachable (matrixList.jsp, viewAllRowSegmentData.jsp) |
+| `/search/matrixRowList.html` | listMatrixRowController | Matrix row list view | (unreachable) |
 | `/search/searchResultsAsRDF.rdf` | searchResultsAsRDFController | Search results as RDF | (unreachable) |
 | `/search/summary.html` | summaryController | Search summary page | (unreachable) |
 | `/search/taxonList.html` | listTaxaSearchController | Taxon list view | (unreachable) |
@@ -75,7 +71,7 @@ These are search-related URLs that use different URL patterns than those documen
 | `/user/editorForm.html` | editorFormController | Editor edit form | Reachable (peopleList.jsp, citationForm-booksection.jsp) |
 | `/user/nexusFiles.html` | nexusFilesController | View NEXUS files | Reachable (menu-config.xml) |
 | `/user/readOnlyListTree.html` | readOnlyListTreeController | Read-only tree list | (unreachable) |
-| `/user/submissionMain.html` | filenameController | Submission main page | (unreachable) |
+| `/user/submissionMain.html` | filenameController | Submission main page | Reachable (template) |
 | `/user/treeParser.html` | treeParserController | Tree parser | Reachable (testParser.jsp) |
 | `/user/treeParserResult.html` | treeParserResultController | Tree parser results | Reachable (treeList.jsp) |
 | `/user/viewXML.html` | filenameController | View XML output | Reachable (treeParserResult.jsp) |
@@ -92,31 +88,30 @@ These are search-related URLs that use different URL patterns than those documen
 |-----|------------|-------------|--------------|
 | `/json/submissionIsland.html` | submissionToJsonController | Submission JSON data | (unreachable) |
 | `/appletInteraction.html` | appletInteractionController | Applet interaction handler | (unreachable) |
+| `/top/**` | (OAI-PMH) | OAI-PMH interface (note: `/top/oai` documented but wildcard not) | (unreachable) |
 
 ---
 
 ## Summary of Unreachable Pages
 
-The following 18 pages have no links from documented pages and may be candidates for deprecation or need explicit documentation:
+The following 16 pages have no links from documented pages and may be candidates for deprecation or need explicit documentation:
 
 1. `/login.html` - Alternative to documented `/login.jsp`
-2. `/search/` - Search root
-3. `/searchForm.html` - Alternative search form
-4. `/searchResult.html` - Alternative search results
-5. `/searchStudyList.html` - Study search list
-6. `/study-query.html` - Study query form
-7. `/search/downloadANexusRCTFile.html` - Download reconstructed NEXUS (search context)
-8. `/search/downloadAStudy.html` - Download entire study
-9. `/search/searchResultsAsRDF.rdf` - Search results as RDF
-10. `/search/summary.html` - Search summary
-11. `/search/taxonList.html` - Taxon list view
-12. `/user/authorList.html` - Author list
-13. `/user/displaySubmissionMenu.html` - Submission menu display
-14. `/user/readOnlyListTree.html` - Read-only tree list
-15. `/user/submissionMain.html` - Submission main page
-16. `/test/testParser.html` - Development test page
-17. `/json/submissionIsland.html` - JSON submission data
-18. `/appletInteraction.html` - Applet interaction handler
+2. `/searchForm.html` - Alternative search form
+3. `/searchResult.html` - Alternative search results
+4. `/searchStudyList.html` - Study search list
+5. `/study-query.html` - Study query form
+6. `/search/matrixRowList.html` - Matrix row list view
+7. `/search/searchResultsAsRDF.rdf` - Search results as RDF
+8. `/search/summary.html` - Search summary
+9. `/search/taxonList.html` - Taxon list view
+10. `/user/authorList.html` - Author list
+11. `/user/displaySubmissionMenu.html` - Submission menu display
+12. `/user/readOnlyListTree.html` - Read-only tree list
+13. `/test/testParser.html` - Development test page
+14. `/json/submissionIsland.html` - JSON submission data
+15. `/appletInteraction.html` - Applet interaction handler
+16. `/top/**` - OAI-PMH wildcard pattern
 
 ---
 
@@ -124,7 +119,7 @@ The following 18 pages have no links from documented pages and may be candidates
 
 The following pages from `treebase-servlet.xml` ARE documented in the v3 user story "Pages to Account For" sections:
 
-### User Story 01: Search (25 pages)
+### User Story 01: Search (29 pages)
 - `/search/studySearch.html`, `/search/matrixSearch.html`, `/search/treeSearch.html`
 - `/search/taxonSearch.html`, `/search/treeTopSearch.html`, `/search/classificationSearch.html`
 - `/search/study/summary.html`, `/search/study/matrices.html`, `/search/study/trees.html`
@@ -132,8 +127,9 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
 - `/search/study/matrix.html`, `/search/study/tree.html`, `/search/study/treeBlock.html`
 - `/search/study/treeBlocks.html`, `/search/study/rowSegments.html`, `/search/study/rowSegmentsTSV.html`
 - `/search/study/anyObjectAsRDF.rdf`, `/search/downloadATree.html`, `/search/downloadAMatrix.html`
-- `/search/downloadANexusFile.html`, `/phylows/study/**`, `/phylows/matrix/**`
-- `/phylows/tree/**`, `/phylows/taxon/**`
+- `/search/downloadANexusFile.html`, `/search/downloadAStudy.html`, `/search/downloadATreeBlock.html`
+- `/search/downloadAnAnalysisStep.html`, `/search/downloadANexusRCTFile.html`
+- `/phylows/study/**`, `/phylows/matrix/**`, `/phylows/tree/**`, `/phylows/taxon/**`
 
 ### User Story 02: Account (17 pages)
 - `/register.html`, `/passwordForm.html`, `/resetPassword.html`
@@ -178,7 +174,7 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
 - `/urlAPI.html`, `/technology.html`, `/about.html`, `/contact.html`
 - `/submitTutorial.html`, `/help.html`, `/sitemap.xml`
 - `/phylows/study/**`, `/phylows/tree/**`, `/phylows/matrix/**`
-- `/phylows/taxon/**`, `/phylows/classification/**`, `/top/**`
+- `/phylows/taxon/**`, `/phylows/classification/**`
 - `/rss.xml`, `/feed.xml`
 
 ### User Story 07: Governance (11 pages)
@@ -197,16 +193,12 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
 2. **Tree Parser** (`/user/treeParser.html`, `/user/treeParserResult.html`) - Consider adding to User Story 03
 
 3. **Download Pages** - Some download endpoints are missing:
-   - `/search/downloadAStudy.html`
-   - `/search/downloadATreeBlock.html`
-   - `/search/downloadAnAnalysisStep.html`
-   - `/search/downloadANexusRCTFile.html`
    - `/user/downloadANexusRCTFile.html`
-   - These should be added to User Story 01 (Search) or User Story 03 (Submission)
+   - This should be added to User Story 03 (Submission)
 
 4. **JSON/API Endpoints** (`/json/submissionIsland.html`) - Consider adding to User Story 06 (Technical)
 
-5. **Unreachable Pages** - The 18 unreachable pages may be candidates for deprecation or may need their links restored if they provide needed functionality
+5. **Unreachable Pages** - The 16 unreachable pages may be candidates for deprecation or may need their links restored if they provide needed functionality
 
 ---
 
