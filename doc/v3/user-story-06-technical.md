@@ -101,6 +101,7 @@ Available documentation for API consumers:
 **RSS/Atom Feed Endpoints:**
 - `/rss.xml` - RSS 2.0 feed of recent studies and updates
 - `/feed.xml` - Atom feed of recent studies and updates
+- `/search/searchResultsAsRDF.rdf` - RSS 1.0 (RDF/XML) feed of PhyloWS search results
 
 **Output Formats:** HTML, NeXML, NEXUS, RDF, RSS 1.0, RSS 2.0, Atom, JSON
 
@@ -114,7 +115,7 @@ Documentation for phylogenetic data formats is distributed across in-app pages a
 | **NeXML** | Primary output format | doc/API.md, nexml.org (external) |
 | **Newick** | Tree representation | Implicit in tree endpoints |
 | **RDF/CDAO** | Semantic web output | doc/API.md, evolutionaryontology.org |
-| **RSS 1.0** | Search result feeds | doc/API.md |
+| **RSS 1.0** | Search result feeds | doc/API.md, searchResultsAsRDF.rdf endpoint |
 | **RSS 2.0** | Recent studies feed | /rss.xml endpoint |
 | **Atom** | Recent studies feed | /feed.xml endpoint |
 
@@ -270,6 +271,7 @@ Complete inventory of JSP pages and controllers related to technical documentati
 |----------|-------------|---------------|-------------|
 | RSS Feed | /rss.xml | RSS 2.0 | Recent studies and updates feed |
 | Atom Feed | /feed.xml | Atom | Recent studies and updates feed |
+| Search Results RDF | /search/searchResultsAsRDF.rdf | RSS 1.0 (RDF/XML) | PhyloWS search results as RDF feed |
 
 **JSON Output Pages (for API responses):**
 
@@ -280,7 +282,95 @@ Complete inventory of JSP pages and controllers related to technical documentati
 | json/matrixToJSON.jsp | Matrix JSON serialization |
 | json/taxonToJSON.jsp | Taxon JSON serialization |
 | anyObjectAsRDF.jsp | RDF output generation |
-| searchResultsAsRDF.jsp | Search results as RDF |
+| searchResultsAsRDF.jsp | Search results as RDF/XML (RSS 1.0) feed |
+| submissionIsland.jsp | Submission JSON serialization for dynamic UI |
+
+**JSON Endpoints (for dynamic UI):**
+
+| Page | URL Pattern | Controller | Purpose |
+|------|-------------|------------|---------|
+| submissionIsland.jsp | /json/submissionIsland.html | SubmissionToJsonController | Serializes submission data as JSON for client-side traversal |
+
+## PhyloWS Search Results as RDF Feed
+
+When a PhyloWS search query is performed with `format=rss1`, the search results are rendered as an RDF/XML (RSS 1.0) feed through the `/search/searchResultsAsRDF.rdf` endpoint. This feed format enables programmatic consumption of search results for integration with RSS readers, data aggregators, and semantic web applications.
+
+**How It Works:**
+1. A PhyloWS search is performed via one of the search controllers (StudySearchController, TreeSearchController, MatrixSearchController, TaxonSearchController, or ClassificationSearchController)
+2. When the `format=rss1` parameter is specified, the search results are stored in the session and the request is forwarded to `SearchResultsAsRDFController`
+3. The controller retrieves the frozen search results from the session, thaws them, and prepares session attributes for rendering
+4. The `searchResultsAsRDF.jsp` template renders the results as an RSS 1.0 feed with RDF/XML structure
+
+**Request Flow:**
+```
+/phylows/study/find?query=dcterms.contributor=Smith&format=rss1
+    → StudySearchController.handleQueryRequest()
+    → SearchController.searchResultsAsRDF()
+    → searchResultsAsRDF.jsp (RSS 1.0 output)
+```
+
+**RSS 1.0 Feed Structure:**
+- `<rdf:RDF>` root element with Dublin Core and RSS namespaces
+- `<channel>` element containing feed metadata and item list
+- `<item>` elements for each search result with:
+  - `<title>` - Result label
+  - `<link>` - PhyloWS URI for the result
+  - `<description>` - Result description
+  - Dublin Core and other metadata annotations
+
+**Example Usage:**
+```
+GET /phylows/study/find?query=dcterms.contributor=Huelsenbeck&format=rss1
+GET /phylows/tree/find?query=tb.title.tree=consensus&format=rss1&recordSchema=study
+```
+
+The `recordSchema` parameter allows converting results to a different type (e.g., finding trees but returning studies that contain them).
+
+## JSON Endpoints for Dynamic UI
+
+The `/json/submissionIsland.html` endpoint provides JSON serialization of submission data for client-side JavaScript applications. This enables dynamic UI updates without full page reloads.
+
+**Purpose:**
+The endpoint serializes a study and its associated submission data as JSON, allowing the client-side JavaScript to traverse the data structure and update the UI to reflect the status of different submission components (matrices, trees, taxon labels, analyses).
+
+**Controller:** `SubmissionToJsonController`
+
+**Authentication:**
+This endpoint requires user authentication. The controller retrieves the study ID from the request and verifies that the user has access to the study. If no valid study ID is provided, the controller redirects to the submission main page.
+
+**Response Structure:**
+```javascript
+{
+  study: {
+    id: Number,
+    name: String,
+    notes: String,
+    authors: [{id: Number, fullNameCitationStyle: String}],
+    citation: {citationType: String, journal: String, booktitle: String, sectiontitle: String, ...},
+    analyses: [{
+      id: Number,
+      name: String,
+      validated: Boolean,
+      analysisSteps: [{id: Number, validated: Boolean, analyzedData: [...]}]
+    }],
+    nexusFileNames: [{id: String}]
+  },
+  submission: {
+    id: Number,
+    submissionNumber: Number,
+    submittedTaxonLabels: [{id: Number, attemptedLinking: Boolean, taxonLabel: String}],
+    submittedMatrices: [{id: Number, title: String}],
+    submittedTreeBlocks: [{id: Number, title: String, treeList: [{id: Number, label: String}]}]
+  }
+}
+```
+
+**Client-Side Usage:**
+The `submissionSummary.js` script fetches this JSON data and uses it to:
+- Display submission status indicators (analyzed/not analyzed)
+- Check if taxon labels have been linked to external taxonomies
+- Validate analysis steps
+- Enable/disable the "Ready State" submission button based on validation status
 
 ## Wireframe Notes
 

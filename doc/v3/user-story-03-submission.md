@@ -427,6 +427,14 @@ The review and submission process validates data completeness before allowing st
 - Abstract if provided
 - Analysis list embedded
 
+The submission summary page uses client-side JavaScript to dynamically update the UI based on submission status. When the page loads, it makes an AJAX request to `/json/submissionIsland.html` to retrieve the current submission data as JSON. This JSON response includes the study information (name, notes, authors, citation, analyses, NEXUS files) and submission details (taxon labels, matrices, tree blocks). The `submissionSummary.js` script processes this data to:
+- Populate the Tool Box menu with expandable lists of submission components
+- Apply visual indicators (analyzed/not analyzed) to matrices, trees, and taxon labels
+- Check if analyses and their steps are validated
+- Enable or disable the "Ready State" submit button based on validation status
+
+If the JSON endpoint request fails or returns an error, the dynamic menu population and validation decorators are not applied, but the static page content remains functional. The page gracefully degrades to display the server-rendered content without the dynamic status indicators.
+
 **Ready State Confirmation** (`/user/readyState.html` → `readyState.jsp`):
 
 **Pre-submission Validation Checks:**
@@ -565,6 +573,7 @@ Complete inventory of pages related to data submission from `/treebase-web/src/m
 | Download Tree Block | `/user/downloadATreeBlock.html` | `downloadATreeBlockController` | - | Active |
 | Download Matrix | `/user/downloadAMatrix.html` | `downloadAMatrixController` | - | Active |
 | Download NEXUS File | `/user/downloadANexusFile.html` | `downloadANexusFileController` | - | Active |
+| Submission JSON | `/json/submissionIsland.html` | `submissionToJsonController` | `submissionIsland.jsp` | Active |
 
 ## Wireframe Notes
 
