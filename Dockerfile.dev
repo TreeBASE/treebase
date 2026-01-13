@@ -19,6 +19,8 @@ RUN curl -o /usr/local/tomcat/lib/postgresql.jar \
     https://jdbc.postgresql.org/download/postgresql-42.7.7.jar
 
 # Create Mesquite directory placeholder
+# Note: In development mode, the entrypoint script will copy
+# the Mesquite library from the mounted /app/treebase-core/lib
 RUN mkdir -p /usr/local/mesquite
 
 # Set up environment variables

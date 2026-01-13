@@ -16,6 +16,7 @@ RUN mvn dependency:go-offline -B || true
 
 # Copy source code
 COPY treebase-core/src treebase-core/src
+COPY treebase-core/lib treebase-core/lib
 COPY treebase-web/src treebase-web/src
 COPY treebase-web/lib treebase-web/lib
 COPY oai-pmh_data_provider oai-pmh_data_provider
@@ -45,8 +46,13 @@ COPY --from=builder /build/treebase-web/target/treebase-web.war /usr/local/tomca
 RUN curl -o /usr/local/tomcat/lib/postgresql.jar \
     https://jdbc.postgresql.org/download/postgresql-42.7.7.jar
 
-# Create a directory for Mesquite (placeholder)
-RUN mkdir -p /usr/local/mesquite
+# Create a directory for Mesquite and copy the headless Mesquite library
+# The treebase-core/lib folder contains the headless Mesquite distribution with:
+# - mesquite/ - Mesquite core classes
+# - headless/ - Headless AWT implementation
+# - com/apple/ - Apple API stubs (required by Mesquite even on non-Mac platforms)
+# - Other supporting libraries
+COPY --from=builder /build/treebase-core/lib /usr/local/mesquite
 
 # Set environment variables for Tomcat
 # Java 17 compatibility flags based on GitHub Actions workflow

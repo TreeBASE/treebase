@@ -81,6 +81,21 @@ if [ -d "WEB-INF/dtd" ]; then
   ls -la /tmp/dtd/
 fi
 
+# Copy Mesquite library files from the mounted source directory
+# The treebase-core/lib folder contains the headless Mesquite distribution with:
+# - mesquite/ - Mesquite core classes
+# - headless/ - Headless AWT implementation  
+# - com/apple/ - Apple API stubs (required by Mesquite even on non-Mac platforms)
+# - Other supporting libraries
+if [ -d "/app/treebase-core/lib" ]; then
+  echo "Copying Mesquite library to /usr/local/mesquite..."
+  cp -r /app/treebase-core/lib/* /usr/local/mesquite/
+  echo "Mesquite library installed."
+else
+  echo "WARNING: Mesquite library not found at /app/treebase-core/lib"
+  echo "Nexus file parsing may not work correctly."
+fi
+
 echo "Setup complete! Starting Tomcat..."
 echo "========================================"
 echo "JSP files are mounted from: ./treebase-web/src/main/webapp"
