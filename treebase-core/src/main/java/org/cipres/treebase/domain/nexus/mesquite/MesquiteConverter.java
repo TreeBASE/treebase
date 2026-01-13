@@ -186,6 +186,48 @@ public class MesquiteConverter extends AbstractNexusConverter implements NexusPa
 	}
 
 	/**
+	 * Initialize Mesquite in headless mode. This method sets the necessary flags
+	 * and handles exceptions that may occur during initialization.
+	 * 
+	 * @param args Command line arguments to pass to Mesquite.main()
+	 * @throws RuntimeException if Mesquite fails to initialize and mesquiteTrunk is null
+	 */
+	private static void initializeMesquiteHeadless(String[] args) {
+		// Set headless mode before initializing Mesquite to prevent GUI window creation
+		// Also set suppressAllWindows to skip all window operations
+		MesquiteWindow.headless = true;
+		MesquiteWindow.suppressAllWindows = true;
+		
+		try {
+			Mesquite.main(args);
+			setInitMesquite(true);
+			LOGGER.info("Mesquite initialization completed successfully");
+		} catch (NullPointerException e) {
+			// NPE may occur during headless initialization when window creation fails
+			// Check if mesquiteTrunk was still initialized despite the exception
+			handleMesquiteInitException(e);
+		} catch (RuntimeException e) {
+			// RuntimeException (including HeadlessException) may occur during initialization
+			handleMesquiteInitException(e);
+		}
+	}
+	
+	/**
+	 * Handle exceptions during Mesquite initialization.
+	 * If mesquiteTrunk is available, log warning and continue.
+	 * If mesquiteTrunk is null, throw RuntimeException.
+	 */
+	private static void handleMesquiteInitException(Exception e) {
+		if (MesquiteTrunk.mesquiteTrunk != null) {
+			LOGGER.warn("Mesquite initialization threw exception but trunk is available: " + e.getMessage());
+			setInitMesquite(true);
+		} else {
+			LOGGER.error("Mesquite initialization failed: " + e.getMessage(), e);
+			throw new RuntimeException("Failed to initialize Mesquite for NEXUS parsing", e);
+		}
+	}
+
+	/**
 	 * 
 	 * @see org.cipres.treebase.domain.nexus.NexusParserConverter#processLoadFile(java.util.Collection,
 	 *      org.cipres.treebase.domain.study.Study, org.cipres.treebase.domain.nexus.NexusDataSet,
@@ -200,26 +242,7 @@ public class MesquiteConverter extends AbstractNexusConverter implements NexusPa
 
 		synchronized (MesquiteConverter.class) {
 			if (!isInitMesquite()) {
-				// Set headless mode before initializing Mesquite to prevent GUI window creation
-				// Also set suppressAllWindows to skip all window operations
-				MesquiteWindow.headless = true;
-				MesquiteWindow.suppressAllWindows = true;
-				
-				try {
-					Mesquite.main(new String[] {"-w"});
-					setInitMesquite(true);
-					LOGGER.info("Mesquite initialization completed successfully");
-				} catch (Exception e) {
-					// Mesquite may throw exceptions during initialization in headless mode
-					// due to window creation issues. Check if mesquiteTrunk was still initialized.
-					if (MesquiteTrunk.mesquiteTrunk != null) {
-						LOGGER.warn("Mesquite initialization threw exception but trunk is available: " + e.getMessage());
-						setInitMesquite(true);
-					} else {
-						LOGGER.error("Mesquite initialization failed: " + e.getMessage(), e);
-						throw new RuntimeException("Failed to initialize Mesquite for NEXUS parsing", e);
-					}
-				}
+				initializeMesquiteHeadless(new String[] {"-w"});
 			}
 		}
 
@@ -249,26 +272,7 @@ public class MesquiteConverter extends AbstractNexusConverter implements NexusPa
 		// make sure no two calls can fight each other:
 		synchronized (MesquiteConverter.class) {
 			if (!isInitMesquite()) {
-				// Set headless mode before initializing Mesquite to prevent GUI window creation
-				// Also set suppressAllWindows and disable GUIavailable to skip all window operations
-				MesquiteWindow.headless = true;
-				MesquiteWindow.suppressAllWindows = true;
-				
-				try {
-					Mesquite.main(new String[] {"-w", "-b"});
-					setInitMesquite(true);
-					LOGGER.info("Mesquite initialization completed successfully");
-				} catch (Exception e) {
-					// Mesquite may throw exceptions during initialization in headless mode
-					// due to window creation issues. Check if mesquiteTrunk was still initialized.
-					if (MesquiteTrunk.mesquiteTrunk != null) {
-						LOGGER.warn("Mesquite initialization threw exception but trunk is available: " + e.getMessage());
-						setInitMesquite(true);
-					} else {
-						LOGGER.error("Mesquite initialization failed: " + e.getMessage(), e);
-						throw new RuntimeException("Failed to initialize Mesquite for NEXUS parsing", e);
-					}
-				}
+				initializeMesquiteHeadless(new String[] {"-w", "-b"});
 			}
 		}
 
