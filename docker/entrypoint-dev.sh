@@ -13,6 +13,15 @@ until pg_isready -h postgres -U treebase; do
 done
 echo "PostgreSQL is ready!"
 
+# Run database migrations
+echo "Running database migrations..."
+if [ -f "/app/docker/03-migration-hibernate-sequence.sql" ]; then
+  PGPASSWORD=treebase psql -h postgres -U treebase -d treebase -f /app/docker/03-migration-hibernate-sequence.sql || echo "Warning: Migration may have failed"
+else
+  echo "Migration script not found at /app/docker/03-migration-hibernate-sequence.sql"
+fi
+echo "Database migrations complete!"
+
 # Check if we need to build the project
 if [ ! -f "/app/treebase-web/target/treebase-web.war" ]; then
   echo "Building TreeBASE web application..."
