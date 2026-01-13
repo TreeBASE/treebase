@@ -75,8 +75,8 @@
 		<property name="commandName"><value>user</value></property>
 		<property name="commandClass"><value>org.cipres.treebase.domain.admin.User</value></property>
 		<property name="formView"><value>userForm</value></property>
-		<property name="successView"><value>redirect:login.jsp</value></property>
-		<property name="cancelView"><value>redirect:login.jsp</value></property>
+		<property name="successView"><value>redirect:login.html</value></property>
+		<property name="cancelView"><value>redirect:login.html</value></property>
 		<property name="userService"><ref bean="userService"></ref></property>
 		<property name="userHome"><ref bean="userHome"></ref></property>
 		<property name="passwordEncoder"><ref bean="passwordEncoder"></ref></property>
@@ -117,7 +117,7 @@
 		<property name="commandName"><value>resetPassword</value></property>
 		<property name="commandClass"><value>java.lang.String</value></property>
 		<property name="formView"><value>resetPasswordForm</value></property>
-		<property name="successView"><value>redirect:/login.jsp?reset=success</value></property>
+		<property name="successView"><value>redirect:/login.html?reset=success</value></property>
 		<property name="passwordResetTokenHome"><ref bean="passwordResetTokenHome"></ref></property>
 		<property name="userHome"><ref bean="userHome"></ref></property>
 		<property name="passwordEncoder"><ref bean="passwordEncoder"></ref></property>

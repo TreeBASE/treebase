@@ -6,7 +6,7 @@
 <p>Please fill out either the user name or the email address on file. If an account exists, we will send a password reset link to the registered email address.</p>
 <p><strong>Note:</strong> For security reasons, we never send passwords via email. You will receive a link to create a new password.</p>
 
-<c:url var="homepageURL" value="/login.jsp" />
+<c:url var="homepageURL" value="/login.html" />
 
 <spring:bind path="user.*">
     <c:if test="${not empty status.errorMessages}">

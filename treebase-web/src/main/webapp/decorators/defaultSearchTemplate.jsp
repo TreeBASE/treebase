@@ -143,7 +143,7 @@
 	<c:if test="${pageContext['request'].remoteUser == null}">	
 		<ul id="login">
 			<li><strong>not logged in</strong></li>
-			<li><strong><a href="<c:url value="/login.jsp"/>"><fmt:message key="nav.login"/></a></strong></li>
+			<li><strong><a href="<c:url value="/login.html"/>"><fmt:message key="nav.login"/></a></strong></li>
 		</ul>				
 	</c:if>	
 	<jsp:include page="/common/search-topnav.jsp"/>

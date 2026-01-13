@@ -181,7 +181,7 @@ public class ResetPasswordController extends BaseFormController {
 		}
 
 		// Redirect to login with success parameter
-		// The success message will be handled by login.jsp based on the ?reset=success parameter
+		// The success message will be handled by login.html based on the ?reset=success parameter
 		return new ModelAndView(getSuccessView());
 	}
 

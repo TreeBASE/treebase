@@ -88,7 +88,6 @@ services:
       - ./treebase-web/src/main/webapp/test:/usr/local/tomcat/webapps/treebase-web/test
       # Mount root-level JSP files
       - ./treebase-web/src/main/webapp/index.jsp:/usr/local/tomcat/webapps/treebase-web/index.jsp
-      - ./treebase-web/src/main/webapp/login.jsp:/usr/local/tomcat/webapps/treebase-web/login.jsp
       - ./treebase-web/src/main/webapp/logout.jsp:/usr/local/tomcat/webapps/treebase-web/logout.jsp
       - ./treebase-web/src/main/webapp/error.jsp:/usr/local/tomcat/webapps/treebase-web/error.jsp
       - ./treebase-web/src/main/webapp/error-403.jsp:/usr/local/tomcat/webapps/treebase-web/error-403.jsp

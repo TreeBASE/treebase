@@ -21,16 +21,16 @@
 
 		<!-- Form-based authentication -->
 		<security:form-login
-			login-page="/login.jsp"
+			login-page="/login.html"
 			login-processing-url="/j_security_check"
 			username-parameter="j_username"
 			password-parameter="j_password"
 			default-target-url="/user/processUser.html"
 			always-use-default-target="true"
-			authentication-failure-url="/login.jsp?error=true"/>
+			authentication-failure-url="/login.html?error=true"/>
 
 		<!-- Logout configuration -->
-		<security:logout logout-url="/logout" logout-success-url="/login.jsp"/>
+		<security:logout logout-url="/logout" logout-success-url="/login.html"/>
 
 		<!-- Session management with fixation protection -->
 		<security:session-management session-fixation-protection="newSession"/>

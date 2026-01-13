@@ -3,7 +3,7 @@
 <title><fmt:message key="user.password.reset.form.title"/></title>
 <content tag="heading"><fmt:message key="user.password.reset.form.title"/></content>
 
-<c:url var="homepageURL" value="/login.jsp" />
+<c:url var="homepageURL" value="/login.html" />
 
 <c:if test="${not empty errors}">
     <div class="error">
