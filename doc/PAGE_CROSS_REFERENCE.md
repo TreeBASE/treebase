@@ -2,7 +2,7 @@
 
 This document cross-references the URL mappings in `treebase-servlet.xml` against the pages documented in the v3 UI/UX user story markdown files (`doc/v3/*.md`).
 
-**Analysis Date:** 2026-01-12
+**Analysis Date:** 2026-01-13
 
 **Source Documents:**
 - `treebase-web/src/main/webapp/WEB-INF/treebase-servlet.xml`
@@ -18,76 +18,105 @@ This document cross-references the URL mappings in `treebase-servlet.xml` agains
 - Total URL mappings in treebase-servlet.xml: 138
 - Pages accounted for in user stories: 107
 - Pages NOT in user stories: 32
+  - Reachable from documented pages: 14
+  - Unreachable (no links found): 18
 
 ---
 
 ## Pages NOT in User Story Documentation
 
-The following pages from `treebase-servlet.xml` are NOT mentioned in any "Pages to Account For" section of the v3 user story documents:
+The following pages from `treebase-servlet.xml` are NOT mentioned in any "Pages to Account For" section of the v3 user story documents.
+
+**Reachability Analysis:** Pages marked as "(unreachable)" have no links found in JSP files, menu configuration, or controller redirects from any documented pages.
 
 ### Public/Utility Pages
 
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/accessviolation.html` | filenameController | Access violation error page |
-| `/login.html` | filenameController | Login page (note: `/login.jsp` is documented instead) |
+| URL | Controller | Description | Reachability |
+|-----|------------|-------------|--------------|
+| `/accessviolation.html` | filenameController | Access violation error page | Reachable (controller redirects) |
+| `/login.html` | filenameController | Login page (note: `/login.jsp` is documented instead) | (unreachable) |
 
 ### Alternative Search URL Patterns
 
 These are search-related URLs that use different URL patterns than those documented in User Story 01 (which documents `/search/studySearch.html`, etc.):
 
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/search/` | studySearchController | Search root redirect |
-| `/searchForm.html` | searchFormController | Search form (alternative URL pattern) |
-| `/searchResult.html` | filenameController | Search results (alternative URL pattern) |
-| `/searchStudy.html` | searchStudyController | Study search (alternative to `/search/studySearch.html`) |
-| `/searchStudyList.html` | listSearchStudyController | Study search list |
-| `/study-query.html` | updateStudyQueryController | Study query form |
+| URL | Controller | Description | Reachability |
+|-----|------------|-------------|--------------|
+| `/search/` | studySearchController | Search root redirect | (unreachable) |
+| `/searchForm.html` | searchFormController | Search form (alternative URL pattern) | (unreachable) |
+| `/searchResult.html` | filenameController | Search results (alternative URL pattern) | (unreachable) |
+| `/searchStudy.html` | searchStudyController | Study search (alternative to `/search/studySearch.html`) | Reachable (studyList.jsp) |
+| `/searchStudyList.html` | listSearchStudyController | Study search list | (unreachable) |
+| `/study-query.html` | updateStudyQueryController | Study query form | (unreachable) |
 
 ### Search Download/Export Pages
 
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/search/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS file |
-| `/search/downloadAStudy.html` | downloadAStudyController | Download entire study |
-| `/search/downloadATreeBlock.html` | downloadATreeBlockController | Download tree block |
-| `/search/downloadAnAnalysisStep.html` | downloadAnAnalysisStepController | Download analysis step data |
-| `/search/matrixRowList.html` | listMatrixRowController | Matrix row list view |
-| `/search/searchResultsAsRDF.rdf` | searchResultsAsRDFController | Search results as RDF |
-| `/search/summary.html` | summaryController | Search summary page |
-| `/search/taxonList.html` | listTaxaSearchController | Taxon list view |
+| URL | Controller | Description | Reachability |
+|-----|------------|-------------|--------------|
+| `/search/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS file | (unreachable) |
+| `/search/downloadAStudy.html` | downloadAStudyController | Download entire study | (unreachable) |
+| `/search/downloadATreeBlock.html` | downloadATreeBlockController | Download tree block | Reachable (treeBlockList.jsp, treeBlocks.jsp) |
+| `/search/downloadAnAnalysisStep.html` | downloadAnAnalysisStepController | Download analysis step data | Reachable (algorithm.jsp, analysis.jsp, analyses.jsp) |
+| `/search/matrixRowList.html` | listMatrixRowController | Matrix row list view | Reachable (matrixList.jsp, viewAllRowSegmentData.jsp) |
+| `/search/searchResultsAsRDF.rdf` | searchResultsAsRDFController | Search results as RDF | (unreachable) |
+| `/search/summary.html` | summaryController | Search summary page | (unreachable) |
+| `/search/taxonList.html` | listTaxaSearchController | Taxon list view | (unreachable) |
 
 ### User Submission Pages
 
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/user/analyses.html` | summaryController | Study analyses (duplicate of analysisDisplay) |
-| `/user/authorForm.html` | authorFormController | Author edit form |
-| `/user/authorList.html` | authorFormController | Author list |
-| `/user/directToPhyloWidget.html` | directToPhyloWidgetController | Direct PhyloWidget link (alternate to directMapToPhyloWidget) |
-| `/user/displaySubmissionMenu.html` | displaySubmissionMenuController | Submission menu display |
-| `/user/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS |
-| `/user/editorForm.html` | editorFormController | Editor edit form |
-| `/user/nexusFiles.html` | nexusFilesController | View NEXUS files |
-| `/user/readOnlyListTree.html` | readOnlyListTreeController | Read-only tree list |
-| `/user/submissionMain.html` | filenameController | Submission main page |
-| `/user/treeParser.html` | treeParserController | Tree parser |
-| `/user/treeParserResult.html` | treeParserResultController | Tree parser results |
-| `/user/viewXML.html` | filenameController | View XML output |
+| URL | Controller | Description | Reachability |
+|-----|------------|-------------|--------------|
+| `/user/analyses.html` | summaryController | Study analyses (duplicate of analysisDisplay) | Reachable (menu-config.xml) |
+| `/user/authorForm.html` | authorFormController | Author edit form | Reachable (peopleList.jsp) |
+| `/user/authorList.html` | authorFormController | Author list | (unreachable) |
+| `/user/directToPhyloWidget.html` | directToPhyloWidgetController | Direct PhyloWidget link (alternate to directMapToPhyloWidget) | Reachable (analysisSection-Piece.jsp) |
+| `/user/displaySubmissionMenu.html` | displaySubmissionMenuController | Submission menu display | (unreachable) |
+| `/user/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS | Reachable (nexusFiles.jsp) |
+| `/user/editorForm.html` | editorFormController | Editor edit form | Reachable (peopleList.jsp, citationForm-booksection.jsp) |
+| `/user/nexusFiles.html` | nexusFilesController | View NEXUS files | Reachable (menu-config.xml) |
+| `/user/readOnlyListTree.html` | readOnlyListTreeController | Read-only tree list | (unreachable) |
+| `/user/submissionMain.html` | filenameController | Submission main page | (unreachable) |
+| `/user/treeParser.html` | treeParserController | Tree parser | Reachable (testParser.jsp) |
+| `/user/treeParserResult.html` | treeParserResultController | Tree parser results | Reachable (treeList.jsp) |
+| `/user/viewXML.html` | filenameController | View XML output | Reachable (treeParserResult.jsp) |
 
 ### Development/Test Pages
 
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/test/testParser.html` | treeParserController | Test parser (development) |
+| URL | Controller | Description | Reachability |
+|-----|------------|-------------|--------------|
+| `/test/testParser.html` | treeParserController | Test parser (development) | (unreachable) |
 
 ### JSON/API Pages
 
-| URL | Controller | Description |
-|-----|------------|-------------|
-| `/json/submissionIsland.html` | submissionToJsonController | Submission JSON data |
-| `/appletInteraction.html` | appletInteractionController | Applet interaction handler |
+| URL | Controller | Description | Reachability |
+|-----|------------|-------------|--------------|
+| `/json/submissionIsland.html` | submissionToJsonController | Submission JSON data | (unreachable) |
+| `/appletInteraction.html` | appletInteractionController | Applet interaction handler | (unreachable) |
+
+---
+
+## Summary of Unreachable Pages
+
+The following 18 pages have no links from documented pages and may be candidates for deprecation or need explicit documentation:
+
+1. `/login.html` - Alternative to documented `/login.jsp`
+2. `/search/` - Search root
+3. `/searchForm.html` - Alternative search form
+4. `/searchResult.html` - Alternative search results
+5. `/searchStudyList.html` - Study search list
+6. `/study-query.html` - Study query form
+7. `/search/downloadANexusRCTFile.html` - Download reconstructed NEXUS (search context)
+8. `/search/downloadAStudy.html` - Download entire study
+9. `/search/searchResultsAsRDF.rdf` - Search results as RDF
+10. `/search/summary.html` - Search summary
+11. `/search/taxonList.html` - Taxon list view
+12. `/user/authorList.html` - Author list
+13. `/user/displaySubmissionMenu.html` - Submission menu display
+14. `/user/readOnlyListTree.html` - Read-only tree list
+15. `/user/submissionMain.html` - Submission main page
+16. `/test/testParser.html` - Development test page
+17. `/json/submissionIsland.html` - JSON submission data
+18. `/appletInteraction.html` - Applet interaction handler
 
 ---
 
@@ -176,6 +205,8 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
    - These should be added to User Story 01 (Search) or User Story 03 (Submission)
 
 4. **JSON/API Endpoints** (`/json/submissionIsland.html`) - Consider adding to User Story 06 (Technical)
+
+5. **Unreachable Pages** - The 18 unreachable pages may be candidates for deprecation or may need their links restored if they provide needed functionality
 
 ---
 
