@@ -363,9 +363,13 @@ Complete inventory of pages related to search functionality:
 |------|-------------|-------------|--------|
 | Row Segments TSV | `/search/study/rowSegmentsTSV.html` | Row segments as TSV download | Active |
 | RDF Export | `/search/study/anyObjectAsRDF.rdf` | RDF export for any object | Active |
+| Download Study | `/search/downloadAStudy.html` | Download complete study | Active |
 | Download Tree | `/search/downloadATree.html` | Download single tree | Active |
+| Download Tree Block | `/search/downloadATreeBlock.html` | Download tree block | Active |
 | Download Matrix | `/search/downloadAMatrix.html` | Download single matrix | Active |
+| Download Analysis Step | `/search/downloadAnAnalysisStep.html` | Download analysis step data | Active |
 | Download NEXUS | `/search/downloadANexusFile.html` | Download original NEXUS file | Active |
+| Download NEXUS RCT | `/search/downloadANexusRCTFile.html` | Download reconstructed NEXUS file | Active |
 
 ### PhyloWS API Endpoints
 
