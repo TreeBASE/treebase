@@ -30,7 +30,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.IndexColumn;
-import org.hibernate.annotations.Type;
 import org.springframework.beans.BeanUtils;
 
 import org.cipres.treebase.Constants;
@@ -286,7 +285,6 @@ public class Citation extends AbstractPersistedObject {
 	 * @return boolean mPublished
 	 */
 	@Column(name = "Published")
-	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean isPublished() {
 		return mPublished;
 	}
