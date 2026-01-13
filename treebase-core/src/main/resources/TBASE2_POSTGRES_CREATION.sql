@@ -983,7 +983,7 @@ CREATE TABLE taxonlabel
 (
   taxonlabel_id bigint NOT NULL,
   "version" integer,
-  linked smallint,
+  linked boolean,
   taxonlabel character varying(255),
   study_id bigint,
   taxonvariant_id bigint
