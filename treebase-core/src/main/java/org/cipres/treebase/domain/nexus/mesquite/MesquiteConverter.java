@@ -199,6 +199,8 @@ public class MesquiteConverter extends AbstractNexusConverter implements NexusPa
 
 		synchronized (MesquiteConverter.class) {
 			if (!isInitMesquite()) {
+				// Set headless mode before initializing Mesquite to prevent GUI window creation
+				mesquite.lib.MesquiteWindow.headless = true;
 				Mesquite.main(new String[] {"-w"});
 				setInitMesquite(true);
 			}
@@ -230,6 +232,8 @@ public class MesquiteConverter extends AbstractNexusConverter implements NexusPa
 		// make sure no two calls can fight each other:
 		synchronized (MesquiteConverter.class) {
 			if (!isInitMesquite()) {
+				// Set headless mode before initializing Mesquite to prevent GUI window creation
+				mesquite.lib.MesquiteWindow.headless = true;
 				Mesquite.main(new String[] {"-w", "-b"});
 				setInitMesquite(true);
 			}
