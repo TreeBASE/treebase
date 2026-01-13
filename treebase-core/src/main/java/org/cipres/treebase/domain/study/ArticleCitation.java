@@ -74,7 +74,7 @@ public class ArticleCitation extends Citation {
 	 * 
 	 * @return String
 	 */
-	@Column(name = "Journal", length = TBPersistable.COLUMN_LENGTH_STRING)
+	@Column(name = "Journal", length = TBPersistable.CITATION_JOURNAL_COLUMN_LENGTH)
 	public String getJournal() {
 		return mJournal;
 	}
