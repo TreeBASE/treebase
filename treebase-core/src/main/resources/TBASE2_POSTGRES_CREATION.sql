@@ -464,6 +464,10 @@ CREATE SEQUENCE help_id_sequence;
 ALTER TABLE help ALTER COLUMN help_id SET DEFAULT nextval('help_id_sequence');
 -- alter sequence help_id_sequence restart with 183;
 
+-- hibernate_sequence is used by Hibernate's @CollectionId annotation
+-- for generating collection_id values in sub_matrix and sub_treeblock tables
+CREATE SEQUENCE hibernate_sequence;
+
 CREATE TABLE itemdefinition
 (
   itemdefinition_id bigint NOT NULL,
