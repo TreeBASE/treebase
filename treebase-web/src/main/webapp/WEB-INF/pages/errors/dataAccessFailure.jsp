@@ -16,17 +16,22 @@
 <details>
     <summary>Show full error details</summary>
     <pre style="white-space: pre-wrap; word-wrap: break-word; background-color: #f5f5f5; padding: 10px; border: 1px solid #ddd; overflow-x: auto;"><%
+Logger logger = LoggerFactory.getLogger("org.cipres.treebase.web.errors");
 Exception ex = (Exception) request.getAttribute("exception");
 if (ex != null) {
     // Log the exception to server logs for administrator review
-    Logger logger = LoggerFactory.getLogger("org.cipres.treebase.web.errors");
     logger.error("Data access failure encountered", ex);
     
-    // Print the stack trace to the page
-    java.io.StringWriter sw = new java.io.StringWriter();
-    java.io.PrintWriter pw = new java.io.PrintWriter(sw);
-    ex.printStackTrace(pw);
-    out.print(org.springframework.web.util.HtmlUtils.htmlEscape(sw.toString()));
+    // Print the stack trace to the page using try-with-resources
+    try (java.io.StringWriter sw = new java.io.StringWriter();
+         java.io.PrintWriter pw = new java.io.PrintWriter(sw)) {
+        ex.printStackTrace(pw);
+        pw.flush();
+        out.print(org.springframework.web.util.HtmlUtils.htmlEscape(sw.toString()));
+    } catch (java.io.IOException ioEx) {
+        logger.error("Error writing exception details", ioEx);
+        out.print("Error displaying exception details.");
+    }
 } else {
     out.print("No exception details available.");
 }

@@ -16,10 +16,9 @@
 <details>
     <summary>Show full error details</summary>
     <pre style="white-space: pre-wrap; word-wrap: break-word; background-color: #f5f5f5; padding: 10px; border: 1px solid #ddd; overflow-x: auto;"><%
-try {
-    Logger logger = LoggerFactory.getLogger("org.cipres.treebase.web.errors");
-    java.io.StringWriter sw = new java.io.StringWriter();
-    java.io.PrintWriter pw = new java.io.PrintWriter(sw);
+Logger logger = LoggerFactory.getLogger("org.cipres.treebase.web.errors");
+try (java.io.StringWriter sw = new java.io.StringWriter();
+     java.io.PrintWriter pw = new java.io.PrintWriter(sw)) {
     
     // The Servlet spec guarantees this attribute will be available
     Throwable exception = (Throwable) request.getAttribute("javax.servlet.error.exception"); 
@@ -46,9 +45,9 @@ try {
         pw.println("No error information available");
     }
     
+    pw.flush();
     out.print(org.springframework.web.util.HtmlUtils.htmlEscape(sw.toString()));
 } catch (Exception ex) {
-    Logger logger = LoggerFactory.getLogger("org.cipres.treebase.web.errors");
     logger.error("Error while displaying exception page", ex);
     out.print("Error displaying exception details.");
 }
