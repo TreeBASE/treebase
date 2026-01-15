@@ -93,6 +93,28 @@ This document provides a comprehensive analysis of discrepancies between the Hib
 
 **Notes**: The SQL schema has a `tb_analysisid` column that doesn't appear to be mapped in Hibernate. This is a legacy TB1 field.
 
+### 6. MatrixRow Table (CRITICAL - LOB Type Mismatch)
+
+| Column | Hibernate Definition (Before) | Hibernate Definition (After) | SQL Schema |
+|--------|-------------------------------|------------------------------|------------|
+| `symbolstring` | `@Lob` + `@Column(length=524288)` | `@Column(columnDefinition="text")` | TEXT |
+
+**Root Cause of "Bad value for type long" Error**:
+The `@Lob` annotation on `MatrixRow.symbolString` caused Hibernate to use OID-based CLOB handling in PostgreSQL. However, the data is inserted via direct JDBC in `DiscreteMatrixJDBC.batchUpdateRowSymbol()` using `setString()`, which writes plain text. When Hibernate tried to read the data back using `getClob()`, it attempted to interpret the text data as a CLOB OID, causing the error:
+```
+PSQLException: Bad value for type long : 0002000000000000000000000-0-0000000---00-000000
+```
+
+**Solution**: Removed `@Lob` and used `@Column(columnDefinition = "text")` to ensure TEXT column type without CLOB semantics.
+
+### 7. PhyloTree Table (Preventive Fix)
+
+| Column | Hibernate Definition (Before) | Hibernate Definition (After) | SQL Schema |
+|--------|-------------------------------|------------------------------|------------|
+| `newickstring` | `@Lob` + `@Column(length=4194304)` | `@Column(columnDefinition="text")` | TEXT |
+
+**Notes**: Same pattern as MatrixRow. Removed `@Lob` to prevent potential similar issues.
+
 ## Root Cause Analysis
 
 ### Why Discrepancies Exist
