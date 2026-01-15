@@ -1,4 +1,5 @@
 <%@ include file="/common/taglibs.jsp" %>
+<%@ page import="org.slf4j.Logger, org.slf4j.LoggerFactory" %>
 
 <title>Data Access Error</title>
 <content tag="heading">Data Access Failure</content>
@@ -7,10 +8,29 @@
     <c:out value="${requestScope.exception.message}"/>
 </p>
 
-<% 
-Exception ex = (Exception) request.getAttribute("exception");
-ex.printStackTrace(new java.io.PrintWriter(out)); 
-%>
+<p>
+    <strong>Note:</strong> The full error details are shown below and have been logged to the server for review.
+    If this error persists, please contact the system administrator.
+</p>
 
+<details>
+    <summary>Show full error details</summary>
+    <pre style="white-space: pre-wrap; word-wrap: break-word; background-color: #f5f5f5; padding: 10px; border: 1px solid #ddd; overflow-x: auto;"><%
+Exception ex = (Exception) request.getAttribute("exception");
+if (ex != null) {
+    // Log the exception to server logs for administrator review
+    Logger logger = LoggerFactory.getLogger("org.cipres.treebase.web.errors");
+    logger.error("Data access failure encountered", ex);
+    
+    // Print the stack trace to the page
+    java.io.StringWriter sw = new java.io.StringWriter();
+    java.io.PrintWriter pw = new java.io.PrintWriter(sw);
+    ex.printStackTrace(pw);
+    out.print(org.springframework.web.util.HtmlUtils.htmlEscape(sw.toString()));
+} else {
+    out.print("No exception details available.");
+}
+%></pre>
+</details>
 
 <a href="/user/submissionList.html" onclick="history.back();return false">&#171; Back</a>
