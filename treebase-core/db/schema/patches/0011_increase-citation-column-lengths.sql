@@ -13,8 +13,10 @@ BEGIN
     IF EXISTS (
         SELECT 1 
         FROM information_schema.columns 
-        WHERE table_name = 'citation' 
+        WHERE table_schema = 'public'
+        AND table_name = 'citation' 
         AND column_name = 'keywords' 
+        AND character_maximum_length IS NOT NULL
         AND character_maximum_length < 1000
     ) THEN
         ALTER TABLE citation
@@ -28,8 +30,10 @@ BEGIN
     IF EXISTS (
         SELECT 1 
         FROM information_schema.columns 
-        WHERE table_name = 'citation' 
+        WHERE table_schema = 'public'
+        AND table_name = 'citation' 
         AND column_name = 'journal' 
+        AND character_maximum_length IS NOT NULL
         AND character_maximum_length < 500
     ) THEN
         ALTER TABLE citation

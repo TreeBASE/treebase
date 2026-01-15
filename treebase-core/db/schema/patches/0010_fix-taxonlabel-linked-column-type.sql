@@ -16,7 +16,8 @@ BEGIN
     IF EXISTS (
         SELECT 1 
         FROM information_schema.columns 
-        WHERE table_name = 'taxonlabel' 
+        WHERE table_schema = 'public'
+        AND table_name = 'taxonlabel' 
         AND column_name = 'linked' 
         AND data_type != 'boolean'
     ) THEN
