@@ -15,7 +15,6 @@ import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.FieldResult;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -115,8 +114,11 @@ public class PhyloTree extends AbstractPersistedObject {
 	 * 
 	 * @return String
 	 */
-	@Lob
-	@Column(name = "NewickString", length = 4194304)
+	// Note: Removed @Lob to ensure consistent TEXT handling with PostgreSQL.
+	// The @Lob annotation causes Hibernate to use OID-based CLOB handling,
+	// which can cause "Bad value for type long" errors. Using columnDefinition="text"
+	// ensures TEXT column type without CLOB semantics.
+	@Column(name = "NewickString", columnDefinition = "text")
 	public String getNewickString() {
 		// CLOB size: 4MB.
 		return mNewickString;
