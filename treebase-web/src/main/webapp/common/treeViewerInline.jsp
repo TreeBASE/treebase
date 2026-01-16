@@ -16,8 +16,7 @@
 <%@ include file="/common/taglibs.jsp" %>
 
 <!-- D3.js v7 for phylotree.js -->
-<script src="https://cdn.jsdelivr.net/npm/d3@7" 
-        integrity="sha384-u60Dv4QEDY4Y/TLJqrB+Ls+FBLvWJh8lKJ1iRuLFqoYl0dGAGW4sAVzx86g4cH2N" 
+<script src="https://cdn.jsdelivr.net/npm/d3@7"
         crossorigin="anonymous"></script>
 <!-- phylotree.js from unpkg CDN -->
 <script src="https://unpkg.com/phylotree@1.1.1/dist/phylotree.js"
@@ -184,21 +183,21 @@
                 <legend>Trees</legend>
                 <ol id="inline-tree-list" class="inline-tree-list">
                     <c:forEach var="tree" items="${TREELIST}" varStatus="status">
-                        <li data-newick="${tree.newickString}" 
-                            data-id="${tree.id}"
-                            data-label="${tree.label}"
-                            data-title="${tree.title}"
-                            data-ntax="${tree.nTax}"
+                        <li data-newick="${fn:escapeXml(tree.newickString)}" 
+                            data-id="${fn:escapeXml(tree.id)}"
+                            data-label="${fn:escapeXml(tree.label)}"
+                            data-title="${fn:escapeXml(tree.title)}"
+                            data-ntax="${fn:escapeXml(tree.nTax)}"
                             onclick="inlineTreeViewer.displayTree(this)">
                             <c:choose>
                                 <c:when test="${not empty tree.label}">
-                                    ${tree.label}
+                                    <c:out value="${tree.label}"/>
                                 </c:when>
                                 <c:when test="${not empty tree.title}">
-                                    ${tree.title}
+                                    <c:out value="${tree.title}"/>
                                 </c:when>
                                 <c:otherwise>
-                                    Tree ${tree.id}
+                                    Tree <c:out value="${tree.id}"/>
                                 </c:otherwise>
                             </c:choose>
                         </li>
@@ -220,6 +219,14 @@
 var inlineTreeViewer = {
     currentTree: null,
     currentElement: null,
+    
+    // HTML escape function to prevent XSS
+    escapeHtml: function(text) {
+        if (text === null || text === undefined) return '';
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    },
     
     displayTree: function(element) {
         // Mark selected
@@ -276,15 +283,17 @@ var inlineTreeViewer = {
             
         } catch (e) {
             console.error("Error rendering tree:", e);
+            var errorMsg = this.escapeHtml(e.message);
             document.getElementById('inline-tree-container').innerHTML = 
-                '<div class="inline-tree-loading">Error rendering tree: ' + e.message + '</div>';
+                '<div class="inline-tree-loading">Error rendering tree: ' + errorMsg + '</div>';
         }
     },
     
     showNodeInfo: function(node) {
-        var info = '<strong>Node:</strong> ' + (node.data.name || 'Internal node') + '<br/>';
+        var name = this.escapeHtml(node.data.name || 'Internal node');
+        var info = '<strong>Node:</strong> ' + name + '<br/>';
         if (node.data.attribute !== undefined) {
-            info += '<strong>Branch length:</strong> ' + node.data.attribute + '<br/>';
+            info += '<strong>Branch length:</strong> ' + this.escapeHtml(String(node.data.attribute)) + '<br/>';
         }
         if (node.children && node.children.length > 0) {
             info += '<strong>Type:</strong> Internal node<br/>';
@@ -296,10 +305,10 @@ var inlineTreeViewer = {
     },
     
     updateTreeInfo: function(treeId, label, title, ntax) {
-        var info = '<strong>Tree ID:</strong> ' + treeId + '<br/>';
-        if (label) info += '<strong>Label:</strong> ' + label + '<br/>';
-        if (title) info += '<strong>Title:</strong> ' + title + '<br/>';
-        if (ntax) info += '<strong>Taxa:</strong> ' + ntax;
+        var info = '<strong>Tree ID:</strong> ' + this.escapeHtml(treeId) + '<br/>';
+        if (label) info += '<strong>Label:</strong> ' + this.escapeHtml(label) + '<br/>';
+        if (title) info += '<strong>Title:</strong> ' + this.escapeHtml(title) + '<br/>';
+        if (ntax) info += '<strong>Taxa:</strong> ' + this.escapeHtml(String(ntax));
         document.getElementById('inline-node-info').innerHTML = info;
     },
     
