@@ -7,15 +7,16 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Tree Viewer</title>
 
-<!-- D3.js v7 for phylotree.js with SRI hash for integrity verification -->
-<script src="https://cdn.jsdelivr.net/npm/d3@7" 
-        integrity="sha384-u60Dv4QEDY4Y/TLJqrB+Ls+FBLvWJh8lKJ1iRuLFqoYl0dGAGW4sAVzx86g4cH2N" 
-        crossorigin="anonymous"></script>
-<!-- phylotree.js from unpkg CDN with SRI hash -->
-<script src="https://unpkg.com/phylotree@1.1.1/dist/phylotree.js"
-        crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://unpkg.com/phylotree@1.1.1/dist/phylotree.css"
-      crossorigin="anonymous">
+<!-- D3.js v7 - local copy -->
+<script src="/treebase-web/scripts/d3.min.js"></script>
+<!-- lodash - required by phylotree.js -->
+<script src="/treebase-web/scripts/lodash.js"></script>
+<!-- underscore - required by phylotree.js -->
+<script src="/treebase-web/scripts/underscore.js"></script>
+<!-- phylotree.js v2.4.0 - local copy -->
+<script src="/treebase-web/scripts/phylotree.js"></script>
+<!-- phylotree.css -->
+<link rel="stylesheet" href="/treebase-web/styles/phylotree.css" type="text/css">
 
 <style type="text/css">
 body {
@@ -72,6 +73,8 @@ legend {
   list-style: decimal;
   margin: 0;
   padding: 0 0 0 20px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #tree-list li {
@@ -121,25 +124,9 @@ legend {
   cursor: pointer;
 }
 
-/* phylotree styling */
-.phylotree-container .branch {
-  fill: none;
-  stroke: #999;
-  stroke-width: 2px;
-}
-
-.phylotree-container .node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-.phylotree-container .internal-node circle {
-  fill: #ccc;
-}
-
-.phylotree-container .node text {
-  font: 10px sans-serif;
+/* phylotree overrides */
+.node text {
+  font-size: 10px;
 }
 </style>
 </head>
@@ -206,6 +193,7 @@ legend {
             <legend>View Controls</legend>
             <div class="controls">
                 <button onclick="resetView()">Reset View</button>
+                <button onclick="toggleRadial()">Toggle Radial</button>
             </div>
         </fieldset>
     </div>
@@ -214,6 +202,7 @@ legend {
 <script type="text/javascript">
 var currentTree = null;
 var currentElement = null;
+var isRadial = false;
 
 // HTML escape function to prevent XSS
 function escapeHtml(text) {
@@ -248,10 +237,11 @@ function displayTree(element) {
     
     try {
         // Calculate dimensions based on number of taxa
-        var height = Math.max(400, ntax * 15);
-        var width = 800;
+        var height = Math.max(400, ntax * 18);
+        var width = 700;
         
-        // Create phylotree instance
+        // Create phylotree instance using the correct API
+        // phylotree v2.x API: new phylotree.phylotree(newick)
         currentTree = new phylotree.phylotree(newick);
         
         // Render the tree
@@ -259,16 +249,22 @@ function displayTree(element) {
             container: "#tree-container",
             width: width,
             height: height,
-            "left-offset": 10,
+            "left-offset": 20,
             "show-scale": true,
             "align-tips": false,
-            "node-styler": function(element, node) {
-                element.on("mouseover", function() {
+            "layout": isRadial ? "radial" : "left-to-right",
+            zoom: true,
+            brush: false,
+            collapsible: true,
+            selectable: true,
+            "node-styler": function(el, node) {
+                // Add click handler for node info
+                el.on("click", function() {
                     showNodeInfo(node);
                 });
-            },
-            "edge-styler": function(element, edge) {
-                element.style("stroke-width", "2px");
+                el.on("mouseover", function() {
+                    showNodeInfo(node);
+                });
             }
         });
         
@@ -308,6 +304,13 @@ function updateTreeInfo(treeId, label, title, ntax) {
 
 function resetView() {
     // Re-render the currently selected tree
+    if (currentElement) {
+        displayTree(currentElement);
+    }
+}
+
+function toggleRadial() {
+    isRadial = !isRadial;
     if (currentElement) {
         displayTree(currentElement);
     }

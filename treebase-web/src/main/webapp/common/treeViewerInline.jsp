@@ -15,14 +15,16 @@
 --%>
 <%@ include file="/common/taglibs.jsp" %>
 
-<!-- D3.js v7 for phylotree.js -->
-<script src="https://cdn.jsdelivr.net/npm/d3@7"
-        crossorigin="anonymous"></script>
-<!-- phylotree.js from unpkg CDN -->
-<script src="https://unpkg.com/phylotree@1.1.1/dist/phylotree.js"
-        crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://unpkg.com/phylotree@1.1.1/dist/phylotree.css"
-      crossorigin="anonymous">
+<!-- D3.js v7 - local copy -->
+<script src="/treebase-web/scripts/d3.min.js"></script>
+<!-- lodash - required by phylotree.js -->
+<script src="/treebase-web/scripts/lodash.js"></script>
+<!-- underscore - required by phylotree.js -->
+<script src="/treebase-web/scripts/underscore.js"></script>
+<!-- phylotree.js v2.4.0 - local copy -->
+<script src="/treebase-web/scripts/phylotree.js"></script>
+<!-- phylotree.css -->
+<link rel="stylesheet" href="/treebase-web/styles/phylotree.css" type="text/css">
 
 <style type="text/css">
 .inline-tree-viewer {
@@ -137,30 +139,14 @@
     color: #666;
 }
 
-/* phylotree styling */
-.inline-tree-viewer .phylotree-container .branch {
-    fill: none;
-    stroke: #999;
-    stroke-width: 2px;
-}
-
-.inline-tree-viewer .phylotree-container .node circle {
-    fill: #fff;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-}
-
-.inline-tree-viewer .phylotree-container .internal-node circle {
-    fill: #ccc;
-}
-
-.inline-tree-viewer .phylotree-container .node text {
-    font: 10px sans-serif;
-}
-
 /* Collapsed state */
 .inline-tree-viewer.collapsed .inline-tree-viewer-content {
     display: none;
+}
+
+/* phylotree overrides */
+.inline-tree-viewer .node text {
+    font-size: 10px;
 }
 </style>
 
@@ -169,6 +155,7 @@
         <h3><c:out value="${NEWICKSTRINGNAME}" default="Tree Viewer"/></h3>
         <div class="inline-tree-viewer-controls">
             <button onclick="inlineTreeViewer.resetView()">Reset View</button>
+            <button onclick="inlineTreeViewer.toggleRadial()">Toggle Radial</button>
             <button onclick="inlineTreeViewer.toggleViewer()">Toggle</button>
         </div>
     </div>
@@ -219,6 +206,7 @@
 var inlineTreeViewer = {
     currentTree: null,
     currentElement: null,
+    isRadial: false,
     
     // HTML escape function to prevent XSS
     escapeHtml: function(text) {
@@ -253,10 +241,11 @@ var inlineTreeViewer = {
         
         try {
             // Calculate dimensions based on number of taxa
-            var height = Math.max(350, ntax * 12);
-            var width = 600;
+            var height = Math.max(350, ntax * 15);
+            var width = 550;
             
-            // Create phylotree instance
+            // Create phylotree instance using the correct API
+            // phylotree v2.x API: new phylotree.phylotree(newick)
             this.currentTree = new phylotree.phylotree(newick);
             
             // Render the tree
@@ -265,16 +254,21 @@ var inlineTreeViewer = {
                 container: "#inline-tree-container",
                 width: width,
                 height: height,
-                "left-offset": 10,
+                "left-offset": 20,
                 "show-scale": true,
                 "align-tips": false,
-                "node-styler": function(element, node) {
-                    element.on("mouseover", function() {
+                "layout": this.isRadial ? "radial" : "left-to-right",
+                zoom: true,
+                brush: false,
+                collapsible: true,
+                selectable: true,
+                "node-styler": function(el, node) {
+                    el.on("click", function() {
                         self.showNodeInfo(node);
                     });
-                },
-                "edge-styler": function(element, edge) {
-                    element.style("stroke-width", "2px");
+                    el.on("mouseover", function() {
+                        self.showNodeInfo(node);
+                    });
                 }
             });
             
@@ -313,6 +307,13 @@ var inlineTreeViewer = {
     },
     
     resetView: function() {
+        if (this.currentElement) {
+            this.displayTree(this.currentElement);
+        }
+    },
+    
+    toggleRadial: function() {
+        this.isRadial = !this.isRadial;
         if (this.currentElement) {
             this.displayTree(this.currentElement);
         }
