@@ -188,13 +188,13 @@ legend {
             <fieldset class="quick-links">
                 <legend>Quick Links</legend>
                 <p>
-                    <a href="/treebase-web/search/study/trees.html?id=${studyID}" target="_blank">
+                    <a href="/treebase-web/search/study/trees.html?id=${studyID}">
                         <img class="iconButton" src="<fmt:message key="icons.trees"/>" alt="Trees"/>
                         Containing tree set
                     </a>
                 </p>
                 <p>
-                    <a href="/treebase-web/search/study/summary.html?id=${studyID}" target="_blank">
+                    <a href="/treebase-web/search/study/summary.html?id=${studyID}">
                         <img class="iconButton" src="<fmt:message key="icons.citation"/>" alt="Study"/>
                         Containing study
                     </a>

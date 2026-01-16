@@ -4,15 +4,6 @@
 <%--content tag="heading"><fmt:message key="search.results.title.trees"/></content>
 <body id="trees"/ --%>
 
-<script type="text/javascript">
-		function openTreeViewer(tree_id)
-		{
-			 var realURL = "/treebase-web/search/study/tree.html?treeid="+tree_id;
-			 window.open(realURL,'treeviewer','width=1000,height=800,scrollbars=yes,resizable=yes')
-		}
-          
-</script>
-
 <display:table name="${resultSet.results}"
 			   requestURI=""
 			   class="list"
@@ -23,7 +14,10 @@
 
 	<display:column title="" sortable="true" class="checkBoxColumn">
 		<input type="checkbox" id="s-${tree.id }" name="selection" value="${tree.id }" /> 
-		<a href="javascript:void(0)" onClick="openTreeViewer(${tree.id})">Tr${tree.id}</a>
+		<c:url var="treeViewerURL" value="/search/study/tree.html">
+			<c:param name="treeid" value="${tree.id}"/>
+		</c:url>
+		<a href="${treeViewerURL}">Tr${tree.id}</a>
 	</display:column>
 
 				
@@ -85,7 +79,10 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<a href="javascript:void(0)" onClick="openTreeViewer(${tree.id})">		
+		<c:url var="treeViewerURL" value="/search/study/tree.html">
+			<c:param name="treeid" value="${tree.id}"/>
+		</c:url>
+		<a href="${treeViewerURL}">		
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.tree.view"/>" 
