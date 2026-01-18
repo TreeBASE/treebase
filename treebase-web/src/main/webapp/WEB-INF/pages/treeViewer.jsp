@@ -13,6 +13,8 @@
 <script src="/treebase-web/scripts/lodash.js"></script>
 <!-- underscore - required by phylotree.js -->
 <script src="/treebase-web/scripts/underscore.js"></script>
+<!-- SHIM: phylotree.js UMD bundle expects both _ and _$1 as separate globals -->
+<script>window._$1 = window._;</script>
 <!-- phylotree.js v2.4.0 - local copy -->
 <script src="/treebase-web/scripts/phylotree.js"></script>
 <!-- phylotree.css -->
