@@ -270,9 +270,11 @@ function checkIfCladogram(tree) {
  */
 function makeUltrametric(tree) {
     // First pass: assign unit branch lengths to all nodes
+    // NOTE: phylotree.js expects attribute to be a STRING, not a number
+    // The defBranchLengthAccessor checks attribute.length which only works for strings
     tree.traverse_and_compute(function(node) {
         if (node.parent) { // Don't set length for root
-            node.data.attribute = 1;
+            node.data.attribute = "1";
         }
     }, "pre-order");
     
@@ -305,7 +307,8 @@ function makeUltrametric(tree) {
             var currentDepth = node.data._depth;
             var extension = maxDepth - currentDepth;
             if (extension > 0) {
-                node.data.attribute = (parseFloat(node.data.attribute) || 1) + extension;
+                // Ensure attribute is a string for phylotree.js compatibility
+                node.data.attribute = String((parseFloat(node.data.attribute) || 1) + extension);
             }
         }
         // Clean up temporary depth property
