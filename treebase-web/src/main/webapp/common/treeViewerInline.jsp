@@ -207,6 +207,7 @@ var inlineTreeViewer = {
     currentTree: null,
     currentElement: null,
     isRadial: false,
+    isCladogram: false,
     
     // HTML escape function to prevent XSS
     escapeHtml: function(text) {
@@ -214,6 +215,30 @@ var inlineTreeViewer = {
         var div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    },
+    
+    /**
+     * Check if a Newick string represents a cladogram (tree without branch lengths).
+     * A cladogram has no ':' characters followed by numbers (branch lengths).
+     */
+    isCladogramNewick: function(newick) {
+        // Remove quoted labels which might contain colons
+        var cleaned = newick.replace(/'[^']*'/g, '').replace(/"[^"]*"/g, '');
+        // Check if there are any branch lengths (colon followed by a number, including scientific notation)
+        return !/:[-+]?[\d.]+([eE][-+]?\d+)?/.test(cleaned);
+    },
+    
+    /**
+     * Convert a cladogram (tree without branch lengths) to a tree with unit branch lengths.
+     * This assigns branch length of 1 to all branches so phylotree.js can render it.
+     */
+    convertCladogramToUltrametric: function(newick) {
+        // Add :1 after closing parens and names where branch lengths are missing
+        // Handle closing parens first
+        newick = newick.replace(/\)([^:;,\)\(]*)(?=[,\);])/g, '):1$1');
+        // Then handle taxon names (alphanumeric including underscores)
+        newick = newick.replace(/([A-Za-z0-9_]+)(?=[,\);])/g, '$1:1');
+        return newick;
     },
     
     displayTree: function(element) {
@@ -236,8 +261,24 @@ var inlineTreeViewer = {
             return;
         }
         
+        // Check if this is a cladogram and convert if necessary
+        this.isCladogram = this.isCladogramNewick(newick);
+        if (this.isCladogram) {
+            console.log("Detected cladogram (no branch lengths), converting to ultrametric representation");
+            newick = this.convertCladogramToUltrametric(newick);
+        }
+        
         // Clear container
         document.getElementById('inline-tree-container').innerHTML = '';
+        
+        // Add cladogram notice if applicable
+        if (this.isCladogram) {
+            var notice = document.createElement('div');
+            notice.id = 'inline-cladogram-notice';
+            notice.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; font-size: 11px; color: #856404;';
+            notice.innerHTML = '<strong>Note:</strong> This tree is a cladogram (no branch lengths). It is displayed with equal branch lengths for visualization purposes.';
+            document.getElementById('inline-tree-container').appendChild(notice);
+        }
         
         try {
             // Calculate dimensions based on number of taxa
@@ -255,8 +296,8 @@ var inlineTreeViewer = {
                 width: width,
                 height: height,
                 "left-offset": 20,
-                "show-scale": true,
-                "align-tips": false,
+                "show-scale": !this.isCladogram, // Don't show scale for cladograms
+                "align-tips": this.isCladogram,  // Align tips for cladograms
                 "layout": this.isRadial ? "radial" : "left-to-right",
                 zoom: true,
                 brush: false,
@@ -286,7 +327,8 @@ var inlineTreeViewer = {
     showNodeInfo: function(node) {
         var name = this.escapeHtml(node.data.name || 'Internal node');
         var info = '<strong>Node:</strong> ' + name + '<br/>';
-        if (node.data.attribute !== undefined) {
+        // Don't show branch length for cladograms since it's artificial
+        if (!this.isCladogram && node.data.attribute !== undefined) {
             info += '<strong>Branch length:</strong> ' + this.escapeHtml(String(node.data.attribute)) + '<br/>';
         }
         if (node.children && node.children.length > 0) {
