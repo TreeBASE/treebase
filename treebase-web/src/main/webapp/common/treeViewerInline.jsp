@@ -233,11 +233,11 @@ var inlineTreeViewer = {
      * This assigns branch length of 1 to all branches so phylotree.js can render it.
      */
     convertCladogramToUltrametric: function(newick) {
-        // Add :1 after closing parens and names where branch lengths are missing
-        // Handle closing parens first
-        newick = newick.replace(/\)([^:;,\)\(]*)(?=[,\);])/g, '):1$1');
-        // Then handle taxon names (alphanumeric including underscores)
-        newick = newick.replace(/([A-Za-z0-9_]+)(?=[,\);])/g, '$1:1');
+        // Add :1 after taxon names that are not followed by a colon
+        // First handle leaf names (word followed by comma or closing paren, including dots for species names like B.guascoi)
+        newick = newick.replace(/([A-Za-z0-9_.]+)(?=[,\)])/g, '$1:1');
+        // Then handle closing parens that are not followed by colon (internal nodes)
+        newick = newick.replace(/\)(?=[,\);])/g, '):1');
         return newick;
     },
     
