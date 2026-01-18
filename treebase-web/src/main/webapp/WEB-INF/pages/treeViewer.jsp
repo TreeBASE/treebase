@@ -13,8 +13,39 @@
 <script src="/treebase-web/scripts/lodash.js"></script>
 <!-- underscore - required by phylotree.js -->
 <script src="/treebase-web/scripts/underscore.js"></script>
-<!-- SHIM: phylotree.js UMD bundle expects both _ and _$1 as separate globals -->
-<script>window._$1 = window._;</script>
+<!-- SHIM: Create wrapper objects for phylotree.js UMD bundle -->
+<!-- Prototype.js pollutes Function.prototype, which breaks phylotree's _interopNamespaceDefault -->
+<script>
+(function() {
+    // Create a plain object copy of a library, using only OWN properties
+    // This avoids inheriting Function.prototype methods added by Prototype.js
+    function wrapLibrary(lib) {
+        var wrapper = {};
+        var keys = Object.getOwnPropertyNames(lib);
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            try {
+                wrapper[key] = lib[key];
+            } catch(e) {
+                // Skip properties that throw on access
+            }
+        }
+        return wrapper;
+    }
+    
+    // Store original for any code that needs the function form
+    var originalUnderscore = window._;
+    
+    // Replace globals with wrapped versions
+    window._ = wrapLibrary(originalUnderscore);
+    window._$1 = wrapLibrary(originalUnderscore);
+    
+    // Preserve noConflict if needed
+    if (originalUnderscore.noConflict) {
+        window._.noConflict = originalUnderscore.noConflict;
+    }
+})();
+</script>
 <!-- phylotree.js v2.4.0 - local copy -->
 <script src="/treebase-web/scripts/phylotree.js"></script>
 <!-- phylotree.css -->
