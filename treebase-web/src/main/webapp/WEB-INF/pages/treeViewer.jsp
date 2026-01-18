@@ -247,27 +247,72 @@ function escapeHtml(text) {
 }
 
 /**
- * Check if a Newick string represents a cladogram (tree without branch lengths).
- * A cladogram has no ':' characters followed by numbers (branch lengths).
+ * Check if a parsed phylotree has no branch lengths (i.e., it's a cladogram).
+ * Traverses the tree and checks if all branch lengths are undefined or zero.
  */
-function isCladogramNewick(newick) {
-    // Remove quoted labels which might contain colons
-    var cleaned = newick.replace(/'[^']*'/g, '').replace(/"[^"]*"/g, '');
-    // Check if there are any branch lengths (colon followed by a number, including scientific notation)
-    return !/:[-+]?[\d.]+([eE][-+]?\d+)?/.test(cleaned);
+function checkIfCladogram(tree) {
+    var hasBranchLengths = false;
+    tree.traverse_and_compute(function(node) {
+        if (node.data && node.data.attribute !== undefined && 
+            node.data.attribute !== null && node.data.attribute !== '' &&
+            !isNaN(parseFloat(node.data.attribute)) && parseFloat(node.data.attribute) > 0) {
+            hasBranchLengths = true;
+        }
+    }, "pre-order");
+    return !hasBranchLengths;
 }
 
 /**
- * Convert a cladogram (tree without branch lengths) to a tree with unit branch lengths.
- * This assigns branch length of 1 to all branches so phylotree.js can render it.
+ * Convert a cladogram to an ultrametric tree by:
+ * 1. Assigning unit branch lengths (1.0) to all branches
+ * 2. Computing the depth of each node from the root
+ * 3. Extending terminal branches so all tips are at the same distance from root
  */
-function convertCladogramToUltrametric(newick) {
-    // Add :1 after taxon names that are not followed by a colon
-    // First handle leaf names (word followed by comma or closing paren, including dots for species names like B.guascoi)
-    newick = newick.replace(/([A-Za-z0-9_.]+)(?=[,\)])/g, '$1:1');
-    // Then handle closing parens that are not followed by colon (internal nodes)
-    newick = newick.replace(/\)(?=[,\);])/g, '):1');
-    return newick;
+function makeUltrametric(tree) {
+    // First pass: assign unit branch lengths to all nodes
+    tree.traverse_and_compute(function(node) {
+        if (node.parent) { // Don't set length for root
+            node.data.attribute = 1;
+        }
+    }, "pre-order");
+    
+    // Second pass: compute depth from root for each node
+    tree.traverse_and_compute(function(node) {
+        if (!node.parent) {
+            node.data._depth = 0;
+        } else {
+            var parentDepth = node.parent.data._depth || 0;
+            var branchLength = parseFloat(node.data.attribute) || 1;
+            node.data._depth = parentDepth + branchLength;
+        }
+    }, "pre-order");
+    
+    // Find the maximum depth (deepest tip)
+    var maxDepth = 0;
+    tree.traverse_and_compute(function(node) {
+        if (!node.children || node.children.length === 0) {
+            // This is a tip/leaf node
+            if (node.data._depth > maxDepth) {
+                maxDepth = node.data._depth;
+            }
+        }
+    }, "pre-order");
+    
+    // Third pass: extend terminal branches to make all tips reach maxDepth
+    tree.traverse_and_compute(function(node) {
+        if (!node.children || node.children.length === 0) {
+            // This is a tip/leaf node - extend its branch
+            var currentDepth = node.data._depth;
+            var extension = maxDepth - currentDepth;
+            if (extension > 0) {
+                node.data.attribute = (parseFloat(node.data.attribute) || 1) + extension;
+            }
+        }
+        // Clean up temporary depth property
+        delete node.data._depth;
+    }, "pre-order");
+    
+    return tree;
 }
 
 function displayTree(element) {
@@ -290,33 +335,32 @@ function displayTree(element) {
         return;
     }
     
-    // Check if this is a cladogram and convert if necessary
-    isCladogram = isCladogramNewick(newick);
-    if (isCladogram) {
-        console.log("Detected cladogram (no branch lengths), converting to ultrametric representation");
-        newick = convertCladogramToUltrametric(newick);
-    }
-    
     // Clear container
     document.getElementById('tree-container').innerHTML = '';
-    
-    // Add cladogram notice if applicable
-    if (isCladogram) {
-        var notice = document.createElement('div');
-        notice.id = 'cladogram-notice';
-        notice.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; font-size: 11px; color: #856404;';
-        notice.innerHTML = '<strong>Note:</strong> This tree is a cladogram (no branch lengths). It is displayed with equal branch lengths for visualization purposes.';
-        document.getElementById('tree-container').appendChild(notice);
-    }
     
     try {
         // Calculate dimensions based on number of taxa
         var height = Math.max(400, ntax * 18);
         var width = 700;
         
-        // Create phylotree instance using the correct API
-        // phylotree v2.x API: new phylotree.phylotree(newick)
+        // Create phylotree instance - parse the Newick string
         currentTree = new phylotree.phylotree(newick);
+        
+        // Check if this is a cladogram (no branch lengths)
+        isCladogram = checkIfCladogram(currentTree);
+        
+        if (isCladogram) {
+            console.log("Detected cladogram (no branch lengths), converting to ultrametric representation");
+            // Convert to ultrametric by adding branch lengths and extending terminal branches
+            makeUltrametric(currentTree);
+            
+            // Add cladogram notice
+            var notice = document.createElement('div');
+            notice.id = 'cladogram-notice';
+            notice.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; font-size: 11px; color: #856404;';
+            notice.innerHTML = '<strong>Note:</strong> This tree is a cladogram (no branch lengths). It is displayed as an ultrametric tree with equal internal branch lengths for visualization purposes.';
+            document.getElementById('tree-container').appendChild(notice);
+        }
         
         // Render the tree
         currentTree.render({
