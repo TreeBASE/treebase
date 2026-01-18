@@ -340,9 +340,9 @@ var inlineTreeViewer = {
                 document.getElementById('inline-tree-container').appendChild(notice);
             }
             
-            // Render the tree
+            // Render the tree - this creates a TreeRender object
             var self = this;
-            this.currentTree.render({
+            var renderer = this.currentTree.render({
                 container: "#inline-tree-container",
                 width: width,
                 height: height,
@@ -363,6 +363,11 @@ var inlineTreeViewer = {
                     });
                 }
             });
+            
+            // Manually append the SVG to the container
+            // The render() method creates the SVG but doesn't append it automatically
+            var container = document.querySelector("#inline-tree-container");
+            container.appendChild(renderer.show());
             
             // Update node info with tree metadata
             this.updateTreeInfo(treeId, label, title, ntax);

@@ -369,8 +369,8 @@ function displayTree(element) {
             document.getElementById('tree-container').appendChild(notice);
         }
         
-        // Render the tree
-        currentTree.render({
+        // Render the tree - this creates a TreeRender object
+        var renderer = currentTree.render({
             container: "#tree-container",
             width: width,
             height: height,
@@ -392,6 +392,11 @@ function displayTree(element) {
                 });
             }
         });
+        
+        // Manually append the SVG to the container
+        // The render() method creates the SVG but doesn't append it automatically
+        var container = document.querySelector("#tree-container");
+        container.appendChild(renderer.show());
         
         // Update node info with tree metadata
         updateTreeInfo(treeId, label, title, ntax);
