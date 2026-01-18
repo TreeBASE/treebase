@@ -217,82 +217,6 @@ var inlineTreeViewer = {
         return div.innerHTML;
     },
     
-    /**
-     * Check if a parsed phylotree has no branch lengths (i.e., it's a cladogram).
-     * Traverses the tree and checks if all branch lengths are undefined or zero.
-     */
-    checkIfCladogram: function(tree) {
-        var hasBranchLengths = false;
-        tree.traverse_and_compute(function(node) {
-            if (node.data && node.data.attribute !== undefined && 
-                node.data.attribute !== null && node.data.attribute !== '' &&
-                !isNaN(parseFloat(node.data.attribute)) && parseFloat(node.data.attribute) > 0) {
-                hasBranchLengths = true;
-            }
-        }, "pre-order");
-        return !hasBranchLengths;
-    },
-    
-    /**
-     * Convert a cladogram to an ultrametric tree by:
-     * 1. Assigning unit branch lengths (1.0) to all branches
-     * 2. Computing the depth of each node from the root
-     * 3. Extending terminal branches so all tips are at the same distance from root
-     */
-    makeUltrametric: function(tree) {
-        // First pass: assign unit branch lengths to all nodes
-        // NOTE: phylotree.js expects attribute to be a STRING, not a number
-        // The defBranchLengthAccessor checks attribute.length which only works for strings
-        tree.traverse_and_compute(function(node) {
-            if (node.parent) { // Non-root nodes get branch length of 1
-                node.data.attribute = "1";
-            } else {
-                // Root node needs attribute "0" for phylotree.js compatibility
-                // (defBranchLengthAccessor checks for attribute.length)
-                node.data.attribute = "0";
-            }
-        }, "pre-order");
-        
-        // Second pass: compute depth from root for each node
-        tree.traverse_and_compute(function(node) {
-            if (!node.parent) {
-                node.data._depth = 0;
-            } else {
-                var parentDepth = node.parent.data._depth || 0;
-                var branchLength = parseFloat(node.data.attribute) || 1;
-                node.data._depth = parentDepth + branchLength;
-            }
-        }, "pre-order");
-        
-        // Find the maximum depth (deepest tip)
-        var maxDepth = 0;
-        tree.traverse_and_compute(function(node) {
-            if (!node.children || node.children.length === 0) {
-                // This is a tip/leaf node
-                if (node.data._depth > maxDepth) {
-                    maxDepth = node.data._depth;
-                }
-            }
-        }, "pre-order");
-        
-        // Third pass: extend terminal branches to make all tips reach maxDepth
-        tree.traverse_and_compute(function(node) {
-            if (!node.children || node.children.length === 0) {
-                // This is a tip/leaf node - extend its branch
-                var currentDepth = node.data._depth;
-                var extension = maxDepth - currentDepth;
-                if (extension > 0) {
-                    // Ensure attribute is a string for phylotree.js compatibility
-                    node.data.attribute = String((parseFloat(node.data.attribute) || 1) + extension);
-                }
-            }
-            // Clean up temporary depth property
-            delete node.data._depth;
-        }, "pre-order");
-        
-        return tree;
-    },
-    
     displayTree: function(element) {
         // Mark selected
         document.querySelectorAll('#inline-tree-list li').forEach(function(li) {
@@ -317,40 +241,37 @@ var inlineTreeViewer = {
         document.getElementById('inline-tree-container').innerHTML = '';
         
         try {
-            // Calculate dimensions based on number of taxa
-            var height = Math.max(350, ntax * 15);
-            var width = 550;
-            
             // Create phylotree instance - parse the Newick string
+            // phylotree.js automatically detects cladograms (trees without branch lengths)
+            // and sets all branch lengths to 1 in the constructor
             this.currentTree = new phylotree.phylotree(newick);
             
-            // Check if this is a cladogram (no branch lengths)
-            this.isCladogram = this.checkIfCladogram(this.currentTree);
+            // Check if this was originally a cladogram (phylotree.js already handled it)
+            // We use a simple check on the original newick string
+            this.isCladogram = !newick.includes(':');
             
             if (this.isCladogram) {
-                console.log("Detected cladogram (no branch lengths), converting to ultrametric representation");
-                // Convert to ultrametric by adding branch lengths and extending terminal branches
-                this.makeUltrametric(this.currentTree);
+                console.log("Detected cladogram (no branch lengths in original Newick)");
                 
                 // Add cladogram notice
                 var notice = document.createElement('div');
                 notice.id = 'inline-cladogram-notice';
                 notice.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; font-size: 11px; color: #856404;';
-                notice.innerHTML = '<strong>Note:</strong> This tree is a cladogram (no branch lengths). It is displayed as an ultrametric tree with equal internal branch lengths for visualization purposes.';
+                notice.innerHTML = '<strong>Note:</strong> This tree is a cladogram (no branch lengths). Branch lengths have been set to 1 for visualization purposes.';
                 document.getElementById('inline-tree-container').appendChild(notice);
             }
             
             // Render the tree - this creates a TreeRender object
+            // Following the pattern from phylotree.hyphy.org demo
             var self = this;
             var renderer = this.currentTree.render({
                 container: "#inline-tree-container",
-                width: width,
-                height: height,
-                "left-offset": 20,
+                "draw-size-bubbles": false,
+                "left-right-spacing": "fixed-step",
                 "show-scale": !this.isCladogram, // Don't show scale for cladograms
                 "align-tips": this.isCladogram,  // Align tips for cladograms
                 "layout": this.isRadial ? "radial" : "left-to-right",
-                zoom: true,
+                zoom: false,  // Disable zoom to avoid issues
                 brush: false,
                 collapsible: true,
                 selectable: true,
@@ -364,8 +285,8 @@ var inlineTreeViewer = {
                 }
             });
             
-            // Manually append the SVG to the container
-            // The render() method creates the SVG but doesn't append it automatically
+            // Append the SVG to the container
+            // Following the pattern from the phylotree.js demo
             var container = document.querySelector("#inline-tree-container");
             container.appendChild(renderer.show());
             
