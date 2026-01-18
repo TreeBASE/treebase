@@ -273,8 +273,12 @@ function makeUltrametric(tree) {
     // NOTE: phylotree.js expects attribute to be a STRING, not a number
     // The defBranchLengthAccessor checks attribute.length which only works for strings
     tree.traverse_and_compute(function(node) {
-        if (node.parent) { // Don't set length for root
+        if (node.parent) { // Non-root nodes get branch length of 1
             node.data.attribute = "1";
+        } else {
+            // Root node needs attribute "0" for phylotree.js compatibility
+            // (defBranchLengthAccessor checks for attribute.length)
+            node.data.attribute = "0";
         }
     }, "pre-order");
     
