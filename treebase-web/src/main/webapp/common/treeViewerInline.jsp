@@ -4,6 +4,10 @@
     This component renders an inline tree viewer that can be included in any page.
     It displays trees in Newick format using the phylotree.js library.
     
+    IMPORTANT: The phylotree.js stack (D3, lodash, underscore, phylotree) is loaded
+    in the main page templates BEFORE Prototype.js to avoid Array.prototype pollution.
+    Do NOT load these libraries again here.
+    
     Usage: Include this JSP fragment and provide a container div with id="inline-tree-viewer"
     
     Required session/request attributes:
@@ -15,16 +19,7 @@
 --%>
 <%@ include file="/common/taglibs.jsp" %>
 
-<!-- D3.js v7 - local copy -->
-<script src="/treebase-web/scripts/d3.min.js"></script>
-<!-- lodash - required by phylotree.js -->
-<script src="/treebase-web/scripts/lodash.js"></script>
-<!-- underscore - required by phylotree.js -->
-<script src="/treebase-web/scripts/underscore.js"></script>
-<!-- phylotree.js v2.4.0 - local copy -->
-<script src="/treebase-web/scripts/phylotree.js"></script>
-<!-- phylotree.css -->
-<link rel="stylesheet" href="/treebase-web/styles/phylotree.css" type="text/css">
+<%-- Phylotree.js libraries are loaded in the page templates before Prototype.js --%>
 
 <style type="text/css">
 .inline-tree-viewer {

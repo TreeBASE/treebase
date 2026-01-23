@@ -16,6 +16,13 @@
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/messages.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/ajaxProgress.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/submissionSummary.css'/>" />
+<!-- Phylotree.js stack - MUST load before Prototype.js to avoid Array.prototype pollution -->
+<script type="text/javascript" src="<c:url value='/scripts/d3.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/lodash.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/underscore.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/phylotree.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/styles/phylotree.css'/>" />
+<!-- End Phylotree.js stack -->
 <script type="text/javascript" src="<c:url value='/scripts/menuExpandable.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common.js'/>"></script>
 
