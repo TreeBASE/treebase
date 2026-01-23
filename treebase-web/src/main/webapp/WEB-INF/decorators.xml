@@ -30,6 +30,19 @@
         <pattern>/test/*</pattern>
     </decorator>
     
+    <!-- 
+        Tree viewer pages - uses minimal template without prototype.js
+        to avoid JavaScript conflicts with D3.js and phylotree.js.
+        Prototype.js modifies Array.prototype which causes NaN values 
+        in SVG coordinate calculations.
+    -->
+    <decorator name="treeViewer" page="treeViewerTemplate.jsp">
+        <pattern>/user/directMapToPhyloWidget.html</pattern>
+        <pattern>/user/directToPhyloWidget.html</pattern>
+        <pattern>/search/study/tree.html</pattern>
+        <pattern>/search/study/treeBlock.html</pattern>
+    </decorator>
+    
     <!-- decoration page for everything else -->
 	<decorator name="default" page="defaultTemplate.jsp">
 		<pattern>/*</pattern>

@@ -7,6 +7,111 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Tree Viewer</title>
 
+<!--
+    JavaScript Library Isolation Layer
+    
+    This script must run BEFORE D3.js and phylotree.js are loaded.
+    It saves references to native JavaScript methods that prototype.js
+    may override. If prototype.js is detected later (e.g., injected by
+    decorators or other includes), we can restore the native methods.
+    
+    The main issue is that prototype.js modifies Array.prototype with
+    methods that can interfere with D3.js's internal array operations,
+    causing NaN values in SVG coordinate calculations.
+-->
+<script type="text/javascript">
+(function() {
+    'use strict';
+    
+    // Save references to native Array methods before any libraries load
+    var nativeArrayMethods = {
+        forEach: Array.prototype.forEach,
+        map: Array.prototype.map,
+        filter: Array.prototype.filter,
+        reduce: Array.prototype.reduce,
+        reduceRight: Array.prototype.reduceRight,
+        indexOf: Array.prototype.indexOf,
+        lastIndexOf: Array.prototype.lastIndexOf,
+        every: Array.prototype.every,
+        some: Array.prototype.some,
+        find: Array.prototype.find,
+        findIndex: Array.prototype.findIndex,
+        includes: Array.prototype.includes,
+        flat: Array.prototype.flat,
+        flatMap: Array.prototype.flatMap,
+        entries: Array.prototype.entries,
+        keys: Array.prototype.keys,
+        values: Array.prototype.values
+    };
+    
+    // Save native Object methods
+    var nativeObjectMethods = {
+        keys: Object.keys,
+        values: Object.values,
+        entries: Object.entries,
+        assign: Object.assign
+    };
+    
+    // Save native String methods
+    var nativeStringMethods = {
+        trim: String.prototype.trim,
+        trimStart: String.prototype.trimStart,
+        trimEnd: String.prototype.trimEnd,
+        includes: String.prototype.includes,
+        startsWith: String.prototype.startsWith,
+        endsWith: String.prototype.endsWith,
+        repeat: String.prototype.repeat,
+        padStart: String.prototype.padStart,
+        padEnd: String.prototype.padEnd
+    };
+    
+    // Function to check if Prototype.js has been loaded
+    window.isPrototypeJsLoaded = function() {
+        return typeof Prototype !== 'undefined' || 
+               typeof $$ === 'function' ||
+               (Array.prototype._each !== undefined);
+    };
+    
+    // Function to restore native methods if needed
+    window.restoreNativeMethods = function() {
+        // Restore Array methods
+        for (var method in nativeArrayMethods) {
+            if (nativeArrayMethods.hasOwnProperty(method) && nativeArrayMethods[method]) {
+                Array.prototype[method] = nativeArrayMethods[method];
+            }
+        }
+        
+        // Restore Object methods
+        for (var method in nativeObjectMethods) {
+            if (nativeObjectMethods.hasOwnProperty(method) && nativeObjectMethods[method]) {
+                Object[method] = nativeObjectMethods[method];
+            }
+        }
+        
+        // Restore String methods
+        for (var method in nativeStringMethods) {
+            if (nativeStringMethods.hasOwnProperty(method) && nativeStringMethods[method]) {
+                String.prototype[method] = nativeStringMethods[method];
+            }
+        }
+        
+        console.log('TreeViewer: Native JavaScript methods restored');
+    };
+    
+    // Run restoration after DOM is ready (in case prototype.js loads later)
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.isPrototypeJsLoaded()) {
+                console.warn('TreeViewer: Prototype.js detected! Restoring native methods for D3.js compatibility.');
+                window.restoreNativeMethods();
+            }
+        });
+    }
+    
+    console.log('TreeViewer: JavaScript isolation layer initialized');
+})();
+</script>
+
 <!-- D3.js v7 for phylotree.js with SRI hash for integrity verification -->
 <script src="https://cdn.jsdelivr.net/npm/d3@7" 
         integrity="sha384-u60Dv4QEDY4Y/TLJqrB+Ls+FBLvWJh8lKJ1iRuLFqoYl0dGAGW4sAVzx86g4cH2N" 
@@ -215,7 +320,71 @@ legend {
 var currentTree = null;
 var currentElement = null;
 
+/**
+ * Check for Prototype.js conflicts and restore native methods if needed
+ * This is called before rendering any tree to ensure D3.js works correctly
+ */
+function ensureNativeMethods() {
+    if (window.isPrototypeJsLoaded && window.isPrototypeJsLoaded()) {
+        console.warn('TreeViewer: Prototype.js detected before tree render - restoring native methods');
+        if (window.restoreNativeMethods) {
+            window.restoreNativeMethods();
+        }
+    }
+}
+
+/**
+ * Check rendered SVG for NaN values which indicate coordinate calculation errors
+ * @param {Element} container - The container element with the SVG
+ * @returns {Object} Object with hasNaN boolean and count of affected elements
+ */
+function checkForNaNInSVG(container) {
+    var svg = container.querySelector('svg');
+    if (!svg) return { hasNaN: false, count: 0 };
+    
+    var nanElements = [];
+    
+    // Check path elements for NaN in d attribute
+    var paths = svg.querySelectorAll('path');
+    paths.forEach(function(path) {
+        var d = path.getAttribute('d');
+        if (d && d.indexOf('NaN') !== -1) {
+            nanElements.push({ type: 'path', element: path, attr: 'd' });
+        }
+    });
+    
+    // Check transforms for NaN
+    var transformed = svg.querySelectorAll('[transform]');
+    transformed.forEach(function(el) {
+        var transform = el.getAttribute('transform');
+        if (transform && transform.indexOf('NaN') !== -1) {
+            nanElements.push({ type: el.tagName, element: el, attr: 'transform' });
+        }
+    });
+    
+    // Check circles and other elements for NaN in position attributes
+    var positioned = svg.querySelectorAll('[cx], [cy], [x], [y], [x1], [y1], [x2], [y2]');
+    positioned.forEach(function(el) {
+        var attrs = ['cx', 'cy', 'x', 'y', 'x1', 'y1', 'x2', 'y2'];
+        attrs.forEach(function(attr) {
+            var val = el.getAttribute(attr);
+            if (val && (val === 'NaN' || isNaN(parseFloat(val)))) {
+                nanElements.push({ type: el.tagName, element: el, attr: attr });
+            }
+        });
+    });
+    
+    return {
+        hasNaN: nanElements.length > 0,
+        count: nanElements.length,
+        elements: nanElements
+    };
+}
+
 function displayTree(element) {
+    // Ensure native methods before rendering
+    ensureNativeMethods();
+    
     // Mark selected
     document.querySelectorAll('#tree-list li').forEach(function(li) {
         li.classList.remove('selected');
@@ -236,7 +405,8 @@ function displayTree(element) {
     }
     
     // Clear container
-    document.getElementById('tree-container').innerHTML = '';
+    var container = document.getElementById('tree-container');
+    container.innerHTML = '';
     
     try {
         // Calculate dimensions based on number of taxa
@@ -264,13 +434,56 @@ function displayTree(element) {
             }
         });
         
+        // Check for NaN values in the rendered SVG
+        var nanCheck = checkForNaNInSVG(container);
+        if (nanCheck.hasNaN) {
+            console.error('TreeViewer: NaN values detected in SVG coordinates (' + nanCheck.count + ' elements affected)');
+            console.error('TreeViewer: This is likely caused by JavaScript library conflicts.');
+            console.error('TreeViewer: Affected elements:', nanCheck.elements);
+            
+            // Check if Prototype.js is present
+            if (window.isPrototypeJsLoaded && window.isPrototypeJsLoaded()) {
+                console.error('TreeViewer: Prototype.js is loaded - this is the likely cause of the issue.');
+                
+                // Attempt to recover by restoring methods and re-rendering
+                console.log('TreeViewer: Attempting recovery by restoring native methods and re-rendering...');
+                if (window.restoreNativeMethods) {
+                    window.restoreNativeMethods();
+                }
+                
+                // Clear and retry once
+                container.innerHTML = '';
+                currentTree = new phylotree.phylotree(newick);
+                currentTree.render({
+                    container: "#tree-container",
+                    width: width,
+                    height: height,
+                    "left-offset": 10,
+                    "show-scale": true,
+                    "align-tips": false
+                });
+                
+                // Check again
+                var retryCheck = checkForNaNInSVG(container);
+                if (retryCheck.hasNaN) {
+                    container.innerHTML = '<div id="loading" style="color: red;">' +
+                        '<strong>Error:</strong> Unable to render tree due to JavaScript library conflicts.<br/>' +
+                        'NaN values detected in ' + retryCheck.count + ' SVG elements.<br/>' +
+                        'Please try refreshing the page or contact support.</div>';
+                    return;
+                } else {
+                    console.log('TreeViewer: Recovery successful - tree rendered correctly after restoring native methods');
+                }
+            }
+        }
+        
         // Update node info with tree metadata
         updateTreeInfo(treeId, label, title, ntax);
         
     } catch (e) {
         console.error("Error rendering tree:", e);
         document.getElementById('tree-container').innerHTML = 
-            '<div id="loading">Error rendering tree: ' + e.message + '</div>';
+            '<div id="loading" style="color: red;">Error rendering tree: ' + e.message + '</div>';
     }
 }
 
@@ -305,6 +518,9 @@ function resetView() {
 
 // Auto-select first tree on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Final check for prototype.js and restore if needed
+    ensureNativeMethods();
+    
     var firstTree = document.querySelector('#tree-list li');
     if (firstTree) {
         displayTree(firstTree);
