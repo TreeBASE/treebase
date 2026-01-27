@@ -17,7 +17,7 @@ function popupWithSizes(url, width, height) {
 }
 function openHelp(tag) {
 	var url = '/treebase-web/help.html?helpTag=' + tag;	
-	var req = new Ajax.Request(url, {
+	tbFetch(url, {
 		'method':'get',
 		'onSuccess':function(response){				
 			top.consoleRef=window.open('','help',
@@ -95,7 +95,7 @@ TreeBASE.register(
 
 TreeBASE.register(
 	function() {
-		var inputs = $$('.textCell');
+		var inputs = document.querySelectorAll('.textCell');
 		for ( var i = 0; i < inputs.length; i++ ) {
 			if ( inputs[i] ) {
 				var currentColor = inputs[i].style.borderColor;
@@ -114,14 +114,14 @@ TreeBASE.register(
 TreeBASE.register(
 	function () {
 	    if ( document.getElementsByClassName ) {
-            var checkBoxCells = $$('.checkBoxColumn');
-            var buttonContainer = $('buttonContainer');
+            var checkBoxCells = document.querySelectorAll('.checkBoxColumn');
+            var buttonContainer = document.getElementById('buttonContainer');
             if ( checkBoxCells.length > 0 && buttonContainer ) {
-                var checkButton = new Element('input',{'type':'button','value':'Check all'});
-                checkButton.observe('click',function () {
+                var checkButton = createTBElement('input',{'type':'button','value':'Check all'});
+                checkButton.addEventListener('click',function () {
                     for ( var i = 0; i < checkBoxCells.length; i++ ) {					
                         if ( checkBoxCells[i] ) {
-                            var checkBoxes = $(checkBoxCells[i]).select('input');
+                            var checkBoxes = checkBoxCells[i].querySelectorAll('input');
                             for ( var j = 0; j < checkBoxes.length; j++ ) {
                                 if ( checkBoxes[j] && checkBoxes[j].type == 'checkbox' || checkBoxes[j].type == 'radio' ) {
                                     if ( ! checkBoxes[j].disabled ) {
@@ -132,11 +132,11 @@ TreeBASE.register(
                         }
                     }
                 });
-                var uncheckButton = new Element('input',{'type':'button','value':'Uncheck all'});	
-                uncheckButton.observe('click',function () {
+                var uncheckButton = createTBElement('input',{'type':'button','value':'Uncheck all'});	
+                uncheckButton.addEventListener('click',function () {
                     for ( var i = 0; i < checkBoxCells.length; i++ ) {
                         if ( checkBoxCells[i] ) {
-                            var checkBoxes = $(checkBoxCells[i]).select('input');
+                            var checkBoxes = checkBoxCells[i].querySelectorAll('input');
                             for ( var j = 0; j < checkBoxes.length; j++ ) {
                                 if ( checkBoxes[j] && checkBoxes[j].type == 'checkbox' || checkBoxes[j].type == 'radio' ) {
                                     if ( ! checkBoxes[j].disabled ) {
@@ -147,11 +147,11 @@ TreeBASE.register(
                         }
                     }
                 });			
-                var invertButton = new Element('input',{'type':'button','value':'Invert'});
-                invertButton.observe('click',function () {
+                var invertButton = createTBElement('input',{'type':'button','value':'Invert'});
+                invertButton.addEventListener('click',function () {
                     for ( var i = 0; i < checkBoxCells.length; i++ ) {
                         if ( checkBoxCells[i] ) {
-                            var checkBoxes = $(checkBoxCells[i]).select('input');
+                            var checkBoxes = checkBoxCells[i].querySelectorAll('input');
                             for ( var j = 0; j < checkBoxes.length; j++ ) {
                                 if ( checkBoxes[j] && checkBoxes[j].type == 'checkbox' || checkBoxes[j].type == 'radio' ) {
                                     if ( ! checkBoxes[j].disabled ) {
@@ -180,8 +180,8 @@ TreeBASE.register(
 	function() {
 		var links = document.getElementsByTagName('a');
 		for ( var i = 0; i < links.length; i++ ) {
-			var link = $(links[i]);
-			if ( link.hasClassName('openHelp') ) {
+			var link = links[i];
+			if ( link.classList.contains('openHelp') ) {
 				if ( link.title == null || link.title == '' ) {
 					link.title = 'Open help popup';
 				}
@@ -203,10 +203,10 @@ TreeBASE.register(
 	</div>
 */
 TreeBASE.collapseExpand = function(id,displayAs,link) {
-	var objToExpand = $(id);
-	var img = $(link).firstDescendant();
+	var objToExpand = document.getElementById(id);
+	var img = link.firstElementChild;
 	if ( img == null ) {
-		img = document.createElement(img);
+		img = document.createElement('img');
 		link.appendChild(img);
 	}	
 	if ( objToExpand.style.display == 'none' ) {
@@ -224,7 +224,7 @@ TreeBASE.collapseExpand = function(id,displayAs,link) {
 }
 //expands what a user types in the text box into a PhyloWS query
 TreeBASE.expandQuery = function () {
-  var query = $('query').value;
+  var query = document.getElementById('query').value;
   var split = TreeBASE.splitWords(query);
   var terms = new Array();
   for ( var i = 0; i < split.length; i++ ) {
@@ -235,10 +235,10 @@ TreeBASE.expandQuery = function () {
     }
   }
   var joiner = ' or ';
-  if ( $('all').checked ) {
+  if ( document.getElementById('all').checked ) {
     joiner = ' and ';
   }
-  $('expanded').value = terms.join(joiner);
+  document.getElementById('expanded').value = terms.join(joiner);
   return false;
 };
 

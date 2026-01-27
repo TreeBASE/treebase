@@ -4,7 +4,7 @@
 	debug('foo');	
 */
 var debugging = true;
-var debugContainer = $('debug');
+var debugContainer = document.getElementById('debug');
 function debug(msg) {
     if ( debugging ) {    		
     	if ( debugContainer ) {
@@ -126,11 +126,12 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
         },
     };
     function decorateMenu () {
-        var links = $('menuList').select('a');
+        var menuList = document.getElementById('menuList');
+        var links = menuList ? menuList.querySelectorAll('a') : [];
         for ( var i = 0; i < links.length; i++ ) {
         	var title = links[i].title;
-        	$(links[i]).addClassName(title);
-        	$(links[i].parentNode).addClassName(title);
+        	links[i].classList.add(title);
+        	links[i].parentNode.classList.add(title);
         }    
     }
     function writeSummary () {
@@ -152,100 +153,110 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 	    }
     }
     function decorateFiles() {
-    	var filesLi = $('menuList').select('li.Files')[0];
+    	var menuList = document.getElementById('menuList');
+    	var filesLi = menuList ? menuList.querySelector('li.Files') : null;
     }
     function decorateAnalyses() {
-    	var analysesLi = $('menuList').select('li.Analyses')[0];    	
-    	if ( ! analysesLi.hasClassName('emptyList') ) {
-    		var analysisLis = analysesLi.select('li.analysis');
+    	var menuList = document.getElementById('menuList');
+    	var analysesLi = menuList ? menuList.querySelector('li.Analyses') : null;    	
+    	if ( analysesLi && ! analysesLi.classList.contains('emptyList') ) {
+    		var analysisLis = analysesLi.querySelectorAll('li.analysis');
     		var analyzed = 'analyzed';
     		for ( var i = 0; i < analysisLis.length; i++ ) {
     			var id = analysisLis[i].id;
     			var analysisId = id.replace(/^analysis/,'');
     			if ( TreeBASE.isAnalysisValidated(analysisId) ) {
-    				analysisLis[i].addClassName('analyzed');
+    				analysisLis[i].classList.add('analyzed');
     			}
     			else {
-    				analysisLis[i].addClassName('notAnalyzed');
+    				analysisLis[i].classList.add('notAnalyzed');
     				analyzed = 'notAnalyzed';
-    				analysisLis[i].select('a.analysis')[0].title = 'This analysis does not validate';
+    				analysisLis[i].querySelector('a.analysis').title = 'This analysis does not validate';
     			}
     		}
-    		analysesLi.addClassName(analyzed);
+    		analysesLi.classList.add(analyzed);
     		if ( analyzed == 'notAnalyzed' ) {
-    			analysesLi.select('a.Analyses')[0].title = 'Some analyses have not been validated';
+    			analysesLi.querySelector('a.Analyses').title = 'Some analyses have not been validated';
     		}
     	}    
     }
     function decorateMatrices() {
-    	var matricesLi = $('menuList').select('li.Matrices')[0];
-    	if ( ! matricesLi.hasClassName('emptyList') ) {
-    		var matrixLis = matricesLi.select('li.matrix');
+    	var menuList = document.getElementById('menuList');
+    	var matricesLi = menuList ? menuList.querySelector('li.Matrices') : null;
+    	if ( matricesLi && ! matricesLi.classList.contains('emptyList') ) {
+    		var matrixLis = matricesLi.querySelectorAll('li.matrix');
     		var analyzed = 'analyzed';
     		for ( var i = 0; i < matrixLis.length; i++ ) {
     			if ( matrixLis[i] ) {
 	    			var id = matrixLis[i].id;
 	    			var matrixId = id.replace(/^matrix/,'');
 	    			if ( TreeBASE.isDataAnalyzed( matrixId, 'matrix' ) ) {
-	    				matrixLis[i].addClassName('analyzed');
+	    				matrixLis[i].classList.add('analyzed');
 	    			}
 	    			else {
-	    				matrixLis[i].addClassName('notAnalyzed');
+	    				matrixLis[i].classList.add('notAnalyzed');
 	    				analyzed = 'notAnalyzed';
-	    				matrixLis[i].select('a.matrix')[0].title = 'This matrix is not part of any analysis';
+	    				matrixLis[i].querySelector('a.matrix').title = 'This matrix is not part of any analysis';
 	    			}
     			}
     		}
-    		matricesLi.addClassName(analyzed);
+    		matricesLi.classList.add(analyzed);
     		if ( analyzed == 'notAnalyzed' ) {
-    			matricesLi.select('a.Matrices')[0].title = 'Some matrices are not part of any analysis';
+    			matricesLi.querySelector('a.Matrices').title = 'Some matrices are not part of any analysis';
     		}
     	}
     }
     function decorateTrees() {
-    	var treeBlocksLi = $('menuList').select('li.Trees')[0];
-    	if ( ! treeBlocksLi.hasClassName('emptyList') ) {
-    		var treeBlockLis = treeBlocksLi.select('li.treeBlock');
+    	var menuList = document.getElementById('menuList');
+    	var treeBlocksLi = menuList ? menuList.querySelector('li.Trees') : null;
+    	if ( treeBlocksLi && ! treeBlocksLi.classList.contains('emptyList') ) {
+    		var treeBlockLis = treeBlocksLi.querySelectorAll('li.treeBlock');
     		var treesAnalyzed = 'analyzed';
     		for ( var i = 0; i < treeBlockLis.length; i++ ) {
-    			var treeLis = treeBlockLis[i].select('li.tree');
+    			var treeLis = treeBlockLis[i].querySelectorAll('li.tree');
     			var analyzed = 'analyzed';
     			for ( var j = 0; j < treeLis.length; j++ ) {
     				var id = treeLis[j].id;
     				var treeId = id.replace(/^tree/,'');
     				if ( TreeBASE.isDataAnalyzed( treeId, 'tree') ) {
-    					treeLis[j].addClassName('analyzed');
+    					treeLis[j].classList.add('analyzed');
     				}
     				else {
-    					treeLis[j].addClassName('notAnalyzed');
+    					treeLis[j].classList.add('notAnalyzed');
     					analyzed = 'notAnalyzed';
     					treesAnalyzed = 'notAnalyzed';
-    					treeLis[j].select('a.tree')[0].title = 'This tree is not part of any analysis';
+    					treeLis[j].querySelector('a.tree').title = 'This tree is not part of any analysis';
     				}
     			}
-    			treeBlockLis[i].addClassName(analyzed);
+    			treeBlockLis[i].classList.add(analyzed);
     			if ( analyzed == 'notAnalyzed' ) {
-    				treeBlockLis[i].select('a.treeBlock')[0].title = 'Some trees in this block are not part of any analysis';
+    				treeBlockLis[i].querySelector('a.treeBlock').title = 'Some trees in this block are not part of any analysis';
     			}
     		}  
-    		treeBlocksLi.addClassName(treesAnalyzed); 	
+    		treeBlocksLi.classList.add(treesAnalyzed); 	
     		if ( treesAnalyzed != 'analyzed' ) {
-    			treeBlocksLi.select('a.Trees')[0].title = 'Some trees are not part of any analysis';
+    			treeBlocksLi.querySelector('a.Trees').title = 'Some trees are not part of any analysis';
     		}	
     	}    
     }
     function decorateNotes() {
     	if ( TreeBASE.study.notes.match(/^\s*$/) || TreeBASE.study.name.match(/^\s*$/) ) {
-    		var notesLi = $('menuList').select('li.Notes')[0];
-    		notesLi.addClassName('notAnalyzed');
-    		notesLi.select('a.Notes')[0].title = 'No notes have been entered yet';
+    		var menuList = document.getElementById('menuList');
+    		var notesLi = menuList ? menuList.querySelector('li.Notes') : null;
+    		if (notesLi) {
+    			notesLi.classList.add('notAnalyzed');
+    			notesLi.querySelector('a.Notes').title = 'No notes have been entered yet';
+    		}
     	}
     }
     function decorateCitation() {
+    	var menuList = document.getElementById('menuList');
     	if ( TreeBASE.study.citation == null ) {
-    		var citationLi = $('menuList').select('li.Citation')[0];
-    		citationLi.addClassName('notAnalyzed');
-    		citationLi.select('a.Citation')[0].title = 'No citation information has been entered yet';
+    		var citationLi = menuList ? menuList.querySelector('li.Citation') : null;
+    		if (citationLi) {
+    			citationLi.classList.add('notAnalyzed');
+    			citationLi.querySelector('a.Citation').title = 'No citation information has been entered yet';
+    		}
     	}
     	else {
     		var isCitationError = false;
@@ -279,71 +290,85 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     		}
     		
     		if ( isCitationError ){
-    			var citationLi = $('menuList').select('li.Citation')[0];
-        		citationLi.addClassName('notAnalyzed');
-        		citationLi.select('a.Citation')[0].title = citationErrorMessage;
+    			var citationLi = menuList ? menuList.querySelector('li.Citation') : null;
+    			if (citationLi) {
+        			citationLi.classList.add('notAnalyzed');
+        			citationLi.querySelector('a.Citation').title = citationErrorMessage;
+    			}
     		}
     	}
     	
     }
     function decorateAuthors() {
     	if ( TreeBASE.study.authors.length == 0 ) {
-    		var authorsLi = $('menuList').select('li.Authors')[0];
-    		authorsLi.addClassName('notAnalyzed');   
-    		authorsLi.select('a.Authors')[0].title = 'No authors have been entered yet'; 	
+    		var menuList = document.getElementById('menuList');
+    		var authorsLi = menuList ? menuList.querySelector('li.Authors') : null;
+    		if (authorsLi) {
+    			authorsLi.classList.add('notAnalyzed');   
+    			authorsLi.querySelector('a.Authors').title = 'No authors have been entered yet';
+    		}
     	}
     }
     function decorateUpload() {
-   		if ( TreeBASE.study.nexusFileNames.size() == 0 ) {
-   			var uploadLi = $('menuList').select('li.Upload')[0];
-   			uploadLi.addClassName('notAnalyzed');
-   			uploadLi.select('a.Upload')[0].title = 'No files have been uploaded yet';    			
+   		if ( TreeBASE.study.nexusFileNames.length == 0 ) {
+   			var menuList = document.getElementById('menuList');
+   			var uploadLi = menuList ? menuList.querySelector('li.Upload') : null;
+   			if (uploadLi) {
+   				uploadLi.classList.add('notAnalyzed');
+   				uploadLi.querySelector('a.Upload').title = 'No files have been uploaded yet';
+   			}
    		} 
     }
     function writeNexusFileNames() {
-    	var filesLi = $('menuList').select('li.Files')[0];
+    	var menuList = document.getElementById('menuList');
+    	var filesLi = menuList ? menuList.querySelector('li.Files') : null;
     	var nexusFileNames = TreeBASE.study.nexusFileNames;
     	var ul = null;
-    	if ( nexusFileNames.size() > 0 ) {
+    	if ( filesLi && nexusFileNames.length > 0 ) {
     		ul = createUnorderedList(nexusFileNames,'id','nexusFile');
     		ul.style.display = 'none';
     		filesLi.appendChild(ul);
     	}  
-    	else {
-    		filesLi.addClassName('emptyList');
-    		filesLi.select('a.Files')[0].title = 'No files have been uploaded yet';
+    	else if (filesLi) {
+    		filesLi.classList.add('emptyList');
+    		filesLi.querySelector('a.Files').title = 'No files have been uploaded yet';
     	}
-    	var a = createButton(ul);
-    	filesLi.insertBefore(a,filesLi.firstChild);    	
+    	if (filesLi) {
+    		var a = createButton(ul);
+    		filesLi.insertBefore(a,filesLi.firstChild);
+    	}
     }
     function writeAnalyses() {
-    	var analysesLi = $('menuList').select('li.Analyses')[0];
+    	var menuList = document.getElementById('menuList');
+    	var analysesLi = menuList ? menuList.querySelector('li.Analyses') : null;
     	var analyses = TreeBASE.study.analyses;
     	var ul = null;
-    	if ( analyses.size() > 0 ) { 
+    	if ( analysesLi && analyses.length > 0 ) { 
     		var allValid = true;
 	    	ANALYSES: for ( var i = 0; i < analyses.length; i++ ) {
 	    		var analysisSteps = analyses[i].analysisSteps;
 	    		for ( var j = 0; j < analysisSteps.length; j++ ) {
 	    			if ( ! analysisSteps[j].validated ) {
-	    				analysesLi.select('a.Analyses')[0].title = 'Some analysis steps are invalid';
-	    				analysesLi.addClassName('notAnalyzed');
+	    				analysesLi.querySelector('a.Analyses').title = 'Some analysis steps are invalid';
+	    				analysesLi.classList.add('notAnalyzed');
 	    				allValid = false;
 	    				break ANALYSES;
 	    			}
 	    		}
 	    	}
 	    	if ( allValid ) {
-	    		analysesLi.select('a.Analyses')[0].title = 'All analysis steps validate';	    		
+	    		analysesLi.querySelector('a.Analyses').title = 'All analysis steps validate';	    		
 	    	}
     	}
-    	else {
-    		analysesLi.addClassName('emptyList');
-    		analysesLi.select('a.Analyses')[0].title = 'No analyses have been created yet';
-    	}	
-    	var a = createButton(ul);
-    	analysesLi.insertBefore(a,analysesLi.firstChild);   
-    	var spans = $$('span.isAnalysisStepValid');
+    	else if (analysesLi) {
+    		analysesLi.classList.add('emptyList');
+    		analysesLi.querySelector('a.Analyses').title = 'No analyses have been created yet';
+    	}
+    	if (analysesLi) {
+    		var a = createButton(ul);
+    		analysesLi.insertBefore(a,analysesLi.firstChild);
+    	}
+    	var spans = document.querySelectorAll('span.isAnalysisStepValid');
     	for ( var i = 0; i < spans.length; i++ ) {
     		var stepId = spans[i].title;
     		if ( ! TreeBASE.isAnalysisStepValidated(stepId) ) {
@@ -355,14 +380,15 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     	} 	 	
     }    
     function writeTreeBlocks() {
-    	var treesLi = $('menuList').select('li.Trees')[0];
+    	var menuList = document.getElementById('menuList');
+    	var treesLi = menuList ? menuList.querySelector('li.Trees') : null;
     	var treeBlocks = TreeBASE.submission.submittedTreeBlocks;
     	var ul = null;
-    	if ( treeBlocks.size() > 0 ) {
+    	if ( treesLi && treeBlocks.length > 0 ) {
 	    	ul = createUnorderedList(treeBlocks,'title','treeBlock');
 	    	ul.style.display = 'none';
 	    	treesLi.appendChild(ul);   
-	    	var Lis = ul.select('li.treeBlock');   
+	    	var Lis = ul.querySelectorAll('li.treeBlock');   
 	    	for ( var i = 0; i < treeBlocks.length; i++ ) {
 	    		if ( treeBlocks[i] ) {
 		    		var innerUl = createUnorderedList(treeBlocks[i].treeList,'label','tree');
@@ -375,72 +401,81 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 	    		}
 	    	} 	 	
     	}
-    	else {
-    		treesLi.addClassName('emptyList');
-    		treesLi.select('a.Trees')[0].title = 'No trees have been uploaded yet';
+    	else if (treesLi) {
+    		treesLi.classList.add('emptyList');
+    		treesLi.querySelector('a.Trees').title = 'No trees have been uploaded yet';
     	}
-	    var a = createButton(ul);
-	    treesLi.insertBefore(a,treesLi.firstChild);    	
+    	if (treesLi) {
+	    	var a = createButton(ul);
+	    	treesLi.insertBefore(a,treesLi.firstChild);
+    	}
     }
     function writeTaxonLabels() {
-    	var taxaLi = $('menuList').select('li.Taxa')[0];
+    	var menuList = document.getElementById('menuList');
+    	var taxaLi = menuList ? menuList.querySelector('li.Taxa') : null;
     	var taxonLabels = TreeBASE.submission.submittedTaxonLabels;
     	var ul = null;
-    	if ( taxonLabels.length > 0 ) {
+    	if ( taxaLi && taxonLabels.length > 0 ) {
     		ul = createUnorderedList(taxonLabels,'taxonLabel','taxonLabel');
     		ul.style.display = 'none';
     		taxaLi.appendChild(ul);  
-    		var taxonLabelLis = ul.select('li'); 
+    		var taxonLabelLis = ul.querySelectorAll('li'); 
     		var analyzed = 'analyzed';	
     		for ( var i = 0; i < taxonLabelLis.length; i++ ) {
     			var id = taxonLabelLis[i].id;
     			var attempted = TreeBASE.isTaxonLinkingAttempted(id.replace(/[a-zA-Z]+/,""));
     			if ( attempted ) {
-    				taxonLabelLis[i].addClassName('analyzed');
+    				taxonLabelLis[i].classList.add('analyzed');
     			}
     			else {
-    				taxonLabelLis[i].addClassName('notAnalyzed');
-    				taxonLabelLis[i].select('a.taxonLabel')[0].title = 'This taxon has not been linked to external taxonomy';
+    				taxonLabelLis[i].classList.add('notAnalyzed');
+    				taxonLabelLis[i].querySelector('a.taxonLabel').title = 'This taxon has not been linked to external taxonomy';
     				analyzed = 'notAnalyzed';
     			}
     		}	
-    		taxaLi.addClassName(analyzed);
+    		taxaLi.classList.add(analyzed);
     		if ( analyzed == 'notAnalyzed' ) {
-    			taxaLi.select('a.Taxa')[0].title = 'Some taxa have not been linked to external taxonomy yet';
+    			taxaLi.querySelector('a.Taxa').title = 'Some taxa have not been linked to external taxonomy yet';
     		}
     	}
-    	else {
-    		taxaLi.addClassName('emptyList');
-    		taxaLi.select('a.Taxa')[0].title = 'No taxa have been uploaded yet';
+    	else if (taxaLi) {
+    		taxaLi.classList.add('emptyList');
+    		taxaLi.querySelector('a.Taxa').title = 'No taxa have been uploaded yet';
     	}
-    	var a = createButton(ul);    	
-    	taxaLi.insertBefore(a,taxaLi.firstChild);
+    	if (taxaLi) {
+    		var a = createButton(ul);    	
+    		taxaLi.insertBefore(a,taxaLi.firstChild);
+    	}
     }
     function writeMatrices() {
-    	var matricesLi = $('menuList').select('li.Matrices')[0];
+    	var menuList = document.getElementById('menuList');
+    	var matricesLi = menuList ? menuList.querySelector('li.Matrices') : null;
     	var submittedMatrices = TreeBASE.submission.submittedMatrices;
     	var ul = null;
-    	if ( submittedMatrices.size() > 0 ) {
+    	if ( matricesLi && submittedMatrices.length > 0 ) {
     		ul = createUnorderedList(submittedMatrices,'title','matrix');
     		ul.style.display = 'none';
     		matricesLi.appendChild(ul);
     	}
-    	else {
-    		matricesLi.addClassName('emptyList');
-    		matricesLi.select('a.Matrices')[0].title = 'No matrices have been uploaded yet';
+    	else if (matricesLi) {
+    		matricesLi.classList.add('emptyList');
+    		matricesLi.querySelector('a.Matrices').title = 'No matrices have been uploaded yet';
     	}
-    	var a = createButton(ul);
-    	matricesLi.insertBefore(a,matricesLi.firstChild);    	
+    	if (matricesLi) {
+    		var a = createButton(ul);
+    		matricesLi.insertBefore(a,matricesLi.firstChild);
+    	}
     }
     function createUnorderedList(model,property,modelClass) {
-    	var ul = new Element('ul');
-    	ul.addClassName('menuList');
-    	ul.addClassName(modelClass);
+    	var ul = document.createElement('ul');
+    	ul.classList.add('menuList');
+    	ul.classList.add(modelClass);
     	for ( var i = 0; i < model.length; i++ ) { 
             if ( model[i] ) { 	
-	    		var li = new Element('li',{'id':modelClass+model[i].id});
-	            li.addClassName('menubar');
-	            li.addClassName(modelClass);
+	    		var li = document.createElement('li');
+	    		li.id = modelClass+model[i].id;
+	            li.classList.add('menubar');
+	            li.classList.add(modelClass);
 	            var theUrl = url[modelClass](model[i].id,TreeBASE.submission.id);
 	            var defaultName = '';
 	            if ( modelClass == 'analysis' && model[i][property] == '' ) {
@@ -449,9 +484,11 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 	            else if ( modelClass == 'analysisStep' && model[i][property] == '' ) {
 	            	defaultName = 'step ' + ( i + 1 );
 	            }
-	            var a = new Element('a',{'href':theUrl}).update(defaultName + model[i][property]);
-	            a.addClassName('standalone');
-	            a.addClassName(modelClass);
+	            var a = document.createElement('a');
+	            a.href = theUrl;
+	            a.innerHTML = defaultName + model[i][property];
+	            a.classList.add('standalone');
+	            a.classList.add(modelClass);
 	            li.appendChild(a);
 	            ul.appendChild(li);
             }
@@ -460,25 +497,25 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     } 
     function createButton (toggleMe) {
     	var imagePath = '/treebase-web/images/';
-    	var a = new Element('a');
-    	a.addClassName('expander');
-    	var img = new Element('img');
-    	img.addClassName('iconButton');
-    	img.addClassName('collapsed');
+    	var a = document.createElement('a');
+    	a.classList.add('expander');
+    	var img = document.createElement('img');
+    	img.classList.add('iconButton');
+    	img.classList.add('collapsed');
     	a.appendChild(img);
     	if ( toggleMe != null ) {
     		img.src = imagePath + 'plus.gif';
 	    	a.onclick = function () {
-	    		img.addClassName('iconButton');
+	    		img.classList.add('iconButton');
 	    		if ( toggleMe.style.display == 'none' ) {
 	    			toggleMe.style.display = 'block';
 	    			img.src = imagePath + 'minus.gif';
-	    			img.addClassName('expanded');
+	    			img.classList.add('expanded');
 	    		}
 	    		else {
 	    			toggleMe.style.display = 'none';
 	    			img.src = imagePath + 'plus.gif';
-	    			img.addClassName('collapsed');
+	    			img.classList.add('collapsed');
 	    		}
 	    	}
     	}
@@ -488,19 +525,23 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     	return a;
     }
     function checkSubmitButton() {
-    	var submitButton = $('submitReadyState');
+    	var submitButton = document.getElementById('submitReadyState');
     	if (submitButton != null && submitButton != undefined) {
-    		var notAnalyzed = $('menuList').select('li.notAnalyzed');
-    		if (notAnalyzed != '') {
-    			submitButton.disable();
-    			$$('p.readyStateError').invoke('setStyle', { display: 'block' });
+    		var menuList = document.getElementById('menuList');
+    		var notAnalyzed = menuList ? menuList.querySelectorAll('li.notAnalyzed') : [];
+    		if (notAnalyzed.length > 0) {
+    			submitButton.disabled = true;
+    			var readyStateErrors = document.querySelectorAll('p.readyStateError');
+    			for (var i = 0; i < readyStateErrors.length; i++) {
+    				readyStateErrors[i].style.display = 'block';
+    			}
     		}
     	};
     }
     //TreeBASE.writeSummary = writeSummary;
     TreeBASE.register(decorateMenu);
 	TreeBASE.register(function(){
-		var req = new Ajax.Request('/treebase-web/json/submissionIsland.html', {
+		tbFetch('/treebase-web/json/submissionIsland.html', {
 			'method':'get',
 			'onSuccess':function(response){
 				var tmp; 
