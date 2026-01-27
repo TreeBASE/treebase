@@ -7,21 +7,21 @@ if ( TreeBASE.analysisEditor == null ) {
 (function(){
 	TreeBASE.analysisEditor.editAnalysis = function (link,counter) {
 		var table = link.parentNode.parentNode.parentNode;
-		var inputs = $(table).select('input');
+		var $inputs = $(table).find('input');
 		var firstTextBox;
-		for ( var i = 0; i < inputs.length; i++ ) {
-			inputs[i].removeClassName('disabled');
-			inputs[i].readOnly = false;
-			if ( inputs[i].style.display == 'none' ) {
-				inputs[i].style.display = 'inline';
+		$inputs.each(function() {
+			$(this).removeClass('disabled');
+			this.readOnly = false;
+			if ( $(this).css('display') == 'none' ) {
+				$(this).css('display', 'inline');
 			}
-			if ( inputs[i].type == 'text' ) {
-				inputs[i].addClassName('enabled');
+			if ( this.type == 'text' ) {
+				$(this).addClass('enabled');
 				if ( firstTextBox == null ) {
-					firstTextBox = inputs[i];
+					firstTextBox = this;
 				}
 			}
-		}
+		});
 		firstTextBox.focus();
 		firstTextBox.select();
 		return false;
@@ -104,8 +104,7 @@ if ( TreeBASE.analysisEditor == null ) {
 			}	
 		}
 		
-		//selects[1].innerHTML = innerOptions;		
-		$(selects[1]).update(innerOptions);
+		$(selects[1]).html(innerOptions);
 		selects[1].name = selector.value;
 		var inputs = theDiv.getElementsByTagName('input');
 		inputs[0].style.display = 'block';
@@ -127,42 +126,42 @@ if ( TreeBASE.analysisEditor == null ) {
 		var options = selectWidget.getElementsByTagName('option');
 		for ( var i = 0; i < options.length; i++ ) {
 			if ( options[i].selected ) {
-				var theDiv = $('ac' + counter);
+				var $theDiv = $('#ac' + counter);
 				if ( options[i].value == 'other algorithm' ) {
 					alert("Please describe the other algorithm you used");
-					theDiv.style.display = 'inline';
-					$('algorithmType'+counter).focus();
-					$('algorithmType'+counter).select();
+					$theDiv.css('display', 'inline');
+					$('#algorithmType'+counter).focus();
+					$('#algorithmType'+counter).select();
 				}
 				else {
-					theDiv.style.display = 'none';
+					$theDiv.css('display', 'none');
 				}
 			}
 		}
 	};
 	TreeBASE.analysisEditor.enableEdit = function(counter) {
-		var softwareForm = $( 'form' + counter );
-		var inputs = softwareForm.select('input','textarea');
+		var $softwareForm = $( '#form' + counter );
+		var $inputs = $softwareForm.find('input, textarea');
 		var firstTextBox;
-		for ( var i = 0; i < inputs.length; i++ ) {
-			inputs[i].readOnly = false;
-			inputs[i].removeClassName('disabled');
-			if ( inputs[i].type == 'text' ) {
-				inputs[i].addClassName('enabled');
+		$inputs.each(function() {
+			this.readOnly = false;
+			$(this).removeClass('disabled');
+			if ( this.type == 'text' ) {
+				$(this).addClass('enabled');
 				if ( firstTextBox == null ) {
-					firstTextBox = inputs[i];
+					firstTextBox = this;
 				}
 			}
-			if ( inputs[i].type == 'submit' ) {
-				inputs[i].style.display = 'inline';
+			if ( this.type == 'submit' ) {
+				$(this).css('display', 'inline');
 			}		
-		}
-		$( 'algorithmTypeInput' + counter ).style.display = 'none';
-		$( 'algorithmSelectWidget' + counter ).style.display = 'inline';
-		$( 'softwareInfo.softwareURL' + counter ).style.display = 'inline';
-		var softwareLink = $( 'softwareInfo.softwareLink' + counter );
-		if ( softwareLink != null ) {
-			softwareLink.style.display = 'none';
+		});
+		$( '#algorithmTypeInput' + counter ).css('display', 'none');
+		$( '#algorithmSelectWidget' + counter ).css('display', 'inline');
+		$( '#softwareInfo\\.softwareURL' + counter ).css('display', 'inline');
+		var $softwareLink = $( '#softwareInfo\\.softwareLink' + counter );
+		if ( $softwareLink.length > 0 ) {
+			$softwareLink.css('display', 'none');
 		}
 		firstTextBox.focus();
 		firstTextBox.select();

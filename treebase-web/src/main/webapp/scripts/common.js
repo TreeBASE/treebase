@@ -17,9 +17,10 @@ function popupWithSizes(url, width, height) {
 }
 function openHelp(tag) {
 	var url = '/treebase-web/help.html?helpTag=' + tag;	
-	tbFetch(url, {
-		'method':'get',
-		'onSuccess':function(response){				
+	$.ajax({
+		url: url,
+		method: 'GET',
+		success: function(response){				
 			top.consoleRef=window.open('','help',
 		  		'width=400,height=350'
 		   		+',menubar=no'
@@ -33,7 +34,7 @@ function openHelp(tag) {
 		   	if ( top.consoleRef == null || top.consoleRef.closed ) {
 		   		alert("Couldn't open window! The help system requires that popups are allowed for the TreeBASE site.");
 		   	}
-		 	top.consoleRef.document.writeln(response.responseText);
+		 	top.consoleRef.document.writeln(response);
 		 	top.consoleRef.document.close();				
 		}
 	});	
@@ -95,81 +96,58 @@ TreeBASE.register(
 
 TreeBASE.register(
 	function() {
-		var inputs = document.querySelectorAll('.textCell');
-		for ( var i = 0; i < inputs.length; i++ ) {
-			if ( inputs[i] ) {
-				var currentColor = inputs[i].style.borderColor;
-				inputs[i].onfocus = function () {
-					this.style.borderColor = '#3863A4';
-					this.select();
-				}
-				inputs[i].onblur = function () {
-					this.style.borderColor = currentColor;
-				}
-			}
-		}
+		$('.textCell').each(function() {
+			var currentColor = $(this).css('borderColor');
+			$(this).on('focus', function () {
+				$(this).css('borderColor', '#3863A4');
+				this.select();
+			});
+			$(this).on('blur', function () {
+				$(this).css('borderColor', currentColor);
+			});
+		});
 	}
 );
 
 TreeBASE.register(
 	function () {
 	    if ( document.getElementsByClassName ) {
-            var checkBoxCells = document.querySelectorAll('.checkBoxColumn');
-            var buttonContainer = document.getElementById('buttonContainer');
-            if ( checkBoxCells.length > 0 && buttonContainer ) {
-                var checkButton = createTBElement('input',{'type':'button','value':'Check all'});
-                checkButton.addEventListener('click',function () {
-                    for ( var i = 0; i < checkBoxCells.length; i++ ) {					
-                        if ( checkBoxCells[i] ) {
-                            var checkBoxes = checkBoxCells[i].querySelectorAll('input');
-                            for ( var j = 0; j < checkBoxes.length; j++ ) {
-                                if ( checkBoxes[j] && checkBoxes[j].type == 'checkbox' || checkBoxes[j].type == 'radio' ) {
-                                    if ( ! checkBoxes[j].disabled ) {
-                                        checkBoxes[j].checked = 'checked';
-                                    }					
-                                }
-                            }		
-                        }
-                    }
+            var $checkBoxCells = $('.checkBoxColumn');
+            var $buttonContainer = $('#buttonContainer');
+            if ( $checkBoxCells.length > 0 && $buttonContainer.length > 0 ) {
+                var $checkButton = $('<input>', {type: 'button', value: 'Check all'});
+                $checkButton.on('click', function () {
+                    $checkBoxCells.each(function() {
+                        $(this).find('input').each(function() {
+                            if ( (this.type == 'checkbox' || this.type == 'radio') && !this.disabled ) {
+                                this.checked = true;
+                            }
+                        });
+                    });
                 });
-                var uncheckButton = createTBElement('input',{'type':'button','value':'Uncheck all'});	
-                uncheckButton.addEventListener('click',function () {
-                    for ( var i = 0; i < checkBoxCells.length; i++ ) {
-                        if ( checkBoxCells[i] ) {
-                            var checkBoxes = checkBoxCells[i].querySelectorAll('input');
-                            for ( var j = 0; j < checkBoxes.length; j++ ) {
-                                if ( checkBoxes[j] && checkBoxes[j].type == 'checkbox' || checkBoxes[j].type == 'radio' ) {
-                                    if ( ! checkBoxes[j].disabled ) {
-                                        checkBoxes[j].checked = null;	
-                                    }				
-                                }
-                            }							
-                        }
-                    }
+                var $uncheckButton = $('<input>', {type: 'button', value: 'Uncheck all'});	
+                $uncheckButton.on('click', function () {
+                    $checkBoxCells.each(function() {
+                        $(this).find('input').each(function() {
+                            if ( (this.type == 'checkbox' || this.type == 'radio') && !this.disabled ) {
+                                this.checked = false;
+                            }
+                        });
+                    });
                 });			
-                var invertButton = createTBElement('input',{'type':'button','value':'Invert'});
-                invertButton.addEventListener('click',function () {
-                    for ( var i = 0; i < checkBoxCells.length; i++ ) {
-                        if ( checkBoxCells[i] ) {
-                            var checkBoxes = checkBoxCells[i].querySelectorAll('input');
-                            for ( var j = 0; j < checkBoxes.length; j++ ) {
-                                if ( checkBoxes[j] && checkBoxes[j].type == 'checkbox' || checkBoxes[j].type == 'radio' ) {
-                                    if ( ! checkBoxes[j].disabled ) {
-                                        if ( checkBoxes[j].checked ) {
-                                            checkBoxes[j].checked = null;
-                                        }					
-                                        else {
-                                            checkBoxes[j].checked = 'checked';
-                                        }
-                                    }
-                                }
-                            }							
-                        }
-                    }
+                var $invertButton = $('<input>', {type: 'button', value: 'Invert'});
+                $invertButton.on('click', function () {
+                    $checkBoxCells.each(function() {
+                        $(this).find('input').each(function() {
+                            if ( (this.type == 'checkbox' || this.type == 'radio') && !this.disabled ) {
+                                this.checked = !this.checked;
+                            }
+                        });
+                    });
                 });	
-                buttonContainer.insertBefore(invertButton,buttonContainer.firstChild);
-                buttonContainer.insertBefore(uncheckButton,buttonContainer.firstChild);	
-                buttonContainer.insertBefore(checkButton,buttonContainer.firstChild);	
+                $buttonContainer.prepend($invertButton);
+                $buttonContainer.prepend($uncheckButton);	
+                $buttonContainer.prepend($checkButton);	
             }
 		}
 	}
@@ -178,15 +156,11 @@ TreeBASE.register(
 /* add a tooltip for the help buttons */
 TreeBASE.register(
 	function() {
-		var links = document.getElementsByTagName('a');
-		for ( var i = 0; i < links.length; i++ ) {
-			var link = links[i];
-			if ( link.classList.contains('openHelp') ) {
-				if ( link.title == null || link.title == '' ) {
-					link.title = 'Open help popup';
-				}
+		$('a.openHelp').each(function() {
+			if ( !this.title || this.title == '' ) {
+				this.title = 'Open help popup';
 			}
-		}
+		});
 	}	
 );
 
@@ -203,28 +177,28 @@ TreeBASE.register(
 	</div>
 */
 TreeBASE.collapseExpand = function(id,displayAs,link) {
-	var objToExpand = document.getElementById(id);
-	var img = link.firstElementChild;
-	if ( img == null ) {
-		img = document.createElement('img');
-		link.appendChild(img);
+	var $objToExpand = $('#' + id);
+	var $img = $(link).children().first();
+	if ( $img.length == 0 ) {
+		$img = $('<img>');
+		$(link).append($img);
 	}	
-	if ( objToExpand.style.display == 'none' ) {
-		objToExpand.style.display = displayAs;
-		img.src='/treebase-web/images/minus.gif';
-		img.alt='collapse'
+	if ( $objToExpand.css('display') == 'none' ) {
+		$objToExpand.css('display', displayAs);
+		$img.attr('src', '/treebase-web/images/minus.gif');
+		$img.attr('alt', 'collapse');
 		link.title='collapse';
 	}
 	else {
-		objToExpand.style.display = 'none';
-		img.src='/treebase-web/images/plus.gif';
-		img.alt='expand';
+		$objToExpand.css('display', 'none');
+		$img.attr('src', '/treebase-web/images/plus.gif');
+		$img.attr('alt', 'expand');
 		link.title='expand';
 	}
 }
 //expands what a user types in the text box into a PhyloWS query
 TreeBASE.expandQuery = function () {
-  var query = document.getElementById('query').value;
+  var query = $('#query').val();
   var split = TreeBASE.splitWords(query);
   var terms = new Array();
   for ( var i = 0; i < split.length; i++ ) {
@@ -235,10 +209,10 @@ TreeBASE.expandQuery = function () {
     }
   }
   var joiner = ' or ';
-  if ( document.getElementById('all').checked ) {
+  if ( $('#all').prop('checked') ) {
     joiner = ' and ';
   }
-  document.getElementById('expanded').value = terms.join(joiner);
+  $('#expanded').val(terms.join(joiner));
   return false;
 };
 

@@ -10,7 +10,9 @@
 <title>TreeBASE Web<decorator:title/></title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/styles.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/menuExpandable2.css'/>" />
-<!-- Phylotree.js stack - MUST load before Prototype.js to avoid Array.prototype pollution -->
+<!-- jQuery - replaces Prototype.js -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<!-- Phylotree.js stack -->
 <script type="text/javascript" src="<c:url value='/scripts/d3.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/lodash.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/underscore.js'/>"></script>

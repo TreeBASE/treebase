@@ -4,11 +4,11 @@
 	debug('foo');	
 */
 var debugging = true;
-var debugContainer = document.getElementById('debug');
+var $debugContainer = $('#debug');
 function debug(msg) {
     if ( debugging ) {    		
-    	if ( debugContainer ) {
-    		debugContainer.innerHTML += '<pre>' + msg + '</pre>';
+    	if ( $debugContainer.length > 0 ) {
+    		$debugContainer.append('<pre>' + msg + '</pre>');
     	}
     }
 }
@@ -126,13 +126,11 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
         },
     };
     function decorateMenu () {
-        var menuList = document.getElementById('menuList');
-        var links = menuList ? menuList.querySelectorAll('a') : [];
-        for ( var i = 0; i < links.length; i++ ) {
-        	var title = links[i].title;
-        	links[i].classList.add(title);
-        	links[i].parentNode.classList.add(title);
-        }    
+        $('#menuList').find('a').each(function() {
+        	var title = this.title;
+        	$(this).addClass(title);
+        	$(this.parentNode).addClass(title);
+        });    
     }
     function writeSummary () {
 		if ( TreeBASE.submission ) {
@@ -153,110 +151,99 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 	    }
     }
     function decorateFiles() {
-    	var menuList = document.getElementById('menuList');
-    	var filesLi = menuList ? menuList.querySelector('li.Files') : null;
+    	var $filesLi = $('#menuList').find('li.Files').first();
     }
     function decorateAnalyses() {
-    	var menuList = document.getElementById('menuList');
-    	var analysesLi = menuList ? menuList.querySelector('li.Analyses') : null;    	
-    	if ( analysesLi && ! analysesLi.classList.contains('emptyList') ) {
-    		var analysisLis = analysesLi.querySelectorAll('li.analysis');
+    	var $analysesLi = $('#menuList').find('li.Analyses').first();    	
+    	if ( ! $analysesLi.hasClass('emptyList') ) {
+    		var $analysisLis = $analysesLi.find('li.analysis');
     		var analyzed = 'analyzed';
-    		for ( var i = 0; i < analysisLis.length; i++ ) {
-    			var id = analysisLis[i].id;
+    		$analysisLis.each(function() {
+    			var id = this.id;
     			var analysisId = id.replace(/^analysis/,'');
     			if ( TreeBASE.isAnalysisValidated(analysisId) ) {
-    				analysisLis[i].classList.add('analyzed');
+    				$(this).addClass('analyzed');
     			}
     			else {
-    				analysisLis[i].classList.add('notAnalyzed');
+    				$(this).addClass('notAnalyzed');
     				analyzed = 'notAnalyzed';
-    				analysisLis[i].querySelector('a.analysis').title = 'This analysis does not validate';
+    				$(this).find('a.analysis').first().attr('title', 'This analysis does not validate');
     			}
-    		}
-    		analysesLi.classList.add(analyzed);
+    		});
+    		$analysesLi.addClass(analyzed);
     		if ( analyzed == 'notAnalyzed' ) {
-    			analysesLi.querySelector('a.Analyses').title = 'Some analyses have not been validated';
+    			$analysesLi.find('a.Analyses').first().attr('title', 'Some analyses have not been validated');
     		}
     	}    
     }
     function decorateMatrices() {
-    	var menuList = document.getElementById('menuList');
-    	var matricesLi = menuList ? menuList.querySelector('li.Matrices') : null;
-    	if ( matricesLi && ! matricesLi.classList.contains('emptyList') ) {
-    		var matrixLis = matricesLi.querySelectorAll('li.matrix');
+    	var $matricesLi = $('#menuList').find('li.Matrices').first();
+    	if ( ! $matricesLi.hasClass('emptyList') ) {
+    		var $matrixLis = $matricesLi.find('li.matrix');
     		var analyzed = 'analyzed';
-    		for ( var i = 0; i < matrixLis.length; i++ ) {
-    			if ( matrixLis[i] ) {
-	    			var id = matrixLis[i].id;
-	    			var matrixId = id.replace(/^matrix/,'');
-	    			if ( TreeBASE.isDataAnalyzed( matrixId, 'matrix' ) ) {
-	    				matrixLis[i].classList.add('analyzed');
-	    			}
-	    			else {
-	    				matrixLis[i].classList.add('notAnalyzed');
-	    				analyzed = 'notAnalyzed';
-	    				matrixLis[i].querySelector('a.matrix').title = 'This matrix is not part of any analysis';
-	    			}
+    		$matrixLis.each(function() {
+    			var id = this.id;
+    			var matrixId = id.replace(/^matrix/,'');
+    			if ( TreeBASE.isDataAnalyzed( matrixId, 'matrix' ) ) {
+    				$(this).addClass('analyzed');
     			}
-    		}
-    		matricesLi.classList.add(analyzed);
+    			else {
+    				$(this).addClass('notAnalyzed');
+    				analyzed = 'notAnalyzed';
+    				$(this).find('a.matrix').first().attr('title', 'This matrix is not part of any analysis');
+    			}
+    		});
+    		$matricesLi.addClass(analyzed);
     		if ( analyzed == 'notAnalyzed' ) {
-    			matricesLi.querySelector('a.Matrices').title = 'Some matrices are not part of any analysis';
+    			$matricesLi.find('a.Matrices').first().attr('title', 'Some matrices are not part of any analysis');
     		}
     	}
     }
     function decorateTrees() {
-    	var menuList = document.getElementById('menuList');
-    	var treeBlocksLi = menuList ? menuList.querySelector('li.Trees') : null;
-    	if ( treeBlocksLi && ! treeBlocksLi.classList.contains('emptyList') ) {
-    		var treeBlockLis = treeBlocksLi.querySelectorAll('li.treeBlock');
+    	var $treeBlocksLi = $('#menuList').find('li.Trees').first();
+    	if ( ! $treeBlocksLi.hasClass('emptyList') ) {
+    		var $treeBlockLis = $treeBlocksLi.find('li.treeBlock');
     		var treesAnalyzed = 'analyzed';
-    		for ( var i = 0; i < treeBlockLis.length; i++ ) {
-    			var treeLis = treeBlockLis[i].querySelectorAll('li.tree');
+    		$treeBlockLis.each(function() {
+    			var $treeLis = $(this).find('li.tree');
     			var analyzed = 'analyzed';
-    			for ( var j = 0; j < treeLis.length; j++ ) {
-    				var id = treeLis[j].id;
+    			var $treeBlockLi = $(this);
+    			$treeLis.each(function() {
+    				var id = this.id;
     				var treeId = id.replace(/^tree/,'');
     				if ( TreeBASE.isDataAnalyzed( treeId, 'tree') ) {
-    					treeLis[j].classList.add('analyzed');
+    					$(this).addClass('analyzed');
     				}
     				else {
-    					treeLis[j].classList.add('notAnalyzed');
+    					$(this).addClass('notAnalyzed');
     					analyzed = 'notAnalyzed';
     					treesAnalyzed = 'notAnalyzed';
-    					treeLis[j].querySelector('a.tree').title = 'This tree is not part of any analysis';
+    					$(this).find('a.tree').first().attr('title', 'This tree is not part of any analysis');
     				}
-    			}
-    			treeBlockLis[i].classList.add(analyzed);
+    			});
+    			$treeBlockLi.addClass(analyzed);
     			if ( analyzed == 'notAnalyzed' ) {
-    				treeBlockLis[i].querySelector('a.treeBlock').title = 'Some trees in this block are not part of any analysis';
+    				$treeBlockLi.find('a.treeBlock').first().attr('title', 'Some trees in this block are not part of any analysis');
     			}
-    		}  
-    		treeBlocksLi.classList.add(treesAnalyzed); 	
+    		});  
+    		$treeBlocksLi.addClass(treesAnalyzed); 	
     		if ( treesAnalyzed != 'analyzed' ) {
-    			treeBlocksLi.querySelector('a.Trees').title = 'Some trees are not part of any analysis';
+    			$treeBlocksLi.find('a.Trees').first().attr('title', 'Some trees are not part of any analysis');
     		}	
     	}    
     }
     function decorateNotes() {
     	if ( TreeBASE.study.notes.match(/^\s*$/) || TreeBASE.study.name.match(/^\s*$/) ) {
-    		var menuList = document.getElementById('menuList');
-    		var notesLi = menuList ? menuList.querySelector('li.Notes') : null;
-    		if (notesLi) {
-    			notesLi.classList.add('notAnalyzed');
-    			notesLi.querySelector('a.Notes').title = 'No notes have been entered yet';
-    		}
+    		var $notesLi = $('#menuList').find('li.Notes').first();
+    		$notesLi.addClass('notAnalyzed');
+    		$notesLi.find('a.Notes').first().attr('title', 'No notes have been entered yet');
     	}
     }
     function decorateCitation() {
-    	var menuList = document.getElementById('menuList');
     	if ( TreeBASE.study.citation == null ) {
-    		var citationLi = menuList ? menuList.querySelector('li.Citation') : null;
-    		if (citationLi) {
-    			citationLi.classList.add('notAnalyzed');
-    			citationLi.querySelector('a.Citation').title = 'No citation information has been entered yet';
-    		}
+    		var $citationLi = $('#menuList').find('li.Citation').first();
+    		$citationLi.addClass('notAnalyzed');
+    		$citationLi.find('a.Citation').first().attr('title', 'No citation information has been entered yet');
     	}
     	else {
     		var isCitationError = false;
@@ -290,192 +277,167 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
     		}
     		
     		if ( isCitationError ){
-    			var citationLi = menuList ? menuList.querySelector('li.Citation') : null;
-    			if (citationLi) {
-        			citationLi.classList.add('notAnalyzed');
-        			citationLi.querySelector('a.Citation').title = citationErrorMessage;
-    			}
+    			var $citationLi = $('#menuList').find('li.Citation').first();
+        		$citationLi.addClass('notAnalyzed');
+        		$citationLi.find('a.Citation').first().attr('title', citationErrorMessage);
     		}
     	}
     	
     }
     function decorateAuthors() {
     	if ( TreeBASE.study.authors.length == 0 ) {
-    		var menuList = document.getElementById('menuList');
-    		var authorsLi = menuList ? menuList.querySelector('li.Authors') : null;
-    		if (authorsLi) {
-    			authorsLi.classList.add('notAnalyzed');   
-    			authorsLi.querySelector('a.Authors').title = 'No authors have been entered yet';
-    		}
+    		var $authorsLi = $('#menuList').find('li.Authors').first();
+    		$authorsLi.addClass('notAnalyzed');   
+    		$authorsLi.find('a.Authors').first().attr('title', 'No authors have been entered yet'); 	
     	}
     }
     function decorateUpload() {
    		if ( TreeBASE.study.nexusFileNames.length == 0 ) {
-   			var menuList = document.getElementById('menuList');
-   			var uploadLi = menuList ? menuList.querySelector('li.Upload') : null;
-   			if (uploadLi) {
-   				uploadLi.classList.add('notAnalyzed');
-   				uploadLi.querySelector('a.Upload').title = 'No files have been uploaded yet';
-   			}
+   			var $uploadLi = $('#menuList').find('li.Upload').first();
+   			$uploadLi.addClass('notAnalyzed');
+   			$uploadLi.find('a.Upload').first().attr('title', 'No files have been uploaded yet');    			
    		} 
     }
     function writeNexusFileNames() {
-    	var menuList = document.getElementById('menuList');
-    	var filesLi = menuList ? menuList.querySelector('li.Files') : null;
+    	var $filesLi = $('#menuList').find('li.Files').first();
     	var nexusFileNames = TreeBASE.study.nexusFileNames;
-    	var ul = null;
-    	if ( filesLi && nexusFileNames.length > 0 ) {
-    		ul = createUnorderedList(nexusFileNames,'id','nexusFile');
-    		ul.style.display = 'none';
-    		filesLi.appendChild(ul);
+    	var $ul = null;
+    	if ( nexusFileNames.length > 0 ) {
+    		$ul = createUnorderedList(nexusFileNames,'id','nexusFile');
+    		$ul.css('display', 'none');
+    		$filesLi.append($ul);
     	}  
-    	else if (filesLi) {
-    		filesLi.classList.add('emptyList');
-    		filesLi.querySelector('a.Files').title = 'No files have been uploaded yet';
+    	else {
+    		$filesLi.addClass('emptyList');
+    		$filesLi.find('a.Files').first().attr('title', 'No files have been uploaded yet');
     	}
-    	if (filesLi) {
-    		var a = createButton(ul);
-    		filesLi.insertBefore(a,filesLi.firstChild);
-    	}
+    	var $a = createButton($ul);
+    	$filesLi.prepend($a);    	
     }
     function writeAnalyses() {
-    	var menuList = document.getElementById('menuList');
-    	var analysesLi = menuList ? menuList.querySelector('li.Analyses') : null;
+    	var $analysesLi = $('#menuList').find('li.Analyses').first();
     	var analyses = TreeBASE.study.analyses;
-    	var ul = null;
-    	if ( analysesLi && analyses.length > 0 ) { 
+    	var $ul = null;
+    	if ( analyses.length > 0 ) { 
     		var allValid = true;
 	    	ANALYSES: for ( var i = 0; i < analyses.length; i++ ) {
 	    		var analysisSteps = analyses[i].analysisSteps;
 	    		for ( var j = 0; j < analysisSteps.length; j++ ) {
 	    			if ( ! analysisSteps[j].validated ) {
-	    				analysesLi.querySelector('a.Analyses').title = 'Some analysis steps are invalid';
-	    				analysesLi.classList.add('notAnalyzed');
+	    				$analysesLi.find('a.Analyses').first().attr('title', 'Some analysis steps are invalid');
+	    				$analysesLi.addClass('notAnalyzed');
 	    				allValid = false;
 	    				break ANALYSES;
 	    			}
 	    		}
 	    	}
 	    	if ( allValid ) {
-	    		analysesLi.querySelector('a.Analyses').title = 'All analysis steps validate';	    		
+	    		$analysesLi.find('a.Analyses').first().attr('title', 'All analysis steps validate');	    		
 	    	}
     	}
-    	else if (analysesLi) {
-    		analysesLi.classList.add('emptyList');
-    		analysesLi.querySelector('a.Analyses').title = 'No analyses have been created yet';
-    	}
-    	if (analysesLi) {
-    		var a = createButton(ul);
-    		analysesLi.insertBefore(a,analysesLi.firstChild);
-    	}
-    	var spans = document.querySelectorAll('span.isAnalysisStepValid');
-    	for ( var i = 0; i < spans.length; i++ ) {
-    		var stepId = spans[i].title;
+    	else {
+    		$analysesLi.addClass('emptyList');
+    		$analysesLi.find('a.Analyses').first().attr('title', 'No analyses have been created yet');
+    	}	
+    	var $a = createButton($ul);
+    	$analysesLi.prepend($a);   
+    	$('span.isAnalysisStepValid').each(function() {
+    		var stepId = this.title;
     		if ( ! TreeBASE.isAnalysisStepValidated(stepId) ) {
-    			spans[i].style.display = 'inline';
-    			var heading = spans[i].parentNode;
-    			heading.style.backgroundColor = '#ffffcc';
-    			heading.style.border = '1px solid red';
+    			$(this).css('display', 'inline');
+    			var $heading = $(this.parentNode);
+    			$heading.css('backgroundColor', '#ffffcc');
+    			$heading.css('border', '1px solid red');
     		}
-    	} 	 	
+    	}); 	 	
     }    
     function writeTreeBlocks() {
-    	var menuList = document.getElementById('menuList');
-    	var treesLi = menuList ? menuList.querySelector('li.Trees') : null;
+    	var $treesLi = $('#menuList').find('li.Trees').first();
     	var treeBlocks = TreeBASE.submission.submittedTreeBlocks;
-    	var ul = null;
-    	if ( treesLi && treeBlocks.length > 0 ) {
-	    	ul = createUnorderedList(treeBlocks,'title','treeBlock');
-	    	ul.style.display = 'none';
-	    	treesLi.appendChild(ul);   
-	    	var Lis = ul.querySelectorAll('li.treeBlock');   
+    	var $ul = null;
+    	if ( treeBlocks.length > 0 ) {
+	    	$ul = createUnorderedList(treeBlocks,'title','treeBlock');
+	    	$ul.css('display', 'none');
+	    	$treesLi.append($ul);   
+	    	var $Lis = $ul.find('li.treeBlock');   
 	    	for ( var i = 0; i < treeBlocks.length; i++ ) {
 	    		if ( treeBlocks[i] ) {
-		    		var innerUl = createUnorderedList(treeBlocks[i].treeList,'label','tree');
-		    		innerUl.style.display = 'none';
-		    		if ( Lis[i] ) {
-		    		Lis[i].appendChild(innerUl);
-		    			var innerButton = createButton(innerUl);
-		    			Lis[i].insertBefore(innerButton,Lis[i].firstChild);
+		    		var $innerUl = createUnorderedList(treeBlocks[i].treeList,'label','tree');
+		    		$innerUl.css('display', 'none');
+		    		if ( $Lis[i] ) {
+		    			$($Lis[i]).append($innerUl);
+		    			var $innerButton = createButton($innerUl);
+		    			$($Lis[i]).prepend($innerButton);
 		    		}	    		
 	    		}
 	    	} 	 	
     	}
-    	else if (treesLi) {
-    		treesLi.classList.add('emptyList');
-    		treesLi.querySelector('a.Trees').title = 'No trees have been uploaded yet';
+    	else {
+    		$treesLi.addClass('emptyList');
+    		$treesLi.find('a.Trees').first().attr('title', 'No trees have been uploaded yet');
     	}
-    	if (treesLi) {
-	    	var a = createButton(ul);
-	    	treesLi.insertBefore(a,treesLi.firstChild);
-    	}
+	    var $a = createButton($ul);
+	    $treesLi.prepend($a);    	
     }
     function writeTaxonLabels() {
-    	var menuList = document.getElementById('menuList');
-    	var taxaLi = menuList ? menuList.querySelector('li.Taxa') : null;
+    	var $taxaLi = $('#menuList').find('li.Taxa').first();
     	var taxonLabels = TreeBASE.submission.submittedTaxonLabels;
-    	var ul = null;
-    	if ( taxaLi && taxonLabels.length > 0 ) {
-    		ul = createUnorderedList(taxonLabels,'taxonLabel','taxonLabel');
-    		ul.style.display = 'none';
-    		taxaLi.appendChild(ul);  
-    		var taxonLabelLis = ul.querySelectorAll('li'); 
+    	var $ul = null;
+    	if ( taxonLabels.length > 0 ) {
+    		$ul = createUnorderedList(taxonLabels,'taxonLabel','taxonLabel');
+    		$ul.css('display', 'none');
+    		$taxaLi.append($ul);  
+    		var $taxonLabelLis = $ul.find('li'); 
     		var analyzed = 'analyzed';	
-    		for ( var i = 0; i < taxonLabelLis.length; i++ ) {
-    			var id = taxonLabelLis[i].id;
+    		$taxonLabelLis.each(function() {
+    			var id = this.id;
     			var attempted = TreeBASE.isTaxonLinkingAttempted(id.replace(/[a-zA-Z]+/,""));
     			if ( attempted ) {
-    				taxonLabelLis[i].classList.add('analyzed');
+    				$(this).addClass('analyzed');
     			}
     			else {
-    				taxonLabelLis[i].classList.add('notAnalyzed');
-    				taxonLabelLis[i].querySelector('a.taxonLabel').title = 'This taxon has not been linked to external taxonomy';
+    				$(this).addClass('notAnalyzed');
+    				$(this).find('a.taxonLabel').first().attr('title', 'This taxon has not been linked to external taxonomy');
     				analyzed = 'notAnalyzed';
     			}
-    		}	
-    		taxaLi.classList.add(analyzed);
+    		});	
+    		$taxaLi.addClass(analyzed);
     		if ( analyzed == 'notAnalyzed' ) {
-    			taxaLi.querySelector('a.Taxa').title = 'Some taxa have not been linked to external taxonomy yet';
+    			$taxaLi.find('a.Taxa').first().attr('title', 'Some taxa have not been linked to external taxonomy yet');
     		}
     	}
-    	else if (taxaLi) {
-    		taxaLi.classList.add('emptyList');
-    		taxaLi.querySelector('a.Taxa').title = 'No taxa have been uploaded yet';
+    	else {
+    		$taxaLi.addClass('emptyList');
+    		$taxaLi.find('a.Taxa').first().attr('title', 'No taxa have been uploaded yet');
     	}
-    	if (taxaLi) {
-    		var a = createButton(ul);    	
-    		taxaLi.insertBefore(a,taxaLi.firstChild);
-    	}
+    	var $a = createButton($ul);    	
+    	$taxaLi.prepend($a);
     }
     function writeMatrices() {
-    	var menuList = document.getElementById('menuList');
-    	var matricesLi = menuList ? menuList.querySelector('li.Matrices') : null;
+    	var $matricesLi = $('#menuList').find('li.Matrices').first();
     	var submittedMatrices = TreeBASE.submission.submittedMatrices;
-    	var ul = null;
-    	if ( matricesLi && submittedMatrices.length > 0 ) {
-    		ul = createUnorderedList(submittedMatrices,'title','matrix');
-    		ul.style.display = 'none';
-    		matricesLi.appendChild(ul);
+    	var $ul = null;
+    	if ( submittedMatrices.length > 0 ) {
+    		$ul = createUnorderedList(submittedMatrices,'title','matrix');
+    		$ul.css('display', 'none');
+    		$matricesLi.append($ul);
     	}
-    	else if (matricesLi) {
-    		matricesLi.classList.add('emptyList');
-    		matricesLi.querySelector('a.Matrices').title = 'No matrices have been uploaded yet';
+    	else {
+    		$matricesLi.addClass('emptyList');
+    		$matricesLi.find('a.Matrices').first().attr('title', 'No matrices have been uploaded yet');
     	}
-    	if (matricesLi) {
-    		var a = createButton(ul);
-    		matricesLi.insertBefore(a,matricesLi.firstChild);
-    	}
+    	var $a = createButton($ul);
+    	$matricesLi.prepend($a);    	
     }
     function createUnorderedList(model,property,modelClass) {
-    	var ul = document.createElement('ul');
-    	ul.classList.add('menuList');
-    	ul.classList.add(modelClass);
+    	var $ul = $('<ul>');
+    	$ul.addClass('menuList');
+    	$ul.addClass(modelClass);
     	for ( var i = 0; i < model.length; i++ ) { 
             if ( model[i] ) { 	
-	    		var li = document.createElement('li');
-	    		li.id = modelClass+model[i].id;
-	            li.classList.add('menubar');
-	            li.classList.add(modelClass);
+	    		var $li = $('<li>', {id: modelClass+model[i].id});
+	            $li.addClass('menubar');
+	            $li.addClass(modelClass);
 	            var theUrl = url[modelClass](model[i].id,TreeBASE.submission.id);
 	            var defaultName = '';
 	            if ( modelClass == 'analysis' && model[i][property] == '' ) {
@@ -484,68 +446,63 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 	            else if ( modelClass == 'analysisStep' && model[i][property] == '' ) {
 	            	defaultName = 'step ' + ( i + 1 );
 	            }
-	            var a = document.createElement('a');
-	            a.href = theUrl;
-	            a.innerHTML = defaultName + model[i][property];
-	            a.classList.add('standalone');
-	            a.classList.add(modelClass);
-	            li.appendChild(a);
-	            ul.appendChild(li);
+	            var $a = $('<a>', {href: theUrl}).html(defaultName + model[i][property]);
+	            $a.addClass('standalone');
+	            $a.addClass(modelClass);
+	            $li.append($a);
+	            $ul.append($li);
             }
     	}
-    	return ul;
+    	return $ul;
     } 
-    function createButton (toggleMe) {
+    function createButton ($toggleMe) {
     	var imagePath = '/treebase-web/images/';
-    	var a = document.createElement('a');
-    	a.classList.add('expander');
-    	var img = document.createElement('img');
-    	img.classList.add('iconButton');
-    	img.classList.add('collapsed');
-    	a.appendChild(img);
-    	if ( toggleMe != null ) {
-    		img.src = imagePath + 'plus.gif';
-	    	a.onclick = function () {
-	    		img.classList.add('iconButton');
-	    		if ( toggleMe.style.display == 'none' ) {
-	    			toggleMe.style.display = 'block';
-	    			img.src = imagePath + 'minus.gif';
-	    			img.classList.add('expanded');
+    	var $a = $('<a>');
+    	$a.addClass('expander');
+    	var $img = $('<img>');
+    	$img.addClass('iconButton');
+    	$img.addClass('collapsed');
+    	$a.append($img);
+    	if ( $toggleMe != null ) {
+    		$img.attr('src', imagePath + 'plus.gif');
+	    	$a.on('click', function () {
+	    		$img.addClass('iconButton');
+	    		if ( $toggleMe.css('display') == 'none' ) {
+	    			$toggleMe.css('display', 'block');
+	    			$img.attr('src', imagePath + 'minus.gif');
+	    			$img.addClass('expanded');
 	    		}
 	    		else {
-	    			toggleMe.style.display = 'none';
-	    			img.src = imagePath + 'plus.gif';
-	    			img.classList.add('collapsed');
+	    			$toggleMe.css('display', 'none');
+	    			$img.attr('src', imagePath + 'plus.gif');
+	    			$img.addClass('collapsed');
 	    		}
-	    	}
+	    	});
     	}
     	else {
-    		img.src = imagePath + 'square.gif';
+    		$img.attr('src', imagePath + 'square.gif');
     	}
-    	return a;
+    	return $a;
     }
     function checkSubmitButton() {
-    	var submitButton = document.getElementById('submitReadyState');
-    	if (submitButton != null && submitButton != undefined) {
-    		var menuList = document.getElementById('menuList');
-    		var notAnalyzed = menuList ? menuList.querySelectorAll('li.notAnalyzed') : [];
-    		if (notAnalyzed.length > 0) {
-    			submitButton.disabled = true;
-    			var readyStateErrors = document.querySelectorAll('p.readyStateError');
-    			for (var i = 0; i < readyStateErrors.length; i++) {
-    				readyStateErrors[i].style.display = 'block';
-    			}
+    	var $submitButton = $('#submitReadyState');
+    	if ($submitButton.length > 0) {
+    		var $notAnalyzed = $('#menuList').find('li.notAnalyzed');
+    		if ($notAnalyzed.length > 0) {
+    			$submitButton.prop('disabled', true);
+    			$('p.readyStateError').css('display', 'block');
     		}
     	};
     }
     //TreeBASE.writeSummary = writeSummary;
     TreeBASE.register(decorateMenu);
 	TreeBASE.register(function(){
-		tbFetch('/treebase-web/json/submissionIsland.html', {
-			'method':'get',
-			'onSuccess':function(response){
+		$.ajax({
+			url: '/treebase-web/json/submissionIsland.html',
+			method: 'GET',
+			success: function(response){
 				var tmp; 
-				eval('tmp='+response.responseText);
+				eval('tmp='+response);
 				TreeBASE.study = tmp.study;
 				TreeBASE.submission = tmp.submission;
 				//TreeBASE.writeSummary();
