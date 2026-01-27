@@ -17,7 +17,7 @@
 <script type="text/javascript" src="<c:url value='/scripts/phylotree.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/phylotree.css'/>" />
 <!-- End Phylotree.js stack -->
-<script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
+<!--script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script-->
 <script type="text/javascript" src="<c:url value='/scripts/common.js'/>"></script>
 <decorator:head/>
 </head>
