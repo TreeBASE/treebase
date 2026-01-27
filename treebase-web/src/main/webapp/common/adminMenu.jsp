@@ -4,7 +4,7 @@
 <div id="mainMenu">
 <div id="gutter">
 <div id="menu">
-<a onclick="switchMenu();" style="cursor: pointer;"><img id="tb" src="../images/minus.gif"/>&nbsp;&nbsp;Tool Box</a>
+<!--a onclick="switchMenu();" style="cursor: pointer;"><img id="tb" src="../images/minus.gif"/>&nbsp;&nbsp;Tool Box</a-->
 <div id="menuDiv">
 <menu:useMenuDisplayer name="ListMenu">
     <menu:displayMenu name="StudyManagementMenu"/>
@@ -15,7 +15,7 @@
 </div>
 </div>
 </div>
-<script type="text/javascript">
+<!--script type="text/javascript">
     initializeMenus();
     
     function switchMenu() {
@@ -30,4 +30,4 @@
             tb.src="../images/minus.gif";
                    }
     }
-</script>
+</script-->

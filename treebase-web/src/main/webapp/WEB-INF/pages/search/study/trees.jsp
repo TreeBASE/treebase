@@ -12,13 +12,7 @@
 <%
 	pageContext.setAttribute("accesscode",request.getSession().getAttribute("x-access-code"));
 %>
-<script type="text/javascript">
-		function openTreeViewer(tree_id)
-		{
-			 var realURL = "/treebase-web/search/study/tree.html?treeid="+tree_id<c:if test="${!empty accesscode}">+"&x-access-code=<c:out value='${accesscode}' />"</c:if>;
-			 window.open(realURL,'treeviewer','width=1000,height=800,scrollbars=yes,resizable=yes')
-		}
-</script>
+
 <display:table name="trees"
 			   requestURI=""
 			   class="list"
@@ -28,7 +22,13 @@
 			   export="false">
 	
 	<display:column sortable="false" title="ID">
-		<a href="javascript:void(0)" onClick="openTreeViewer(${tree.id})">Tr${tree.id}</a>
+		<c:url var="treeViewerURL" value="/search/study/tree.html">
+			<c:param name="treeid" value="${tree.id}"/>
+			<c:if test="${!empty accesscode}">
+				<c:param name="x-access-code" value="${accesscode}"/>
+			</c:if>
+		</c:url>
+		<a href="${treeViewerURL}">Tr${tree.id}</a>
 	</display:column>	
 	
 	<display:column  
@@ -143,7 +143,13 @@
 		sortable="false"
 		class="iconColumn" 
 		headerClass="iconColumn">
-		<a href="javascript:void(0)" onClick="openTreeViewer(${tree.id})">
+		<c:url var="treeViewerURL" value="/search/study/tree.html">
+			<c:param name="treeid" value="${tree.id}"/>
+			<c:if test="${!empty accesscode}">
+				<c:param name="x-access-code" value="${accesscode}"/>
+			</c:if>
+		</c:url>
+		<a href="${treeViewerURL}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.tree.view"/>" 

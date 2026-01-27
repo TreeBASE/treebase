@@ -109,12 +109,12 @@ Trees
 		class="iconColumn" 
 		headerClass="iconColumn">
 		<c:set var="url" value="${phylowidgetMapURL}?treeid=${userList.id}" />
-		<a href="javascript:popupWithSizes('${url}',1000,900,'1')">
+		<a href="${url}">
 			<img 
 				class="iconButton" 
 				src="<fmt:message key="icons.tree.edit"/>" 
-				title="<fmt:message key="tree.edit"/>" 
-				alt="<fmt:message key="tree.edit"/>"/>		
+				title="<fmt:message key="tree.view"/>" 
+				alt="<fmt:message key="tree.view"/>"/>		
 		</a>
 	</display:column>				
 	
@@ -182,4 +182,5 @@ Trees
 </display:table>
 </fieldset>
 </form>
+
 
