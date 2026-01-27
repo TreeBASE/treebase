@@ -185,9 +185,12 @@ Autocompleter.DWR.prototype = {
     fixPosition: function() {
         // Position the dropdown below the input
         var rect = this.element.getBoundingClientRect();
+        // Use pageXOffset/pageYOffset for IE compatibility, fallback to scrollX/scrollY
+        var scrollX = (window.pageXOffset !== undefined) ? window.pageXOffset : window.scrollX;
+        var scrollY = (window.pageYOffset !== undefined) ? window.pageYOffset : window.scrollY;
         this.update.style.position = 'absolute';
-        this.update.style.left = rect.left + window.scrollX + 'px';
-        this.update.style.top = (rect.bottom + window.scrollY) + 'px';
+        this.update.style.left = rect.left + scrollX + 'px';
+        this.update.style.top = (rect.bottom + scrollY) + 'px';
         this.update.style.width = rect.width + 'px';
         this.update.style.zIndex = '1000';
     },
@@ -267,11 +270,8 @@ Autocompleter.DWR.prototype = {
 
     onClick: function(e) {
         var target = e.target;
-        while (target && target.tagName !== 'LI') {
+        while (target && target.tagName !== 'LI' && target !== this.update) {
             target = target.parentElement;
-            if (target === this.update) {
-                return;
-            }
         }
 
         if (target && target.tagName === 'LI') {
