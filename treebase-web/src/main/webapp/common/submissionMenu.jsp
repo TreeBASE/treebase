@@ -4,7 +4,7 @@
 <div id="mainMenu">
 <div id="gutter">
 <div id="menu">
-<a onclick="switchMenu();" style="cursor: pointer;"><img id="tb" src="../images/minus.gif"/>&nbsp;&nbsp;Tool Box</a>
+<!--a onclick="switchMenu();" style="cursor: pointer;"><img id="tb" src="../images/minus.gif"/>&nbsp;&nbsp;Tool Box</a-->
 <div id="menuDiv">
 <menu:useMenuDisplayer name="ListMenu">
 	<menu:displayMenu name="SubmissionHome"/>
@@ -25,7 +25,7 @@
 </div>
 </div>
 </div>
-<script type="text/javascript">
+<!--script type="text/javascript">
     initializeMenus();
 
     function switchMenu() {
@@ -40,6 +40,6 @@
             tb.src="../images/minus.gif";
                    }
     }
-</script>
-<script type="text/javascript" src="/treebase-web/scripts/prototype/prototype-1.6.0.3.js"></script>
+</script-->
+<!--script type="text/javascript" src="/treebase-web/scripts/prototype/prototype-1.6.0.3.js"></script-->
 <script type="text/javascript" src="/treebase-web/scripts/user/submissionSummary.js"></script>
