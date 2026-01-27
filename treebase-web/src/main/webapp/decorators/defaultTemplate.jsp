@@ -44,9 +44,21 @@
 <script type="text/javascript" src="<c:url value='/scripts/autocomplete.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/ajaxProgress.js'/>"></script>
 <script language="Javascript" type="text/javascript">
+		// Configure DWR to suppress default error alerts for autocomplete
+		if (typeof dwr !== 'undefined' && dwr.engine) {
+			dwr.engine.setErrorHandler(function(message, ex) {
+				// Silently handle DWR errors for autocomplete (e.g., empty database)
+				if (typeof console !== 'undefined' && console.log) {
+					console.log('DWR error (suppressed): ' + message);
+				}
+			});
+		}
 
       	function updateList(autocompleter, token) {
-      		RemotePersonService.findCompleteEmailAddress(token, function(data) { autocompleter.setChoices(data) });
+      		RemotePersonService.findCompleteEmailAddress(token, {
+      			callback: function(data) { autocompleter.setChoices(data || []); },
+      			errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+      		});
         }
         function nameValueSelector(tag){
     	   return tag;
@@ -54,15 +66,24 @@
 // nameValueSelctor(tag) method is used by all the four methods related to Auto Suggestion Box
         
         function updateSoftwareNameList(autocompleter, token) {
-	       RemoteSoftwareNameService.findCompleteSoftwareName(token, function(data) { autocompleter.setChoices(data) });
+	       RemoteSoftwareNameService.findCompleteSoftwareName(token, {
+	       		callback: function(data) { autocompleter.setChoices(data || []); },
+	       		errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+	       });
         }
         
         function updateJournalNameList(autocompleter, token) {
-	       RemoteJournalNameService.findCompleteJournalName(token, function(data) { autocompleter.setChoices(data) });
+	       RemoteJournalNameService.findCompleteJournalName(token, {
+	       		callback: function(data) { autocompleter.setChoices(data || []); },
+	       		errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+	       });
         }
         
         function updateUniqueOtherAlgorithmList(autocompleter, token) {
-	       RemoteUniqueOtherAlgorithmService.findAllUniqueOtherAlgorithmDescriptions(token, function(data) { autocompleter.setChoices(data) });
+	       RemoteUniqueOtherAlgorithmService.findAllUniqueOtherAlgorithmDescriptions(token, {
+	       		callback: function(data) { autocompleter.setChoices(data || []); },
+	       		errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+	       });
         }
 	
 </script>
