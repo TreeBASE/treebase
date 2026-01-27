@@ -5,7 +5,7 @@
      NESCent is only the host, and the TreeBASE logo is already in the header
 -->
 </p>	
-<p style="text-align:center">
+<!--p style="text-align:center">
 	<a href="http://validator.w3.org/check?uri=referer">
 		<img 
 			src="<fmt:message key="icons.xhtml" />" 
@@ -22,4 +22,4 @@
 			class="iconButton"  
 			style="vertical-align:middle"/>
 	</a>
-</p>
+</p-->
