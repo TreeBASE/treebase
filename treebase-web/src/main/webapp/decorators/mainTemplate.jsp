@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/styles.css'/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/menuExpandable2.css'/>" />
 <!-- jQuery - replaces Prototype.js -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="<c:url value='/scripts/jquery-3.7.1.min.js'/>"></script>
 <!-- Phylotree.js stack -->
 <script type="text/javascript" src="<c:url value='/scripts/d3.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/lodash.js'/>"></script>
