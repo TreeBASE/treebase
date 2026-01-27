@@ -120,7 +120,7 @@ TreeBASE.register(
                     $checkBoxCells.each(function() {
                         $(this).find('input').each(function() {
                             if ( (this.type == 'checkbox' || this.type == 'radio') && !this.disabled ) {
-                                this.checked = true;
+                                $(this).prop('checked', true);
                             }
                         });
                     });
@@ -130,7 +130,7 @@ TreeBASE.register(
                     $checkBoxCells.each(function() {
                         $(this).find('input').each(function() {
                             if ( (this.type == 'checkbox' || this.type == 'radio') && !this.disabled ) {
-                                this.checked = false;
+                                $(this).prop('checked', false);
                             }
                         });
                     });
@@ -140,7 +140,7 @@ TreeBASE.register(
                     $checkBoxCells.each(function() {
                         $(this).find('input').each(function() {
                             if ( (this.type == 'checkbox' || this.type == 'radio') && !this.disabled ) {
-                                this.checked = !this.checked;
+                                $(this).prop('checked', !$(this).prop('checked'));
                             }
                         });
                     });

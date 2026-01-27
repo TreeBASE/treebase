@@ -158,8 +158,8 @@ if ( TreeBASE.analysisEditor == null ) {
 		});
 		$( '#algorithmTypeInput' + counter ).css('display', 'none');
 		$( '#algorithmSelectWidget' + counter ).css('display', 'inline');
-		$( '#softwareInfo\\.softwareURL' + counter ).css('display', 'inline');
-		var $softwareLink = $( '#softwareInfo\\.softwareLink' + counter );
+		$( '[id="softwareInfo.softwareURL' + counter + '"]' ).css('display', 'inline');
+		var $softwareLink = $( '[id="softwareInfo.softwareLink' + counter + '"]' );
 		if ( $softwareLink.length > 0 ) {
 			$softwareLink.css('display', 'none');
 		}
