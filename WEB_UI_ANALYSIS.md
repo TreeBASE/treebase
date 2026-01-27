@@ -417,7 +417,6 @@ styles/
 | `menuExpandable.js` | 6.1KB | Expandable menu navigation | Medium - Pure JS possible |
 | `ajaxProgress.js` | 1KB | Progress indicators | Medium - Uses DWR |
 | `d3.phylogram.js` | 12KB | D3-based tree rendering | Low - Uses D3 v7 |
-| `newick.js` | 3.2KB | Newick format parsing | Low - Pure JavaScript |
 | `sha1.js` | 4.4KB | SHA1 hashing | Low - Pure JavaScript |
 | `googleAnalytics.js` | 3.4KB | Analytics integration | Low - Standard GA |
 | `multiFileUpload.js` | 1KB | File upload handling | Medium |
