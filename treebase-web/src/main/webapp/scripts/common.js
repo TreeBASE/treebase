@@ -20,6 +20,7 @@ function openHelp(tag) {
 	$.ajax({
 		url: url,
 		method: 'GET',
+		dataType: 'text',
 		success: function(response){				
 			top.consoleRef=window.open('','help',
 		  		'width=400,height=350'

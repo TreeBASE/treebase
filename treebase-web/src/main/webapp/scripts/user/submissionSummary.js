@@ -500,6 +500,7 @@ TreeBASE.isTaxonLinkingAttempted = function(id) {
 		$.ajax({
 			url: '/treebase-web/json/submissionIsland.html',
 			method: 'GET',
+			dataType: 'text',
 			success: function(response){
 				var tmp; 
 				eval('tmp='+response);
