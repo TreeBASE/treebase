@@ -30,9 +30,7 @@
 	</bean>
 	<bean id="searchResultsAsRDFController" class="org.cipres.treebase.web.controllers.SearchResultsAsRDFController"/>	
 	
-	<bean id="appletInteractionController" class="org.cipres.treebase.web.controllers.AppletInteractionController">
-		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
-	</bean>
+	<!-- AppletInteractionController removed - Java applets are no longer supported in browsers -->
 	
 	<bean id="readyStateStudiesController" class="org.cipres.treebase.web.controllers.ReadyStateStudiesController">
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
@@ -627,10 +625,7 @@
 		<property name="cancelView"><value>redirect:/user/treeList.html</value></property>						
 	</bean>
 	 
-	<bean id="directToPhyloWidgetController" class="org.cipres.treebase.web.controllers.DirectToPhyloWidgetController">
-		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>				
-		<property name="defaultView"><value>treeViewer</value></property>
-	</bean> 
+	<!-- DirectToPhyloWidgetController removed - redundant, functionality covered by DirectMapToPhyloWidgetController -->
 	
 	<bean id="directMapToPhyloWidgetController" class="org.cipres.treebase.web.controllers.DirectMapToPhyloWidgetController">
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
@@ -1004,7 +999,7 @@
 				<prop key="/user/deleteAMatrix.html">deleteAMatrixController</prop>
 				<prop key="/user/deleteARowSegment.html">deleteARowSegmentController</prop>
 				<prop key="/user/readOnlyListTree.html">readOnlyListTreeController</prop>
-				<prop key="/user/directToPhyloWidget.html">directToPhyloWidgetController</prop>
+				<!-- directToPhyloWidget removed - use directMapToPhyloWidget instead -->
 				<prop key="/user/directMapToPhyloWidget.html">directMapToPhyloWidgetController</prop>
 				<prop key="/user/nexusFiles.html">nexusFilesController</prop>
 				<prop key="/user/uploadRowSegmentData.html">uploadRowSegmentDataController</prop>
@@ -1013,7 +1008,7 @@
 				<prop key="/user/exportRowSegmentData.html">exportRowSegmentDataController</prop>
 				<prop key="/user/exportRowSegmentTemplate.html">exportRowSegmentTemplateController</prop>
 				
-				<prop key="/appletInteraction.html">appletInteractionController</prop>
+				<!-- appletInteraction removed - Java applets are no longer supported in browsers -->
 				
 				<prop key="/test/testParser.html">treeParserController</prop>
 				

@@ -67,7 +67,7 @@
 		<a href="<c:out value="${phylowidgetMapURL}"/><c:out value="?treeblockid="/><c:out value="${userList.id}" />" >View trees</a> 
 		--%>
 		<c:set var="url" value="${phylowidgetMapURL}?treeblockid=${userList.id}" />
-		<a href="javascript:popupWithSizes('${url}',900,800,'1')">View trees</a>
+		<a href="${url}">View trees</a>
 	</display:column>
 	
 	<%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>

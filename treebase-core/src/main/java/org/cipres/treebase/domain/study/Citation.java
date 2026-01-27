@@ -199,7 +199,7 @@ public class Citation extends AbstractPersistedObject {
 	 * 
 	 * @return String
 	 */
-	@Column(name = "Keywords", length = TBPersistable.COLUMN_LENGTH_STRING)
+	@Column(name = "Keywords", length = TBPersistable.CITATION_KEYWORDS_COLUMN_LENGTH)
 	public String getKeywords() {
 		return mKeywords;
 	}

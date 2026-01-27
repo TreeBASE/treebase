@@ -7,15 +7,49 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Tree Viewer</title>
 
-<!-- D3.js v7 for phylotree.js with SRI hash for integrity verification -->
-<script src="https://cdn.jsdelivr.net/npm/d3@7" 
-        integrity="sha384-u60Dv4QEDY4Y/TLJqrB+Ls+FBLvWJh8lKJ1iRuLFqoYl0dGAGW4sAVzx86g4cH2N" 
-        crossorigin="anonymous"></script>
-<!-- phylotree.js from unpkg CDN with SRI hash -->
-<script src="https://unpkg.com/phylotree@1.1.1/dist/phylotree.js"
-        crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://unpkg.com/phylotree@1.1.1/dist/phylotree.css"
-      crossorigin="anonymous">
+<!-- D3.js v7 - local copy -->
+<script src="/treebase-web/scripts/d3.min.js"></script>
+<!-- lodash - required by phylotree.js -->
+<script src="/treebase-web/scripts/lodash.js"></script>
+<!-- underscore - required by phylotree.js -->
+<script src="/treebase-web/scripts/underscore.js"></script>
+<!-- SHIM: Create wrapper objects for phylotree.js UMD bundle -->
+<!-- Prototype.js pollutes Function.prototype, which breaks phylotree's _interopNamespaceDefault -->
+<!--script>
+(function() {
+    // Create a plain object copy of a library, using only OWN properties
+    // This avoids inheriting Function.prototype methods added by Prototype.js
+    function wrapLibrary(lib) {
+        var wrapper = {};
+        var keys = Object.getOwnPropertyNames(lib);
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            try {
+                wrapper[key] = lib[key];
+            } catch(e) {
+                // Skip properties that throw on access
+            }
+        }
+        return wrapper;
+    }
+    
+    // Store original for any code that needs the function form
+    var originalUnderscore = window._;
+    
+    // Replace globals with wrapped versions
+    window._ = wrapLibrary(originalUnderscore);
+    window._$1 = wrapLibrary(originalUnderscore);
+    
+    // Preserve noConflict if needed
+    if (originalUnderscore.noConflict) {
+        window._.noConflict = originalUnderscore.noConflict;
+    }
+})();
+</script-->
+<!-- phylotree.js v2.4.0 - local copy -->
+<script src="/treebase-web/scripts/phylotree.js"></script>
+<!-- phylotree.css -->
+<link rel="stylesheet" href="/treebase-web/styles/phylotree.css" type="text/css">
 
 <style type="text/css">
 body {
@@ -35,6 +69,8 @@ a:hover    { color: #3399CC; text-decoration: underline; }
 #content {
   display: flex;
   gap: 20px;
+  height: auto;
+  float: none;
 }
 
 #tree-container {
@@ -72,6 +108,8 @@ legend {
   list-style: decimal;
   margin: 0;
   padding: 0 0 0 20px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #tree-list li {
@@ -121,31 +159,166 @@ legend {
   cursor: pointer;
 }
 
-/* phylotree styling */
-.phylotree-container .branch {
-  fill: none;
-  stroke: #999;
-  stroke-width: 2px;
-}
-
-.phylotree-container .node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-.phylotree-container .internal-node circle {
-  fill: #ccc;
-}
-
-.phylotree-container .node text {
-  font: 10px sans-serif;
+/* phylotree overrides */
+.node text {
+  font-size: 10px;
 }
 </style>
 </head>
 <body>
 
 <div id="content">
+
+    <script type="text/javascript">
+    var currentTree = null;
+    var currentElement = null;
+    var isRadial = false;
+    var isCladogram = false;
+
+    // HTML escape function to prevent XSS
+    function escapeHtml(text) {
+        if (text === null || text === undefined) return '';
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function displayTree(element) {
+        // Mark selected
+        document.querySelectorAll('#tree-list li').forEach(function(li) {
+            li.classList.remove('selected');
+        });
+        element.classList.add('selected');
+        currentElement = element;
+
+        var newick = element.getAttribute('data-newick');
+        var treeId = element.getAttribute('data-id');
+        var label = element.getAttribute('data-label');
+        var title = element.getAttribute('data-title');
+        var ntax = parseInt(element.getAttribute('data-ntax')) || 50;
+
+        if (!newick || newick.trim() === '') {
+            document.getElementById('tree-container').innerHTML =
+                '<div id="loading">No Newick string available for this tree.</div>';
+            return;
+        }
+
+        // Clear container
+        document.getElementById('tree-container').innerHTML = '';
+
+        try {
+            // Calculate dimensions based on number of taxa
+            var height = Math.max(400, ntax * 18);
+            var width = 700;
+
+            // Create phylotree instance - parse the Newick string
+            // phylotree.js automatically detects cladograms (trees without branch lengths)
+            // and sets all branch lengths to 1 in the constructor
+            currentTree = new phylotree.phylotree(newick);
+
+            // Check if this was originally a cladogram (phylotree.js already handled it)
+            // We use a simple check on the original newick string
+            isCladogram = !newick.includes(':');
+
+            if (isCladogram) {
+                console.log("Detected cladogram (no branch lengths in original Newick)");
+
+                // Add cladogram notice
+                var notice = document.createElement('div');
+                notice.id = 'cladogram-notice';
+                notice.style.cssText = 'background: #fff3cd; border: 1px solid #ffc107; padding: 8px 12px; margin-bottom: 10px; border-radius: 4px; font-size: 11px; color: #856404;';
+                notice.innerHTML = '<strong>Note:</strong> This tree is a cladogram (no branch lengths). Branch lengths have been set to 1 for visualization purposes.';
+                document.getElementById('tree-container').appendChild(notice);
+            }
+
+            // Render the tree - this creates a TreeRender object
+            // Following the pattern from phylotree.hyphy.org demo
+            var renderer = currentTree.render({
+                container: "#tree-container",
+                "draw-size-bubbles": false,
+                "left-right-spacing": "fixed-step",
+                "show-scale": !isCladogram, // Don't show scale for cladograms since lengths are artificial
+                "align-tips": isCladogram,  // Align tips for cladograms to make it look cleaner
+                "layout": isRadial ? "radial" : "left-to-right",
+                zoom: false,  // Disable zoom to avoid issues
+                brush: false,
+                collapsible: true,
+                selectable: true,
+                "node-styler": function(el, node) {
+                    // Add click handler for node info
+                    el.on("click", function() {
+                        showNodeInfo(node);
+                    });
+                    el.on("mouseover", function() {
+                        showNodeInfo(node);
+                    });
+                }
+            });
+
+            // Append the SVG to the container
+            // Following the pattern from the phylotree.js demo:
+            // $(tree.display.container).html(tree.display.show());
+            var container = document.querySelector("#tree-container");
+            container.appendChild(renderer.show());
+
+            // Update node info with tree metadata
+            updateTreeInfo(treeId, label, title, ntax);
+
+        } catch (e) {
+            console.error("Error rendering tree:", e);
+            var errorMsg = escapeHtml(e.message);
+            document.getElementById('tree-container').innerHTML =
+                '<div id="loading">Error rendering tree: ' + errorMsg + '</div>';
+        }
+    }
+
+    function showNodeInfo(node) {
+        var name = escapeHtml(node.data.name || 'Internal node');
+        var info = '<strong>Node:</strong> ' + name + '<br/>';
+        // Don't show branch length for cladograms since it's artificial
+        if (!isCladogram && node.data.attribute !== undefined) {
+            info += '<strong>Branch length:</strong> ' + escapeHtml(String(node.data.attribute)) + '<br/>';
+        }
+        if (node.children && node.children.length > 0) {
+            info += '<strong>Type:</strong> Internal node<br/>';
+            info += '<strong>Children:</strong> ' + node.children.length;
+        } else {
+            info += '<strong>Type:</strong> Leaf node (tip)';
+        }
+        document.getElementById('node-info').innerHTML = info;
+    }
+
+    function updateTreeInfo(treeId, label, title, ntax) {
+        var info = '<strong>Tree ID:</strong> ' + escapeHtml(treeId) + '<br/>';
+        if (label) info += '<strong>Label:</strong> ' + escapeHtml(label) + '<br/>';
+        if (title) info += '<strong>Title:</strong> ' + escapeHtml(title) + '<br/>';
+        if (ntax) info += '<strong>Taxa:</strong> ' + escapeHtml(String(ntax));
+        document.getElementById('node-info').innerHTML = info;
+    }
+
+    function resetView() {
+        // Re-render the currently selected tree
+        if (currentElement) {
+            displayTree(currentElement);
+        }
+    }
+
+    function toggleRadial() {
+        isRadial = !isRadial;
+        if (currentElement) {
+            displayTree(currentElement);
+        }
+    }
+
+    // Auto-select first tree on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        var firstTree = document.querySelector('#tree-list li');
+        if (firstTree) {
+            displayTree(firstTree);
+        }
+    });
+    </script>
+
     <div id="tree-container">
         <div id="loading">Select a tree from the list to view it.</div>
     </div>
@@ -155,21 +328,21 @@ legend {
             <legend><c:out value="${NEWICKSTRINGNAME}" default="Trees"/></legend>
             <ol id="tree-list">
                 <c:forEach var="tree" items="${TREELIST}" varStatus="status">
-                    <li data-newick="${tree.newickString}" 
-                        data-id="${tree.id}"
-                        data-label="${tree.label}"
-                        data-title="${tree.title}"
-                        data-ntax="${tree.nTax}"
+                    <li data-newick="${fn:escapeXml(tree.newickString)}" 
+                        data-id="${fn:escapeXml(tree.id)}"
+                        data-label="${fn:escapeXml(tree.label)}"
+                        data-title="${fn:escapeXml(tree.title)}"
+                        data-ntax="${fn:escapeXml(tree.nTax)}"
                         onclick="displayTree(this)">
                         <c:choose>
                             <c:when test="${not empty tree.label}">
-                                ${tree.label}
+                                <c:out value="${tree.label}"/>
                             </c:when>
                             <c:when test="${not empty tree.title}">
-                                ${tree.title}
+                                <c:out value="${tree.title}"/>
                             </c:when>
                             <c:otherwise>
-                                Tree ${tree.id}
+                                Tree <c:out value="${tree.id}"/>
                             </c:otherwise>
                         </c:choose>
                     </li>
@@ -188,13 +361,13 @@ legend {
             <fieldset class="quick-links">
                 <legend>Quick Links</legend>
                 <p>
-                    <a href="/treebase-web/search/study/trees.html?id=${studyID}" target="_blank">
+                    <a href="/treebase-web/search/study/trees.html?id=${studyID}">
                         <img class="iconButton" src="<fmt:message key="icons.trees"/>" alt="Trees"/>
                         Containing tree set
                     </a>
                 </p>
                 <p>
-                    <a href="/treebase-web/search/study/summary.html?id=${studyID}" target="_blank">
+                    <a href="/treebase-web/search/study/summary.html?id=${studyID}">
                         <img class="iconButton" src="<fmt:message key="icons.citation"/>" alt="Study"/>
                         Containing study
                     </a>
@@ -206,111 +379,11 @@ legend {
             <legend>View Controls</legend>
             <div class="controls">
                 <button onclick="resetView()">Reset View</button>
+                <button onclick="toggleRadial()">Toggle Radial</button>
             </div>
         </fieldset>
     </div>
 </div>
-
-<script type="text/javascript">
-var currentTree = null;
-var currentElement = null;
-
-function displayTree(element) {
-    // Mark selected
-    document.querySelectorAll('#tree-list li').forEach(function(li) {
-        li.classList.remove('selected');
-    });
-    element.classList.add('selected');
-    currentElement = element;
-    
-    var newick = element.getAttribute('data-newick');
-    var treeId = element.getAttribute('data-id');
-    var label = element.getAttribute('data-label');
-    var title = element.getAttribute('data-title');
-    var ntax = parseInt(element.getAttribute('data-ntax')) || 50;
-    
-    if (!newick || newick.trim() === '') {
-        document.getElementById('tree-container').innerHTML = 
-            '<div id="loading">No Newick string available for this tree.</div>';
-        return;
-    }
-    
-    // Clear container
-    document.getElementById('tree-container').innerHTML = '';
-    
-    try {
-        // Calculate dimensions based on number of taxa
-        var height = Math.max(400, ntax * 15);
-        var width = 800;
-        
-        // Create phylotree instance
-        currentTree = new phylotree.phylotree(newick);
-        
-        // Render the tree
-        currentTree.render({
-            container: "#tree-container",
-            width: width,
-            height: height,
-            "left-offset": 10,
-            "show-scale": true,
-            "align-tips": false,
-            "node-styler": function(element, node) {
-                element.on("mouseover", function() {
-                    showNodeInfo(node);
-                });
-            },
-            "edge-styler": function(element, edge) {
-                element.style("stroke-width", "2px");
-            }
-        });
-        
-        // Update node info with tree metadata
-        updateTreeInfo(treeId, label, title, ntax);
-        
-    } catch (e) {
-        console.error("Error rendering tree:", e);
-        document.getElementById('tree-container').innerHTML = 
-            '<div id="loading">Error rendering tree: ' + e.message + '</div>';
-    }
-}
-
-function showNodeInfo(node) {
-    var info = '<strong>Node:</strong> ' + (node.data.name || 'Internal node') + '<br/>';
-    if (node.data.attribute !== undefined) {
-        info += '<strong>Branch length:</strong> ' + node.data.attribute + '<br/>';
-    }
-    if (node.children && node.children.length > 0) {
-        info += '<strong>Type:</strong> Internal node<br/>';
-        info += '<strong>Children:</strong> ' + node.children.length;
-    } else {
-        info += '<strong>Type:</strong> Leaf node (tip)';
-    }
-    document.getElementById('node-info').innerHTML = info;
-}
-
-function updateTreeInfo(treeId, label, title, ntax) {
-    var info = '<strong>Tree ID:</strong> ' + treeId + '<br/>';
-    if (label) info += '<strong>Label:</strong> ' + label + '<br/>';
-    if (title) info += '<strong>Title:</strong> ' + title + '<br/>';
-    if (ntax) info += '<strong>Taxa:</strong> ' + ntax;
-    document.getElementById('node-info').innerHTML = info;
-}
-
-function resetView() {
-    // Re-render the currently selected tree
-    if (currentElement) {
-        displayTree(currentElement);
-    }
-}
-
-// Auto-select first tree on page load
-document.addEventListener('DOMContentLoaded', function() {
-    var firstTree = document.querySelector('#tree-list li');
-    if (firstTree) {
-        displayTree(firstTree);
-    }
-});
-</script>
 
 </body>
 </html>

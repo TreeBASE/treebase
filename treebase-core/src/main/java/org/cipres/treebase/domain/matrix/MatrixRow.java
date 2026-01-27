@@ -13,7 +13,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -163,8 +162,12 @@ public class MatrixRow extends AbstractPersistedObject {
 	 * 
 	 * @return String 
 	 */
-	@Lob
-	@Column(name = "SymbolString", length = 524288)
+	// Note: Removed @Lob to fix type mismatch with JDBC bypass code in DiscreteMatrixJDBC.
+	// The @Lob annotation causes Hibernate to use OID-based CLOB handling in PostgreSQL,
+	// but the JDBC code writes plain text using setString(). This mismatch causes
+	// "Bad value for type long" errors when Hibernate tries to read the data as CLOB OID.
+	// Using columnDefinition="text" ensures TEXT column type without CLOB semantics.
+	@Column(name = "SymbolString", columnDefinition = "text")
 	public String getSymbolString() {
 		return mSymbolString;
 	}

@@ -22,7 +22,7 @@ CREATE TABLE analysis
   "version" integer,
   "name" character varying(255),
   notes character varying(2000),
-  validated smallint,
+  validated boolean,
   study_id bigint,
   analysis_order integer
 )
@@ -56,7 +56,7 @@ CREATE TABLE analyzeddata
   "type" character(1) NOT NULL,
   analyzeddata_id bigint NOT NULL,
   "version" integer,
-  "input" smallint,
+  "input" boolean,
   notes character varying(2000),
   treelength integer,
   analysisstep_id bigint NOT NULL,
@@ -217,13 +217,13 @@ CREATE TABLE citation
   url character varying(255),
   abstract character varying(10000),
   doi character varying(255),
-  keywords character varying(255),
+  keywords character varying(1000),
   pages character varying(255),
   publishyear integer,
   published boolean,
   title character varying(500),
   issue character varying(255),
-  journal character varying(255),
+  journal character varying(500),
   volume character varying(255),
   isbn character varying(255),
   booktitle character varying(255),
@@ -399,7 +399,7 @@ CREATE TABLE geneticcode
   codeorder character varying(255),
   extensions character varying(255),
   nucorder character varying(255),
-  predefined smallint,
+  predefined boolean,
   title character varying(255)
 )
 WITH (OIDS=FALSE);
@@ -464,6 +464,10 @@ CREATE SEQUENCE help_id_sequence;
 ALTER TABLE help ALTER COLUMN help_id SET DEFAULT nextval('help_id_sequence');
 -- alter sequence help_id_sequence restart with 183;
 
+-- hibernate_sequence is used by Hibernate's @CollectionId annotation
+-- for generating collection_id values in sub_matrix and sub_treeblock tables
+CREATE SEQUENCE hibernate_sequence;
+
 CREATE TABLE itemdefinition
 (
   itemdefinition_id bigint NOT NULL,
@@ -520,10 +524,10 @@ CREATE TABLE matrix
   title character varying(255),
   "nchar" integer,
   ntax integer,
-  aligned smallint,
-  diagonal smallint,
+  aligned boolean,
+  diagonal boolean,
   triangle character varying(255),
-  casesensitive smallint,
+  casesensitive boolean,
   matrixdatatype_id bigint,
   matrixkind_id bigint,
   study_id bigint NOT NULL,
@@ -581,10 +585,10 @@ CREATE TABLE matrixelement
   "type" character(1) NOT NULL,
   matrixelement_id bigint NOT NULL,
   "version" integer,
-  andlogic smallint,
+  andlogic boolean,
   compoundvalue character varying(1000),
   "value" double precision,
-  gap smallint,
+  gap boolean,
   matrixcolumn_id bigint,
   matrixrow_id bigint,
   itemdefinition_id bigint,
@@ -672,13 +676,13 @@ CREATE TABLE phylotree
   phylotree_id bigint NOT NULL,
   "version" integer,
   tb1_treeid character varying(30),
-  bigtree smallint,
+  bigtree boolean,
   label character varying(255),
   ntax integer,
   newickstring text,
   nexusfilename character varying(255),
   published boolean,
-  rootedtree smallint,
+  rootedtree boolean,
   title character varying(255),
   rootnode_id bigint,
   study_id bigint NOT NULL,
@@ -803,7 +807,7 @@ CREATE TABLE statechangeset
 (
   statechangeset_id bigint NOT NULL,
   "version" integer,
-  reversible smallint,
+  reversible boolean,
   title character varying(255)
 )
 WITH (OIDS=FALSE);
@@ -983,7 +987,7 @@ CREATE TABLE taxonlabel
 (
   taxonlabel_id bigint NOT NULL,
   "version" integer,
-  linked smallint,
+  linked boolean,
   taxonlabel character varying(255),
   study_id bigint,
   taxonvariant_id bigint
@@ -1042,7 +1046,7 @@ CREATE TABLE taxonlabelset
 (
   taxonlabelset_id bigint NOT NULL,
   "version" integer,
-  taxa smallint,
+  taxa boolean,
   title character varying(255),
   study_id bigint
 )

@@ -13,6 +13,15 @@ until pg_isready -h postgres -U treebase; do
 done
 echo "PostgreSQL is ready!"
 
+# Run database migrations
+echo "Running database migrations..."
+if [ -f "/app/docker/03-migration-hibernate-sequence.sql" ]; then
+  PGPASSWORD=treebase psql -h postgres -U treebase -d treebase -f /app/docker/03-migration-hibernate-sequence.sql || echo "Warning: Migration may have failed"
+else
+  echo "Migration script not found at /app/docker/03-migration-hibernate-sequence.sql"
+fi
+echo "Database migrations complete!"
+
 # Check if we need to build the project
 if [ ! -f "/app/treebase-web/target/treebase-web.war" ]; then
   echo "Building TreeBASE web application..."
@@ -79,6 +88,21 @@ if [ -d "WEB-INF/dtd" ]; then
   mkdir -p /tmp/dtd
   cp -r WEB-INF/dtd/* /tmp/dtd/
   ls -la /tmp/dtd/
+fi
+
+# Copy Mesquite library files from the mounted source directory
+# The treebase-core/lib folder contains the headless Mesquite distribution with:
+# - mesquite/ - Mesquite core classes
+# - headless/ - Headless AWT implementation  
+# - com/apple/ - Apple API stubs (required by Mesquite even on non-Mac platforms)
+# - Other supporting libraries
+if [ -d "/app/treebase-core/lib" ]; then
+  echo "Copying Mesquite library to /usr/local/mesquite..."
+  cp -r /app/treebase-core/lib/* /usr/local/mesquite/
+  echo "Mesquite library installed."
+else
+  echo "WARNING: Mesquite library not found at /app/treebase-core/lib"
+  echo "Nexus file parsing may not work correctly."
 fi
 
 echo "Setup complete! Starting Tomcat..."

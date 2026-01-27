@@ -1,6 +1,6 @@
 	<%@ include file="/common/taglibs.jsp"%>
 	<c:url var="matrixRowURL" value="/user/matrixRowList.html"/>
-	<c:url var="phylowidgetURL" value="/user/directToPhyloWidget.html" />
+	<c:url var="phylowidgetURL" value="/user/directMapToPhyloWidget.html" />
 	
 	<li>
 		<b>Software Used:</b><c:out value="${analysisStepCommand.softwareInfo.name}"/>
@@ -24,7 +24,7 @@
 			</c:if>
 			
 			<c:if test="${analyzedData.dataType eq 'tree'}"> 
-				<a href="${phylowidgetURL}?treeid=${analyzedData.dataId}" target = "_blank"><c:out value="${analyzedData.displayName}"/></a> 
+				<a href="${phylowidgetURL}?treeid=${analyzedData.dataId}"><c:out value="${analyzedData.displayName}"/></a> 
 			</c:if>
 			
 			<c:if test="${search != 'y' && pageContext['request'].remoteUser != null &&  publicationState eq 'NotReady'}">

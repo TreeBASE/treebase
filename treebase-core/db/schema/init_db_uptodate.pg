@@ -11,6 +11,7 @@
 \i patches/0005_add-taxonabel-tb1legacyid.sql
 \i patches/0006_add-algorithm-types.sql
 \i patches/0007_create-indices.sql
-
-
-
+\i patches/0008_add-help-messages.sql
+\i patches/0009_create-password-reset-token-table.sql
+\i patches/0010_fix-taxonlabel-linked-column-type.sql
+\i patches/0011_increase-citation-column-lengths.sql

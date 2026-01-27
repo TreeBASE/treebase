@@ -227,7 +227,7 @@ dt { font-weight: bold }
 	padding-bottom: 0px; 
 	padding-left: 3%;
 	list-style: none;
-	background: #003366 url(../img/nav_bg.gif) repeat-x left bottom;
+	background: #003366 url("../images/nav_bg.gif") repeat-x left bottom;
 	width: 97%;
 }
 
@@ -246,7 +246,7 @@ dt { font-weight: bold }
 	color: #333;
 	text-decoration: none;
 	border-bottom: 1px none #3863A4;
-	background: #BED1E5 url(../img/off_bg.gif) repeat-x left top;
+	background: #BED1E5 url("../images/off_bg.gif") repeat-x left top;
 	border-top: 1px solid #3863A4;
 	border-right: 1px solid #3863A4;
 	border-left: 1px solid #3863A4;
@@ -273,7 +273,7 @@ body#s-treeTop #st-treeTop a
 	border-color: #3863A4;
 	border-bottom: 1px none #3863A4;	
 	text-decoration: none;
-	background: #fff url(../img/on_bg.gif) repeat-x top left;
+	background: #fff url("../images/on_bg.gif") repeat-x top left;
 }
 	
 	/* "#s-*": Tabbed navigation in search area 20081121 mjd@genomics.upenn.edu */
@@ -290,7 +290,7 @@ body#s-treeTop #st-treeTop a
 	padding: 4px 8px;
 	color: #333;
 	text-decoration: none;
-	background: #ffffff url(../img/off_bg.gif) repeat-x center center;
+	background: #ffffff url("../images/off_bg.gif") repeat-x center center;
 	border-top: 1px solid #3863A4;
 	border-right: 1px solid #3863A4;
 	border-left: 1px solid #3863A4;
