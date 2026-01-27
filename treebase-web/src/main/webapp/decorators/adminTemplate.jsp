@@ -21,10 +21,6 @@
 <script type="text/javascript" src="<c:url value='/scripts/phylotree.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/phylotree.css'/>" />
 <!-- End Phylotree.js stack -->
-<!--script type="text/javascript" src="/treebase-web/scripts/prototype/prototype.js"></script>
-<script type="text/javascript" src="/treebase-web/scripts/prototype/prototype-1.6.0.3.js"></script-->
-<!--script type="text/javascript" src="/treebase-web/scripts/script.aculo.us/effects.js"></script>
-<script type="text/javascript" src="/treebase-web/scripts/script.aculo.us/controls.js"></script-->
 <script type="text/javascript" src="<c:url value='/scripts/menuExpandable.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common.js'/>"></script>
 
