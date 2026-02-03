@@ -15,6 +15,7 @@ a JavaScript-based tree viewer, and a news feed), linked together by a **Control
 - **[treebase-core](treebase-core)** - Java 17 LTS ORM API to access the underlying relational database based on PostgreSQL
 - **[treebase-web](treebase-web)** - Java 17 LTS MVC web application for the JSP/HTML GUI (includes [phylotree.js](https://github.com/veg/phylotree.js/) for tree visualization)
 - **[oai-pmh_data_provider](oai-pmh_data_provider)** - additional Java 17 LTS MVC functionality for OAI-PMH interface
+- **[bold-linkage](bold-linkage)** - BOLD API integration for DiSSCo digital specimen enrichment
 
 ## Development
 
@@ -28,6 +29,7 @@ a JavaScript-based tree viewer, and a news feed), linked together by a **Control
 
 - **[DWR Integration](doc/technical-notes/DWR.md)** - Direct Web Remoting AJAX functionality and Spring 5 compatibility
 - **[Dependency Upgrades](doc/technical-notes/UPGRADES.md)** - SLF4J, Jersey 2.x, and JUnit 4 migration details
+- **[BOLD Linkage](bold-linkage/BOLD_LINKAGE.md)** - BOLD API integration for DiSSCo digital specimen enrichment
 
 ### Archived Documentation
 
