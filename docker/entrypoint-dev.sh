@@ -112,4 +112,4 @@ echo "Edit JSP files locally and refresh browser to see changes!"
 echo "========================================"
 
 # Execute the CMD
-exec "$@"
+exec catalina.sh run
