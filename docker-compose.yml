@@ -64,6 +64,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    entrypoint: ["/entrypoint.sh"]
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
