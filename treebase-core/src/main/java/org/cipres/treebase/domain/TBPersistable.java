@@ -31,6 +31,8 @@ public interface TBPersistable extends NexmlWritable {
 	// Needed to make these bigger.  MJD 20090420
 	public static final int CITATION_TITLE_COLUMN_LENGTH = 500;
 	public static final int CITATION_ABSTRACT_COLUMN_LENGTH = 10000;
+	public static final int CITATION_KEYWORDS_COLUMN_LENGTH = 1000;
+	public static final int CITATION_JOURNAL_COLUMN_LENGTH = 500;
 
 	public Long getId();
 	

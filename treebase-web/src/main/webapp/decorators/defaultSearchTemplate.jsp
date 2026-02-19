@@ -15,26 +15,29 @@
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/menuExpandable.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/messages.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/ajaxProgress.css'/>" />
+<!-- Phylotree.js stack - MUST load before Prototype.js to avoid Array.prototype pollution -->
+<script type="text/javascript" src="<c:url value='/scripts/d3.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/lodash.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/underscore.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/phylotree.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/styles/phylotree.css'/>" />
+<!-- End Phylotree.js stack -->
 <script type="text/javascript" src="<c:url value='/scripts/menuExpandable.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common.js'/>"></script>
 
 <!-- Following script lines have been added for DWR and they are used for now only on author page -->
 
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/autocomplete.css'/>" />
+
+<script type="text/javascript" src="<c:url value='/dwr/engine.js'/>"> </script>
+<script type="text/javascript" src="<c:url value='/dwr/util.js'/>"></script>
+
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemotePersonService.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemoteSoftwareNameService.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemoteJournalNameService.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemoteAjaxProgressListener.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemoteUniqueOtherAlgorithmService.js'/>"></script>
 
-<script type="text/javascript" src="<c:url value='/dwr/engine.js'/>"> </script>
-<script type="text/javascript" src="<c:url value='/dwr/util.js'/>"></script>
-<!-- script type="text/javascript" src="<c:url value='/scripts/prototype/prototype.js'/>"></script-->
-<script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
-<!-- script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.1.js'/>"></script-->
-
-<script type="text/javascript" src="<c:url value='/scripts/script.aculo.us/effects.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/scripts/script.aculo.us/controls.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/autocomplete.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/ajaxProgress.js'/>"></script>
 <script type="text/javascript">

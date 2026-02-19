@@ -16,30 +16,49 @@
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/messages.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/ajaxProgress.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/submissionSummary.css'/>" />
+<!-- jQuery - replaces Prototype.js -->
+<script type="text/javascript" src="<c:url value='/scripts/jquery-3.7.1.min.js'/>"></script>
+<!-- Phylotree.js stack -->
+<script type="text/javascript" src="<c:url value='/scripts/d3.min.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/lodash.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/underscore.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/scripts/phylotree.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/styles/phylotree.css'/>" />
+<!-- End Phylotree.js stack -->
 <script type="text/javascript" src="<c:url value='/scripts/menuExpandable.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common.js'/>"></script>
 
 <!-- Following script lines have been added for DWR and they are used for now only on author page -->
 
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/autocomplete.css'/>" />
+
+<script type="text/javascript" src="<c:url value='/dwr/engine.js'/>"> </script>
+<script type="text/javascript" src="<c:url value='/dwr/util.js'/>"></script>
+
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemotePersonService.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemoteSoftwareNameService.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemoteJournalNameService.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemoteAjaxProgressListener.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/dwr/interface/RemoteUniqueOtherAlgorithmService.js'/>"></script>
 
-<script type="text/javascript" src="<c:url value='/dwr/engine.js'/>"> </script>
-<script type="text/javascript" src="<c:url value='/dwr/util.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/scripts/prototype/prototype.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/scripts/prototype/prototype-1.6.0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/scripts/script.aculo.us/effects.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/scripts/script.aculo.us/controls.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/autocomplete.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/ajaxProgress.js'/>"></script>
 <script language="Javascript" type="text/javascript">
+		// Configure DWR to suppress default error alerts for autocomplete
+		if (typeof dwr !== 'undefined' && dwr.engine) {
+			dwr.engine.setErrorHandler(function(message, ex) {
+				// Silently handle DWR errors for autocomplete (e.g., empty database)
+				if (typeof console !== 'undefined' && console.log) {
+					console.log('DWR error (suppressed): ' + message);
+				}
+			});
+		}
 
       	function updateList(autocompleter, token) {
-      		RemotePersonService.findCompleteEmailAddress(token, function(data) { autocompleter.setChoices(data) });
+      		RemotePersonService.findCompleteEmailAddress(token, {
+      			callback: function(data) { autocompleter.setChoices(data || []); },
+      			errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+      		});
         }
         function nameValueSelector(tag){
     	   return tag;
@@ -47,15 +66,24 @@
 // nameValueSelctor(tag) method is used by all the four methods related to Auto Suggestion Box
         
         function updateSoftwareNameList(autocompleter, token) {
-	       RemoteSoftwareNameService.findCompleteSoftwareName(token, function(data) { autocompleter.setChoices(data) });
+	       RemoteSoftwareNameService.findCompleteSoftwareName(token, {
+	       		callback: function(data) { autocompleter.setChoices(data || []); },
+	       		errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+	       });
         }
         
         function updateJournalNameList(autocompleter, token) {
-	       RemoteJournalNameService.findCompleteJournalName(token, function(data) { autocompleter.setChoices(data) });
+	       RemoteJournalNameService.findCompleteJournalName(token, {
+	       		callback: function(data) { autocompleter.setChoices(data || []); },
+	       		errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+	       });
         }
         
         function updateUniqueOtherAlgorithmList(autocompleter, token) {
-	       RemoteUniqueOtherAlgorithmService.findAllUniqueOtherAlgorithmDescriptions(token, function(data) { autocompleter.setChoices(data) });
+	       RemoteUniqueOtherAlgorithmService.findAllUniqueOtherAlgorithmDescriptions(token, {
+	       		callback: function(data) { autocompleter.setChoices(data || []); },
+	       		errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+	       });
         }
 	
 </script>

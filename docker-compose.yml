@@ -22,6 +22,7 @@ services:
       - ./docker/00-init-roles.sql:/docker-entrypoint-initdb.d/00-init-roles.sql
       - ./treebase-core/src/main/resources/TBASE2_POSTGRES_CREATION.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./treebase-core/src/main/resources/initTreebase.sql:/docker-entrypoint-initdb.d/02-init.sql
+      - ./docker/03-migration-hibernate-sequence.sql:/docker-entrypoint-initdb.d/03-migration-hibernate-sequence.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U treebase"]
       interval: 10s
