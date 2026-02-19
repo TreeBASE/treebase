@@ -1010,8 +1010,6 @@
 				
 				<!-- appletInteraction removed - Java applets are no longer supported in browsers -->
 				
-				<prop key="/test/testParser.html">treeParserController</prop>
-				
 				<prop key="/admin/userManagement.html">userManagementController</prop>
 				<prop key="/admin/selectStudies.html">selectStudiesController</prop>
 				<prop key="/admin/changeStudyStatus.html">changeStudyStatusController</prop>
