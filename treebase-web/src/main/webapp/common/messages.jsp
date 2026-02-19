@@ -1,7 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
 <%-- Error Messages --%>
 <c:if test="${not empty errors}">
-    <div class="error" id="errorMessages">
+    <div class="alert alert-danger error" id="errorMessages" role="alert">
         <%-- Use scriptlet to safely check type (avoids EL issues with .class on Lists) --%>
         <% Object errorsObj = request.getAttribute("errors");
            if (errorsObj == null) errorsObj = session.getAttribute("errors");
@@ -35,7 +35,7 @@
 
 <%-- Success Messages --%>
 <c:if test="${not empty messages}">
-    <div class="message" id="successMessages">
+    <div class="alert alert-success message" id="successMessages" role="alert">
         <%-- Use scriptlet to safely check type (avoids EL issues with .class on Lists) --%>
         <% Object messagesObj = request.getAttribute("messages");
            if (messagesObj == null) messagesObj = session.getAttribute("messages");

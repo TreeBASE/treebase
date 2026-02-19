@@ -3,24 +3,11 @@
 <title>Nexus Parser Test Result</title>
 <content tag="heading">Tree View</content>
 
-<script type="text/javascript" src="../scripts/xp_progress.js"></script>
-
 <script type="text/javascript">
-
-function show_or_hide(layer_ref, state) { 
-  if (document.all) { //IS IE 4 or 5 (or 6 beta) 
-    eval( "document.all." + layer_ref + ".style.display = state"); 
-  } 
-  else if (document.layers) { //IS NETSCAPE 4 or below 
-    document.layers[layer_ref].display = state; 
-  } 
-  else if (document.getElementById && !document.all) { 
-    hza = document.getElementById(layer_ref); 
-    hza.style.display = state; 
-  } 
-} 
-
-
+function show_or_hide(layer_ref, state) {
+  var el = document.getElementById(layer_ref);
+  if (el) el.style.display = state;
+}
 </script>
 <style type="text/css">
 

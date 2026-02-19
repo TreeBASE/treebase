@@ -2,11 +2,6 @@
 
 <title><fmt:message key="upload.file.title"/></title>
 <content tag="heading"><fmt:message key="upload.file.title"/></content>
-<script type="text/javascript" src="../scripts/xp_progress.js"></script>
-
-
-
-
 <body id="submissions"/>
 
 <p>Use this form to upload <b>Row Segment Data</b></p>
