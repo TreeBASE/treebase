@@ -42,11 +42,18 @@ Java home: /usr/lib/jvm/java-17-openjdk-amd64
 ```bash
 sudo apt install openjdk-17-jdk
 ```
+On Windows you might need to create this environment variable JAVA_HOME and set it to the installation location of Java.
 
 If Maven is not installed:
 ```bash
 sudo apt install maven
 ```
+or on Windows
+goto the download section mavenapache.org<br/>
+download the Binary zip archive<br/>
+extract to a folder on your machine, say 'c:\Program Files (X86)\apache-maven-3.9.x'<br/>
+add 'c:\Program Files (X86)\apache-maven-3.9.x\bin' to your path variables (note the addition of bin!)<br/>
+start terminal and type mvn
 
 ### Git
 
