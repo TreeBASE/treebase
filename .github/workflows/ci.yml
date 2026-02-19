@@ -191,7 +191,9 @@ jobs:
           # Pull with rebase to handle concurrent updates
           git pull --rebase origin gh-pages || {
             echo "Rebase failed, attempting force push"
+            git rebase --abort
             git push --force
+            exit 0
           }
           git push
         fi
