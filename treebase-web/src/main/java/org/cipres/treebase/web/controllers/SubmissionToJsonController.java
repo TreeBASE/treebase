@@ -78,6 +78,6 @@ public class SubmissionToJsonController implements Controller {
 				+ request.getSession().getAttribute("publicationState"));
 		}
 		
-		return new ModelAndView(new RedirectView("submissionMain.html"));
+		return new ModelAndView(new RedirectView("submissionList.html"));
 	}
 }

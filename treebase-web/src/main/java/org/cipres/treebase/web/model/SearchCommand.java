@@ -1,16 +1,12 @@
 
 package org.cipres.treebase.web.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.domain.search.SearchResults;
 import org.cipres.treebase.domain.search.SearchResultsType;
-import org.cipres.treebase.web.exceptions.DeprecatedFeatureError;
 
 /**
  * SearchCommand.java
@@ -62,16 +58,6 @@ public class SearchCommand {
 
 	public int size() {
 		return results.size();
-	}
-
-	@Deprecated
-	public List<SearchCriteriaCommand> getCriterias() {
-		throw new DeprecatedFeatureError("Method eliminated and should be unused - 20081218 mjd");
-	}
-
-	@Deprecated
-	public void setCriterias(ArrayList<SearchCriteriaCommand> arrayList) {
-		throw new DeprecatedFeatureError("Method eliminated and should be unused - 20081218 mjd");
 	}
 
 }

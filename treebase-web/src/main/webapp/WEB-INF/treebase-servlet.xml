@@ -229,12 +229,7 @@
 		<property name="successView"><value>redirect:/user/editSetTaxonLabel.html</value></property>
 		<property name="formView"><value>taxonLabels</value></property>
 	</bean>
-	<bean id="listTaxaSearchController"  class="org.cipres.treebase.web.controllers.ListTaxaSearchController">
-			<property name="formView"><value>search/taxonList</value></property>
-		    <property name="commandName"><value>taxonLabelStatus</value></property>
-	</bean>
-	
-	<!-- Edit Taxon Label -->	
+	<!-- Edit Taxon Label -->
 	<bean id="editTaxonLabelController" class="org.cipres.treebase.web.controllers.EditTaxonLabelController">
 		<property name="commandName"><value>txnlabel</value></property>
 		<property name="commandClass"><value>org.cipres.treebase.domain.taxon.TaxonLabel</value></property>
@@ -327,10 +322,6 @@
 		<property name="userService"><ref bean="userService"></ref></property>
 	</bean>
 	
-	<bean id="displaySubmissionMenuController" class="org.cipres.treebase.web.controllers.DisplaySubmissionMenuController">
-		<property name="studyService"><ref bean="studyService"></ref></property>
-	</bean>
-	
 	<bean id="submissionToJsonController" class="org.cipres.treebase.web.controllers.SubmissionToJsonController">
 		<property name="studyService"><ref bean="studyService"></ref></property>
 	</bean>
@@ -340,11 +331,6 @@
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
 	</bean-->
 	
-	<bean id="listSearchStudyController" class="org.cipres.treebase.web.controllers.ListSearchStudyController">
-		<property name="studyService"><ref bean="studyService"></ref></property>
-	</bean> 
-	
-	<!-- authorFormController IS REDUNDAND FOR NOW -->
 	<bean id="authorFormController" class="org.cipres.treebase.web.controllers.AuthorFormController">
 		<property name="commandName"><value>person</value></property>
 		<property name="commandClass"><value>org.cipres.treebase.domain.admin.Person</value></property>
@@ -486,18 +472,6 @@
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
 	</bean>
 	    
-	<bean id="searchFormController" class="org.cipres.treebase.web.controllers.SearchFormController">
-		<property name="commandName"><value>search</value></property>
-		<property name="commandClass"><value>org.cipres.treebase.web.model.SearchCommand</value></property>
-		<property name="formView"><value>searchForm</value></property>
-		<property name="successView"><value>redirect:/searchResult.html</value></property>
-	</bean>    
-	<bean id="updateStudyQueryController" class="org.cipres.treebase.web.controllers.UpdateStudyQueryController">
-		<property name="commandName"><value>search</value></property>
-		<property name="commandClass"><value>org.cipres.treebase.web.model.SearchCommand</value></property>
-		<property name="formView"><value>study-query</value></property>
-		<property name="successView"><value>redirect:/searchResult.html</value></property>
-	</bean>    
 	<bean id="searchStudyController" class="org.cipres.treebase.web.controllers.SearchStudyController">
 		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="userService"><ref bean="userService"></ref></property>
@@ -655,11 +629,6 @@
 		<property name="formView"><value>treeBlockList</value></property>
 		<property name="successView"><value>redirect:/user/treeBlockList.html</value></property>
 		<property name="cancelView"><value>redirect:/user/treeBlockList.html</value></property>		
-	</bean> 
-	
-	<bean id="readOnlyListTreeController" class="org.cipres.treebase.web.controllers.ReadOnlyListTreeController">
-		<property name="studyService"><ref bean="studyService"></ref></property>
-		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>		
 	</bean> 
 	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -994,7 +963,6 @@
 				<prop key="/user/deleteATreeBlock.html">deleteATreeBlockController</prop>
 				<prop key="/user/deleteAMatrix.html">deleteAMatrixController</prop>
 				<prop key="/user/deleteARowSegment.html">deleteARowSegmentController</prop>
-				<prop key="/user/readOnlyListTree.html">readOnlyListTreeController</prop>
 				<!-- directToPhyloWidget removed - use directMapToPhyloWidget instead -->
 				<prop key="/user/directMapToPhyloWidget.html">directMapToPhyloWidgetController</prop>
 				<prop key="/user/nexusFiles.html">nexusFilesController</prop>
@@ -1029,11 +997,7 @@
 				<prop key="/resetPassword.html">resetPasswordController</prop>
                 <prop key="/help.html">helpController</prop>
 				
-				<prop key="/searchForm.html">searchFormController</prop>
-				<prop key="/searchResult.html">filenameController</prop>
-				<prop key="/searchStudyList.html">listSearchStudyController</prop>
 				<prop key="/searchStudy.html">searchStudyController</prop>
-				<prop key="/study-query.html">updateStudyQueryController</prop>
 				
 				<!-- SEARCH SECTION -->
 				<prop key="/search/">studySearchController</prop>
@@ -1062,7 +1026,6 @@
 			    
 			    <prop key="/search/searchResultsAsRDF.rdf">searchResultsAsRDFController</prop>
 				<prop key="/search/matrixRowList.html">listMatrixRowController</prop>
-				<prop key="/search/taxonList.html">listTaxaSearchController</prop>
 				<prop key="/search/downloadAStudy.html">downloadAStudyController</prop>				
 				<prop key="/search/downloadATree.html">downloadATreeController</prop>
 				<prop key="/search/downloadATreeBlock.html">downloadATreeBlockController</prop>
@@ -1078,15 +1041,11 @@
 				<prop key="/user/submissionList.html">listSubmissionController</prop>
 				<prop key="/user/studyForm.html">studyFormController</prop>
 				
-				<!--  prop key="/user/submissionMain.html">displaySubmissionController</prop-->
-				<prop key="/user/submissionMain.html">filenameController</prop>
-				<prop key="/user/displaySubmissionMenu.html">displaySubmissionMenuController</prop>
 				<prop key="/user/citationForm.html">citationFormController</prop>
 				
 				<prop key="/user/authorForm.html">authorFormController</prop>
 				<prop key="/user/authorSearchForm.html">authorSearchFormController</prop>
 				<prop key="/user/addAuthor.html">addAuthorController</prop>
-				<prop key="/user/authorList.html">authorFormController</prop>
 				
 				<prop key="/user/editorForm.html">editorFormController</prop>
 				
