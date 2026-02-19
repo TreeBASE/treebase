@@ -29,7 +29,6 @@
 
 /* ── Navigation tabs (logged-in area) ───────────────────────────── */
 .treebase-navbar .nav-link {
-    color: var(--tb-light) !important;
     background-color: var(--tb-light);
     color: #333 !important;
     border: 1px solid var(--tb-link);
