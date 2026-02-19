@@ -30,8 +30,6 @@
 	</bean>
 	<bean id="searchResultsAsRDFController" class="org.cipres.treebase.web.controllers.SearchResultsAsRDFController"/>	
 	
-	<!-- AppletInteractionController removed - Java applets are no longer supported in browsers -->
-	
 	<bean id="readyStateStudiesController" class="org.cipres.treebase.web.controllers.ReadyStateStudiesController">
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
 	</bean>
@@ -625,8 +623,6 @@
 		<property name="cancelView"><value>redirect:/user/treeList.html</value></property>						
 	</bean>
 	 
-	<!-- DirectToPhyloWidgetController removed - redundant, functionality covered by DirectMapToPhyloWidgetController -->
-	
 	<bean id="directMapToPhyloWidgetController" class="org.cipres.treebase.web.controllers.DirectMapToPhyloWidgetController">
 		<property name="phyloTreeService"><ref bean="phyloTreeService"></ref></property>
 		<property name="phyloTreeHome"><ref bean="phyloTreeHome"></ref></property>				
@@ -1007,8 +1003,6 @@
 				<prop key="/user/viewAllRowSegmentData.html">viewAllRowSegmentDataController</prop>
 				<prop key="/user/exportRowSegmentData.html">exportRowSegmentDataController</prop>
 				<prop key="/user/exportRowSegmentTemplate.html">exportRowSegmentTemplateController</prop>
-				
-				<!-- appletInteraction removed - Java applets are no longer supported in browsers -->
 				
 				<prop key="/test/testParser.html">treeParserController</prop>
 				
