@@ -342,11 +342,6 @@
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
 	</bean-->
 	
-	<bean id="listSearchStudyController" class="org.cipres.treebase.web.controllers.ListSearchStudyController">
-		<property name="studyService"><ref bean="studyService"></ref></property>
-	</bean> 
-	
-	<!-- authorFormController IS REDUNDAND FOR NOW -->
 	<bean id="authorFormController" class="org.cipres.treebase.web.controllers.AuthorFormController">
 		<property name="commandName"><value>person</value></property>
 		<property name="commandClass"><value>org.cipres.treebase.domain.admin.Person</value></property>
@@ -488,18 +483,6 @@
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
 	</bean>
 	    
-	<bean id="searchFormController" class="org.cipres.treebase.web.controllers.SearchFormController">
-		<property name="commandName"><value>search</value></property>
-		<property name="commandClass"><value>org.cipres.treebase.web.model.SearchCommand</value></property>
-		<property name="formView"><value>searchForm</value></property>
-		<property name="successView"><value>redirect:/searchResult.html</value></property>
-	</bean>    
-	<bean id="updateStudyQueryController" class="org.cipres.treebase.web.controllers.UpdateStudyQueryController">
-		<property name="commandName"><value>search</value></property>
-		<property name="commandClass"><value>org.cipres.treebase.web.model.SearchCommand</value></property>
-		<property name="formView"><value>study-query</value></property>
-		<property name="successView"><value>redirect:/searchResult.html</value></property>
-	</bean>    
 	<bean id="searchStudyController" class="org.cipres.treebase.web.controllers.SearchStudyController">
 		<property name="studyService"><ref bean="studyService"></ref></property>
 		<property name="userService"><ref bean="userService"></ref></property>
@@ -1037,11 +1020,7 @@
 				<prop key="/resetPassword.html">resetPasswordController</prop>
                 <prop key="/help.html">helpController</prop>
 				
-				<prop key="/searchForm.html">searchFormController</prop>
-				<prop key="/searchResult.html">filenameController</prop>
-				<prop key="/searchStudyList.html">listSearchStudyController</prop>
 				<prop key="/searchStudy.html">searchStudyController</prop>
-				<prop key="/study-query.html">updateStudyQueryController</prop>
 				
 				<!-- SEARCH SECTION -->
 				<prop key="/search/">studySearchController</prop>
@@ -1094,7 +1073,6 @@
 				<prop key="/user/authorForm.html">authorFormController</prop>
 				<prop key="/user/authorSearchForm.html">authorSearchFormController</prop>
 				<prop key="/user/addAuthor.html">addAuthorController</prop>
-				<prop key="/user/authorList.html">authorFormController</prop>
 				
 				<prop key="/user/editorForm.html">editorFormController</prop>
 				
