@@ -7,6 +7,10 @@ This directory contains the organized documentation for TreeBASE.
 - **[API.md](API.md)** - PhyloWS web service API documentation
 - **[OAI-PMH.md](OAI-PMH.md)** - OAI-PMH metadata harvesting interface documentation
 
+## Page Reference
+
+- **[PAGE_CROSS_REFERENCE.md](PAGE_CROSS_REFERENCE.md)** - Cross-reference of treebase-servlet.xml URL mappings vs v3 user story documentation (identifies pages not yet covered in UI/UX user stories)
+
 ## Directory Structure
 
 ### [development/](development/)
@@ -36,6 +40,7 @@ Historical documentation that is no longer relevant for current deployments:
 
 - **Use the PhyloWS API** → [API.md](API.md)
 - **Use the OAI-PMH interface** → [OAI-PMH.md](OAI-PMH.md)
+- **See pages not in user stories** → [PAGE_CROSS_REFERENCE.md](PAGE_CROSS_REFERENCE.md)
 - **Build TreeBASE from source** → [development/BUILDING.md](development/BUILDING.md)
 - **Deploy TreeBASE to a server** → [development/DEPLOYING.md](development/DEPLOYING.md)
 - **Understand DWR integration** → [technical-notes/DWR.md](technical-notes/DWR.md)
