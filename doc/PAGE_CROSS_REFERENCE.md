@@ -2,7 +2,7 @@
 
 This document cross-references the URL mappings in `treebase-servlet.xml` against the pages documented in the v3 UI/UX user story markdown files (`doc/v3/*.md`).
 
-**Analysis Date:** 2026-01-13
+**Analysis Date:** 2026-02-19
 
 **Source Documents:**
 - `treebase-web/src/main/webapp/WEB-INF/treebase-servlet.xml`
@@ -15,11 +15,11 @@ This document cross-references the URL mappings in `treebase-servlet.xml` agains
 - `doc/v3/user-story-07-governance.md`
 
 **Summary:**
-- Total URL mappings in treebase-servlet.xml: 138
+- Total URL mappings in treebase-servlet.xml: 135
 - Pages accounted for in user stories: 111
-- Pages NOT in user stories: 27
-  - Reachable from documented pages: 15
-  - Unreachable (no links found): 12
+- Pages NOT in user stories: 24
+  - Reachable from documented pages: 14
+  - Unreachable (no links found): 10
 
 ---
 
@@ -64,35 +64,27 @@ These are search-related URLs that use different URL patterns than those documen
 | `/user/analyses.html` | summaryController | Study analyses (duplicate of analysisDisplay) | Reachable (menu-config.xml) |
 | `/user/authorForm.html` | authorFormController | Author edit form | Reachable (peopleList.jsp) |
 | `/user/authorList.html` | authorFormController | Author list | (unreachable) |
-| `/user/directToPhyloWidget.html` | directToPhyloWidgetController | Direct PhyloWidget link (alternate to directMapToPhyloWidget) | Reachable (analysisSection-Piece.jsp) |
 | `/user/displaySubmissionMenu.html` | displaySubmissionMenuController | Submission menu display | (unreachable) |
 | `/user/downloadANexusRCTFile.html` | downloadANexusRCTFileController | Download reconstructed NEXUS | Reachable (nexusFiles.jsp) |
 | `/user/editorForm.html` | editorFormController | Editor edit form | Reachable (peopleList.jsp, citationForm-booksection.jsp) |
 | `/user/nexusFiles.html` | nexusFilesController | View NEXUS files | Reachable (menu-config.xml) |
 | `/user/readOnlyListTree.html` | readOnlyListTreeController | Read-only tree list | (unreachable) |
 | `/user/submissionMain.html` | filenameController | Submission main page | (unreachable) |
-| `/user/treeParser.html` | treeParserController | Tree parser | Reachable (testParser.jsp) |
+| `/user/treeParser.html` | treeParserController | Tree parser | (unreachable) |
 | `/user/treeParserResult.html` | treeParserResultController | Tree parser results | Reachable (treeList.jsp) |
-| `/user/viewXML.html` | filenameController | View XML output | Reachable (testParserResult.jsp) |
-
-### Development/Test Pages
-
-| URL | Controller | Description | Reachability |
-|-----|------------|-------------|--------------|
-| `/test/testParser.html` | treeParserController | Test parser (development) | (unreachable) |
+| `/user/viewXML.html` | filenameController | View XML output | Reachable (treeList.jsp) |
 
 ### JSON/API Pages
 
 | URL | Controller | Description | Reachability |
 |-----|------------|-------------|--------------|
-| `/appletInteraction.html` | appletInteractionController | Applet interaction handler | (unreachable) |
 | `/top/**` | (OAI-PMH) | OAI-PMH interface (note: `/top/oai` documented but wildcard not) | Reachable (OAI-PMH endpoint) |
 
 ---
 
 ## Summary of Unreachable Pages
 
-The following 12 pages have no links from documented pages and may be candidates for deprecation or need explicit documentation:
+The following 10 pages have no links from documented pages and may be candidates for deprecation or need explicit documentation:
 
 1. `/login.html` - Alternative to documented `/login.jsp`
 2. `/searchForm.html` - Alternative search form
@@ -104,8 +96,6 @@ The following 12 pages have no links from documented pages and may be candidates
 8. `/user/displaySubmissionMenu.html` - Submission menu display
 9. `/user/readOnlyListTree.html` - Read-only tree list
 10. `/user/submissionMain.html` - Submission main page
-11. `/test/testParser.html` - Development test page
-12. `/appletInteraction.html` - Applet interaction handler
 
 ---
 
@@ -192,7 +182,7 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
    - `/user/downloadANexusRCTFile.html`
    - This should be added to User Story 03 (Submission)
 
-4. **Unreachable Pages** - The 12 unreachable pages may be candidates for deprecation or may need their links restored if they provide needed functionality
+4. **Unreachable Pages** - The 10 unreachable pages may be candidates for deprecation or may need their links restored if they provide needed functionality
 
 ---
 
@@ -205,3 +195,8 @@ The following pages from `treebase-servlet.xml` ARE documented in the v3 user st
 3. **PhyloWS Wildcards**: Endpoints like `/phylows/study/**` cover multiple sub-paths for the REST API.
 
 4. **login.jsp vs login.html**: The user stories reference `/login.jsp` but the servlet maps `/login.html` - this may be a routing inconsistency to investigate.
+
+5. **Removed Pages**: The following pages have been removed from the codebase and are no longer in `treebase-servlet.xml`:
+   - `/test/testParser.html` - Development test page (removed)
+   - `/appletInteraction.html` - Applet interaction handler (removed)
+   - `/user/directToPhyloWidget.html` - Direct PhyloWidget link (removed, controller deleted)
