@@ -1004,8 +1004,6 @@
 				<prop key="/user/exportRowSegmentData.html">exportRowSegmentDataController</prop>
 				<prop key="/user/exportRowSegmentTemplate.html">exportRowSegmentTemplateController</prop>
 				
-				<prop key="/test/testParser.html">treeParserController</prop>
-				
 				<prop key="/admin/userManagement.html">userManagementController</prop>
 				<prop key="/admin/selectStudies.html">selectStudiesController</prop>
 				<prop key="/admin/changeStudyStatus.html">changeStudyStatusController</prop>
