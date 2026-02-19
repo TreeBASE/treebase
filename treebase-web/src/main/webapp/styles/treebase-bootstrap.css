@@ -1,0 +1,316 @@
+/*
+ * treebase-bootstrap.css
+ *
+ * TreeBASE-specific customisations layered on top of Bootstrap 5.
+ * Replaces the layout and structural parts of styles.css / menuExpandable.css
+ * that Bootstrap now handles.
+ */
+
+/* ── Brand colours ──────────────────────────────────────────────── */
+:root {
+    --tb-blue:       #003366;
+    --tb-link:       #3863A4;
+    --tb-orange:     #FF4500;
+    --tb-light:      #BED1E5;
+    --tb-gray:       #e8e8e8;
+    --tb-footer-bg:  #f8f9fa;
+}
+
+/* ── Navbar ─────────────────────────────────────────────────────── */
+.treebase-navbar {
+    background-color: var(--tb-blue) !important;
+    padding: 0;
+}
+
+.treebase-navbar .navbar-brand img {
+    max-height: 55px;
+    width: auto;
+}
+
+/* ── Navigation tabs (logged-in area) ───────────────────────────── */
+.treebase-navbar .nav-link {
+    color: var(--tb-light) !important;
+    background-color: var(--tb-light);
+    color: #333 !important;
+    border: 1px solid var(--tb-link);
+    border-bottom: none;
+    margin-right: 2px;
+    border-radius: 4px 4px 0 0;
+    padding: 4px 10px;
+    font-family: "Lucida Grande", sans-serif;
+    font-size: 0.9rem;
+}
+
+.treebase-navbar .nav-link:hover,
+.treebase-navbar .nav-link.active {
+    background-color: #fff !important;
+    color: #333 !important;
+    border-color: var(--tb-link);
+}
+
+/* Active-tab highlighting driven by body id (preserves legacy CSS behaviour) */
+body#info        #t-info        .nav-link,
+body#progress    #t-progress    .nav-link,
+body#ready       #t-ready       .nav-link,
+body#search      #t-search      .nav-link,
+body#submissions #t-submissions .nav-link,
+body#admin       #t-admin       .nav-link {
+    background-color: #fff !important;
+    color: #333 !important;
+}
+
+/* Search sub-nav active states */
+body#s-study    #st-study    .nav-link,
+body#s-matrix   #st-matrix   .nav-link,
+body#s-taxon    #st-taxon    .nav-link,
+body#s-taxonView #st-taxonView .nav-link,
+body#s-tree     #st-tree     .nav-link,
+body#s-analysis #st-analysis .nav-link,
+body#s-treeTop  #st-treeTop  .nav-link {
+    background-color: #fff !important;
+    color: #333 !important;
+}
+
+/* Login info in navbar */
+.navbar-login-text {
+    font-size: 0.85rem;
+}
+
+/* ── Page headings ──────────────────────────────────────────────── */
+h1, h2, h3 {
+    color: var(--tb-blue);
+}
+
+.page-heading {
+    margin: 0 0 1rem 0;
+    padding: 0.75rem 1rem !important;
+    border-top: 1px solid var(--tb-link);
+    background-image: url("../images/footer_bg.gif");
+    font-size: 1.25rem;
+    color: var(--tb-blue);
+}
+
+/* ── Link colours (scoped to main content areas) ───────────────── */
+#content a:link,
+#contentRight a:link {
+    color: var(--tb-blue);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#content a:visited,
+#contentRight a:visited {
+    color: var(--tb-link);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#content a:hover,
+#contentRight a:hover {
+    border-bottom: 2px solid var(--tb-orange);
+    font-weight: bold;
+}
+
+/* ── Left sidebar (public site) ─────────────────────────────────── */
+#sidebarLeftGutter {
+    background-color: var(--tb-gray);
+    height: 100%;
+    padding: 0.75rem;
+}
+
+#navcontainer .list-group-item {
+    border-left: 5px solid var(--tb-link);
+    border-radius: 0;
+    font-weight: bold;
+    padding: 4px 8px 4px 10px;
+}
+
+#navcontainer .list-group-item.heading {
+    border-left: 5px solid #a7c9fd;
+    font-weight: bold;
+    background-color: #fff;
+    color: #333;
+}
+
+#navcontainer .list-group-item:hover,
+#navcontainer .list-group-item:focus {
+    background-color: #cfdef5;
+    color: var(--tb-link);
+    text-decoration: none;
+}
+
+#navcontainer .inner-nav {
+    padding-left: 1rem;
+}
+
+#navcontainer .inner-nav .list-group-item {
+    border-left: 3px solid var(--tb-link);
+    font-weight: normal;
+}
+
+/* ── Submission / Admin sidebar ─────────────────────────────────── */
+#sidebar {
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 0.5rem;
+}
+
+/* ── Content gutters ────────────────────────────────────────────── */
+.content-gutter {
+    padding: 1rem;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────── */
+.treebase-footer {
+    clear: both;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    line-height: 1.5;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px dashed #bbb;
+    padding: 0.75rem 0;
+    background-image: url("../images/footer_bg.gif");
+    background-repeat: repeat-x;
+    background-color: #fff;
+    text-align: center;
+}
+
+.treebase-footer p {
+    margin: 0;
+    color: #666;
+}
+
+/* ── DisplayTag table refinements ───────────────────────────────── */
+table.list {
+    width: 100%;
+}
+
+table.list thead tr {
+    background-color: #FFCC00;
+}
+
+table.list tr.even {
+    background: #d6cfe6;
+}
+
+table.list tr:hover {
+    background: #DDDDFF;
+    cursor: pointer;
+}
+
+/* ── Messages (Bootstrap alert overrides) ───────────────────────── */
+.alert img.icon {
+    width: 14px;
+    height: 13px;
+    vertical-align: top;
+    margin-right: 4px;
+}
+
+/* ── Forms ───────────────────────────────────────────────────────── */
+input.textCell,
+select.selectCell {
+    width: 98%;
+}
+
+input.disabled {
+    border: none;
+    color: black !important;
+    background-color: white;
+}
+
+input.enabled {
+    border: 1px solid silver;
+}
+
+/* Validation error styling */
+span.fieldError {
+    color: maroon !important;
+}
+
+/* ── Icon buttons ────────────────────────────────────────────────── */
+img.iconButton {
+    border: none !important;
+}
+
+.iconColumn {
+    width: 16px;
+}
+
+/* ── Misc layout helpers ─────────────────────────────────────────── */
+.noBreak {
+    white-space: nowrap;
+}
+
+.abstract {
+    text-indent: 2em;
+}
+
+.checkBoxColumn {
+    white-space: nowrap;
+}
+
+.list td {
+    vertical-align: top;
+}
+
+/* Analysis step widget */
+label.software,
+input.software,
+select.software {
+    display: inline;
+}
+
+div.software {
+    text-align: right;
+}
+
+label.software {
+    font-weight: bold;
+}
+
+select.software {
+    width: 100%;
+}
+
+.analysisStep {
+    background-color: white;
+}
+
+/* ── Browser-update banner ───────────────────────────────────────── */
+#browserupdate {
+    background-color: #FFFFC1;
+    text-align: center;
+}
+
+/* ── Progress bar (ajaxProgress.js) ─────────────────────────────── */
+#progressBar {
+    padding-top: 5px;
+    padding-left: 45px;
+}
+
+#progressBarText,
+#progressBarSuccessful {
+    text-align: center;
+    margin: 0 auto;
+    color: #969696;
+    padding-left: 5px;
+}
+
+#progressBarBox {
+    width: 400px;
+    height: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    margin: 0 auto;
+}
+
+#progressBarBoxContent {
+    background-color: #7DCBDA;
+    height: 20px;
+}
+
+/* ── Submission Summary menu (icon-based sidebar) ────────────────── */
+.sub-class {
+    border-bottom: dotted 1px #999;
+    padding-bottom: 1em;
+    margin-bottom: 2.5em;
+}
