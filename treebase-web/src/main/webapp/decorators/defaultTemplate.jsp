@@ -9,6 +9,8 @@
 <head><%@ include file="/common/meta.jsp" %>
 
 <title>TreeBASE-<decorator:title/></title>
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/styles.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/displaytag.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/treebase.css'/>" />
@@ -96,8 +98,6 @@
 <% if( isOldMSIE ){ %>
 <c:import url="/common/updateBrowser.jsp"/>
 <% } %>
-<!-- BEGIN WRAP -->
-<div id="wrap">
 	<!--  BEGIN HEADER -->
 	<div id="header"><jsp:include page="/common/header.jsp"/></div>
 	
@@ -113,13 +113,10 @@
 	
 
 	
-	<!-- BEGIN RIGHT COLUMN -->
-	<div id="content">
-		<div class="gutter">
+	<div class="container">
 		<h2><decorator:getProperty property="page.heading"/></h2>
 		<%@ include file="/common/messages.jsp" %>
 		<decorator:body/>
-		</div>
 	</div>
 	
 	<!-- show RHS menu for a logged in user after a submission is selected but not when display the all submissions -->
@@ -133,7 +130,8 @@
 	
 	<!-- BEING FOOTER -->
 	<div id="footer"><c:import url="/common/footer.jsp" /></div>
-</div> <!-- END WRAP -->
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <jsp:include page="/common/googleAnalytics.jsp"/>
 </body>
 </html>

@@ -48,124 +48,104 @@ function checkPasswords() {
     </c:if>
 </spring:bind>
 
-<form method="post" name="userForm" id="userForm" onsubmit="if (document.userForm.pressedButton.value != '_cancel') return validateUser(this)">
+<form method="post" name="userForm" id="userForm" class="container mt-5" style="max-width: 600px;" onsubmit="if (document.userForm.pressedButton.value != '_cancel') return validateUser(this)">
 
-<input type="hidden" name="id" value="<c:out value="${user.id}"/>"/>
+    <input type="hidden" name="id" value="<c:out value="${user.id}"/>"/>
 
-<fieldset>
-<legend>User Registration
-<a href="#" class="openHelp" onclick="openHelp('userForm')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
-</legend>
+    <div class="card shadow-lg">
+        <div class="card-body p-4">
+            <h2 class="card-title mb-4 text-center">User Registration
+                <a href="#" class="openHelp ms-2" onclick="openHelp('userForm')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+            </h2>
 
-<table border="0" cellpadding="3">
-	
-    <tr>
-        <td><label for="user.username"><fmt:message key="user.username"/>:</label></td>
-        <c:choose>
-        <c:when test="${empty user.id}">
-        <td>
-            <spring:bind path="user.username">
-            <input type="text" class="textCell" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-        </td>
-        </c:when>
-        <c:otherwise>
-        	<td><c:out value="${user.username}"/></td>
-        </c:otherwise>
-        </c:choose>
-    </tr>
+            <div class="mb-3">
+                <label for="user.username" class="form-label"><fmt:message key="user.username"/>:</label>
+                <c:choose>
+                    <c:when test="${empty user.id}">
+                        <spring:bind path="user.username">
+                            <input type="text" class="form-control form-control-lg" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+                            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
+                        </spring:bind>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="form-control-plaintext"><c:out value="${user.username}"/></div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
     
     
-    <tr>
-    	<td><label for="user.password"><fmt:message key="user.password"/>:</label></td>
-        <td>
-            <spring:bind path="user.password">
-            <input type="password" class="textCell" name="<c:out value="${status.expression}"/>" id = "<c:out value="${status.expression}"/>" value=""/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-            <c:if test="${user.id != null}">
-                <br/><small>(Leave blank to keep current password)</small>
-            </c:if>
-        </td>
-    </tr>
-    
-    <tr>
-    	<td>Re-type Password:</td>
-        <td>
-         
-            <input type="password" class="textCell" name="retypedpassword" id ="retypedpassword" value=""/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-          
-        </td>
-    </tr>
 
-    <tr>
-        <td><label for="user.firstName"><fmt:message key="user.firstname"/>:</label></td>
-        <td>
-            <spring:bind path="user.firstName">
-            <input type="text" class="textCell" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-        </td>
-    </tr>
-    <tr>
-        <td><label for="user.middleName"><fmt:message key="user.middlename"/>:</label></td>
-        <td>
-            <spring:bind path="user.middleName">
-            <input type="text" class="textCell" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-        </td>
-    </tr>
-    <tr>
-        <td><label for="user.lastName"><fmt:message key="user.lastname"/>:</label></td>
-        <td>
-            <spring:bind path="user.lastName">
-            <input type="text" class="textCell" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-        </td>
-    </tr>
-    <tr>
-		<td><label for="user.phone.number"><fmt:message key="user.phone.number"/>:</label></td>
-        <td>
-            <spring:bind path="user.phoneNumber">
-            <input size=25 type="text" class="textCell" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-        </td>
-    </tr>     
+            <div class="mb-3">
+                <label for="user.password" class="form-label"><fmt:message key="user.password"/>:</label>
+                <spring:bind path="user.password">
+                    <input type="password" class="form-control form-control-lg" name="<c:out value="${status.expression}"/>" id = "<c:out value="${status.expression}"/>" value=""/>
+                    <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
+                </spring:bind>
+                <c:if test="${user.id != null}">
+                    <small class="text-muted">(Leave blank to keep current password)</small>
+                </c:if>
+            </div>
+
+            <div class="mb-3">
+                <label for="retypedpassword" class="form-label">Re-type Password:</label>
+                <input type="password" class="form-control form-control-lg" name="retypedpassword" id ="retypedpassword" value=""/>
+            </div>
+
+            <div class="mb-3">
+                <label for="user.firstName" class="form-label"><fmt:message key="user.firstname"/>:</label>
+                <spring:bind path="user.firstName">
+                    <input type="text" class="form-control" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+                    <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
+                </spring:bind>
+            </div>
+            <div class="mb-3">
+                <label for="user.middleName" class="form-label"><fmt:message key="user.middlename"/>:</label>
+                <spring:bind path="user.middleName">
+                    <input type="text" class="form-control" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+                    <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
+                </spring:bind>
+            </div>
+            <div class="mb-3">
+                <label for="user.lastName" class="form-label"><fmt:message key="user.lastname"/>:</label>
+                <spring:bind path="user.lastName">
+                    <input type="text" class="form-control" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+                    <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
+                </spring:bind>
+            </div>
+            <div class="mb-3">
+                <label for="user.phone.number" class="form-label"><fmt:message key="user.phone.number"/>:</label>
+                <spring:bind path="user.phoneNumber">
+                    <input type="text" class="form-control" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+                    <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
+                </spring:bind>
+            </div>
     
-    <tr>
-		<td><label for="user.emailAddressString"><fmt:message key="user.emailaddressstring"/>:</label></td>
-        <td>
-            <spring:bind path="user.emailAddressString">
-            <input size=40 type="text" class="textCell" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-        </td>
-    </tr>  
+            <div class="mb-3">
+                <label for="user.emailAddressString" class="form-label"><fmt:message key="user.emailaddressstring"/>:</label>
+                <spring:bind path="user.emailAddressString">
+                    <input type="email" class="form-control" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+                    <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
+                </spring:bind>
+            </div>
     
-    <tr>
-    	<td></td>
-    	<td class="buttonBar">
-    		<c:choose>
-    		<c:when test="${user.id == null}">
-            	<input type="submit" name="Submit" value="<fmt:message key="button.register"/>" onClick="return checkPasswords();" />
-            </c:when>
-            <c:otherwise>
-	            <input type="submit" name="Update" value="<fmt:message key="button.update"/>" />
-	        </c:otherwise>
-	        </c:choose>
-	        <input type="hidden" name="pressedButton" value="">
-	        <input type="reset" name="Reset" value="<fmt:message key="button.reset"/>" />
-	        <input type="submit" name="_cancel" value="<fmt:message key="button.cancel"/>" onClick="document.userForm.pressedButton.value = '_cancel';" />
-           
-        </td>
-    </tr>
-</table>
-</fieldset>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <c:choose>
+                    <c:when test="${user.id == null}">
+                        <input type="submit" name="Submit" value="<fmt:message key="button.register"/>" class="btn btn-primary" onClick="return checkPasswords();" />
+                    </c:when>
+                    <c:otherwise>
+                        <input type="submit" name="Update" value="<fmt:message key="button.update"/>" class="btn btn-primary" />
+                    </c:otherwise>
+                </c:choose>
+
+                <input type="hidden" name="pressedButton" value="">
+                <input type="reset" name="Reset" value="<fmt:message key="button.reset"/>" class="btn btn-secondary" />
+                <input type="submit" name="_cancel" value="<fmt:message key="button.cancel"/>" class="btn btn-outline-secondary" onClick="document.userForm.pressedButton.value = '_cancel';" />
+            </div>
+
+        </div>
+    </div>
 </form>
 
 <script type="text/javascript">
