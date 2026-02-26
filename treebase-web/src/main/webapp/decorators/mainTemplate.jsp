@@ -9,7 +9,8 @@
 <head><%@ include file="/common/meta.jsp" %>
 <title>TreeBASE Web<decorator:title/></title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/styles.css'/>" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/styles/menuExpandable2.css'/>" />
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery - replaces Prototype.js -->
 <script type="text/javascript" src="<c:url value='/scripts/jquery-3.7.1.min.js'/>"></script>
 <!-- Phylotree.js stack -->
@@ -38,6 +39,8 @@
 	<!-- BEING FOOTER -->
 	<div id="footer"><jsp:include page="/common/footer.jsp"/></div>
 </div> <!-- END WRAP -->
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <jsp:include page="/common/googleAnalytics.jsp"/>
 </body>
 </html>

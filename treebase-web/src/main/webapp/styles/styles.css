@@ -1,10 +1,3 @@
-body {
-	margin: 0;
-	padding: 0;
-	font-family: "Helvetica Neue", GillSans, helvetica, "lucida sans", arial, sans-serif;
-	font-size: 80%;
-	line-height: 1.5em
-}
 
 /* Link Styles  
 *******************************************************************************************/
@@ -79,11 +72,6 @@ dt { font-weight: bold }
 
 /* Page Structure/Layout 
 *******************************************************************************************/
-
-#wrap {
-	min-width: 500px;
-	max-width: 1800px
-}
 	
 /* Header/Banner  
 *******************************************************************************************/
@@ -102,10 +90,7 @@ dt { font-weight: bold }
 /* Begin 2column layout with Right Sidebar 
 *******************************************************************************************/
 	
-#content {
-	float: left;
-	width: 67%
-}
+
 
 .contentsearch {
 	float: left;
@@ -442,11 +427,6 @@ legend {
   font-weight: bold;
 }
 
-/* style for  labels */
-label {
-  display: block;
-  text-align: right;
-}
 
 /* style for required labels */
 label .required {

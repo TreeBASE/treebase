@@ -1,63 +1,55 @@
 <%@ include file="/common/taglibs.jsp"%>
 
-<form method="post" id="loginForm" action="<c:url value="/j_security_check"/>" >
-
-
-<% 
-	if(request.getParameter("importKey") != null){
-
-       session.setAttribute("importKey",request.getParameter("importKey"));
-	}
-%>
-
- 
-<fieldset>
-<legend>Login</legend>
-
-<table border="0" cellpadding="3">
-    <tr>
-        <td colspan="2">
-            <c:if test="${param.error != null}">
-                <div class="error" id="loginError"
-                style="margin-right: 0; margin-bottom: 3px; margin-top: 3px">
-                    <img src="<c:url value="/images/iconWarning.gif"/>"
-                        alt="<fmt:message key="icon.warning"/>" class="icon" />
-                    <fmt:message key="errors.password.mismatch"/>
-                </div>
-            </c:if>
-        </td>
-    </tr>
-    
-    <tr>
-    	<script type="text/javascript">
-    		//<![CDATA[
-    			TreeBASE.register( function() { $('j_username').focus(); } );
-    		//]]> 
-    	</script>
-    	<td><label for="j_username"><em class="required">* </em><fmt:message key="label.username"/></label></td>
-    	<td><input name="j_username" class="textCell" id="j_username" size="25" type="text" /></td>
-  	</tr>
-
-  	<tr>
-    	<td><label for="j_password"><em class="required">* </em><fmt:message key="label.password"/></label></td>
-    	<td><input name="j_password" class="textCell" id="j_password" size="25" type="password" /></td>
-  	</tr>
-
-  	<tr>
-    	<td>&nbsp;</td>
-    	<td>
-    		<input name="submit" type="submit" value="<fmt:message key="button.login"/>" />
-    		<!--input name="reset" type="submit" name="reset" value="<fmt:message key="button.reset"/>" /-->
-    	</td>
-  	</tr>
-  	 <tr>
-  	 	<td>&nbsp;</td>
-        <td align="right">
-          	<fmt:message key="login.signup">
-                <fmt:param><c:url value="/register.html"/></fmt:param>
-            </fmt:message>
-        </td>
-	</tr>
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+	<div class="card shadow-lg w-100" style="max-width: 400px;">
+		<div class="card-body p-4">
+			<h2 class="card-title mb-4 text-center">Login</h2>
+			<form method="post" id="loginForm" action="<c:url value="/j_security_check"/>">
+				<% 
+					if(request.getParameter("importKey") != null){
+						session.setAttribute("importKey",request.getParameter("importKey"));
+					}
+				%>
+				<c:if test="${param.error != null}">
+					<div class="alert alert-danger d-flex align-items-center mb-3" id="loginError" role="alert">
+						<img src="<c:url value="/images/iconWarning.gif"/>"
+								 alt="<fmt:message key="icon.warning"/>" class="me-2" style="height: 1.5em;" />
+						<div><fmt:message key="errors.password.mismatch"/></div>
+					</div>
+				</c:if>
+				<div class="mb-3">
+					<label for="j_username" class="form-label fw-semibold">
+						<em class="text-danger">* </em><fmt:message key="label.username"/>
+					</label>
+					<input name="j_username" class="form-control form-control-lg" id="j_username" type="text" autocomplete="username" autofocus required />
+				</div>
+				<div class="mb-3">
+					<label for="j_password" class="form-label fw-semibold">
+						<em class="text-danger">* </em><fmt:message key="label.password"/>
+					</label>
+					<input name="j_password" class="form-control form-control-lg" id="j_password" type="password" autocomplete="current-password" required />
+				</div>
+				<div class="d-grid mb-3">
+					<button name="submit" type="submit" class="btn btn-primary btn-lg">
+						<fmt:message key="button.login"/>
+					</button>
+				</div>
+				<div class="text-center">
+					<small>
+						<fmt:message key="login.signup">
+							<fmt:param><c:url value="/register.html"/></fmt:param>
+						</fmt:message>
+					</small>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//<![CDATA[
+	TreeBASE.register(function() { document.getElementById('j_username').focus(); });
+	//]]>
+</script>
 </table>
 </fieldset>
 </form>

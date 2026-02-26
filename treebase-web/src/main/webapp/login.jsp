@@ -18,8 +18,6 @@
 </table>
 
 <hr/>
-<p>Please fill in following information to login<br/>
-<span class="required">* Required Fields</span></p>
 
 <body id="info"/>
 

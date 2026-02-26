@@ -96,6 +96,8 @@ services:
       - ./treebase-web/src/main/webapp/error-403.jsp:/usr/local/tomcat/webapps/treebase-web/error-403.jsp
       - ./treebase-web/src/main/webapp/error-404.jsp:/usr/local/tomcat/webapps/treebase-web/error-404.jsp
       - ./treebase-web/src/main/webapp/error-500.jsp:/usr/local/tomcat/webapps/treebase-web/error-500.jsp
+      # Mount WEB-INF/pages for live JSP editing
+      - ./treebase-web/src/main/webapp/WEB-INF/pages:/usr/local/tomcat/webapps/treebase-web/WEB-INF/pages
     profiles:
       - development
 
