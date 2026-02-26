@@ -204,6 +204,9 @@ dt { font-weight: bold }
 /* Tabbed Navigation  
 *******************************************************************************************/	
 
+.navbar{
+	background-color: #3863a4;
+}
 #nav, #s-nav {
 	float: left;
 	margin: 0;
