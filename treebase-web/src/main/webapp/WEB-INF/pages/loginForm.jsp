@@ -36,6 +36,12 @@
 				</div>
 				<div class="text-center">
 					<small>
+						<fmt:message key="login.pleasefillin"/><br/>
+						<fmt:message key="login.requiredfields"/>
+					</small>
+				</div>
+        				<div class="text-center">
+					<small>
 						<fmt:message key="login.signup">
 							<fmt:param><c:url value="/register.html"/></fmt:param>
 						</fmt:message>
