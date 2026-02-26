@@ -22,19 +22,9 @@ function checkPasswords() {
 </script>
 
 <title><fmt:message key="userform.title"/></title>
-
-
-<content tag="heading"><fmt:message key="userform.title"/></content>
 <body id="info" onLoad="test();"/>
 
-<c:choose>
-	<c:when test="${user.id == null}">
-		<fmt:message key="create.profile"/>
-	</c:when>
-	<c:otherwise>
-		<fmt:message key="update.profile"/>
-	</c:otherwise>
-</c:choose>
+
 
 <spring:bind path="user.*">
     <c:if test="${not empty status.errorMessages}">
@@ -53,8 +43,18 @@ function checkPasswords() {
     <input type="hidden" name="id" value="<c:out value="${user.id}"/>"/>
 
     <div class="card shadow-lg">
+        <div class="card-header">
+        <c:choose>
+	<c:when test="${user.id == null}">
+		<fmt:message key="create.profile"/>
+	</c:when>
+	<c:otherwise>
+		<fmt:message key="update.profile"/>
+	</c:otherwise>
+</c:choose>
+</div>
         <div class="card-body p-4">
-            <h2 class="card-title mb-4 text-center">User Registration
+            <h2 class="card-title mb-4 text-center">User profile
                 <a href="#" class="openHelp ms-2" onclick="openHelp('userForm')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
             </h2>
 

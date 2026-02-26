@@ -95,11 +95,13 @@
 </head>
 	
 <body <decorator:getProperty property="body.id" writeEntireProperty="true"/> onload="TreeBASE.initialize()">
+	<%-- Sticky Bootstrap header --%>
+	<jsp:include page="/common/header.jsp"/>
 <% if( isOldMSIE ){ %>
 <c:import url="/common/updateBrowser.jsp"/>
 <% } %>
 	<!--  BEGIN HEADER -->
-	<div id="header"><jsp:include page="/common/header.jsp"/></div>
+	<!-- <div id="header"><jsp:include page="/common/header.jsp"/></div> -->
 	
 	<!--  show top navigation menu for a logged in user -->
 	<c:if test="${pageContext['request'].remoteUser != null}">	

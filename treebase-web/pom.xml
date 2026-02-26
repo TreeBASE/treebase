@@ -32,6 +32,10 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
+				<includes>
+					<include>ApplicationResources.properties</include>
+				</includes>
+				<targetPath>WEB-INF/classes</targetPath>
 			</resource>
 		</resources>
 		<finalName>treebase-web</finalName>

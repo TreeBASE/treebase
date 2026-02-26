@@ -28,17 +28,16 @@
 <% if( isOldMSIE ){ %>
 <c:import url="/common/updateBrowser.jsp"/>
 <% } %>
-<!-- BEGIN WRAP -->
-<div id="wrap">
-	<!--  BEGIN HEADER -->
-	<div id="header"><c:import url="/common/header.jsp"/></div>
+<c:import url="/common/header.jsp"/>
+	<div class="container-fluid">
 	<!-- BEGIN LEFT SIDEBAR -->
 	<div id="sidebarLeft"><c:import url="/common/sidebarLeft.jsp"/></div>
 	<!-- BEGIN RIGHT COLUMN -->
 	<div id="contentRight"><decorator:body/></div>
+	</div>
 	<!-- BEING FOOTER -->
+
 	<div id="footer"><jsp:include page="/common/footer.jsp"/></div>
-</div> <!-- END WRAP -->
 <!-- Bootstrap 5 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <jsp:include page="/common/googleAnalytics.jsp"/>

@@ -1,17 +1,9 @@
 <%@ include file="/common/taglibs.jsp"%>
 
-<h1 style="padding-bottom:0px !important;margin-bottom:0px !important">
-	<a href="<c:url value="/home.html"/>">
-		<img 
-			src="<c:url value="/images/logo.gif"/>" 
-			alt="TreeBase Logo" 
-			width="523" 
-			height="112" 
-			border="0" />
-	</a>
-	<img 
-		src="<c:url value="/images/gradient.jpg"/>" 
-		style="width:100%;height:10px;padding:0px !important;margin:0px !important" 
-		height="10"
-		alt="" />	
-</h1>
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm" style="z-index:1040;padding:0;">
+	<div class="container-fluid align-items-center" style="padding:0">
+		<a class="navbar-brand d-flex align-items-center" href="<c:url value="/home.html"/>">
+			<img src="<c:url value="/images/logo.gif"/>" alt="TreeBase Logo" width="360" height="76" class="d-inline-block align-middle me-2" />
+		</a>
+	</div>
+</nav>
