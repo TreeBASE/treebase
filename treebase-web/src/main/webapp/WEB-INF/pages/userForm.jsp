@@ -37,7 +37,7 @@ function checkPasswords() {
     </div>
     </c:if>
 </spring:bind>
-<div class="container d-flex align-items-center justify-content-center min-vh-100 ">
+<div class="container d-flex justify-content-center min-vh-100 ">
 
 <form method="post" name="userForm" id="userForm" class="container mt-5" style="max-width: 600px;" onsubmit="if (document.userForm.pressedButton.value != '_cancel') return validateUser(this)">
 

@@ -1,8 +1,8 @@
 <%@ include file="/common/taglibs.jsp"%>
 
 
-<div class="container d-flex align-items-center justify-content-center min-vh-100">
-    <div class="card shadow-lg" style="max-width: 400px;">
+<div class="container d-flex justify-content-center align-items-center py-5">
+    <div class="card shadow-lg" style="width: 100%; max-width: 400px;">
         <div class="card-body p-4">
             <h2 class="card-title mb-4 text-center"><fmt:message key="user.password.title"/></h2>
             <p class="mb-2 text-center">Please fill out either the user name or the email address on file. If an account exists, we will send a password reset link to the registered email address.</p>

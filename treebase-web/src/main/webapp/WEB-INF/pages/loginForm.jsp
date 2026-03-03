@@ -1,7 +1,7 @@
 <%@ include file="/common/taglibs.jsp"%>
 
-<div class="container d-flex align-items-center justify-content-center min-vh-100 ">
-	<div class="card shadow-lg" style="max-width: 400px;">
+<div class="container d-flex justify-content-center align-items-center py-5">
+	<div class="card shadow-lg" style="width: 100%; max-width: 400px;">
 		<div class="card-body p-4">
 			<h2 class="card-title mb-4 text-center">Login to Treebase</h2>
 			<form method="post" id="loginForm" action="<c:url value="/j_security_check"/>">
@@ -53,7 +53,4 @@
 	TreeBASE.register(function() { document.getElementById('j_username').focus(); });
 	//]]>
 </script>
-</table>
-</fieldset>
-</form>
 
