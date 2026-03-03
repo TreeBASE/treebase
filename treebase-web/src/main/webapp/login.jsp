@@ -2,26 +2,9 @@
 
 <title><fmt:message key="login.title"/></title>
 
-<content tag="heading"><fmt:message key="login.title"/>
-
-</content>
-
-<table width="501" border="0">
-  <tr>
-	<td width="495"><p><strong>A Special Note to Submitters to the Previous Version 
-	  of TreeBASE:</strong> If you started a submission in the previous 
-	  version, but that submission remained &quot;in progress,&quot; 
-	  you will need to start the submission all over again 
-	in this new version of TreeBASE.</p>
-	</td>
-  </tr>
-</table>
-
-<hr/>
 
 <body id="info"/>
 
 <!-- loginForm.jsp -->
 <c:import url="/WEB-INF/pages/loginForm.jsp"/>
 <!-- password reset -->
-<p>Forgot your password? <a href="<c:url value="passwordForm.html"/>">Request a password reset</a></p>
