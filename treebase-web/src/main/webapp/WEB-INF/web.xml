@@ -132,10 +132,10 @@
          </init-param>
 	</filter>
 	
-	<!-- <filter>
+	<filter>
     	<filter-name>ResponseOverrideFilter</filter-name>
     	<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
-  	</filter> -->
+  	</filter>
   	
   <filter>
     	<filter-name>UrlRewriteFilter</filter-name>
