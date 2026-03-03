@@ -18,9 +18,8 @@
         <pattern>/journal.html</pattern>
     </decorator>
 
-    <decorator name="default" page="defaultTemplate.jsp">
+    <decorator name="default" page="mainTemplate.jsp">
         <pattern>/home.html</pattern>
-        <pattern>/*</pattern>
     </decorator>
 	
 	<!-- decoration page for search pages -->
