@@ -5,7 +5,7 @@
 		<div class="card-body p-4">
 			<h2 class="card-title mb-4 text-center">Login to Treebase</h2>
 			<form method="post" id="loginForm" action="<c:url value="/j_security_check"/>">
-				<% 
+				<%
 					if(request.getParameter("importKey") != null){
 						session.setAttribute("importKey",request.getParameter("importKey"));
 					}
@@ -13,7 +13,7 @@
 				<c:if test="${param.error != null}">
 					<div class="alert alert-danger d-flex align-items-center mb-3" id="loginError" role="alert">
 						<img src="<c:url value="/images/iconWarning.gif"/>"
-								 alt="<fmt:message key="icon.warning"/>" class="me-2" style="height: 1.5em;" />
+						alt="<fmt:message key="icon.warning"/>" class="me-2" style="height: 1.5em;" />
 						<div><fmt:message key="errors.password.mismatch"/></div>
 					</div>
 				</c:if>
@@ -35,22 +35,22 @@
 					</button>
 				</div>
 
-        				<div class="text-center">
+				<div class="text-center">
 					<small>
 						<fmt:message key="login.signup">
 							<fmt:param><c:url value="/register.html"/></fmt:param>
-						</fmt:message>
-					</small>
-				</div>
-			</form>
+							</fmt:message>
+						</small>
+					</div>
+				</form>
+			</div>
+			<div class="card-footer"><small>Forgot your password? <a href="<c:url value="passwordForm.html"/>">Request a password reset</a></small>
+			</div>
 		</div>
-		<div class="card-footer"><small>Forgot your password? <a href="<c:url value="passwordForm.html"/>">Request a password reset</a></small>
-</div>
 	</div>
-</div>
-<script type="text/javascript">
-	//<![CDATA[
-	TreeBASE.register(function() { document.getElementById('j_username').focus(); });
-	//]]>
-</script>
+	<script type="text/javascript">
+		//<![CDATA[
+		TreeBASE.register(function() { document.getElementById('j_username').focus(); });
+		//]]>
+	</script>
 
