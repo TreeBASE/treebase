@@ -7,6 +7,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><%@ include file="/common/meta.jsp" %>
+<meta name="template" content="mainTemplate"/>
+
 <title>TreeBASE Web<decorator:title/></title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/styles.css'/>" />
 <!-- Bootstrap 5 CSS -->

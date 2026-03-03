@@ -7,6 +7,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><%@ include file="/common/meta.jsp" %>
+<meta name="template" content="adminTemplate"/>
 
 <title>TreeBASE-<decorator:title/></title>
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/styles.css'/>" />
