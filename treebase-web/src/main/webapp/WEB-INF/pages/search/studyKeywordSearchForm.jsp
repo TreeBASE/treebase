@@ -13,22 +13,38 @@
 	pageContext.setAttribute("searchOptions", searchOptions);
 
 %> 
-  <form id="searchSimple" method="post">
-  <fieldset>
-  For study IDs with values less than 3000, please search using the &quot;Legacy Study ID&quot; button.<br>
-  Search: <input type="hidden" name="formName" value="searchKeyword"/>
-    <input type="text" class="textCell" style="width:150px" name="searchTerm" id="keyword" value="${searchTerm}"/>
-	<select name="searchButton">
-  		<c:forEach var="options" items="${searchOptions}">
-  			<option value="${options.key}" <c:if test="${options.key == searchButton}">selected="selected"</c:if> />
-    			${options.value}
-			</option>
-		</c:forEach>
-	</select>	
-	<button type="submit" name="submit" >Search</button>
-	  		<a href="#" class="openHelp" onclick="openHelp('studyKeywordSearchForm')">
-	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
-	  		</a>    
-    </fieldset>
-    <jsp:include page="querySearchBox.jsp"/>  
-  </form>
+
+<form id="searchSimple" method="post" class="mb-3">
+	<fieldset class="border rounded p-3 mb-2">
+		<div class="mb-2">
+			<small class="text-muted">For study IDs with values less than 3000, please search using the "Legacy Study ID" button.</small>
+		</div>
+		<div class="row g-2 align-items-center">
+			<div class="col-auto">
+				<label for="keyword" class="form-label fw-semibold mb-0">Search:</label>
+				<input type="hidden" name="formName" value="searchKeyword"/>
+			</div>
+			<div class="col-auto">
+				<input type="text" class="form-control" style="width:150px" name="searchTerm" id="keyword" value="${searchTerm}"/>
+			</div>
+			<div class="col-auto">
+				<select name="searchButton" class="form-select">
+					<c:forEach var="options" items="${searchOptions}">
+						<option value="${options.key}" <c:if test="${options.key == searchButton}">selected="selected"</c:if>>
+							${options.value}
+						</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="col-auto">
+				<button type="submit" name="submit" class="btn btn-primary">Search</button>
+			</div>
+			<div class="col-auto">
+				<a href="#" class="openHelp ms-2" onclick="openHelp('studyKeywordSearchForm')">
+					<img class="iconButton" src="<fmt:message key="icons.help"/>" />
+				</a>
+			</div>
+		</div>
+	</fieldset>
+	<jsp:include page="querySearchBox.jsp"/>
+</form>

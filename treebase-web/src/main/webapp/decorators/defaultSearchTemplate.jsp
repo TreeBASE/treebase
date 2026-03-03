@@ -9,6 +9,9 @@
 <head><%@ include file="/common/meta.jsp" %>
 
 <title>TreeBASE Search-<decorator:title/></title>
+
+<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/styles.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/displaytag.css'/>" />
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/treebase.css'/>" />
@@ -128,30 +131,16 @@
 </head>
 	
 <body <decorator:getProperty property="body.id" writeEntireProperty="true"/> onload="TreeBASE.initialize()">
-<% if( isOldMSIE ){ %>
+	<%-- Sticky Bootstrap header --%>
+	<jsp:include page="/common/header.jsp"/>
+
+	<% if( isOldMSIE ){ %>
 <c:import url="/common/updateBrowser.jsp"/>
 <% } %>
-<!-- BEGIN WRAP -->
-<div id="wrap">
-	<!--  BEGIN HEADER -->
-	<div id="header"><jsp:include page="/common/header.jsp"/></div>
+<jsp:include page="/common/nav.jsp"/>
+		<jsp:include page="/common/search-nav.jsp"/>
 	
-	<!--  show top navigation menu for a logged in user -->
-	<c:if test="${pageContext['request'].remoteUser != null}">	
-		<ul id="login">
-			<li><strong>logged in as: <c:out value="${pageContext.request.remoteUser}"/></strong></li>
-			<li><strong><a href="<c:url value="/logout.jsp"/>"><fmt:message key="nav.logout"/></a></strong></li>
-		</ul>				
-	</c:if>
-	<c:if test="${pageContext['request'].remoteUser == null}">	
-		<ul id="login">
-			<li><strong>not logged in</strong></li>
-			<li><strong><a href="<c:url value="/login.jsp"/>"><fmt:message key="nav.login"/></a></strong></li>
-		</ul>				
-	</c:if>	
-	<jsp:include page="/common/search-topnav.jsp"/>
-	
-
+	<!-- <jsp:include page="/common/search-topnav.jsp"/> -->
 	
 	<!-- BEGIN RIGHT COLUMN -->
 	<div id="content" class="contentsearch">
@@ -167,10 +156,11 @@
 	<c:import url="/common/searchMenuRight.jsp"/>
 	<c:import url="/common/searchSummaryMenuRight.jsp"/>
     --%>
-	
-	<!-- BEGIN FOOTER -->
+
+		<!-- BEING FOOTER -->
 	<div id="footer"><c:import url="/common/footer.jsp" /></div>
-</div> <!-- END WRAP -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <jsp:include page="/common/googleAnalytics.jsp"/>
 </body>
 </html>

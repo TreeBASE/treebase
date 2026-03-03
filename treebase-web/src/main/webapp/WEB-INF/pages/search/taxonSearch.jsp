@@ -3,8 +3,6 @@
 <title><fmt:message key="search.taxon"/></title>
 <body id="s-taxon"/>
 
-<div id="wrap">
-		<jsp:include page="/common/search-nav.jsp"/>
 
 <div id="s-clear"></div>
 
@@ -48,5 +46,3 @@
 </c:if>
 
 <jsp:include page="searchResultsList.jsp"/> 
-
-</div>
