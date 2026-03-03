@@ -33,16 +33,12 @@ h1, h2, h3 {
 
 #content h2 {
 	margin: 0px;
-	padding: 15px !important;
-	border-top: 1px solid #3d649f;
-	background-image: url("../images/footer_bg.gif")
 }
 
 #contentRight h1 {
 	margin: 0px;
 	padding: 15px;
 	border-top: 1px solid #3d649f;
-	background-image: url("../images/footer_bg.gif")
 }
 
 #contentRight h2, #contentRight h3, #contentRight p, #content p, #content h3, #contentRight dl {
@@ -53,6 +49,10 @@ h1, h2, h3 {
 
 dt { font-weight: bold }
 
+.fa-icon{
+	height: 24px;
+	color: #3d649f;
+}
 #contentRight h2 {
 	border-top: 1px solid #3d649f
 }
@@ -206,6 +206,7 @@ dt { font-weight: bold }
 
 .navbar{
 	background-color: #3863a4;
+	padding: 0;
 }
 #nav, #s-nav {
 	float: left;
