@@ -104,14 +104,8 @@
 	<!-- <div id="header"><jsp:include page="/common/header.jsp"/></div> -->
 	
 	<!--  show top navigation menu for a logged in user -->
-	<c:if test="${pageContext['request'].remoteUser != null}">	
-		<ul id="login">
-			<li><strong>logged in as: <c:out value="${pageContext.request.remoteUser}"/></strong></li>
-			<li><strong><a href="<c:url value="/logout.jsp"/>"><fmt:message key="nav.logout"/></a></strong></li>
-		</ul>
-		<jsp:include page="/common/nav.jsp"/>
-		
-	</c:if>
+
+<jsp:include page="/common/nav.jsp"/>
 	
 
 	

@@ -37,6 +37,7 @@ function checkPasswords() {
     </div>
     </c:if>
 </spring:bind>
+<div class="container d-flex align-items-center justify-content-center min-vh-100 ">
 
 <form method="post" name="userForm" id="userForm" class="container mt-5" style="max-width: 600px;" onsubmit="if (document.userForm.pressedButton.value != '_cancel') return validateUser(this)">
 
@@ -147,13 +148,7 @@ function checkPasswords() {
         </div>
     </div>
 </form>
-
-<script type="text/javascript">
-	function test(){
- //   	form.focusFirstElement(document.forms["userForm"]);
- //   	highlightFormElements();
-    }
-</script>
+</div>
 
 <v:javascript formName="user" staticJavascript="false"/>
 <script type="text/javascript" src="<c:url value="/scripts/validator.jsp"/>"></script>

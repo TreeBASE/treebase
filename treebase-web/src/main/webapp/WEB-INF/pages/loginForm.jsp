@@ -1,9 +1,9 @@
 <%@ include file="/common/taglibs.jsp"%>
 
-<div class="container d-flex align-items-center justify-content-center min-vh-100">
-	<div class="card shadow-lg w-100" style="max-width: 400px;">
+<div class="container d-flex align-items-center justify-content-center min-vh-100 ">
+	<div class="card shadow-lg" style="max-width: 400px;">
 		<div class="card-body p-4">
-			<h2 class="card-title mb-4 text-center">Login</h2>
+			<h2 class="card-title mb-4 text-center">Login to Treebase</h2>
 			<form method="post" id="loginForm" action="<c:url value="/j_security_check"/>">
 				<% 
 					if(request.getParameter("importKey") != null){
@@ -34,12 +34,7 @@
 						<fmt:message key="button.login"/>
 					</button>
 				</div>
-				<div class="text-center">
-					<small>
-						<fmt:message key="login.pleasefillin"/><br/>
-						<fmt:message key="login.requiredfields"/>
-					</small>
-				</div>
+
         				<div class="text-center">
 					<small>
 						<fmt:message key="login.signup">
@@ -49,6 +44,8 @@
 				</div>
 			</form>
 		</div>
+		<div class="card-footer"><small>Forgot your password? <a href="<c:url value="passwordForm.html"/>">Request a password reset</a></small>
+</div>
 	</div>
 </div>
 <script type="text/javascript">

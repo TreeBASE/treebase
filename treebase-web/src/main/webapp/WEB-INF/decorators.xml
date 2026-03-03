@@ -6,7 +6,6 @@
     
 	<!-- decoration page for the main opening page -->
     <decorator name="main" page="mainTemplate.jsp">
-        <pattern>/home.html</pattern>
         <pattern>/dataMan.html</pattern>
         <pattern>/submitTutorial.html</pattern>
         <pattern>/about.html</pattern>
@@ -17,6 +16,11 @@
         <pattern>/reference.html</pattern>
         <pattern>/contact.html</pattern>
         <pattern>/journal.html</pattern>
+    </decorator>
+
+    <decorator name="default" page="defaultTemplate.jsp">
+        <pattern>/home.html</pattern>
+        <pattern>/*</pattern>
     </decorator>
 	
 	<!-- decoration page for search pages -->
