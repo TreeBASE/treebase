@@ -1,28 +1,62 @@
 <%@ include file="/common/taglibs.jsp"%>
 
-<div style="float:left; width: 50%;">
-  <form id="topology4" method="post">
-  <fieldset>
-  <input type="hidden" name="formName" value="topology4a"/>
-  <legend>Search for trees with this topology
-	  		<a href="#" class="openHelp" onclick="openHelp('treeTopology4aSearchForm')">
-	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
-	  		</a>   
-  </legend>
-  <table cellspacing=0 cellpadding=0>
-  
-  <tr><td>&nbsp;</td><td>&nbsp;</td><td><img src="../images/lines/DR.gif"/></td><td><input type="text" class="textCell" style="width:150px"  name="taxon_a" value=""/></td></tr>
-  <tr><td>&nbsp;</td><td><img src="../images/lines/DR.gif"/></td><td><img src="../images/lines/ULD.gif"/></td><td>&nbsp;</td></tr>
-  <tr><td>&nbsp;</td><td><img src="../images/lines/UD.gif"/></td><td><img src="../images/lines/UR.gif"/></td><td><input type="text" class="textCell" style="width:150px"  name="taxon_b" value=""/></td></tr>
-  <tr><td><img src="../images/lines/DR.gif"/></td><td><img src="../images/lines/ULD.gif"/></td><td>&nbsp;</td><td>&nbsp;</td></tr>
-  <tr><td><img src="../images/lines/UD.gif"/></td><td><img src="../images/lines/UR.gif"/></td><td><img src="../images/lines/LR.gif"/></td><td><input type="text" class="textCell" style="width:150px"  name="taxon_c" value=""/></td></tr>
-  <tr><td><img src="../images/lines/ULD.gif"/></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-  <tr><td><img src="../images/lines/UR.gif"/></td><td><img src="../images/lines/LR.gif"/></td><td><img src="../images/lines/LR.gif"/></td><td><input type="text" class="textCell" style="width:150px"  name="taxon_d" value=""/></td></tr>
-  
-  </table>
-  <input type=submit value="Search"/>
-  </fieldset>
-   </form>
-
-   </div>
-   
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Search for trees with this topology</span>
+        <a href="#" class="openHelp" onclick="openHelp('treeTopology4aSearchForm')">
+            <i class="fa fa-question-circle fa-icon"></i> Help
+        </a>
+    </div>
+    <div class="card-body">
+        <form id="topology4" method="post">
+            <input type="hidden" name="formName" value="topology4a"/>
+            <table class="mb-3" style="border-collapse: collapse;">
+                <tr>
+                    <td class="line">&nbsp;</td>
+                    <td class="line">&nbsp;</td>
+                    <td class="line"><img src="../images/lines/DR.gif" alt=""/></td>
+                    <td class="line"><input type="text" class="form-control" style="width:150px" name="taxon_a" value="" placeholder="Taxon A"/></td>
+                </tr>
+                <tr>
+                    <td class="line">&nbsp;</td>
+                    <td class="line"><img src="../images/lines/DR.gif" alt=""/></td>
+                    <td class="line"><img src="../images/lines/ULD.gif" alt=""/></td>
+                    <td class="line">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="line">&nbsp;</td>
+                    <td class="line"><img src="../images/lines/UD.gif" alt=""/></td>
+                    <td class="line"><img src="../images/lines/UR.gif" alt=""/></td>
+                    <td class="line"><input type="text" class="form-control" style="width:150px" name="taxon_b" value="" placeholder="Taxon B"/></td>
+                </tr>
+                <tr>
+                    <td class="line"><img src="../images/lines/DR.gif" alt=""/></td>
+                    <td class="line"><img src="../images/lines/ULD.gif" alt=""/></td>
+                    <td class="line">&nbsp;</td>
+                    <td class="line">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="line"><img src="../images/lines/UD.gif" alt=""/></td>
+                    <td class="line"><img src="../images/lines/UR.gif" alt=""/></td>
+                    <td class="line"><img src="../images/lines/LR.gif" alt=""/></td>
+                    <td class="line"><input type="text" class="form-control" style="width:150px" name="taxon_c" value="" placeholder="Taxon C"/></td>
+                </tr>
+                <tr>
+                    <td class="line"><img src="../images/lines/ULD.gif" alt=""/></td>
+                    <td class="line">&nbsp;</td>
+                    <td class="line">&nbsp;</td>
+                    <td class="line">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="line"><img src="../images/lines/UR.gif" alt=""/></td>
+                    <td class="line"><img src="../images/lines/LR.gif" alt=""/></td>
+                    <td class="line"><img src="../images/lines/LR.gif" alt=""/></td>
+                    <td class="line"><input type="text" class="form-control" style="width:150px" name="taxon_d" value="" placeholder="Taxon D"/></td>
+                </tr>
+            </table>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+</div>

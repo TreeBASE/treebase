@@ -56,7 +56,9 @@ function checkPasswords() {
 </div>
         <div class="card-body p-4">
             <h2 class="card-title mb-4 text-center">User profile
-                <a href="#" class="openHelp ms-2" onclick="openHelp('userForm')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+                <a href="#" class="openHelp" onclick="openHelp('userForm')">
+                <li class="fa fa-question-circle fa-icon"></li>
+                </a>
             </h2>
 
             <div class="mb-3">

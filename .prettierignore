@@ -1,0 +1,12 @@
+# JSP files - Prettier doesn't support JSP/EL syntax
+*.jsp
+
+# Java build outputs
+target/
+*.class
+*.jar
+*.war
+
+# IDE files
+.idea/
+*.iml

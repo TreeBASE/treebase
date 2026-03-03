@@ -5,7 +5,8 @@
 #content a:link, #contentRight a:link {
 	color: #003366;
 	text-decoration: none;
-	font-weight: bold
+	font-weight: bold;
+	margin-bottom: 2px;
 }
 
 #content a:visited, #contentRight a:visited {
@@ -15,14 +16,16 @@
 }
 
 #content a:hover, #contentRight a:hover {
-	border-bottom: 2px solid #FF4500;
-	font-weight: bold
+	border-bottom: 2px solid #3863a4;
+	font-weight: bold;
+	margin-bottom: 0px;
 }
 
 #content a:active, #contentRight a:active {
 	text-decoration: underline;
 	font-weight: bold
 }
+
 
 /* Header Tag Styles 
 *******************************************************************************************/
@@ -201,6 +204,10 @@ dt { font-weight: bold }
 	padding: 15px;
 }
 
+
+
+
+
 /* Tabbed Navigation  
 *******************************************************************************************/	
 
@@ -208,6 +215,17 @@ dt { font-weight: bold }
 	background-color: #3863a4;
 	padding: 0;
 }
+
+.nav-item
+{
+	margin-bottom: 2px;
+}
+.nav-item:hover
+{
+	margin-bottom: 0px;
+	border-bottom: 2px solid #3863a4;
+}
+
 #nav, #s-nav {
 	float: left;
 	margin: 0;
