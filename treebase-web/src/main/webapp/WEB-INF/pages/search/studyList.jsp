@@ -6,10 +6,10 @@
 <display:table name="${resultSet.results}" 
 			   requestURI=""
 			   defaultsort="1"
-			   class="list"
+			   class="table table-striped table-hover"
 			   id="study"
-			   cellspacing="3"
-			   cellpadding="3">
+			   cellspacing="0"
+			   cellpadding="0">
 
 	<display:column title="" sortable="true" class="checkBoxColumn noBreak">		
 		<c:url var="url" value="study/summary.html">

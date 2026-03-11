@@ -18,14 +18,34 @@
   <a href="#" class="openHelp" onclick="openHelp('s+res+deselect-all+btn')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
  -->
 
-  <input type="submit" id="refineSearch" value="Discard Unchecked Items" onclick="doAction('refineSearch')"/>
-  <a href="#" class="openHelp" onclick="openHelp('s+res+discard-unchecked-items+btn')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+<div class="d-flex flex-wrap gap-2 mt-3">
+  <div class="btn-group">
+    <button type="button" class="btn btn-outline-primary" id="refineSearch" onclick="doAction('refineSearch')">
+      <i class="fa fa-filter me-1"></i>Discard Unchecked Items
+    </button>
+    <a href="#" class="btn btn-outline-secondary openHelp" onclick="openHelp('s+res+discard-unchecked-items+btn')">
+      <i class="fa fa-question-circle"></i>
+    </a>
+  </div>
   
-  <input style="align: right;" type="submit" id="discardResults" value="Discard All Results" onclick="confirmDiscard()"/>
-  <a href="#" class="openHelp" onclick="openHelp('s+res+discard-these-results+btn')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+  <div class="btn-group">
+    <button type="button" class="btn btn-outline-danger" id="discardResults" onclick="confirmDiscard()">
+      <i class="fa fa-trash me-1"></i>Discard All Results
+    </button>
+    <a href="#" class="btn btn-outline-secondary openHelp" onclick="openHelp('s+res+discard-these-results+btn')">
+      <i class="fa fa-question-circle"></i>
+    </a>
+  </div>
 
   <c:if test="${resultSet.resultType == 'TREE'}">
-  	<input style="align: right;" type="submit" id="downloadAllTrees" value="Download All Trees" onclick="doAction('downloadAllTrees')"/>
-  	<a href="#" class="openHelp" onclick="openHelp('s+res+download-all-treess+btn')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+    <div class="btn-group">
+      <button type="button" class="btn btn-outline-success" id="downloadAllTrees" onclick="doAction('downloadAllTrees')">
+        <i class="fa fa-download me-1"></i>Download All Trees
+      </button>
+      <a href="#" class="btn btn-outline-secondary openHelp" onclick="openHelp('s+res+download-all-treess+btn')">
+        <i class="fa fa-question-circle"></i>
+      </a>
+    </div>
   </c:if>
+</div>
 </c:if>

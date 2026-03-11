@@ -10,10 +10,10 @@
 
 <display:table name="${resultSet.results}"
 			   requestURI=""
-			   class="list"
+			   class="table table-striped table-hover"
 			   id="matrix"
-			   cellspacing="3"
-			   cellpadding="3"
+			   cellspacing="0"
+			   cellpadding="0"
 			   export = "false">
 			   
 	<display:column title="" sortable="true" class="checkBoxColumn">
@@ -90,11 +90,7 @@
 			<c:param name="id" value="${matrix.study.id}" />
 		</c:url>
 		<a href="${url}">		
-			<img 
-				class="iconButton" 
-				src="<fmt:message key="icons.list"/>" 
-				title="<fmt:message key="matrix.row.list"/>" 
-				alt="<fmt:message key="matrix.row.list"/>"/>
+			<i class="fa fa-question-circle fa-icon"></i> Help
 		</a>				
 	</display:column>	
 				

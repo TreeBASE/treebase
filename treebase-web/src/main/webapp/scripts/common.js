@@ -79,9 +79,9 @@ TreeBASE.register(
 			}
 		}
 		if ( iconColumnHeaders.length > 0 ) {
-			iconColumnHeaders[0].innerHTML = '<a href="/treebase-web/help/iconLegend.jsp"><img src="/treebase-web/images/icons/help.png" class="iconButton" alt="Icon Legend" title="Icon Legend"/></a>';
+			iconColumnHeaders[0].innerHTML = '<a href="/treebase-web/help/iconLegend.jsp"><i class="fa fa-question-circle fa-icon"></i></a>';
 			for ( var i = 0; i < iconColumnHeaders.length; i++ ) {
-				iconColumnHeaders[i].style.backgroundColor = 'pink';
+				iconColumnHeaders[i].style.textAlign = 'right';
 			}
 		}
 	}

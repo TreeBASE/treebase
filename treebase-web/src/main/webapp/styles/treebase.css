@@ -1,6 +1,26 @@
 /* Labels for validation and label tag */
 @import url(displaytag.css);
 
+/* Site background with opacity control */
+body {
+    position: relative;
+    background-color: #f8f9fa;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../images/bg/bg-grey-leaf.png);
+    background-repeat: repeat;
+    opacity: 0.3; /* Adjust this value: 0 = invisible, 1 = fully visible */
+    z-index: -1;
+    pointer-events: none;
+}
+
 div.error {
     border: 2px solid red;
 }
