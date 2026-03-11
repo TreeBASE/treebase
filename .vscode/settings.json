@@ -2,5 +2,6 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "emmet.includeLanguages": {
         "jsp": "html"
-    }
+    },
+    "java.compile.nullAnalysis.mode": "automatic"
 }
