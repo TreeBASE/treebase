@@ -1,17 +1,17 @@
 <%@ include file="/common/taglibs.jsp"%>
 
 <div class="mt-3">
-    <a href="#" class="text-decoration-none" onclick="TreeBASE.collapseExpand('CQLBox','block',this); return false;" title="Toggle advanced search">
-        <img class="iconButton me-1" src="<fmt:message key="icons.expand"/>" style="vertical-align:middle" alt="expand"/>
+    <a href="#CQLBox" class="text-decoration-none collapse-toggle" data-bs-toggle="collapse" aria-expanded="false" aria-controls="CQLBox">
+        <i class="fa fa-search-plus me-1" id="advancedSearchIcon"></i>
         <span>Advanced search...</span>
     </a>
 </div>
 
-<div id="CQLBox" class="card mt-3" style="display:none">
-    <div class="card-header">
+<div id="CQLBox" class="collapse mt-3">
+    <div class="">
         <strong>CQL Query Testing</strong>
     </div>
-    <div class="card-body">
+    <div class="">
         <p class="card-text">
             The TreeBASE website can be searched using a subset of constructs from the 
             <a href="http://www.loc.gov/standards/sru/specs/cql.html" target="_blank">CQL</a> specification. For

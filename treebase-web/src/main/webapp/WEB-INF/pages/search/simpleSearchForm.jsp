@@ -8,7 +8,7 @@
         </div>
         <div class="col-auto">
             <button type="submit" onclick="return TreeBASE.redirect(phyloWSURI + escape($('expanded').value));" class="btn btn-primary">
-                <i class="bi bi-search me-1"></i>Go
+                <i class="fa fa-search me-1"></i>Search
             </button>
         </div>
     </div>
@@ -23,12 +23,12 @@
         </div>
     </div>
     <div class="mt-3">
-        <a href="#" class="text-decoration-none" onclick="TreeBASE.collapseExpand('expanded','block',this); return false;" id="expander">
-            <img src="http://www.treebase.org/treebase-web/images/plus.gif" class="me-1" style="vertical-align: middle;"/>
+        <a href="#expanded" class="text-decoration-none collapse-toggle" data-bs-toggle="collapse" aria-expanded="false" aria-controls="expanded" id="expander">
+            <i class="fa fa-search-plus me-1"></i>
             <span>Advanced search...</span>
         </a>
     </div>
-    <div id="expanded" class="card mt-3" style="display:none">
+    <div id="expanded" class="collapse card mt-3">
         <div class="card-body">
             <textarea class="form-control" rows="8" placeholder="Enter advanced query..."></textarea>
         </div>

@@ -1,5 +1,4 @@
 <%@ include file="/common/taglibs.jsp"%>
-<li class="nav-item nav-divider"></li>
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="documentationMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <fmt:message key="nav.documentation"/>

@@ -1,6 +1,6 @@
 <%@ include file="/common/taglibs.jsp" %>
-<div id="contentRight"><div id="contentRight">
-	<div class="gutter">
+<title><fmt:message key="nav.submission.home"/></title>
+
 		<h1>Welcome to TreeBASE</h1>
 		<p>TreeBASE is a repository of phylogenetic information, specifically user-submitted phylogenetic 
 		trees and the data used to generate them. TreeBASE accepts all kinds of phylogenetic data (e.g., 
@@ -63,5 +63,3 @@
 		  RSS Reader to fetch all new TreeBASE studies that satisfy a particular query (e.g. return all studies published in &quot;Systematic Biology,&quot; 
 		  or return all trees that include &quot;Homo sapiens,&quot; etc)</li>
 		</ul>
-	</div>
-</div>

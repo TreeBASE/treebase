@@ -11,9 +11,10 @@
 			<a class="nav-link" href="<c:url value="/search/studySearch.html"/>"><fmt:message key="nav.search.treebase"/></a>
 		</li>
 
+		<li class="nav-item nav-divider"></li>
 		<%@ include file="nav-docs.jsp"%>
 		<%@ include file="nav-about.jsp"%>
-
+		<li class="nav-item nav-divider"></li>
 
 
 		<li  class="nav-item"><a class="nav-link" href="<c:url value="/dataMan.html"/>"><fmt:message key="nav.dataman"/></a></li>

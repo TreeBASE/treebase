@@ -16,7 +16,6 @@
 
 <form id="searchSimple" method="post">
     <input type="hidden" name="formName" value="searchKeyword"/>
-    <p class="text-muted small mb-3">For study IDs with values less than 3000, please search using the "Legacy Study ID" button.</p>
     <div class="row g-3 align-items-center">
         <div class="col-auto">
             <label for="keyword" class="col-form-label fw-semibold">Search:</label>
@@ -35,10 +34,11 @@
         </div>
         <div class="col-auto">
             <button type="submit" name="submit" class="btn btn-primary">
-                <i class="bi bi-search me-1"></i>Search
+                <i class="fa fa-search me-1"></i>Search
             </button>
         </div>
 
     </div>
+    <p class="text-muted small mb-3">For study IDs with values less than 3000, please search using the "Legacy Study ID" button.</p>
     <jsp:include page="querySearchBox.jsp"/>
 </form>

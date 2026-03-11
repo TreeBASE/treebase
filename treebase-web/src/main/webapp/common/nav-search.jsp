@@ -17,7 +17,7 @@
 %>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
 	<div class="container-fluid">
 		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 			<li class="nav-item">
@@ -50,6 +50,8 @@
 					<fmt:message key="search.nav.treeTopTab"/>
 				</a>
 			</li>
+<li class="nav-item nav-divider"></li>
+
 			<li class="nav-item">
 				<a class="nav-link openHelp" href="#" onclick="openHelp('searchTabs')">
 					<i class="fa fa-question-circle fa-icon"></i> Help

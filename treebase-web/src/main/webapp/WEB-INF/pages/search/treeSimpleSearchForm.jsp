@@ -30,7 +30,7 @@
         </div>
         <div class="col-auto">
             <button type="submit" name="submit" class="btn btn-primary">
-                <i class="bi bi-search me-1"></i>Search
+                <i class="fa fa-search me-1"></i>Search
             </button>
         </div>
     </div>

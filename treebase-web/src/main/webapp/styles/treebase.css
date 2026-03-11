@@ -48,6 +48,19 @@ ul.recent-studies li a {
 	font-weight: normal;
 }
 
+/* Bootstrap collapse icon toggle */
+.collapse-toggle[aria-expanded="true"] .collapse-icon::before {
+	content: "\F2EA"; /* bi-dash-lg */
+}
+.collapse-toggle[aria-expanded="false"] .collapse-icon::before {
+	content: "\F4FE"; /* bi-plus-lg */
+}
+
+/* Font Awesome search icon toggle */
+.collapse-toggle[aria-expanded="true"] .fa-search-plus::before {
+	content: "\f010"; /* fa-search-minus */
+}
+
 ul.recent-studies .study-date {
 	color: #666;
 	font-size: 0.9em;

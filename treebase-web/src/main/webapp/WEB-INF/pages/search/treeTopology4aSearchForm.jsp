@@ -10,7 +10,7 @@
     <div class="card-body">
         <form id="topology4" method="post">
             <input type="hidden" name="formName" value="topology4a"/>
-            <table class="mb-3" style="border-collapse: collapse;">
+            <table class="mb-3" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">
                 <tr>
                     <td class="line">&nbsp;</td>
                     <td class="line">&nbsp;</td>
@@ -55,7 +55,7 @@
                 </tr>
             </table>
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search me-1"></i>Search</button>
             </div>
         </form>
     </div>
