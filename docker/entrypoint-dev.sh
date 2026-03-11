@@ -108,5 +108,6 @@ echo "JSP files are mounted from: ./treebase-web/src/main/webapp"
 echo "Edit JSP files locally and refresh browser to see changes!"
 echo "========================================"
 
+
 # Execute the CMD
 exec catalina.sh run

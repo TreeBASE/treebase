@@ -10,9 +10,9 @@
 <meta name="template" content="mainTemplate"/>
 
 <title>TreeBASE Web<decorator:title/></title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/styles/styles.css'/>" />
 <!-- Bootstrap 5 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="<c:url value='/styles/styles.css'/>" />
 <!-- jQuery - replaces Prototype.js -->
 <script type="text/javascript" src="<c:url value='/scripts/jquery-3.7.1.min.js'/>"></script>
 <!-- Phylotree.js stack -->
@@ -31,6 +31,8 @@
 <c:import url="/common/updateBrowser.jsp"/>
 <% } %>
 <c:import url="/common/header.jsp"/>
+<jsp:include page="/common/nav.jsp"/>
+
 	<div class="container-fluid">
 	<!-- BEGIN LEFT SIDEBAR -->
 	<div id="sidebarLeft"><c:import url="/common/sidebarLeft.jsp"/></div>

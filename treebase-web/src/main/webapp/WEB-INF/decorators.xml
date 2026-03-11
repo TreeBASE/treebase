@@ -5,7 +5,7 @@
     </excludes> 
     
 	<!-- decoration page for the main opening page -->
-    <decorator name="main" page="mainTemplate.jsp">
+    <decorator name="main" page="defaultTemplate.jsp">
         <pattern>/dataMan.html</pattern>
         <pattern>/submitTutorial.html</pattern>
         <pattern>/about.html</pattern>
