@@ -16,9 +16,6 @@
         <pattern>/reference.html</pattern>
         <pattern>/contact.html</pattern>
         <pattern>/journal.html</pattern>
-    </decorator>
-
-    <decorator name="default" page="mainTemplate.jsp">
         <pattern>/home.html</pattern>
     </decorator>
 	
