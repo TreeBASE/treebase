@@ -1,18 +1,19 @@
 <%@ include file="/common/taglibs.jsp"%>
 
 
-<div class="container-fluid">
-			<h2 class="text-center"><fmt:message key="submission.list.title"/></h2>
+<div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+			<fmt:message key="submission.list.title"/>
+			            <a href="#" class="openHelp" onclick="openHelp('submissionList')">
+                <i class="fa fa-question-circle fa-icon"></i> Help
+            </a>
+		</div>
+		<div class="card-body">
 			<form method="post" action="<c:url value='/user/submissionList.html'/>">
 				<c:url var="inProgressURL" value="/user/submissionList.html?method=inProgressSubmission" />
 				<c:url var="deletePageURL" value="/user/deleteStudy.html?" />
 				<c:url var="readyStateURL" value="/user/readyState.html?"/>
-				<fieldset class="border rounded p-3 mb-4">
-					<legend class="float-none w-auto px-2">Submissions
-						<a href="#" class="openHelp ms-2" onclick="openHelp('submissionList')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
-					</legend>
 					<p class="mb-3">The table below shows a list of your Treebase submissions. Submissions can only be deleted after all trees and matrices are deleted first.</p>
-					<div class="table-responsive">
 						<display:table 
 							name="${submissionList}" 
 							requestURI=""
@@ -61,8 +62,6 @@
 							</display:footer>
 							<display:setProperty name="basic.empty.showtable" value="true"/>
 						</display:table>
-					</div>
-				</fieldset>
 				<fieldset class="border rounded p-3">
 					<legend class="float-none w-auto px-2">Dryad Import Result:
 						<a href="#" class="openHelp ms-2" onclick="openHelp('dryadImport')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
@@ -77,3 +76,5 @@
 				</fieldset>
 			</form>
 		</div>
+</div>
+
