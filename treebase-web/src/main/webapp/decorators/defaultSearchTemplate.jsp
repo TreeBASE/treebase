@@ -24,6 +24,8 @@
 		<script type="text/javascript" src="<c:url value='/scripts/phylotree.js'/>"></script>
 		<link rel="stylesheet" type="text/css" href="<c:url value='/styles/phylotree.css'/>" />
 		<!-- End Phylotree.js stack -->
+		<!-- jQuery -->
+		<script type="text/javascript" src="<c:url value='/scripts/jquery-3.7.1.min.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/scripts/menuExpandable.js'/>"></script>
 		<script type="text/javascript" src="<c:url value='/scripts/common.js'/>"></script>
 
