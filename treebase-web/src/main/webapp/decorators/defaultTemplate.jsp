@@ -108,21 +108,20 @@
 
 		<jsp:include page="/common/nav.jsp"/>
 
-		<div class="container">
-			<h2><decorator:getProperty property="page.heading"/></h2>
-			<%@ include file="/common/messages.jsp" %>
-			<decorator:body/>
-		</div>
-
-		<!-- show RHS menu for a logged in user after a submission is selected but not when display the all submissions -->
+		<!-- show submission menu bar for a logged in user after a submission is selected -->
 		<% if (request.getSession().getAttribute("studyMap") != null  &&
 			request.getRequestURL().indexOf("/user/submissionList.html") == -1 ) {
 			%>
 			<c:if test="${search != 'y' && pageContext['request'].remoteUser != null }">
 				<c:import url="/common/submissionMenu.jsp"/>
 			</c:if>
-			<% } %>
+		<% } %>
 
+		<div class="container">
+			<h2><decorator:getProperty property="page.heading"/></h2>
+			<%@ include file="/common/messages.jsp" %>
+			<decorator:body/>
+		</div>
 
 			<!-- Bootstrap 5 JS Bundle -->
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

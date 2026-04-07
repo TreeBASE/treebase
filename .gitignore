@@ -13,6 +13,7 @@ oai-pmh_data_provider/data_provider_web/target/
 **/*.log
 **/*.log.*
 
+
 # Eclipse-specific files and folders
 .settings/
 .classpath

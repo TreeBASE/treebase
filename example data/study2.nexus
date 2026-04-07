@@ -1,0 +1,1288 @@
+<nex:nexml xmlns:nex="http://www.nexml.org/2009" xmlns="http://www.nexml.org/2009" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:prism="http://prismstandard.org/namespaces/1.2/basic/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:tb="http://purl.org/phylo/treebase/2.0/terms#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" about="#S1311" generator="org.nexml.model.impl.DocumentImpl" id="S1311" version="0.9" xml:base="http://purl.org/phylo/treebase/phylows/study/TB2:">
+<meta content="Generated on Fri Mar 13 09:29:07 UTC 2026" datatype="xsd:string" id="meta18" property="skos:changeNote" xsi:type="nex:LiteralMeta"/>
+<meta content="Mapped from TreeBASE schema using org.cipres.treebase.domain.nexus.nexml.NexmlDocumentWriter@409887f8 $Rev$" datatype="xsd:string" id="meta17" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
+<meta content="Molecular Phylogenetics and Evolution" datatype="xsd:string" id="meta16" property="dc:publisher" xsi:type="nex:LiteralMeta"/>
+<meta content="Molecular Phylogenetics and Evolution" datatype="xsd:string" id="meta15" property="prism:publicationName" xsi:type="nex:LiteralMeta"/>
+<meta content="" datatype="xsd:string" id="meta14" property="dc:subject" xsi:type="nex:LiteralMeta"/>
+<meta content="2005" datatype="xsd:string" id="meta13" property="prism:publicationDate" xsi:type="nex:LiteralMeta"/>
+<meta content="Lee M." datatype="xsd:string" id="meta12" property="dc:contributor" xsi:type="nex:LiteralMeta"/>
+<meta content="Wilson N." datatype="xsd:string" id="meta11" property="dc:contributor" xsi:type="nex:LiteralMeta"/>
+<meta content="Wilson N., & Lee M." datatype="xsd:string" id="meta10" property="dc:creator" xsi:type="nex:LiteralMeta"/>
+<meta content="Molecular phylogeny of Chromodoris (Mollusca, Nudibranchia) and the identification of a planar spawning clade" datatype="xsd:string" id="meta9" property="dc:title" xsi:type="nex:LiteralMeta"/>
+<meta content="Wilson N., & Lee M. 2005. Molecular phylogeny of Chromodoris (Mollusca, Nudibranchia) and the identification of a planar spawning clade. Molecular Phylogenetics and Evolution, null." datatype="xsd:string" id="meta8" property="dcterms:bibliographicCitation" xsi:type="nex:LiteralMeta"/>
+<meta content="2005-01-28" datatype="xsd:string" id="meta7" property="prism:creationDate" xsi:type="nex:LiteralMeta"/>
+<meta content="2005-01-28" datatype="xsd:string" id="meta6" property="prism:modificationDate" xsi:type="nex:LiteralMeta"/>
+<meta content="2005-01-28" datatype="xsd:string" id="meta5" property="dc:date" xsi:type="nex:LiteralMeta"/>
+<meta content="S1231" datatype="xsd:string" id="meta4" property="tb:identifier.study.tb1" xsi:type="nex:LiteralMeta"/>
+<meta content="1311" datatype="xsd:string" id="meta3" property="tb:identifier.study" xsi:type="nex:LiteralMeta"/>
+<meta content="Study" datatype="xsd:string" id="meta1" property="prism:section" xsi:type="nex:LiteralMeta"/>
+<otus about="#Tls11862" id="Tls11862" label="TaxonLabelSet11862" xml:base="http://purl.org/phylo/treebase/phylows/taxon/TB2:">
+<meta content="Mapped from TreeBASE schema using org.cipres.treebase.domain.nexus.nexml.NexmlOTUWriter@5c52fc0e $Rev$" datatype="xsd:string" id="meta20" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
+<otu about="#Tl156846" id="Tl156846" label="Chromodoris aspersa">
+<meta content="5984" datatype="xsd:long" id="meta26" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14470" datatype="xsd:long" id="meta25" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262610" id="meta24" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977030" id="meta23" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta22" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156842" id="Tl156842" label="Chromodoris alternata">
+<meta content="5982" datatype="xsd:long" id="meta32" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14468" datatype="xsd:long" id="meta31" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262597" id="meta30" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977020" id="meta29" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta28" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156839" id="Tl156839" label="Chromodoris ambiguus">
+<meta content="5983" datatype="xsd:long" id="meta38" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14469" datatype="xsd:long" id="meta37" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262598" id="meta36" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977021" id="meta35" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta34" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156843" id="Tl156843" label="Cadlina luteomarginata">
+<meta content="4359" datatype="xsd:long" id="meta44" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="10500" datatype="xsd:long" id="meta43" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/76163" id="meta42" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:2688989" id="meta41" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta40" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156841" id="Tl156841" label="Cadlina laevis">
+<meta content="4357" datatype="xsd:long" id="meta50" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="10496" datatype="xsd:long" id="meta49" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/71296" id="meta48" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:2688991" id="meta47" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta46" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156830" id="Tl156830" label="Cadlina luarna">
+<meta content="4358" datatype="xsd:long" id="meta56" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="10498" datatype="xsd:long" id="meta55" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/190910" id="meta54" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5700766" id="meta53" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta52" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156825" id="Tl156825" label="Cadlinella ornatissima">
+<meta content="4360" datatype="xsd:long" id="meta62" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="10501" datatype="xsd:long" id="meta61" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262600" id="meta60" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977022" id="meta59" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta58" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156828" id="Tl156828" label="Actinocyclus verrucosus">
+<meta content="368" datatype="xsd:long" id="meta68" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="889" datatype="xsd:long" id="meta67" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262596" id="meta66" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977019" id="meta65" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta64" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156826" id="Tl156826" label="Chromodoris kuniei">
+<meta content="5991" datatype="xsd:long" id="meta74" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14477" datatype="xsd:long" id="meta73" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262604" id="meta72" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977026" id="meta71" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta70" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156845" id="Tl156845" label="Chromodoris collingwoodi">
+<meta content="5985" datatype="xsd:long" id="meta80" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14471" datatype="xsd:long" id="meta79" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262609" id="meta78" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977029" id="meta77" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta76" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156835" id="Tl156835" label="Chromodoris geometrica">
+<meta content="5988" datatype="xsd:long" id="meta86" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14474" datatype="xsd:long" id="meta85" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262603" id="meta84" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977025" id="meta83" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta82" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156838" id="Tl156838" label="Chromodoris roboi">
+<meta content="5998" datatype="xsd:long" id="meta92" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14484" datatype="xsd:long" id="meta91" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262611" id="meta90" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977031" id="meta89" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta88" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156837" id="Tl156837" label="Chromodoris leopardus">
+<meta content="5992" datatype="xsd:long" id="meta98" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14478" datatype="xsd:long" id="meta97" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262605" id="meta96" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977027" id="meta95" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta94" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156840" id="Tl156840" label="Chromodoris daphne">
+<meta content="5986" datatype="xsd:long" id="meta104" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14472" datatype="xsd:long" id="meta103" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262601" id="meta102" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977023" id="meta101" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta100" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156850" id="Tl156850" label="Chromodoris epicurea">
+<meta content="5987" datatype="xsd:long" id="meta111" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14473" datatype="xsd:long" id="meta110" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta content="Chromodoris epicuria" datatype="xsd:string" id="meta109" property="skos:prefLabel" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262602" id="meta108" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977024" id="meta107" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta106" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156847" id="Tl156847" label="Chromodoris purpurea">
+<meta content="5996" datatype="xsd:long" id="meta117" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14482" datatype="xsd:long" id="meta116" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/71299" id="meta115" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5956583" id="meta114" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta113" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156829" id="Tl156829" label="Chromodoris krohni">
+<meta content="5989" datatype="xsd:long" id="meta123" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14475" datatype="xsd:long" id="meta122" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/76165" id="meta121" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5957146" id="meta120" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta119" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl35572" id="Tl35572" label="Chromodoris luteorosa">
+<meta content="5994" datatype="xsd:long" id="meta130" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14480" datatype="xsd:long" id="meta129" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/71298" id="meta128" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta content="Chromodoris luteorosea" datatype="xsd:string" id="meta127" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5956582" id="meta126" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta125" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156849" id="Tl156849" label="Chromodoris tasmaniensis">
+<meta content="6002" datatype="xsd:long" id="meta136" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14489" datatype="xsd:long" id="meta135" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262614" id="meta134" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977034" id="meta133" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta132" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156834" id="Tl156834" label="Chromodoris splendida">
+<meta content="5999" datatype="xsd:long" id="meta142" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14485" datatype="xsd:long" id="meta141" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262612" id="meta140" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977032" id="meta139" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta138" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156832" id="Tl156832" label="Chromodoris lochi">
+<meta content="5993" datatype="xsd:long" id="meta148" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14479" datatype="xsd:long" id="meta147" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262607" id="meta146" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977028" id="meta145" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta144" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156827" id="Tl156827" label="Chromodoris magnifica">
+<meta content="5995" datatype="xsd:long" id="meta154" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14481" datatype="xsd:long" id="meta153" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262608" id="meta152" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5708314" id="meta151" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta150" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl35562" id="Tl35562" label="Chromodoris kuiteri2">
+<meta content="5990" datatype="xsd:long" id="meta161" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14476" datatype="xsd:long" id="meta160" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/154602" id="meta159" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta content="Chromodoris kuiteri" datatype="xsd:string" id="meta158" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5964502" id="meta157" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta156" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl35556" id="Tl35556" label="Chromodoris kuiteri1">
+<meta content="5990" datatype="xsd:long" id="meta168" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14476" datatype="xsd:long" id="meta167" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/154602" id="meta166" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta content="Chromodoris kuiteri" datatype="xsd:string" id="meta165" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5964502" id="meta164" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta163" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156833" id="Tl156833" label="Chromodoris strigata">
+<meta content="6001" datatype="xsd:long" id="meta174" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14488" datatype="xsd:long" id="meta173" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262613" id="meta172" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977033" id="meta171" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta170" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156844" id="Tl156844" label="Chromodoris striatella">
+<meta content="6000" datatype="xsd:long" id="meta180" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14487" datatype="xsd:long" id="meta179" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262606" id="meta178" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5751564" id="meta177" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta176" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156851" id="Tl156851" label="Chromodoris quadricolor">
+<meta content="5997" datatype="xsd:long" id="meta186" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14483" datatype="xsd:long" id="meta185" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/76164" id="meta184" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5957145" id="meta183" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta182" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+</otus>
+<otus about="#Tls11861" id="Tls11861" label="TaxonLabelSet11861" xml:base="http://purl.org/phylo/treebase/phylows/taxon/TB2:">
+<meta content="Mapped from TreeBASE schema using org.cipres.treebase.domain.nexus.nexml.NexmlOTUWriter@5c52fc0e $Rev$" datatype="xsd:string" id="meta188" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
+<otu about="#Tl156846" id="Tl156846" label="Chromodoris aspersa">
+<meta content="5984" datatype="xsd:long" id="meta194" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14470" datatype="xsd:long" id="meta193" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262610" id="meta192" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977030" id="meta191" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta190" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156842" id="Tl156842" label="Chromodoris alternata">
+<meta content="5982" datatype="xsd:long" id="meta200" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14468" datatype="xsd:long" id="meta199" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262597" id="meta198" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977020" id="meta197" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta196" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156839" id="Tl156839" label="Chromodoris ambiguus">
+<meta content="5983" datatype="xsd:long" id="meta206" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14469" datatype="xsd:long" id="meta205" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262598" id="meta204" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977021" id="meta203" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta202" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156843" id="Tl156843" label="Cadlina luteomarginata">
+<meta content="4359" datatype="xsd:long" id="meta212" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="10500" datatype="xsd:long" id="meta211" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/76163" id="meta210" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:2688989" id="meta209" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta208" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156841" id="Tl156841" label="Cadlina laevis">
+<meta content="4357" datatype="xsd:long" id="meta218" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="10496" datatype="xsd:long" id="meta217" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/71296" id="meta216" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:2688991" id="meta215" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta214" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156830" id="Tl156830" label="Cadlina luarna">
+<meta content="4358" datatype="xsd:long" id="meta224" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="10498" datatype="xsd:long" id="meta223" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/190910" id="meta222" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5700766" id="meta221" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta220" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156825" id="Tl156825" label="Cadlinella ornatissima">
+<meta content="4360" datatype="xsd:long" id="meta230" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="10501" datatype="xsd:long" id="meta229" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262600" id="meta228" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977022" id="meta227" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta226" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156828" id="Tl156828" label="Actinocyclus verrucosus">
+<meta content="368" datatype="xsd:long" id="meta236" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="889" datatype="xsd:long" id="meta235" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262596" id="meta234" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977019" id="meta233" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta232" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156826" id="Tl156826" label="Chromodoris kuniei">
+<meta content="5991" datatype="xsd:long" id="meta242" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14477" datatype="xsd:long" id="meta241" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262604" id="meta240" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977026" id="meta239" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta238" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156845" id="Tl156845" label="Chromodoris collingwoodi">
+<meta content="5985" datatype="xsd:long" id="meta248" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14471" datatype="xsd:long" id="meta247" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262609" id="meta246" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977029" id="meta245" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta244" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156835" id="Tl156835" label="Chromodoris geometrica">
+<meta content="5988" datatype="xsd:long" id="meta254" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14474" datatype="xsd:long" id="meta253" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262603" id="meta252" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977025" id="meta251" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta250" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156838" id="Tl156838" label="Chromodoris roboi">
+<meta content="5998" datatype="xsd:long" id="meta260" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14484" datatype="xsd:long" id="meta259" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262611" id="meta258" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977031" id="meta257" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta256" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156837" id="Tl156837" label="Chromodoris leopardus">
+<meta content="5992" datatype="xsd:long" id="meta266" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14478" datatype="xsd:long" id="meta265" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262605" id="meta264" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977027" id="meta263" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta262" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156840" id="Tl156840" label="Chromodoris daphne">
+<meta content="5986" datatype="xsd:long" id="meta272" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14472" datatype="xsd:long" id="meta271" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262601" id="meta270" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977023" id="meta269" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta268" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156850" id="Tl156850" label="Chromodoris epicurea">
+<meta content="5987" datatype="xsd:long" id="meta279" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14473" datatype="xsd:long" id="meta278" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta content="Chromodoris epicuria" datatype="xsd:string" id="meta277" property="skos:prefLabel" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262602" id="meta276" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977024" id="meta275" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta274" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156847" id="Tl156847" label="Chromodoris purpurea">
+<meta content="5996" datatype="xsd:long" id="meta285" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14482" datatype="xsd:long" id="meta284" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/71299" id="meta283" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5956583" id="meta282" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta281" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156829" id="Tl156829" label="Chromodoris krohni">
+<meta content="5989" datatype="xsd:long" id="meta291" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14475" datatype="xsd:long" id="meta290" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/76165" id="meta289" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5957146" id="meta288" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta287" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl35572" id="Tl35572" label="Chromodoris luteorosa">
+<meta content="5994" datatype="xsd:long" id="meta298" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14480" datatype="xsd:long" id="meta297" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/71298" id="meta296" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta content="Chromodoris luteorosea" datatype="xsd:string" id="meta295" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5956582" id="meta294" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta293" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156849" id="Tl156849" label="Chromodoris tasmaniensis">
+<meta content="6002" datatype="xsd:long" id="meta304" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14489" datatype="xsd:long" id="meta303" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262614" id="meta302" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977034" id="meta301" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta300" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156834" id="Tl156834" label="Chromodoris splendida">
+<meta content="5999" datatype="xsd:long" id="meta310" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14485" datatype="xsd:long" id="meta309" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262612" id="meta308" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977032" id="meta307" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta306" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156832" id="Tl156832" label="Chromodoris lochi">
+<meta content="5993" datatype="xsd:long" id="meta316" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14479" datatype="xsd:long" id="meta315" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262607" id="meta314" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977028" id="meta313" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta312" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156827" id="Tl156827" label="Chromodoris magnifica">
+<meta content="5995" datatype="xsd:long" id="meta322" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14481" datatype="xsd:long" id="meta321" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262608" id="meta320" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5708314" id="meta319" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta318" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl35562" id="Tl35562" label="Chromodoris kuiteri2">
+<meta content="5990" datatype="xsd:long" id="meta329" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14476" datatype="xsd:long" id="meta328" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/154602" id="meta327" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta content="Chromodoris kuiteri" datatype="xsd:string" id="meta326" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5964502" id="meta325" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta324" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl35556" id="Tl35556" label="Chromodoris kuiteri1">
+<meta content="5990" datatype="xsd:long" id="meta336" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14476" datatype="xsd:long" id="meta335" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/154602" id="meta334" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta content="Chromodoris kuiteri" datatype="xsd:string" id="meta333" property="skos:altLabel" xsi:type="nex:LiteralMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5964502" id="meta332" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta331" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156833" id="Tl156833" label="Chromodoris strigata">
+<meta content="6001" datatype="xsd:long" id="meta342" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14488" datatype="xsd:long" id="meta341" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262613" id="meta340" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5977033" id="meta339" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta338" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156844" id="Tl156844" label="Chromodoris striatella">
+<meta content="6000" datatype="xsd:long" id="meta348" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14487" datatype="xsd:long" id="meta347" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/262606" id="meta346" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5751564" id="meta345" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta344" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+<otu about="#Tl156851" id="Tl156851" label="Chromodoris quadricolor">
+<meta content="5997" datatype="xsd:long" id="meta354" property="tb:identifier.taxon" xsi:type="nex:LiteralMeta"/>
+<meta content="14483" datatype="xsd:long" id="meta353" property="tb:identifier.taxonVariant" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.uniprot.org/taxonomy/76164" id="meta352" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://www.ubio.org/authority/metadata.php?lsid=urn:lsid:ubio.org:namebank:5957145" id="meta351" rel="skos:closeMatch" xsi:type="nex:ResourceMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta350" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+</otu>
+</otus>
+<characters about="#M1340" id="M1340" label="16S rDNA" otus="Tls11862" xml:base="http://purl.org/phylo/treebase/phylows/matrix/TB2:" xsi:type="nex:DnaSeqs">
+<meta content="Mapped from TreeBASE schema using org.cipres.treebase.domain.nexus.nexml.NexmlMatrixWriter@4d90ad22 $Rev$" datatype="xsd:string" id="meta380" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
+<meta content="M2143" datatype="xsd:string" id="meta379" property="tb:identifier.matrix.tb1" xsi:type="nex:LiteralMeta"/>
+<meta content="1340" datatype="xsd:long" id="meta378" property="tb:identifier.matrix" xsi:type="nex:LiteralMeta"/>
+<meta content="485" datatype="xsd:integer" id="meta377" property="tb:nchar.matrix" xsi:type="nex:LiteralMeta"/>
+<meta content="27" datatype="xsd:integer" id="meta376" property="tb:ntax.matrix" xsi:type="nex:LiteralMeta"/>
+<meta content="DNA" datatype="xsd:string" id="meta375" property="tb:type.matrix" xsi:type="nex:LiteralMeta"/>
+<format>
+<states id="states356">
+<state id="state357" symbol="A"/>
+<state id="state358" symbol="C"/>
+<state id="state359" symbol="G"/>
+<state id="state360" symbol="T"/>
+<uncertain_state_set id="uncertain_state_set361" symbol="K">
+<member state="state360"/>
+<member state="state359"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set362" symbol="M">
+<member state="state357"/>
+<member state="state358"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set363" symbol="R">
+<member state="state357"/>
+<member state="state359"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set364" symbol="S">
+<member state="state359"/>
+<member state="state358"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set365" symbol="W">
+<member state="state360"/>
+<member state="state357"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set366" symbol="Y">
+<member state="state360"/>
+<member state="state358"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set367" symbol="B">
+<member state="state360"/>
+<member state="state359"/>
+<member state="state358"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set368" symbol="D">
+<member state="state360"/>
+<member state="state357"/>
+<member state="state359"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set369" symbol="H">
+<member state="state360"/>
+<member state="state357"/>
+<member state="state359"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set370" symbol="V">
+<member state="state357"/>
+<member state="state359"/>
+<member state="state358"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set371" symbol="N">
+<member state="state360"/>
+<member state="state357"/>
+<member state="state359"/>
+<member state="state358"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set372" symbol="X">
+<member state="state360"/>
+<member state="state357"/>
+<member state="state359"/>
+<member state="state358"/>
+</uncertain_state_set>
+<uncertain_state_set id="uncertain_state_set373" symbol="-"/>
+<uncertain_state_set id="uncertain_state_set374" symbol="?">
+<member state="state360"/>
+<member state="state359"/>
+<member state="state358"/>
+<member state="state357"/>
+<member state="uncertain_state_set373"/>
+</uncertain_state_set>
+</states>
+<char id="Col1655182" label="DNA" states="states356"/>
+<char id="Col1655183" label="DNA" states="states356"/>
+<char id="Col1655184" label="DNA" states="states356"/>
+<char id="Col1655185" label="DNA" states="states356"/>
+<char id="Col1655186" label="DNA" states="states356"/>
+<char id="Col1655187" label="DNA" states="states356"/>
+<char id="Col1655188" label="DNA" states="states356"/>
+<char id="Col1655189" label="DNA" states="states356"/>
+<char id="Col1655190" label="DNA" states="states356"/>
+<char id="Col1655191" label="DNA" states="states356"/>
+<char id="Col1655192" label="DNA" states="states356"/>
+<char id="Col1655193" label="DNA" states="states356"/>
+<char id="Col1655194" label="DNA" states="states356"/>
+<char id="Col1655195" label="DNA" states="states356"/>
+<char id="Col1655196" label="DNA" states="states356"/>
+<char id="Col1655197" label="DNA" states="states356"/>
+<char id="Col1655198" label="DNA" states="states356"/>
+<char id="Col1655199" label="DNA" states="states356"/>
+<char id="Col1655200" label="DNA" states="states356"/>
+<char id="Col1655201" label="DNA" states="states356"/>
+<char id="Col1655202" label="DNA" states="states356"/>
+<char id="Col1655203" label="DNA" states="states356"/>
+<char id="Col1655204" label="DNA" states="states356"/>
+<char id="Col1655205" label="DNA" states="states356"/>
+<char id="Col1655206" label="DNA" states="states356"/>
+<char id="Col1655207" label="DNA" states="states356"/>
+<char id="Col1655208" label="DNA" states="states356"/>
+<char id="Col1655209" label="DNA" states="states356"/>
+<char id="Col1655210" label="DNA" states="states356"/>
+<char id="Col1655211" label="DNA" states="states356"/>
+<char id="Col1655212" label="DNA" states="states356"/>
+<char id="Col1655213" label="DNA" states="states356"/>
+<char id="Col1655214" label="DNA" states="states356"/>
+<char id="Col1655215" label="DNA" states="states356"/>
+<char id="Col1655216" label="DNA" states="states356"/>
+<char id="Col1655217" label="DNA" states="states356"/>
+<char id="Col1655218" label="DNA" states="states356"/>
+<char id="Col1655219" label="DNA" states="states356"/>
+<char id="Col1655220" label="DNA" states="states356"/>
+<char id="Col1655221" label="DNA" states="states356"/>
+<char id="Col1655222" label="DNA" states="states356"/>
+<char id="Col1655223" label="DNA" states="states356"/>
+<char id="Col1655224" label="DNA" states="states356"/>
+<char id="Col1655225" label="DNA" states="states356"/>
+<char id="Col1655226" label="DNA" states="states356"/>
+<char id="Col1655227" label="DNA" states="states356"/>
+<char id="Col1655228" label="DNA" states="states356"/>
+<char id="Col1655229" label="DNA" states="states356"/>
+<char id="Col1655230" label="DNA" states="states356"/>
+<char id="Col1655231" label="DNA" states="states356"/>
+<char id="Col1655232" label="DNA" states="states356"/>
+<char id="Col1655233" label="DNA" states="states356"/>
+<char id="Col1655234" label="DNA" states="states356"/>
+<char id="Col1655235" label="DNA" states="states356"/>
+<char id="Col1655236" label="DNA" states="states356"/>
+<char id="Col1655237" label="DNA" states="states356"/>
+<char id="Col1655238" label="DNA" states="states356"/>
+<char id="Col1655239" label="DNA" states="states356"/>
+<char id="Col1655240" label="DNA" states="states356"/>
+<char id="Col1655241" label="DNA" states="states356"/>
+<char id="Col1655242" label="DNA" states="states356"/>
+<char id="Col1655243" label="DNA" states="states356"/>
+<char id="Col1655244" label="DNA" states="states356"/>
+<char id="Col1655245" label="DNA" states="states356"/>
+<char id="Col1655246" label="DNA" states="states356"/>
+<char id="Col1655247" label="DNA" states="states356"/>
+<char id="Col1655248" label="DNA" states="states356"/>
+<char id="Col1655249" label="DNA" states="states356"/>
+<char id="Col1655250" label="DNA" states="states356"/>
+<char id="Col1655251" label="DNA" states="states356"/>
+<char id="Col1655252" label="DNA" states="states356"/>
+<char id="Col1655253" label="DNA" states="states356"/>
+<char id="Col1655254" label="DNA" states="states356"/>
+<char id="Col1655255" label="DNA" states="states356"/>
+<char id="Col1655256" label="DNA" states="states356"/>
+<char id="Col1655257" label="DNA" states="states356"/>
+<char id="Col1655258" label="DNA" states="states356"/>
+<char id="Col1655259" label="DNA" states="states356"/>
+<char id="Col1655260" label="DNA" states="states356"/>
+<char id="Col1655261" label="DNA" states="states356"/>
+<char id="Col1655262" label="DNA" states="states356"/>
+<char id="Col1655263" label="DNA" states="states356"/>
+<char id="Col1655264" label="DNA" states="states356"/>
+<char id="Col1655265" label="DNA" states="states356"/>
+<char id="Col1655266" label="DNA" states="states356"/>
+<char id="Col1655267" label="DNA" states="states356"/>
+<char id="Col1655268" label="DNA" states="states356"/>
+<char id="Col1655269" label="DNA" states="states356"/>
+<char id="Col1655270" label="DNA" states="states356"/>
+<char id="Col1655271" label="DNA" states="states356"/>
+<char id="Col1655272" label="DNA" states="states356"/>
+<char id="Col1655273" label="DNA" states="states356"/>
+<char id="Col1655274" label="DNA" states="states356"/>
+<char id="Col1655275" label="DNA" states="states356"/>
+<char id="Col1655276" label="DNA" states="states356"/>
+<char id="Col1655277" label="DNA" states="states356"/>
+<char id="Col1655278" label="DNA" states="states356"/>
+<char id="Col1655279" label="DNA" states="states356"/>
+<char id="Col1655280" label="DNA" states="states356"/>
+<char id="Col1655281" label="DNA" states="states356"/>
+<char id="Col1655282" label="DNA" states="states356"/>
+<char id="Col1655283" label="DNA" states="states356"/>
+<char id="Col1655284" label="DNA" states="states356"/>
+<char id="Col1655285" label="DNA" states="states356"/>
+<char id="Col1655286" label="DNA" states="states356"/>
+<char id="Col1655287" label="DNA" states="states356"/>
+<char id="Col1655288" label="DNA" states="states356"/>
+<char id="Col1655289" label="DNA" states="states356"/>
+<char id="Col1655290" label="DNA" states="states356"/>
+<char id="Col1655291" label="DNA" states="states356"/>
+<char id="Col1655292" label="DNA" states="states356"/>
+<char id="Col1655293" label="DNA" states="states356"/>
+<char id="Col1655294" label="DNA" states="states356"/>
+<char id="Col1655295" label="DNA" states="states356"/>
+<char id="Col1655296" label="DNA" states="states356"/>
+<char id="Col1655297" label="DNA" states="states356"/>
+<char id="Col1655298" label="DNA" states="states356"/>
+<char id="Col1655299" label="DNA" states="states356"/>
+<char id="Col1655300" label="DNA" states="states356"/>
+<char id="Col1655301" label="DNA" states="states356"/>
+<char id="Col1655302" label="DNA" states="states356"/>
+<char id="Col1655303" label="DNA" states="states356"/>
+<char id="Col1655304" label="DNA" states="states356"/>
+<char id="Col1655305" label="DNA" states="states356"/>
+<char id="Col1655306" label="DNA" states="states356"/>
+<char id="Col1655307" label="DNA" states="states356"/>
+<char id="Col1655308" label="DNA" states="states356"/>
+<char id="Col1655309" label="DNA" states="states356"/>
+<char id="Col1655310" label="DNA" states="states356"/>
+<char id="Col1655311" label="DNA" states="states356"/>
+<char id="Col1655312" label="DNA" states="states356"/>
+<char id="Col1655313" label="DNA" states="states356"/>
+<char id="Col1655314" label="DNA" states="states356"/>
+<char id="Col1655315" label="DNA" states="states356"/>
+<char id="Col1655316" label="DNA" states="states356"/>
+<char id="Col1655317" label="DNA" states="states356"/>
+<char id="Col1655318" label="DNA" states="states356"/>
+<char id="Col1655319" label="DNA" states="states356"/>
+<char id="Col1655320" label="DNA" states="states356"/>
+<char id="Col1655321" label="DNA" states="states356"/>
+<char id="Col1655322" label="DNA" states="states356"/>
+<char id="Col1655323" label="DNA" states="states356"/>
+<char id="Col1655324" label="DNA" states="states356"/>
+<char id="Col1655325" label="DNA" states="states356"/>
+<char id="Col1655326" label="DNA" states="states356"/>
+<char id="Col1655327" label="DNA" states="states356"/>
+<char id="Col1655328" label="DNA" states="states356"/>
+<char id="Col1655329" label="DNA" states="states356"/>
+<char id="Col1655330" label="DNA" states="states356"/>
+<char id="Col1655331" label="DNA" states="states356"/>
+<char id="Col1655332" label="DNA" states="states356"/>
+<char id="Col1655333" label="DNA" states="states356"/>
+<char id="Col1655334" label="DNA" states="states356"/>
+<char id="Col1655335" label="DNA" states="states356"/>
+<char id="Col1655336" label="DNA" states="states356"/>
+<char id="Col1655337" label="DNA" states="states356"/>
+<char id="Col1655338" label="DNA" states="states356"/>
+<char id="Col1655339" label="DNA" states="states356"/>
+<char id="Col1655340" label="DNA" states="states356"/>
+<char id="Col1655341" label="DNA" states="states356"/>
+<char id="Col1655342" label="DNA" states="states356"/>
+<char id="Col1655343" label="DNA" states="states356"/>
+<char id="Col1655344" label="DNA" states="states356"/>
+<char id="Col1655345" label="DNA" states="states356"/>
+<char id="Col1655346" label="DNA" states="states356"/>
+<char id="Col1655347" label="DNA" states="states356"/>
+<char id="Col1655348" label="DNA" states="states356"/>
+<char id="Col1655349" label="DNA" states="states356"/>
+<char id="Col1655350" label="DNA" states="states356"/>
+<char id="Col1655351" label="DNA" states="states356"/>
+<char id="Col1655352" label="DNA" states="states356"/>
+<char id="Col1655353" label="DNA" states="states356"/>
+<char id="Col1655354" label="DNA" states="states356"/>
+<char id="Col1655355" label="DNA" states="states356"/>
+<char id="Col1655356" label="DNA" states="states356"/>
+<char id="Col1655357" label="DNA" states="states356"/>
+<char id="Col1655358" label="DNA" states="states356"/>
+<char id="Col1655359" label="DNA" states="states356"/>
+<char id="Col1655360" label="DNA" states="states356"/>
+<char id="Col1655361" label="DNA" states="states356"/>
+<char id="Col1655362" label="DNA" states="states356"/>
+<char id="Col1655363" label="DNA" states="states356"/>
+<char id="Col1655364" label="DNA" states="states356"/>
+<char id="Col1655365" label="DNA" states="states356"/>
+<char id="Col1655366" label="DNA" states="states356"/>
+<char id="Col1655367" label="DNA" states="states356"/>
+<char id="Col1655368" label="DNA" states="states356"/>
+<char id="Col1655369" label="DNA" states="states356"/>
+<char id="Col1655370" label="DNA" states="states356"/>
+<char id="Col1655371" label="DNA" states="states356"/>
+<char id="Col1655372" label="DNA" states="states356"/>
+<char id="Col1655373" label="DNA" states="states356"/>
+<char id="Col1655374" label="DNA" states="states356"/>
+<char id="Col1655375" label="DNA" states="states356"/>
+<char id="Col1655376" label="DNA" states="states356"/>
+<char id="Col1655377" label="DNA" states="states356"/>
+<char id="Col1655378" label="DNA" states="states356"/>
+<char id="Col1655379" label="DNA" states="states356"/>
+<char id="Col1655380" label="DNA" states="states356"/>
+<char id="Col1655381" label="DNA" states="states356"/>
+<char id="Col1655382" label="DNA" states="states356"/>
+<char id="Col1655383" label="DNA" states="states356"/>
+<char id="Col1655384" label="DNA" states="states356"/>
+<char id="Col1655385" label="DNA" states="states356"/>
+<char id="Col1655386" label="DNA" states="states356"/>
+<char id="Col1655387" label="DNA" states="states356"/>
+<char id="Col1655388" label="DNA" states="states356"/>
+<char id="Col1655389" label="DNA" states="states356"/>
+<char id="Col1655390" label="DNA" states="states356"/>
+<char id="Col1655391" label="DNA" states="states356"/>
+<char id="Col1655392" label="DNA" states="states356"/>
+<char id="Col1655393" label="DNA" states="states356"/>
+<char id="Col1655394" label="DNA" states="states356"/>
+<char id="Col1655395" label="DNA" states="states356"/>
+<char id="Col1655396" label="DNA" states="states356"/>
+<char id="Col1655397" label="DNA" states="states356"/>
+<char id="Col1655398" label="DNA" states="states356"/>
+<char id="Col1655399" label="DNA" states="states356"/>
+<char id="Col1655400" label="DNA" states="states356"/>
+<char id="Col1655401" label="DNA" states="states356"/>
+<char id="Col1655402" label="DNA" states="states356"/>
+<char id="Col1655403" label="DNA" states="states356"/>
+<char id="Col1655404" label="DNA" states="states356"/>
+<char id="Col1655405" label="DNA" states="states356"/>
+<char id="Col1655406" label="DNA" states="states356"/>
+<char id="Col1655407" label="DNA" states="states356"/>
+<char id="Col1655408" label="DNA" states="states356"/>
+<char id="Col1655409" label="DNA" states="states356"/>
+<char id="Col1655410" label="DNA" states="states356"/>
+<char id="Col1655411" label="DNA" states="states356"/>
+<char id="Col1655412" label="DNA" states="states356"/>
+<char id="Col1655413" label="DNA" states="states356"/>
+<char id="Col1655414" label="DNA" states="states356"/>
+<char id="Col1655415" label="DNA" states="states356"/>
+<char id="Col1655416" label="DNA" states="states356"/>
+<char id="Col1655417" label="DNA" states="states356"/>
+<char id="Col1655418" label="DNA" states="states356"/>
+<char id="Col1655419" label="DNA" states="states356"/>
+<char id="Col1655420" label="DNA" states="states356"/>
+<char id="Col1655421" label="DNA" states="states356"/>
+<char id="Col1655422" label="DNA" states="states356"/>
+<char id="Col1655423" label="DNA" states="states356"/>
+<char id="Col1655424" label="DNA" states="states356"/>
+<char id="Col1655425" label="DNA" states="states356"/>
+<char id="Col1655426" label="DNA" states="states356"/>
+<char id="Col1655427" label="DNA" states="states356"/>
+<char id="Col1655428" label="DNA" states="states356"/>
+<char id="Col1655429" label="DNA" states="states356"/>
+<char id="Col1655430" label="DNA" states="states356"/>
+<char id="Col1655431" label="DNA" states="states356"/>
+<char id="Col1655432" label="DNA" states="states356"/>
+<char id="Col1655433" label="DNA" states="states356"/>
+<char id="Col1655434" label="DNA" states="states356"/>
+<char id="Col1655435" label="DNA" states="states356"/>
+<char id="Col1655436" label="DNA" states="states356"/>
+<char id="Col1655437" label="DNA" states="states356"/>
+<char id="Col1655438" label="DNA" states="states356"/>
+<char id="Col1655439" label="DNA" states="states356"/>
+<char id="Col1655440" label="DNA" states="states356"/>
+<char id="Col1655441" label="DNA" states="states356"/>
+<char id="Col1655442" label="DNA" states="states356"/>
+<char id="Col1655443" label="DNA" states="states356"/>
+<char id="Col1655444" label="DNA" states="states356"/>
+<char id="Col1655445" label="DNA" states="states356"/>
+<char id="Col1655446" label="DNA" states="states356"/>
+<char id="Col1655447" label="DNA" states="states356"/>
+<char id="Col1655448" label="DNA" states="states356"/>
+<char id="Col1655449" label="DNA" states="states356"/>
+<char id="Col1655450" label="DNA" states="states356"/>
+<char id="Col1655451" label="DNA" states="states356"/>
+<char id="Col1655452" label="DNA" states="states356"/>
+<char id="Col1655453" label="DNA" states="states356"/>
+<char id="Col1655454" label="DNA" states="states356"/>
+<char id="Col1655455" label="DNA" states="states356"/>
+<char id="Col1655456" label="DNA" states="states356"/>
+<char id="Col1655457" label="DNA" states="states356"/>
+<char id="Col1655458" label="DNA" states="states356"/>
+<char id="Col1655459" label="DNA" states="states356"/>
+<char id="Col1655460" label="DNA" states="states356"/>
+<char id="Col1655461" label="DNA" states="states356"/>
+<char id="Col1655462" label="DNA" states="states356"/>
+<char id="Col1655463" label="DNA" states="states356"/>
+<char id="Col1655464" label="DNA" states="states356"/>
+<char id="Col1655465" label="DNA" states="states356"/>
+<char id="Col1655466" label="DNA" states="states356"/>
+<char id="Col1655467" label="DNA" states="states356"/>
+<char id="Col1655468" label="DNA" states="states356"/>
+<char id="Col1655469" label="DNA" states="states356"/>
+<char id="Col1655470" label="DNA" states="states356"/>
+<char id="Col1655471" label="DNA" states="states356"/>
+<char id="Col1655472" label="DNA" states="states356"/>
+<char id="Col1655473" label="DNA" states="states356"/>
+<char id="Col1655474" label="DNA" states="states356"/>
+<char id="Col1655475" label="DNA" states="states356"/>
+<char id="Col1655476" label="DNA" states="states356"/>
+<char id="Col1655477" label="DNA" states="states356"/>
+<char id="Col1655478" label="DNA" states="states356"/>
+<char id="Col1655479" label="DNA" states="states356"/>
+<char id="Col1655480" label="DNA" states="states356"/>
+<char id="Col1655481" label="DNA" states="states356"/>
+<char id="Col1655482" label="DNA" states="states356"/>
+<char id="Col1655483" label="DNA" states="states356"/>
+<char id="Col1655484" label="DNA" states="states356"/>
+<char id="Col1655485" label="DNA" states="states356"/>
+<char id="Col1655486" label="DNA" states="states356"/>
+<char id="Col1655487" label="DNA" states="states356"/>
+<char id="Col1655488" label="DNA" states="states356"/>
+<char id="Col1655489" label="DNA" states="states356"/>
+<char id="Col1655490" label="DNA" states="states356"/>
+<char id="Col1655491" label="DNA" states="states356"/>
+<char id="Col1655492" label="DNA" states="states356"/>
+<char id="Col1655493" label="DNA" states="states356"/>
+<char id="Col1655494" label="DNA" states="states356"/>
+<char id="Col1655495" label="DNA" states="states356"/>
+<char id="Col1655496" label="DNA" states="states356"/>
+<char id="Col1655497" label="DNA" states="states356"/>
+<char id="Col1655498" label="DNA" states="states356"/>
+<char id="Col1655499" label="DNA" states="states356"/>
+<char id="Col1655500" label="DNA" states="states356"/>
+<char id="Col1655501" label="DNA" states="states356"/>
+<char id="Col1655502" label="DNA" states="states356"/>
+<char id="Col1655503" label="DNA" states="states356"/>
+<char id="Col1655504" label="DNA" states="states356"/>
+<char id="Col1655505" label="DNA" states="states356"/>
+<char id="Col1655506" label="DNA" states="states356"/>
+<char id="Col1655507" label="DNA" states="states356"/>
+<char id="Col1655508" label="DNA" states="states356"/>
+<char id="Col1655509" label="DNA" states="states356"/>
+<char id="Col1655510" label="DNA" states="states356"/>
+<char id="Col1655511" label="DNA" states="states356"/>
+<char id="Col1655512" label="DNA" states="states356"/>
+<char id="Col1655513" label="DNA" states="states356"/>
+<char id="Col1655514" label="DNA" states="states356"/>
+<char id="Col1655515" label="DNA" states="states356"/>
+<char id="Col1655516" label="DNA" states="states356"/>
+<char id="Col1655517" label="DNA" states="states356"/>
+<char id="Col1655518" label="DNA" states="states356"/>
+<char id="Col1655519" label="DNA" states="states356"/>
+<char id="Col1655520" label="DNA" states="states356"/>
+<char id="Col1655521" label="DNA" states="states356"/>
+<char id="Col1655522" label="DNA" states="states356"/>
+<char id="Col1655523" label="DNA" states="states356"/>
+<char id="Col1655524" label="DNA" states="states356"/>
+<char id="Col1655525" label="DNA" states="states356"/>
+<char id="Col1655526" label="DNA" states="states356"/>
+<char id="Col1655527" label="DNA" states="states356"/>
+<char id="Col1655528" label="DNA" states="states356"/>
+<char id="Col1655529" label="DNA" states="states356"/>
+<char id="Col1655530" label="DNA" states="states356"/>
+<char id="Col1655531" label="DNA" states="states356"/>
+<char id="Col1655532" label="DNA" states="states356"/>
+<char id="Col1655533" label="DNA" states="states356"/>
+<char id="Col1655534" label="DNA" states="states356"/>
+<char id="Col1655535" label="DNA" states="states356"/>
+<char id="Col1655536" label="DNA" states="states356"/>
+<char id="Col1655537" label="DNA" states="states356"/>
+<char id="Col1655538" label="DNA" states="states356"/>
+<char id="Col1655539" label="DNA" states="states356"/>
+<char id="Col1655540" label="DNA" states="states356"/>
+<char id="Col1655541" label="DNA" states="states356"/>
+<char id="Col1655542" label="DNA" states="states356"/>
+<char id="Col1655543" label="DNA" states="states356"/>
+<char id="Col1655544" label="DNA" states="states356"/>
+<char id="Col1655545" label="DNA" states="states356"/>
+<char id="Col1655546" label="DNA" states="states356"/>
+<char id="Col1655547" label="DNA" states="states356"/>
+<char id="Col1655548" label="DNA" states="states356"/>
+<char id="Col1655549" label="DNA" states="states356"/>
+<char id="Col1655550" label="DNA" states="states356"/>
+<char id="Col1655551" label="DNA" states="states356"/>
+<char id="Col1655552" label="DNA" states="states356"/>
+<char id="Col1655553" label="DNA" states="states356"/>
+<char id="Col1655554" label="DNA" states="states356"/>
+<char id="Col1655555" label="DNA" states="states356"/>
+<char id="Col1655556" label="DNA" states="states356"/>
+<char id="Col1655557" label="DNA" states="states356"/>
+<char id="Col1655558" label="DNA" states="states356"/>
+<char id="Col1655559" label="DNA" states="states356"/>
+<char id="Col1655560" label="DNA" states="states356"/>
+<char id="Col1655561" label="DNA" states="states356"/>
+<char id="Col1655562" label="DNA" states="states356"/>
+<char id="Col1655563" label="DNA" states="states356"/>
+<char id="Col1655564" label="DNA" states="states356"/>
+<char id="Col1655565" label="DNA" states="states356"/>
+<char id="Col1655566" label="DNA" states="states356"/>
+<char id="Col1655567" label="DNA" states="states356"/>
+<char id="Col1655568" label="DNA" states="states356"/>
+<char id="Col1655569" label="DNA" states="states356"/>
+<char id="Col1655570" label="DNA" states="states356"/>
+<char id="Col1655571" label="DNA" states="states356"/>
+<char id="Col1655572" label="DNA" states="states356"/>
+<char id="Col1655573" label="DNA" states="states356"/>
+<char id="Col1655574" label="DNA" states="states356"/>
+<char id="Col1655575" label="DNA" states="states356"/>
+<char id="Col1655576" label="DNA" states="states356"/>
+<char id="Col1655577" label="DNA" states="states356"/>
+<char id="Col1655578" label="DNA" states="states356"/>
+<char id="Col1655579" label="DNA" states="states356"/>
+<char id="Col1655580" label="DNA" states="states356"/>
+<char id="Col1655581" label="DNA" states="states356"/>
+<char id="Col1655582" label="DNA" states="states356"/>
+<char id="Col1655583" label="DNA" states="states356"/>
+<char id="Col1655584" label="DNA" states="states356"/>
+<char id="Col1655585" label="DNA" states="states356"/>
+<char id="Col1655586" label="DNA" states="states356"/>
+<char id="Col1655587" label="DNA" states="states356"/>
+<char id="Col1655588" label="DNA" states="states356"/>
+<char id="Col1655589" label="DNA" states="states356"/>
+<char id="Col1655590" label="DNA" states="states356"/>
+<char id="Col1655591" label="DNA" states="states356"/>
+<char id="Col1655592" label="DNA" states="states356"/>
+<char id="Col1655593" label="DNA" states="states356"/>
+<char id="Col1655594" label="DNA" states="states356"/>
+<char id="Col1655595" label="DNA" states="states356"/>
+<char id="Col1655596" label="DNA" states="states356"/>
+<char id="Col1655597" label="DNA" states="states356"/>
+<char id="Col1655598" label="DNA" states="states356"/>
+<char id="Col1655599" label="DNA" states="states356"/>
+<char id="Col1655600" label="DNA" states="states356"/>
+<char id="Col1655601" label="DNA" states="states356"/>
+<char id="Col1655602" label="DNA" states="states356"/>
+<char id="Col1655603" label="DNA" states="states356"/>
+<char id="Col1655604" label="DNA" states="states356"/>
+<char id="Col1655605" label="DNA" states="states356"/>
+<char id="Col1655606" label="DNA" states="states356"/>
+<char id="Col1655607" label="DNA" states="states356"/>
+<char id="Col1655608" label="DNA" states="states356"/>
+<char id="Col1655609" label="DNA" states="states356"/>
+<char id="Col1655610" label="DNA" states="states356"/>
+<char id="Col1655611" label="DNA" states="states356"/>
+<char id="Col1655612" label="DNA" states="states356"/>
+<char id="Col1655613" label="DNA" states="states356"/>
+<char id="Col1655614" label="DNA" states="states356"/>
+<char id="Col1655615" label="DNA" states="states356"/>
+<char id="Col1655616" label="DNA" states="states356"/>
+<char id="Col1655617" label="DNA" states="states356"/>
+<char id="Col1655618" label="DNA" states="states356"/>
+<char id="Col1655619" label="DNA" states="states356"/>
+<char id="Col1655620" label="DNA" states="states356"/>
+<char id="Col1655621" label="DNA" states="states356"/>
+<char id="Col1655622" label="DNA" states="states356"/>
+<char id="Col1655623" label="DNA" states="states356"/>
+<char id="Col1655624" label="DNA" states="states356"/>
+<char id="Col1655625" label="DNA" states="states356"/>
+<char id="Col1655626" label="DNA" states="states356"/>
+<char id="Col1655627" label="DNA" states="states356"/>
+<char id="Col1655628" label="DNA" states="states356"/>
+<char id="Col1655629" label="DNA" states="states356"/>
+<char id="Col1655630" label="DNA" states="states356"/>
+<char id="Col1655631" label="DNA" states="states356"/>
+<char id="Col1655632" label="DNA" states="states356"/>
+<char id="Col1655633" label="DNA" states="states356"/>
+<char id="Col1655634" label="DNA" states="states356"/>
+<char id="Col1655635" label="DNA" states="states356"/>
+<char id="Col1655636" label="DNA" states="states356"/>
+<char id="Col1655637" label="DNA" states="states356"/>
+<char id="Col1655638" label="DNA" states="states356"/>
+<char id="Col1655639" label="DNA" states="states356"/>
+<char id="Col1655640" label="DNA" states="states356"/>
+<char id="Col1655641" label="DNA" states="states356"/>
+<char id="Col1655642" label="DNA" states="states356"/>
+<char id="Col1655643" label="DNA" states="states356"/>
+<char id="Col1655644" label="DNA" states="states356"/>
+<char id="Col1655645" label="DNA" states="states356"/>
+<char id="Col1655646" label="DNA" states="states356"/>
+<char id="Col1655647" label="DNA" states="states356"/>
+<char id="Col1655648" label="DNA" states="states356"/>
+<char id="Col1655649" label="DNA" states="states356"/>
+<char id="Col1655650" label="DNA" states="states356"/>
+<char id="Col1655651" label="DNA" states="states356"/>
+<char id="Col1655652" label="DNA" states="states356"/>
+<char id="Col1655653" label="DNA" states="states356"/>
+<char id="Col1655654" label="DNA" states="states356"/>
+<char id="Col1655655" label="DNA" states="states356"/>
+<char id="Col1655656" label="DNA" states="states356"/>
+<char id="Col1655657" label="DNA" states="states356"/>
+<char id="Col1655658" label="DNA" states="states356"/>
+<char id="Col1655659" label="DNA" states="states356"/>
+<char id="Col1655660" label="DNA" states="states356"/>
+<char id="Col1655661" label="DNA" states="states356"/>
+<char id="Col1655662" label="DNA" states="states356"/>
+<char id="Col1655663" label="DNA" states="states356"/>
+<char id="Col1655664" label="DNA" states="states356"/>
+<char id="Col1655665" label="DNA" states="states356"/>
+<char id="Col1655666" label="DNA" states="states356"/>
+<set char="Col1655238 Col1655359 Col1655239 Col1655478 Col1655357 Col1655599 Col1655358 Col1655479 Col1655476 Col1655597 Col1655355 Col1655598 Col1655477 Col1655356 Col1655595 Col1655353 Col1655474 Col1655475 Col1655354 Col1655596 Col1655472 Col1655593 Col1655351 Col1655352 Col1655473 Col1655594 Col1655591 Col1655470 Col1655592 Col1655350 Col1655471 Col1655590 Col1655249 Col1655247 Col1655368 Col1655369 Col1655248 Col1655366 Col1655245 Col1655246 Col1655367 Col1655243 Col1655364 Col1655244 Col1655365 Col1655241 Col1655362 Col1655363 Col1655242 Col1655481 Col1655360 Col1655482 Col1655361 Col1655240 Col1655480 Col1655258 Col1655379 Col1655259 Col1655256 Col1655377 Col1655257 Col1655378 Col1655254 Col1655375 Col1655376 Col1655255 Col1655373 Col1655252 Col1655253 Col1655374 Col1655371 Col1655250 Col1655251 Col1655372 Col1655370 Col1655269 Col1655267 Col1655388 Col1655268 Col1655389 Col1655265 Col1655266 Col1655387 Col1655263 Col1655264 Col1655261 Col1655262 Col1655380 Col1655260 Col1655278 Col1655399 Col1655279 Col1655397 Col1655276 Col1655398 Col1655277 Col1655395 Col1655274 Col1655275 Col1655396 Col1655393 Col1655272 Col1655273 Col1655394 Col1655391 Col1655270 Col1655392 Col1655271 Col1655390 Col1655289 Col1655287 Col1655288 Col1655285 Col1655286 Col1655283 Col1655284 Col1655281 Col1655282 Col1655280 Col1655298 Col1655299 Col1655296 Col1655297 Col1655294 Col1655295 Col1655292 Col1655293 Col1655290 Col1655291 Col1655188 Col1655189 Col1655186 Col1655187 Col1655184 Col1655185 Col1655182 Col1655183 Col1655519 Col1655517 Col1655638 Col1655639 Col1655518 Col1655636 Col1655515 Col1655516 Col1655637 Col1655513 Col1655634 Col1655635 Col1655514 Col1655511 Col1655632 Col1655512 Col1655633 Col1655630 Col1655631 Col1655510 Col1655409 Col1655407 Col1655528 Col1655649 Col1655408 Col1655529 Col1655526 Col1655647 Col1655405 Col1655406 Col1655648 Col1655527 Col1655403 Col1655645 Col1655524 Col1655404 Col1655525 Col1655646 Col1655643 Col1655522 Col1655401 Col1655523 Col1655402 Col1655644 Col1655641 Col1655520 Col1655400 Col1655521 Col1655642 Col1655640 Col1655418 Col1655539 Col1655419 Col1655537 Col1655658 Col1655416 Col1655417 Col1655538 Col1655659 Col1655414 Col1655656 Col1655535 Col1655415 Col1655536 Col1655657 Col1655654 Col1655412 Col1655533 Col1655534 Col1655655 Col1655413 Col1655531 Col1655652 Col1655410 Col1655653 Col1655411 Col1655532 Col1655650 Col1655651 Col1655530 Col1655308 Col1655309 Col1655306 Col1655548 Col1655549 Col1655307 Col1655546 Col1655304 Col1655425 Col1655305 Col1655426 Col1655547 Col1655665 Col1655302 Col1655423 Col1655544 Col1655545 Col1655424 Col1655303 Col1655666 Col1655663 Col1655421 Col1655542 Col1655300 Col1655664 Col1655301 Col1655543 Col1655422 Col1655661 Col1655540 Col1655541 Col1655662 Col1655420 Col1655660 Col1655319 Col1655559 Col1655317 Col1655318 Col1655315 Col1655557 Col1655316 Col1655558 Col1655313 Col1655555 Col1655556 Col1655314 Col1655311 Col1655553 Col1655554 Col1655312 Col1655551 Col1655310 Col1655552 Col1655550 Col1655209 Col1655328 Col1655449 Col1655207 Col1655208 Col1655329 Col1655447 Col1655205 Col1655568 Col1655326 Col1655569 Col1655448 Col1655206 Col1655327 Col1655203 Col1655324 Col1655566 Col1655567 Col1655204 Col1655325 Col1655322 Col1655564 Col1655565 Col1655202 Col1655323 Col1655562 Col1655320 Col1655321 Col1655563 Col1655560 Col1655561 Col1655218 Col1655339 Col1655219 Col1655216 Col1655579 Col1655337 Col1655458 Col1655459 Col1655338 Col1655217 Col1655335 Col1655577 Col1655214 Col1655456 Col1655457 Col1655578 Col1655215 Col1655336 Col1655333 Col1655212 Col1655575 Col1655454 Col1655455 Col1655334 Col1655213 Col1655576 Col1655210 Col1655452 Col1655573 Col1655331 Col1655574 Col1655211 Col1655453 Col1655332 Col1655571 Col1655450 Col1655451 Col1655572 Col1655330 Col1655570 Col1655469 Col1655348 Col1655349 Col1655225 Col1655467 Col1655588 Col1655346 Col1655347 Col1655589 Col1655468 Col1655223 Col1655344 Col1655586 Col1655465 Col1655345 Col1655224 Col1655466 Col1655587 Col1655221 Col1655463 Col1655584 Col1655342 Col1655585 Col1655222 Col1655343 Col1655464 Col1655582 Col1655461 Col1655340 Col1655462 Col1655583 Col1655341 Col1655220 Col1655580 Col1655460 Col1655581 Col1655609 Col1655607 Col1655608 Col1655605 Col1655606 Col1655603 Col1655604 Col1655601 Col1655602 Col1655600 Col1655618 Col1655619 Col1655616 Col1655617 Col1655614 Col1655615 Col1655612 Col1655613 Col1655610 Col1655611 Col1655508 Col1655629 Col1655509 Col1655506 Col1655627 Col1655628 Col1655507 Col1655625 Col1655504 Col1655505 Col1655626 Col1655623 Col1655503 Col1655624 Col1655621 Col1655622 Col1655620 Col1655190" id="set893" label="BasesAlignable"/>
+</format>
+<matrix>
+<row id="Row55294" otu="Tl156846">
+<seq>AGCCTCTGG-AAGCGAT-TAGAGG-TTATACC-TGCCC-AATGT-TACA------TATTAATGGCCGCGGTACTCTGACCGTGCTAAGGTAGCACAATCAATTGGCCCTTAATTAGGGTCAGGTATGAATGGAGTT--ACGGGGTTTAGCTGTCTCCT-AATTATTTTTTTGAAGTTGCTGAATAGGTGAAAAAGCCTGTA-TGAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT-AAAAAGA---AAAAG---------TTTTCTGACTGGTTTTGTTGGGGCAACATAGGAA---------GAAATAA---AACCTCCTAAAACATA-TACACCGATGTTCTTAAATTTGGATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGGAACTAAAGGGCTAGCCGCCTTTT-AGTAAGGTTCTGTTC-GAACTATTATT-CCT?</seq>
+</row>
+<row id="Row55295" otu="Tl156842">
+<seq>AGCTTTATGATACATAT-ATAAGG-TTTAACC-TGCCC-AATGAATTATA---ATTTTTAATGGCCGCGGTACTTTGACCGTGCAAAGGTAGCGTAATAATTTGGCCTTCAAATGGGGTCCTGTATGAAAGGAGTG--ACGGGGATTGTCTGTCTCTT-TATTATTTATTTGAAATTACTATGTAAGTGAAAAAGCTTACA-ATAAATAAATAG-ACGAGAA-GACCCTAAGAGTTT--CTT--CTCTTACTTATTTTTTT-----TAATAAACAAGAGTTTTGTTGGGGCAACTTTTGAA------------ATCTA-TTTCTTCTATAAATTAAACACACCGATTATATTATAAATGAATAAACTACCTTAGGGATAACAGCATAATTTAAATAAATAAGTTTGTGAC-CTCGATGTTGGACTAAGGAACAATTAGCCTAGTCGGTTTAT-TGAAAAGTTCTGTTC-GAACTATATTT-CCTT</seq>
+</row>
+<row id="Row55296" otu="Tl156839">
+<seq>AGCTTTAAGATAAAAAA-TTAAGG-TTTAACC-TGCCC-AATGTATATATAATAA-TTTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATTAATTGGCCTTTAAATGGGGTCAGGAATGAATGGAATA--ACGGGGTTTAGCTGTCTCTA-ATATAATTTATTAAAATTACTGTGTAGGTGAAAAAGCCTATGAATTTGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT--ATACTATATAATAT---------TATATATAATAGTTTAGTTGGGGCAACATGGGAACA---------AAGTA----ATTTCCTTAATTTTA-TTAATCGAAAGTTTTAAATGTGAAAAAACTACCTTAGGGATAACAGCATAATTTATAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAAGGAACTAAAAGGCTAGCCGTTTTTT-AGGTAGGTTCTGT???????????????????</seq>
+</row>
+<row id="Row55297" otu="Tl156843">
+<seq>AGTCTTAGGAAAATTTATCTAAGA-TTAAACC-TGCCC-AATGTTTA------TTTATGAATGGCCGCGGTACCTTGACCGTGCTAAGGTAGCGCAATAAATTGGCCTTTAAATGAGGCCACGTATGAATGGAATC--ACGGGGTTTAGCTGTCTCTGGAACTAATTTATTGAAATTACTATGTAGGTGAAAAAGCCTACT-TCAAGAAAAAGG-ACGAGAA-GACCCTTAGAGCTTTACTA-AAGTTGA--GAATTTTT-A-----TTCTTAAGTCAGTTCTGTTGGGGCAACATAGGAACACT------GAA-------ATTTCCTTAAATTCAATCCACCGATGTTTATAAATTTGAATAAGCTACCTTAGGGATAACAGCAAAATTT-TATAAATTAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTGATAGGCTAGCCGCTTATT-AGAAAAGCTCTGTTC-GAACTATAATTTCCT?</seq>
+</row>
+<row id="Row55298" otu="Tl156841">
+<seq>????????????????????????????????????????????????????????ATGAATGGCCGCGGTACCTTGACCG?GCTAAGGTAGCGCAATAAATTGGCCTTTAAATGAGGCCATGTATGAATGGAATC--ACGGAGTTTAGCTGTCTCTAGAATTAATTTATTG?AATTACTATACAGGTGAAAAAGCCTGTT-CTAAGAAAAAGG-ACGAGAA-GACCCTTAGAGCTTTACTA--AGTTGA--AAATTTTTTA-----TTTTCAAGACAGTTTTGTTGGGGCAACATAGGAACACT------GAA-------ATTTCCTTAAGTTTAATTTACCGATACTTATAAATTTGAATAAGCTACCTTAGGGATAACAGCAAAATTT-TATAAATTAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTGCTAGGCTAGCCGCTTATT-AGATAAGTTCTGTTC-GAAC????????????</seq>
+</row>
+<row id="Row55299" otu="Tl156830">
+<seq>AGTCTTAGGATAATTCATCTAAGA-TGAAACC-TGCCC-AATGTAT-------TTAATGAATGGCCGCGGTACCTTGACCGTGCTAAGGTAGCGCAATAAATTGGTCTTTAAATGAGGCCACGTATGAATGGAACC--ACGGAGTTTAGCTGTCTCTTGAGTTAATTTATTGAAATTACTATGTAGGTGAAAAAGCCTATAATTAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTA-AAATT----AAATTG---------TTTTTAAGTCAGTTTTGTTGGGGCAACATAGGAACATT------GAA-------ATTTCCTTAAATTTAACTTACCGATGTTTATAAATTTGAATAAACTACCTTAGGGATAACAGCAAAATTT-TACAGTTTAGTTTGTGAC-CTCGATGTTGGACTAGGGAACTAGTAGGCTAGCCGCTTACT-AGGAAAGTTCTGTTC-GAACTATAATTCCCT?</seq>
+</row>
+<row id="Row55300" otu="Tl156825">
+<seq>AGCTTTAGG-AATTGAT-CTAAGG-TTAGACC-TGCCC-AATGTGCTTTAT-ATATATGAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAATTGGCTTTTAATTGGAGTCAGGTATGAATGGATTT--ACGGAGCTTAGCTGTCTTTT-AGTTAATATATTGAAATTACTATATAGGTGAAAAAGCCTATA-GATAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTACTT-AATTTAA--GACTTATATAT----TTCTTATAATAGTTTAGTTGGGGCAACATAGGAGCATGAGAT--GTATTAA-TAACCTCCCAAAAAAGA-CAAACCGATTTTTTTAAAAGTGAATAAACTACCTTAGGGATAACAGCATAATTT-TATTAGTAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTGATGGGCTAGCCGCCTTTT-AGATGAG?TCTGTTC-GAACTTTTTTCTCCT?</seq>
+</row>
+<row id="Row55301" otu="Tl156828">
+<seq>AGCTT?GGG-AAATTAT-CCAAGG-TTAGACC-TGCCC-AATGTTTATTCG--TATATCAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAGTTGGCTTTTAATTGGAGTCAGGTATGAATGGAGTC--ACGTGGTTTAGCTGTCTCTT-AATTATTTTATTGAAATTACTTTTTAGGTGAAAAAGCCTAAT-TTTAGAAGAAGG-ACGAGAA-GACCCTTAGAGTTTTGCTAAATTTAGATACGATAGACCAT----TTATCTGAGCAGTTTGGTTGGGGCAACTTTGGGGCA---------T--TGTCAAACCCCCTTAAACTCA-TAGGCCGATTTTTATATGAATGGATAAACTACCTTAGGGATAACAGCATAATTT-ATTAGTTAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACCAGCAGGTTAGCCGCCTTCT-GGGTAGGTTCTGTTCCGAACCTTTATT-CCT?</seq>
+</row>
+<row id="Row55302" otu="Tl156826">
+<seq>AGCTTTAGGTAATTA-T-CTAAAG-TTATACC-TGCCC-AATGTGAATATTATTATATTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAATTGGCTCTTAATTAGGGTCAGGAATGAATGGAGTT--ACGTGGTCCAGCTGTCTCTT-GATTAATTAATTGAAGTTACTATATAGGTGAAAAAGCCTATA-GGAAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTTCTT-AATGT-AA-AAATAGA-TATTAT-TTTTTATACTGGTTTTGTTGGGGCAACATAGGAGCAA--------AAAGA----ATCTCCTAAATTTAA-TGAACCGATTTTATTAAAACTAAACAAACTACCTTAGGGATAACAGCATAATTT-AATAATTAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTGAAGGCTAGCCGTCTTTA-AGGAAAGTTCTGTTC-GAACTATAATT-CCT?</seq>
+</row>
+<row id="Row55303" otu="Tl156845">
+<seq>AGCTTTTGGGAATGA-T-C-AAAG-TTGTACC-TGCCC-AATGTGTT-ATA-TATTATGAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAATTGGCTCTTAATTGGGGTCAGGAATGAATGGAGTT--ACGTGGTCCAGCTGTCTCTT-AATTAATTAGTTGAAGTTACTATGTAGGTGAAAAAGCCTGCA-AGAAGAAAAAGG-ACGAGAAAGACCCTTAGAGTTTTACTT-AATGT-AA-GAACAAG-TTGTGTATTCTTATACTGGTTTTGTTGGGGCAACATAGGAGCAAGCAT----AATTA----ATCTCCTCAATTAAA-TTTACCGATTTTCTTAAATTTAAATAAACTACCTTAGGGATAACAGCATAATTT-AAAAATTAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTGAAGGCT????????????????????????????????????????????</seq>
+</row>
+<row id="Row55304" otu="Tl156835">
+<seq>A?C?T?AGGAAATAGAT-CTAAGGGTTATACC-TGCCC-AATGTGAT-AT--TATAATGAATGGCCGCGGTACTCTGACCGTGCTAAGGTAGCGCAATCAATTGGCTCTTAATTGGGGTCAGRAATGAATGGAGTTT-ACGTGGTTCAGCTGTCTTTT-AGTTAATATATTGAAATTACTATGTAAGTGAAAAAGCTTATT-ATTTGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTGCTT-AATGTGAA-CAGTTTA-TGTTAAG-GTTCACAATGGTTTTGTTGGGGCAACATAGGAGCAATAGAA-AAAAGCGAA-AATCTCCTAAATTTTA-CTTACCGAAATA-TTAAATCTGAATAAACTACCTTAGGGATAACAGCATAATTT-AAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCTAGCCGTCTTTA-AGGAAAG?TCTGTTC-GAACTGTAATT-CCT?</seq>
+</row>
+<row id="Row55305" otu="Tl156838">
+<seq>AGCTTTAGGAAAGA--T-?TAAGG-TTATACC-TGCCC-AATGTGT--AAA-TAAAATGAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAATTGGCTCTTAATTGGGGTCAGGAATGAATGGAGTTT-TCGTGGTCCAGCTGTCTTTT-AGTTAGTATATTGAAGTTACTATATAGGTGAAAAAGCCTATA-ATTTGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTACTT-AGTGTGAA-CAATTTA-TATTGTA-GTTCATAATGGTTTTGTTGGGGCAACATAGGAGCAATAAAATAAAAACAAA-AATCTCCTAAATTAAA-CTTACCGAAGTA-TTAAAACTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCT????????????????????????????????????????????</seq>
+</row>
+<row id="Row55306" otu="Tl156837">
+<seq>AGCTTTAGGAAATAA-T-CTAAAG-TTTTACC-TGCCC-AATGTGT--AGA-TATAATGAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAATTGGCTCTTAATTGGGGTCAGGAATGAATGGAGTTT-ACGTGGTTCAGCTGTCTTTT-AATTAATACGTTGAAGTTACTATATAAGTGAAAAAGCTTATT-AGTAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTTCTT-AATGTGAA-TAATAAAATATTGTG-ATTCACAATGGTTTTGTTGGGGCAACATAGGAGCAGTAAT-TAGATATA----ATCTCCTGAATTTAA-CTTACCGAAGTA-TTAAATTTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCT????????????????????????????????????????????</seq>
+</row>
+<row id="Row55307" otu="Tl156840">
+<seq>AGCCTTAGGAAGAGA-T-CTAAGG-TTATACC-TGCCC-AATGTGCA-AA---ATTATGAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAATTGGCTCTTAAATGGGGTCAGGAATGAAAGGAGTTT-ACGTGGTTTAGCTGTCTCTT-AATTAATTACTTGAAGTTACTATGTAGGTGAAAAAGCCTACT-ATAAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTTCTA-AATGTGA---AATCAC---GTGTATATTCATACTGGTTTTGTTGGGGCAACATGGGAGCAGTTTT---GAAAAAA---ATCTCCTTTATTAAA-CACACCGAAAGTTTTAAATTTGTATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCTAGCCGTCTTTA-AGGAAAGTTCTGTTCCGAACTATTATT-CCT?</seq>
+</row>
+<row id="Row55308" otu="Tl156850">
+<seq>AGCTTTAGGAAAATA-T-CTAAGG-TTATACC-TGCCC-AATGTATA-AA---ATTATCAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATTAATTGGCTTTTAAATGGAGTCAGGAATGAATGGAGTT--ACGTGATTTAGCTGTCTCTT-ATCTAATTAATTGAAGTTACTATATAGGTGAAAAAGCCTATT-TTAAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTATTT-AATGTGA---AATATATAATTG--TTTTCATACTGATTTTGTTGGGGCAACATAGGAACATAC------AAAAA----ATTTCCTAATTTAAA-TACACCGAGAGTTTTAAATTTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCTAGCCGTTTTTA-AGGAAAGTTCTGTTC-GAACTATTATT-CCT?</seq>
+</row>
+<row id="Row55309" otu="Tl156847">
+<seq>????????????????????????????????????????????????????????ATAAATGGCCGCSGTACTTTGACCGTGCTAAGGTAGCSCAATCAATTGGCCCTTAATTAGGGTCAGGAATGAATGGAGTT--ACGGGGTTCAGCTGTCTCTT-TTCTAATTATTTGAAGTTACTATGTAAGTGAAAAAGCTTATA-ATAAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTATTT-AATTTGAC--AATTTTACTTAAATTATGCATAACATTTTGGTTGGGGCAACATAGGAGCAG------ATAAGTAA---ACCTCCTAAATAAAA-TTAACCGATAATTTTAAATATGTATAAACTACCTTAGGGATAACAGCATAATTT-TAGAGATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTGAAGGCTAGCCGTCTTTA-AGGAAAGTTCTGTTC-GAAC????????????</seq>
+</row>
+<row id="Row55310" otu="Tl156829">
+<seq>TGCTTTAGGAACGGATT-CTAAAG-TTATACC-TGCCC-AATTGTGTTT----TTCATGAATGGCCGCGGTACTTTGACCGTGCTAAGGTGGCGCAATCAATTGGCCCTTAATTGGGGTCAGGAATGAATGGAGTT--CCGGGGTACAGCTGTCTCTT-TACTAATTATTTGAAGTTCCTATGTAAGTGAAAAAGCTTATG-TTGAGAAAAAGGGACGAGAA-GCCCCTTAGAGTTTTACTT-ACTGTGAT--GATTATATTTAAGTTACTCATAATGGTTTAGTTGGGGCAACATGGGAGCAA------AGCAGTAATTAACCTCCCAAATAGGA-TTAACCGATAATTTTAAATTTGGATAAACTACCTTAGGGATAACAGCATAATTT-TAGAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCTAGCCGTCTTTA-AGGGAAGTTCTGTTC-GAACTATTATT-CCT?</seq>
+</row>
+<row id="Row55311" otu="Tl35572">
+<seq>????????????????????????????????????????????????????????ATGAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAATTGGCTCTTAATTGGAGTCAGGYATGAATGGAGTY--ACGGGGTTCGGCTGTCTCCT-AATTAATTAGTTGAAGTTACTATATAAGTSAAAAAGCTTATA-TGTAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTGGCCT-AGTATAAA--AAACTGAAATGGGTTATTTATAATGGTTTAGTTGGGGCAACATGGGAGCAGC-----AAAATTAATTAATCTCCTAAATTTTA-TTAACCGATTATTTTAAATGTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCTAGCCGTCTTTA-AGGAAAGTTCTGTTC-GAAC????????????</seq>
+</row>
+<row id="Row55312" otu="Tl156849">
+<seq>AGCTTTAGGGAAAGAT--CTAAGG-TTATACC-TGCCC-AATGACAAGA----TTATCAAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATAAATTGGCTTTTAAATGGAGTCAGGAATGAATGGAGTT--ACGTGGTTTAGCTGTCTCTT-ATCTAATTAATTGAAGTTACTATATAGGTGAAAAAGCCTATT-TTAAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTACTT-AATGTGAA--ATATTTAGTTA---TTTTCATACTGGTTTTGTTGGGGCAACATAGGAACA-------ATTAAAAA---ATTTCCTAATTTAAA-TATACCGATAATTTTAAATTTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCTAGCCGTCTTTA-AGGAAAGTTCTGTTC-GAACTATTATT-CCT?</seq>
+</row>
+<row id="Row55313" otu="Tl156834">
+<seq>AGCCTTAGG-TAAAGAT-CTAAGG-TTACACC-TGCCC-AATGTATAAA----GTTATTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCGCAATCAATTGGCTCTTAAATGGGGTCAGGAATGAATGGAGTTTAACGTGGTTAAGCTGTCTCTT-AACTAGTTAATTGAAGTTACTATGTAGGTGAAAAAGCCTATT-GTAAGAAAAAGG-ACGAGAA-GACCCTTAGAGTTTTACTT-AATGTGGG--AGATACTAAAG---TATCCATACTGGTTTTGTTGGGGCAACATAGGAGCA-------ATAGTTAT--AATCTCCTAAACTATAATGGACCGAAATTTATAAATGTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAAGGCTAGCCGTCTTTA-AGGAAAGTTCTGTTC-GAACTATTATT-CCT?</seq>
+</row>
+<row id="Row55314" otu="Tl156832">
+<seq>AGCCTTTGG-AAAGGAT-TAAAGG-TTATACC-TGCCC-AATGT---------TATATTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCACAATCAATTGGCCCTTAATTAGGGTCAGGTATGAATGGAGTT--ACGGGGCTTAGCTGTCTCTA-AACTATTTATTTGAAGTTGCTATATAGGTGAAAAAGCCTATA-TTAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT-AAAAAAG---ACCTA-----T---TTTTTTCACTAGTTTTGTTGGGGCAACATAGGAGAA--------AACTCAA---ACCTCCTAAAGAATA-TAAACCGATATTTTTAAATGTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAGGGCTAGCCGCCTTTTTGGGAAGGTTCTGTTC-GAACTATAATTTCCT?</seq>
+</row>
+<row id="Row55315" otu="Tl156827">
+<seq>AGCCTTTGGAAAGGA-T-TAAAGG-TTATACC-TGCCC-AATGT---------TATATTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCACAATCAATTGGCCCTTAATTAGGGTCAGGTATGAATGGAGTT--ACGGGGCTTAGCTGTCTCTA-GACTATTTAATTGAAGTTGCTATATAGGTGAAAAAGCCTGTA-TTAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT-AA-----A-AAAGAG----TTAT-TTCTTC-ACTAGTTTTGTTGGGGCAACATAGGAGAAG--------AACCAA---ACCTCCTAAAGGATA-TAAACCGATGTTTTTAAATATGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAGGGCTAGCCGCCTTTT-GGTAAGGTTCTGTTC-GAACTATAATT-CCT?</seq>
+</row>
+<row id="Row55316" otu="Tl35562">
+<seq>AGCCTTTGG-AGAGGAT-TAAAGG-TTATACC-TGCCC-AATGT-TA--------TATTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCACAATCAATTGGCCCTTAATTAGGGTCAGGTATGAATGGAGTT--ACGGGGCTTAGCTGTCTCTA-AACTATTTAATTGAAGTTGCTGTATAGGTGAAAAAGCCTATA-TTAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT-AGGAAAG---AATTA---------TTTCTTCACTAGTTTTGTTGGGGCAACATAGGAG---------AAAATTA---AACCTCCTAAAGGATA-TAAACCGATGATTTTAAATATGAACAAACTACCTTAGGGATAACAGCATAATTT-TAAAAGTAAGTTTGTGAC-CTCGATGTTGG?CTGGGAAGCTTAAGGGCTAGCCGCCTTTT-GGTAAGGTTCTGTTC-GAACTATAATT-CCT?</seq>
+</row>
+<row id="Row55317" otu="Tl35556">
+<seq>AGCCTTTGG-AGAGGAT-TAAAGG-TTATACC-TGCCC-AATGT-TA--------TATTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCACAATCAATTGGCCCTTAATTAGGGTCAGGTATGAATGGAGTT--ACGGGGCTTAGCTGTCTCTA-AACTATTTAATTGAAGTTGCTATATAGGTGAAAAAGCCTATA-CTAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT-AAGAAAG---AATTA---------TTTCTTCACTAGTTTTGTTGGGGCAACATAGGAG-A-------AGAATTA---AACCTCCTGAAGGATA-TAAACCGATGATTTTAAATGTGAACAAACTACCTTAGGGATAACAGCATAATTT-TAAAAGTAAGTTTGTGAC-CTCGATGTTGGACTAGGAAGCTTAAGGGCTAGCCGCCTTTT-GGTAAGGTTCTGT???????????????????</seq>
+</row>
+<row id="Row55318" otu="Tl156833">
+<seq>AGCCTTTGG-TAAGGAT-CAAAGG-TTATACC-TGCCC-AATGT-TATA--------TTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCACAATCAATTGGCCCTTAATTAGGGTCAGGTATGAATGGAGTT--ACGGGGCTTAGCTGTCTCTA-GACTATTTAATTGAAGTTGCTGTATAGGTGAAAAAGCCTATA-TAAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT-AAAAAAG---AATTA---------TTTCTTTAACAGTTTTGTTGGGGCAACATGGGAG-A-------AGAATTA---AACCTCCTAAAGTATA-TAAACCGATATTTTTAAATGTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAGCCTAAAGGCTAGCCGCCTTTT-GGTAAGGTTCTGTTC-GAACTACAATT-CCT?</seq>
+</row>
+<row id="Row55319" otu="Tl156844">
+<seq>AGCCTTTGG-AGAGGAT-CAAAGG-TTATACC-TGCCC-AATGT-TATA-------ATTAATGGCCGCGGTACTTTGACCGTGCTAAGGTAGCACAATCAATTGGCTCTTAATTAGGGTCAGGTATGAATGGAGTT--ACGGGGCTTCGCTGTCTCTA-AACTATTTAATTGAAGTTGCTGTATAGGTGAAAAAGCCTGTA-TTAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT-AAAAAAG---AGCTA---------TCTCTTCACTAGTTTTGTTGGGGCAACATAGGAG-A-------AAACTTA---AACCTCCTAAAGTATA-TAAACCGATGTTTTTAAATATGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGAC-CTCGATGTTGGACTAGGAAACTTAAGGGCTAGCCGCCCTTT-GGTAAGGTTCTGTTC-GAACTATAATT-?CT?</seq>
+</row>
+<row id="Row55320" otu="Tl156851">
+<seq>AGCCTTTAAGAAAGGAT-TAAAGG-TTATACCCTGCCCCAATGT-TTTT------AATTAATGGCCGCGGTACCTTGACCGTGCTAAGGTAGCACAATCAATTGGCCCTTAATTAGGGTCAGGTATGAATGGAGTT--ACGGGGCTTAGCTGTCTCTA-AACTATTTAATTGAAGTTGCTGTATAGGTGAAAAAGCCTATA-TAAAGAAAAAAG-ACGAGAA-GACCCTTAGAGTTTTACTT-AAAAAAG---AGTTA---------CTTCTTCACTAGTTTTGTTGGGGCAACATGGGAG-A-------AAAATTA---AACCTCCTAAAATATA-TAAACCGATTTTTTTAAATGTGAATAAACTACCTTAGGGATAACAGCATAATTT-TAAAAATAAGTTTGTGACGCTCGATGTTGGACTAGGAAACTTAAAGGCTAGCCGCCTTTT-GGCAAGGTTCTGTTC-GAACTATAATT-CCT?</seq>
+</row>
+</matrix>
+</characters>
+<trees about="#Tb7217" id="Tb7217" label="Tb7217" otus="Tls11862" xml:base="http://purl.org/phylo/treebase/phylows/tree/TB2:">
+<meta content="Mapped from TreeBASE schema using org.cipres.treebase.domain.nexus.nexml.NexmlTreeBlockWriter@4e8beb35 $Rev$" datatype="xsd:string" id="meta896" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
+<meta href="S1311" id="meta895" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+<tree about="#Tr4446" id="Tr4446" label="Fig. 2 MB" xsi:type="nex:FloatTree">
+<meta content="27" datatype="xsd:integer" id="meta902" property="tb:ntax.tree" xsi:type="nex:LiteralMeta"/>
+<meta content="Unrated" datatype="xsd:string" id="meta901" property="tb:quality.tree" xsi:type="nex:LiteralMeta"/>
+<meta content="Single" datatype="xsd:string" id="meta900" property="tb:type.tree" xsi:type="nex:LiteralMeta"/>
+<meta content="Species Tree" datatype="xsd:string" id="meta899" property="tb:kind.tree" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta898" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+<node id="Tn308528"/>
+<node id="Tn308514" label="Actinocyclus verrucosus" otu="Tl156828"/>
+<node id="Tn308551" label="Cadlinella ornatissima" otu="Tl156825"/>
+<node id="Tn308544"/>
+<node id="Tn308540"/>
+<node id="Tn308532"/>
+<node id="Tn308526" label="Cadlina luarna" otu="Tl156830"/>
+<node id="Tn308525"/>
+<node id="Tn308520" label="Cadlina luteomarginata" otu="Tl156843"/>
+<node id="Tn308560" label="Cadlina laevis" otu="Tl156841"/>
+<node id="Tn308547"/>
+<node id="Tn308537" label="Chromodoris ambiguus" otu="Tl156839"/>
+<node id="Tn308522" label="Chromodoris alternata" otu="Tl156842"/>
+<node id="Tn308536"/>
+<node id="Tn308543"/>
+<node id="Tn308563"/>
+<node id="Tn308548"/>
+<node id="Tn308534"/>
+<node id="Tn308555"/>
+<node id="Tn308538" label="Chromodoris aspersa" otu="Tl156846"/>
+<node id="Tn308516" label="Chromodoris striatella" otu="Tl156844"/>
+<node id="Tn308539" label="Chromodoris magnifica" otu="Tl156827"/>
+<node id="Tn308524"/>
+<node id="Tn308559" label="Chromodoris kuiteri1" otu="Tl35556"/>
+<node id="Tn308565" label="Chromodoris kuiteri2" otu="Tl35562"/>
+<node id="Tn308529"/>
+<node id="Tn308545" label="Chromodoris quadricolor" otu="Tl156851"/>
+<node id="Tn308542" label="Chromodoris strigata" otu="Tl156833"/>
+<node id="Tn308549" label="Chromodoris lochi" otu="Tl156832"/>
+<node id="Tn308515"/>
+<node id="Tn308531"/>
+<node id="Tn308552" label="Chromodoris luteorosa" otu="Tl35572"/>
+<node id="Tn308546"/>
+<node id="Tn308519" label="Chromodoris krohni" otu="Tl156829"/>
+<node id="Tn308517" label="Chromodoris purpurea" otu="Tl156847"/>
+<node id="Tn308558"/>
+<node id="Tn308523"/>
+<node id="Tn308557"/>
+<node id="Tn308527" label="Chromodoris roboi" otu="Tl156838"/>
+<node id="Tn308556"/>
+<node id="Tn308561" label="Chromodoris geometrica" otu="Tl156835"/>
+<node id="Tn308521" label="Chromodoris leopardus" otu="Tl156837"/>
+<node id="Tn308533"/>
+<node id="Tn308535"/>
+<node id="Tn308530" label="Chromodoris splendida" otu="Tl156834"/>
+<node id="Tn308553" label="Chromodoris daphne" otu="Tl156840"/>
+<node id="Tn308562"/>
+<node id="Tn308554" label="Chromodoris tasmaniensis" otu="Tl156849"/>
+<node id="Tn308518" label="Chromodoris epicurea" otu="Tl156850"/>
+<node id="Tn308541"/>
+<node id="Tn308550" label="Chromodoris collingwoodi" otu="Tl156845"/>
+<node id="Tn308564" label="Chromodoris kuniei" otu="Tl156826"/>
+<edge id="edge905" source="Tn308528" target="Tn308514"/>
+<edge id="edge907" source="Tn308528" target="Tn308551"/>
+<edge id="edge909" source="Tn308528" target="Tn308544"/>
+<edge id="edge911" source="Tn308544" target="Tn308540"/>
+<edge id="edge913" source="Tn308540" target="Tn308532"/>
+<edge id="edge915" source="Tn308532" target="Tn308526"/>
+<edge id="edge917" source="Tn308532" target="Tn308525"/>
+<edge id="edge919" source="Tn308525" target="Tn308520"/>
+<edge id="edge921" source="Tn308525" target="Tn308560"/>
+<edge id="edge923" source="Tn308540" target="Tn308547"/>
+<edge id="edge925" source="Tn308547" target="Tn308537"/>
+<edge id="edge927" source="Tn308547" target="Tn308522"/>
+<edge id="edge929" source="Tn308544" target="Tn308536"/>
+<edge id="edge931" source="Tn308536" target="Tn308543"/>
+<edge id="edge933" source="Tn308543" target="Tn308563"/>
+<edge id="edge935" source="Tn308563" target="Tn308548"/>
+<edge id="edge937" source="Tn308548" target="Tn308534"/>
+<edge id="edge939" source="Tn308534" target="Tn308555"/>
+<edge id="edge941" source="Tn308555" target="Tn308538"/>
+<edge id="edge943" source="Tn308555" target="Tn308516"/>
+<edge id="edge945" source="Tn308534" target="Tn308539"/>
+<edge id="edge947" source="Tn308548" target="Tn308524"/>
+<edge id="edge949" source="Tn308524" target="Tn308559"/>
+<edge id="edge951" source="Tn308524" target="Tn308565"/>
+<edge id="edge953" source="Tn308563" target="Tn308529"/>
+<edge id="edge955" source="Tn308529" target="Tn308545"/>
+<edge id="edge957" source="Tn308529" target="Tn308542"/>
+<edge id="edge959" source="Tn308543" target="Tn308549"/>
+<edge id="edge961" source="Tn308536" target="Tn308515"/>
+<edge id="edge963" source="Tn308515" target="Tn308531"/>
+<edge id="edge965" source="Tn308531" target="Tn308552"/>
+<edge id="edge967" source="Tn308531" target="Tn308546"/>
+<edge id="edge969" source="Tn308546" target="Tn308519"/>
+<edge id="edge971" source="Tn308546" target="Tn308517"/>
+<edge id="edge973" source="Tn308515" target="Tn308558"/>
+<edge id="edge975" source="Tn308558" target="Tn308523"/>
+<edge id="edge977" source="Tn308523" target="Tn308557"/>
+<edge id="edge979" source="Tn308557" target="Tn308527"/>
+<edge id="edge981" source="Tn308557" target="Tn308556"/>
+<edge id="edge983" source="Tn308556" target="Tn308561"/>
+<edge id="edge985" source="Tn308556" target="Tn308521"/>
+<edge id="edge987" source="Tn308523" target="Tn308533"/>
+<edge id="edge989" source="Tn308533" target="Tn308535"/>
+<edge id="edge991" source="Tn308535" target="Tn308530"/>
+<edge id="edge993" source="Tn308535" target="Tn308553"/>
+<edge id="edge995" source="Tn308533" target="Tn308562"/>
+<edge id="edge997" source="Tn308562" target="Tn308554"/>
+<edge id="edge999" source="Tn308562" target="Tn308518"/>
+<edge id="edge1001" source="Tn308558" target="Tn308541"/>
+<edge id="edge1003" source="Tn308541" target="Tn308550"/>
+<edge id="edge1005" source="Tn308541" target="Tn308564"/>
+</tree>
+</trees>
+<trees about="#Tb7216" id="Tb7216" label="Tb7216" otus="Tls11861" xml:base="http://purl.org/phylo/treebase/phylows/tree/TB2:">
+<meta content="Mapped from TreeBASE schema using org.cipres.treebase.domain.nexus.nexml.NexmlTreeBlockWriter@4e8beb35 $Rev$" datatype="xsd:string" id="meta1008" property="skos:historyNote" xsi:type="nex:LiteralMeta"/>
+<meta href="S1311" id="meta1007" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+<tree about="#Tr689" id="Tr689" label="Fig. 1 MP" xsi:type="nex:FloatTree">
+<meta content="27" datatype="xsd:integer" id="meta1014" property="tb:ntax.tree" xsi:type="nex:LiteralMeta"/>
+<meta content="Unrated" datatype="xsd:string" id="meta1013" property="tb:quality.tree" xsi:type="nex:LiteralMeta"/>
+<meta content="Single" datatype="xsd:string" id="meta1012" property="tb:type.tree" xsi:type="nex:LiteralMeta"/>
+<meta content="Species Tree" datatype="xsd:string" id="meta1011" property="tb:kind.tree" xsi:type="nex:LiteralMeta"/>
+<meta href="http://purl.org/phylo/treebase/phylows/study/TB2:S1311" id="meta1010" rel="rdfs:isDefinedBy" xsi:type="nex:ResourceMeta"/>
+<node id="Tn34072"/>
+<node id="Tn34092" label="Actinocyclus verrucosus" otu="Tl156828"/>
+<node id="Tn34094" label="Cadlinella ornatissima" otu="Tl156825"/>
+<node id="Tn34060"/>
+<node id="Tn34059"/>
+<node id="Tn34071"/>
+<node id="Tn34065" label="Cadlina luarna" otu="Tl156830"/>
+<node id="Tn34095"/>
+<node id="Tn34075" label="Cadlina luteomarginata" otu="Tl156843"/>
+<node id="Tn34080" label="Cadlina laevis" otu="Tl156841"/>
+<node id="Tn34090"/>
+<node id="Tn34073" label="Chromodoris ambiguus" otu="Tl156839"/>
+<node id="Tn34058" label="Chromodoris alternata" otu="Tl156842"/>
+<node id="Tn34077"/>
+<node id="Tn34083"/>
+<node id="Tn34074" label="Chromodoris aspersa" otu="Tl156846"/>
+<node id="Tn34099"/>
+<node id="Tn34067" label="Chromodoris magnifica" otu="Tl156827"/>
+<node id="Tn34057"/>
+<node id="Tn34076" label="Chromodoris striatella" otu="Tl156844"/>
+<node id="Tn34063"/>
+<node id="Tn34068"/>
+<node id="Tn34103" label="Chromodoris kuiteri1" otu="Tl35556"/>
+<node id="Tn34061" label="Chromodoris kuiteri2" otu="Tl35562"/>
+<node id="Tn34089"/>
+<node id="Tn34104" label="Chromodoris lochi" otu="Tl156832"/>
+<node id="Tn34079"/>
+<node id="Tn34096" label="Chromodoris quadricolor" otu="Tl156851"/>
+<node id="Tn34085" label="Chromodoris strigata" otu="Tl156833"/>
+<node id="Tn34064"/>
+<node id="Tn34087"/>
+<node id="Tn34062"/>
+<node id="Tn34069" label="Chromodoris splendida" otu="Tl156834"/>
+<node id="Tn34054" label="Chromodoris daphne" otu="Tl156840"/>
+<node id="Tn34084"/>
+<node id="Tn34088" label="Chromodoris tasmaniensis" otu="Tl156849"/>
+<node id="Tn34066" label="Chromodoris epicurea" otu="Tl156850"/>
+<node id="Tn34091"/>
+<node id="Tn34097"/>
+<node id="Tn34056" label="Chromodoris collingwoodi" otu="Tl156845"/>
+<node id="Tn34053" label="Chromodoris kuniei" otu="Tl156826"/>
+<node id="Tn34078"/>
+<node id="Tn34102"/>
+<node id="Tn34101" label="Chromodoris luteorosa" otu="Tl35572"/>
+<node id="Tn34082"/>
+<node id="Tn34098" label="Chromodoris krohni" otu="Tl156829"/>
+<node id="Tn34086" label="Chromodoris purpurea" otu="Tl156847"/>
+<node id="Tn34055"/>
+<node id="Tn34070"/>
+<node id="Tn34093" label="Chromodoris geometrica" otu="Tl156835"/>
+<node id="Tn34081" label="Chromodoris roboi" otu="Tl156838"/>
+<node id="Tn34100" label="Chromodoris leopardus" otu="Tl156837"/>
+<edge id="edge1017" source="Tn34072" target="Tn34092"/>
+<edge id="edge1019" source="Tn34072" target="Tn34094"/>
+<edge id="edge1021" source="Tn34072" target="Tn34060"/>
+<edge id="edge1023" source="Tn34060" target="Tn34059"/>
+<edge id="edge1025" source="Tn34059" target="Tn34071"/>
+<edge id="edge1027" source="Tn34071" target="Tn34065"/>
+<edge id="edge1029" source="Tn34071" target="Tn34095"/>
+<edge id="edge1031" source="Tn34095" target="Tn34075"/>
+<edge id="edge1033" source="Tn34095" target="Tn34080"/>
+<edge id="edge1035" source="Tn34059" target="Tn34090"/>
+<edge id="edge1037" source="Tn34090" target="Tn34073"/>
+<edge id="edge1039" source="Tn34090" target="Tn34058"/>
+<edge id="edge1041" source="Tn34060" target="Tn34077"/>
+<edge id="edge1043" source="Tn34077" target="Tn34083"/>
+<edge id="edge1045" source="Tn34083" target="Tn34074"/>
+<edge id="edge1047" source="Tn34083" target="Tn34099"/>
+<edge id="edge1049" source="Tn34099" target="Tn34067"/>
+<edge id="edge1051" source="Tn34099" target="Tn34057"/>
+<edge id="edge1053" source="Tn34057" target="Tn34076"/>
+<edge id="edge1055" source="Tn34057" target="Tn34063"/>
+<edge id="edge1057" source="Tn34063" target="Tn34068"/>
+<edge id="edge1059" source="Tn34068" target="Tn34103"/>
+<edge id="edge1061" source="Tn34068" target="Tn34061"/>
+<edge id="edge1063" source="Tn34063" target="Tn34089"/>
+<edge id="edge1065" source="Tn34089" target="Tn34104"/>
+<edge id="edge1067" source="Tn34089" target="Tn34079"/>
+<edge id="edge1069" source="Tn34079" target="Tn34096"/>
+<edge id="edge1071" source="Tn34079" target="Tn34085"/>
+<edge id="edge1073" source="Tn34077" target="Tn34064"/>
+<edge id="edge1075" source="Tn34064" target="Tn34087"/>
+<edge id="edge1077" source="Tn34087" target="Tn34062"/>
+<edge id="edge1079" source="Tn34062" target="Tn34069"/>
+<edge id="edge1081" source="Tn34062" target="Tn34054"/>
+<edge id="edge1083" source="Tn34087" target="Tn34084"/>
+<edge id="edge1085" source="Tn34084" target="Tn34088"/>
+<edge id="edge1087" source="Tn34084" target="Tn34066"/>
+<edge id="edge1089" source="Tn34064" target="Tn34091"/>
+<edge id="edge1091" source="Tn34091" target="Tn34097"/>
+<edge id="edge1093" source="Tn34097" target="Tn34056"/>
+<edge id="edge1095" source="Tn34097" target="Tn34053"/>
+<edge id="edge1097" source="Tn34091" target="Tn34078"/>
+<edge id="edge1099" source="Tn34078" target="Tn34102"/>
+<edge id="edge1101" source="Tn34102" target="Tn34101"/>
+<edge id="edge1103" source="Tn34102" target="Tn34082"/>
+<edge id="edge1105" source="Tn34082" target="Tn34098"/>
+<edge id="edge1107" source="Tn34082" target="Tn34086"/>
+<edge id="edge1109" source="Tn34078" target="Tn34055"/>
+<edge id="edge1111" source="Tn34055" target="Tn34070"/>
+<edge id="edge1113" source="Tn34070" target="Tn34093"/>
+<edge id="edge1115" source="Tn34070" target="Tn34081"/>
+<edge id="edge1117" source="Tn34055" target="Tn34100"/>
+</tree>
+</trees>
+</nex:nexml>
