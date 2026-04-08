@@ -66,7 +66,7 @@ function checkPasswords() {
                 <c:choose>
                     <c:when test="${empty user.id}">
                         <spring:bind path="user.username">
-                            <input type="text" class="form-control form-control-lg" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+                            <input type="text" class="form-control" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
                             <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
                         </spring:bind>
                     </c:when>
@@ -81,7 +81,7 @@ function checkPasswords() {
             <div class="mb-3">
                 <label for="user.password" class="form-label"><fmt:message key="user.password"/>:</label>
                 <spring:bind path="user.password">
-                    <input type="password" class="form-control form-control-lg" name="<c:out value="${status.expression}"/>" id = "<c:out value="${status.expression}"/>" value=""/>
+                    <input type="password" class="form-control" name="<c:out value="${status.expression}"/>" id = "<c:out value="${status.expression}"/>" value=""/>
                     <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
                 </spring:bind>
                 <c:if test="${user.id != null}">
@@ -91,7 +91,7 @@ function checkPasswords() {
 
             <div class="mb-3">
                 <label for="retypedpassword" class="form-label">Re-type Password:</label>
-                <input type="password" class="form-control form-control-lg" name="retypedpassword" id ="retypedpassword" value=""/>
+                <input type="password" class="form-control" name="retypedpassword" id ="retypedpassword" value=""/>
             </div>
 
             <div class="mb-3">

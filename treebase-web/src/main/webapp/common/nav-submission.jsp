@@ -3,7 +3,7 @@
 
 <!-- show submission menu bar for a logged in user after a submission is selected -->
 <% if (request.getSession().getAttribute("studyMap") != null  &&
-	request.getRequestURL().indexOf("/submission/submissionList.html") == -1 ) {
+	request.getRequestURL().indexOf("/user/submissionList.html") == -1 ) {
 	%>
 	<c:if test="${search != 'y' && pageContext['request'].remoteUser != null }">
 		<!-- Submission Sub-Navigation Bar -->
@@ -61,7 +61,7 @@
 
 					<ul class="navbar-nav ms-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="<c:url value='/submission/submissionList.html'/>"><i class="fa fa-list fa-icon"></i> <fmt:message key="nav.submission.submissions"/></a>
+							<a class="nav-link" href="<c:url value='/user/submissionList.html'/>"><i class="fa fa-list fa-icon"></i> <fmt:message key="nav.submission.submissions"/></a>
 						</li>
 					</ul>
 				</div>

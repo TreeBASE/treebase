@@ -21,13 +21,13 @@
 					<label for="j_username" class="form-label fw-semibold">
 						<em class="text-danger">* </em><fmt:message key="label.username"/>
 					</label>
-					<input name="j_username" class="form-control form-control-lg" id="j_username" type="text" autocomplete="username" autofocus required />
+					<input name="j_username" class="form-control" id="j_username" type="text" autocomplete="username" autofocus required />
 				</div>
 				<div class="mb-3">
 					<label for="j_password" class="form-label fw-semibold">
 						<em class="text-danger">* </em><fmt:message key="label.password"/>
 					</label>
-					<input name="j_password" class="form-control form-control-lg" id="j_password" type="password" autocomplete="current-password" required />
+					<input name="j_password" class="form-control" id="j_password" type="password" autocomplete="current-password" required />
 				</div>
 				<div class="d-grid mb-3">
 					<button name="submit" type="submit" class="btn btn-primary btn-lg">

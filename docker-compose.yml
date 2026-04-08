@@ -80,6 +80,9 @@ services:
       # Mount WEB-INF from built artifact (will be populated by entrypoint)
       - web-inf-classes:/usr/local/tomcat/webapps/treebase-web/WEB-INF/classes
       - web-inf-lib:/usr/local/tomcat/webapps/treebase-web/WEB-INF/lib
+      # Mount SiteMesh config files for live editing
+      - ./treebase-web/src/main/webapp/WEB-INF/decorators.xml:/usr/local/tomcat/webapps/treebase-web/WEB-INF/decorators.xml
+      - ./treebase-web/src/main/webapp/WEB-INF/sitemesh.xml:/usr/local/tomcat/webapps/treebase-web/WEB-INF/sitemesh.xml
       # Mount JSP and static files for live editing (excluding WEB-INF to preserve compiled classes and libs)
       - ./treebase-web/src/main/webapp/decorators:/usr/local/tomcat/webapps/treebase-web/decorators
       - ./treebase-web/src/main/webapp/images:/usr/local/tomcat/webapps/treebase-web/images

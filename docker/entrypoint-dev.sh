@@ -66,15 +66,15 @@ if [ -d "WEB-INF/lib" ]; then
 	cp -r WEB-INF/lib/* /usr/local/tomcat/webapps/treebase-web/WEB-INF/lib/ || echo "Warning: Some library files may not have copied"
 fi
 
-# Copy other WEB-INF resources, but do NOT overwrite mounted JSPs in WEB-INF/pages
+# Copy other WEB-INF resources, but do NOT overwrite mounted files
 if [ -d "WEB-INF" ]; then
 	echo "Copying WEB-INF configuration files..."
-	find WEB-INF -type f ! -path "WEB-INF/classes/*" ! -path "WEB-INF/lib/*" ! -path "WEB-INF/pages/*" -print0 | while IFS= read -r -d '' file; do
+	find WEB-INF -type f ! -path "WEB-INF/classes/*" ! -path "WEB-INF/lib/*" ! -path "WEB-INF/pages/*" ! -name "decorators.xml" ! -name "sitemesh.xml" -print0 | while IFS= read -r -d '' file; do
 		target_dir="/usr/local/tomcat/webapps/treebase-web/$(dirname "$file")"
 		mkdir -p "$target_dir"
 		cp "$file" "$target_dir/" || echo "Warning: Failed to copy $file"
 	done
-	echo "Skipping copy for WEB-INF/pages (mounted volume for JSP hot-reload)"
+	echo "Skipping: WEB-INF/pages (mounted), decorators.xml, sitemesh.xml (mounted)"
 fi
 
 # Copy DTD files to /tmp/dtd for validator configuration

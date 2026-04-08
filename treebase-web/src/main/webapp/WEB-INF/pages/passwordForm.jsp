@@ -31,7 +31,7 @@
                         <fmt:message key="user.username"/>
                     </label>
                     <spring:bind path="user.username">
-                        <input type="text" class="form-control form-control-lg" id="username" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>" autocomplete="username" />
+                        <input type="text" class="form-control" id="username" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>" autocomplete="username" />
                         <span class="fieldError text-danger"><c:out value="${status.errorMessage}"/></span>
                     </spring:bind>
                 </div>
@@ -40,7 +40,7 @@
                         <fmt:message key="user.emailaddressstring"/>
                     </label>
                     <spring:bind path="user.tmpEmailAddress">
-                        <input type="email" class="form-control form-control-lg" id="email" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>" autocomplete="email" />
+                        <input type="email" class="form-control" id="email" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>" autocomplete="email" />
                         <span class="fieldError text-danger"><c:out value="${status.errorMessage}"/></span>
                     </spring:bind>
                 </div>
