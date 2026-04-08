@@ -16,6 +16,75 @@ function popupWithSizes(url, width, height) {
     newwindow=window.open(url,'help','width=' + width + ',height=' + height + ',scrollbars=yes,menubar=no,resizable=yes,toolbar=no,status=no');
 }
 
+
+    function updateList(autocompleter, token) {
+        RemotePersonService.findCompleteEmailAddress(token, {
+            callback: function(data) { autocompleter.setChoices(data || []); },
+            errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+        });
+    }
+    function nameValueSelector(tag){
+        return tag;
+    }
+    // nameValueSelctor(tag) method is used by all the four methods related to Auto Suggestion Box
+    
+    function updateSoftwareNameList(autocompleter, token) {
+        RemoteSoftwareNameService.findCompleteSoftwareName(token, {
+            callback: function(data) { autocompleter.setChoices(data || []); },
+            errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+        });
+    }
+    
+    function updateJournalNameList(autocompleter, token) {
+        RemoteJournalNameService.findCompleteJournalName(token, {
+            callback: function(data) { autocompleter.setChoices(data || []); },
+            errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+        });
+    }
+    
+    function updateUniqueOtherAlgorithmList(autocompleter, token) {
+        RemoteUniqueOtherAlgorithmService.findAllUniqueOtherAlgorithmDescriptions(token, {
+            callback: function(data) { autocompleter.setChoices(data || []); },
+            errorHandler: function(message, ex) { autocompleter.setChoices([]); }
+        });
+    }
+				function makeLink(points) {
+				var address = '';
+				for ( var i = 0; i < points.length; i++ ) {
+					if ( points[i] != null ) {
+						address += "&#" + points[i] + ";";
+					}
+				}
+				var link = '<a href="mailto:' + address + '?subject=From Treebase-2 Community">';
+				link += '<img class="iconButton" src="<fmt:message key="icons.email"/>" alt="Email"/> ';
+				link += address + '</a>';
+				return link;
+			}
+			function citeulike() {
+				var citeuser = $('citeuser').value;
+				var citeform = $('citeulike');
+				if ( citeuser != null && citeuser != 'enter your citeulike user name' ) {
+					document.cookie='citeuser='+citeuser;
+					var bibtex = $('bibtex').textContent;
+					var pasted = $('pasted');
+					pasted.value = bibtex;
+					citeform.action = 'http://www.citeulike.org/profile/' + citeuser + '/import_do';
+					citeform.submit();
+				}
+				else {
+					alert('Please enter your citeulike user name first!');
+					$('citeuser').style.display = 'inline';
+				}
+			}
+			
+			function connotea() {
+				$('connotea').submit();
+			}
+			
+			function updateUniqueOtherAlgorithmList(autocompleter, token) {
+				RemoteUniqueOtherAlgorithmService.findAllUniqueOtherAlgorithmDescriptions(token, function(data) { autocompleter.setChoices(data) });
+			}
+			
 /**
  * Opens help content in a Bootstrap offcanvas side panel.
  * @param {string} tag - The help tag to load content for
@@ -180,7 +249,7 @@ TreeBASE.register(
 	function() {
 		$('a.openHelp').each(function() {
 			if ( !this.title || this.title == '' ) {
-				this.title = 'Open help popup';
+				this.title = 'Open help';
 			}
 		});
 	}	

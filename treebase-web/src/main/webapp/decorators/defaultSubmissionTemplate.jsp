@@ -7,9 +7,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head><%@ include file="/common/meta.jsp" %>
-		<meta name="template" content="defaultTemplate"/>
-		<title>TreeBASE-<decorator:title/></title>
+		<meta name="template" content="defaultSearchTemplate"/>
+		<title>TreeBASE Search-<decorator:title/></title>
 		<%@ include file="/decorators/decorator-head.jsp" %>
+
+		<script type="text/javascript">
+			//<![CDATA[
+			
+			
+			//]]>
+		</script>
+
+		<!-- DWR STUFF END -->
 		<decorator:head/>
 	</head>
 
@@ -17,6 +26,7 @@
 		<%-- Sticky Bootstrap header --%>
 		<jsp:include page="/common/header.jsp"/>
 		<jsp:include page="/common/nav.jsp"/>
+		<jsp:include page="/common/nav-submission.jsp"/>
 
 		<%@ include file="/decorators/decorator-body.jsp" %>
 		<%@ include file="/decorators/decorator-scripts.jsp" %>

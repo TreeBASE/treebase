@@ -5,7 +5,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 		<li class="nav-item">
-			<a class="nav-link" href="<c:url value="/user/submissionList.html"/>"><fmt:message key="nav.submissions"/></a>
+			<a class="nav-link" href="<c:url value="/submission/submissionList.html"/>"><fmt:message key="nav.submissions"/></a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="<c:url value="/search/studySearch.html"/>"><fmt:message key="nav.search.treebase"/></a>
@@ -20,8 +20,8 @@
 		<li  class="nav-item"><a class="nav-link" href="<c:url value="/dataMan.html"/>"><fmt:message key="nav.dataman"/></a></li>
 		<li class="nav-item"><a class="nav-link" href="<c:url value="/journal.html"/>"><fmt:message key="nav.journals"/></a></li>
 		<li class="nav-item"><a class="nav-link" href="<c:url value="/contact.html"/>"><fmt:message key="nav.contact"/></a></li>
+		
 
-		<%@ include file="nav-admin.jsp"%>
 	</ul>
 
 	<c:choose>
