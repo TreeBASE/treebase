@@ -119,7 +119,7 @@
 				</div>
 				
 				<hr class="my-4">
-				<h6 class="text-muted mb-3"><i class="fa fa-cpu me-1"></i> Software Information</h6>
+				<h6 class="text-muted mb-3"><i class="fa fa-microchip me-1"></i> Software Information</h6>
 				
 				<div class="row mb-3">
 					<label class="col-sm-3 col-form-label"><fmt:message key="analysis.step.software.name"/>:</label>
@@ -177,7 +177,7 @@
 				</div>
 				
 				<hr class="my-4">
-				<h6 class="text-muted mb-3"><i class="fa fa-diagram-3 me-1"></i> Algorithm Information</h6>
+				<h6 class="text-muted mb-3"><i class="fa fa-project-diagram me-1"></i> Algorithm Information</h6>
 				
 				<div class="row mb-3">
 					<label class="col-sm-3 col-form-label"><fmt:message key="analysis.step.algorithm.type"/>:</label>
@@ -229,10 +229,10 @@
 							</c:otherwise>
 						</c:choose>
 						<button type="submit" name="Reset" class="btn btn-outline-secondary">
-							<i class="fa fa-arrow-counterclockwise me-1"></i> <fmt:message key="button.reset"/>
+							<i class="fa fa-undo me-1"></i> <fmt:message key="button.reset"/>
 						</button>
 						<button type="submit" name="_cancel" class="btn btn-outline-secondary">
-							<i class="fa fa-x-circle me-1"></i> <fmt:message key="button.cancel"/>
+							<i class="fa fa-times-circle me-1"></i> <fmt:message key="button.cancel"/>
 						</button>
 					</div>
 				</div>

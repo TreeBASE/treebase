@@ -8,7 +8,7 @@
 	<spring:bind path="data.*">
 		<c:if test="${not empty status.errorMessages}">
 		<div class="alert alert-danger d-flex align-items-start mb-4" role="alert">
-			<i class="fa fa-exclamation-triangle-fill me-3 mt-1"></i>
+			<i class="fa fa-exclamation-triangle me-3 mt-1"></i>
 			<div>
 				<c:forEach var="error" items="${status.errorMessages}">
 					<c:out value="${error}" escapeXml="false"/><br />
@@ -78,7 +78,7 @@
 						<i class="fa fa-arrow-right"></i> <fmt:message key="button.next"/>
 					</button>
 					<button type="reset" name="Reset" class="btn btn-outline-secondary">
-						<i class="fa fa-arrow-counterclockwise"></i> <fmt:message key="button.reset"/>
+						<i class="fa fa-undo"></i> <fmt:message key="button.reset"/>
 					</button>
 					<button type="submit" name="_cancel" class="btn btn-outline-secondary">
 						<fmt:message key="button.cancel"/>

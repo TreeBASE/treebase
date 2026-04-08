@@ -14,8 +14,8 @@
 				</c:if>
 			</a>
 			<span class="fw-semibold">
-				<c:if test="${inputOutput == 'Input'}"><i class="fa fa-box-arrow-in-right me-1"></i></c:if>
-				<c:if test="${inputOutput == 'Output'}"><i class="fa fa-box-arrow-right me-1"></i></c:if>
+				<c:if test="${inputOutput == 'Input'}"><i class="fa fa-sign-in-alt me-1"></i></c:if>
+				<c:if test="${inputOutput == 'Output'}"><i class="fa fa-share-square me-1"></i></c:if>
 				${inputOutput} Data
 			</span>
 			<c:if test="${editable}">
@@ -39,13 +39,13 @@
 						<div class="d-flex align-items-center">
 							<c:choose>
 								<c:when test="${analyzedData.dataType == 'tree'}">
-									<i class="fa fa-diagram-3 text-success me-2" title="Tree"></i>
+									<i class="fa fa-project-diagram text-success me-2" title="Tree"></i>
 								</c:when>
 								<c:when test="${analyzedData.dataType == 'matrix'}">
-									<i class="fa fa-grid-3x3 text-primary me-2" title="Matrix"></i>
+									<i class="fa fa-th text-primary me-2" title="Matrix"></i>
 								</c:when>
 								<c:when test="${analyzedData.dataType == 'treeBlock'}">
-									<i class="fa fa-collection text-info me-2" title="Tree Block"></i>
+									<i class="fa fa-th-list text-info me-2" title="Tree Block"></i>
 								</c:when>
 							</c:choose>
 							<span><c:out value="${analyzedData.displayName}"/></span>

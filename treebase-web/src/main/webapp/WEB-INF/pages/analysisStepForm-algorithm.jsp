@@ -21,7 +21,7 @@
 	<form method="post" onsubmit="return validateCitation(this)">
 		<div class="card shadow-lg">
 			<div class="card-header bg-primary text-white">
-				<i class="fa fa-diagram-3 me-2"></i>
+				<i class="fa fa-project-diagram me-2"></i>
 				<span>Analysis Step - Algorithm Information</span>
 			</div>
 			<div class="card-body">
@@ -102,7 +102,7 @@
 						<i class="fa fa-check-circle me-1"></i> <fmt:message key="button.finish"/>
 					</button>
 					<button type="submit" name="_cancel" class="btn btn-outline-secondary">
-						<i class="fa fa-x-circle me-1"></i> <fmt:message key="button.cancel"/>
+						<i class="fa fa-times-circle me-1"></i> <fmt:message key="button.cancel"/>
 					</button>
 				</div>
 			</div>

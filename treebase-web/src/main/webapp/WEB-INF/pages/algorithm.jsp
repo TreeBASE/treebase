@@ -97,7 +97,7 @@
 			<c:if test="${editable || not empty analysisStepCommand.softwareInfo.name}">
 			<div class="card mb-3">
 				<div class="card-header py-2">
-					<span class="fw-semibold"><i class="fa fa-code-square me-1"></i> Software Used</span>
+					<span class="fw-semibold"><i class="fa fa-code me-1"></i> Software Used</span>
 				</div>
 				<div class="card-body">
 					<c:if test="${editable || not empty analysisStepCommand.softwareInfo.name}">
@@ -160,7 +160,7 @@
 										id="softwareInfo.softwareLink${counter}"
 										href="<c:out value="${analysisStepCommand.softwareInfo.softwareURL}"/>"
 										target="_blank">
-										<i class="fa fa-box-arrow-up-right"></i> Visit Website
+										<i class="fa fa-external-link-alt"></i> Visit Website
 									</a>
 								</c:if>
 							</div>

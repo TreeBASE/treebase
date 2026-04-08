@@ -21,7 +21,7 @@
 	<form method="post" onsubmit="return validateCitation(this)">
 		<div class="card shadow-lg">
 			<div class="card-header bg-primary text-white">
-				<i class="fa fa-cpu me-2"></i>
+				<i class="fa fa-microchip me-2"></i>
 				<span>Analysis Step - Software Information</span>
 			</div>
 			<div class="card-body">
@@ -73,7 +73,7 @@
 						<fmt:message key="button.next"/> <i class="fa fa-arrow-right ms-1"></i>
 					</button>
 					<button type="submit" name="_cancel" class="btn btn-outline-secondary">
-						<i class="fa fa-x-circle me-1"></i> <fmt:message key="button.cancel"/>
+						<i class="fa fa-times-circle me-1"></i> <fmt:message key="button.cancel"/>
 					</button>
 				</div>
 			</div>
