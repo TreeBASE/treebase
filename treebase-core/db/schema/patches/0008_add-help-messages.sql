@@ -1,6 +1,20 @@
 insert into versionhistory(patchnumber, patchlabel, patchdescription) 
        values (8, 'add-help-messages', 
-       'Add help messages for all popup help buttons'); 
+       'Add help messages for all popup help buttons')
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
+
+-- Clean up any existing empty help records (created by auto-creation when clicking help)
+DELETE FROM help WHERE helptext IS NULL OR helptext = '';
+
+-- Add unique constraint on tag to prevent duplicates (if not exists)
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'help_tag_unique'
+    ) THEN
+        ALTER TABLE help ADD CONSTRAINT help_tag_unique UNIQUE (tag);
+    END IF;
+END $$;
 
 -- User Registration Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -17,7 +31,8 @@ VALUES (
     '<li><strong>Email Address</strong>: Provide a valid email address for account communication.</li>' ||
     '</ul>' ||
     '<p>The name and phone number fields are optional.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Submission List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -34,7 +49,8 @@ VALUES (
     '<li><strong>Status</strong>: Current status (In Progress, Ready, or Published).</li>' ||
     '</ul>' ||
     '<p>You can change the status of In Progress submissions to Ready when your data is complete.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Study Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -49,7 +65,8 @@ VALUES (
     '<li><strong>Notes</strong>: Internal notes for yourself and TreeBASE staff. These are not visible to the public.</li>' ||
     '</ul>' ||
     '<p>If your submission is part of a sponsored research data management plan, please indicate this in the Notes.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Upload File
 INSERT INTO help (help_id, version, tag, helptext)
@@ -65,7 +82,8 @@ VALUES (
     '<li>You can attach multiple files using the "Attach another file" link.</li>' ||
     '</ul>' ||
     '<p>Supported format: NEXUS (.nex) files.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Citation Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -81,7 +99,8 @@ VALUES (
     '<li><strong>Publication Status</strong>: Current status of your publication.</li>' ||
     '</ul>' ||
     '<p>Additional fields will appear based on the citation type selected.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Citation Form - Article
 INSERT INTO help (help_id, version, tag, helptext)
@@ -98,7 +117,8 @@ VALUES (
     '<li><strong>PMID</strong>: PubMed ID (if available).</li>' ||
     '<li><strong>DOI</strong>: Digital Object Identifier.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Citation Form - Book
 INSERT INTO help (help_id, version, tag, helptext)
@@ -115,7 +135,8 @@ VALUES (
     '<li><strong>PMID</strong>: PubMed ID (if available).</li>' ||
     '<li><strong>DOI</strong>: Digital Object Identifier.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Citation Form - Book Section
 INSERT INTO help (help_id, version, tag, helptext)
@@ -132,7 +153,8 @@ VALUES (
     '<li><strong>PMID</strong>: PubMed ID (if available).</li>' ||
     '<li><strong>DOI</strong>: Digital Object Identifier.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Matrix List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -148,7 +170,8 @@ VALUES (
     '<li><strong>Matrix Kind</strong>: The type of data (DNA, RNA, Protein, etc.).</li>' ||
     '</ul>' ||
     '<p>Use the icons to view matrix rows, delete matrices, or perform other actions.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Tree List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -165,7 +188,8 @@ VALUES (
     '<li><strong>Tree Kind</strong>: The method used (Species Tree, Gene Tree, etc.).</li>' ||
     '</ul>' ||
     '<p>Use the icons to visualize trees or perform other actions.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Tree Block List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -180,7 +204,8 @@ VALUES (
     '<li><strong>Tree Count</strong>: Number of trees in the block.</li>' ||
     '</ul>' ||
     '<p>Click on a tree block to view its individual trees.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Taxon Labels
 INSERT INTO help (help_id, version, tag, helptext)
@@ -196,7 +221,8 @@ VALUES (
     '<li>Validate names against uBIO and NCBI taxonomies.</li>' ||
     '</ul>' ||
     '<p>Select taxon labels and click validate to link them to external taxonomies.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Nexus Files
 INSERT INTO help (help_id, version, tag, helptext)
@@ -211,7 +237,8 @@ VALUES (
     '<li>Files are only visible to the public when their trees/matrices are published.</li>' ||
     '<li>Download original or reconstructed versions of your files.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analysis Section
 INSERT INTO help (help_id, version, tag, helptext)
@@ -227,7 +254,8 @@ VALUES (
     '<li>Click the add icon to create a new analysis.</li>' ||
     '<li>Click the edit icon to add steps and define input/output data.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analysis Form - Analysis Info
 INSERT INTO help (help_id, version, tag, helptext)
@@ -242,7 +270,8 @@ VALUES (
     '<li><strong>Notes</strong>: Additional notes about the analysis methodology.</li>' ||
     '</ul>' ||
     '<p>After creating the analysis, add analysis steps to define the workflow.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analysis Steps
 INSERT INTO help (help_id, version, tag, helptext)
@@ -257,7 +286,8 @@ VALUES (
     '<li>Click add to create a new step.</li>' ||
     '<li>Click edit to modify step details and define input/output data.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analysis Step Info
 INSERT INTO help (help_id, version, tag, helptext)
@@ -274,7 +304,8 @@ VALUES (
     '<li><strong>Algorithm</strong>: Select the analysis algorithm used.</li>' ||
     '<li><strong>Software</strong>: Select the software package used.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analyzed Data List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -289,7 +320,8 @@ VALUES (
     '<li>Input data: matrices or trees used as starting data.</li>' ||
     '<li>Output data: trees or other results produced by the analysis.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analyzed Data Type Selection
 INSERT INTO help (help_id, version, tag, helptext)
@@ -303,7 +335,8 @@ VALUES (
     '<li><strong>Input/Output Type</strong>: Whether this is input or output data.</li>' ||
     '<li><strong>Data Type</strong>: Matrix, Tree, or Tree Block.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analyzed Data Matrix Selection
 INSERT INTO help (help_id, version, tag, helptext)
@@ -317,7 +350,8 @@ VALUES (
     '<li>Check the boxes next to the matrices you want to include.</li>' ||
     '<li>Already-used matrices will be shown as checked and disabled.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analyzed Tree Selection
 INSERT INTO help (help_id, version, tag, helptext)
@@ -331,7 +365,8 @@ VALUES (
     '<li>Check the boxes next to the trees you want to include.</li>' ||
     '<li>Already-used trees will be shown as checked and disabled.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analyzed Tree Block Selection
 INSERT INTO help (help_id, version, tag, helptext)
@@ -345,7 +380,8 @@ VALUES (
     '<li>Check the boxes next to the tree blocks you want to include.</li>' ||
     '<li>Already-used tree blocks will be shown as checked and disabled.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Submission Summary View
 INSERT INTO help (help_id, version, tag, helptext)
@@ -360,7 +396,8 @@ VALUES (
     '<li><strong>Reviewer Access URL</strong>: Share this URL with journal editors for reviewer access.</li>' ||
     '<li>Citation information, matrices, trees, and analyses are summarized here.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- People Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -376,7 +413,8 @@ VALUES (
     '<li><strong>Last Name</strong>: The person''s last name (required).</li>' ||
     '<li><strong>Email</strong>: Contact email address.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Add Person Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -392,7 +430,8 @@ VALUES (
     '<li><strong>Last Name</strong>: The person''s last name (required).</li>' ||
     '<li><strong>Email</strong>: Contact email address.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- People List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -407,7 +446,8 @@ VALUES (
     '<li>Click delete to remove an entry.</li>' ||
     '<li>Use the form above to add new entries.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- People Search Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -421,7 +461,8 @@ VALUES (
     '<li>Enter the last name and click Search.</li>' ||
     '<li>Select from the results to add to your citation.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- People Match List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -435,7 +476,8 @@ VALUES (
     '<li>Review the results and select the correct person.</li>' ||
     '<li>If no match is found, use the form above to add a new entry.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Matrix Row List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -450,7 +492,8 @@ VALUES (
     '<li>Export row segment templates for bulk data entry.</li>' ||
     '<li>Upload row segment data from files.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Matrix Row Segment List
 INSERT INTO help (help_id, version, tag, helptext)
@@ -465,7 +508,8 @@ VALUES (
     '<li><strong>Start Index</strong>: Beginning position in the sequence.</li>' ||
     '<li><strong>End Index</strong>: Ending position in the sequence.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Matrix Row Segment Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -479,7 +523,8 @@ VALUES (
     '<li><strong>Title</strong>: A descriptive name for this segment.</li>' ||
     '<li>Highlight the segment in the data below and click Select.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Row Segment Data Table
 INSERT INTO help (help_id, version, tag, helptext)
@@ -493,7 +538,8 @@ VALUES (
     '<li>Use the dropdown menus to assign column headers.</li>' ||
     '<li>Check if your file includes a header row.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- View All Row Segment Data
 INSERT INTO help (help_id, version, tag, helptext)
@@ -507,7 +553,8 @@ VALUES (
     '<li>Edit segment titles and metadata.</li>' ||
     '<li>Delete unwanted segments by checking the boxes.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Upload Row Segment Data
 INSERT INTO help (help_id, version, tag, helptext)
@@ -521,7 +568,8 @@ VALUES (
     '<li>File should be tab-delimited.</li>' ||
     '<li>Include columns for taxon label, segment title, and indices.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Edit Taxon Label
 INSERT INTO help (help_id, version, tag, helptext)
@@ -535,7 +583,8 @@ VALUES (
     '<li>Write scientific binomials in full (no abbreviations).</li>' ||
     '<li>Add numbers or codes as suffixes separated by a space.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Edit Taxonomy Reference
 INSERT INTO help (help_id, version, tag, helptext)
@@ -550,7 +599,8 @@ VALUES (
     '<li>Search uBio for a match and enter the NamebankID.</li>' ||
     '<li>Select "no association" if no match exists.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Edit Set Taxon Label
 INSERT INTO help (help_id, version, tag, helptext)
@@ -564,7 +614,8 @@ VALUES (
     '<li>Modify labels directly in the text fields.</li>' ||
     '<li>Click Update to save all changes.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Search Tabs
 INSERT INTO help (help_id, version, tag, helptext)
@@ -579,7 +630,8 @@ VALUES (
     '<li><strong>Taxa</strong>: Search by taxonomic names.</li>' ||
     '<li><strong>Tree Topology</strong>: Search for trees with specific topologies.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Summary Tabs (Study Summary Navigation)
 INSERT INTO help (help_id, version, tag, helptext)
@@ -595,7 +647,8 @@ VALUES (
     '<li><strong>Trees</strong>: View phylogenetic trees.</li>' ||
     '<li><strong>Analyses</strong>: View analysis details.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Study Keyword Search Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -611,7 +664,8 @@ VALUES (
     '<li><strong>Author</strong>: Search by author name.</li>' ||
     '<li><strong>Title/Abstract/Citation</strong>: Search publication text.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Tree Simple Search Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -627,7 +681,8 @@ VALUES (
     '<li><strong>Type</strong>: Single or Consensus tree.</li>' ||
     '<li><strong>NTAX</strong>: Number of taxa in the tree.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Matrix Simple Search Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -644,7 +699,8 @@ VALUES (
     '<li><strong>NTAX</strong>: Number of taxa.</li>' ||
     '<li><strong>NCHAR</strong>: Number of characters.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Taxon Search - Identifiers
 INSERT INTO help (help_id, version, tag, helptext)
@@ -660,7 +716,8 @@ VALUES (
     '<li><strong>uBio nameBankID</strong>: uBio nomenclature database ID.</li>' ||
     '</ul>' ||
     '<p>Enter one identifier per line in the search box.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Taxon Search - Text Search
 INSERT INTO help (help_id, version, tag, helptext)
@@ -676,7 +733,8 @@ VALUES (
     '<li><strong>Taxon</strong>: The canonical taxon name.</li>' ||
     '</ul>' ||
     '<p>Use Case sensitive and Exact match options to refine your search.</p>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Taxon Search - Terms
 INSERT INTO help (help_id, version, tag, helptext)
@@ -691,7 +749,8 @@ VALUES (
     '<li>For identifiers, enter numeric IDs.</li>' ||
     '<li>For text search, enter taxonomic names.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Tree Topology 3 Search Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -705,7 +764,8 @@ VALUES (
     '<li>Enter taxon names in the three input fields.</li>' ||
     '<li>The diagram shows the relationship being searched.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Tree Topology 4a Search Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -719,7 +779,8 @@ VALUES (
     '<li>Enter taxon names in the four input fields.</li>' ||
     '<li>The diagram shows the pectinate (ladder-like) relationship.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Tree Topology 4s Search Form
 INSERT INTO help (help_id, version, tag, helptext)
@@ -733,7 +794,8 @@ VALUES (
     '<li>Enter taxon names in the four input fields.</li>' ||
     '<li>The diagram shows the symmetric (balanced) relationship.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Search Results - Discard Unchecked Items
 INSERT INTO help (help_id, version, tag, helptext)
@@ -747,7 +809,8 @@ VALUES (
     '<li>Check the items you want to keep.</li>' ||
     '<li>Click this button to discard unchecked items.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Search Results - Discard All Results
 INSERT INTO help (help_id, version, tag, helptext)
@@ -761,7 +824,8 @@ VALUES (
     '<li>This will clear your entire result set.</li>' ||
     '<li>You will need to perform a new search.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Search Results - Download All Trees
 INSERT INTO help (help_id, version, tag, helptext)
@@ -775,7 +839,8 @@ VALUES (
     '<li>Trees will be downloaded in NEXUS format.</li>' ||
     '<li>Use this to export multiple trees at once.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Search By Submission ID
 INSERT INTO help (help_id, version, tag, helptext)
@@ -790,7 +855,8 @@ VALUES (
     '<li><strong>TreeBASE1 Legacy Study ID</strong>: Identifier from the original TreeBASE.</li>' ||
     '<li><strong>TreeBASE2 Study ID</strong>: Internal study identifier.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analysis Details View/Edit
 INSERT INTO help (help_id, version, tag, helptext)
@@ -804,7 +870,8 @@ VALUES (
     '<li><strong>Name</strong>: The analysis name.</li>' ||
     '<li><strong>Notes</strong>: Additional notes about the analysis.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analysis Step Details View/Edit
 INSERT INTO help (help_id, version, tag, helptext)
@@ -819,7 +886,8 @@ VALUES (
     '<li>Commands or parameters.</li>' ||
     '<li>Input and output data associations.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analysis Step Input Data View/Edit
 INSERT INTO help (help_id, version, tag, helptext)
@@ -833,7 +901,8 @@ VALUES (
     '<li>Matrices used as input.</li>' ||
     '<li>Trees used as starting points.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Analysis Step Output Data View/Edit
 INSERT INTO help (help_id, version, tag, helptext)
@@ -847,7 +916,8 @@ VALUES (
     '<li>Trees produced by the analysis.</li>' ||
     '<li>Other results generated.</li>' ||
     '</ul>'
-);
+)
+ON CONFLICT (tag) DO UPDATE SET helptext = EXCLUDED.helptext;
 
 -- Dryad Import
 INSERT INTO help (help_id, version, tag, helptext)

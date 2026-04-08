@@ -36,6 +36,7 @@ public class Help extends AbstractPersistedObject {
 		setTag(tag);
 	}
 
+	@Column(name = "TAG")
 	public String getTag() {
 		return tag;
 	}
@@ -44,8 +45,7 @@ public class Help extends AbstractPersistedObject {
 		this.tag = tag;
 	}
 	
-	@Lob
-	@Column(name = "HELPTEXT", length = 65536)
+	@Column(name = "HELPTEXT", columnDefinition = "text")
 	public String getHelpText() {
 		return helpText;
 	}

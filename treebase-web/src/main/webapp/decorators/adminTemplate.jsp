@@ -11,6 +11,7 @@
 
 <title>TreeBASE-<decorator:title/></title>
 <!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/styles.css'/>" />
@@ -25,6 +26,8 @@
 <script type="text/javascript" src="<c:url value='/scripts/phylotree.js'/>"></script>
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/phylotree.css'/>" />
 <!-- End Phylotree.js stack -->
+<!-- jQuery -->
+<script type="text/javascript" src="<c:url value='/scripts/jquery-3.7.1.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/menuExpandable.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/scripts/common.js'/>"></script>
 
@@ -67,6 +70,10 @@
 	
 	<!-- BEING FOOTER -->
 	<div id="footer"><c:import url="/common/footer.jsp" /></div>
+
+<%-- Help Panel Offcanvas --%>
+<jsp:include page="/common/helpPanel.jsp"/>
+
 <!-- Bootstrap 5 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 

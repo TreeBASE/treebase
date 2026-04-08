@@ -15,30 +15,51 @@ function popupWithSizes(url, width, height) {
     if (newwindow) newwindow.close();
     newwindow=window.open(url,'help','width=' + width + ',height=' + height + ',scrollbars=yes,menubar=no,resizable=yes,toolbar=no,status=no');
 }
+
+/**
+ * Opens help content in a Bootstrap offcanvas side panel.
+ * @param {string} tag - The help tag to load content for
+ */
 function openHelp(tag) {
-	var url = '/treebase-web/help.html?helpTag=' + tag;	
+	var url = '/treebase-web/help.html?helpTag=' + tag;
+	var helpPanel = document.getElementById('helpPanel');
+	var helpContent = document.getElementById('helpPanelContent');
+	
+	if (!helpPanel || !helpContent) {
+		console.error('Help panel elements not found');
+		return;
+	}
+	
+	// Show loading spinner
+	helpContent.innerHTML = '<div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">' +
+		'<div class="spinner-border text-primary" role="status">' +
+		'<span class="visually-hidden">Loading...</span>' +
+		'</div></div>';
+	
+	// Open the offcanvas panel
+	var bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(helpPanel);
+	bsOffcanvas.show();
+	
+	// Load help content via AJAX
 	$.ajax({
 		url: url,
 		method: 'GET',
 		dataType: 'text',
-		success: function(response){				
-			top.consoleRef=window.open('','help',
-		  		'width=400,height=350'
-		   		+',menubar=no'
-		   		+',toolbar=no'
-		   		+',location=no'
-		   		+',status=no'
-		   		+',top=100'
-		   		+',left=100'
-		   		+',scrollbars=yes'
-		   		+',resizable=yes');	
-		   	if ( top.consoleRef == null || top.consoleRef.closed ) {
-		   		alert("Couldn't open window! The help system requires that popups are allowed for the TreeBASE site.");
-		   	}
-		 	top.consoleRef.document.writeln(response);
-		 	top.consoleRef.document.close();				
+		success: function(response) {
+			// Extract just the body content from the help response
+			var bodyMatch = response.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+			if (bodyMatch && bodyMatch[1]) {
+				helpContent.innerHTML = '<div class="p-2">' + bodyMatch[1] + '</div>';
+			} else {
+				helpContent.innerHTML = '<div class="p-2">' + response + '</div>';
+			}
+		},
+		error: function() {
+			helpContent.innerHTML = '<div class="alert alert-warning m-3">' +
+				'<i class="fa fa-exclamation-triangle me-2"></i>' +
+				'Unable to load help content. Please try again later.</div>';
 		}
-	});	
+	});
 }
 
 /*

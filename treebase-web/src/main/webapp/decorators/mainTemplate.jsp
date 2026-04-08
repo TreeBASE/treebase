@@ -11,6 +11,7 @@
 
 <title>TreeBASE Web<decorator:title/></title>
 <!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/styles.css'/>" />
 <!-- jQuery - replaces Prototype.js -->
@@ -42,6 +43,10 @@
 	<!-- BEING FOOTER -->
 
 	<div id="footer"><jsp:include page="/common/footer.jsp"/></div>
+
+<%-- Help Panel Offcanvas --%>
+<jsp:include page="/common/helpPanel.jsp"/>
+
 <!-- Bootstrap 5 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <jsp:include page="/common/googleAnalytics.jsp"/>
