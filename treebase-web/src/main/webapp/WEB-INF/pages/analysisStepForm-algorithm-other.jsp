@@ -1,6 +1,3 @@
 <%@include file="/common/taglibs.jsp" %>
 
-<tr>
-	<th></th>
-	<td></td>
-</tr>
+<%-- No additional fields for other algorithm type --%>

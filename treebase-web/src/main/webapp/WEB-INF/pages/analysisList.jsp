@@ -18,321 +18,185 @@
 	<c:set var="analysisCommand" value="${analysisCommand}" scope="request"/>
 	<c:set var="AnalysisId" value="Analysis${status_analysis.count}"/>
 	
-	<h2>
-		<a onclick="TreeBASE.collapseExpand('analysis<c:out value="${analysisCommand.id}"/>','block',this)"
-			style="border:none"
-			id="analysisCollapser<c:out value="${analysisCommand.id}"/>"
-			title="collapse">
-			<img 
-				class="iconButton" 
-				src="<fmt:message 
-				key="icons.collapse"/>"
-				style="vertical-align:middle" 
-				alt="collapse" />
-		</a>
-		Analysis ${status_analysis.count}
-	</h2>
-	
-	<%-- the block below worked, but gave spurious error messages in eclipse --%>
-	<%--fieldset 
-		style="padding-left:20px;padding-right:20px;background-color:#E5E5E5;border:none" 
-		id="analysis<c:out value="${analysisCommand.id}"/>">
-		<c:if test="${editable}">
-		<form 
-			onsubmit="return TreeBASE.analysisEditor.submitIfNotReady('${publicationState}')"
-			method="post" 
-			action="/treebase-web/user/analysisForm.html?id=<c:out value="${analysisCommand.id}"/>">
-			<fieldset style="background-color:white">
-			</c:if>
-				<legend>
-					Analysis details
-					<c:if test="${editable}">
-						<a 
-							href="#" 
-							class="openHelp" 
-							onclick="openHelp('analysisDetailsViewEdit')">
-							<img class="iconButton" alt="help" src="<fmt:message key="icons.help"/>" />
-						</a>					
-					</c:if>
-				</legend>
-				<c:if test="${editable || not empty analysisCommand.name || not empty analysisCommand.notes}">	
-					<table width="100%" cellpadding="2px" cellspacing="0">
-						<c:if test="${editable || not empty analysisCommand.name}">					
-							<tr>
-								<td>
-									<label class="software" for="analysis${status_analysis.count}name">Name</label>
-								</td>
-								<td style="width:100%">
+	<div class="card shadow-sm mb-4">
+		<div class="card-header bg-secondary text-white d-flex align-items-center justify-content-between">
+			<div class="d-flex align-items-center">
+				<a onclick="TreeBASE.collapseExpand('analysis<c:out value="${analysisCommand.id}"/>','block',this)"
+					class="text-white me-2"
+					id="analysisCollapser<c:out value="${analysisCommand.id}"/>"
+					title="collapse"
+					style="cursor:pointer">
+					<i class="fa fa-chevron-down"></i>
+				</a>
+				<i class="fa fa-bar-chart me-2"></i>
+				<span>Analysis ${status_analysis.count}</span>
+			</div>
+		</div>
+		
+		<div id="analysis<c:out value="${analysisCommand.id}"/>" class="card-body">
+			<script type="text/javascript">
+				myAnalysisIDs.push('<c:out value="${analysisCommand.id}"/>');
+			</script>		
+			
+			<!--  EDITABLE -->				
+			<c:if test="${editable}">
+				<form 
+					onsubmit="return TreeBASE.analysisEditor.submitIfNotReady('${publicationState}')"
+					method="post" 
+					action="/treebase-web/user/analysisForm.html?id=<c:out value="${analysisCommand.id}"/>">
+					<div class="card mb-3 border-primary">
+						<div class="card-header bg-light d-flex align-items-center justify-content-between">
+							<span><i class="fa fa-info-circle me-2"></i>Analysis Details</span>
+							<a href="#" class="openHelp" onclick="openHelp('analysisDetailsViewEdit')">
+								<i class="fa fa-question-circle text-primary"></i>
+							</a>					
+						</div>
+						<div class="card-body">
+							<div class="row mb-2">
+								<label class="col-sm-2 col-form-label" for="analysis${status_analysis.count}name">Name</label>
+								<div class="col-sm-10">
 									<input 
 										readonly="readonly"
 										type="text" 
-										class="disabled software textCell" 
-										<c:if test="${editable}">
-										style="width:100%" 
-										</c:if>
-										<c:if test="${!editable}">
-										style="width:100%;background-color:#E5E5E5" 
-										</c:if>								
+										class="form-control disabled" 						
 										name="name" 
 										id="analysis${status_analysis.count}name" 
 										value="<c:out value="${analysisCommand.name}"/>"/>
-								</td>
-							</tr>
-						</c:if>
-						<c:if test="${editable || not empty analysisCommand.notes}">
-							<tr>
-								<td>
-									<label class="software" for="analysis${status_analysis.count}notes">Notes</label>
-								</td>
-								<td>
+								</div>
+							</div>
+							<div class="row mb-2">
+								<label class="col-sm-2 col-form-label" for="analysis${status_analysis.count}notes">Notes</label>
+								<div class="col-sm-10">
 									<input 
 										readonly="readonly"
 										type="text" 
-										class="disabled software textCell" 
-										<c:if test="${editable}">
-										style="width:100%" 
-										</c:if>
-										<c:if test="${!editable}">
-										style="width:100%;background-color:#E5E5E5" 
-										</c:if>	
+										class="form-control disabled" 
 										name="notes" 
 										id="analysis${status_analysis.count}notes" 
 										value="<c:out value="${analysisCommand.notes}"/>"/>
-								</td>
-							</tr>	
-						</c:if>
-						<c:if test="${editable}">	
-							<tr>
-								<td colspan="2" style="text-align:right">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12 text-end">
 									<input type="hidden" name="redirect" value="${redirect}"/>
 									<input type="submit" name="Update" value="Update" style="display:none" />
 									<input type="submit" name="Delete" value="Delete" style="display:none" />	
 									<c:if test="${empty analysisCommand.notes && empty analysisCommand.name}">
-										Edit analysis details by clicking this button ->
+										<span class="text-muted me-2">Edit analysis details by clicking this button:</span>
 									</c:if>					
 									<a 
 										href="#" 
 										onclick="return TreeBASE.analysisEditor.editAnalysis(this,${status_analysis.count})" 
-										title="Edit analysis details">
-										<img 
-											src="<fmt:message 
-											key="icons.edit"/>" 
-											class="iconButton" 
-											width="16" 
-											height="16" 
-											alt="Edit" 
-											style="vertical-align:middle"/>
+										title="Edit analysis details"
+										class="btn btn-outline-primary btn-sm">
+										<i class="fa fa-pencil"></i> Edit
 									</a>
-								</td>
-							</tr>
-						</c:if>
-					</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>				
+			</c:if>	
+			<!-- EO EDITABLE -->
+			
+			<!--  NOT EDITABLE -->
+			<c:if test="${!editable}">
+				<c:if test="${not empty analysisCommand.name || not empty analysisCommand.notes}">
+					<div class="card mb-3 border-secondary">
+						<div class="card-header bg-light">
+							<i class="fa fa-info-circle me-2"></i>Analysis Details
+						</div>
+						<div class="card-body">
+							<c:if test="${not empty analysisCommand.name}">					
+								<div class="row mb-2">
+									<label class="col-sm-2 col-form-label" for="analysis${status_analysis.count}name">Name</label>
+									<div class="col-sm-10">
+										<input 
+											readonly="readonly"
+											type="text" 
+											class="form-control-plaintext bg-light" 
+											name="name" 
+											id="analysis${status_analysis.count}name" 
+											value="<c:out value="${analysisCommand.name}"/>"/>
+									</div>
+								</div>
+							</c:if>
+							<c:if test="${not empty analysisCommand.notes}">
+								<div class="row">
+									<label class="col-sm-2 col-form-label" for="analysis${status_analysis.count}notes">Notes</label>
+									<div class="col-sm-10">
+										<input 
+											readonly="readonly"
+											type="text" 
+											class="form-control-plaintext bg-light" 
+											name="notes" 
+											id="analysis${status_analysis.count}notes" 
+											value="<c:out value="${analysisCommand.notes}"/>"/>
+									</div>
+								</div>
+							</c:if>
+						</div>
+					</div>
 				</c:if>
-		<c:if test="${editable}">
-			</fieldset>
-			</form>	
-		</c:if--%>	
+			</c:if>	
+			<!-- EO NOT EDITABLE -->		
 		
-	<fieldset 
-		style="padding-left:20px;padding-right:20px;background-color:#E5E5E5;border:none" 
-		id="analysis<c:out value="${analysisCommand.id}"/>">	
-		<script type="text/javascript">
-			myAnalysisIDs.push('<c:out value="${analysisCommand.id}"/>');
-		</script>		
-		
-		<!--  EDITABLE -->				
-		<c:if test="${editable}">
-		<form 
-			onsubmit="return TreeBASE.analysisEditor.submitIfNotReady('${publicationState}')"
-			method="post" 
-			action="/treebase-web/user/analysisForm.html?id=<c:out value="${analysisCommand.id}"/>">
-			<fieldset style="background-color:white">
-				<legend>
-					Analysis details
-					<a 
-						href="#" 
-						class="openHelp" 
-						onclick="openHelp('analysisDetailsViewEdit')">
-						<img class="iconButton" alt="help" src="<fmt:message key="icons.help"/>" />
-					</a>					
-				</legend>
-				<table width="100%" cellpadding="2px" cellspacing="0">
-					<tr>
-						<td>
-							<label class="software" for="analysis${status_analysis.count}name">Name</label>
-						</td>
-						<td style="width:100%">
-							<input 
-								readonly="readonly"
-								type="text" 
-								class="disabled software textCell" 
-								style="width:100%" 							
-								name="name" 
-								id="analysis${status_analysis.count}name" 
-								value="<c:out value="${analysisCommand.name}"/>"/>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label class="software" for="analysis${status_analysis.count}notes">Notes</label>
-						</td>
-						<td>
-							<input 
-								readonly="readonly"
-								type="text" 
-								class="disabled software textCell" 
-								style="width:100%" 
-								name="notes" 
-								id="analysis${status_analysis.count}notes" 
-								value="<c:out value="${analysisCommand.notes}"/>"/>
-						</td>
-					</tr>	
-					<tr>
-						<td colspan="2" style="text-align:right">
-							<input type="hidden" name="redirect" value="${redirect}"/>
-							<input type="submit" name="Update" value="Update" style="display:none" />
-							<input type="submit" name="Delete" value="Delete" style="display:none" />	
-							<c:if test="${empty analysisCommand.notes && empty analysisCommand.name}">
-								Edit analysis details by clicking this button ->
-							</c:if>					
-							<a 
-								href="#" 
-								onclick="return TreeBASE.analysisEditor.editAnalysis(this,${status_analysis.count})" 
-								title="Edit analysis details">
-								<img 
-									src="<fmt:message 
-									key="icons.edit"/>" 
-									class="iconButton" 
-									width="16" 
-									height="16" 
-									alt="Edit" 
-									style="vertical-align:middle"/>
-							</a>
-						</td>
-					</tr>
-				</table>
-				</fieldset>										
-			</form>				
-		</c:if>	
-		<!-- EO EDITABLE -->
-		
-		<!--  NOT EDITABLE -->
-		<c:if test="${!editable}">
-			<fieldset 
-				style="padding-left:20px;padding-right:20px;background-color:#E5E5E5;border:none" 
-				id="analysis<c:out value="${analysisCommand.id}"/>">
-				<legend>
-					Analysis details
-				</legend>
-				<c:if test="${not empty analysisCommand.name || not empty analysisCommand.notes}">	
-					<table width="100%" cellpadding="2px" cellspacing="0">
-						<c:if test="${not empty analysisCommand.name}">					
-							<tr>
-								<td>
-									<label class="software" for="analysis${status_analysis.count}name">Name</label>
-								</td>
-								<td style="width:100%">
-									<input 
-										readonly="readonly"
-										type="text" 
-										class="disabled software textCell" 
-										style="width:100%;background-color:#E5E5E5" 	
-										name="name" 
-										id="analysis${status_analysis.count}name" 
-										value="<c:out value="${analysisCommand.name}"/>"/>
-								</td>
-							</tr>
-						</c:if>
-						<c:if test="${not empty analysisCommand.notes}">
-							<tr>
-								<td>
-									<label class="software" for="analysis${status_analysis.count}notes">Notes</label>
-								</td>
-								<td>
-									<input 
-										readonly="readonly"
-										type="text" 
-										class="disabled software textCell" 
-										style="width:100%;background-color:#E5E5E5" 
-										name="notes" 
-										id="analysis${status_analysis.count}notes" 
-										value="<c:out value="${analysisCommand.notes}"/>"/>
-								</td>
-							</tr>	
-						</c:if>
-					</table>
-				</c:if>
-			</fieldset>
-		</c:if>	
-		<!-- EO NOT EDITABLE -->		
-	
-		<div id="${AnalysisId}" style="display:block">
-		
-			<!--  process each analysis step for the analysis -->
-			<c:forEach var="analysisStepCommand" items="${analysisCommand.analysisStepCommandList}" varStatus="status_analysisStep">	
-				<c:set var="analysisStepCommand" value="${analysisStepCommand}" scope="request"/>				
-				<jsp:include page="analysisStep.jsp"/>
-				<c:set var="analysisStepCounter" value="${ analysisStepCounter + 1 }" scope="request" /> 	
-				<!-- COUNTER:  <c:out value="${analysisStepCounter}"/> -->	
-			</c:forEach>
-		</div>
-		
-		<c:if test="${editable}">
-			<div style="width:100%;text-align:right">
-				<form 
-				    method="post"  
-				    action="/treebase-web/user/analysisStepForm.html?analysis_id=${analysisCommand.id}">
-				    <input type="hidden" name="redirect" value="${redirect}"/>				    
-				    <input type="hidden" name="id" value=""/>
-				    <input type="hidden" name="name" value=""/>
-				    <input type="hidden" name="notes" value=""/>
-				    <input type="hidden" name="commands" value=""/>
-				    <input type="hidden" name="softwareInfo.name" value=""/>
-				    <input type="hidden" name="softwareInfo.softwareVersion" value=""/>
-				    <input type="hidden" name="softwareInfo.softwareURL" value=""/>
-				    <input type="hidden" name="softwareInfo.description" value=""/>
-				    <input type="hidden" name="algorithmType" value=""/>
-				    <input type="hidden" name="Submit" value="Submit"/>
-				    <c:if test="${empty analysisCommand.analysisStepCommandList}">
-				    	Add your first step to this analysis by clicking this button ->
-				    </c:if>
-					<a href="#" onclick="return TreeBASE.analysisEditor.addStep(this)" title="Add analysis step">
-						<img 
-							src="<fmt:message 
-							key="icons.add"/>" 
-							class="iconButton" 
-							width="16" 
-							height="16" 
-							alt="Add" 
-							style="vertical-align:middle"/>
-					</a>				    
-				</form>			
+			<div id="${AnalysisId}" style="display:block">
+				<!--  process each analysis step for the analysis -->
+				<c:forEach var="analysisStepCommand" items="${analysisCommand.analysisStepCommandList}" varStatus="status_analysisStep">	
+					<c:set var="analysisStepCommand" value="${analysisStepCommand}" scope="request"/>				
+					<jsp:include page="analysisStep.jsp"/>
+					<c:set var="analysisStepCounter" value="${ analysisStepCounter + 1 }" scope="request" /> 	
+				</c:forEach>
 			</div>
-		</c:if>
-	</fieldset>
+			
+			<c:if test="${editable}">
+				<div class="text-end mt-3">
+					<form 
+					    method="post"  
+					    action="/treebase-web/user/analysisStepForm.html?analysis_id=${analysisCommand.id}"
+					    class="d-inline">
+					    <input type="hidden" name="redirect" value="${redirect}"/>				    
+					    <input type="hidden" name="id" value=""/>
+					    <input type="hidden" name="name" value=""/>
+					    <input type="hidden" name="notes" value=""/>
+					    <input type="hidden" name="commands" value=""/>
+					    <input type="hidden" name="softwareInfo.name" value=""/>
+					    <input type="hidden" name="softwareInfo.softwareVersion" value=""/>
+					    <input type="hidden" name="softwareInfo.softwareURL" value=""/>
+					    <input type="hidden" name="softwareInfo.description" value=""/>
+					    <input type="hidden" name="algorithmType" value=""/>
+					    <input type="hidden" name="Submit" value="Submit"/>
+					    <c:if test="${empty analysisCommand.analysisStepCommandList}">
+					    	<span class="text-muted me-2">Add your first step to this analysis:</span>
+					    </c:if>
+						<a href="#" onclick="return TreeBASE.analysisEditor.addStep(this)" 
+						   title="Add analysis step" class="btn btn-success btn-sm">
+							<i class="fa fa-plus-circle me-1"></i> Add Step
+						</a>				    
+					</form>			
+				</div>
+			</c:if>
+		</div>
+	</div>
 </c:forEach>
 
 <c:if test="${editable}">
-	<div style="width:100%;text-align:right">
+	<div class="text-end mt-3">
 		<form 
 		    method="post"  
-		    action="/treebase-web/user/analysisForm.html">
+		    action="/treebase-web/user/analysisForm.html"
+		    class="d-inline">
 		    <input type="hidden" name="name" value=""/>
 		    <input type="hidden" name="notes" value=""/>
 		    <input type="hidden" name="Submit" value="Submit"/>
 			<input type="hidden" name="redirect" value="${redirect}"/>		 
 			<c:if test="${empty studyCommand.analysisCommandList}">
-				Add your first analysis by clicking this button ->
+				<span class="text-muted me-2">Add your first analysis:</span>
 			</c:if>   
-			<a href="#" onclick="return TreeBASE.analysisEditor.addStep(this)" title="Add analysis">
-				<img 
-					src="<fmt:message 
-					key="icons.add"/>" 
-					class="iconButton" 
-					width="16" 
-					height="16" 
-					alt="Add" 
-					style="vertical-align:middle"/>
+			<a href="#" onclick="return TreeBASE.analysisEditor.addStep(this)" 
+			   title="Add analysis" class="btn btn-primary">
+				<i class="fa fa-plus-circle me-1"></i> Add Analysis
 			</a>				    
 		</form>			
 	</div>

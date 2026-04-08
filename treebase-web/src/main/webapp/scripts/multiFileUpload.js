@@ -1,30 +1,34 @@
 <script type="text/javascript">
     var rowCount = 0;
     function addFile() {
-      var table = document.getElementById('attachments');
-      var tbody = table.getElementsByTagName("tbody")[0];
+      var container = document.getElementById('attachments');
       
-      var rows = tbody.getElementsByTagName("TR");
-      var row = document.createElement("TR");
-      var cell = document.createElement("TD");
-      var input = document.createElement("INPUT"); 
-      input.setAttribute("type","file");
-      input.setAttribute("name","file["+rowCount+"]");
-      input.setAttribute("size","40");
-      cell.appendChild(input);
+      var row = document.createElement("div");
+      row.setAttribute("id", "file-" + rowCount);
+      row.className = "d-flex align-items-center gap-2 mb-2";
       
-      var removeSpan = document.createElement("SPAN");
-      removeSpan.innerHTML = '<a href="javascript:removeFile('+rowCount+')>remove</a>';
-      cell.appendChild(removeSpan);
+      var input = document.createElement("input"); 
+      input.setAttribute("type", "file");
+      input.setAttribute("name", "file[" + rowCount + "]");
+      input.className = "form-control form-control-sm";
+      input.style.maxWidth = "400px";
+      row.appendChild(input);
       
-      row.setAttribute("id","file-"+rowCount);
-      row.appendChild(cell);
-      tbody.appendChild(row);
+      var removeBtn = document.createElement("a");
+      removeBtn.href = "javascript:removeFile(" + rowCount + ")";
+      removeBtn.className = "btn btn-outline-danger btn-sm";
+      removeBtn.innerHTML = '<i class="fa fa-times"></i> Remove';
+      row.appendChild(removeBtn);
+      
+      container.appendChild(row);
       rowCount++;
     }
     
     function removeFile(i) {
-      var tbody = document.getElementById('attachments').getElementsByTagName("tbody")[0];
-      tbody.removeChild(document.getElementById("file-"+i));
+      var container = document.getElementById('attachments');
+      var row = document.getElementById("file-" + i);
+      if (row) {
+        container.removeChild(row);
+      }
     } 
 </script>

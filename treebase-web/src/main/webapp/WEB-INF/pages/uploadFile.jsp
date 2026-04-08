@@ -88,9 +88,7 @@ function show_or_hide(layer_ref, state) {
 				
 				<div id="kids" style="display: none;" class="mt-4">
 					<div class="d-flex align-items-center">
-						<div class="spinner-border text-primary me-3" role="status">
-							<span class="visually-hidden">Loading...</span>
-						</div>
+
 						<h5 class="mb-0">Uploading...</h5>
 					</div>
 					<script type="text/javascript">

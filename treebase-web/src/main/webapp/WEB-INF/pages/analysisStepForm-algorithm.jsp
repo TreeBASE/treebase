@@ -4,99 +4,109 @@
 <content tag="heading"><fmt:message key="analysis.step.title"/></content>
 <body id="submissions"/>
 
-<p>Please complete the following algorithm information used in the analysis step</p>
+<div class="container py-5">
+	<spring:bind path="step.*">
+		<c:if test="${not empty status.errorMessages}">
+			<div class="alert alert-danger d-flex align-items-start mb-4" role="alert">
+				<i class="fa fa-exclamation-triangle me-2 fs-5"></i>
+				<div>
+					<c:forEach var="error" items="${status.errorMessages}">
+						<c:out value="${error}" escapeXml="false"/><br/>
+					</c:forEach>
+				</div>
+			</div>
+		</c:if>
+	</spring:bind>
 
-<spring:bind path="step.*">
-    <c:if test="${not empty status.errorMessages}">
-    <div class="error">	
-        <c:forEach var="error" items="${status.errorMessages}">
-            <img src="<c:url value="/images/iconWarning.gif"/>"
-                alt="<fmt:message key="icon.warning"/>" class="icon" />
-            <c:out value="${error}" escapeXml="false"/><br />
-        </c:forEach>
-    </div>
-    </c:if>
-</spring:bind>
-
-<form method="post" onsubmit="return validateCitation(this)">
-<fieldset>
-<legend>Analysis Step - Algorithm Information</legend>
-<input type="hidden" name="_page" value="2"/>
-
-<!--  pick "Likelihood" to work with, so any of the object inherits from Algorithm should work -->
-<c:choose>
-<c:when test="${empty step.algorithmType }">
-	<c:set var="algorithmType" value="Likelihood"/>
-</c:when>                             
-<c:otherwise>
-	<c:set var="algorithmType" value="${step.algorithmType}"/>
-</c:otherwise>
-</c:choose>
-
-
-<table>
-    <tr>
-        <th><fmt:message key="analysis.step.algorithm.type"/>:</th>
-        <td>
-        	<spring:bind path="step.algorithmType">
-        	<select name="${status.expression}" style="width:150px" onchange="this.form.submit()">
-        		<option value="">--- Please Select ---
-        			<c:forEach var="type" items="${algorithmtypes}">
-        				<option value="${type}" <c:if test="${type == step.algorithmType}">selected="true"</c:if> >
-        					<c:out value="${type}"/>
-        				</option>
-        			</c:forEach>
-        		</option>
-        	</select>
-        	</spring:bind>
-        </td>
-    </tr>
-    <tr>
-        <th><fmt:message key="analysis.step.algorithm.propertyName"/>:</th>
-        <td>
-            <spring:bind path="step.algorithmMap[${algorithmType}].propertyName">
-            <input size="50" type="text" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-        </td>
-    </tr>
-    <tr>
-        <th><fmt:message key="analysis.step.algorithm.propertyValue"/>:</th>
-        <td>
-            <spring:bind path="step.algorithmMap[${algorithmType}].propertyValue">
-            <input size="30" type="text" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
-            <span class="fieldError"><c:out value="${status.errorMessage}"/></span>
-            </spring:bind>
-        </td>
-    </tr>
-    
-     <c:choose>
-    	<c:when test="${step.algorithmType == 'Likelihood'}">
-    		<jsp:include page="analysisStepForm-algorithm-likelihood.jsp"/>
-    	</c:when>
-    	<c:when test="${step.algorithmType == 'Parsimony'}">
-    		<jsp:include page="analysisStepForm-algorithm-parsimony.jsp"/>
-    	</c:when>
-    	<c:when test="${step.algorithmType == 'Distance'}">
-    		<jsp:include page="analysisStepForm-algorithm-distance.jsp"/>
-    	</c:when>
-    	<c:when test="${step.algorithmType == 'Other Algorithm'}">
-    		<jsp:include page="analysisStepForm-algorithm-other.jsp"/>
-    	</c:when>
-    </c:choose>
-    
-  	<tr>
-    	<th></th>
-    	<td >
-    		<input type="submit" name="_target1" value="<fmt:message key="button.previous"/>" />
-	        <input type="submit" name="_finish" value="<fmt:message key="button.finish"/>" />
-	        <input type="submit" name="_cancel" value="<fmt:message key="button.cancel"/>" />
-        </td>
-    </tr>
-</table>
-</fieldset>
-</form>
-
-<script type="text/javascript">
-</script>
+	<form method="post" onsubmit="return validateCitation(this)">
+		<div class="card shadow-lg">
+			<div class="card-header bg-primary text-white">
+				<i class="fa fa-diagram-3 me-2"></i>
+				<span>Analysis Step - Algorithm Information</span>
+			</div>
+			<div class="card-body">
+				<p class="text-muted mb-4">Please complete the following algorithm information used in the analysis step.</p>
+				<input type="hidden" name="_page" value="2"/>
+				
+				<c:choose>
+					<c:when test="${empty step.algorithmType }">
+						<c:set var="algorithmType" value="Likelihood"/>
+					</c:when>                             
+					<c:otherwise>
+						<c:set var="algorithmType" value="${step.algorithmType}"/>
+					</c:otherwise>
+				</c:choose>
+				
+				<div class="row mb-3">
+					<label class="col-sm-3 col-form-label"><fmt:message key="analysis.step.algorithm.type"/>:</label>
+					<div class="col-sm-9">
+						<spring:bind path="step.algorithmType">
+							<select name="${status.expression}" class="form-select" style="max-width:200px" onchange="this.form.submit()">
+								<option value="">--- Please Select ---</option>
+								<c:forEach var="type" items="${algorithmtypes}">
+									<option value="${type}" <c:if test="${type == step.algorithmType}">selected="true"</c:if>>
+										<c:out value="${type}"/>
+									</option>
+								</c:forEach>
+							</select>
+						</spring:bind>
+					</div>
+				</div>
+				
+				<div class="row mb-3">
+					<label class="col-sm-3 col-form-label"><fmt:message key="analysis.step.algorithm.propertyName"/>:</label>
+					<div class="col-sm-9">
+						<spring:bind path="step.algorithmMap[${algorithmType}].propertyName">
+							<input type="text" class="form-control" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+							<c:if test="${not empty status.errorMessage}">
+								<div class="invalid-feedback d-block"><c:out value="${status.errorMessage}"/></div>
+							</c:if>
+						</spring:bind>
+					</div>
+				</div>
+				
+				<div class="row mb-3">
+					<label class="col-sm-3 col-form-label"><fmt:message key="analysis.step.algorithm.propertyValue"/>:</label>
+					<div class="col-sm-9">
+						<spring:bind path="step.algorithmMap[${algorithmType}].propertyValue">
+							<input type="text" class="form-control" name="<c:out value="${status.expression}"/>" value="<c:out value="${status.value}"/>"/>
+							<c:if test="${not empty status.errorMessage}">
+								<div class="invalid-feedback d-block"><c:out value="${status.errorMessage}"/></div>
+							</c:if>
+						</spring:bind>
+					</div>
+				</div>
+				
+				<%-- Algorithm-specific fields --%>
+				<c:choose>
+					<c:when test="${step.algorithmType == 'Likelihood'}">
+						<jsp:include page="analysisStepForm-algorithm-likelihood.jsp"/>
+					</c:when>
+					<c:when test="${step.algorithmType == 'Parsimony'}">
+						<jsp:include page="analysisStepForm-algorithm-parsimony.jsp"/>
+					</c:when>
+					<c:when test="${step.algorithmType == 'Distance'}">
+						<jsp:include page="analysisStepForm-algorithm-distance.jsp"/>
+					</c:when>
+					<c:when test="${step.algorithmType == 'Other Algorithm'}">
+						<jsp:include page="analysisStepForm-algorithm-other.jsp"/>
+					</c:when>
+				</c:choose>
+			</div>
+			<div class="card-footer">
+				<div class="btn-group">
+					<button type="submit" name="_target1" class="btn btn-outline-secondary">
+						<i class="fa fa-arrow-left me-1"></i> <fmt:message key="button.previous"/>
+					</button>
+					<button type="submit" name="_finish" class="btn btn-success">
+						<i class="fa fa-check-circle me-1"></i> <fmt:message key="button.finish"/>
+					</button>
+					<button type="submit" name="_cancel" class="btn btn-outline-secondary">
+						<i class="fa fa-x-circle me-1"></i> <fmt:message key="button.cancel"/>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
 

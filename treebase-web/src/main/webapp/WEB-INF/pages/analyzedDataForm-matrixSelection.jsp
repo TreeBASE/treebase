@@ -4,84 +4,87 @@
 <content tag="heading">List of uploaded <b>${data.dataType} data</b></content>
 <body id="submissions"/>
 
-<spring:bind path="data.*">
-    <c:if test="${not empty status.errorMessages}">
-    <div class="error">	
-        <c:forEach var="error" items="${status.errorMessages}">
-            <img src="<c:url value="/images/iconWarning.gif"/>"
-                alt="<fmt:message key="icon.warning"/>" class="icon" />
-            <c:out value="${error}" escapeXml="false"/><br />
-        </c:forEach>
-    </div>
-    </c:if>
-</spring:bind>
+<div class="container py-5">
+	<spring:bind path="data.*">
+		<c:if test="${not empty status.errorMessages}">
+		<div class="alert alert-danger d-flex align-items-start mb-4" role="alert">
+			<i class="bi bi-exclamation-triangle-fill me-3 mt-1"></i>
+			<div>
+				<c:forEach var="error" items="${status.errorMessages}">
+					<c:out value="${error}" escapeXml="false"/><br />
+				</c:forEach>
+			</div>
+		</div>
+		</c:if>
+	</spring:bind>
 
-<form method="post" name="dataform">
-<fieldset>
-<legend>Analyzed data matrix selection
-<a href="#" class="openHelp" onclick="openHelp('analyzedDataMatrixSelection')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
-</legend>
-Check the list of ${data.dataType} data that will be used for analysis step
-<input type="hidden" name="_page" value="1"/>
-<c:set var="counter"   value="0"/>
-
-<display:table name="${data.matrixList}"
-			   requestURI=""
-			   defaultsort="1"
-			   class="list"
-			   id="matrix"
-			   cellspacing="3"
-			   cellpadding="3">
-			   
-	<display:column class="checkBoxColumn">
-			<spring:bind path="data.matrixList[${counter}].checked">
-				<input type="hidden" name="_<c:out value="${status.expression}"/>"/>
-				<!--  do not allow user select the matrix if it's been used either as input or output -->
-				<!--  or you can select data.dataType == selected if only specific the type input or output type -->
-				<input type="checkbox" name="${status.expression}" value="true" 
-				<c:if test="${not empty matrix.selected}">checked="checked" disabled="disabled"</c:if>/>
-            </spring:bind>            
-	</display:column>
-			
-	<display:column 
-		property="matrix.title" 
-		titleKey="data.title" 
-		sortable="true"
-		style="width:100%">
-	</display:column>	
-	
-	<display:column 
-		sortable="false"
-		url="/user/matrixRowList.html" 
-		paramId="id" 
-		paramProperty="matrix.id"
-		class="iconColumn" 
-		headerClass="iconColumn">
-			<!--  send id as a hidden filed -->
-			<spring:bind path="data.matrixList[${counter}].matrix.id">
-				<input type="hidden" name="${status.expression}" value="${status.value}" />
-			</spring:bind>
-			<img 
-				class="iconButton" 
-				src="<fmt:message key="icons.list"/>" 
-				title="<fmt:message key="matrix.row.list"/>" 
-				alt="<fmt:message key="matrix.row.list"/>"/>			
-	</display:column>	
-	
-	<c:set var="counter" value="${counter+1}"/>						
-	<display:footer>
-	<tr>
-    	<td colspan="3" align="center" id="buttonContainer">
-	        <input type="submit" class="button" name="_target0" value="<fmt:message key="button.previous"/>" />
-	        <input type="submit" class="button" name="_finish" value="<fmt:message key="button.finish"/>" />
-	        <input type="submit" class="button" name="_cancel" value="<fmt:message key="button.cancel"/>" />
-        </td>
-    </tr>
-	
-	</display:footer>
-	
-	 <display:setProperty name="basic.empty.showtable" value="true"/>
-	
-</display:table>
-</fieldset>
-</form>
+	<form method="post" name="dataform">
+		<input type="hidden" name="_page" value="1"/>
+		
+		<div class="card shadow-lg mb-4">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<span class="fw-semibold"><i class="bi bi-grid-3x3 me-2"></i> Analyzed Data Matrix Selection</span>
+				<a href="#" class="openHelp" onclick="openHelp('analyzedDataMatrixSelection')">
+					<i class="bi bi-question-circle"></i> Help
+				</a>
+			</div>
+			<div class="card-body">
+				<p class="text-muted mb-3">Check the list of ${data.dataType} data that will be used for analysis step</p>
+				
+				<c:set var="counter" value="0"/>
+				<display:table name="${data.matrixList}"
+							   requestURI=""
+							   defaultsort="1"
+							   class="table table-striped table-hover"
+							   id="matrix">
+					   
+					<display:column class="text-center" style="width:5%">
+						<spring:bind path="data.matrixList[${counter}].checked">
+							<input type="hidden" name="_<c:out value="${status.expression}"/>"/>
+							<input type="checkbox" class="form-check-input" name="${status.expression}" value="true" 
+							<c:if test="${not empty matrix.selected}">checked="checked" disabled="disabled"</c:if>/>
+						</spring:bind>
+					</display:column>
+							
+					<display:column 
+						property="matrix.title" 
+						titleKey="data.title" 
+						sortable="true"
+						style="width:80%">
+					</display:column>
+					
+					<display:column 
+						sortable="false"
+						url="/user/matrixRowList.html" 
+						paramId="id" 
+						paramProperty="matrix.id"
+						style="width:15%">
+							<spring:bind path="data.matrixList[${counter}].matrix.id">
+								<input type="hidden" name="${status.expression}" value="${status.value}" />
+							</spring:bind>
+							<span class="btn btn-sm btn-outline-primary">
+								<i class="bi bi-list-ul"></i> Rows
+							</span>
+					</display:column>
+					
+					<c:set var="counter" value="${counter+1}"/>
+					<display:setProperty name="basic.empty.showtable" value="true"/>
+					
+				</display:table>
+			</div>
+			<div class="card-footer">
+				<div class="d-flex gap-2">
+					<button type="submit" name="_target0" class="btn btn-outline-secondary">
+						<i class="bi bi-arrow-left"></i> <fmt:message key="button.previous"/>
+					</button>
+					<button type="submit" name="_finish" class="btn btn-primary">
+						<i class="bi bi-check-lg"></i> <fmt:message key="button.finish"/>
+					</button>
+					<button type="submit" name="_cancel" class="btn btn-outline-secondary">
+						<fmt:message key="button.cancel"/>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

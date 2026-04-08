@@ -6,149 +6,117 @@
 <content tag="heading"><fmt:message key="treeblock.list.title"/></content>
 <body id="submissions"/>
 
-<p>The table below shows a list of tree blocks for a particular study.</p>
-
-<spring:bind path="atreeblocklist.*">
-    <c:if test="${not empty status.errorMessages}">
-    <div class="error">	
-        <c:forEach var="error" items="${status.errorMessages}">
-            <img src="<c:url value="/images/iconWarning.gif"/>"
-                alt="<fmt:message key="icon.warning"/>" class="icon" />
-            <c:out value="${error}" escapeXml="false"/><br />
-        </c:forEach>
+<div class="container py-5">
+    <div class="alert alert-info d-flex align-items-start mb-4" role="alert">
+        <i class="fa fa-info-circle fa-lg me-3 mt-1"></i>
+        <div>
+            The table below shows a list of tree blocks for a particular study.
+        </div>
     </div>
-    </c:if>
-</spring:bind>
 
-<form method="post">
-<fieldset>
-<legend>
-Tree blocks
-<a href="#" class="openHelp" onclick="openHelp('treeBlockList')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
-</legend>
+    <spring:bind path="atreeblocklist.*">
+        <c:if test="${not empty status.errorMessages}">
+            <div class="alert alert-danger" role="alert">
+                <c:forEach var="error" items="${status.errorMessages}">
+                    <i class="fa fa-exclamation-triangle me-2"></i>
+                    <c:out value="${error}" escapeXml="false"/><br />
+                </c:forEach>
+            </div>
+        </c:if>
+    </spring:bind>
 
-<c:url var="phylowidgetMapURL" value="/user/directMapToPhyloWidget.html" />
-<c:set var="counter"   value="0"/>
+    <form method="post">
+        <div class="card shadow-lg mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fa fa-sitemap me-2"></i>Tree Blocks
+                </h5>
+                <a href="#" class="openHelp btn btn-outline-secondary btn-sm" onclick="openHelp('treeBlockList')">
+                    <i class="fa fa-question-circle me-1"></i>Help
+                </a>
+            </div>
+            <div class="card-body">
+                <c:url var="phylowidgetMapURL" value="/user/directMapToPhyloWidget.html" />
+                <c:set var="counter" value="0"/>
 
-<display:table name="requestScope.atreeblocklist.myList"
-			   requestURI=""
-			   defaultsort="1"
-			   class="list"
-			   id="userList"
-			   cellspacing="3"
-			   cellpadding="3">
-	
-	<display:column  titleKey="block.title" 
-				sortable="true">
-		<spring:bind path="atreeblocklist.myList[${counter}].title">
-				<input type="hidden" name="_<c:out value="${status.expression}"/>"/>
-				<input type="text" class="textCell" name="${status.expression}" value="<c:out value="${status.value}"/>" />
-		</spring:bind>	
-	</display:column>
-	
-	
-	<display:column property="treeCount" titleKey="tree.count" 
-				sortable="true"/>
-					
-	<display:column 		
-		class="iconColumn" 
-		headerClass="iconColumn" 
-		sortable="false">
-		<spring:bind path="atreeblocklist.myList[${counter}].analyzed">
-			<c:if test="${!status.value}">
-				<img 
-					class="iconButton" 
-					src="<fmt:message key="icons.notanalyzed"/>" 
-					title="<fmt:message key="analysis.step.data.notincluded"/>" 
-					alt="<fmt:message key="analysis.step.data.notincluded"/>"/>			
-			</c:if>
-			<c:if test="${status.value}">
-				<img 
-					class="iconButton" 
-					src="<fmt:message key="icons.analyzed"/>" 
-					title="<fmt:message key="analysis.step.data.included"/>" 
-					alt="<fmt:message key="analysis.step.data.included"/>"/>								
-			</c:if>
-		</spring:bind>	
-		<c:set var="counter" value="${counter+1}"/>	
-	</display:column>					
-													
-	<display:column 
-		sortable="false"
-		url="/user/treeList.html" 
-		paramId="treeblockid" 
-		paramProperty="id"  
-		class="iconColumn" 
-		headerClass="iconColumn">
-			<img 
-				class="iconButton" 
-				src="<fmt:message key="icons.list"/>" 
-				title="<fmt:message key="tree.list"/>" 
-				alt="<fmt:message key="tree.list"/>"/>				
-	</display:column>
-	
-	<display:column 
-		sortable="false"  
-		class="iconColumn" 
-		headerClass="iconColumn">
-		<c:set var="url" value="${phylowidgetMapURL}?treeblockid=${userList.id}" />
-		<a href="${url}">
-			<img 
-				class="iconButton" 
-				src="<fmt:message key="icons.tree.edit"/>" 
-				title="<fmt:message key="tree.view"/>" 
-				alt="<fmt:message key="tree.view"/>"/>			
-		</a>
-	</display:column>	
-	
-	<display:column 
-		sortable="false"
-		url="/user/downloadATreeBlock.html" 
-		paramId="treeblockid" 
-		paramProperty="id"  
-		class="iconColumn" 
-		headerClass="iconColumn">
-			<img 
-				class="iconButton" 
-				src="<fmt:message key="icons.download.reconstructed"/>" 
-				title="<fmt:message key="download.reconstructedfile"/>" 
-				alt="<fmt:message key="download.reconstructedfile"/>"/>					
-	</display:column>
-	
-	<c:if test="${publicationState eq 'NotReady'}">					
-		<display:column
-			sortable="false"
-			url="/user/deleteATreeBlock.html" 
-			paramId="treeblockid" 
-			paramProperty="id"  
-			class="iconColumn" 
-			headerClass="iconColumn">
-					<img 
-						class="iconButton" 
-						src="<fmt:message key="icons.delete"/>" 
-						title="<fmt:message key="treeblock.delete"/>" 
-						alt="<fmt:message key="treeblock.delete"/>"/>				
-		</display:column>	
-	</c:if>	
-	
-	<display:footer>
-	  <%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
-		<% request.setAttribute("isEditable","yes");%>
-	<% } %>
-  	  
-  	  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
-		<tr>
-    		<td colspan="7" align="center">
-	        	<input type="submit" class="button" name="Update" value="<fmt:message key="button.update"/>" />
-	        	<input type="submit" class="button" name="_cancel" value="<fmt:message key="button.cancel"/>" />
-        	</td>
-    	</tr>
-      </c:if>
-	</display:footer>
-    <display:setProperty name="export.pdf" value="true" />	
-	<display:setProperty name="basic.empty.showtable" value="true"/>
-	
-</display:table>
-</fieldset>
-</form>
+                <display:table name="requestScope.atreeblocklist.myList"
+                               requestURI=""
+                               defaultsort="1"
+                               class="table table-striped table-hover"
+                               id="userList">
+                    
+                    <display:column titleKey="block.title" sortable="true">
+                        <spring:bind path="atreeblocklist.myList[${counter}].title">
+                            <input type="hidden" name="_<c:out value="${status.expression}"/>"/>
+                            <input type="text" class="form-control form-control-sm" name="${status.expression}" value="<c:out value="${status.value}"/>" />
+                        </spring:bind>	
+                    </display:column>
+                    
+                    <display:column property="treeCount" titleKey="tree.count" sortable="true" class="text-center"/>
+                                
+                    <display:column title="Status" sortable="false" class="text-center">
+                        <spring:bind path="atreeblocklist.myList[${counter}].analyzed">
+                            <c:if test="${!status.value}">
+                                <span class="badge bg-warning text-dark" title="<fmt:message key="analysis.step.data.notincluded"/>">
+                                    <i class="fa fa-exclamation-triangle"></i> Not Analyzed
+                                </span>
+                            </c:if>
+                            <c:if test="${status.value}">
+                                <span class="badge bg-success" title="<fmt:message key="analysis.step.data.included"/>">
+                                    <i class="fa fa-check-circle"></i> Analyzed
+                                </span>
+                            </c:if>
+                        </spring:bind>	
+                        <c:set var="counter" value="${counter+1}"/>	
+                    </display:column>					
+                                                                    
+                    <display:column title="Actions" sortable="false" class="text-center text-nowrap">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="<c:url value='/user/treeList.html'><c:param name='treeblockid' value='${userList.id}'/></c:url>" 
+                               class="btn btn-outline-primary" title="<fmt:message key="tree.list"/>">
+                                <i class="fa fa-list"></i>
+                            </a>
+                            <a href="${phylowidgetMapURL}?treeblockid=${userList.id}" 
+                               class="btn btn-outline-success" title="<fmt:message key="tree.view"/>">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            <a href="<c:url value='/user/downloadATreeBlock.html'><c:param name='treeblockid' value='${userList.id}'/></c:url>" 
+                               class="btn btn-outline-info" title="<fmt:message key="download.reconstructedfile"/>">
+                                <i class="fa fa-download"></i>
+                            </a>
+                            <c:if test="${publicationState eq 'NotReady'}">
+                                <a href="<c:url value='/user/deleteATreeBlock.html'><c:param name='treeblockid' value='${userList.id}'/></c:url>" 
+                                   class="btn btn-outline-danger" title="<fmt:message key="treeblock.delete"/>">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </c:if>
+                        </div>
+                    </display:column>
+                    
+                    <display:footer>
+                        <%if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){%>
+                            <% request.setAttribute("isEditable","yes");%>
+                        <% } %>
+                        
+                        <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
+                            <tr>
+                                <td colspan="7" class="text-center py-3">
+                                    <button type="submit" class="btn btn-primary me-2" name="Update">
+                                        <i class="fa fa-save me-1"></i><fmt:message key="button.update"/>
+                                    </button>
+                                    <button type="submit" class="btn btn-secondary" name="_cancel">
+                                        <i class="fa fa-times me-1"></i><fmt:message key="button.cancel"/>
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </display:footer>
+                    <display:setProperty name="export.pdf" value="true" />	
+                    <display:setProperty name="basic.empty.showtable" value="true"/>
+                    
+                </display:table>
+            </div>
+        </div>
+    </form>
+</div>
 

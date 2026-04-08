@@ -6,119 +6,107 @@
 	id="form${counter}" 
 	action="/treebase-web/user/analysisStepForm.html?id=<c:out value="${analysisStepCommand.id}"/>">
 <input type="hidden" name="redirect" value="${redirect}"/>
-<fieldset class="analysisStep">
-	<legend>
-		<a onclick="TreeBASE.collapseExpand('analysisStepCommand<c:out value="${analysisStepCommand.id}"/>','block',this)"
-			style="border:none"
-			title="collapse">
+
+<div class="card shadow-sm mb-3">
+	<div class="card-header d-flex justify-content-between align-items-center">
+		<div class="d-flex align-items-center">
+			<a onclick="TreeBASE.collapseExpand('analysisStepCommand<c:out value="${analysisStepCommand.id}"/>','block',this)"
+				class="text-decoration-none me-2"
+				title="collapse"
+				role="button">
+				<c:if test="${editable}">
+					<i class="fa fa-chevron-down"></i>
+				</c:if>
+				<c:if test="${!editable}">
+					<i class="fa fa-chevron-right"></i>
+				</c:if>
+			</a>
+			<span class="fw-semibold"><i class="fa fa-gear me-1"></i> Analysis Step</span>
 			<c:if test="${editable}">
-				<img 
-					class="iconButton" 
-					src="<fmt:message key="icons.collapse"/>"
-					style="vertical-align:middle" 
-					alt="collapse" />
+				<a href="#" class="openHelp ms-2" onclick="openHelp('analysisStepDetailsViewEdit')">
+					<i class="fa fa-question-circle text-muted"></i>
+				</a>
 			</c:if>
-			<c:if test="${!editable}">
-				<img 
-					class="iconButton" 
-					src="<fmt:message key="icons.expand"/>"
-					style="vertical-align:middle" 
-					alt="collapse" />
-			</c:if>			
-		</a>	
-		Analysis step
-		<c:if test="${editable}">
-			<a 
-				href="#" 
-				class="openHelp" 
-				onclick="openHelp('analysisStepDetailsViewEdit')">
-				<img class="iconButton" alt="help" src="<fmt:message key="icons.help"/>" />
-			</a>	
-		</c:if>
-	</legend>	
-	<h2 style="font-size:small">
-		<span class="isAnalysisStepValid" title="${analysisStepCommand.id}" style="display:none">
-			<img 
-				class="iconButton" 
-				src="<fmt:message key="icons.notanalyzed"/>" 
-				title="<fmt:message key="analysis.notvalidated"/>" 
-				alt="<fmt:message key="analysis.notvalidated"/>"/>			
-		</span>
-<!-- VG 2010-03-17 Disabled analysis download as requested in #2972107, to mitigate #2970700 and #2970457   -->		
-		<a href="/treebase-web/search/downloadAnAnalysisStep.html?analysisid=${analysisStepCommand.id}&id=${analysisStepCommand.analysis.study.id}">  
-			<img 
-				class="iconButton" 
-				src="<fmt:message key="icons.download.reconstructed"/>" 
-
-				title="<fmt:message key="download.reconstructedfile"/>" 
-				alt="<fmt:message key="download.reconstructedfile"/>"
-
-<%-- 
-				title="<fmt:message key="download.unavailable"/>" 
-				alt="<fmt:message key="download.unavailable"/>"	
---%>
-				/>	
-		</a>	  	
-		<c:if test="${not empty analysisStepCommand.displayName}">
-			<c:out value="${analysisStepCommand.displayName}"/>
-		</c:if>	
-		<c:if test="${empty analysisStepCommand.displayName}">
-			<em>Untitled</em>
-		</c:if>			
-	--</h2>
-	<div <c:if test="${!editable}">style="display:none"</c:if> id="analysisStepCommand<c:out value="${analysisStepCommand.id}"/>">
-		<c:if test="${editable || ( not empty analysisStepCommand.displayName || not empty analysisStepCommand.notes )}">
-		<fieldset>
-			<legend>Step details</legend>
-				<table width="100%">
+		</div>
+		<div class="d-flex align-items-center gap-2">
+			<span class="isAnalysisStepValid" title="${analysisStepCommand.id}" style="display:none">
+				<span class="badge bg-warning text-dark" title="<fmt:message key="analysis.notvalidated"/>">
+					<i class="fa fa-exclamation-triangle"></i> Not Validated
+				</span>
+			</span>
+			<a href="/treebase-web/search/downloadAnAnalysisStep.html?analysisid=${analysisStepCommand.id}&id=${analysisStepCommand.analysis.study.id}"
+				class="btn btn-sm btn-outline-primary"
+				title="<fmt:message key="download.reconstructedfile"/>">
+				<i class="fa fa-download"></i> Download
+			</a>
+		</div>
+	</div>
+	
+	<div class="card-body">
+		<h6 class="mb-3">
+			<c:if test="${not empty analysisStepCommand.displayName}">
+				<c:out value="${analysisStepCommand.displayName}"/>
+			</c:if>
+			<c:if test="${empty analysisStepCommand.displayName}">
+				<em class="text-muted">Untitled</em>
+			</c:if>
+		</h6>
+		
+		<div <c:if test="${!editable}">style="display:none"</c:if> id="analysisStepCommand<c:out value="${analysisStepCommand.id}"/>">
+			
+			<%-- Step Details Section --%>
+			<c:if test="${editable || ( not empty analysisStepCommand.displayName || not empty analysisStepCommand.notes )}">
+			<div class="card mb-3">
+				<div class="card-header py-2">
+					<span class="fw-semibold"><i class="fa fa-info-circle me-1"></i> Step Details</span>
+				</div>
+				<div class="card-body">
 					<c:if test="${editable || not empty analysisStepCommand.displayName}">
-						<tr class="software">
-							<td style="text-align:right">
-								<label for="name${counter}" class="software">Name</label>
-							</td>
-							<td style="width:100%">
+						<div class="row mb-2">
+							<label for="name${counter}" class="col-sm-3 col-form-label">Name</label>
+							<div class="col-sm-9">
 								<input 
 									readonly="readonly"
-									class="software disabled textCell" 
+									class="form-control form-control-sm" 
 									type="text" 
 									name="name" 
 									id="name${counter}" 
 									value="<c:out value="${analysisStepCommand.displayName}"/>"/>
-							</td>
-						</tr>	
+							</div>
+						</div>
 					</c:if>
 					<c:if test="${editable || not empty analysisStepCommand.notes}">
-						<tr class="software">
-							<td style="text-align:right">
-								<label for="notes${counter}" class="software">Notes</label>
-							</td>
-							<td>
+						<div class="row mb-2">
+							<label for="notes${counter}" class="col-sm-3 col-form-label">Notes</label>
+							<div class="col-sm-9">
 								<input 
 									readonly="readonly"
-									class="software disabled textCell" 
+									class="form-control form-control-sm" 
 									type="text" 
 									name="notes" 
 									id="notes${counter}" 
 									value="<c:out value="${analysisStepCommand.notes}"/>"/>
-							</td>
-						</tr>	
+							</div>
+						</div>
 					</c:if>
-				</table>
-		</fieldset>
-		</c:if>
-		<c:if test="${editable || not empty analysisStepCommand.softwareInfo.name}">	
-			<fieldset>
-				<legend>Software used</legend>
-				<table width="100%">	
-					<c:if test="${editable || not empty analysisStepCommand.softwareInfo.name}">			
-						<tr class="software">
-							<td style="text-align:right">
-								<label for="softwareInfo.name${counter}" class="software">Name</label>
-							</td>
-							<td style="width:100%">
+				</div>
+			</div>
+			</c:if>
+			
+			<%-- Software Used Section --%>
+			<c:if test="${editable || not empty analysisStepCommand.softwareInfo.name}">
+			<div class="card mb-3">
+				<div class="card-header py-2">
+					<span class="fw-semibold"><i class="fa fa-code-square me-1"></i> Software Used</span>
+				</div>
+				<div class="card-body">
+					<c:if test="${editable || not empty analysisStepCommand.softwareInfo.name}">
+						<div class="row mb-2">
+							<label for="softwareInfo.name${counter}" class="col-sm-3 col-form-label">Name</label>
+							<div class="col-sm-9">
 								<input
 									readonly="readonly"
-									class="software disabled textCell"
+									class="form-control form-control-sm"
 									type="text" 
 									id="softwareInfo.name${counter}"  
 									name="softwareInfo.name" 
@@ -132,113 +120,102 @@
 										{ valueSelector: nameValueSelector, partialChars: 0 }
 									);
 								</script>
-								<span class="fieldError"></span>
-							</td>
-						</tr>	
-					</c:if>	
-					<c:if test="${editable || not empty analysisStepCommand.softwareInfo.softwareVersion}">			
-						<tr class="software">
-							<td style="text-align:right">
-								<label for="softwareInfo.softwareVersion${counter}" class="software">Version</label>
-							</td>
-							<td>	
-							    <input  
-							    	readonly="readonly"
-							    	class="software disabled textCell"
-							    	type="text" 
-							    	id="softwareInfo.softwareVersion${counter}"     	
-							    	name="softwareInfo.softwareVersion" 
-							    	value="<c:out value="${analysisStepCommand.softwareInfo.softwareVersion}"/>"/>
-							    <span class="fieldError"></span>
-						    </td>
-						</tr>	
-					</c:if>		
-					<c:if test="${editable || not empty analysisStepCommand.softwareInfo.softwareURL}">				
-						<tr class="software">
-							<td style="text-align:right">
-								<label for="softwareInfo.softwareURL${counter}" class="software">URL</label>
-							</td>	
-							<td>	
-							
+								<span class="fieldError text-danger small"></span>
+							</div>
+						</div>
+					</c:if>
+					<c:if test="${editable || not empty analysisStepCommand.softwareInfo.softwareVersion}">
+						<div class="row mb-2">
+							<label for="softwareInfo.softwareVersion${counter}" class="col-sm-3 col-form-label">Version</label>
+							<div class="col-sm-9">
+								<input  
+									readonly="readonly"
+									class="form-control form-control-sm"
+									type="text" 
+									id="softwareInfo.softwareVersion${counter}"     	
+									name="softwareInfo.softwareVersion" 
+									value="<c:out value="${analysisStepCommand.softwareInfo.softwareVersion}"/>"/>
+								<span class="fieldError text-danger small"></span>
+							</div>
+						</div>
+					</c:if>
+					<c:if test="${editable || not empty analysisStepCommand.softwareInfo.softwareURL}">
+						<div class="row mb-2">
+							<label for="softwareInfo.softwareURL${counter}" class="col-sm-3 col-form-label">URL</label>
+							<div class="col-sm-9">
 								<%-- displayed in edit mode --%>
-						        <input 
-						        	style="display:none"
-						        	class="software disabled textCell"
-						        	type="text" 
-						        	id="softwareInfo.softwareURL${counter}"
-						        	name="softwareInfo.softwareURL" 
-						        	value="<c:out value="${analysisStepCommand.softwareInfo.softwareURL}"/>"/> 
-						        <span class="fieldError"></span>
-						        
-						        <%-- displayed in view mode --%>
-						        <c:if test="${not empty analysisStepCommand.softwareInfo.softwareURL}">
-							        <a
-							        	style="white-space:nowrap"
-							        	id="softwareInfo.softwareLink${counter}"
-							        	href="<c:out value="${analysisStepCommand.softwareInfo.softwareURL}"/>">
-							        	<img class="iconButton" alt="link" src="<fmt:message key="icons.weblink"/>" />
-							        	<%-- c:out value="${analysisStepCommand.softwareInfo.softwareURL}"/ --%>
-							        </a>
-						        </c:if>
-						        
-					        </td>
-					    </tr>
-				    </c:if>  
-				    <c:if test="${editable || not empty analysisStepCommand.softwareInfo.description}">		      
-					    <tr class="software">
-					    	<td style="text-align:right;vertical-align:top">
-								<label for="softwareInfo.description${counter}" class="software">Description</label>
-							</td>
-							<td>		    
-						         <input 
-						         	readonly="readonly"			         	
-						         	class="software disabled textCell"
-						         	type="text" 
-						         	id="softwareInfo.description${counter}"
-						         	name="softwareInfo.description" 
-						         	value="<c:out value="${analysisStepCommand.softwareInfo.description}"/>"/>	            
-						         <span class="fieldError"></span>
-					         </td>
-					    </tr>   
-				    </c:if>  
-				    <c:if test="${editable || not empty analysisStepCommand.algorithmInfo.description}">		       	
-						<tr class="software">
-					      	<spring:bind path="analysisStepCommand.algorithmType">
-					      		<td style="text-align:right">        	
-						      		<label for="algorithmTypeInput${counter}" class="software">Algorithm</label>
-						      	</td>  
-						      	<td>    
-						      		
-						      		<%-- this part is displayed in view mode --%>
+								<input 
+									style="display:none"
+									class="form-control form-control-sm"
+									type="text" 
+									id="softwareInfo.softwareURL${counter}"
+									name="softwareInfo.softwareURL" 
+									value="<c:out value="${analysisStepCommand.softwareInfo.softwareURL}"/>"/> 
+								<span class="fieldError text-danger small"></span>
+								
+								<%-- displayed in view mode --%>
+								<c:if test="${not empty analysisStepCommand.softwareInfo.softwareURL}">
+									<a
+										class="btn btn-sm btn-outline-secondary"
+										id="softwareInfo.softwareLink${counter}"
+										href="<c:out value="${analysisStepCommand.softwareInfo.softwareURL}"/>"
+										target="_blank">
+										<i class="fa fa-box-arrow-up-right"></i> Visit Website
+									</a>
+								</c:if>
+							</div>
+						</div>
+					</c:if>
+					<c:if test="${editable || not empty analysisStepCommand.softwareInfo.description}">
+						<div class="row mb-2">
+							<label for="softwareInfo.description${counter}" class="col-sm-3 col-form-label">Description</label>
+							<div class="col-sm-9">
+								<input 
+									readonly="readonly"			         	
+									class="form-control form-control-sm"
+									type="text" 
+									id="softwareInfo.description${counter}"
+									name="softwareInfo.description" 
+									value="<c:out value="${analysisStepCommand.softwareInfo.description}"/>"/>	            
+								<span class="fieldError text-danger small"></span>
+							</div>
+						</div>
+					</c:if>
+					<c:if test="${editable || not empty analysisStepCommand.algorithmInfo.description}">
+						<spring:bind path="analysisStepCommand.algorithmType">
+							<div class="row mb-2">
+								<label for="algorithmTypeInput${counter}" class="col-sm-3 col-form-label">Algorithm</label>
+								<div class="col-sm-9">
+									<%-- this part is displayed in view mode --%>
 									<input 
 										readonly="readonly"
-										class="software disabled textCell"
+										class="form-control form-control-sm"
 										type="text" 
 										id="algorithmTypeInput${counter}"
 										value="<c:out value="${analysisStepCommand.algorithmInfo.description}"/>"/>
-									<span class="fieldError"></span>
+									<span class="fieldError text-danger small"></span>
 									
-									<%-- this part is displayed in edit mode --%>     	     	
-							      	<div id="algorithmSelectWidget${counter}" style="display:none">      	 	
-								      	<select style="display:inline" name="${status.expression}" class="software" onchange="TreeBASE.analysisEditor.checkOther(this,${counter})">
-								      		<option value="">--- Please Select ---</option>
-							      			<c:forEach var="type" items="${algorithmtypes}">
-							      				<option value="${type}" 
-							      					<c:if test="${type == analysisStepCommand.algorithmType}">selected="selected"</c:if> >
-							      					<c:out value="${type}"/>
-							      				</option>
-							      			</c:forEach>
-								      	</select>
-						      			<c:set var="algorithmType" value="other algorithm"/>
+									<%-- this part is displayed in edit mode --%>
+									<div id="algorithmSelectWidget${counter}" style="display:none">
+										<select name="${status.expression}" class="form-select form-select-sm" onchange="TreeBASE.analysisEditor.checkOther(this,${counter})">
+											<option value="">--- Please Select ---</option>
+											<c:forEach var="type" items="${algorithmtypes}">
+												<option value="${type}" 
+													<c:if test="${type == analysisStepCommand.algorithmType}">selected="selected"</c:if> >
+													<c:out value="${type}"/>
+												</option>
+											</c:forEach>
+										</select>
+										<c:set var="algorithmType" value="other algorithm"/>
 										<spring:bind path="analysisStepCommand.algorithmMap[${algorithmType}].description">
-											<div id="ac${counter}" <c:if test="${analysisStepCommand.algorithmInfo.description != 'other algorithm'}">style="display:none"</c:if>>        				
+											<div id="ac${counter}" class="mt-2" <c:if test="${analysisStepCommand.algorithmInfo.description != 'other algorithm'}">style="display:none"</c:if>>
 												<input 
-													style="width:100%"
-													class="textCell"
+													class="form-control form-control-sm"
 													type="text" 
 													id="algorithmType${counter}" 
 													name="<c:out value="${status.expression}"/>" 
-													value="<c:out value="${analysisStepCommand.algorithmInfo.description}"/>"/>
+													value="<c:out value="${analysisStepCommand.algorithmInfo.description}"/>"
+													placeholder="Specify other algorithm"/>
 												<div id="aUniqueOtherAlgorithmList${counter}" class="auto_complete"></div>
 												<script type="text/javascript">
 													new Autocompleter.DWR( 
@@ -249,53 +226,41 @@
 													);
 												</script>
 											</div>
-										</spring:bind>						
+										</spring:bind>
 									</div>
-								</td>
-					      	</spring:bind>
-						</tr>
+								</div>
+							</div>
+						</spring:bind>
 					</c:if>
-				    <c:if test="${editable || not empty analysisStepCommand.commands}">			
-					    <tr class="software">
-					    	<td colspan="2" style="text-align:center">
-								<label for="commands${counter}" class="software">Commands</label>
-							</td>
-						</tr>
-						<tr class="software">
-							<td colspan="2" style="text-align:center">		        
+					<c:if test="${editable || not empty analysisStepCommand.commands}">
+						<div class="row mb-2">
+							<label for="commands${counter}" class="col-sm-3 col-form-label">Commands</label>
+							<div class="col-sm-9">
 								<textarea 
 									readonly="readonly"
-									class="software disabled textCell"
-									style="width:100%;height:100px"
+									class="form-control form-control-sm font-monospace"
+									rows="4"
 									id="commands${counter}"
 									name="commands"><c:out value="${analysisStepCommand.commands}"/></textarea>
-						        <span class="fieldError"></span>
-					         </td>
-						</tr>	
-					</c:if>		
-				</table>
-			</fieldset>
-		</c:if>
-		<c:if test="${editable}">	
-			<table width="100%">
-				<tr>
-					<td style="margin-top:10px;text-align:right" colspan="2">
-						<input style="display:none" type="submit" name="Update" value="<fmt:message key="button.update"/>" />
-						<input style="display:none" type="submit" name="Delete" value="<fmt:message key="button.delete"/>" />				
-						<a href="#" onclick="return TreeBASE.analysisEditor.enableEdit(${counter})" title="Edit analysis step details">
-							<img 
-								src="<fmt:message 
-								key="icons.edit"/>" 
-								class="iconButton" 
-								width="16" 
-								height="16" 
-								alt="Edit" 
-								style="vertical-align:middle"/>
-						</a>
-					</td>
-				</tr>		
-			</table>
-		</c:if>	
+								<span class="fieldError text-danger small"></span>
+							</div>
+						</div>
+					</c:if>
+				</div>
+			</div>
+			</c:if>
+			
+			<%-- Edit Actions --%>
+			<c:if test="${editable}">
+			<div class="d-flex justify-content-end gap-2 mt-3">
+				<input style="display:none" type="submit" name="Update" value="<fmt:message key="button.update"/>" />
+				<input style="display:none" type="submit" name="Delete" value="<fmt:message key="button.delete"/>" />
+				<a href="#" class="btn btn-sm btn-outline-primary" onclick="return TreeBASE.analysisEditor.enableEdit(${counter})" title="Edit analysis step details">
+					<i class="fa fa-pencil"></i> Edit
+				</a>
+			</div>
+			</c:if>
+		</div>
 	</div>
-</fieldset>
+</div>
 </form>
