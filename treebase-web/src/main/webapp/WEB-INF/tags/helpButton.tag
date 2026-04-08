@@ -6,5 +6,5 @@
 <a href="#" class="openHelp"
    onclick="openHelp('${topic}')"
    ${not empty tooltip ? 'data-bs-toggle="tooltip" data-bs-placement="top" title="'.concat(tooltip).concat('"') : ''}>
-    <i class="fa fa-question-circle"></i>${empty label ? '' : ' '.concat(label)}
+    <i class="fa fa-large fa-question-circle"></i>${empty label ? '' : ' '.concat(label)}
 </a>
