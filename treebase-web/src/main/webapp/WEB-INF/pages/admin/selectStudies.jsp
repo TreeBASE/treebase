@@ -1,27 +1,33 @@
 <%@ include file="/common/taglibs.jsp"%>
 
 <title><fmt:message key="user.management"/></title>
-<content tag="heading"><fmt:message key="user.management"/></content>
+<content tag="heading"><fmt:message key="select.studies"/></content>
 <body id="admin"/>
 
 <div class="container py-5">
 	<div class="alert alert-info d-flex align-items-start mb-4" role="alert">
 		<i class="fa fa-info-circle me-3 mt-1"></i>
 		<div>
-			<p class="mb-0">Please provide a user name to update their information.</p>
+			<p class="mb-0">Select the type of studies you want to view.</p>
 		</div>
 	</div>
 
 	<form method="post" id="dataForm">
 		<div class="card shadow-lg mb-4">
 			<div class="card-header">
-				<span class="fw-semibold"><i class="fa fa-user-edit"></i> Updating User Information</span>
+				<span class="fw-semibold"><i class="fa fa-filter"></i> Select Studies</span>
 			</div>
 			<div class="card-body">
 				<div class="row mb-4">
 					<div class="col-md-6">
-						<label class="form-label fw-semibold"><fmt:message key="user.username"/>:</label>
-						<input type="text" name="username" class="form-control" maxlength="50" placeholder="Enter username..."/>
+						<label class="form-label fw-semibold">Study type</label>
+						<select name="<fmt:message key="user.management.studytype"/>" class="form-select">
+							<c:forEach var="type" items="${studyStatusTypes}">
+								<option value="${type}" <c:if test="${type eq 'Ready'}">selected</c:if>>
+									<c:out value="${type}"/>
+								</option>
+							</c:forEach>
+						</select>
 					</div>
 				</div>
 

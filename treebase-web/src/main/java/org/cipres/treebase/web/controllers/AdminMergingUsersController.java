@@ -214,7 +214,7 @@ public class AdminMergingUsersController extends AbstractWizardFormController {
 	 * @param pUserNameA the userNameA to set
 	 */
 	private void setUserNameSource(String pUserNameA) {
-		mUserNameSource = pUserNameA.trim();
+		mUserNameSource = pUserNameA != null ? pUserNameA.trim() : null;
 	}
 
 	/**
@@ -228,6 +228,6 @@ public class AdminMergingUsersController extends AbstractWizardFormController {
 	 * @param pUserNameB the userNameB to set
 	 */
 	private void setUserNameTarget(String pUserNameB) {
-		mUserNameTarget = pUserNameB.trim();
+		mUserNameTarget = pUserNameB != null ? pUserNameB.trim() : null;
 	}
 }

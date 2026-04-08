@@ -4,51 +4,66 @@
 <content tag="heading"><fmt:message key="user.management"/></content>
 <body id="admin"/>
 
-<p>This is a simple user management page. Search for users based on selected criteria.</p>
+<div class="container py-5">
+	<div class="alert alert-info d-flex align-items-start mb-4" role="alert">
+		<i class="fa fa-info-circle me-3 mt-1"></i>
+		<div>
+			<p class="mb-0">This is a simple user management page. Search for users based on selected criteria.</p>
+		</div>
+	</div>
 
-<form method="post"  id="dataForm">
+	<form method="post" id="dataForm">
+		<div class="card shadow-lg mb-4">
+			<div class="card-header">
+				<span class="fw-semibold"><i class="fa fa-search"></i> Search for users</span>
+			</div>
+			<div class="card-body">
+				<div class="row mb-4">
+					<div class="col-md-6">
+						<label class="form-label fw-semibold">Search by:</label>
+						<div class="d-flex flex-column gap-2 mb-3">
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="<fmt:message key="user.management.userchoice"/>" value="Email" id="searchEmail">
+								<label class="form-check-label" for="searchEmail">Email Address</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="<fmt:message key="user.management.userchoice"/>" value="<fmt:message key="user.username"/>" id="searchUsername" checked>
+								<label class="form-check-label" for="searchUsername"><fmt:message key="user.username"/></label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="<fmt:message key="user.management.userchoice"/>" value="<fmt:message key="user.management.userlastname"/>" id="searchLastname">
+								<label class="form-check-label" for="searchLastname"><fmt:message key="user.management.userlastname"/></label>
+							</div>
+						</div>
+						<input type="text" name="<fmt:message key="user.management.userinfo"/>" class="form-control" placeholder="Enter search term..."/>
+					</div>
+				</div>
 
-<fieldset>
-<legend>Search for users</legend>
+				<div class="row mb-4">
+					<div class="col-md-6">
+						<div class="form-check mb-2">
+							<input class="form-check-input" type="radio" name="<fmt:message key="user.management.userchoice"/>" value="User Role" id="searchRole">
+							<label class="form-check-label" for="searchRole">User Role:</label>
+						</div>
+						<select name="<fmt:message key="user.role"/>" class="form-select">
+							<c:forEach var="role" items="${userRoles}">
+								<option value="${role}" <c:if test="${type eq 'Associate Editor'}">selected</c:if>>
+									<c:out value="${role}"/>
+								</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
 
-<table border="0" cellpadding="3" cellspacing="3">
-
-	<tr>
-		<th align ="left">
-			<input type="radio" name = "<fmt:message key="user.management.userchoice"/>" value = "Email"> Email Address:<br/>
-			<input type="radio" name = "<fmt:message key="user.management.userchoice"/>" value = "<fmt:message key="user.username"/>" checked> <fmt:message key="user.username"/>:<br/>
-        	<input type="radio" name = "<fmt:message key="user.management.userchoice"/>" value = "<fmt:message key="user.management.userlastname"/>"> <fmt:message key="user.management.userlastname"/>:
-        </th>
-        <td>  	   	
-        	<input type="text" name= "<fmt:message key="user.management.userinfo"/>"  size = 20/>       
-        </td>
-    </tr>
-    
-    <tr>
-        <th align ="left">
-        <input type="radio" name = "<fmt:message key="user.management.userchoice"/>" value = "User Role"> User Role:
-        </th>
-        <td>
-         	<select name ="<fmt:message key="user.role"/>" style="width:150px"> 
-        		<c:forEach var="role" items="${userRoles}">
-        			<option value="${role}" <c:if test="${type eq 'Associate Editor'}">selected</c:if> > 
-        				<c:out value="${role}"/>
-        			</option>
-        		</c:forEach>
-        	</select>
-        	
-        </td>
-    </tr>
-       
-  	<tr>
-    	<th></th>
-    	<td>
-	        <input type="submit" name="Submit" value="<fmt:message key="button.submit"/>" />
-	        <!--input type="reset" name="Reset" value="<fmt:message key="button.reset"/>" /-->
-	        <input type="submit" name="_cancel" value="<fmt:message key="button.cancel"/>"/>
-        </td>
-    </tr>
-  	
-</table>
-</fieldset>
-</form>
+				<div class="d-flex gap-2">
+					<button type="submit" name="Submit" class="btn btn-primary">
+						<i class="fa fa-search"></i> <fmt:message key="button.submit"/>
+					</button>
+					<button type="submit" name="_cancel" class="btn btn-outline-secondary">
+						<fmt:message key="button.cancel"/>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

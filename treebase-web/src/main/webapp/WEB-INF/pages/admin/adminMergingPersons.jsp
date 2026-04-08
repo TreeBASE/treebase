@@ -3,43 +3,52 @@
 <content tag="heading"><fmt:message key="person.merge"/></content>
 <body id="admin"/>
 
-<p>The person records are referenced by user accounts and citation author/editor records.
-Merge the person records would affect the following:
-</p>
-<br>* If there are user accounts associated with the source and the target person record, 
-then merge the source user account to the target user account. 
-<br>* For all citation author/editor records, replace the source person with the target person record.
-<br>* Delete the source person record.
+<div class="container py-5">
+	<div class="alert alert-info mb-4" role="alert">
+		<h5 class="alert-heading"><i class="fa fa-info-circle me-2"></i>About Person Record Merging</h5>
+		<p>The person records are referenced by user accounts and citation author/editor records. Merging person records will affect the following:</p>
+		<ul class="mb-0">
+			<li>If there are user accounts associated with the source and the target person record, then merge the source user account to the target user account.</li>
+			<li>For all citation author/editor records, replace the source person with the target person record.</li>
+			<li>Delete the source person record.</li>
+		</ul>
+	</div>
 
-<p>Please provide the source &amp; target person record ids.
-</p>
+	<form method="post">
+		<input type="hidden" name="_page" value="0"/>
+		
+		<div class="card shadow-lg mb-4">
+			<div class="card-header">
+				<span class="fw-semibold"><i class="fa fa-compress"></i> Merging two person records</span>
+			</div>
+			<div class="card-body">
+				<p class="text-muted mb-4">Please provide the source &amp; target person record IDs.</p>
 
-<form method="post">
-<input type="hidden" name="_page" value="0"/>
+				<div class="row mb-3">
+					<div class="col-md-6">
+						<label class="form-label fw-semibold">Source <fmt:message key="person.id"/>:</label>
+						<input type="text" name="sourcepersonid" class="form-control" maxlength="20" placeholder="Enter source person ID..."/>
+						<small class="text-muted">This record will be deleted after merge</small>
+					</div>
+				</div>
 
-<fieldset>
-<legend>Merging two person records</legend>
+				<div class="row mb-4">
+					<div class="col-md-6">
+						<label class="form-label fw-semibold">Target <fmt:message key="person.id"/>:</label>
+						<input type="text" name="targetpersonid" class="form-control" maxlength="20" placeholder="Enter target person ID..."/>
+						<small class="text-muted">This record will receive merged data</small>
+					</div>
+				</div>
 
-<table border="0" cellpadding="3" cellspacing="3">
-	<tr>
-        <th>Source <fmt:message key="person.id"/> :</th>
-        <td>  	   	
-        	<input type="text" name="sourcepersonid" size="20" />       
-        </td>
-    </tr>
-    <tr>
-        <th>Target <fmt:message key="person.id"/> :</th>
-        <td>  	   	
-        	<input type="text" name="targetpersonid" size="20" />       
-        </td>
-    </tr>               
-  	<tr>
-    	<th></th>
-    	<td>
-	         <input type="submit" name="_target1" value="<fmt:message key="button.next"/>" />
-	        <input type="submit" name="_cancel" value="<fmt:message key="button.cancel"/>"/>
-        </td>
-    </tr>  	
-</table>
-</fieldset>
-</form>
+				<div class="d-flex gap-2">
+					<button type="submit" name="_target1" class="btn btn-primary">
+						<i class="fa fa-arrow-right"></i> <fmt:message key="button.next"/>
+					</button>
+					<button type="submit" name="_cancel" class="btn btn-outline-secondary">
+						<fmt:message key="button.cancel"/>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

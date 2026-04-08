@@ -3,27 +3,36 @@
 <content tag="heading"><fmt:message key="user.delete"/></content>
 <body id="admin"/>
 
-<p>Please provide a user name.</p>
+<div class="container py-5">
+	<div class="alert alert-warning d-flex align-items-start mb-4" role="alert">
+		<i class="fa fa-exclamation-triangle me-3 mt-1"></i>
+		<div>
+			<p class="mb-0">Please provide a user name to delete.</p>
+		</div>
+	</div>
 
-<form method="post">
+	<form method="post">
+		<div class="card shadow-lg mb-4">
+			<div class="card-header">
+				<span class="fw-semibold"><i class="fa fa-user-times"></i> Deleting a user</span>
+			</div>
+			<div class="card-body">
+				<div class="row mb-4">
+					<div class="col-md-6">
+						<label class="form-label fw-semibold"><fmt:message key="user.username"/>:</label>
+						<input type="text" name="username" class="form-control" maxlength="50" placeholder="Enter username..."/>
+					</div>
+				</div>
 
-<fieldset>
-<legend>Deleting a user</legend>
-
-<table border="0" cellpadding="3" cellspacing="3">
-	<tr>
-        <th><fmt:message key="user.username"/>:</th>
-        <td>  	   	
-        	<input type="text" name="username" size="20" />       
-        </td>
-    </tr>               
-  	<tr>
-    	<th></th>
-    	<td>
-	        <input type="submit" name="Submit" value="<fmt:message key="button.submit"/>" />
-	        <input type="submit" name="_cancel" value="<fmt:message key="button.cancel"/>"/>
-        </td>
-    </tr>  	
-</table>
-</fieldset>
-</form>
+				<div class="d-flex gap-2">
+					<button type="submit" name="Submit" class="btn btn-danger">
+						<i class="fa fa-check"></i> <fmt:message key="button.submit"/>
+					</button>
+					<button type="submit" name="_cancel" class="btn btn-outline-secondary">
+						<fmt:message key="button.cancel"/>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

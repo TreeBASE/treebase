@@ -732,7 +732,7 @@
 	<bean id="selectStudiesController" class="org.cipres.treebase.web.controllers.SelectStudiesController">
 		<property name="successView"><value>redirect:/admin/changeStudyStatus.html</value></property>
 		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
-		<property name="formView"><value>selectStudies</value></property>
+		<property name="formView"><value>admin/selectStudies</value></property>
 		
 		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
 	</bean>
@@ -758,7 +758,7 @@
 		<property name="commandClass"><value>org.cipres.treebase.web.model.AGenericList</value></property>
 		<property name="successView"><value>redirect:/admin/changeStudyStatus.html</value></property>
 		<property name="cancelView"><value>redirect:/admin/changeStudyStatus.html</value></property>
-		<property name="formView"><value>changeStudyStatus</value></property>
+		<property name="formView"><value>admin/changeStudyStatus</value></property>
 		<property name="userService"><ref bean="userService"></ref></property>
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
 	</bean>
@@ -810,7 +810,7 @@
    	</bean>
       
     <bean id="searchBySubmissionIDController" class="org.cipres.treebase.web.controllers.SearchBySubmissionIDController">
-        <property name="formView"><value>searchBySubmissionID</value></property>
+        <property name="formView"><value>admin/searchBySubmissionID</value></property>
         <property name="successView"><value>redirect:/admin/changeStudyStatus.html</value></property>
         <property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
         <property name="submissionHome"><ref bean="submissionHome"></ref></property>
@@ -826,7 +826,7 @@
 	<bean id="adminOverridingUserFormController" class="org.cipres.treebase.web.controllers.AdminOverridingUserFormController">
 		<property name="commandName"><value>user</value></property>
 		<property name="commandClass"><value>org.cipres.treebase.domain.admin.User</value></property>
-		<property name="formView"><value>overrideUserProfile</value></property>
+		<property name="formView"><value>admin/overrideUserProfile</value></property>
 		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
 		<property name="userService"><ref bean="userService"></ref></property>
 		<property name="userHome"><ref bean="userHome"></ref></property>
