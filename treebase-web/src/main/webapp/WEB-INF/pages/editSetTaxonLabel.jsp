@@ -27,7 +27,7 @@
  <c:if test="${publicationState eq 'NotReady'||isEditable eq 'yes'}">
 <fieldset>
 <legend>Taxon label list editor
-<a href="#" class="openHelp" onclick="openHelp('editSetTaxonLabel')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+<tb:helpButton topic="editSetTaxonLabel"/>
 </legend>
 <display:table name="requestScope.atxnlabellist.myList"
 			   requestURI=""

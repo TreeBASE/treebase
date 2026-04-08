@@ -21,7 +21,7 @@
 <form method="post" name="edtTxnLbl">
 	<fieldset>
 		<legend>Taxon Label
-		<a href="#" class="openHelp" onclick="openHelp('editTaxonLabel')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+		<tb:helpButton topic="editTaxonLabel"/>
 		</legend>
 		<input type="hidden" name="taxonlabelid" value="${status.value}"/>			
 		<p>
@@ -37,7 +37,7 @@
 	</fieldset>
 	<fieldset>
 		<legend>External Taxonomy
-		<a href="#" class="openHelp" onclick="openHelp('editTaxonomyRef')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+		<tb:helpButton topic="editTaxonomyRef"/>
 		</legend>
 		<p>
 			Please select the correct link to the NCBI taxonomy from the suggestions below (if any). If no 

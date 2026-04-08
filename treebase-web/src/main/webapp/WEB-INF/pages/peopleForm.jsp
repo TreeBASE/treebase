@@ -27,7 +27,7 @@
 <form  name="peopleForm" onsubmit="return validateAuthor(this)">
 	<fieldset>
 		<legend>New ${PEOPLE} Information
-		<a href="#" class="openHelp" onclick="openHelp('peopleForm')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+		<tb:helpButton topic="peopleForm"/>
 		</legend>
 		<p>${PEOPLE} information for citation</p>
 		<table border="0" cellpadding="3">

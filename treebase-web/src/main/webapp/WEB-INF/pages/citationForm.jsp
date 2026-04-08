@@ -6,9 +6,7 @@
 	<div class="card shadow-lg mb-4">
 		<div class="card-header d-flex justify-content-between align-items-center">
 			<span class="fw-semibold"><fmt:message key="citation.page.title"/></span>
-			<a href="#" class="openHelp" onclick="openHelp('citationForm')">
-				<i class="fa fa-question-circle"></i> Help
-			</a>
+			<tb:helpButton topic="citationForm"/>
 		</div>
 		<div class="card-body">
 			<spring:bind path="citation.*">
@@ -71,9 +69,7 @@
 						<div class="card mb-4">
 							<div class="card-header d-flex justify-content-between align-items-center">
 								<span class="fw-semibold">Book / Thesis Information</span>
-								<a href="#" class="openHelp" onclick="openHelp('citationForm-book')">
-									<i class="fa fa-question-circle"></i> Help
-								</a>
+								<tb:helpButton topic="citationForm-book"/>
 							</div>
 							<div class="card-body">
 								<jsp:include page="citationForm-book-fields.jsp"/>
@@ -84,9 +80,7 @@
 						<div class="card mb-4">
 							<div class="card-header d-flex justify-content-between align-items-center">
 								<span class="fw-semibold">Book Section / Conference Proceedings Information</span>
-								<a href="#" class="openHelp" onclick="openHelp('citationForm-booksection')">
-									<i class="fa fa-question-circle"></i> Help
-								</a>
+								<tb:helpButton topic="citationForm-booksection"/>
 							</div>
 							<div class="card-body">
 								<jsp:include page="citationForm-booksection-fields.jsp"/>
@@ -97,9 +91,7 @@
 						<div class="card mb-4">
 							<div class="card-header d-flex justify-content-between align-items-center">
 								<span class="fw-semibold">Article Information</span>
-								<a href="#" class="openHelp" onclick="openHelp('citationForm-article')">
-									<i class="fa fa-question-circle"></i> Help
-								</a>
+								<tb:helpButton topic="citationForm-article"/>
 							</div>
 							<div class="card-body">
 								<jsp:include page="citationForm-article-fields.jsp"/>

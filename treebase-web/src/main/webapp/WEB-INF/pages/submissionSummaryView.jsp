@@ -8,9 +8,8 @@
 	<div class="card shadow-lg mb-4">
 		<div class="card-header d-flex justify-content-between align-items-center">
 			<span class="fw-semibold">Summary</span>
-			<a href="#" class="openHelp" onclick="openHelp('submissionSummaryView')">
-				<i class="fa fa-question-circle"></i> Help
-			</a>
+
+			<tb:helpButton topic="submissionSummaryView"/>
 		</div>
 		<div class="card-body">
 			<div class="row mb-3">

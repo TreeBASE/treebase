@@ -18,6 +18,7 @@
 				<span class="fw-semibold"><i class="fa fa-list"></i> List studies by submitter</span>
 			</div>
 			<div class="card-body">
+
 				<div class="mb-4">
 					<label class="form-label fw-semibold">Search by:</label>
 					<div class="d-flex flex-column flex-md-row gap-3 align-items-md-center">

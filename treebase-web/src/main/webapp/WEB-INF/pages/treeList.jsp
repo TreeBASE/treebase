@@ -11,7 +11,7 @@
 <fieldset>
 <legend>
 Trees
-<a href="#" class="openHelp" onclick="openHelp('treeList')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+<tb:helpButton topic="treeList"/>
 </legend>
 
 <c:url var="treeURL" value="/user/treeParserResult.html" />

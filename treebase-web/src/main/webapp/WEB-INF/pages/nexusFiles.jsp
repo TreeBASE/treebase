@@ -21,9 +21,8 @@
 		<div class="card shadow-lg mb-4">
 			<div class="card-header d-flex justify-content-between align-items-center">
 				<span class="fw-semibold"><i class="fa fa-file-code-o"></i> Nexus Files</span>
-				<a href="#" class="openHelp" onclick="openHelp('nexusFiles')">
-					<i class="fa fa-question-circle"></i> Help
-				</a>
+
+				<tb:helpButton topic="nexusFiles"/>
 			</div>
 			<div class="card-body">
 				<c:set var="counter" value="0"/>

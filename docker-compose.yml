@@ -101,6 +101,8 @@ services:
       - ./treebase-web/src/main/webapp/error-500.jsp:/usr/local/tomcat/webapps/treebase-web/error-500.jsp
       # Mount WEB-INF/pages for live JSP editing
       - ./treebase-web/src/main/webapp/WEB-INF/pages:/usr/local/tomcat/webapps/treebase-web/WEB-INF/pages
+      # Mount WEB-INF/tags for live tag file editing
+      - ./treebase-web/src/main/webapp/WEB-INF/tags:/usr/local/tomcat/webapps/treebase-web/WEB-INF/tags
     profiles:
       - development
 

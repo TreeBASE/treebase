@@ -23,9 +23,8 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span class="fw-semibold"><fmt:message key="search.taxon"/></span>
-                    <a href="#" class="openHelp" onclick="openHelp('taxonSearchTextSearch')">
-                        <i class="fa fa-question-circle fa-icon"></i> Help
-                    </a>
+
+                    <tb:helpButton topic="taxonSearchTextSearch"/>
                 </div>
                 <div class="card-body">
                     <jsp:include page="simpleSearchForm.jsp"/>

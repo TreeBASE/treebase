@@ -42,9 +42,7 @@
 		</a>
 	</li>
 	<li style="background-color:transparent">
-  		<a href="#" class="openHelp" style="background-color:transparent; border:none" onclick="openHelp('summaryTabs')">
-  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
-  		</a>		
+<tb:helpButton topic="summaryTabs"/>
 	</li>	
 </ul>
 </div>

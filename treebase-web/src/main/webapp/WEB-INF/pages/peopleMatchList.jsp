@@ -8,7 +8,7 @@
 
 <fieldset>
 <legend>Matched ${PEOPLE}s
-<a href="#" class="openHelp" onclick="openHelp('peopleMatchList')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+<tb:helpButton topic="peopleMatchList"/>
 </legend>
 <p>The table below shows a list of the possible ${PEOPLE}s based on search. Use the form above to add a new member.</p>
 

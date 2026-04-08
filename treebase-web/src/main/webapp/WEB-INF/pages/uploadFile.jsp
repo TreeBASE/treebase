@@ -27,7 +27,7 @@ function show_or_hide(layer_ref, state) {
 			same analysis will overwhelm the user experience in TreeBASE's search interface with what are largely redundant trees. 
 			If you have a large number of trees, please put your preferred trees, or a consensus tree, within the first ~30 
 			trees in the tree block. For more information, please see the 
-			<a href="#" class="openHelp" onclick="openHelp('uploadFile')"><i class="fa fa-question-circle"></i> help</a>.</p>
+			<tb:helpButton topic="uploadFile"/></p>
 		</div>
 	</div>
 
@@ -35,9 +35,7 @@ function show_or_hide(layer_ref, state) {
 		<div class="card shadow-lg mb-4">
 			<div class="card-header d-flex justify-content-between align-items-center">
 				<span class="fw-semibold"><i class="fa fa-upload"></i> Nexus Files Upload</span>
-				<a href="#" class="openHelp" onclick="openHelp('uploadFile')">
-					<i class="fa fa-question-circle"></i> Help
-				</a>
+				<tb:helpButton topic="uploadFile"/>				
 			</div>
 			<div class="card-body">
 				<c:if test="${publicationState eq 'Ready' || publicationState eq 'Published'}">

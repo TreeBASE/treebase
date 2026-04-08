@@ -5,7 +5,7 @@
 	<td colspan="6">
 	<fieldset style="width:100%">
 		<legend>Book Section / Conference Proceedings Information
-		<a href="#" class="openHelp" onclick="openHelp('citationForm-booksection')"><img class="iconButton" src="<fmt:message key="icons.help"/>" alt="Help" /></a>						
+		<tb:helpButton topic="citationForm-booksection"/>
 		</legend>
 		<table cellpadding="5">	
 		    <tr>

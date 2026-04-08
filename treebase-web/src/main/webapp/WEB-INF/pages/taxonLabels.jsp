@@ -12,7 +12,8 @@
 			<p class="mb-0">Taxon labels must be in compliance with TreeBASE guidelines, and wherever possible they should be validated against 
 			names in <a href="http://www.ubio.org" target="_blank">uBIO</a> and <a href="http://www.ncbi.nlm.nih.gov/Taxonomy/" target="_blank">NCBI</a>.
 			For more information, please see the 
-			<a href="#" class="openHelp" onclick="openHelp('taxonLabels')"><i class="fa fa-question-circle"></i> help</a>.</p>
+			<tb:helpButton topic="taxonLabels"/></p>
+	
 		</div>
 	</div>
 
@@ -20,9 +21,7 @@
 		<div class="card shadow-lg mb-4">
 			<div class="card-header d-flex justify-content-between align-items-center">
 				<span class="fw-semibold"><i class="fa fa-leaf"></i> Taxon Labels</span>
-				<a href="#" class="openHelp" onclick="openHelp('taxonLabels')">
-					<i class="fa fa-question-circle"></i> Help
-				</a>
+				<tb:helpButton topic="taxonLabels"/>
 			</div>
 			<div class="card-body">
 				<display:table name="${txnlabelset}"

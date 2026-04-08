@@ -48,7 +48,8 @@
 <form method="post" name="segmentform">
 <fieldset>
 	<legend>Update Row Segment Data
-<a href="#" class="openHelp" onclick="openHelp('viewAllRowSegmentData')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>	
+<tb:helpButton topic="viewAllRowSegmentData"/>	
+
 	</legend>
 	  
 	<c:set var="counter"   value="0"/>

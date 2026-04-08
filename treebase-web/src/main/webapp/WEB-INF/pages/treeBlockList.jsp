@@ -31,9 +31,7 @@
                 <h5 class="mb-0">
                     <i class="fa fa-sitemap me-2"></i>Tree Blocks
                 </h5>
-                <a href="#" class="openHelp btn btn-outline-secondary btn-sm" onclick="openHelp('treeBlockList')">
-                    <i class="fa fa-question-circle me-1"></i>Help
-                </a>
+				<tb:helpButton topic="treeBlockList"/>
             </div>
             <div class="card-body">
                 <c:url var="phylowidgetMapURL" value="/user/directMapToPhyloWidget.html" />

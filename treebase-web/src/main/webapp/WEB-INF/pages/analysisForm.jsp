@@ -22,9 +22,7 @@
                 <h5 class="mb-0">
                     <i class="fa fa-flask me-2"></i>Analysis Information
                 </h5>
-                <a href="#" class="openHelp btn btn-outline-secondary btn-sm" onclick="openHelp('analysisInfo')">
-                    <i class="fa fa-question-circle me-1"></i>Help
-                </a>
+				<tb:helpButton topic="analysisInfo"/>
             </div>
             <div class="card-body">
                 <c:if test="${publicationState eq 'NotReady'}">
@@ -98,9 +96,7 @@
                     <a href="/treebase-web/user/analysisStepForm.html?analysis_id=${analysis.id}" class="btn btn-success btn-sm me-2">
                         <i class="fa fa-plus me-1"></i>Add Step
                     </a>
-                    <a href="#" class="openHelp btn btn-outline-secondary btn-sm" onclick="openHelp('analysisSteps')">
-                        <i class="fa fa-question-circle me-1"></i>Help
-                    </a>
+					<tb:helpButton topic="analysisSteps"/>
                 </div>
             </div>
             <div class="card-body">

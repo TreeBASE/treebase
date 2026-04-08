@@ -47,9 +47,8 @@
 					<div class="card mb-3 border-primary">
 						<div class="card-header bg-light d-flex align-items-center justify-content-between">
 							<span><i class="fa fa-info-circle me-2"></i>Analysis Details</span>
-							<a href="#" class="openHelp" onclick="openHelp('analysisDetailsViewEdit')">
-								<i class="fa fa-question-circle text-primary"></i>
-							</a>					
+
+							<tb:helpButton topic="analysisDetailsViewEdit"/>				
 						</div>
 						<div class="card-body">
 							<div class="row mb-2">

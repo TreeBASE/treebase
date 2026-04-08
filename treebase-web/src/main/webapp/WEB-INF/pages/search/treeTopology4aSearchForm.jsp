@@ -3,9 +3,8 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Search for trees with this topology</span>
-        <a href="#" class="openHelp" onclick="openHelp('treeTopology4aSearchForm')">
-            <i class="fa fa-question-circle fa-icon"></i> Help
-        </a>
+
+        <tb:helpButton topic="treeTopology4aSearchForm"/>
     </div>
     <div class="card-body">
         <form id="topology4" method="post">

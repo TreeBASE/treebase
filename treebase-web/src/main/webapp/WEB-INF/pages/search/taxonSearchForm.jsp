@@ -58,9 +58,8 @@
 	  <fieldset id="Identifiers">
 	  	<legend>
 	  		<input onclick="toggleFieldSet('TextSearch','Identifiers')" type="radio" id="IdentifiersRadio" name="searchOn" value="Identifiers"/>Identifiers
-	  		<a href="#" class="openHelp" onclick="openHelp('taxonSearchIdentifiers')">
-	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
-	  		</a>
+
+			<tb:helpButton topic="taxonSearchIdentifiers"/>
 	  	</legend>
 	  	<input type="radio" name="objectIdentifier" class="selectionNeeded" id="TreeBASERadio" value="TreeBASE" disabled="disabled"/>TreeBASE taxon ID
 	  	<input type="radio" name="objectIdentifier" class="selectionNeeded" id="NCBIRadio" value="NCBI" disabled="disabled"/> NCBI taxon ID
@@ -69,9 +68,8 @@
 	  <fieldset id="TextSearch">
 	  	<legend>
 	  		<input onclick="toggleFieldSet('Identifiers','TextSearch')" type="radio" name="searchOn" id="TextSearchRadio" value="TextSearch"/>Text search
-	  		<a href="#" class="openHelp" onclick="openHelp('taxonSearchTextSearch')">
-	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
-	  		</a>	  		
+
+<tb:helpButton topic="taxonSearchTextSearch"/>			 		
 	  	</legend>
 	  	<input type="checkbox" name="stringProperty" class="selectionNeeded" id="taxonLabelRadio" value="taxonLabel" disabled="disabled"/> Taxon label
 	  	<input type="checkbox" name="stringProperty" class="selectionNeeded" id="taxonVariantRadio" value="taxonVariant" disabled="disabled"/> Taxon variant
@@ -83,9 +81,8 @@
 	  <fieldset>
 	  	<legend>
 	  		<span id="searchTermLegend">Search terms</span>
-	  		<a href="#" class="openHelp" onclick="openHelp('taxonSearchTerms')">
-	  			<img class="iconButton" src="<fmt:message key="icons.help"/>" />
-	  		</a>	  	
+  	
+			<tb:helpButton topic="taxonSearchTerms"/>
 	  	</legend>
 	  	<textarea name="searchTerm" id="searchTerm" style="width:100%">${searchTerm}</textarea>	  	
 	  </fieldset>

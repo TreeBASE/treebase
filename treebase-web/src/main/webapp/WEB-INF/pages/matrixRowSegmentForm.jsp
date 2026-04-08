@@ -23,7 +23,7 @@
 
 <fieldset>
 <legend>Matrix Row Segment Information
-<a href="#" class="openHelp" onclick="openHelp('matrixRowSegmentForm')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+<tb:helpButton topic="matrixRowSegmentForm"/>
 </legend>
 
 <table border="0" cellpadding="5" cellspacing="5">

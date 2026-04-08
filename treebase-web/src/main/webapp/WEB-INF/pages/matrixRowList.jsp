@@ -24,8 +24,8 @@
 <c:forEach var="matrixrowcommand" items="${matrixRowList}"  begin="0" end="0">
 	<c:set var="formatInfoString" value="${matrixrowcommand.matrixRow.matrix.formatInfo}"/>
   	<legend>${matrixrowcommand.matrixRow.matrix.title}
-  	<a href="#" class="openHelp" onclick="openHelp('matrixRowList')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>  	
-  	</legend>
+<tb:helpButton topic="matrixRowList"/> 
+ 	</legend>
   	<%-- This is not a good way of getting the Matrix Title --Madhu- It is my bad attemp. --%>
   	<%-- I should work on it in the next round. --%>
   	

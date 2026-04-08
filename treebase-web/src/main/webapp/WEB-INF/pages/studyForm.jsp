@@ -19,9 +19,7 @@
 					</c:otherwise>
 				</c:choose>
 			</span>
-			<a href="#" class="openHelp" onclick="openHelp('studyForm')">
-				<i class="fa fa-question-circle"></i> Help
-			</a>
+		<tb:helpButton topic="studyForm"/>
 		</div>
 
 		<div class="card-body">

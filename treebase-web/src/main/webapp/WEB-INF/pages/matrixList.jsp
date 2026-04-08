@@ -20,9 +20,8 @@
                 <h5 class="mb-0">
                     <i class="fa fa-th me-2"></i>Matrices
                 </h5>
-                <a href="#" class="openHelp btn btn-outline-secondary btn-sm" onclick="openHelp('matrixList')">
-                    <i class="fa fa-question-circle me-1"></i>Help
-                </a>
+
+	<tb:helpButton topic="matrixList"/>
             </div>
             <div class="card-body">
                 <display:table name="requestScope.amatrixcollection.myList"

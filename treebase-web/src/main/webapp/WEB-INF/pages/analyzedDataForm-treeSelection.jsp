@@ -24,9 +24,7 @@
 		<div class="card shadow-lg mb-4">
 			<div class="card-header d-flex justify-content-between align-items-center">
 				<span class="fw-semibold"><i class="bi bi-diagram-3 me-2"></i> Analyzed Tree Selection</span>
-				<a href="#" class="openHelp" onclick="openHelp('analyzedTreeSelection')">
-					<i class="bi bi-question-circle"></i> Help
-				</a>
+				<tb:helpButton topic="analyzedTreeSelection"/>
 			</div>
 			<div class="card-body">
 				<p class="text-muted mb-3">Check the list of ${data.dataType} data that will be used for analysis step</p>

@@ -18,9 +18,7 @@
 				<i class="fa fa-bar-chart me-2"></i>
 				<span>List of Analyses</span>
 			</div>
-			<a href="#" class="openHelp text-white" onclick="openHelp('analysisSection')">
-				<i class="fa fa-question-circle"></i>
-			</a>
+			<tb:helpButton topic="analysisSection"/>			
 		</div>
 		<div class="card-body">
 			<p class="text-muted mb-3">

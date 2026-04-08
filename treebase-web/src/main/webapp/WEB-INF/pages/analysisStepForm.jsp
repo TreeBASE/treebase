@@ -63,9 +63,8 @@
 					<i class="fa fa-gear me-2"></i>
 					<span>Analysis Step - Information</span>
 				</div>
-				<a href="#" class="openHelp text-white" onclick="openHelp('analysisStepInfo')">
-					<i class="fa fa-question-circle"></i>
-				</a>
+
+				<tb:helpButton topic="analysisStepInfo"/>
 			</div>
 			<div class="card-body">
 				<p class="text-muted mb-4">
@@ -253,9 +252,8 @@
 					<i class="fa fa-database me-2"></i>
 					<span>Analyzed Data</span>
 				</div>
-				<a href="#" class="openHelp text-white" onclick="openHelp('analyzedDataList')">
-					<i class="fa fa-question-circle"></i>
-				</a>
+
+				<tb:helpButton topic="analyzedDataList"/>
 			</div>
 			<div class="card-body">
 				<div class="mb-3">

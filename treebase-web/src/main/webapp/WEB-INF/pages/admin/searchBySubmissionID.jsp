@@ -16,9 +16,8 @@
 		<div class="card shadow-lg mb-4">
 			<div class="card-header d-flex justify-content-between align-items-center">
 				<span class="fw-semibold"><i class="fa fa-search"></i> Search for submissions by identifiers</span>
-				<a href="#" class="openHelp" onclick="openHelp('searchBySubmissionID')">
-					<i class="fa fa-question-circle"></i> Help
-				</a>
+
+                <tb:helpButton topic="searchBySubmissionID"/>
 			</div>
 			<div class="card-body">
 				<div class="mb-4">

@@ -17,9 +17,8 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
       <span class="fw-semibold"><fmt:message key="search.tree"/></span>
-      <a href="#" class="openHelp" onclick="openHelp('treeSimpleSearchForm')">
-        <i class="fa fa-question-circle fa-icon"></i> Help
-      </a>
+
+      <tb:helpButton topic="treeSimpleSearchForm"/>
     </div>
     <div class="card-body">
       <jsp:include page="treeSimpleSearchForm.jsp"/>

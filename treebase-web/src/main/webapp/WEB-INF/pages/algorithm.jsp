@@ -23,9 +23,7 @@
 			</a>
 			<span class="fw-semibold"><i class="fa fa-gear me-1"></i> Analysis Step</span>
 			<c:if test="${editable}">
-				<a href="#" class="openHelp ms-2" onclick="openHelp('analysisStepDetailsViewEdit')">
-					<i class="fa fa-question-circle text-muted"></i>
-				</a>
+				<tb:helpButton topic="analysisStepDetailsViewEdit"/>
 			</c:if>
 		</div>
 		<div class="d-flex align-items-center gap-2">

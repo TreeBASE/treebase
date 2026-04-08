@@ -12,9 +12,7 @@
 <div class="card shadow-lg mb-4">
 	<div class="card-header d-flex justify-content-between align-items-center">
 		<span class="fw-semibold">${PEOPLE}s</span>
-		<a href="#" class="openHelp" onclick="openHelp('peopleList')">
-			<i class="fa fa-question-circle"></i> Help
-		</a>
+		<tb:helpButton topic="peopleList"/>
 	</div>
 	<div class="card-body">
 		<p class="text-muted mb-3">The table below shows a list of the ${PEOPLE}s for the submission. Use the form above to add a new member.</p>

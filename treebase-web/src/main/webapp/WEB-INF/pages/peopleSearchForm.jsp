@@ -26,9 +26,7 @@
 			<div class="card shadow-lg mb-4">
 				<div class="card-header d-flex justify-content-between align-items-center">
 					<span class="fw-semibold">Search ${PEOPLE} By Last Name</span>
-					<a href="#" class="openHelp" onclick="openHelp('peopleSearchForm')">
-						<i class="fa fa-question-circle"></i> Help
-					</a>
+					<tb:helpButton topic="peopleSearchForm"/>					
 				</div>
 				<div class="card-body">
 					<p class="text-muted mb-4">${PEOPLE} information for citation</p>

@@ -16,7 +16,8 @@
 <form method="post" enctype="multipart/form-data" >
 <fieldset>
 	<legend>Upload tab delimited file
-	<a href="#" class="openHelp" onclick="openHelp('uploadRowSegmentData')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>	
+	<tb:helpButton topic="uploadRowSegmentData"/>	
+
 	</legend>
 	<table border="0" cellpadding="1">
 	

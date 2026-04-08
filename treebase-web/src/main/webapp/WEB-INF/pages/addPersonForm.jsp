@@ -28,7 +28,7 @@
 
 <fieldset>
 <legend>New ${PEOPLE} Information
-<a href="#" class="openHelp" onclick="openHelp('addPersonForm')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+<tb:helpButton topic="addPersonForm"/>
 </legend>
 <p>Add ${PEOPLE} information for citation</p>
 <table border="0" cellpadding="3">

@@ -14,7 +14,7 @@
 <form method="post">
 <fieldset>
 <legend>Matrix Row Segments
-<a href="#" class="openHelp" onclick="openHelp('matrixRowSegmentList')"><img class="iconButton" src="<fmt:message key="icons.help"/>" /></a>
+<tb:helpButton topic="matrixRowSegmentList"/>
 </legend>
 <display:table name="${matrixRowSegmentList}"
 			   requestURI=""

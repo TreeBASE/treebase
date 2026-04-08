@@ -18,9 +18,8 @@
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
                     <span class="fw-semibold"><fmt:message key="search.matrix"/></span>
-                    <a href="#" class="" onclick="openHelp('matrixSimpleSearchForm')">
-                        <i class="fa fa-question-circle fa-icon"></i> Help
-                    </a>
+
+                    <tb:helpButton topic="matrixSimpleSearchForm"/>
                 </div>
                 <div class="card-body">
                     <jsp:include page="matrixSimpleSearchForm.jsp"/>

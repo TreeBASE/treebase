@@ -4,7 +4,7 @@
 	<td colspan="6">
 	<fieldset style="width:100%">
 		<legend>Article Information
-		<a href="#" class="openHelp" onclick="openHelp('citationForm-article')"><img class="iconButton" src="<fmt:message key="icons.help"/>" alt="Help" /></a>		
+		<tb:helpButton topic="citationForm-article"/>
 		</legend>
 	<table cellpadding="5">	
 	    <tr>

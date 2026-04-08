@@ -3,8 +3,8 @@
 	<td colspan="6">
 	<fieldset style="width:100%">
 		<legend>Book / Thesis Information
-		<a href="#" class="openHelp" onclick="openHelp('citationForm-book')"><img class="iconButton" src="<fmt:message key="icons.help"/>" alt="Help" /></a>				
-		</legend>
+<tb:helpButton topic="citationForm-book
+"/>		</legend>
 		<table cellpadding="5">	
 		    <tr>
 		        <th><fmt:message key="citation.book.title"/>:</th>
