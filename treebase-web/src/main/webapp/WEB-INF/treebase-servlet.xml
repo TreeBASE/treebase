@@ -724,7 +724,7 @@
 	<bean id="userManagementController" class="org.cipres.treebase.web.controllers.UserManagementController">
 		<property name="successView"><value>redirect:/admin/changeStudyStatus.html</value></property>
 		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
-		<property name="formView"><value>simpleUserManagement</value></property>
+		<property name="formView"><value>admin/simpleUserManagement</value></property>
 		<property name="userHome"><ref bean="userHome"></ref></property>
 		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
 	</bean>
@@ -740,7 +740,7 @@
 	<bean id="adminSelectUsersController" class="org.cipres.treebase.web.controllers.AdminSelectUsersController">
 		<property name="successView"><value>redirect:/admin/userList.html</value></property>
 		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
-		<property name="formView"><value>adminSelectUsers</value></property>
+		<property name="formView"><value>admin/adminSelectUsers</value></property>
 		<property name="userHome"><ref bean="userHome"></ref></property>
 		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
 	</bean>
@@ -748,7 +748,7 @@
 	<bean id="adminSelectPersonsController" class="org.cipres.treebase.web.controllers.AdminSelectPersonsController">
 		<property name="successView"><value>redirect:/admin/personList.html</value></property>
 		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
-		<property name="formView"><value>adminSelectPersons</value></property>
+		<property name="formView"><value>admin/adminSelectPersons</value></property>
 		<property name="personHome"><ref bean="personHome"></ref></property>
 		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->
 	</bean>
@@ -819,7 +819,7 @@
     <bean id="adminUpdatingUserInfoController" class="org.cipres.treebase.web.controllers.AdminUpdatingUserInfoController">
 		<property name="successView"><value>redirect:/admin/overrideUserProfile.html</value></property>
 		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
-		<property name="formView"><value>adminUpdatingUserInfo</value></property>
+		<property name="formView"><value>admin/adminUpdatingUserInfo</value></property>
 		<property name="userService"><ref bean="userService"></ref></property>
 	</bean>
 	
@@ -840,13 +840,13 @@
 	<bean id="adminDeletingUserStepOneController" class="org.cipres.treebase.web.controllers.AdminDeletingUserStepOneController">
 		<property name="successView"><value>redirect:/admin/adminDeletingUserStepTwo.html</value></property>
 		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
-		<property name="formView"><value>adminDeletingUserStepOne</value></property>
+		<property name="formView"><value>admin/adminDeletingUserStepOne</value></property>
 		<property name="userService"><ref bean="userService"></ref></property>
 	</bean>
 	
 	<bean id="adminDeletingUserStepTwoController" class="org.cipres.treebase.web.controllers.AdminDeletingUserStepTwoController">
 		<property name="cancelView"><value>redirect:/admin/administrationPage.html</value></property>
-		<property name="formView"><value>adminDeletingUserStepTwo</value></property>
+		<property name="formView"><value>admin/adminDeletingUserStepTwo</value></property>
 		<property name="userService"><ref bean="userService"></ref></property>
 		<property name="userHome"><ref bean="userHome"></ref></property>
 		<property name="submissionService"><ref bean="submissionService"></ref></property>
@@ -856,7 +856,7 @@
 		<property name="userService"><ref bean="userService"></ref></property>
 		<property name="pages">
 			<list>
-				<value>adminMergingUsers</value>
+				<value>admin/adminMergingUsers</value>
 				<value>StepTwo</value>
 			</list>
 		</property>
@@ -867,8 +867,8 @@
 		<property name="personService"><ref bean="personService"></ref></property>
 		<property name="pages">
 			<list>
-				<value>adminMergingPersons</value>
-				<value>adminMergingPersonsStepTwo</value>
+				<value>admin/adminMergingPersons</value>
+				<value>admin/adminMergingPersonsStepTwo</value>
 			</list>
 		</property>
 		<!--property name="submissionService"><ref bean="submissionService"></ref></property-->

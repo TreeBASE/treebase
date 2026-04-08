@@ -3,7 +3,6 @@
 
 <% if(request.isUserInRole("Admin") || request.isUserInRole("Associate Editor")){ %>
 
-<li class="nav-item nav-divider"></li>
 
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="studyMgmtMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -32,6 +31,7 @@
         <li ><a class="dropdown-item" href="<c:url value="/admin/adminMergingPersons.html"/>"><fmt:message key="person.merge"/></a></li>
     </ul>
 </li>
+<li class="nav-item nav-divider"></li>
 
 <% } %>
 

@@ -16,11 +16,13 @@
 		<%@ include file="nav-about.jsp"%>
 		<li class="nav-item nav-divider"></li>
 
+		<%@ include file="/common/nav-admin.jsp"%>
+
 
 		<li  class="nav-item"><a class="nav-link" href="<c:url value="/dataMan.html"/>"><fmt:message key="nav.dataman"/></a></li>
 		<li class="nav-item"><a class="nav-link" href="<c:url value="/journal.html"/>"><fmt:message key="nav.journals"/></a></li>
 		<li class="nav-item"><a class="nav-link" href="<c:url value="/contact.html"/>"><fmt:message key="nav.contact"/></a></li>
-		
+
 
 	</ul>
 

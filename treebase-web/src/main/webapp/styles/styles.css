@@ -215,6 +215,10 @@ dt { font-weight: bold }
     border-left: 1px solid rgba(0,0,0,.15);
     margin: 0 0.5rem;
 }
+.navbar-bottom-border
+{
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
 
 .navbar{
 	background-color: #3863a4;
