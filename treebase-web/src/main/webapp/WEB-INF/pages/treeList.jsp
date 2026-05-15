@@ -1,7 +1,6 @@
 <%@ include file="/common/taglibs.jsp"%>
 
 <title><fmt:message key="tree.list.title"/></title>
-<content tag="heading"><fmt:message key="tree.list.title"/></content>
 <body id="submissions"/>
 
 <c:forEach var="phyloTree" items="${atreecollection.myList}" begin="0" end="0"  >

@@ -1,7 +1,6 @@
 <%@ include file="/common/taglibs.jsp"%>
 
 <title><fmt:message key="matrix.list.title"/></title>
-<content tag="heading"><fmt:message key="matrix.list.title"/></content>
 <body id="submissions"/>
 
 <div class="container py-5">

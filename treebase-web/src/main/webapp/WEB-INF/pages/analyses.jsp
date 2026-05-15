@@ -1,7 +1,6 @@
 <%@ include file="/common/taglibs.jsp"%>
 <head>
 	<title>Analyses</title>
-	<content tag="heading">Analyses</content>
 </head>
 <body id="submissions"/>
 

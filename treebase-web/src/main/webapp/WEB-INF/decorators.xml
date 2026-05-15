@@ -31,7 +31,15 @@
         <pattern>/user/analysis*</pattern>
         <pattern>/user/analyzed*</pattern>
         <pattern>/user/citation*</pattern>
+        <pattern>/user/studyForm*</pattern>
+        <pattern>/user/authorSearchForm*</pattern>
         <pattern>/user/summary*</pattern>
+        <pattern>/user/uploadFile*</pattern>
+        <pattern>/user/nexusFiles*</pattern>
+        <pattern>/user/taxaList*</pattern>
+        <pattern>/user/matrixList*</pattern>
+        <pattern>/user/treeBlockList*</pattern>
+        <pattern>/user/analyses*</pattern>
     </decorator>
 
 
