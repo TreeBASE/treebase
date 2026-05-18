@@ -8,8 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.cipres.treebase.dao.AbstractDAO;
 import org.cipres.treebase.domain.admin.Help;
 import org.cipres.treebase.domain.admin.HelpHome;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Expression;
+import org.hibernate.query.Query;
 
 /**
  * HelpDAO.java
@@ -30,23 +29,17 @@ public class HelpDAO extends AbstractDAO implements HelpHome {
 	}
 
 	public Help findByID(Long helpId) {
-		List<Help> results;
-
-		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Help.class);
-		c.add(Expression.eq("id", helpId));
-		results = c.list();
-
-		return oneOnly(results);
+		Query<Help> q = getSessionFactory().getCurrentSession()
+			.createQuery("FROM Help WHERE id = :id", Help.class);
+		q.setParameter("id", helpId);
+		return oneOnly(q.getResultList());
 	}
 
 	public Help findByTag(String tag) {
-		List<Help> results;
-
-		Criteria c = getSessionFactory().getCurrentSession().createCriteria(Help.class);
-		c.add(Expression.eq("tag", tag));
-		results = c.list();
-
-		return oneOnly(results);
+		Query<Help> q = getSessionFactory().getCurrentSession()
+			.createQuery("FROM Help WHERE tag = :tag", Help.class);
+		q.setParameter("tag", tag);
+		return oneOnly(q.getResultList());
 	}
 
 	private Help oneOnly(List<Help> results) {

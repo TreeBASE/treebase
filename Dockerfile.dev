@@ -31,13 +31,14 @@ ENV CATALINA_OPTS="-Djava.awt.headless=true \
     -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true \
     --add-opens java.base/java.lang=ALL-UNNAMED \
     --add-opens java.base/java.util=ALL-UNNAMED \
-    --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+    --add-opens java.base/java.lang.reflect=ALL-UNNAMED \
+    -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
 
 # Note: Default Tomcat configuration already has autoDeploy="true" 
 # and reloadable contexts work with our context.xml configuration
 
-# Expose Tomcat port
-EXPOSE 8080
+# Expose Tomcat port and JPDA debug port
+EXPOSE 8080 5005
 
 # Copy entrypoint script
 COPY docker/entrypoint-dev.sh /entrypoint.sh

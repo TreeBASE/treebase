@@ -47,6 +47,7 @@ fi
 # Extract WEB-INF to shared volumes for the running application
 echo "Extracting WEB-INF from WAR file..."
 cd /tmp
+rm -rf WEB-INF
 if ! unzip -q /app/treebase-web/target/treebase-web.war "WEB-INF/*"; then
 		echo "WARNING: Failed to extract WEB-INF from WAR file"
 		echo "This may cause runtime issues. Check if WAR file exists and is valid."
